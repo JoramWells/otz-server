@@ -17,9 +17,6 @@ const ViralLoad = sequelize.define('viralload', {
   patient_id: {
     type: DataTypes.INTEGER,
   },
-  dob: {
-    type: DataTypes.STRING,
-  },
   vl_justification: {
     type: DataTypes.STRING,
   },

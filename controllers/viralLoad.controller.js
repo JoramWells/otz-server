@@ -6,7 +6,7 @@ const ViralLoad = require('../models/viralLoad.model');
 const VitalSign = require('../models/vitalSigns.model');
 
 // using *Patients model
-const addPatients = async (req, res, next) => {
+const addViralLoad = async (req, res, next) => {
   try {
     const newProfile = await Patient.create(req.body);
 
@@ -19,7 +19,7 @@ const addPatients = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllPatients = async (req, res, next) => {
+const getAllViralLoads = async (req, res, next) => {
   try {
     const patients = await Patient.findAll();
     res.json(patients);
@@ -31,7 +31,7 @@ const getAllPatients = async (req, res, next) => {
   }
 };
 
-const getPatientDetail = async (req, res, next) => {
+const getViralLoad = async (req, res, next) => {
   const {id} = req.params;
   try {
     const patient = await Patient.findOne({
@@ -59,7 +59,7 @@ const getPatientDetail = async (req, res, next) => {
 };
 
 // edit patient
-const editPatient = async (req, res, next) => {
+const editViralLoad = async (req, res, next) => {
   const {id} = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
@@ -85,7 +85,7 @@ const editPatient = async (req, res, next) => {
   }
 };
 
-const deletePatient = async (req, res, next) => {
+const deleteViralLoad = async (req, res, next) => {
   const {id} = req.params;
   try {
     const results = await Patient.destroy({
@@ -104,5 +104,5 @@ const deletePatient = async (req, res, next) => {
 };
 
 module.exports = {
-  addPatients, getAllPatients, getPatientDetail, editPatient, deletePatient,
+  addViralLoad, getAllViralLoads, getViralLoad, editViralLoad, deleteViralLoad,
 };
