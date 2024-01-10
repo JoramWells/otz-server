@@ -7,6 +7,7 @@ const sequelize = require('./db/connect');
 const patientRoutes = require('./routes/patient.routes');
 const vitalSignRoutes = require('./routes/vitalSign.routes');
 const viralLoadRoutes = require('./routes/viralLoad.routes');
+const artRegimeRoutes = require('./routes/artRegimen.routes');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(cors(corsOption));
 app.use('/patient', patientRoutes);
 app.use('/vital-sign', vitalSignRoutes);
 app.use('/viral-load', viralLoadRoutes);
+app.use('/art-regimen', artRegimeRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
