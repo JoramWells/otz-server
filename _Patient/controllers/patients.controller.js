@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const Patient = require('../models/patients.models');
-const ViralLoad = require('../../models/viralLoad.model');
+const ViralLoad = require('../../_ViralLoad/models/viralLoad.model');
 const VitalSign = require('../../_VitalSigns/models/vitalSigns.model');
 
 // using *Patients model
