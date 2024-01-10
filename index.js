@@ -4,8 +4,8 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const patientRoutes = require('./routes/patient.routes');
-const vitalSignRoutes = require('./routes/vitalSign.routes');
+const patientRoutes = require('./_Patient/routes/patient.routes');
+const vitalSignRoutes = require('./_VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./routes/viralLoad.routes');
 const artRegimeRoutes = require('./routes/artRegimen.routes');
 

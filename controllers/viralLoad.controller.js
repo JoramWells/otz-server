@@ -4,7 +4,7 @@
 const Art_regimen = require('../models/artRegimens.model');
 const Patient = require('../models/patients.models');
 const ViralLoad = require('../models/viralLoad.model');
-const VitalSign = require('../models/vitalSigns.model');
+const VitalSign = require('../_VitalSigns/models/vitalSigns.model');
 
 // using *Patients model
 const addViralLoad = async (req, res, next) => {

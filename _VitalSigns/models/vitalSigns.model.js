@@ -1,6 +1,6 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../_Patient/db/connect');
-const Patient = require('../_Patient/models/patients.models');
+const sequelize = require('../../_Patient/db/connect');
+const Patient = require('../../_Patient/models/patients.models');
 // const Patients = require('./patients.models');
 
 const VitalSign = sequelize.define('vitalsign', {

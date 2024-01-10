@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 const Patient = require('../models/patients.models');
 const ViralLoad = require('../../models/viralLoad.model');
-const VitalSign = require('../../models/vitalSigns.model');
+const VitalSign = require('../../_VitalSigns/models/vitalSigns.model');
 
 // using *Patients model
 const addPatients = async (req, res, next) => {
