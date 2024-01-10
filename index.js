@@ -8,6 +8,8 @@ const patientRoutes = require('./_Patient/routes/patient.routes');
 const vitalSignRoutes = require('./_VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./_ViralLoad/routes/viralLoad.routes');
 const artRegimeRoutes = require('./_ArtRegimen/routes/artRegimen.routes');
+const artRegimePhaseRoutes =
+require('./_ArtRegimen/routes/artRegimenPhase.routes');
 
 const app = express();
 
@@ -28,6 +30,7 @@ app.use('/patient', patientRoutes);
 app.use('/vital-sign', vitalSignRoutes);
 app.use('/viral-load', viralLoadRoutes);
 app.use('/art-regimen', artRegimeRoutes);
+app.use('/art-regimen-phase', artRegimePhaseRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

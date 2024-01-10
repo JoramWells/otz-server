@@ -8,10 +8,15 @@ const Art_regimen_phase = sequelize.define('art_regimen_phases', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  art__regimen_phase_description: {
-    type: DataTypes.DATE,
+  art_regimen_phase_description: {
+    type: DataTypes.STRING,
   },
 });
+
+// (async () => {
+//   await sequelize.sync({force: true});
+//   console.log('Table synced successfully');
+// })();
 
 
 module.exports = Art_regimen_phase;
