@@ -7,7 +7,7 @@ const sequelize = require('./db/connect');
 const patientRoutes = require('./_Patient/routes/patient.routes');
 const vitalSignRoutes = require('./_VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./routes/viralLoad.routes');
-const artRegimeRoutes = require('./routes/artRegimen.routes');
+const artRegimeRoutes = require('./_ArtRegimen/routes/artRegimen.routes');
 
 const app = express();
 

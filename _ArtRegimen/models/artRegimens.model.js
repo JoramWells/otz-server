@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const {DataTypes} = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 const Patient = require('./patients.models');
 
 const Art_regimen = sequelize.define('art_regimens', {
