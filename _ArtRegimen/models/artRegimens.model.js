@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const {DataTypes} = require('sequelize');
-const sequelize = require('../../_ViralLoad/db/connect');
+const sequelize = require('../db/connect');
 const Patient = require('./patients.models');
 
 const Art_regimen = sequelize.define('art_regimens', {
@@ -8,17 +8,11 @@ const Art_regimen = sequelize.define('art_regimens', {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
-  date_confirmed_positive: {
-    type: DataTypes.STRING,
-  },
   enrollment_date: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
   },
   patient_id: {
-    type: DataTypes.INTEGER,
-  },
-  art_start_date: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
   },
   first_regimen: {
     type: DataTypes.STRING,

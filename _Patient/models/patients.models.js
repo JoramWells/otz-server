@@ -1,23 +1,27 @@
 /* eslint-disable camelcase */
-const {DataTypes} = require('sequelize');
+const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 
 const Patient = sequelize.define('patients', {
   patient_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
+    defaultValue: UUIDV4,
   },
-  firstname: {
+  first_name: {
     type: DataTypes.STRING,
   },
-  secondname: {
+  middle_name: {
+    type: DataTypes.STRING,
+  },
+  last_name: {
     type: DataTypes.STRING,
   },
   sex: {
     type: DataTypes.STRING,
   },
   dob: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
   },
   mflcode: {
     type: DataTypes.STRING,
@@ -25,6 +29,18 @@ const Patient = sequelize.define('patients', {
   cccno: {
     type: DataTypes.STRING,
   },
+  date_of_enrollment_to_otz: {
+    type: DataTypes.DATE,
+  },
+  art_start_date: {
+    type: DataTypes.DATE,
+  },
+  original_art_regimen: {
+    type: DataTypes.STRING,
+  },
+  // date_confirmed_positive: {
+  //   type: DataTypes.DATE,
+  // },
 });
 
 

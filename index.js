@@ -3,7 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const sequelize = require('./_ViralLoad/db/connect');
+const sequelize = require('./db/connect');
 const patientRoutes = require('./_Patient/routes/patient.routes');
 const vitalSignRoutes = require('./_VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./_ViralLoad/routes/viralLoad.routes');
