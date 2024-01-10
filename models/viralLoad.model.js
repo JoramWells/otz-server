@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const {DataTypes} = require('sequelize');
-const sequelize = require('../db/connect');
-const Patient = require('./patients.models');
+const sequelize = require('../_Patient/db/connect');
+const Patient = require('../_Patient/models/patients.models');
 
 const ViralLoad = sequelize.define('viralload', {
   viral_load_id: {
