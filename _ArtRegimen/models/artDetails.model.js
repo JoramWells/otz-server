@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
-const Patient = require('./patients.models');
 
 const Art_detail = sequelize.define('art_details', {
   art_detail_id: {
@@ -20,6 +19,5 @@ const Art_detail = sequelize.define('art_details', {
   },
 });
 
-Patient.belongsTo(Art_detail, {foreignKey: 'patient_id'});
 
 module.exports = Art_detail;

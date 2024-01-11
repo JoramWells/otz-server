@@ -2,9 +2,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const Art_regimen = require('../../_ArtRegimen/models/artRegimens.model');
-const Patient = require('../models/patients.models');
 const ViralLoad = require('../models/viralLoad.model');
 const VitalSign = require('../../_VitalSigns/models/vitalSigns.model');
+const Patient = require('../../_Patient/models/patients.models');
 
 // using *Patients model
 const addViralLoad = async (req, res, next) => {

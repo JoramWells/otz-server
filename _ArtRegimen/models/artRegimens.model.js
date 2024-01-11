@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 const {DataTypes} = require('sequelize');
 const sequelize = require('../db/connect');
-const Patient = require('./patients.models');
 
 const Art_regimen = sequelize.define('art_regimens', {
   art_regimen_id: {
@@ -37,6 +36,5 @@ const Art_regimen = sequelize.define('art_regimens', {
   },
 });
 
-Patient.belongsTo(Art_regimen, {foreignKey: 'patient_id'});
 
 module.exports = Art_regimen;

@@ -23,10 +23,10 @@ const Patient = sequelize.define('patients', {
   dob: {
     type: DataTypes.DATE,
   },
-  mflcode: {
+  mfl_code: {
     type: DataTypes.STRING,
   },
-  cccno: {
+  ccc_no: {
     type: DataTypes.STRING,
   },
   date_of_enrollment_to_otz: {
@@ -43,5 +43,9 @@ const Patient = sequelize.define('patients', {
   // },
 });
 
+// (async () => {
+//   await sequelize.sync({force: true});
+//   console.log('Table synced successfully');
+// })();
 
 module.exports = Patient;

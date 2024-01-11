@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
-const {DataTypes} = require('sequelize');
+const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../_Patient/db/connect');
-const Patient = require('../../_Patient/models/patients.models');
 
 const ViralLoad = sequelize.define('viralload', {
   viral_load_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
+    defaultValue: UUIDV4,
   },
   vl_result: {
     type: DataTypes.STRING,
@@ -15,7 +15,7 @@ const ViralLoad = sequelize.define('viralload', {
     type: DataTypes.STRING,
   },
   patient_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
   },
   vl_justification: {
     type: DataTypes.STRING,
@@ -25,7 +25,9 @@ const ViralLoad = sequelize.define('viralload', {
   },
 });
 
-Patient.belongsTo(ViralLoad, {foreignKey: 'patient_id'});
-
+// (async () => {
+//   await sequelize.sync({force: true});
+//   console.log('Table synced successfully');
+// })();
 
 module.exports = ViralLoad;

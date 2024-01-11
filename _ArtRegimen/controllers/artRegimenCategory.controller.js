@@ -3,7 +3,6 @@
 /* eslint-disable no-unused-vars */
 
 const Art_category = require('../models/artCategory.model');
-const Patient = require('../models/patients.models');
 
 
 // using *Patients model
@@ -35,18 +34,10 @@ const getAllArtRegimenCategories = async (req, res, next) => {
 const getArtRegimenCategory = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const patient = await Patient.findOne({
+    const patient = await Art_category.findOne({
       where: {
         cccno: id,
       },
-      include: [
-        {
-          model: Art_category,
-          attributes: ['first_regimen', 'current_regimen',
-            'current_regimen_line', 'latest_cd4_count',
-          ],
-        },
-      ],
     });
     res.json(patient);
     next();
