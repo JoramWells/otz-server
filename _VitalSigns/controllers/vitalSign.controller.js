@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const Patient = require('../models/patients.models');
 const VitalSign = require('../models/vitalSigns.model');
 
 // using *Patients model

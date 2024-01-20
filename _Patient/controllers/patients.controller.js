@@ -36,19 +36,8 @@ const getPatientDetail = async (req, res, next) => {
   try {
     const patient = await Patient.findOne({
       where: {
-        cccno: id,
+        patient_id: id,
       },
-      include: [
-        {
-          model: VitalSign,
-          attributes: ['height', 'weight', 'bp'],
-        },
-        {
-          model: ViralLoad,
-          attributes: ['vl_result', 'vl_validity',
-            'vl_justification', 'last_vl_date'],
-        },
-      ],
     });
     res.json(patient);
     next();
