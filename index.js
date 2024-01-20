@@ -4,14 +4,14 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const patientRoutes = require('./_Patient/routes/patient.routes');
-const vitalSignRoutes = require('./_VitalSigns/routes/vitalSign.routes');
-const viralLoadRoutes = require('./_ViralLoad/routes/viralLoad.routes');
-const artRegimeRoutes = require('./_ArtRegimen/routes/artRegimen.routes');
+const patientRoutes = require('./Patient/routes/patient.routes');
+const vitalSignRoutes = require('./VitalSigns/routes/vitalSign.routes');
+const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
+const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
 const artRegimePhaseRoutes =
-require('./_ArtRegimen/routes/artRegimenPhase.routes');
+require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes =
-require('./_ArtRegimen/routes/artRegimenCategory.routes');
+require('./ArtRegimen/routes/artRegimenCategory.routes');
 
 const app = express();
 

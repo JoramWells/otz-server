@@ -1,12 +1,13 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const Patient = require('../models/patients.models');
-const ViralLoad = require('../../_ViralLoad/models/viralLoad.model');
-const VitalSign = require('../../_VitalSigns/models/vitalSigns.model');
+const Art_regimen = require('../../ArtRegimen/models/artRegimens.model');
+const ViralLoad = require('../models/viralLoad.model');
+const VitalSign = require('../../VitalSigns/models/vitalSigns.model');
+const Patient = require('../../Patient/models/patients.models');
 
 // using *Patients model
-const addPatients = async (req, res, next) => {
+const addViralLoad = async (req, res, next) => {
   try {
     const newProfile = await Patient.create(req.body);
 
@@ -19,7 +20,7 @@ const addPatients = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllPatients = async (req, res, next) => {
+const getAllViralLoads = async (req, res, next) => {
   try {
     const patients = await Patient.findAll();
     res.json(patients);
@@ -31,13 +32,31 @@ const getAllPatients = async (req, res, next) => {
   }
 };
 
-const getPatientDetail = async (req, res, next) => {
+const getViralLoad = async (req, res, next) => {
   const {id} = req.params;
   try {
     const patient = await Patient.findOne({
       where: {
-        patient_id: id,
+        cccno: id,
       },
+      include: [
+        {
+          model: VitalSign,
+          attributes: ['height', 'weight', 'bp'],
+        },
+        {
+          model: ViralLoad,
+          attributes: ['vl_result', 'vl_validity',
+            'vl_justification', 'last_vl_date'],
+        },
+
+        {
+          model: Art_regimen,
+          attributes: ['first_regimen', 'current_regimen',
+            'current_regimen_line', 'latest_cd4_count',
+          ],
+        },
+      ],
     });
     res.json(patient);
     next();
@@ -48,7 +67,7 @@ const getPatientDetail = async (req, res, next) => {
 };
 
 // edit patient
-const editPatient = async (req, res, next) => {
+const editViralLoad = async (req, res, next) => {
   const {id} = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
@@ -74,7 +93,7 @@ const editPatient = async (req, res, next) => {
   }
 };
 
-const deletePatient = async (req, res, next) => {
+const deleteViralLoad = async (req, res, next) => {
   const {id} = req.params;
   try {
     const results = await Patient.destroy({
@@ -93,5 +112,5 @@ const deletePatient = async (req, res, next) => {
 };
 
 module.exports = {
-  addPatients, getAllPatients, getPatientDetail, editPatient, deletePatient,
+  addViralLoad, getAllViralLoads, getViralLoad, editViralLoad, deleteViralLoad,
 };
