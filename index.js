@@ -9,6 +9,7 @@ const vitalSignRoutes = require('./VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
 const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
 const userRoutes = require('./Users/routes/user.routes');
+const homeVisitRoutes = require('./HomeVisit/routes/reasonDetails.routes');
 const artRegimePhaseRoutes =
 require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes =
@@ -36,6 +37,7 @@ app.use('/viral-load', viralLoadRoutes);
 app.use('/art-regimen', artRegimeRoutes);
 app.use('/art-regimen-phase', artRegimePhaseRoutes);
 app.use('/art-regimen-category', artRegimenCategoryRoutes);
+app.use('/home-visit', homeVisitRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

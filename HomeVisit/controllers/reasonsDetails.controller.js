@@ -3,11 +3,12 @@
 /* eslint-disable no-unused-vars */
 
 const User = require('../../Users/models/user.models');
+const HomeVisit_reason = require('../models/reasonDetails.model');
 
 // using *Patients model
-const addUser = async (req, res, next) => {
+const addHomeVisitReason = async (req, res, next) => {
   try {
-    const newProfile = await User.create(req.body);
+    const newProfile = await HomeVisit_reason.create(req.body);
 
     res.json(newProfile);
     next();
@@ -18,7 +19,7 @@ const addUser = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllUsers = async (req, res, next) => {
+const getAllHomeVisitReasons = async (req, res, next) => {
   try {
     const patients = await User.findAll();
     res.json(patients);
@@ -30,7 +31,7 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const getUserDetail = async (req, res, next) => {
+const getHomeVisitReasonDetail = async (req, res, next) => {
   const {id} = req.params;
   try {
     const patient = await User.findOne({
@@ -47,7 +48,7 @@ const getUserDetail = async (req, res, next) => {
 };
 
 // edit patient
-const editUser = async (req, res, next) => {
+const editHomeVisitReason = async (req, res, next) => {
   const {id} = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
@@ -73,7 +74,7 @@ const editUser = async (req, res, next) => {
   }
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteHomeVisitReason = async (req, res, next) => {
   const {id} = req.params;
   try {
     const results = await Patient.destroy({
@@ -92,5 +93,6 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  addUser, getAllUsers, getUserDetail, editUser, deleteUser,
+  addHomeVisitReason, getAllHomeVisitReasons,
+  getHomeVisitReasonDetail, editHomeVisitReason, deleteHomeVisitReason,
 };
