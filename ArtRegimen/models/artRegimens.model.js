@@ -1,40 +1,26 @@
 /* eslint-disable camelcase */
-const {DataTypes} = require('sequelize');
+const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 
 const Art_regimen = sequelize.define('art_regimens', {
   art_regimen_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
+    defaultValue: UUIDV4,
   },
-  enrollment_date: {
-    type: DataTypes.DATE,
+  art_category_desc: {
+    type: DataTypes.STRING,
   },
-  patient_id: {
+  art_category_id: {
     type: DataTypes.UUID,
   },
-  first_regimen: {
-    type: DataTypes.STRING,
-  },
-  current_regimen: {
-    type: DataTypes.STRING,
-  },
-  current_regimen_line: {
-    type: DataTypes.STRING,
-  },
-  baseline_cd4: {
-    type: DataTypes.STRING,
-  },
-  date_of_baseline_cd4_test: {
-    type: DataTypes.STRING,
-  },
-  latest_cd4_count: {
-    type: DataTypes.STRING,
-  },
-  latest_cd4_count_date: {
-    type: DataTypes.STRING,
-  },
 });
+
+
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
 
 
 module.exports = Art_regimen;

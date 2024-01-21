@@ -14,7 +14,7 @@ const Art_regimen_phase = sequelize.define('art_regimen_phases', {
 });
 
 // (async () => {
-//   await sequelize.sync({force: true});
+//   await sequelize.sync();
 //   console.log('Table synced successfully');
 // })();
 

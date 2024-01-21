@@ -14,9 +14,9 @@ const HomeVisit_frequency = sequelize.define('homeVisit_frequencies', {
 });
 
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
 
 module.exports = HomeVisit_frequency;
