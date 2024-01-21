@@ -21,8 +21,8 @@ const addHomeVisitReason = async (req, res, next) => {
 // get all priceListItems
 const getAllHomeVisitReasons = async (req, res, next) => {
   try {
-    const patients = await User.findAll();
-    res.json(patients);
+    const results = await HomeVisit_reason.findAll();
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
@@ -31,12 +31,13 @@ const getAllHomeVisitReasons = async (req, res, next) => {
   }
 };
 
+
 const getHomeVisitReasonDetail = async (req, res, next) => {
   const {id} = req.params;
   try {
     const patient = await User.findOne({
       where: {
-        patient_id: id,
+        user_id: id,
       },
     });
     res.json(patient);

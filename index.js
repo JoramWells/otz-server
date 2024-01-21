@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 const express = require('express');
@@ -9,7 +10,8 @@ const vitalSignRoutes = require('./VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
 const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
 const userRoutes = require('./Users/routes/user.routes');
-const homeVisitRoutes = require('./HomeVisit/routes/reasonDetails.routes');
+const homeVisitReasonRoute = require('./HomeVisit/routes/reasonDetails.routes');
+const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.routes');
 const artRegimePhaseRoutes =
 require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes =
@@ -37,7 +39,8 @@ app.use('/viral-load', viralLoadRoutes);
 app.use('/art-regimen', artRegimeRoutes);
 app.use('/art-regimen-phase', artRegimePhaseRoutes);
 app.use('/art-regimen-category', artRegimenCategoryRoutes);
-app.use('/home-visit', homeVisitRoutes);
+app.use('/home-visit-reason', homeVisitReasonRoute);
+app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

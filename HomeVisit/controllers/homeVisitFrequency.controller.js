@@ -3,11 +3,12 @@
 /* eslint-disable no-unused-vars */
 
 const User = require('../../Users/models/user.models');
+const HomeVisit_frequency = require('../models/homeVisitFrequency.models');
 
 // using *Patients model
-const addUser = async (req, res, next) => {
+const addHomeVisitFrequency = async (req, res, next) => {
   try {
-    const newProfile = await User.create(req.body);
+    const newProfile = await HomeVisit_frequency.create(req.body);
 
     res.json(newProfile);
     next();
@@ -18,10 +19,10 @@ const addUser = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllUsers = async (req, res, next) => {
+const getAllHomeVisitFrequencies = async (req, res, next) => {
   try {
-    const patients = await User.findAll();
-    res.json(patients);
+    const results = await HomeVisit_frequency.findAll();
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
@@ -30,10 +31,11 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
-const getUserDetail = async (req, res, next) => {
+
+const getHomeVisitFrequencyDetail = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const patient = await User.findOne({
+    const patient = await HomeVisit_frequency.findOne({
       where: {
         user_id: id,
       },
@@ -47,13 +49,13 @@ const getUserDetail = async (req, res, next) => {
 };
 
 // edit patient
-const editUser = async (req, res, next) => {
+const editHomeVisitFrequency = async (req, res, next) => {
   const {id} = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const results = await Patient.findOne({
+    const results = await HomeVisit_frequency.findOne({
       where: {
         patient_id: id,
       },
@@ -73,10 +75,10 @@ const editUser = async (req, res, next) => {
   }
 };
 
-const deleteUser = async (req, res, next) => {
+const deleteHomeVisitFrequency = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const results = await Patient.destroy({
+    const results = await HomeVisit_frequency.destroy({
       where: {
         patient_id: id,
       },
@@ -92,5 +94,6 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  addUser, getAllUsers, getUserDetail, editUser, deleteUser,
+  addHomeVisitFrequency, getAllHomeVisitFrequencies,
+  getHomeVisitFrequencyDetail, editHomeVisitFrequency, deleteHomeVisitFrequency,
 };
