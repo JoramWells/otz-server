@@ -8,6 +8,7 @@ const patientRoutes = require('./Patient/routes/patient.routes');
 const vitalSignRoutes = require('./VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
 const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
+const userRoutes = require('./Users/routes/user.routes');
 const artRegimePhaseRoutes =
 require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes =
@@ -29,6 +30,7 @@ app.use(express.urlencoded({
 app.use(cors(corsOption));
 
 app.use('/patient', patientRoutes);
+app.use('/users', userRoutes);
 app.use('/vital-sign', vitalSignRoutes);
 app.use('/viral-load', viralLoadRoutes);
 app.use('/art-regimen', artRegimeRoutes);

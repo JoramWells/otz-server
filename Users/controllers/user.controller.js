@@ -2,10 +2,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const User = require('../models/user.models');
+
 // using *Patients model
 const addUser = async (req, res, next) => {
   try {
-    const newProfile = await Patient.create(req.body);
+    const newProfile = await User.create(req.body);
 
     res.json(newProfile);
     next();
@@ -18,7 +20,7 @@ const addUser = async (req, res, next) => {
 // get all priceListItems
 const getAllUsers = async (req, res, next) => {
   try {
-    const patients = await Patient.findAll();
+    const patients = await User.findAll();
     res.json(patients);
     next();
   } catch (error) {

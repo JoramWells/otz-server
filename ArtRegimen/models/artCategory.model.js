@@ -21,7 +21,7 @@ art_category.belongsTo(Art_regimen_phase,
     {foreignKey: 'art_regimen_phase_id'});
 
 // (async () => {
-//   await sequelize.sync({force: true});
+//   await sequelize.sync();
 //   console.log('Table synced successfully');
 // })();
 

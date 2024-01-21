@@ -1,13 +1,14 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const {DataTypes} = require('sequelize');
+const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const User = sequelize.define('users', {
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
+    defaultValue: UUIDV4,
   },
   first_name: {
     type: DataTypes.STRING,
@@ -30,7 +31,11 @@ const User = sequelize.define('users', {
   password: {
     type: DataTypes.STRING,
   },
-
-  // end
 });
+
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
+
 module.exports=User;
