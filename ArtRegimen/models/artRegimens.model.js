@@ -8,7 +8,7 @@ const Art_regimen = sequelize.define('art_regimens', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  art_category_desc: {
+  art_desc: {
     type: DataTypes.STRING,
   },
   art_category_id: {
@@ -19,7 +19,7 @@ const Art_regimen = sequelize.define('art_regimens', {
 
 (async () => {
   await sequelize.sync();
-  console.log('Table synced successfully');
+  console.log('Table synced succssfully');
 })();
 
 
