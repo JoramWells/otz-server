@@ -2,7 +2,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const Art_regimen = require('../../ArtRegimen/models/artRegimens.model');
+const Patient = require('../../Patient/models/patients.models');
+const User = require('../../Users/models/user.models');
 const Home_visit_detail = require('../models/homeVisit.models');
+const HomeVisit_reason = require('../models/reasonDetails.model');
 // using *Patients model
 const addHomeVisit = async (req, res, next) => {
   try {
@@ -19,7 +23,22 @@ const addHomeVisit = async (req, res, next) => {
 // get all priceListItems
 const getAllHomeVisits = async (req, res, next) => {
   try {
-    const results = await Home_visit_detail.findAll();
+    const results = await Home_visit_detail.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ['first_name', 'middle_name', 'last_name'],
+        },
+        {
+          model: User,
+          attributes: ['first_name', 'middle_name', 'last_name'],
+        },
+        {
+          model: HomeVisit_reason,
+          attributes: ['homeVisit_reason_description'],
+        },
+      ],
+    });
     res.json(results);
     next();
   } catch (error) {
@@ -33,10 +52,24 @@ const getAllHomeVisits = async (req, res, next) => {
 const getHomeVisitDetails = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const patient = await Home_visit_detail.findOne({
+    const patient = await Home_visit_detail.findAll({
       where: {
-        user_id: id,
+        patient_id: id,
       },
+      include: [
+        {
+          model: User,
+          attributes: ['first_name', 'middle_name', 'last_name'],
+        },
+        {
+          model: Art_regimen,
+          attributes: ['art_desc'],
+        },
+        {
+          model: HomeVisit_reason,
+          attributes: ['homeVisit_reason_description'],
+        },
+      ],
     });
     res.json(patient);
     next();
