@@ -2,11 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const Time_and_work = require('../models/timeAndWork.model');
+
 
 // using *Patients model
 const addTimeAndWork = async (req, res, next) => {
   try {
-    const newProfile = await Patient.create(req.body);
+    const newProfile = await Time_and_work.create(req.body);
 
     res.json(newProfile);
     next();
