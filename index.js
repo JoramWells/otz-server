@@ -15,6 +15,7 @@ const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.
 const homeVisitRoutes = require('./HomeVisit/routes/homeVisit.routes');
 const timeAndWorkRoutes = require('./TreatementPlan/routes/timeAndWork.routes');
 const mmasRoutes = require('./TreatementPlan/routes/mmas.routes');
+const appointmentRoutes = require('./Appointment/routes/appointment.routes');
 const artRegimePhaseRoutes =
 require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes =
@@ -24,7 +25,7 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 const corsOption = {
-  origin: ['http://localhost:3000'],
+  origin: ['*'],
 };
 
 app.use(express.json());
@@ -33,7 +34,7 @@ app.use(express.urlencoded({
 }));
 
 // enable cors
-app.use(cors(corsOption));
+app.use(cors());
 
 app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);
@@ -47,6 +48,7 @@ app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
 app.use('/home-visit', homeVisitRoutes);
 app.use('/time-and-work', timeAndWorkRoutes);
 app.use('/mmas', mmasRoutes);
+app.use('/appointments', appointmentRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
