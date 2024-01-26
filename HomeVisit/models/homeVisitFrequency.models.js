@@ -8,14 +8,14 @@ const HomeVisitFrequency = sequelize.define('homeVisitFrequencies', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  homeVisit_frequency_description: {
+  homeVisitFrequencyDescription: {
     type: DataTypes.STRING,
   },
 });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('Table synced successfully');
+//   console.log('Freq Table synced successfully');
 // })();
 
 module.exports = HomeVisitFrequency;

@@ -3,7 +3,7 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 const ArtCategory = require('./artCategory.model');
 
-const ART = sequelize.define('ARTs', {
+const ART = sequelize.define('arts', {
   artID: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -12,17 +12,17 @@ const ART = sequelize.define('ARTs', {
   artName: {
     type: DataTypes.STRING,
   },
-  artCategoryID: {
+  art_category_id: {
     type: DataTypes.UUID,
     references: {
-      model: 'ArtCategories',
+      model: 'artCategories',
       key: 'art_category_id',
     },
     onDelete: 'CASCADE',
 
   },
 },
-// {timestamps: true},
+{timestamps: true},
 );
 
 ART.belongsTo(ArtCategory, {foreignKey: 'art_category_id'});
