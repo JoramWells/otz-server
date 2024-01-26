@@ -2,7 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const HomeVisit_reason = sequelize.define('homeVisit_reasons', {
+const HomeVisitReason = sequelize.define('HomeVisitReasons', {
   homeVisit_reason_id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -19,4 +19,4 @@ const HomeVisit_reason = sequelize.define('homeVisit_reasons', {
 //   console.log('Table synced successfully');
 // })();
 
-module.exports = HomeVisit_reason;
+module.exports = HomeVisitReason;

@@ -4,19 +4,19 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const User = sequelize.define('users', {
+const User = sequelize.define('Users', {
   user_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  first_name: {
+  firstName: {
     type: DataTypes.STRING,
   },
-  middle_name: {
+  middleName: {
     type: DataTypes.STRING,
   },
-  last_name: {
+  lastName: {
     type: DataTypes.STRING,
   },
   email: {
@@ -33,9 +33,9 @@ const User = sequelize.define('users', {
   },
 });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
 
 module.exports=User;

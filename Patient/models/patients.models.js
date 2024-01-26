@@ -1,51 +1,82 @@
 /* eslint-disable camelcase */
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
+const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const Patient = sequelize.define('patients', {
-  patient_id: {
+const Patient = sequelize.define('Patients', {
+  patientID: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  first_name: {
+  firstName: {
     type: DataTypes.STRING,
   },
-  middle_name: {
+  middleName: {
     type: DataTypes.STRING,
   },
-  last_name: {
+  lastName: {
     type: DataTypes.STRING,
   },
-  sex: {
-    type: DataTypes.STRING,
+  gender: {
+    type: DataTypes.ENUM('MALE', 'FEMALE'),
   },
   dob: {
     type: DataTypes.DATE,
   },
-  mfl_code: {
+  mflCode: {
     type: DataTypes.STRING,
   },
-  ccc_no: {
+  cccNo: {
     type: DataTypes.STRING,
   },
-  date_of_enrollment_to_otz: {
+  dateOfEnrollmentToOTZ: {
     type: DataTypes.DATE,
   },
-  art_start_date: {
+  artStartDate: {
     type: DataTypes.DATE,
   },
-  original_art_regimen: {
+  originalARTRegimen: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'ARTs',
+      references: 'artID',
+    },
+    onDelete: 'CASCADE',
+  },
+  vlCopies: {
     type: DataTypes.STRING,
+  },
+  dateOfVL: {
+    type: DataTypes.DATE,
+  },
+  vlDoneAnnually: {
+    type: DataTypes.BOOLEAN,
+  },
+  currentARTRegimen: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'ARTs',
+      references: 'artID',
+    },
+    onDelete: 'CASCADE',
+  },
+  currentARTStartDate: {
+    type: DataTypes.DATE,
   },
   // date_confirmed_positive: {
   //   type: DataTypes.DATE,
   // },
+}, {
+  timestamps: true,
 });
 
-// (async () => {
-//   await sequelize.sync({force: true});
-//   console.log('Table synced successfully');
-// })();
+Patient.belongsTo(ART, {foreignKey: 'originalARTRegimen', targetKey: 'artID'});
+Patient.belongsTo(ART, {foreignKey: 'currentARTRegimen', targetKey: 'artID'});
+
+(async () => {
+  await sequelize.sync();
+  console.log('Patient Table synced successfully');
+})();
 
 module.exports = Patient;

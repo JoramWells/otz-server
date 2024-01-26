@@ -11,28 +11,28 @@ const MMAS = sequelize.define('mmas', {
   patient_id: {
     type: DataTypes.UUID,
   },
-  isForget: {
+  is_forget: {
     type: DataTypes.STRING,
   },
-  isCareless: {
+  is_careless: {
     type: DataTypes.STRING,
   },
-  isQuitFeelWorse: {
+  is_quit_feel_worse: {
     type: DataTypes.STRING,
   },
-  isQuitFeelBetter: {
+  is_quit_feel_better: {
     type: DataTypes.STRING,
   },
-  isTookMedYesterday: {
+  is_took_med_yesterday: {
     type: DataTypes.STRING,
   },
-  isQuitOutControl: {
+  is_quit_out_control: {
     type: DataTypes.STRING,
   },
-  isUnderPressure: {
+  is_under_pressure: {
     type: DataTypes.STRING,
   },
-  isDifficultyRemembering: {
+  is_difficulty_remembering: {
     type: DataTypes.STRING,
   },
 });

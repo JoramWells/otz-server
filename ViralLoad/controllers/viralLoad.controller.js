@@ -1,10 +1,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const Art_regimen = require('../../ArtRegimen/models/artRegimens.model');
 const ViralLoad = require('../models/viralLoad.model');
 const VitalSign = require('../../VitalSigns/models/vitalSigns.model');
 const Patient = require('../../Patient/models/patients.models');
+const ART = require('../../ArtRegimen/models/artDetails.model');
 
 // using *Patients model
 const addViralLoad = async (req, res, next) => {
@@ -51,7 +51,7 @@ const getViralLoad = async (req, res, next) => {
         },
 
         {
-          model: Art_regimen,
+          model: ART,
           attributes: ['first_regimen', 'current_regimen',
             'current_regimen_line', 'latest_cd4_count',
           ],

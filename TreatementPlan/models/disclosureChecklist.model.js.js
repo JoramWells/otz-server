@@ -114,7 +114,6 @@ const DisclosureChecklist = sequelize.define('DisclosureChecklist', {
   timestamps: true,
 });
 
-
 // (async () => {
 //   await sequelize.sync({force: true});
 //   console.log('Table synced successfully');

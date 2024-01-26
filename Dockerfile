@@ -1,9 +1,9 @@
-FROM node
+FROM node:16-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN yarn install
 
@@ -11,4 +11,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD [ "npm", "start"]
+CMD [ "yarn", "start"]

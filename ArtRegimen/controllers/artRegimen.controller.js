@@ -2,13 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Art_regimen = require('../models/artRegimens.model');
+const ART = require('../models/artDetails.model');
 
 
 // using *Patients model
 const addArtRegimen = async (req, res, next) => {
   try {
-    const newProfile = await Art_regimen.create(req.body);
+    const newProfile = await ART.create(req.body);
 
     res.json(newProfile);
     next();
@@ -21,7 +21,7 @@ const addArtRegimen = async (req, res, next) => {
 // get all priceListItems
 const getAllArtRegimen = async (req, res, next) => {
   try {
-    const patients = await Art_regimen.findAll();
+    const patients = await ART.findAll();
     res.json(patients);
     next();
   } catch (error) {
@@ -34,7 +34,7 @@ const getAllArtRegimen = async (req, res, next) => {
 const getArtRegimen = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const patient = await Art_regimen.findOne({
+    const patient = await ART.findOne({
       where: {
         cccno: id,
       },
@@ -54,7 +54,7 @@ const editArtRegimen = async (req, res, next) => {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await Art_regimen.findOne({
+    const editPAtient = await ART.findOne({
       where: {
         patient_id: id,
       },
@@ -77,7 +77,7 @@ const editArtRegimen = async (req, res, next) => {
 const deleteArtRegimen = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const results = await Art_regimen.destroy({
+    const results = await ART.destroy({
       where: {
         patient_id: id,
       },

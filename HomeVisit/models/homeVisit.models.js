@@ -4,11 +4,11 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
 const User = require('../../Users/models/user.models');
-const HomeVisit_reason = require('./reasonDetails.model');
-const Art_regimen = require('../../ArtRegimen/models/artRegimens.model');
+const HomeVisitReason = require('./HomeVisitReason.model');
+const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const Home_visit_detail = sequelize.define('home_visit_details', {
-  home_visit_detail_id: {
+const HomeVisit = sequelize.define('HomeVisits', {
+  home_visit_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
@@ -16,15 +16,15 @@ const Home_visit_detail = sequelize.define('home_visit_details', {
   patient_id: {
     type: DataTypes.UUID,
     references: {
-      model: 'patients',
-      key: 'patient_id',
+      model: 'Patients',
+      key: 'patientID',
     },
     onDelete: 'CASCADE',
   },
   homeVisit_reason_id: {
     type: DataTypes.UUID,
     references: {
-      model: 'homeVisit_reasons',
+      model: 'HomeVisitReasons',
       key: 'homeVisit_reason_id',
     },
     onDelete: 'CASCADE',
@@ -32,7 +32,7 @@ const Home_visit_detail = sequelize.define('home_visit_details', {
   user_id: {
     type: DataTypes.UUID,
     references: {
-      model: 'users',
+      model: 'Users',
       key: 'user_id',
     },
     onDelete: 'CASCADE',
@@ -49,11 +49,11 @@ const Home_visit_detail = sequelize.define('home_visit_details', {
   current_regimen_date: {
     type: DataTypes.STRING,
   },
-  art_detail_id: {
+  artID: {
     type: DataTypes.UUID,
     references: {
-      model: 'art_regimens',
-      key: 'art_regimen_id',
+      model: 'ARTs',
+      key: 'artID',
     },
     onDelete: 'CASCADE',
   },
@@ -109,18 +109,19 @@ const Home_visit_detail = sequelize.define('home_visit_details', {
   // end
 });
 
-Home_visit_detail.belongsTo(Patient, {foreignKey: 'patient_id'});
-Home_visit_detail.belongsTo(User, {foreignKey: 'user_id'});
-Home_visit_detail.belongsTo(Art_regimen, {foreignKey: 'art_detail_id',
-  targetKey: 'art_regimen_id'});
-Home_visit_detail.belongsTo(HomeVisit_reason,
+// HomeVisit.belongsTo(Patient, {foreignKey: 'patient_id',
+// targetKey: 'patient_id'});
+Patient.hasMany(HomeVisit, {foreignKey: 'patientID'});
+HomeVisit.belongsTo(User, {foreignKey: 'user_id'});
+HomeVisit.belongsTo(ART, {foreignKey: 'artID'});
+HomeVisit.belongsTo(HomeVisitReason,
     {foreignKey: 'homeVisit_reason_id'});
 
-(async () => {
-  await sequelize.sync();
-  console.log('Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Table synced successfully');
+// })();
 
-module.exports = Home_visit_detail;
+module.exports = HomeVisit;
 
 

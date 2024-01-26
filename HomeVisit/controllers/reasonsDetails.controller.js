@@ -3,12 +3,12 @@
 /* eslint-disable no-unused-vars */
 
 const User = require('../../Users/models/user.models');
-const HomeVisit_reason = require('../models/reasonDetails.model');
+const HomeVisitReason = require('../models/HomeVisitReason.model');
 
 // using *Patients model
 const addHomeVisitReason = async (req, res, next) => {
   try {
-    const newProfile = await HomeVisit_reason.create(req.body);
+    const newProfile = await HomeVisitReason.create(req.body);
 
     res.json(newProfile);
     next();
@@ -21,7 +21,7 @@ const addHomeVisitReason = async (req, res, next) => {
 // get all priceListItems
 const getAllHomeVisitReasons = async (req, res, next) => {
   try {
-    const results = await HomeVisit_reason.findAll();
+    const results = await HomeVisitReason.findAll();
     res.json(results);
     next();
   } catch (error) {

@@ -2,56 +2,54 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const Time_and_work = sequelize.define('time_and_work', {
-  time_and_work_id: {
+const FollowUPChecklist = sequelize.define('followUPChecklist', {
+  followUPChecklistID: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  patient_id: {
+  patientID: {
     type: DataTypes.UUID,
   },
-  wakeUpTime: {
+  followUPDate: {
+    type: DataTypes.UUID,
+  },
+  // 0867 + OTZ
+  bmi: {
     type: DataTypes.STRING,
   },
-  departureHomeTime: {
+  tannerStaging: {
     type: DataTypes.STRING,
   },
-  arrivalTime: {
+  disclosure: {
     type: DataTypes.STRING,
   },
-  departureTime: {
+  adherenceCounselling: {
     type: DataTypes.STRING,
   },
-  arrivalHomeTime: {
+  isPAMA: {
     type: DataTypes.STRING,
   },
-  morningPlace: {
+  isOVC: {
     type: DataTypes.STRING,
   },
-  morningTime: {
+  isActiveSupportGroup: {
     type: DataTypes.STRING,
   },
-  eveningPlace: {
+  isVLValid: {
     type: DataTypes.STRING,
   },
-  eveningTime: {
+  isOptimizationDone: {
     type: DataTypes.STRING,
   },
-  medicineStorage: {
-    type: DataTypes.STRING,
-  },
-  toolsAndCues: {
-    type: DataTypes.STRING,
-  },
-  goal: {
-    type: DataTypes.STRING,
-  },
+}, {
+  timestamps: true,
 });
 
+
 // (async () => {
-//   await sequelize.sync();
+//   await sequelize.sync({force: true});
 //   console.log('Table synced successfully');
 // })();
 
-module.exports = Time_and_work;
+module.exports = FollowUPChecklist;

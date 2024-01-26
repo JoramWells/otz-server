@@ -2,11 +2,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Art_regimen = require('../../ArtRegimen/models/artRegimens.model');
+const ART = require('../../ArtRegimen/models/artDetails.model');
 const Patient = require('../../Patient/models/patients.models');
 const User = require('../../Users/models/user.models');
 const Home_visit_detail = require('../models/homeVisit.models');
-const HomeVisit_reason = require('../models/reasonDetails.model');
+const HomeVisitReason = require('../models/HomeVisitReason.model');
 // using *Patients model
 const addHomeVisit = async (req, res, next) => {
   try {
@@ -34,7 +34,7 @@ const getAllHomeVisits = async (req, res, next) => {
           attributes: ['first_name', 'middle_name', 'last_name'],
         },
         {
-          model: HomeVisit_reason,
+          model: HomeVisitReason,
           attributes: ['homeVisit_reason_description'],
         },
       ],
@@ -62,7 +62,7 @@ const getHomeVisitDetails = async (req, res, next) => {
           attributes: ['first_name', 'middle_name', 'last_name'],
         },
         {
-          model: Art_regimen,
+          model: ART,
           attributes: ['art_desc'],
         },
         {
