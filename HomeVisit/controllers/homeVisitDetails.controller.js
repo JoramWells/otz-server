@@ -27,15 +27,15 @@ const getAllHomeVisits = async (req, res, next) => {
       include: [
         {
           model: Patient,
-          attributes: ['first_name', 'middle_name', 'last_name'],
+          attributes: ['firstName', 'middleName', 'lastName'],
         },
         {
           model: User,
-          attributes: ['first_name', 'middle_name', 'last_name'],
+          attributes: ['firstName', 'middleName', 'lastName'],
         },
         {
           model: HomeVisitReason,
-          attributes: ['homeVisit_reason_description'],
+          attributes: ['homeVisitReasonDescription'],
         },
       ],
     });

@@ -29,7 +29,7 @@ const Appointment = sequelize.define('appointments', {
   appointmentStatusID: {
     type: DataTypes.UUID,
     references: {
-      model: 'appointmentStatuses',
+      model: 'appointmentStatus',
       key: 'id',
     },
     onDelete: 'CASCADE',

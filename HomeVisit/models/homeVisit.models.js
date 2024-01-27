@@ -115,7 +115,7 @@ const HomeVisit = sequelize.define('homeVisits', {
 HomeVisit.belongsTo(Patient, {foreignKey: 'patientID'});
 // Patient.hasMany(HomeVisit, {foreignKey: 'patientID'});
 HomeVisit.belongsTo(User, {foreignKey: 'userID'});
-HomeVisit.belongsTo(ART, {foreignKey: 'artID'});
+HomeVisit.belongsTo(ART, {foreignKey: 'id'});
 HomeVisit.belongsTo(HomeVisitReason,
     {foreignKey: 'id'});
 

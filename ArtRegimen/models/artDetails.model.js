@@ -27,4 +27,9 @@ const ART = sequelize.define('arts', {
 
 ART.belongsTo(ArtCategory, {foreignKey: 'artCategoryID'});
 
+(async () => {
+  await sequelize.sync();
+  console.log('ART Category Table synced Successfully');
+})();
+
 module.exports = ART;
