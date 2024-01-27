@@ -75,9 +75,9 @@ const Patient = sequelize.define('patients', {
 Patient.belongsTo(ART, {foreignKey: 'originalARTRegimen', targetKey: 'artID'});
 Patient.belongsTo(ART, {foreignKey: 'currentARTRegimen', targetKey: 'artID'});
 
-(async () => {
-  await sequelize.sync();
-  console.log('Patient Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Patient Table synced successfully');
+// })();
 
 module.exports = Patient;

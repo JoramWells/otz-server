@@ -21,14 +21,7 @@ const addAppointmentStatus = async (req, res, next) => {
 // get all priceListItems
 const getAllAppointmentStatus = async (req, res, next) => {
   try {
-    const results = await AppointmentStatus.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName'],
-        },
-      ],
-    });
+    const results = await AppointmentStatus.findAll({});
     res.json(results);
     next();
   } catch (error) {

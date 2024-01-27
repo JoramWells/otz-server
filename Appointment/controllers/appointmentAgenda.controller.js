@@ -21,14 +21,7 @@ const addAppointmentAgenda = async (req, res, next) => {
 // get all priceListItems
 const getAllAppointmentAgenda = async (req, res, next) => {
   try {
-    const results = await AppointmentAgenda.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName'],
-        },
-      ],
-    });
+    const results = await AppointmentAgenda.findAll({ });
     res.json(results);
     next();
   } catch (error) {
