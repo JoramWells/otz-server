@@ -1,7 +1,7 @@
 const express = require('express');
 const {addAppointmentStatus, getAllAppointmentStatus, getAppointmentStatus,
   editAppointmentStatus, deleteAppointmentStatus,
-} = require('../controllers/appointment.controller copy');
+} = require('../controllers/appointmentStatus.controller');
 
 const router = express.Router();
 

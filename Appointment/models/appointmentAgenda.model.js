@@ -1,0 +1,24 @@
+/* eslint-disable camelcase */
+const {DataTypes, UUIDV4} = require('sequelize');
+const sequelize = require('../../db/connect');
+
+const AppointmentAgenda = sequelize.define('appointmentAgenda', {
+  appointmentAgendaID: {
+    type: DataTypes.UUID,
+    primaryKey: true,
+    defaultValue: UUIDV4,
+  },
+  agendaDescription: {
+    type: DataTypes.STRING,
+  },
+},
+{timestamps: true},
+);
+
+
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Table synced successfully');
+// })();
+
+module.exports = AppointmentAgenda;

@@ -17,6 +17,7 @@ const timeAndWorkRoutes = require('./TreatementPlan/routes/timeAndWork.routes');
 const mmasRoutes = require('./TreatementPlan/routes/mmas.routes');
 const appointmentRoutes = require('./Appointment/routes/appointment.routes');
 const appointmentStatusRoutes = require('./Appointment/routes/appointmentStatus.routes');
+const appointmentAgendaRoutes = require('./Appointment/routes/appointmentAgenda.routes');
 const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
 const artRegimePhaseRoutes =
 require('./ArtRegimen/routes/artRegimenPhase.routes');
@@ -53,6 +54,7 @@ app.use('/mmas', mmasRoutes);
 app.use('/appointments', appointmentRoutes);
 app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/appointment-status', appointmentStatusRoutes);
+app.use('/appointment-agenda', appointmentAgendaRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
