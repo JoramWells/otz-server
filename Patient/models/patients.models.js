@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
+const CareGiver = require('./caregiver.model');
 
 const Patient = sequelize.define('patient', {
   id: {
@@ -37,6 +38,8 @@ const Patient = sequelize.define('patient', {
     type: DataTypes.STRING,
   },
 });
+
+Patient.belongsTo(CareGiver, {foreignKey: 'careGiverID', targetKey: 'id'});
 
 // (async () => {
 //   await sequelize.sync();

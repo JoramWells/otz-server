@@ -17,7 +17,7 @@ const ViralLoad = sequelize.define('viralload', {
   patientID: {
     type: DataTypes.UUID,
     references: {
-      model: 'model',
+      model: 'patient',
       id: 'key',
     },
   },

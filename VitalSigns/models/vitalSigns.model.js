@@ -13,7 +13,7 @@ const VitalSign = sequelize.define('vitalsign', {
   patientID: {
     type: DataTypes.UUID,
     references: {
-      model: 'model',
+      model: 'patient',
       id: 'key',
     },
   },
