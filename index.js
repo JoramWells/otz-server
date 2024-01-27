@@ -19,10 +19,8 @@ const appointmentRoutes = require('./Appointment/routes/appointment.routes');
 const appointmentStatusRoutes = require('./Appointment/routes/appointmentStatus.routes');
 const appointmentAgendaRoutes = require('./Appointment/routes/appointmentAgenda.routes');
 const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
-const artRegimePhaseRoutes =
-require('./ArtRegimen/routes/artRegimenPhase.routes');
-const artRegimenCategoryRoutes =
-require('./ArtRegimen/routes/artRegimenCategory.routes');
+const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
+const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
 
 const app = express();
 

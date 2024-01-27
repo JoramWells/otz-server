@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const FollowUPChecklist = sequelize.define('followUPChecklists', {
@@ -47,7 +47,6 @@ const FollowUPChecklist = sequelize.define('followUPChecklists', {
     type: DataTypes.STRING,
   },
 });
-
 
 // (async () => {
 //   await sequelize.sync({force: true});

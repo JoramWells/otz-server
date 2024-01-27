@@ -1,8 +1,9 @@
 const express = require('express');
-const {addViralLoad, getAllViralLoads,
+const {
+  addViralLoad, getAllViralLoads,
   getViralLoad, editViralLoad,
-  deleteViralLoad} = require('../controllers/viralLoad.controller');
-
+  deleteViralLoad,
+} = require('../controllers/viralLoad.controller');
 
 const router = express.Router();
 

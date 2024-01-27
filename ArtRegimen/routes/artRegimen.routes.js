@@ -1,9 +1,10 @@
 const express = require('express');
-const {addArtRegimen, getAllArtRegimen,
+const {
+  addArtRegimen, getAllArtRegimen,
   getArtRegimen,
   editArtRegimen,
-  deleteArtRegimen} = require('../controllers/artRegimen.controller');
-
+  deleteArtRegimen,
+} = require('../controllers/artRegimen.controller');
 
 const router = express.Router();
 

@@ -1,8 +1,10 @@
 const express = require('express');
-const {addArtRegimenPhase, getAllArtRegimenPhases,
+const {
+  addArtRegimenPhase, getAllArtRegimenPhases,
   getArtRegimenPhase,
   editArtRegimenPhase,
-  deleteArtRegimenPhase} = require('../controllers/artRegimenPhase.controller');
+  deleteArtRegimenPhase,
+} = require('../controllers/artRegimenPhase.controller');
 
 const router = express.Router();
 

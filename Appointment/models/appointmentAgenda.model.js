@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const AppointmentAgenda = sequelize.define('appointmentAgendas', {
@@ -12,7 +12,6 @@ const AppointmentAgenda = sequelize.define('appointmentAgendas', {
     type: DataTypes.STRING,
   },
 });
-
 
 (async () => {
   await sequelize.sync();

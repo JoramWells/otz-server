@@ -1,8 +1,10 @@
 const express = require('express');
-const {addVitalSign, getAllVitalSigns,
+const {
+  addVitalSign, getAllVitalSigns,
   getVitalSignDetail,
   editVitalSign,
-  deleteVitalSign} = require('../controllers/vitalSign.controller');
+  deleteVitalSign,
+} = require('../controllers/vitalSign.controller');
 
 const router = express.Router();
 

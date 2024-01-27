@@ -4,7 +4,6 @@
 
 const Art_regimen_phase = require('../models/artRegimenPhases.model');
 
-
 // using *Patients model
 const addArtRegimenPhase = async (req, res, next) => {
   console.log(req.body);
@@ -15,7 +14,7 @@ const addArtRegimenPhase = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(500).json({error: 'Internal Server Error'});
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -27,13 +26,13 @@ const getAllArtRegimenPhases = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.json({error: 'Internal Server error'});
+    res.json({ error: 'Internal Server error' });
     next(error);
   }
 };
 
 const getArtRegimenPhase = async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const patient = await Art_regimen_phase.findOne({
       where: {
@@ -45,13 +44,13 @@ const getArtRegimenPhase = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({message: 'Internal Server Error'});
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
   }
 };
 
 // edit patient
 const editArtRegimenPhase = async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
@@ -72,12 +71,12 @@ const editArtRegimenPhase = async (req, res, next) => {
     return editPAtient.save();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({message: 'Internal Server'});
+    res.sendStatus(500).json({ message: 'Internal Server' });
   }
 };
 
 const deleteArtRegimenPhase = async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const results = await Art_regimen_phase.destroy({
       where: {
@@ -86,15 +85,18 @@ const deleteArtRegimenPhase = async (req, res, next) => {
     });
 
     if (results) {
-      return res.status(200).json({message: 'User deleted successfully'});
+      return res.status(200).json({ message: 'User deleted successfully' });
     }
-    return res.status(404).json({message: 'User not found.'});
+    return res.status(404).json({ message: 'User not found.' });
   } catch (error) {
-    return res.status(500).json({message: 'Internal Server Error'});
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
 module.exports = {
-  addArtRegimenPhase, getAllArtRegimenPhases, getArtRegimenPhase,
-  editArtRegimenPhase, deleteArtRegimenPhase,
+  addArtRegimenPhase,
+  getAllArtRegimenPhases,
+  getArtRegimenPhase,
+  editArtRegimenPhase,
+  deleteArtRegimenPhase,
 };

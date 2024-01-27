@@ -14,7 +14,7 @@ const addHomeVisitFrequency = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(500).json({error: 'Internal Server Error'});
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -26,14 +26,13 @@ const getAllHomeVisitFrequencies = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.json({error: 'Internal Server error'});
+    res.json({ error: 'Internal Server error' });
     next(error);
   }
 };
 
-
 const getHomeVisitFrequencyDetail = async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const patient = await HomeVisit_frequency.findOne({
       where: {
@@ -44,13 +43,13 @@ const getHomeVisitFrequencyDetail = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({message: 'Internal Server Error'});
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
   }
 };
 
 // edit patient
 const editHomeVisitFrequency = async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
@@ -71,12 +70,12 @@ const editHomeVisitFrequency = async (req, res, next) => {
     return results.save();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({message: 'Internal Server'});
+    res.sendStatus(500).json({ message: 'Internal Server' });
   }
 };
 
 const deleteHomeVisitFrequency = async (req, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   try {
     const results = await HomeVisit_frequency.destroy({
       where: {
@@ -85,15 +84,18 @@ const deleteHomeVisitFrequency = async (req, res, next) => {
     });
 
     if (results) {
-      return res.status(200).json({message: 'User deleted successfully'});
+      return res.status(200).json({ message: 'User deleted successfully' });
     }
-    return res.status(404).json({message: 'User not found.'});
+    return res.status(404).json({ message: 'User not found.' });
   } catch (error) {
-    return res.status(500).json({message: 'Internal Server Error'});
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
 module.exports = {
-  addHomeVisitFrequency, getAllHomeVisitFrequencies,
-  getHomeVisitFrequencyDetail, editHomeVisitFrequency, deleteHomeVisitFrequency,
+  addHomeVisitFrequency,
+  getAllHomeVisitFrequencies,
+  getHomeVisitFrequencyDetail,
+  editHomeVisitFrequency,
+  deleteHomeVisitFrequency,
 };

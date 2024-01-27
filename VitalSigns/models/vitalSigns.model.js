@@ -1,4 +1,4 @@
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../Patient/db/connect');
 // const Patient = require('../../_Patient/models/patients.models');
 // const Patients = require('./patients.models');

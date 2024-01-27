@@ -1,27 +1,27 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'commonjs': true,
-    'es2021': true,
+  env: {
+    browser: true,
+    commonjs: true,
+    es2021: true,
   },
-  'extends': 'google',
-  'overrides': [
+  extends: ['google', 'airbnb'],
+  overrides: [
     {
-      'env': {
-        'node': true,
+      env: {
+        node: true,
       },
-      'files': [
+      files: [
         '.eslintrc.{js,cjs}',
       ],
-      'parserOptions': {
-        'sourceType': 'script',
+      parserOptions: {
+        sourceType: 'script',
       },
     },
   ],
-  'parserOptions': {
-    'ecmaVersion': 'latest',
+  parserOptions: {
+    ecmaVersion: 'latest',
   },
-  'rules': {
+  rules: {
     'new-cap': ['off'],
     'linebreak-style': ['off'],
   },

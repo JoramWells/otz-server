@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const MMAS = sequelize.define('mmas', {
@@ -40,7 +40,6 @@ const MMAS = sequelize.define('mmas', {
     type: DataTypes.STRING,
   },
 });
-
 
 // (async () => {
 //   await sequelize.sync({force: true});

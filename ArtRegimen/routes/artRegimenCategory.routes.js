@@ -1,5 +1,6 @@
 const express = require('express');
-const {addArtRegimenCategory,
+const {
+  addArtRegimenCategory,
   getAllArtRegimenCategories,
   getArtRegimenCategory,
   editArtRegimenCategory,

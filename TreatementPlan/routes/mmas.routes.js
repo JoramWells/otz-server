@@ -1,6 +1,8 @@
 const express = require('express');
-const {addMmas, getAllMmas, getMmas,
-  editMmas, deleteMmas} = require('../controllers/mmas.controller');
+const {
+  addMmas, getAllMmas, getMmas,
+  editMmas, deleteMmas,
+} = require('../controllers/mmas.controller');
 
 const router = express.Router();
 

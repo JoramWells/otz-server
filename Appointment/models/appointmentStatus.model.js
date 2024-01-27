@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const AppointmentStatus = sequelize.define('appointmentStatus', {
@@ -12,6 +12,5 @@ const AppointmentStatus = sequelize.define('appointmentStatus', {
     type: DataTypes.STRING,
   },
 });
-
 
 module.exports = AppointmentStatus;

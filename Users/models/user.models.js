@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const User = sequelize.define('users', {
@@ -41,4 +41,4 @@ const User = sequelize.define('users', {
 //   console.log('Users Table synced successfully');
 // })();
 
-module.exports=User;
+module.exports = User;

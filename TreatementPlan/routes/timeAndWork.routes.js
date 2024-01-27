@@ -1,9 +1,11 @@
 const express = require('express');
-const {addTimeAndWork,
+const {
+  addTimeAndWork,
   getAllTimeAndWork,
   getTimeAndWork,
   editTimeAndWork,
-  deleteTimeAndWork} = require('../controllers/timeAndWork.controller.js');
+  deleteTimeAndWork,
+} = require('../controllers/timeAndWork.controller');
 
 const router = express.Router();
 

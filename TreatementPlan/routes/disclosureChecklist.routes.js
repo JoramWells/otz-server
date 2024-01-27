@@ -1,5 +1,6 @@
 const express = require('express');
-const {addDisclosureChecklist, getAllDisclosureChecklists,
+const {
+  addDisclosureChecklist, getAllDisclosureChecklists,
   getDisclosureChecklist, editDisclosureChecklist,
   deleteDisclosureChecklist,
 } = require('../controllers/disclosureChecklist.controller');

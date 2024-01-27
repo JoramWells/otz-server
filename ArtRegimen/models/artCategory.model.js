@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../db/connect');
 const ArtRegimenPhase = require('./artRegimenPhases.model');
 
@@ -22,8 +22,10 @@ const ArtCategory = sequelize.define('artCategories', {
   },
 });
 
-ArtCategory.belongsTo(ArtRegimenPhase,
-    {foreignKey: 'artPhaseID'});
+ArtCategory.belongsTo(
+  ArtRegimenPhase,
+  { foreignKey: 'artPhaseID' },
+);
 
 (async () => {
   await sequelize.sync();
