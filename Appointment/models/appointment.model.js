@@ -8,23 +8,24 @@ const Appointment = sequelize.define('appointments', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  patient_id: {
-    type: DataTypes.UUID,
-  },
-  user_id: {
+  patientID: {
     type: DataTypes.UUID,
   },
   appointmentDate: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATEONLY,
+  },
+  appointmentTime: {
+    type: DataTypes.TIME,
   },
   agenda: {
     type: DataTypes.STRING,
   },
 });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Table synced successfully');
-// })();
+
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
 
 module.exports = Appointment;

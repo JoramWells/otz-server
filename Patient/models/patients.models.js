@@ -3,7 +3,7 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const Patient = sequelize.define('Patients', {
+const Patient = sequelize.define('patients', {
   patientID: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -39,7 +39,7 @@ const Patient = sequelize.define('Patients', {
   originalARTRegimen: {
     type: DataTypes.UUID,
     references: {
-      model: 'ARTs',
+      model: 'arts',
       references: 'artID',
     },
     onDelete: 'CASCADE',
@@ -55,15 +55,16 @@ const Patient = sequelize.define('Patients', {
   },
   currentARTRegimen: {
     type: DataTypes.UUID,
-    references: {
-      model: 'ARTs',
-      references: 'artID',
-    },
-    onDelete: 'CASCADE',
+    // references: {
+    //   model: 'arts',
+    //   references: 'artID',
+    // },
+    // onDelete: 'CASCADE',
   },
   currentARTStartDate: {
     type: DataTypes.DATE,
   },
+
   // date_confirmed_positive: {
   //   type: DataTypes.DATE,
   // },

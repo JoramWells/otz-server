@@ -7,19 +7,14 @@ const User = require('../../Users/models/user.models');
 const HomeVisitReason = require('./HomeVisitReason.model');
 const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const HomeVisit = sequelize.define('HomeVisits', {
+const HomeVisit = sequelize.define('homeVisits', {
   home_visit_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  patient_id: {
+  patientID: {
     type: DataTypes.UUID,
-    references: {
-      model: 'Patients',
-      key: 'patientID',
-    },
-    onDelete: 'CASCADE',
   },
   homeVisit_reason_id: {
     type: DataTypes.UUID,
@@ -32,7 +27,7 @@ const HomeVisit = sequelize.define('HomeVisits', {
   user_id: {
     type: DataTypes.UUID,
     references: {
-      model: 'Users',
+      model: 'users',
       key: 'user_id',
     },
     onDelete: 'CASCADE',
@@ -51,11 +46,11 @@ const HomeVisit = sequelize.define('HomeVisits', {
   },
   artID: {
     type: DataTypes.UUID,
-    references: {
-      model: 'ARTs',
-      key: 'artID',
-    },
-    onDelete: 'CASCADE',
+    // references: {
+    //   model: 'arts',
+    //   key: 'artID',
+    // },
+    // onDelete: 'CASCADE',
   },
   ol_drugs: {
     type: DataTypes.STRING,
@@ -109,13 +104,12 @@ const HomeVisit = sequelize.define('HomeVisits', {
   // end
 });
 
-// HomeVisit.belongsTo(Patient, {foreignKey: 'patient_id',
-// targetKey: 'patient_id'});
-Patient.hasMany(HomeVisit, {foreignKey: 'patientID'});
-HomeVisit.belongsTo(User, {foreignKey: 'user_id'});
-HomeVisit.belongsTo(ART, {foreignKey: 'artID'});
-HomeVisit.belongsTo(HomeVisitReason,
-    {foreignKey: 'homeVisit_reason_id'});
+// HomeVisit.belongsTo(Patient, {foreignKey: 'patientID'});
+// Patient.hasMany(HomeVisit, {foreignKey: 'patientID'});
+// HomeVisit.belongsTo(User, {foreignKey: 'user_id'});
+// HomeVisit.belongsTo(ART, {foreignKey: 'artID'});
+// HomeVisit.belongsTo(HomeVisitReason,
+//     {foreignKey: 'homeVisit_reason_id'});
 
 // (async () => {
 //   await sequelize.sync();
