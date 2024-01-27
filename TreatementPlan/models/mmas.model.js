@@ -3,13 +3,17 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const MMAS = sequelize.define('mmas', {
-  mmas_id: {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  patient_id: {
+  patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
   },
   is_forget: {
     type: DataTypes.STRING,

@@ -2,18 +2,11 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 
-const Patient = sequelize.define('patient', {
+const CareGiver = sequelize.define('careGiver', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
-  },
-  careGiverID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'careGiver',
-      key: 'id',
-    },
   },
   firstName: {
     type: DataTypes.STRING,
@@ -30,10 +23,13 @@ const Patient = sequelize.define('patient', {
   dob: {
     type: DataTypes.DATE,
   },
-  mflCode: {
+  idNo: {
     type: DataTypes.STRING,
   },
-  cccNo: {
+  phoneNo: {
+    type: DataTypes.STRING,
+  },
+  residence: {
     type: DataTypes.STRING,
   },
 });
@@ -43,4 +39,4 @@ const Patient = sequelize.define('patient', {
 //   console.log('Patient Table synced successfully');
 // })();
 
-module.exports = Patient;
+module.exports = CareGiver;

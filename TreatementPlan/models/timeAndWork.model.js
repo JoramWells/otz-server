@@ -2,14 +2,18 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const Time_and_work = sequelize.define('time_and_work', {
-  time_and_work_id: {
+const TimeWork = sequelize.define('timeWork', {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  patient_id: {
+  patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
   },
   wakeUpTime: {
     type: DataTypes.STRING,
@@ -54,4 +58,4 @@ const Time_and_work = sequelize.define('time_and_work', {
 //   console.log('Table synced successfully');
 // })();
 
-module.exports = Time_and_work;
+module.exports = TimeWork;

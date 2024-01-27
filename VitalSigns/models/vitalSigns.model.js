@@ -4,14 +4,18 @@ const sequelize = require('../../Patient/db/connect');
 // const Patients = require('./patients.models');
 
 const VitalSign = sequelize.define('vitalsign', {
-  vital_sign_id: {
+  vital_signID_id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
 
   },
-  patient_id: {
+  patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'model',
+      id: 'key',
+    },
   },
   weight: {
     type: DataTypes.INTEGER,

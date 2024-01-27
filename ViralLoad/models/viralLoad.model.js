@@ -3,25 +3,29 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../Patient/db/connect');
 
 const ViralLoad = sequelize.define('viralload', {
-  viral_load_id: {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  vl_result: {
+  vlResult: {
     type: DataTypes.STRING,
   },
-  vl_validity: {
+  vlValidity: {
     type: DataTypes.STRING,
   },
-  patient_id: {
+  patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'model',
+      id: 'key',
+    },
   },
-  vl_justification: {
+  vlJustification: {
     type: DataTypes.STRING,
   },
-  last_vl_date: {
-    type: DataTypes.STRING,
+  lastVlDate: {
+    type: DataTypes.DATEONLY,
   },
 });
 

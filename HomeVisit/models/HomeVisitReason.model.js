@@ -2,13 +2,13 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const HomeVisitReason = sequelize.define('HomeVisitReasons', {
-  homeVisit_reason_id: {
+const HomeVisitReason = sequelize.define('homeVisitReason', {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  homeVisit_reason_description: {
+  homeVisitReasonDescription: {
     type: DataTypes.STRING,
   },
 });

@@ -1,42 +1,46 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
-const Patient = require('../../Patient/models/patients.models');
-const User = require('../../Users/models/user.models');
-const HomeVisitReason = require('./HomeVisitReason.model');
-const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const HomeVisit = sequelize.define('homeVisits', {
-  home_visit_id: {
+const HomeVisit = sequelize.define('homeVisit', {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
   patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
   },
-  homeVisit_reason_id: {
+  homeVisitReasonID: {
     type: DataTypes.UUID,
     references: {
-      model: 'HomeVisitReasons',
-      key: 'homeVisit_reason_id',
+      model: 'homeVisitReasons',
+      key: 'id',
     },
     onDelete: 'CASCADE',
   },
-  user_id: {
+  userID: {
     type: DataTypes.UUID,
     references: {
       model: 'users',
-      key: 'user_id',
+      key: 'id',
     },
     onDelete: 'CASCADE',
   },
-  date_requested: {
+  dateRequested: {
     type: DataTypes.STRING,
   },
-  homeVisit_frequency_id: {
+  homeVisitFrequencyID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'homeVisitFrequencies',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
   },
   is_arv: {
     type: DataTypes.STRING,
@@ -46,11 +50,11 @@ const HomeVisit = sequelize.define('homeVisits', {
   },
   artID: {
     type: DataTypes.UUID,
-    // references: {
-    //   model: 'arts',
-    //   key: 'artID',
-    // },
-    // onDelete: 'CASCADE',
+    references: {
+      model: 'arts',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
   },
   ol_drugs: {
     type: DataTypes.STRING,

@@ -4,13 +4,18 @@ const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
 
 const Appointment = sequelize.define('appointments', {
-  appointment_id: {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
   patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
   },
   appointmentDate: {
     type: DataTypes.DATEONLY,
@@ -23,12 +28,12 @@ const Appointment = sequelize.define('appointments', {
   },
 });
 
-Appointment.belongsTo(Patient, {foreignKey: 'patientID'});
+Appointment.belongsTo(Patient, {foreignKey: 'patientID', targetKey: 'id'});
 
 
-(async () => {
-  await sequelize.sync();
-  console.log('Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Table synced successfully');
+// })();
 
 module.exports = Appointment;

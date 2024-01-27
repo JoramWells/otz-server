@@ -2,7 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const DisclosureChecklist = sequelize.define('DisclosureChecklist', {
+const DisclosureChecklist = sequelize.define('disclosureChecklist', {
   disclosureChecklistID: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -10,6 +10,10 @@ const DisclosureChecklist = sequelize.define('DisclosureChecklist', {
   },
   patientID: {
     type: DataTypes.UUID,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
   },
   disclosureDate: {
     type: DataTypes.STRING,
@@ -110,8 +114,6 @@ const DisclosureChecklist = sequelize.define('DisclosureChecklist', {
   finalComments: {
     type: DataTypes.STRING,
   },
-}, {
-  timestamps: true,
 });
 
 // (async () => {
