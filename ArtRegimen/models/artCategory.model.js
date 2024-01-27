@@ -3,7 +3,7 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 const ArtRegimenPhase = require('./artRegimenPhases.model');
 
-const ArtCategory = sequelize.define('artCategory', {
+const ArtCategory = sequelize.define('artCategories', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

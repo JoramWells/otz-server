@@ -2,7 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const FollowUPChecklist = sequelize.define('followUPChecklist', {
+const FollowUPChecklist = sequelize.define('followUPChecklists', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

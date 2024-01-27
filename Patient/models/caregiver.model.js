@@ -2,7 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 
-const CareGiver = sequelize.define('careGiver', {
+const CareGiver = sequelize.define('careGivers', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

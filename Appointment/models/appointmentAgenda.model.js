@@ -2,8 +2,8 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const AppointmentAgenda = sequelize.define('appointmentAgenda', {
-  appointmentAgendaID: {
+const AppointmentAgenda = sequelize.define('appointmentAgendas', {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
@@ -14,9 +14,9 @@ const AppointmentAgenda = sequelize.define('appointmentAgenda', {
 });
 
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
 
 module.exports = AppointmentAgenda;

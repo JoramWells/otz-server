@@ -2,7 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const TimeWork = sequelize.define('timeWork', {
+const TimeWork = sequelize.define('timeWorks', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

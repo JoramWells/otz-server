@@ -2,6 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
+const AppointmentStatus = require('./appointmentStatus.model');
 
 const Appointment = sequelize.define('appointments', {
   id: {
@@ -28,7 +29,7 @@ const Appointment = sequelize.define('appointments', {
   appointmentStatusID: {
     type: DataTypes.UUID,
     references: {
-      model: 'appointmentStatus',
+      model: 'appointmentStatuses',
       key: 'id',
     },
     onDelete: 'CASCADE',
@@ -45,6 +46,9 @@ const Appointment = sequelize.define('appointments', {
   },
 });
 
+Appointment.belongsTo(Patient, {foreignKey: 'patientID', targetKey: 'id'});
+Appointment.belongsTo(AppointmentStatus,
+    {foreignKey: 'appointmentStatusID', targetKey: 'id'});
 Appointment.belongsTo(Patient, {foreignKey: 'patientID', targetKey: 'id'});
 
 

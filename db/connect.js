@@ -15,7 +15,7 @@ const connect = new Sequelize(
       dialect: 'postgres',
       define: {
         timestamps: true,
-        freezeTableName: false,
+        freezeTableName: true,
 
       },
     },

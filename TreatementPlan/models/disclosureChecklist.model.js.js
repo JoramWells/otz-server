@@ -2,8 +2,8 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const DisclosureChecklist = sequelize.define('disclosureChecklist', {
-  disclosureChecklistID: {
+const DisclosureChecklist = sequelize.define('disclosureChecklists', {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,

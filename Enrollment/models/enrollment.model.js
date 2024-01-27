@@ -3,7 +3,7 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const Enrollment = sequelize.define('enrollment', {
+const Enrollment = sequelize.define('enrollments', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -26,7 +26,7 @@ const Enrollment = sequelize.define('enrollment', {
     type: DataTypes.UUID,
     references: {
       model: 'arts',
-      references: 'artID',
+      references: 'id',
     },
     onDelete: 'CASCADE',
   },
@@ -43,7 +43,7 @@ const Enrollment = sequelize.define('enrollment', {
     type: DataTypes.UUID,
     references: {
       model: 'arts',
-      references: 'artID',
+      references: 'id',
     },
     onDelete: 'CASCADE',
   },
@@ -56,8 +56,10 @@ const Enrollment = sequelize.define('enrollment', {
   // },
 });
 
-Patient.belongsTo(ART, {foreignKey: 'originalARTRegimen', targetKey: 'artID'});
-Patient.belongsTo(ART, {foreignKey: 'currentARTRegimen', targetKey: 'artID'});
+Enrollment.belongsTo(ART, {
+  foreignKey: 'originalARTRegimen', targetKey: 'id'});
+Enrollment.belongsTo(ART, {
+  foreignKey: 'currentARTRegimen', targetKey: 'id'});
 
 // (async () => {
 //   await sequelize.sync();

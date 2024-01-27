@@ -2,7 +2,7 @@
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../Patient/db/connect');
 
-const ViralLoad = sequelize.define('viralload', {
+const ViralLoad = sequelize.define('viralLoads', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -17,8 +17,8 @@ const ViralLoad = sequelize.define('viralload', {
   patientID: {
     type: DataTypes.UUID,
     references: {
-      model: 'patient',
-      id: 'key',
+      model: 'patients',
+      key: 'id',
     },
   },
   vlJustification: {

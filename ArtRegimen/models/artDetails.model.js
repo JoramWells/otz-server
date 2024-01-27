@@ -3,7 +3,7 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 const ArtCategory = require('./artCategory.model');
 
-const ART = sequelize.define('art', {
+const ART = sequelize.define('arts', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -15,7 +15,7 @@ const ART = sequelize.define('art', {
   artCategoryID: {
     type: DataTypes.UUID,
     references: {
-      model: 'artCategory',
+      model: 'artCategories',
       key: 'id',
     },
     onDelete: 'CASCADE',
