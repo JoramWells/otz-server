@@ -11,9 +11,7 @@ const AppointmentAgenda = sequelize.define('appointmentAgenda', {
   agendaDescription: {
     type: DataTypes.STRING,
   },
-},
-{timestamps: true},
-);
+});
 
 
 // (async () => {

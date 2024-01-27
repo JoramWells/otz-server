@@ -3,8 +3,8 @@ const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../db/connect');
 const ArtRegimenPhase = require('./artRegimenPhases.model');
 
-const ArtCategory = sequelize.define('artCategories', {
-  art_category_id: {
+const ArtCategory = sequelize.define('artCategory', {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
@@ -12,22 +12,22 @@ const ArtCategory = sequelize.define('artCategories', {
   artCategoryDescription: {
     type: DataTypes.STRING,
   },
-  art_regimen_phase_id: {
+  artPhaseID: {
     type: DataTypes.UUID,
     references: {
       model: 'artRegimenPhases',
-      key: 'art_regimen_phase_id',
+      key: 'id',
     },
     onDelete: 'CASCADE',
   },
 });
 
 ArtCategory.belongsTo(ArtRegimenPhase,
-    {foreignKey: 'art_regimen_phase_id'});
+    {foreignKey: 'artPhaseID'});
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('ART Category Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('ART Category Table synced Successfully');
+})();
 
 module.exports = ArtCategory;

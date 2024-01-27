@@ -17,9 +17,26 @@ const Appointment = sequelize.define('appointments', {
     },
     onDelete: 'CASCADE',
   },
+  appointmentAgendaID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'appointmentAgendas',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+  },
+  appointmentStatusID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'appointmentStatus',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+  },
   appointmentDate: {
     type: DataTypes.DATEONLY,
   },
+
   appointmentTime: {
     type: DataTypes.TIME,
   },

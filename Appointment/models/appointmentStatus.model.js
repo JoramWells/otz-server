@@ -11,9 +11,7 @@ const AppointmentStatus = sequelize.define('appointmentStatus', {
   statusDescription: {
     type: DataTypes.STRING,
   },
-},
-{timestamps: true},
-);
+});
 
 
 // (async () => {
