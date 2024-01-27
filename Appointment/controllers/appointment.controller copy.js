@@ -2,13 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Appointment = require('../models/appointment.model');
+const AppointmentStatus = require('../models/appointmentStatus.model');
 const Patient = require('../../Patient/models/patients.models');
 
 // using *Patients model
-const addAppointment = async (req, res, next) => {
+const addAppointmentStatus = async (req, res, next) => {
   try {
-    const newProfile = await Appointment.create(req.body);
+    const newProfile = await AppointmentStatus.create(req.body);
 
     res.json(newProfile);
     next();
@@ -19,9 +19,9 @@ const addAppointment = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllAppointments = async (req, res, next) => {
+const getAllAppointmentStatus = async (req, res, next) => {
   try {
-    const results = await Appointment.findAll({
+    const results = await AppointmentStatus.findAll({
       include: [
         {
           model: Patient,
@@ -38,7 +38,7 @@ const getAllAppointments = async (req, res, next) => {
   }
 };
 
-const getAppointment = async (req, res, next) => {
+const getAppointmentStatus = async (req, res, next) => {
   const {id} = req.params;
   try {
     const patient = await Art_regimen.findOne({
@@ -55,7 +55,7 @@ const getAppointment = async (req, res, next) => {
 };
 
 // edit patient
-const editAppointment = async (req, res, next) => {
+const editAppointmentStatus = async (req, res, next) => {
   const {id} = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
@@ -81,7 +81,7 @@ const editAppointment = async (req, res, next) => {
   }
 };
 
-const deleteAppointment = async (req, res, next) => {
+const deleteAppointmentStatus = async (req, res, next) => {
   const {id} = req.params;
   try {
     const results = await Art_regimen.destroy({
@@ -100,6 +100,6 @@ const deleteAppointment = async (req, res, next) => {
 };
 
 module.exports = {
-  addAppointment, getAllAppointments, getAppointment,
-  editAppointment, deleteAppointment,
+  addAppointmentStatus, getAllAppointmentStatus, getAppointmentStatus,
+  editAppointmentStatus, deleteAppointmentStatus,
 };

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const {DataTypes, UUIDV4} = require('sequelize');
 const sequelize = require('../../db/connect');
+const Patient = require('../../Patient/models/patients.models');
 
 const Appointment = sequelize.define('appointments', {
   appointment_id: {
@@ -21,6 +22,8 @@ const Appointment = sequelize.define('appointments', {
     type: DataTypes.STRING,
   },
 });
+
+Appointment.belongsTo(Patient, {foreignKey: 'patientID'});
 
 
 (async () => {
