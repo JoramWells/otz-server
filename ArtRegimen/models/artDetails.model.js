@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable no-console */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../db/connect');
 const ArtCategory = require('./artCategory.model');

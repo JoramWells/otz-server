@@ -4,6 +4,6 @@
     "editor.formatOnSave": "explicit"
   },
   "eslint.validate": ["javascript"],
-  "workbench.colorTheme": "Quiet Light",
+  "workbench.colorTheme": "Tomorrow Night Blue",
   "prettier.disableLanguages": ["javascript"]
 }

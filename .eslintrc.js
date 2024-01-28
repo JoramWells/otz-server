@@ -24,5 +24,7 @@ module.exports = {
   rules: {
     'new-cap': ['off'],
     'linebreak-style': ['off'],
+    'no-console': ['off'],
+    camelcase: ['off'],
   },
 };

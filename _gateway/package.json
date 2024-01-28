@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start:services": "concurrently \"npm run patient\" \"npm run gateway\"",
+    "start:services": "concurrently \"npm run patient\" \"npm run gateway\" \"npm run root\"",
     "gateway": "nodemon ./index.js",
     "patient": "nodemon ../Patient/index.js",
-    "medication": "nodemon ../Medication/index.js",
+    "root": "nodemon ../index.js",
     "user": "nodemon ../User/index.js"
   },
   "keywords": [],
