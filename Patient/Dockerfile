@@ -1,7 +1,7 @@
 FROM node:16-alpine
 
-RUN mkdir -p /usr/src/app/Patient
-WORKDIR /usr/src/app/Patient
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 COPY package.json ./
 
@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 5001
 
-# CMD [ "yarn", "start"]
+CMD [ "yarn", "start"]
