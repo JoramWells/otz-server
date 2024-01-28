@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const HomeVisitReason = sequelize.define('homeVisitReasons', {
@@ -12,7 +12,6 @@ const HomeVisitReason = sequelize.define('homeVisitReasons', {
     type: DataTypes.STRING,
   },
 });
-
 
 // (async () => {
 //   await sequelize.sync();

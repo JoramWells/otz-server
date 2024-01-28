@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
 const User = require('../../Users/models/user.models');
-const HomeVisitReason = require('./HomeVisitReason.model');
+// const HomeVisitReason = require('./HomeVisitReason.model');
 const ART = require('../../ArtRegimen/models/artDetails.model');
 
 const HomeVisit = sequelize.define('homeVisits', {
@@ -112,18 +113,9 @@ const HomeVisit = sequelize.define('homeVisits', {
   // end
 });
 
-HomeVisit.belongsTo(Patient, {foreignKey: 'patientID'});
-// Patient.hasMany(HomeVisit, {foreignKey: 'patientID'});
-HomeVisit.belongsTo(User, {foreignKey: 'userID'});
-HomeVisit.belongsTo(ART, {foreignKey: 'id'});
-HomeVisit.belongsTo(HomeVisitReason,
-    {foreignKey: 'id'});
-
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Table synced successfully');
 // })();
 
 module.exports = HomeVisit;
-
-

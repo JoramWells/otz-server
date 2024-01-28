@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
@@ -46,12 +47,12 @@ const Appointment = sequelize.define('appointments', {
   },
 });
 
-Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
-Appointment.belongsTo(
-  AppointmentStatus,
-  { foreignKey: 'appointmentStatusID', targetKey: 'id' },
-);
-Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
+// Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
+// Appointment.belongsTo(
+//   AppointmentStatus,
+//   { foreignKey: 'appointmentStatusID', targetKey: 'id' },
+// );
+// Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
 // (async () => {
 //   await sequelize.sync();

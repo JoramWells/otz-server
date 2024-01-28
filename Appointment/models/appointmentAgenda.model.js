@@ -13,9 +13,9 @@ const AppointmentAgenda = sequelize.define('appointmentAgendas', {
   },
 });
 
-(async () => {
-  await sequelize.sync();
-  console.log('Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Table synced successfully');
+// })();
 
 module.exports = AppointmentAgenda;
