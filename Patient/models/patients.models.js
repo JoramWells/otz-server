@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../db/connect');
 const CareGiver = require('./caregiver.model');
 
@@ -31,15 +31,12 @@ const Patient = sequelize.define('patients', {
   dob: {
     type: DataTypes.DATE,
   },
-  mflCode: {
-    type: DataTypes.STRING,
-  },
-  cccNo: {
+  hospitalID: {
     type: DataTypes.STRING,
   },
 });
 
-Patient.belongsTo(CareGiver, {foreignKey: 'careGiverID', targetKey: 'id'});
+Patient.belongsTo(CareGiver, { foreignKey: 'careGiverID', targetKey: 'id' });
 
 // (async () => {
 //   await sequelize.sync();

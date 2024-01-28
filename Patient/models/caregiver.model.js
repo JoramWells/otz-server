@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../db/connect');
 
 const CareGiver = sequelize.define('careGivers', {
@@ -29,7 +29,7 @@ const CareGiver = sequelize.define('careGivers', {
   phoneNo: {
     type: DataTypes.STRING,
   },
-  residence: {
+  locationID: {
     type: DataTypes.STRING,
   },
 });

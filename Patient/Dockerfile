@@ -1,7 +1,7 @@
 FROM node:16-alpine
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /usr/src/app/Patient
+WORKDIR /usr/src/app/Patient
 
 COPY package.json ./
 
@@ -11,6 +11,6 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD [ "yarn", "start"]
