@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const ART = require('../../ArtRegimen/models/artDetails.model');
 const OTZEnrollment = require('../models/otzEnrollment.model');
 
 // using *Patients model
@@ -37,10 +38,39 @@ const getOTZEnrollment = async (req, res, next) => {
   try {
     const patient = await OTZEnrollment.findOne({
       where: {
-        cccno: id,
+        patientID: id,
       },
+      include: [
+        {
+          model: ART,
+          attributes: ['artName'],
+        },
+      ],
     });
     res.json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// get user enrollment
+const getOTZPatientEnrollmentDetails = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const results = await OTZEnrollment.findOne({
+      where: {
+        patientID: id,
+      },
+      include: [
+        {
+          model: ART,
+          attributes: ['artName'],
+        },
+      ],
+    });
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
@@ -99,4 +129,5 @@ module.exports = {
   getOTZEnrollment,
   editOTZEnrollment,
   deleteOTZEnrollment,
+  getOTZPatientEnrollmentDetails,
 };

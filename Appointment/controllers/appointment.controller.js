@@ -4,6 +4,8 @@
 
 const Appointment = require('../models/appointment.model');
 const Patient = require('../../Patient/models/patients.models');
+const AppointmentAgenda = require('../models/appointmentAgenda.model');
+const AppointmentStatus = require('../models/appointmentStatus.model');
 
 // using *Patients model
 const addAppointment = async (req, res, next) => {
@@ -41,10 +43,20 @@ const getAllAppointments = async (req, res, next) => {
 const getAppointment = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Appointment.findOne({
+    const patient = await Appointment.findAll({
       where: {
-        cccno: id,
+        patientID: id,
       },
+      include: [
+        {
+          model: AppointmentAgenda,
+          attributes: ['agendaDescription'],
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ['statusDescription'],
+        },
+      ],
     });
     res.json(patient);
     next();

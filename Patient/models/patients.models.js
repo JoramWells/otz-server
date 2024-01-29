@@ -4,7 +4,7 @@ const sequelize = require('../../db/connect');
 
 const Patient = sequelize.define('patients', {
   id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
@@ -26,7 +26,7 @@ const Patient = sequelize.define('patients', {
   phoneNo: {
     type: DataTypes.STRING,
   },
-});
+}, { timestamps: false });
 
 // (async () => {
 //   await sequelize.sync();

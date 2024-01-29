@@ -8,17 +8,17 @@ const Patient = require('../../Patient/models/patients.models');
 
 const OTZEnrollment = sequelize.define('otzEnrollments', {
   id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: UUIDV4,
+    // defaultValue: UUIDV4,
+    autoIncrement: true,
   },
   patientID: {
     type: DataTypes.UUID,
-
-    // references: {
-    //   model: 'patients',
-    //   key: 'id',
-    // },
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
   },
   dateOfEnrollmentToOTZ: {
     type: DataTypes.DATE,
@@ -52,7 +52,7 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
   // },
 });
 
-// Patient.hasMany(OTZEnrollment, { foreignKey: 'patientID' });
+// Patient.hasMany(OTZEnrollment, { foreinKey: 'patientID' });
 OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
