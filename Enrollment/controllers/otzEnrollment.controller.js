@@ -6,6 +6,7 @@ const OTZEnrollment = require('../models/otzEnrollment.model');
 
 // using *Patients model
 const addOTZEnrollment = async (req, res, next) => {
+  console.log(req.body);
   try {
     const newProfile = await OTZEnrollment.create(req.body);
 
@@ -14,6 +15,7 @@ const addOTZEnrollment = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 

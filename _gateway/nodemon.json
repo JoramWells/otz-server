@@ -1,5 +1,5 @@
 {
-    "watch":["../Patient/*"],
+    "watch":["../Patient/*", "../Enrollment/*"],
     "ext":"js, json",
     "execMap":{
         "js":"node --inspect"

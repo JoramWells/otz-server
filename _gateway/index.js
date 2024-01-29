@@ -15,9 +15,9 @@ app.use(express.urlencoded({
   extended: true,
 }));
 
+app.use('/', proxy('http://localhost:5002'));
 app.use('/patient', proxy('http://localhost:5001'));
 app.use('/otz-enrollment', proxy('http://localhost:5003'));
-app.use('/', proxy('http://localhost:5002'));
 // app.use('/users', proxy('http://localhost:5003'));
 // app.use('/medication', proxy('http://localhost:5004'));
 

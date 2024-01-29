@@ -1,7 +1,0 @@
-{
-    "watch":["./Patient/"],
-    "ext":"js, json",
-    "execMap":{
-        "js":"node --inspect"
-    }
-}

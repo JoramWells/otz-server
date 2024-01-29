@@ -27,9 +27,9 @@ ArtCategory.belongsTo(
   { foreignKey: 'artPhaseID' },
 );
 
-(async () => {
-  await sequelize.sync();
-  console.log('ART Category Table synced Successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('ART Category Table synced Successfully');
+// })();
 
 module.exports = ArtCategory;

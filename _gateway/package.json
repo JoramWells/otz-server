@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "start:services": "concurrently \"npm run patient\" \"npm run enrollment\" \"npm run gateway\" \"npm run root\"",
+    "start:services": "concurrently \"npm run root\" \"npm run patient\" \"npm run enrollment\"",
     "gateway": "nodemon ./index.js",
     "patient": "nodemon ../Patient/index.js",
     "enrollment": "nodemon ../Enrollment/index.js",

@@ -21,6 +21,7 @@ const appointmentAgendaRoutes = require('./Appointment/routes/appointmentAgenda.
 const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
+const otzEnrollmentRoutes = require('./Enrollment/routes/otzEnrollment.routes');
 
 const app = express();
 
@@ -53,6 +54,8 @@ app.use('/appointments', appointmentRoutes);
 app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
+app.use('/patient', patientRoutes);
+app.use('/otz-enrollment', otzEnrollmentRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
@@ -66,6 +69,6 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-app.listen(5002, () => {
+app.listen(5000, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
