@@ -32,12 +32,12 @@ const getAllPatients = async (req, res, next) => {
 const getPatientDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Patient.findOne({
+    const results = await Patient.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
-    res.json(patient);
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
