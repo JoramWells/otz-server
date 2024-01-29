@@ -4,12 +4,12 @@
 const express = require('express');
 const cors = require('cors');
 
-const sequelize = require('./db/connect');
-const patientRoutes = require('./routes/patient.routes');
+const sequelize = require('../db/connect');
+const enrollmentRoutes = require('./routes/otzEnrollment.routes');
 
 const app = express();
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5003;
 const corsOption = {
   origin: ['*'],
 };
@@ -22,7 +22,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/', patientRoutes);
+app.use('/', enrollmentRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');
@@ -30,6 +30,6 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-app.listen(5001, () => {
+app.listen(5003, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });

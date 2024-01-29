@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
-const {DataTypes, UUIDV4} = require('sequelize');
-const sequelize = require('../db/connect');
+const { DataTypes, UUIDV4 } = require('sequelize');
+const sequelize = require('../../db/connect');
 const ART = require('../../ArtRegimen/models/artDetails.model');
 
-const Enrollment = sequelize.define('enrollments', {
+const OTZEnrollment = sequelize.define('enrollments', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -56,14 +56,12 @@ const Enrollment = sequelize.define('enrollments', {
   // },
 });
 
-Enrollment.belongsTo(ART, {
-  foreignKey: 'originalARTRegimen', targetKey: 'id'});
-Enrollment.belongsTo(ART, {
-  foreignKey: 'currentARTRegimen', targetKey: 'id'});
+OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
+OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Patient Table synced successfully');
 // })();
 
-module.exports = Enrollment;
+module.exports = OTZEnrollment;

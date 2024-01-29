@@ -24,7 +24,7 @@ const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory
 
 const app = express();
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5004;
 const corsOption = {
   origin: ['*'],
 };
@@ -66,6 +66,6 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-app.listen(PORT, () => {
+app.listen(5002, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
