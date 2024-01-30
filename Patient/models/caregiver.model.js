@@ -34,9 +34,9 @@ const CareGiver = sequelize.define('careGivers', {
   },
 });
 
-(async () => {
-  await sequelize.sync();
-  console.log('Patient Table synced Successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Patient Table synced Successfully');
+// })();
 
 module.exports = CareGiver;

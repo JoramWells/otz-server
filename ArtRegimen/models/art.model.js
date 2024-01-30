@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 const ArtCategory = require('./artCategory.model');
 
 const ART = sequelize.define(

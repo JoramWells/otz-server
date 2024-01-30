@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 // setting up sequelize
 
-const DB = 'otz';
+const DB = 'otzv2';
 const USERNAME = 'postgres';
 const PASSWORD = 'postgres';
 

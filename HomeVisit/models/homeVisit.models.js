@@ -55,12 +55,12 @@ const HomeVisit = sequelize.define('homeVisits', {
     type: DataTypes.STRING,
   },
   artID: {
-    type: DataTypes.STRING,
-    // references: {
-    //   model: ART,
-    //   key: 'id',
-    // },
-    // onDelete: 'CASCADE',
+    type: DataTypes.UUID,
+    references: {
+      model: ART,
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
   },
   ol_drugs: {
     type: DataTypes.STRING,

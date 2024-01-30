@@ -20,8 +20,8 @@ const addArtRegimen = async (req, res, next) => {
 // get all priceListItems
 const getAllArtRegimen = async (req, res, next) => {
   try {
-    const patients = await ART.findAll();
-    res.json(patients);
+    const results = await ART.findAll({});
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
