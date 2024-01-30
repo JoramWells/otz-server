@@ -22,6 +22,8 @@ const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChe
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
 const otzEnrollmentRoutes = require('./Enrollment/routes/otzEnrollment.routes');
+const locationRoutes = require('./Location/routes/location.routes');
+const userLocationRoutes = require('./Location/routes/userLocation.routes');
 
 const app = express();
 
@@ -56,6 +58,8 @@ app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
 app.use('/patient', patientRoutes);
 app.use('/otz-enrollment', otzEnrollmentRoutes);
+app.use('/location', locationRoutes);
+app.use('/user-location', userLocationRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

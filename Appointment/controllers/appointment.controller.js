@@ -6,6 +6,7 @@ const Appointment = require('../models/appointment.model');
 const Patient = require('../../Patient/models/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
 const AppointmentStatus = require('../models/appointmentStatus.model');
+const User = require('../../Users/models/user.models');
 
 // using *Patients model
 const addAppointment = async (req, res, next) => {
@@ -27,14 +28,27 @@ const getAllAppointments = async (req, res, next) => {
       include: [
         {
           model: Patient,
+          attributes: ['firstName', 'middleName', 'dob'],
+        },
+        {
+          model: User,
           attributes: ['firstName', 'middleName'],
+        },
+        {
+          model: AppointmentAgenda,
+          attributes: ['agendaDescription'],
+
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ['statusDescription'],
         },
       ],
     });
     res.json(results);
     next();
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
   }

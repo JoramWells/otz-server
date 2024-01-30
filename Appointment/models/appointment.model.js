@@ -65,9 +65,9 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-(async () => {
-  await sequelize.sync();
-  console.log('Appointments Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Appointments Table synced successfully');
+// })();
 
 module.exports = Appointment;
