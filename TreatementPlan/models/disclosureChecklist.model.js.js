@@ -9,7 +9,7 @@ const DisclosureChecklist = sequelize.define('disclosureChecklists', {
     defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patients',
       key: 'id',

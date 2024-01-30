@@ -4,8 +4,9 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
 const User = require('../../Users/models/user.models');
+const ART = require('../../ArtRegimen/models/art.model');
 // const HomeVisitReason = require('./HomeVisitReason.model');
-const ART = require('../../ArtRegimen/models/artDetails.model');
+// const ART = require('../../ArtRegimen/models/art.model');
 
 const HomeVisit = sequelize.define('homeVisits', {
   id: {
@@ -14,7 +15,7 @@ const HomeVisit = sequelize.define('homeVisits', {
     defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patients',
       key: 'id',
@@ -54,12 +55,12 @@ const HomeVisit = sequelize.define('homeVisits', {
     type: DataTypes.STRING,
   },
   artID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'arts',
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
+    type: DataTypes.STRING,
+    // references: {
+    //   model: ART,
+    //   key: 'id',
+    // },
+    // onDelete: 'CASCADE',
   },
   ol_drugs: {
     type: DataTypes.STRING,
@@ -110,12 +111,12 @@ const HomeVisit = sequelize.define('homeVisits', {
     type: DataTypes.STRING,
   },
 
-  // end
+  // e
 });
 
 // (async () => {
-//   await sequelize.sync();
-//   console.log('Table synced successfully');
+//   await sequelize.sync().then(() => { console.log('Table synced successfully'); })
+//     .catch((err) => console.log(err));
 // })();
 
 module.exports = HomeVisit;

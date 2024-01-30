@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const ART = require('../../ArtRegimen/models/artDetails.model');
+const ART = require('../../ArtRegimen/models/art.model');
 const OTZEnrollment = require('../models/otzEnrollment.model');
 
 // using *Patients model

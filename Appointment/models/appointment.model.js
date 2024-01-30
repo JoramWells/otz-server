@@ -22,7 +22,7 @@ const Appointment = sequelize.define('appointments', {
     onDelete: 'CASCADE',
   },
   patientID: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patients',
       key: 'id',
@@ -67,7 +67,7 @@ Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('Appointments Table synced successfully');
+//   console.log('Appointments D Table synced successfully');
 // })();
 
 module.exports = Appointment;

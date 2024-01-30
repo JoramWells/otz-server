@@ -11,7 +11,7 @@ const connect = new Sequelize(
   USERNAME,
   PASSWORD,
   {
-    host: 'localhost',
+    host: 'otz_database_1',
     dialect: 'postgres',
     define: {
       timestamps: true,

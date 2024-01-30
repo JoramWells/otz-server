@@ -1,17 +1,18 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Patient = require('../../Patient/models/patients.models');
 // const Patient = require('../../_Patient/models/patients.models');
 // const Patients = require('./patients.models');
 
 const VitalSign = sequelize.define('vitalSigns', {
-  vital_signID_id: {
+  id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
 
   },
   patientID: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patients',
       key: 'id',
@@ -27,6 +28,8 @@ const VitalSign = sequelize.define('vitalSigns', {
     type: DataTypes.STRING,
   },
 });
+
+VitalSign.belongsTo(Patient, { foreignKey: 'patientID' });
 
 // (async () => {
 //   await sequelize.sync({force: true});

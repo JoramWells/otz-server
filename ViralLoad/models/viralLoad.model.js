@@ -15,7 +15,7 @@ const ViralLoad = sequelize.define('viralLoads', {
     type: DataTypes.STRING,
   },
   patientID: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patients',
       key: 'id',

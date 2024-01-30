@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const Patient = sequelize.define('patients', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: UUIDV4,
+    autoIncrement: true,
+    // defaultValue: UUIDV4,
   },
   firstName: {
     type: DataTypes.STRING,
@@ -30,7 +31,7 @@ const Patient = sequelize.define('patients', {
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
+//   console.log('Patient Table syncedd successfully');
 // })();
 
 module.exports = Patient;

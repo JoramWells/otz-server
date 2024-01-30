@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const ART = require('../models/artDetails.model');
+const ART = require('../models/art.model');
 
 // using *Patients model
 const addArtRegimen = async (req, res, next) => {

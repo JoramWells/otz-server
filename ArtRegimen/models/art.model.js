@@ -31,7 +31,7 @@ ART.belongsTo(ArtCategory, { foreignKey: 'artCategoryID' });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('ART Category Table synced Successfully');
+//   console.log('ART Categorygt Table synced Successfully');
 // })();
 
 module.exports = ART;

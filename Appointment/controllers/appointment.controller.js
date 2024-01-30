@@ -70,6 +70,10 @@ const getAppointment = async (req, res, next) => {
           model: AppointmentStatus,
           attributes: ['statusDescription'],
         },
+        {
+          model: User,
+          attributes: ['firstName', 'middleName'],
+        },
       ],
     });
     res.json(patient);

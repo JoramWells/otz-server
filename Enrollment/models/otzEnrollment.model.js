@@ -3,7 +3,7 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 // const Patient = require('../../Patient/models/patients.models');
-const ART = require('../../ArtRegimen/models/artDetails.model');
+const ART = require('../../ArtRegimen/models/art.model');
 const Patient = require('../../Patient/models/patients.models');
 
 const OTZEnrollment = sequelize.define('otzEnrollments', {
@@ -14,7 +14,7 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     autoIncrement: true,
   },
   patientID: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patients',
       key: 'id',
@@ -27,9 +27,10 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.DATE,
   },
   originalARTRegimen: {
-    type: DataTypes.UUID,
+    type: DataTypes.STRING,
 
   },
+
   vlCopies: {
     type: DataTypes.STRING,
   },
@@ -40,7 +41,7 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.BOOLEAN,
   },
   currentARTRegimen: {
-    type: DataTypes.UUID,
+    type: DataTypes.STRING,
 
   },
   currentARTStartDate: {
@@ -53,13 +54,15 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
 });
 
 // Patient.hasMany(OTZEnrollment, { foreinKey: 'patientID' });
-OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
-OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
+// OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
+// ART.hasMany(OTZEnrollment, { foreignKey: 'originalARTRegimen' });
+// OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
+// ART.hasMany(OTZEnrollment, { foreignKey: 'currentARTRegimen' });
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('OTZ Enrollment Tal synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('OTZ Enrollment Tal synced successfully');
+})();
 
 module.exports = OTZEnrollment;
