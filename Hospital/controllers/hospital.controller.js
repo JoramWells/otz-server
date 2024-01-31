@@ -2,13 +2,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const CareGiver = require('../models/caregiver.model');
-const Patient = require('../models/patients.models');
+const Hospital = require('../models/hospital.model');
 
 // using *Patients model
-const addCaregiver = async (req, res, next) => {
+const addHospital = async (req, res, next) => {
   try {
-    const newProfile = await CareGiver.create(req.body);
+    const newProfile = await Hospital.create(req.body);
 
     res.json(newProfile);
     next();
@@ -19,16 +18,9 @@ const addCaregiver = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllCaregivers = async (req, res, next) => {
+const getAllHospitals = async (req, res, next) => {
   try {
-    const results = await CareGiver.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'gender'],
-        },
-      ],
-    });
+    const results = await Hospital.findAll({ });
     res.json(results);
     next();
   } catch (error) {
@@ -38,10 +30,10 @@ const getAllCaregivers = async (req, res, next) => {
   }
 };
 
-const getCaregiverDetail = async (req, res, next) => {
+const getHospitalDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await CareGiver.findOne({
+    const results = await Hospital.findOne({
       where: {
         patient_id: id,
       },
@@ -55,13 +47,13 @@ const getCaregiverDetail = async (req, res, next) => {
 };
 
 // edit patient
-const editCaregiver = async (req, res, next) => {
+const editHospital = async (req, res, next) => {
   const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await CareGiver.findOne({
+    const editPAtient = await Hospital.findOne({
       where: {
         patient_id: id,
       },
@@ -81,10 +73,10 @@ const editCaregiver = async (req, res, next) => {
   }
 };
 
-const deleteCaregiver = async (req, res, next) => {
+const deleteHospital = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await CareGiver.destroy({
+    const results = await Hospital.destroy({
       where: {
         patient_id: id,
       },
@@ -100,5 +92,5 @@ const deleteCaregiver = async (req, res, next) => {
 };
 
 module.exports = {
-  addCaregiver, getAllCaregivers, getCaregiverDetail, editCaregiver, deleteCaregiver,
+  addHospital, getAllHospitals, getHospitalDetail, editHospital, deleteHospital,
 };
