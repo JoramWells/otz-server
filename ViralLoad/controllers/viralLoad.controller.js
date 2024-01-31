@@ -2,14 +2,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const ViralLoad = require('../models/viralLoad.model');
-const VitalSign = require('../../VitalSigns/models/vitalSigns.model');
-const Patient = require('../../Patient/models/patients.models');
-const ART = require('../../ArtRegimen/models/art.model');
 
 // using *Patients model
 const addViralLoad = async (req, res, next) => {
   try {
-    const newProfile = await Patient.create(req.body);
+    const newProfile = await ViralLoad.create(req.body);
 
     res.json(newProfile);
     next();
@@ -22,8 +19,8 @@ const addViralLoad = async (req, res, next) => {
 // get all priceListItems
 const getAllViralLoads = async (req, res, next) => {
   try {
-    const patients = await Patient.findAll();
-    res.json(patients);
+    const results = await ViralLoad.findAll();
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
@@ -35,30 +32,13 @@ const getAllViralLoads = async (req, res, next) => {
 const getViralLoad = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Patient.findOne({
+    const results = await ViralLoad.findOne({
       where: {
         cccno: id,
       },
-      include: [
-        {
-          model: VitalSign,
-          attributes: ['height', 'weight', 'bp'],
-        },
-        {
-          model: ViralLoad,
-          attributes: ['vl_result', 'vl_validity',
-            'vl_justification', 'last_vl_date'],
-        },
 
-        {
-          model: ART,
-          attributes: ['first_regimen', 'current_regimen',
-            'current_regimen_line', 'latest_cd4_count',
-          ],
-        },
-      ],
     });
-    res.json(patient);
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
@@ -73,7 +53,7 @@ const editViralLoad = async (req, res, next) => {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await Patient.findOne({
+    const editPAtient = await ViralLoad.findOne({
       where: {
         patient_id: id,
       },
@@ -96,7 +76,7 @@ const editViralLoad = async (req, res, next) => {
 const deleteViralLoad = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await Patient.destroy({
+    const results = await ViralLoad.destroy({
       where: {
         patient_id: id,
       },
