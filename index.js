@@ -24,6 +24,7 @@ const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory
 const otzEnrollmentRoutes = require('./Enrollment/routes/otzEnrollment.routes');
 const locationRoutes = require('./Location/routes/location.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
+const caregiverRoutes = require('./Patient/routes/caregiver.routes');
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use('/patient', patientRoutes);
 app.use('/otz-enrollment', otzEnrollmentRoutes);
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
+app.use('/caregiver', caregiverRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

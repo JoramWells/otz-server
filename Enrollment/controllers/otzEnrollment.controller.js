@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const ART = require('../../ArtRegimen/models/art.model');
+const Patient = require('../../Patient/models/patients.models');
 const OTZEnrollment = require('../models/otzEnrollment.model');
 
 // using *Patients model
@@ -23,8 +24,19 @@ const addOTZEnrollment = async (req, res, next) => {
 // get all priceListItems
 const getAllOTZEnrollment = async (req, res, next) => {
   try {
-    const patients = await OTZEnrollment.findAll();
-    res.json(patients);
+    const results = await OTZEnrollment.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName', 'dob', 'gender'],
+        },
+        {
+          model: ART,
+          attributes: ['artName'],
+        },
+      ],
+    });
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
@@ -38,7 +50,7 @@ const getOTZEnrollment = async (req, res, next) => {
   try {
     const patient = await OTZEnrollment.findOne({
       where: {
-        patientID: id,
+        id,
       },
       include: [
         {
@@ -58,23 +70,25 @@ const getOTZEnrollment = async (req, res, next) => {
 // get user enrollment
 const getOTZPatientEnrollmentDetails = async (req, res, next) => {
   const { id } = req.params;
+  console.log(id);
   try {
     const results = await OTZEnrollment.findOne({
       where: {
         patientID: id,
       },
-      include: [
-        {
-          model: ART,
-          attributes: ['artName'],
-        },
-      ],
+      // include: [
+      //   {
+      //     model: ART,
+      //     attributes: ['artName'],
+      //   },
+      // ],
     });
     res.json(results);
     next();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 

@@ -20,6 +20,7 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
       key: 'id',
     },
   },
+
   dateOfEnrollmentToOTZ: {
     type: DataTypes.DATE,
   },
@@ -27,7 +28,12 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.DATE,
   },
   originalARTRegimen: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
+    references: {
+      model: 'arts',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
 
   },
 
@@ -41,7 +47,12 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.BOOLEAN,
   },
   currentARTRegimen: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
+    references: {
+      model: 'arts',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
 
   },
   currentARTStartDate: {
@@ -53,16 +64,13 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
   // },
 });
 
-// Patient.hasMany(OTZEnrollment, { foreinKey: 'patientID' });
-// OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
-// ART.hasMany(OTZEnrollment, { foreignKey: 'originalARTRegimen' });
-// OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
-// ART.hasMany(OTZEnrollment, { foreignKey: 'currentARTRegimen' });
+OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
+OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-(async () => {
-  await sequelize.sync();
-  console.log('OTZ Enrollment Tal synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('OTZ Enrollment Tal synced successfully');
+// })();
 
 module.exports = OTZEnrollment;

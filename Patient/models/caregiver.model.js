@@ -1,12 +1,21 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Patient = require('./patients.models');
 
-const CareGiver = sequelize.define('careGivers', {
+const Caregiver = sequelize.define('caregivers', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
+  },
+  patientID: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
   },
   firstName: {
     type: DataTypes.STRING,
@@ -34,9 +43,11 @@ const CareGiver = sequelize.define('careGivers', {
   },
 });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Patient Table synced Successfully');
-// })();
+Caregiver.belongsTo(Patient, { foreignKey: 'patientID' });
 
-module.exports = CareGiver;
+(async () => {
+  await sequelize.sync();
+  console.log('Caregiver Table synced Successfully');
+})();
+
+module.exports = Caregiver;
