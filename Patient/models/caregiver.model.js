@@ -40,7 +40,22 @@ const Caregiver = sequelize.define('caregivers', {
   phoneNo: {
     type: DataTypes.STRING,
   },
+  relationship: {
+    type: DataTypes.STRING,
+  },
   locationID: {
+    type: DataTypes.STRING,
+  },
+  drugs: {
+    type: DataTypes.STRING,
+  },
+  career: {
+    type: DataTypes.STRING,
+  },
+  hivStatus: {
+    type: DataTypes.STRING,
+  },
+  maritalStatus: {
     type: DataTypes.STRING,
   },
 });

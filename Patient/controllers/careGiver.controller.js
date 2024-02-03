@@ -7,6 +7,7 @@ const Patient = require('../models/patients.models');
 
 // using *Patients model
 const addCaregiver = async (req, res, next) => {
+  console.log(req.body);
   try {
     const newProfile = await CareGiver.create(req.body);
 
@@ -41,9 +42,9 @@ const getAllCaregivers = async (req, res, next) => {
 const getCaregiverDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await CareGiver.findOne({
+    const results = await CareGiver.findAll({
       where: {
-        patient_id: id,
+        patientID: id,
       },
     });
     res.json(results);
