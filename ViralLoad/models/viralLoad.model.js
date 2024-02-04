@@ -39,6 +39,21 @@ const ViralLoad = sequelize.define('viralLoads', {
   currentVlDate: {
     type: DataTypes.DATEONLY,
   },
+
+  // CD4
+  baselineCD4: {
+    type: DataTypes.STRING,
+  },
+  CD4Count: {
+    type: DataTypes.STRING,
+  },
+  currentCD4Date: {
+    type: DataTypes.DATEONLY,
+  },
+  lastCD4Date: {
+    type: DataTypes.DATEONLY,
+  },
+
 });
 
 ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' });

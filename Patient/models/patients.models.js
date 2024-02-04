@@ -27,6 +27,15 @@ const Patient = sequelize.define('patients', {
   phoneNo: {
     type: DataTypes.STRING,
   },
+  idNo: {
+    type: DataTypes.STRING,
+  },
+  nupi: {
+    type: DataTypes.STRING,
+  },
+  residence: {
+    type: DataTypes.STRING,
+  },
 }, { timestamps: false });
 
 // (async () => {

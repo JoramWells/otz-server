@@ -5,6 +5,7 @@ const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
 const User = require('../../Users/models/user.models');
 const ART = require('../../ArtRegimen/models/art.model');
+const HomeVisitReason = require('./HomeVisitReason.model');
 // const HomeVisitReason = require('./HomeVisitReason.model');
 // const ART = require('../../ArtRegimen/models/art.model');
 
@@ -114,9 +115,13 @@ const HomeVisit = sequelize.define('homeVisits', {
   // e
 });
 
-// (async () => {
-//   await sequelize.sync().then(() => { console.log('Table synced successfully'); })
-//     .catch((err) => console.log(err));
-// })();
+HomeVisit.belongsTo(Patient, { foreignKey: 'patientID' });
+HomeVisit.belongsTo(User, { foreignKey: 'userID' });
+HomeVisit.belongsTo(HomeVisitReason, { foreignKey: 'homeVisitReasonID' });
+
+(async () => {
+  await sequelize.sync().then(() => { console.log('HV Table synced successfully'); })
+    .catch((err) => console.log(err));
+})();
 
 module.exports = HomeVisit;
