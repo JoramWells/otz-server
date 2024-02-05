@@ -20,9 +20,9 @@ const Hospital = sequelize.define(
   },
 );
 
-(async () => {
-  await sequelize.sync();
-  console.log('Hospital Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Hospital Table synced successfully');
+// })();
 
 module.exports = Hospital;

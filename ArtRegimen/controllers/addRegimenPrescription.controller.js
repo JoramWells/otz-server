@@ -1,12 +1,13 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const ViralLoad = require('../models/viralLoad.model');
+
+const ARTPrescription = require('../models/artPrescription.model');
 
 // using *Patients model
-const addViralLoad = async (req, res, next) => {
+const addRegimenPrescription = async (req, res, next) => {
   try {
-    const newProfile = await ViralLoad.create(req.body);
+    const newProfile = await ARTPrescription.create(req.body);
 
     res.json(newProfile);
     next();
@@ -17,9 +18,9 @@ const addViralLoad = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllViralLoads = async (req, res, next) => {
+const getAllRegimenPrescription = async (req, res, next) => {
   try {
-    const results = await ViralLoad.findAll();
+    const results = await ARTPrescription.findAll({});
     res.json(results);
     next();
   } catch (error) {
@@ -29,16 +30,15 @@ const getAllViralLoads = async (req, res, next) => {
   }
 };
 
-const getViralLoad = async (req, res, next) => {
+const getRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await ViralLoad.findAll({
+    const patient = await ARTPrescription.findOne({
       where: {
-        patientID: id,
+        cccno: id,
       },
-      order: [['createdAt', 'DESC']],
     });
-    res.json(results);
+    res.json(patient);
     next();
   } catch (error) {
     console.log(error);
@@ -47,13 +47,13 @@ const getViralLoad = async (req, res, next) => {
 };
 
 // edit patient
-const editViralLoad = async (req, res, next) => {
+const editRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await ViralLoad.findOne({
+    const editPAtient = await ARTPrescription.findOne({
       where: {
         patient_id: id,
       },
@@ -73,10 +73,10 @@ const editViralLoad = async (req, res, next) => {
   }
 };
 
-const deleteViralLoad = async (req, res, next) => {
+const deleteRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await ViralLoad.destroy({
+    const results = await ARTPrescription.destroy({
       where: {
         patient_id: id,
       },
@@ -92,5 +92,9 @@ const deleteViralLoad = async (req, res, next) => {
 };
 
 module.exports = {
-  addViralLoad, getAllViralLoads, getViralLoad, editViralLoad, deleteViralLoad,
+  addRegimenPrescription,
+  getAllRegimenPrescription,
+  getRegimenPrescription,
+  editRegimenPrescription,
+  deleteRegimenPrescription,
 };

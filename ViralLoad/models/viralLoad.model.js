@@ -47,9 +47,9 @@ const ViralLoad = sequelize.define('viralLoads', {
 ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' });
 // ViralLoad.belongsTo(Hospital, { foreignKey: 'hospitalID' });
 
-(async () => {
-  await sequelize.sync();
-  console.log('VL Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('VL Table synced successfully');
+// })();
 
 module.exports = ViralLoad;

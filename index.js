@@ -26,6 +26,7 @@ const locationRoutes = require('./Location/routes/location.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const caregiverRoutes = require('./Patient/routes/caregiver.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
+const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.routes')
 
 const app = express();
 
@@ -64,6 +65,8 @@ app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/caregiver', caregiverRoutes);
 app.use('/hospital', hospitalRoutes);
+app.use('/regimen-prescription', regimenPrescriptionRoutes);
+
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
