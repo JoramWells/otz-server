@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const ArtCategory = require('./artCategory.model');
+const Patient = require('../../Patient/models/patients.models');
+const ART = require('./art.model');
 
 const ARTPrescription = sequelize.define(
-  'arts',
+  'artPrescription',
   {
     id: {
       type: DataTypes.UUID,
@@ -12,7 +13,7 @@ const ARTPrescription = sequelize.define(
       defaultValue: UUIDV4,
     },
     patientID: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'patients',
         key: 'id',
@@ -20,6 +21,7 @@ const ARTPrescription = sequelize.define(
       onDelete: 'CASCADE',
 
     },
+
     artID: {
       type: DataTypes.UUID,
       references: {
@@ -39,7 +41,8 @@ const ARTPrescription = sequelize.define(
   { timestamps: true },
 );
 
-ARTPrescription.belongsTo(ArtCategory, { foreignKey: 'artCategoryID' });
+ARTPrescription.belongsTo(ART, { foreignKey: 'artID' });
+ARTPrescription.belongsTo(Patient, { foreignKey: 'patientID' });
 
 // (async () => {
 //   await sequelize.sync();

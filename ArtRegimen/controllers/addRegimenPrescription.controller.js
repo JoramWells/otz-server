@@ -2,6 +2,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const Patient = require('../../Patient/models/patients.models');
+const ART = require('../models/art.model');
 const ARTPrescription = require('../models/artPrescription.model');
 
 // using *Patients model
@@ -20,7 +22,9 @@ const addRegimenPrescription = async (req, res, next) => {
 // get all priceListItems
 const getAllRegimenPrescription = async (req, res, next) => {
   try {
-    const results = await ARTPrescription.findAll({});
+    const results = await ARTPrescription.findAll({
+      order: [['DESC', 'createdAt']],
+    });
     res.json(results);
     next();
   } catch (error) {
@@ -33,10 +37,17 @@ const getAllRegimenPrescription = async (req, res, next) => {
 const getRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await ARTPrescription.findOne({
+    const patient = await ARTPrescription.findAll({
       where: {
-        cccno: id,
+        patientID: id,
       },
+      include: [
+        {
+          model: ART,
+          attributes: ['artName'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
     });
     res.json(patient);
     next();

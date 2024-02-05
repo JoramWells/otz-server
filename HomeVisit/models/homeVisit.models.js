@@ -6,6 +6,7 @@ const Patient = require('../../Patient/models/patients.models');
 const User = require('../../Users/models/user.models');
 const ART = require('../../ArtRegimen/models/art.model');
 const HomeVisitReason = require('./HomeVisitReason.model');
+const ARTPrescription = require('../../ArtRegimen/models/artPrescription.model');
 // const HomeVisitReason = require('./HomeVisitReason.model');
 // const ART = require('../../ArtRegimen/models/art.model');
 
@@ -49,34 +50,13 @@ const HomeVisit = sequelize.define('homeVisits', {
     },
     onDelete: 'CASCADE',
   },
-  is_arv: {
-    type: DataTypes.STRING,
-  },
-  current_regimen_date: {
-    type: DataTypes.STRING,
-  },
-  artID: {
+  artPrescriptionID: {
     type: DataTypes.UUID,
     references: {
-      model: ART,
+      model: 'artPrescription',
       key: 'id',
     },
     onDelete: 'CASCADE',
-  },
-  ol_drugs: {
-    type: DataTypes.STRING,
-  },
-  is_TB: {
-    type: DataTypes.STRING,
-  },
-  treatment_start_date: {
-    type: DataTypes.STRING,
-  },
-  intensive_phase_date: {
-    type: DataTypes.STRING,
-  },
-  end_of_treatment_date: {
-    type: DataTypes.STRING,
   },
   date_of_home_visit_requested: {
     type: DataTypes.STRING,
@@ -118,9 +98,10 @@ const HomeVisit = sequelize.define('homeVisits', {
 HomeVisit.belongsTo(Patient, { foreignKey: 'patientID' });
 HomeVisit.belongsTo(User, { foreignKey: 'userID' });
 HomeVisit.belongsTo(HomeVisitReason, { foreignKey: 'homeVisitReasonID' });
+HomeVisit.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' });
 
 (async () => {
-  await sequelize.sync().then(() => { console.log('HV Table synced successfully'); })
+  await sequelize.sync().then(() => { console.log('Prescription Table synced successfully'); })
     .catch((err) => console.log(err));
 })();
 

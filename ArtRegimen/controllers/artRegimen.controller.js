@@ -3,6 +3,8 @@
 /* eslint-disable no-unused-vars */
 
 const ART = require('../models/art.model');
+const ArtCategory = require('../models/artCategory.model');
+const ArtRegimenPhase = require('../models/artRegimenPhases.model');
 
 // using *Patients model
 const addArtRegimen = async (req, res, next) => {
@@ -20,7 +22,19 @@ const addArtRegimen = async (req, res, next) => {
 // get all priceListItems
 const getAllArtRegimen = async (req, res, next) => {
   try {
-    const results = await ART.findAll({});
+    const results = await ART.findAll({
+      include: [
+        {
+          model: ArtCategory,
+          include: [
+            {
+              model: ArtRegimenPhase,
+              attributes: ['id', 'artPhaseDescription'],
+            },
+          ],
+        },
+      ],
+    });
     res.json(results);
     next();
   } catch (error) {
