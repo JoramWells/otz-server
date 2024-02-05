@@ -2,7 +2,7 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../Patient/models/patients.models');
-const Hospital = require('../../Hospital/models/hospital.model');
+// const Hospital = require('../../Hospital/models/hospital.model');
 
 const ViralLoad = sequelize.define('viralLoads', {
   id: {
@@ -23,13 +23,13 @@ const ViralLoad = sequelize.define('viralLoads', {
       key: 'id',
     },
   },
-  hospitalID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'hospitals',
-      key: 'id',
-    },
-  },
+  // hospitalID: {
+  //   type: DataTypes.UUID,
+  //   references: {
+  //     model: 'hospitals',
+  //     key: 'id',
+  //   },
+  // },
   vlJustification: {
     type: DataTypes.STRING,
   },
@@ -41,27 +41,15 @@ const ViralLoad = sequelize.define('viralLoads', {
   },
 
   // CD4
-  baselineCD4: {
-    type: DataTypes.STRING,
-  },
-  CD4Count: {
-    type: DataTypes.STRING,
-  },
-  currentCD4Date: {
-    type: DataTypes.DATEONLY,
-  },
-  lastCD4Date: {
-    type: DataTypes.DATEONLY,
-  },
 
 });
 
 ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' });
-ViralLoad.belongsTo(Hospital, { foreignKey: 'hospitalID' });
+// ViralLoad.belongsTo(Hospital, { foreignKey: 'hospitalID' });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('VL Table synced successfully');
+})();
 
 module.exports = ViralLoad;

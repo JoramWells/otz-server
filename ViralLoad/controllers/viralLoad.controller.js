@@ -32,11 +32,10 @@ const getAllViralLoads = async (req, res, next) => {
 const getViralLoad = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await ViralLoad.findOne({
+    const results = await ViralLoad.findAll({
       where: {
-        cccno: id,
+        patientID: id,
       },
-
     });
     res.json(results);
     next();

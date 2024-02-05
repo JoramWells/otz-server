@@ -19,7 +19,7 @@ const addPatients = async (req, res, next) => {
 // get all priceListItems
 const getAllPatients = async (req, res, next) => {
   try {
-    const patients = await Patient.findAll();
+    const patients = await Patient.findAll({});
     res.json(patients);
     next();
   } catch (error) {
