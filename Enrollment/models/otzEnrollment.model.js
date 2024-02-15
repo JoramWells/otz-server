@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../db/connect');
+const sequelize = require('../db/connect');
 // const Patient = require('../../Patient/models/patients.models');
-const ART = require('../../ArtRegimen/models/art.model');
-const Patient = require('../../Patient/models/patients.models');
+const ART = require('./arts/art.model');
+const Patient = require('./patients/patients.models');
 
 const OTZEnrollment = sequelize.define('otzEnrollments', {
   id: {

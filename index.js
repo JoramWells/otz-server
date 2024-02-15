@@ -30,7 +30,7 @@ const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.r
 
 const app = express();
 
-const PORT = process.env.PORT || 5004;
+const PORT = process.env.PORT || 5000;
 const corsOption = {
   origin: ['*'],
 };

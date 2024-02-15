@@ -2,9 +2,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const ART = require('../../ArtRegimen/models/art.model');
-const Patient = require('../../Patient/models/patients.models');
+const ART = require('../models/arts/art.model');
 const OTZEnrollment = require('../models/otzEnrollment.model');
+const Patient = require('../models/patients/patients.models');
 
 // using *Patients model
 const addOTZEnrollment = async (req, res, next) => {

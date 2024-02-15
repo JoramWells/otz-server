@@ -4,7 +4,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const sequelize = require('../db/connect');
+const sequelize = require('./db/connect');
 const enrollmentRoutes = require('./routes/otzEnrollment.routes');
 
 const app = express();
