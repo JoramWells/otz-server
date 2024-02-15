@@ -5,7 +5,7 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const enrollmentRoutes = require('./routes/otzEnrollment.routes');
+const vitalSignRoutes = require('./routes/vitalSign.routes');
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/', enrollmentRoutes);
+app.use('/vital-signs', vitalSignRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');

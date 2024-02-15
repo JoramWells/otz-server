@@ -5,8 +5,6 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const patientRoutes = require('./Patient/routes/patient.routes');
-const vitalSignRoutes = require('./VitalSigns/routes/vitalSign.routes');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
 const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
 const userRoutes = require('./Users/routes/user.routes');
@@ -21,7 +19,6 @@ const appointmentAgendaRoutes = require('./Appointment/routes/appointmentAgenda.
 const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
-const otzEnrollmentRoutes = require('./Enrollment/routes/otzEnrollment.routes');
 const locationRoutes = require('./Location/routes/location.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const caregiverRoutes = require('./Patient/routes/caregiver.routes');
@@ -45,7 +42,6 @@ app.use(cors());
 
 // app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);
-app.use('/vital-sign', vitalSignRoutes);
 app.use('/viral-load', viralLoadRoutes);
 app.use('/art-regimen', artRegimeRoutes);
 app.use('/art-regimen-phase', artRegimePhaseRoutes);
@@ -59,8 +55,6 @@ app.use('/appointments', appointmentRoutes);
 app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
-app.use('/patient', patientRoutes);
-app.use('/otz-enrollment', otzEnrollmentRoutes);
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/caregiver', caregiverRoutes);
