@@ -22,7 +22,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/patients', patientRoutes);
+app.use('/patient', patientRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');
