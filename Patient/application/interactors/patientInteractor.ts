@@ -1,3 +1,4 @@
+import { Patient } from "../../domain/entities/Patient";
 import { IPatientInteractor } from "../interfaces/IPatientInteractor";
 import { IPatientRepository } from "../interfaces/IPatientRepository";
 
@@ -8,11 +9,11 @@ export class PatientInteractor implements IPatientInteractor{
     constructor(repository: IPatientRepository){
         this.repository = repository
     }
-
-
-    createPatient(patientData: any) {
+    createPatient(patientData: any): Promise<Patient> {
         return this.repository.create(patientData)
     }
+
+
     getAllPatients() {
         return this.repository.find()
     }
