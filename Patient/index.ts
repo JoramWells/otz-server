@@ -3,7 +3,7 @@
 /* eslint-disable linebreak-style */
 import express,{Application} from 'express';
 const cors = require('cors');
-
+import morgan from 'morgan'
 const sequelize = require('./domain/db/connect');
 const patientRoutes = require('./routes/patient.routes');
 
@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 5001;
 const corsOption = {
   origin: ['*'],
 };
+
+app.use(morgan('dev'))
 
 app.use(express.json());
 app.use(express.urlencoded({

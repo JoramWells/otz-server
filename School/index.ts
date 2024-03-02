@@ -5,6 +5,7 @@ import express, { Application } from "express";
 const cors = require("cors");
 const schoolCategoryRoutes = require('./routes/schoolCategory.routes')
 const sequelize = require("./domain/db/connect");
+import morgan from 'morgan'
 
 const app: Application = express();
 
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 5004;
 const corsOption = {
   origin: ["*"],
 };
+
+app.use(morgan('dev'))
 
 app.use(express.json());
 app.use(
@@ -21,9 +24,9 @@ app.use(
 );
 
 // enable cors
-app.use(cors());
+app.use(cors(corsOption));
 
-app.use("/school-category", schoolCategoryRoutes);
+app.use("/", schoolCategoryRoutes);
 
 sequelize
   .authenticate()
