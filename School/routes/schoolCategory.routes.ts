@@ -7,4 +7,8 @@ const repository = new SchoolCategoryRepository();
 const interactor = new SchoolCategoryInteractor(repository);
 const controller = new SchoolCategoryController(interactor)
 
-const router = express.Router()
+const router = express.Router();
+
+router.post('/add', controller.onCreateSchoolCategory.bind(controller))
+
+module.exports = router

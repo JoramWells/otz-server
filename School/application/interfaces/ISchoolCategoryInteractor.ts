@@ -1,5 +1,5 @@
 import {SchoolCategory} from '../../domain/entities/schoolCategoryEntities'
 
 export interface ISchoolCategoryInteractor{
-    createSchoolCategory():Promise<SchoolCategory>
+    createSchoolCategory(input: any):Promise<SchoolCategory>
 }

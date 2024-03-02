@@ -3,9 +3,8 @@
 /* eslint-disable linebreak-style */
 import express, { Application } from "express";
 const cors = require("cors");
-
+const schoolCategoryRoutes = require('./routes/schoolCategory.routes')
 const sequelize = require("./domain/db/connect");
-const patientRoutes = require("./routes/patient.routes");
 
 const app: Application = express();
 
@@ -24,7 +23,7 @@ app.use(
 // enable cors
 app.use(cors());
 
-app.use("/patient", patientRoutes);
+app.use("/school-category", schoolCategoryRoutes);
 
 sequelize
   .authenticate()

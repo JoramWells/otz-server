@@ -5,5 +5,10 @@
   },
   "eslint.validate": ["javascript"],
   "workbench.colorTheme": "Tomorrow Night Blue",
-  "prettier.disableLanguages": ["javascript"]
+  "prettier.disableLanguages": [
+    "javascript"
+  ],
+  "cSpell.words": [
+    "interactor"
+  ]
 }
