@@ -95,6 +95,7 @@ const HomeVisit = sequelize.define('homeVisits', {
   // e
 });
 
+HomeVisit.belongsTo(ART, { foreignKey: 'artPrescriptionID' });
 HomeVisit.belongsTo(Patient, { foreignKey: 'patientID' });
 HomeVisit.belongsTo(User, { foreignKey: 'userID' });
 HomeVisit.belongsTo(HomeVisitReason, { foreignKey: 'homeVisitReasonID' });

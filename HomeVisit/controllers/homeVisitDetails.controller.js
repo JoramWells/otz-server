@@ -53,16 +53,16 @@ const getHomeVisitDetails = async (req, res, next) => {
   try {
     const patient = await Home_visit_detail.findAll({
       where: {
-        patient_id: id,
+        patientID: id,
       },
       include: [
         {
           model: User,
-          attributes: ['first_name', 'middle_name', 'last_name'],
+          attributes: ['firstName', 'middleName', 'lastName'],
         },
         {
           model: ART,
-          attributes: ['art_desc'],
+          attributes: ['artName'],
         },
       ],
     });
@@ -71,6 +71,7 @@ const getHomeVisitDetails = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error)
   }
 };
 

@@ -1,13 +1,12 @@
-FROM node:16-alpine
+FROM node:18-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN npm install -g pnpm
 
-RUN pnpm install
+RUN yarn install
 
 COPY . .
 
