@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const Appointment = require('../models/appointment.model');
-const Patient = require('../../Patient/models/patients.models');
+const Patient = require('../../models/patient/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
 const AppointmentStatus = require('../models/appointmentStatus.model');
 const User = require('../../Users/models/user.models');

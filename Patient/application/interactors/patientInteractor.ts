@@ -9,6 +9,9 @@ export class PatientInteractor implements IPatientInteractor{
     constructor(repository: IPatientRepository){
         this.repository = repository
     }
+    getPatientById(id: string): Promise<Patient> {
+        return this.repository.findById(id)
+    }
     createPatient(patientData: any): Promise<Patient> {
         return this.repository.create(patientData)
     }

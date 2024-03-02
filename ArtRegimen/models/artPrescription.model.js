@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Patient = require('../../Patient/models/patients.models');
+const Patient = require('../../models/patient/patients.models');
 const ART = require('./art.model');
 
 const ARTPrescription = sequelize.define(

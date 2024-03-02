@@ -5,9 +5,16 @@ const PatientDetails = require('../../domain/models/patients.models')
 
 export class PatientRepository implements IPatientRepository {
   async create(data: Patient): Promise<Patient> {
-    return await PatientDetails.create(data)
+    return await PatientDetails.create(data);
   }
   async find(): Promise<Patient> {
-    return await PatientDetails.findAll({})
+    return await PatientDetails.findAll({});
+  }
+  async findById(id: string): Promise<Patient> {
+    return await PatientDetails.findOne({
+      where:{
+        id
+      }
+    })
   }
 }

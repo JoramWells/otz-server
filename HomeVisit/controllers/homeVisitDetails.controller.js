@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const ART = require('../../ArtRegimen/models/art.model');
-const Patient = require('../../Patient/models/patients.models');
+const Patient = require('../../models/patient/patients.models');
 const User = require('../../Users/models/user.models');
 const Home_visit_detail = require('../models/homeVisit.models');
 const HomeVisitReason = require('../models/HomeVisitReason.model');

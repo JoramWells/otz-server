@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const AppointmentStatus = require('../models/appointmentStatus.model');
-const Patient = require('../../Patient/models/patients.models');
+const Patient = require('../../models/patient/patients.models');
 
 // using *Patients model
 const addAppointmentStatus = async (req, res, next) => {

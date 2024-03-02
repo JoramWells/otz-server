@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Patient = require('../../Patient/models/patients.models');
+const Patient = require('../../models/patient/patients.models');
 const User = require('../../Users/models/user.models');
 const ART = require('../../ArtRegimen/models/art.model');
 const HomeVisitReason = require('./HomeVisitReason.model');

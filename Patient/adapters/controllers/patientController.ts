@@ -21,13 +21,25 @@ export class PatientController {
 
   async onGetAllPatients(req: Request, res: Response, next: NextFunction) {
     try {
-        const results = await this.interactor.getAllPatients()
-        res.status(200).json(results)
-        next()
-        
+      const results = await this.interactor.getAllPatients();
+      res.status(200).json(results);
+      next();
     } catch (error) {
-        next(error)
-        res.status(500).json({message:'Internal Server Error'})
+      next(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async onGetPatientById(req: Request, res: Response, next: NextFunction){
+    try {
+      const {id} = req.params;
+      const result = await this.interactor.getPatientById(id)
+      res.status(200).json(result)
+      next()
+    } catch (error) {
+      next(error)
+      res.status(500).json({message:'Internal Server Error'})
+      
     }
   }
 }

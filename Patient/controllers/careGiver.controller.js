@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const CareGiver = require('../models/caregiver.model');
-const Patient = require('../models/patients.models');
+const CareGiver = require('../domain/models/caregiver.model');
+const Patient = require('../domain/models/patients.models')
 
 // using *Patients model
 const addCaregiver = async (req, res, next) => {

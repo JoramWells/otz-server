@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../db/connect');
-const Patient = require('../../Patient/models/patients.models');
+const sequelize = require('../db/connect');
+const Patient = require('../../models/patient/patients.models');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
 const ViralLoad = sequelize.define('viralLoads', {
