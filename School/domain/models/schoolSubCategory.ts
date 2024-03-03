@@ -9,7 +9,7 @@ const SchoolSubCategory = sequelize.define(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      // autoIncrement: true,
       defaultValue: UUIDV4,
     },
     schoolCategoryID:{
@@ -27,7 +27,7 @@ SchoolSubCategory.belongsTo(SchoolCategory, { foreignKey: "schoolCategoryID", ta
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
+//   console.log("SchoolSubCategory Table synced successfully");
 // })();
 
 module.exports = SchoolSubCategory;

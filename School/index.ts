@@ -4,6 +4,7 @@
 import express, { Application } from "express";
 const cors = require("cors");
 const schoolCategoryRoutes = require('./routes/schoolCategory.routes')
+const schoolSubCategoryRoutes = require("./routes/schoolSubCategory.routes");
 const sequelize = require("./domain/db/connect");
 import morgan from 'morgan'
 
@@ -24,9 +25,10 @@ app.use(
 );
 
 // enable cors
-app.use(cors(corsOption));
+app.use(cors());
 
-app.use("/", schoolCategoryRoutes);
+app.use("/school-category", schoolCategoryRoutes);
+app.use("/school-sub-category", schoolSubCategoryRoutes);
 
 sequelize
   .authenticate()
@@ -37,6 +39,6 @@ sequelize
     console.error("Unable to connect to database: ", error);
   });
 
-app.listen(5001, () => {
+app.listen(5004, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });

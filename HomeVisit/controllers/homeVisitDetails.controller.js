@@ -13,6 +13,7 @@ const addHomeVisit = async (req, res, next) => {
     const newProfile = await Home_visit_detail.create(req.body);
 
     res.json(newProfile);
+    console.log(req.body)
     next();
   } catch (error) {
     console.log(error);

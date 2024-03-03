@@ -9,7 +9,7 @@ const SchoolCategory = sequelize.define(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      // autoIncrement: true,
       defaultValue: UUIDV4,
     },
     categoryDescription: {
@@ -19,9 +19,10 @@ const SchoolCategory = sequelize.define(
   { timestamps: false }
 );
 
+
 // (async () => {
 //   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
+//   console.log('School Category Table synced successfully');
 // })();
 
 module.exports = SchoolCategory;
