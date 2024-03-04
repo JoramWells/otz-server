@@ -5,6 +5,8 @@ import express, { Application } from "express";
 const cors = require("cors");
 const schoolCategoryRoutes = require('./routes/schoolCategory.routes')
 const schoolSubCategoryRoutes = require("./routes/schoolSubCategory.routes");
+const schoolTermRoutes = require("./routes/schoolTerm.routes");
+const classesRoutes = require("./routes/class.routes");
 const sequelize = require("./domain/db/connect");
 import morgan from 'morgan'
 
@@ -27,7 +29,9 @@ app.use(
 // enable cors
 app.use(cors());
 
+app.use("/school-classes", classesRoutes);
 app.use("/school-category", schoolCategoryRoutes);
+app.use("/school-terms", schoolTermRoutes);
 app.use("/school-sub-category", schoolSubCategoryRoutes);
 
 sequelize

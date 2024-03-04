@@ -6,13 +6,13 @@ const SchoolCategory = require("../../domain/models/schoolCategory");
 export class SchoolSubCategoryRepository implements ISchoolSubCategoryRepository {
   read(): Promise<SchoolSubCategory> {
     return SchoolSubCategoryDetails.findAll({
-      include:[
+      include: [
         {
-          model:SchoolCategory,
-          attributes:['*']
-        }
-      ]
-    })
+          model: SchoolCategory,
+          attributes: ["categoryDescription"],
+        },
+      ],
+    });
   }
   readById(input: string): Promise<SchoolSubCategory> {
     return SchoolSubCategoryDetails.findOne({
