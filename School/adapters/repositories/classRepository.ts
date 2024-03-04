@@ -1,24 +1,32 @@
 import { IClassRepository } from "../../application/interfaces/IClassRepository";
 import { ClassEntity } from "../../domain/entities/classEntities";
-const SchoolCategoryDetails = require('../../domain/models/schoolCategory')
+const ClassDetails = require('../../domain/models/class')
+const SchoolSubCategory = require('../../domain/models/schoolSubCategory')
 
 
 export class ClassRepository implements IClassRepository {
   //
   create(data: ClassEntity): Promise<ClassEntity> {
-    return SchoolCategoryDetails.create(data);
+    return ClassDetails.create(data);
   }
   read(): Promise<ClassEntity> {
-    return SchoolCategoryDetails.findAll();
+    return ClassDetails.findAll({
+      include: [
+        {
+          model: SchoolSubCategory,
+          attributes: ["subCategoryDescription"],
+        },
+      ],
+    });
   }
   readById(id: string): Promise<ClassEntity> {
-    return SchoolCategoryDetails.findOne({
+    return ClassDetails.findOne({
       where: {
         id,
       },
     });
   }
   update(data: ClassEntity): Promise<ClassEntity> {
-    return SchoolCategoryDetails;
+    return ClassDetails;
   }
 }

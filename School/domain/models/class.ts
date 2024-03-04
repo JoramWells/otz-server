@@ -9,7 +9,7 @@ const Class = sequelize.define(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      // autoIncrement: true,
       defaultValue: UUIDV4,
     },
     classDescription:{
@@ -28,9 +28,9 @@ Class.belongsTo(SchoolSubCategory, {
   targetKey: "id",
 });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('Classes Table synced successfully');
+})();
 
 module.exports = Class;
