@@ -1,24 +1,24 @@
 import { ISchoolTermRepository } from "../../application/interfaces/ISchoolTermRepository";
 import { SchoolTermEntity } from "../../domain/entities/schoolTermEntity";
-const SchoolCategoryDetails = require('../../domain/models/schoolCategory')
+const SchoolTermDetails = require('../../domain/models/schoolTerm.model')
 
 
 export class SchoolTermRepository implements ISchoolTermRepository {
   //
   create(data: SchoolTermEntity): Promise<SchoolTermEntity> {
-    return SchoolCategoryDetails.create(data);
+    return SchoolTermDetails.create(data);
   }
   read(): Promise<SchoolTermEntity> {
-    return SchoolCategoryDetails.findAll();
+    return SchoolTermDetails.findAll();
   }
   readById(id: string): Promise<SchoolTermEntity> {
-    return SchoolCategoryDetails.findOne({
+    return SchoolTermDetails.findOne({
       where: {
         id,
       },
     });
   }
   update(data: SchoolTermEntity): Promise<SchoolTermEntity> {
-    return SchoolCategoryDetails;
+    return SchoolTermDetails;
   }
 }

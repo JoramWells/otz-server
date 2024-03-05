@@ -32,6 +32,7 @@ export class SchoolTermController {
       res.status(200).json(results);
       next();
     } catch (error) {
+      console.log(error)
       next(error);
     }
   }

@@ -13,7 +13,7 @@ const SchoolTermHoliday = sequelize.define(
       defaultValue: UUIDV4,
     },
     schoolTermID: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
     },
     termHolidayDescription: {
       type: DataTypes.STRING,
@@ -35,7 +35,7 @@ SchoolTermHoliday.belongsTo(SchoolTerm, { foreignKey: "schoolTermID" });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log("SchoolSubCategory Table synced successfully");
+//   console.log("SchoolTermHolida Table synced successfully");
 // })();
 
 module.exports = SchoolTermHoliday;

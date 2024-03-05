@@ -28,9 +28,9 @@ Class.belongsTo(SchoolSubCategory, {
   targetKey: "id",
 });
 
-(async () => {
-  await sequelize.sync();
-  console.log('Classes Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Classes Table synced successfully');
+// })();
 
 module.exports = Class;

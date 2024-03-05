@@ -1,24 +1,32 @@
 import { ISchoolTermHolidayRepository } from "../../application/interfaces/ISchoolTermHolidayRepository";
 import { SchoolTermHolidayEntity } from "../../domain/entities/schoolTermHolidayEntity";
-const SchoolCategoryDetails = require('../../domain/models/schoolCategory')
+const SchoolTermHolidays = require('../../domain/models/schoolTermHolidays.model')
+const SchoolTerm = require('../../domain/models/schoolTerm.model')
 
 
 export class SchoolTermHolidayRepository implements ISchoolTermHolidayRepository {
   //
   create(data: SchoolTermHolidayEntity): Promise<SchoolTermHolidayEntity> {
-    return SchoolCategoryDetails.create(data);
+    return SchoolTermHolidays.create(data);
   }
   read(): Promise<SchoolTermHolidayEntity> {
-    return SchoolCategoryDetails.findAll();
+    return SchoolTermHolidays.findAll({
+      include: [
+        {
+          model: SchoolTerm,
+          attributes: ["termDescription"],
+        },
+      ],
+    });
   }
   readById(id: string): Promise<SchoolTermHolidayEntity> {
-    return SchoolCategoryDetails.findOne({
+    return SchoolTermHolidays.findOne({
       where: {
         id,
       },
     });
   }
   update(data: SchoolTermHolidayEntity): Promise<SchoolTermHolidayEntity> {
-    return SchoolCategoryDetails;
+    return SchoolTermHolidays;
   }
 }
