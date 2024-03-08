@@ -22,5 +22,5 @@ app.use('/otz-enrollment', proxy('http://localhost:5003'));
 // app.use('/medication', proxy('http://localhost:5004'));
 
 app.listen(5000, () => {
-  console.log('Gateway on port 5000');
+  console.log('Gateway on port 5013');
 });

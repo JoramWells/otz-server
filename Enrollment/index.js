@@ -3,6 +3,11 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 const cors = require('cors');
+if(process.env.NODE_ENV==='production'){
+  require('dotenv').config({path:'.env.production'})
+}else{
+  require('dotenv').config({path:'.env.development'})
+}
 
 const sequelize = require('./src/domain/db/connect');
 const enrollmentRoutes = require('./src/adapters/routes/otzEnrollment.routes');

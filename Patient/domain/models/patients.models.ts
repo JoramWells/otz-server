@@ -32,25 +32,26 @@ const Patient = sequelize.define(
     idNo: {
       type: DataTypes.STRING,
     },
-    nupi: {
-      type: DataTypes.STRING,
-    },
-    residence: {
-      type: DataTypes.STRING,
-    },
-    // mflCode: {
+    // nupi: {
     //   type: DataTypes.STRING,
     // },
-    // cccNo: {
+    // residence: {
     //   type: DataTypes.STRING,
     // },
+    // artStartDate: {
+    //   type: DataTypes.STRING,
+    // },
+    // originalART: {
+    //   type: DataTypes.STRING,
+    // },
+
   },
   { timestamps: false }
 );
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('Patient Table synced successfully');
+})();
 
 module.exports = Patient;

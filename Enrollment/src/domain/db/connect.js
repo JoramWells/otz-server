@@ -1,5 +1,12 @@
 const Sequelize = require('sequelize');
 
+if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config({ path: '.env.production' })
+} else {
+  require('dotenv').config({ path: '.env.development' })
+}
+
+
 // setting up sequelize
 
 const DB = 'otz';
@@ -11,7 +18,7 @@ const connect = new Sequelize(
   USERNAME,
   PASSWORD,
   {
-    host: 'otz_database_1',
+    host: process.env.DB_HOST,
     dialect: 'postgres',
     define: {
       timestamps: true,
