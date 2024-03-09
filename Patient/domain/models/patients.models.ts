@@ -29,6 +29,9 @@ const Patient = sequelize.define(
     phoneNo: {
       type: DataTypes.STRING,
     },
+    occupation: {
+      type: DataTypes.UUID,
+    },
     idNo: {
       type: DataTypes.STRING,
     },
@@ -44,10 +47,9 @@ const Patient = sequelize.define(
     originalART: {
       type: DataTypes.STRING,
     },
-        currentRegimenLine: {
+    currentRegimenLine: {
       type: DataTypes.STRING,
     },
-
   },
   { timestamps: true }
 );

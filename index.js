@@ -20,6 +20,7 @@ const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChe
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
 const locationRoutes = require('./Location/routes/location.routes');
+const occupationRoutes = require('./Location/routes/occupation.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const caregiverRoutes = require('./Patient/routes/caregiver.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
@@ -60,6 +61,7 @@ app.use('/user-location', userLocationRoutes);
 app.use('/caregiver', caregiverRoutes);
 app.use('/hospital', hospitalRoutes);
 app.use('/art-prescription', regimenPrescriptionRoutes);
+app.use('/occupations', occupationRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
