@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { DataTypes } = require('sequelize');
+import { DataTypes }  from 'sequelize';
 const sequelize = require('../db/connect');
 
 const Patient = sequelize.define(
@@ -32,21 +32,24 @@ const Patient = sequelize.define(
     idNo: {
       type: DataTypes.STRING,
     },
-    // nupi: {
-    //   type: DataTypes.STRING,
-    // },
-    // residence: {
-    //   type: DataTypes.STRING,
-    // },
-    // artStartDate: {
-    //   type: DataTypes.STRING,
-    // },
-    // originalART: {
-    //   type: DataTypes.STRING,
-    // },
+    cccNo: {
+      type: DataTypes.STRING,
+    },
+    residence: {
+      type: DataTypes.STRING,
+    },
+    artStartDate: {
+      type: DataTypes.STRING,
+    },
+    originalART: {
+      type: DataTypes.STRING,
+    },
+        currentRegimenLine: {
+      type: DataTypes.STRING,
+    },
 
   },
-  { timestamps: false }
+  { timestamps: true }
 );
 
 (async () => {

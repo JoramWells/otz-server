@@ -4,14 +4,14 @@ const Sequelize = require('sequelize');
 
 const DB = 'otz';
 const USERNAME = 'postgres';
-const PASSWORD = 'root';
+const PASSWORD = 'postgres';
 
 const connect = new Sequelize(
   DB,
   USERNAME,
   PASSWORD,
   {
-    host: 'otz_database_1',
+    host: 'database',
     dialect: 'postgres',
     define: {
       timestamps: true,
