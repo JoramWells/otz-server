@@ -3,12 +3,12 @@
 /* eslint-disable no-unused-vars */
 
 const County = require("../models/county.model");
-const SubCounty = require("../models/subCounty.model");
+const Ward = require("../models/ward.model");
 
 // using *Patients model
-const addSubCounty = async (req, res, next) => {
+const addWard = async (req, res, next) => {
   try {
-    const newProfile = await SubCounty.create(req.body);
+    const newProfile = await Ward.create(req.body);
 
     res.json(newProfile);
     next();
@@ -19,9 +19,9 @@ const addSubCounty = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllSubCounties = async (req, res, next) => {
+const getAllWards = async (req, res, next) => {
   try {
-    const results = await SubCounty.findAll({
+    const results = await Ward.findAll({
       include: {
         model:County,
         attributes:['id','countyName']
@@ -36,10 +36,10 @@ const getAllSubCounties = async (req, res, next) => {
   }
 };
 
-const getSubCountyDetail = async (req, res, next) => {
+const getWardDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await SubCounty.findOne({
+    const results = await Ward.findOne({
       where: {
         cccno: id,
       },
@@ -53,13 +53,13 @@ const getSubCountyDetail = async (req, res, next) => {
 };
 
 // edit patient
-const editSubCounty = async (req, res, next) => {
+const editWard = async (req, res, next) => {
   const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await SubCounty.findOne({
+    const editPAtient = await Ward.findOne({
       where: {
         patient_id: id,
       },
@@ -79,10 +79,10 @@ const editSubCounty = async (req, res, next) => {
   }
 };
 
-const deleteSubCounty = async (req, res, next) => {
+const deleteWard = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await SubCounty.destroy({
+    const results = await Ward.destroy({
       where: {
         patient_id: id,
       },
@@ -98,9 +98,9 @@ const deleteSubCounty = async (req, res, next) => {
 };
 
 module.exports = {
-  addSubCounty,
-  getAllSubCounties,
-  getSubCountyDetail,
-  editSubCounty,
-  deleteSubCounty,
+  addWard,
+  getAllWards,
+  getWardDetail,
+  editWard,
+  deleteWard,
 };

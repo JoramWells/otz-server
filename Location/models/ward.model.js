@@ -4,7 +4,7 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const County = require('./county.model');
 
-const SubCounty = sequelize.define('subCounties', {
+const Ward = sequelize.define('wards', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -16,14 +16,17 @@ const SubCounty = sequelize.define('subCounties', {
   },
   subCountyName:{
     type: DataTypes.STRING
+  },
+  ward:{
+    type: DataTypes.STRING
   }
 },{timestamps:false});
 
-SubCounty.belongsTo(County,{foreignKey:'countyID'})
+Ward.belongsTo(County,{foreignKey:'countyID'})
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('County Tables synced successfully');
+//   console.log('Ward Table synced successfull');
 // })();
 
-module.exports = SubCounty;
+module.exports = Ward;

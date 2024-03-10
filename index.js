@@ -22,6 +22,7 @@ const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory
 const locationRoutes = require('./Location/routes/location.routes');
 const countyRoutes = require('./Location/routes/county.routes');
 const subCountyRoutes = require('./Location/routes/subCounty.routes');
+const wardRoutes = require('./Location/routes/ward.routes');
 const occupationRoutes = require('./Location/routes/occupation.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const caregiverRoutes = require('./Patient/routes/caregiver.routes');
@@ -66,6 +67,7 @@ app.use('/art-prescription', regimenPrescriptionRoutes);
 app.use('/occupations', occupationRoutes);
 app.use('/counties', countyRoutes);
 app.use('/sub-counties', subCountyRoutes);
+app.use('/wards', wardRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
