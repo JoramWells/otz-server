@@ -13,4 +13,8 @@ const Occupation = sequelize.define('occupations', {
      { type: DataTypes.STRING },
   // end
 });
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Occupation table Table synced successfully');
+// })();
 module.exports = Occupation;

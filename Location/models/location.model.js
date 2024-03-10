@@ -9,20 +9,17 @@ const Location = sequelize.define('locations', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  country: {
+  countyCode: {
     type: DataTypes.STRING,
   },
 
-  province: {
+  countyName: {
     type: DataTypes.STRING,
   },
-  county: {
+  subCountyCode: {
     type: DataTypes.STRING,
   },
-  subCounty: {
-    type: DataTypes.STRING,
-  },
-  residence: {
+  subCountyName: {
     type: DataTypes.STRING,
   },
 });
