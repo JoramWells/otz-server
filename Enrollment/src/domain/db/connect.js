@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const DB = 'otz';
 const USERNAME = 'postgres';
-const PASSWORD = 'root';
+const PASSWORD = 'postgres';
 
 const connect = new Sequelize(
   DB,

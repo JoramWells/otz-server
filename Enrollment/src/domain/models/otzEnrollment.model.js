@@ -5,6 +5,7 @@ const sequelize = require('../db/connect');
 // const Patient = require('../../Patient/models/patients.models');
 const ART = require('./arts/art.model');
 const Patient = require('./patients/patients.models');
+const ArtRegimenPhase = require('./arts/artRegimenPhases.model');
 
 const OTZEnrollment = sequelize.define('otzEnrollments', {
   id: {
@@ -24,27 +25,26 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
   dateOfEnrollmentToOTZ: {
     type: DataTypes.DATE,
   },
-  artStartDate: {
-    type: DataTypes.DATE,
-  },
-  originalARTRegimen: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'arts',
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
+  // artStartDate: {
+  //   type: DataTypes.DATE,
+  // },
+  // originalARTRegimen: {
+  //   type: DataTypes.UUID,
+  //   references: {
+  //     model: 'arts',
+  //     key: 'id',
+  //   },
+  //   onDelete: 'CASCADE',
 
-  },
-
+  // },
   vlCopies: {
     type: DataTypes.STRING,
   },
   dateOfVL: {
     type: DataTypes.DATE,
   },
-  vlDoneAnnually: {
-    type: DataTypes.BOOLEAN,
+  isValid: {
+    type: DataTypes.STRING,
   },
   currentARTRegimen: {
     type: DataTypes.UUID,
@@ -59,18 +59,20 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.DATE,
   },
 
-  // date_confirmed_positive: {
-  //   type: DataTypes.DATE,
-  // },
+  currentRegimenLine: {
+    type: DataTypes.UUID,
+  },
 });
+
 
 OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
+OTZEnrollment.belongsTo(ArtRegimenPhase, { foreignKey: 'currentRegimenLine', targetKey: 'id' });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('OTZ Enrollment Tal synced successfully');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('OTZ Enrollment Tal synced successfully');
+})();
 
 module.exports = OTZEnrollment;

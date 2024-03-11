@@ -27,7 +27,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/enrollment', enrollmentRoutes);
+app.use('/otz-enrollment', enrollmentRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');
@@ -36,5 +36,5 @@ sequelize.authenticate().then(() => {
 });
 
 app.listen(5003, () => {
-  console.log(`App running on http://localhost:${PORT}`);
+  console.log(`App running on https://localhost:${PORT}`);
 });

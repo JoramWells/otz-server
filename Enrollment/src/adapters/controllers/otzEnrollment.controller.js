@@ -3,12 +3,13 @@
 /* eslint-disable no-unused-vars */
 
 const ART = require('../../domain/models/arts/art.model');
+const ArtRegimenPhase = require('../../domain/models/arts/artRegimenPhases.model');
 const OTZEnrollment = require('../../domain/models/otzEnrollment.model');
 const Patient = require('../../domain/models/patients/patients.models');
 
 // using *Patients model
 const addOTZEnrollment = async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const newProfile = await OTZEnrollment.create(req.body);
 
@@ -34,6 +35,10 @@ const getAllOTZEnrollment = async (req, res, next) => {
           model: ART,
           attributes: ['artName'],
         },
+        {
+          model: ArtRegimenPhase,
+          attributes: ['artPhaseDescription']
+        }
       ],
     });
     res.json(results);
