@@ -11,10 +11,13 @@ export class PatientController {
 
   async onCreatePatient(req: Request, res: Response, next: NextFunction) {
     try {
+      console.log(req.body)
       const newProfile = await this.interactor.createPatient(req.body);
       res.json(newProfile);
       next();
     } catch (error) {
+      
+      console.log(error)
       next(error);
     }
   }

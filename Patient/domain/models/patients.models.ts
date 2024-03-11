@@ -21,7 +21,7 @@ const Patient = sequelize.define(
       type: DataTypes.STRING,
     },
     gender: {
-      type: DataTypes.ENUM("MALE", "FEMALE"),
+      type: DataTypes.STRING,
     },
     dob: {
       type: DataTypes.DATEONLY,
