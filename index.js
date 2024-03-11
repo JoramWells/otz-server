@@ -26,6 +26,7 @@ const wardRoutes = require('./Location/routes/ward.routes');
 const occupationRoutes = require('./Location/routes/occupation.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const schoolRoutes = require('./Location/routes/school.routes');
+const patientRoutes = require('./Location/routes/patient.routes');
 const caregiverRoutes = require('./Patient/routes/caregiver.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
 const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.routes');
@@ -70,6 +71,7 @@ app.use('/counties', countyRoutes);
 app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
+app.use('/patients', patientRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 
 const Patient = sequelize.define(
     "patients",
@@ -54,9 +54,9 @@ const Patient = sequelize.define(
     { timestamps: true }
 );
 
-// (async () => {
-//     await sequelize.sync();
-//     console.log('Patient Table synced successfully');
-// })();
+(async () => {
+    await sequelize.sync();
+    console.log('Patient Table synced successfully');
+})();
 
 module.exports = Patient;
