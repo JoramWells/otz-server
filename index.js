@@ -30,6 +30,8 @@ const patientRoutes = require('./Location/routes/patient.routes');
 const caregiverRoutes = require('./Patient/routes/caregiver.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
 const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.routes');
+const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
+const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artSwitchReason.routes');
 
 const app = express();
 
@@ -52,6 +54,8 @@ app.use('/viral-load', viralLoadRoutes);
 app.use('/art-regimen', artRegimeRoutes);
 app.use('/art-regimen-phase', artRegimePhaseRoutes);
 app.use('/art-regimen-category', artRegimenCategoryRoutes);
+app.use('/art-switch-reason', artSwitchReasons);
+app.use('/art-regimen-switch', artRegimenSwitchRoutes);
 app.use('/home-visit-reason', homeVisitReasonRoute);
 app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
 app.use('/home-visit', homeVisitRoutes);
