@@ -11,6 +11,7 @@ if(process.env.NODE_ENV==='production'){
 
 const sequelize = require('./src/domain/db/connect');
 const enrollmentRoutes = require('./src/adapters/routes/otzEnrollment.routes');
+const viralLoadTestRoutes = require('./src/adapters/routes/viralLoadTests.routes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(express.urlencoded({
 app.use(cors());
 
 app.use('/otz-enrollment', enrollmentRoutes);
+app.use('/viral-load-tests', viralLoadTestRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');
