@@ -36,9 +36,9 @@ const getAllArtRegimenSwitch = async (req, res, next) => {
 const getArtRegimenSwitch = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await ARTRegimenSwitch.findOne({
+    const patient = await ARTRegimenSwitch.findAll({
       where: {
-        cccno: id,
+        patientID: id,
       },
 
     });

@@ -31,7 +31,8 @@ const caregiverRoutes = require('./Patient/routes/caregiver.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
 const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.routes');
 const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
-const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artSwitchReason.routes');
+const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
+
 
 const app = express();
 

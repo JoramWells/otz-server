@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Patient = require('../../Enrollment/src/domain/models/patients/patients.models');
 const ARTSwitchReason = require('./artSwitchReasons.model');
 const ART = require('./art.model');
 const ArtRegimenPhase = require('./artRegimenPhases.model');
+const Patient = require('./patient/patients.models');
 
 const ARTRegimenSwitch = sequelize.define(
   'artRegimenSwitch',
@@ -22,13 +22,16 @@ const ARTRegimenSwitch = sequelize.define(
         key: 'id',
       },
     },
-    regimenLine: {
+    artID: {
+      type: DataTypes.UUID,
+    },
+    regimenLineID: {
       type: DataTypes.UUID,
     },
     switchDate:{
       type: DataTypes.DATE
     },
-    switchReason: {
+    switchReasonID: {
       type: DataTypes.UUID,
     },
   },
@@ -38,9 +41,9 @@ const ARTRegimenSwitch = sequelize.define(
 );
 
 ARTRegimenSwitch.belongsTo(Patient, { foreignKey: 'patientID' })
-ARTRegimenSwitch.belongsTo(ART, { foreignKey: 'regimenLine' })
-ARTRegimenSwitch.belongsTo(ArtRegimenPhase, { foreignKey: 'regimenLine' })
-ARTRegimenSwitch.belongsTo(ARTSwitchReason, { foreignKey:'switchReason'})
+ARTRegimenSwitch.belongsTo(ART, { foreignKey: 'artID' })
+ARTRegimenSwitch.belongsTo(ArtRegimenPhase, { foreignKey: 'regimenLineID' })
+ARTRegimenSwitch.belongsTo(ARTSwitchReason, { foreignKey:'switchReasonID'})
 
 // (async () => {
 //   await sequelize.sync();

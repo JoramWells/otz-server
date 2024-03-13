@@ -37,7 +37,7 @@ const getArtSwitchReason = async (req, res, next) => {
   try {
     const patient = await ARTSwitchReason.findOne({
       where: {
-        cccno: id,
+         id,
       },
 
     });
