@@ -3,6 +3,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const County = require('./location/county.model');
 
 const User = sequelize.define('users', {
   id: {
@@ -23,22 +24,26 @@ const User = sequelize.define('users', {
     type: DataTypes.STRING,
   },
   gender: {
-    type: DataTypes.ENUM('MALE', 'FEMALE'),
+    type: DataTypes.STRING,
   },
   phone_no: {
     type: DataTypes.STRING,
   },
-  residence: {
-    type: DataTypes.STRING,
+  countyID: {
+    type: DataTypes.INTEGER,
   },
   password: {
     type: DataTypes.STRING,
   },
 });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Users Table synced successfully');
-// })();
+
+(async () => {
+  await sequelize.sync();
+  console.log('User Table synced successfully');
+})();
+
+User.belongsTo(County, { foreignKey: 'countyID' })
+
 
 module.exports = User;
