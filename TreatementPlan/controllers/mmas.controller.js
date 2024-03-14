@@ -35,7 +35,7 @@ const getMmas = async (req, res, next) => {
   try {
     const patient = await MMAS.findOne({
       where: {
-        patient_id: id,
+        patientID: id,
       },
     });
     res.json(patient);

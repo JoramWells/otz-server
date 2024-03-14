@@ -37,13 +37,13 @@ const User = sequelize.define('users', {
   },
 });
 
-
-(async () => {
-  await sequelize.sync();
-  console.log('User Table synced successfully');
-})();
-
 User.belongsTo(County, { foreignKey: 'countyID' })
+
+// (async () => {
+//   await sequelize.sync();
+//   console.log('User Table synced successfully');
+// })();
+
 
 
 module.exports = User;

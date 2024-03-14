@@ -50,7 +50,7 @@ const Appointment = sequelize.define('appointments', {
   },
 
   appointmentTime: {
-    type: DataTypes.TIME,
+    type: DataTypes.STRING,
   },
   agenda: {
     type: DataTypes.STRING,

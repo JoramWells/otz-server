@@ -52,11 +52,11 @@ const HomeVisit = sequelize.define('homeVisits', {
   },
   artPrescriptionID: {
     type: DataTypes.UUID,
-    references: {
-      model: 'artPrescription',
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
+    // references: {
+    //   model: 'artPrescription',
+    //   key: 'id',
+    // },
+    // onDelete: 'CASCADE',
   },
   date_of_home_visit_requested: {
     type: DataTypes.STRING,
@@ -99,10 +99,10 @@ HomeVisit.belongsTo(ART, { foreignKey: 'artPrescriptionID' });
 HomeVisit.belongsTo(Patient, { foreignKey: 'patientID' });
 HomeVisit.belongsTo(User, { foreignKey: 'userID' });
 HomeVisit.belongsTo(HomeVisitReason, { foreignKey: 'homeVisitReasonID' });
-HomeVisit.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' });
+// HomeVisit.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' });
 
 (async () => {
-  await sequelize.sync().then(() => { console.log('Prescription Table synced successfully'); })
+  await sequelize.sync().then(() => { console.log('Home visit Table synced successfully'); })
     .catch((err) => console.log(err));
 })();
 
