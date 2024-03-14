@@ -35,7 +35,7 @@ const getPatientByID = async (req, res, next) => {
   try {
     const results = await Patient.findOne({
       where: {
-        cccno: id,
+        id,
       },
     });
     res.json(results);
