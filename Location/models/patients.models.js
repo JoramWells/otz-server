@@ -51,7 +51,9 @@ const Patient = sequelize.define(
             type: DataTypes.STRING,
         },
     },
-    { timestamps: true }
+    {postgresql:{
+        fillFactor:70
+    }, timestamps: true }
 );
 
 (async () => {
