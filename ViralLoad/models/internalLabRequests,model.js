@@ -16,6 +16,7 @@ const InternalLabRequest = sequelize.define('internalLabRequests', {
       model: 'patients',
       key: 'id',
     },
+    
   },
   specimenType: {
     type: DataTypes.STRING,

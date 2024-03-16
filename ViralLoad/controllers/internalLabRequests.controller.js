@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const InternalLabRequest = require("../models/internalLabRequests,model");
+const Patient = require("../../Location/models/patients.models")
 
 // using *Patients model
 const addInternalLabRequests = async (req, res, next) => {
@@ -20,7 +21,14 @@ const addInternalLabRequests = async (req, res, next) => {
 // get all priceListItems
 const getAllInternalLabRequests = async (req, res, next) => {
   try {
-    const results = await InternalLabRequest.findAll();
+    const results = await InternalLabRequest.findAll({
+      include:[
+        {
+          model:Patient,
+          attributes:['firstName', 'middleName']
+        }
+      ]
+    });
     res.json(results);
     next();
   } catch (error) {
@@ -33,11 +41,17 @@ const getAllInternalLabRequests = async (req, res, next) => {
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await InternalLabRequest.findAll({
+    const results = await InternalLabRequest.findOne({
       where: {
-        patientID: id,
+        id,
       },
-      order: [['createdAt', 'DESC']],
+      // order: [['createdAt', 'DESC']],
+      include:[
+        {
+          model:Patient,
+          attributes:['firstName', 'middleName']
+        }
+      ]
     });
     res.json(results);
     next();
@@ -50,27 +64,21 @@ const getInternalLabRequest = async (req, res, next) => {
 // edit patient
 const editInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
-  const {
-    first_name, middle_name, last_name, id_number, cell_phone,
-  } = req.body;
   try {
-    const editPAtient = await InternalLabRequest.findOne({
+    const labResults = await InternalLabRequest.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
 
-    editPAtient.first_name = first_name;
-    editPAtient.middle_name = middle_name;
-    editPAtient.last_name = last_name;
-    editPAtient.id_number = id_number;
-    editPAtient.cell_phone = cell_phone;
+    labResults.results = req.body.results;
+    labResults.save();
+    res.status(200).json(labResults)
     next();
-
-    return editPAtient.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error)
   }
 };
 
