@@ -29,16 +29,16 @@ const getAllOTZEnrollment = async (req, res, next) => {
       include: [
         {
           model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'gender'],
+          attributes: ['firstName', 'middleName', 'dob', 'sex'],
         },
-        {
-          model: ART,
-          attributes: ['artName'],
-        },
-        {
-          model: ArtRegimenPhase,
-          attributes: ['artPhaseDescription']
-        }
+        // {
+        //   model: ART,
+        //   attributes: ['artName'],
+        // },
+        // {
+        //   model: ArtRegimenPhase,
+        //   attributes: ['artPhaseDescription']
+        // }
       ],
     });
     res.json(results);

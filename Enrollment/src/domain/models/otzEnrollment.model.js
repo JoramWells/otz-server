@@ -37,7 +37,7 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
   //   onDelete: 'CASCADE',
 
   // },
-  vlCopies: {
+  vlResults: {
     type: DataTypes.STRING,
   },
   dateOfVL: {
@@ -47,12 +47,12 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.STRING,
   },
   currentARTRegimen: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'arts',
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
+    type: DataTypes.STRING,
+    // references: {
+    //   model: 'arts',
+    //   key: 'id',
+    // },
+    // onDelete: 'CASCADE',
 
   },
   currentARTStartDate: {
@@ -65,10 +65,10 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
 });
 
 
-OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
-OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
+// OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
+// OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
-OTZEnrollment.belongsTo(ArtRegimenPhase, { foreignKey: 'currentRegimenLine', targetKey: 'id' });
+// OTZEnrollment.belongsTo(ArtRegimenPhase, { foreignKey: 'currentRegimenLine', targetKey: 'id' });
 
 (async () => {
   await sequelize.sync();

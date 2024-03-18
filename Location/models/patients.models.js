@@ -20,7 +20,7 @@ const Patient = sequelize.define(
         lastName: {
             type: DataTypes.STRING,
         },
-        gender: {
+        sex: {
             type: DataTypes.STRING,
         },
         dob: {
@@ -31,6 +31,7 @@ const Patient = sequelize.define(
         },
         occupation: {
             type: DataTypes.UUID,
+            allowNull:true
         },
         idNo: {
             type: DataTypes.STRING,
@@ -38,16 +39,24 @@ const Patient = sequelize.define(
         cccNo: {
             type: DataTypes.STRING,
         },
+        mflCode: {
+            type: DataTypes.STRING,
+        },
         residence: {
             type: DataTypes.STRING,
         },
-        artStartDate: {
-            type: DataTypes.STRING,
+        ageAtReporting: {
+            type: DataTypes.DATE,
         },
-        originalART: {
-            type: DataTypes.STRING,
+        dateConfirmedPositive: {
+            type: DataTypes.DATE,
         },
-        currentRegimenLine: {
+        firstRegimen: {
+            type: DataTypes.STRING,
+            allowNull: true
+
+        },
+        populationType: {
             type: DataTypes.STRING,
         },
     },

@@ -20,7 +20,10 @@ const addPatient = async (req, res, next) => {
 // get all priceListItems
 const getAllPatients = async (req, res, next) => {
   try {
-    const results = await Patient.findAll();
+    const results = await Patient.findAll({
+      limit:100
+    });
+    // console.log(results)
     res.json(results);
     next();
   } catch (error) {

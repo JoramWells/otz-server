@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { DataTypes, UUIDV4, Sequelize } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../models/patient/patients.models');
 const AppointmentStatus = require('./appointmentStatus.model');
@@ -50,10 +50,9 @@ const Appointment = sequelize.define('appointments', {
   },
 
   appointmentTime: {
-    type: DataTypes.STRING,
-  },
-  agenda: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
+    defaultValue: Sequelize.literal('CURRENT_TIME'),
+    timezone: false,
   },
 });
 

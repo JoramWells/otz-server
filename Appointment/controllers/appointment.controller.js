@@ -48,7 +48,7 @@ const getAllAppointments = async (req, res, next) => {
     res.json(results);
     next();
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
   }
