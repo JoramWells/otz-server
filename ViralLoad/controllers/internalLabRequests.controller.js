@@ -1,10 +1,25 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
+const http = require('http')
+const express = require('express');
+const socketIO = require('socket.io')
 
 const InternalLabRequest = require("../models/internalLabRequests,model");
 const Patient = require("../../Location/models/patients.models")
 
+// setup server
+const app=express()
+const server = http.createServer(app)
+
+// setup io
+const io = socketIO(server)
+
+
+// // check connection
+// io.on('connection', (socket)=>{
+//   console.log('Connected to IO sever')
+// })
 // using *Patients model
 const addInternalLabRequests = async (req, res, next) => {
   try {
@@ -73,8 +88,12 @@ const editInternalLabRequest = async (req, res, next) => {
 
     labResults.results = req.body.results;
     labResults.save();
+    req.app.locals.io.emit('lab-updated', labResults)
+
     res.status(200).json(labResults)
     next();
+    return true
+
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });

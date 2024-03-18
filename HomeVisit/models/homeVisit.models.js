@@ -101,9 +101,9 @@ HomeVisit.belongsTo(User, { foreignKey: 'userID' });
 HomeVisit.belongsTo(HomeVisitReason, { foreignKey: 'homeVisitReasonID' });
 // HomeVisit.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' });
 
-(async () => {
-  await sequelize.sync().then(() => { console.log('Home visit Table synced successfully'); })
-    .catch((err) => console.log(err));
-})();
+// (async () => {
+//   await sequelize.sync().then(() => { console.log('Home visit Table synced successfully'); })
+//     .catch((err) => console.log(err));
+// })();
 
 module.exports = HomeVisit;

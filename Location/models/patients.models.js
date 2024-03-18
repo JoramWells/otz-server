@@ -56,9 +56,9 @@ const Patient = sequelize.define(
     }, timestamps: true }
 );
 
-(async () => {
-    await sequelize.sync();
-    console.log('Patient Table synced successfully');
-})();
+// (async () => {
+//     await sequelize.sync();
+//     console.log('Patient Table synced successfully');
+// })();
 
 module.exports = Patient;

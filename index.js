@@ -3,6 +3,8 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 const cors = require('cors');
+const http = require('http')
+const {Server} = require('socket.io')
 
 const sequelize = require('./db/connect');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
@@ -37,18 +39,46 @@ const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.rou
 
 const app = express();
 
+// setup server
+const server = http.createServer(app)
+
+
+// setup io
+const io = new Server(server,{
+  cors:{
+    origin:'http://localhost:3000',
+    methods:['GET','POST']
+  }
+})
+
+// set up socket.io instance
+app.locals.io = io
+
+
+// check connection
+io.on('connection', (socket) => {
+  console.log('Connected to IO sever', socket.id)
+
+  // 
+  socket.on('disconnect',()=>{
+    console.log('A user disconnected')
+  })
+})
+
 const PORT = process.env.PORT || 5000;
 const corsOption = {
   origin: ['*'],
 };
+
+// enable cors
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
 
-// enable cors
-app.use(cors());
+
 
 // app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);
@@ -92,6 +122,6 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-app.listen(5000, () => {
+server.listen(5000, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
