@@ -48,7 +48,6 @@ const Appointment = sequelize.define('appointments', {
   appointmentDate: {
     type: DataTypes.DATEONLY,
   },
-
   
   appointmentTime: {
     type: DataTypes.TIME,

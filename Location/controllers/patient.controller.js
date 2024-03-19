@@ -21,7 +21,7 @@ const addPatient = async (req, res, next) => {
 const getAllPatients = async (req, res, next) => {
   try {
     const results = await Patient.findAll({
-      limit:100
+      order:[['updatedAt', 'DESC']],
     });
     // console.log(results)
     res.json(results);

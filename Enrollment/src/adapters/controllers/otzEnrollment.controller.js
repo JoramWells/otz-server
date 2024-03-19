@@ -27,6 +27,7 @@ const addOTZEnrollment = async (req, res, next) => {
 const getAllOTZEnrollment = async (req, res, next) => {
   try {
     const results = await OTZEnrollment.findAll({
+      order: [['updatedAt', 'DESC']],
       include: [
         {
           model: Patient,

@@ -25,6 +25,7 @@ const addAppointment = async (req, res, next) => {
 const getAllAppointments = async (req, res, next) => {
   try {
     const results = await Appointment.findAll({
+      order: [['updatedAt', 'DESC']],
       include: [
         {
           model: Patient,
