@@ -49,6 +49,7 @@ const Appointment = sequelize.define('appointments', {
     type: DataTypes.DATEONLY,
   },
 
+  
   appointmentTime: {
     type: DataTypes.TIME,
     defaultValue: Sequelize.literal('CURRENT_TIME'),

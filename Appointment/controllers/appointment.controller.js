@@ -54,6 +54,36 @@ const getAllAppointments = async (req, res, next) => {
   }
 };
 
+const getAppointmentDetail = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const patient = await Appointment.findOne({
+      where: {
+         id,
+      },
+      include: [
+        {
+          model: AppointmentAgenda,
+          attributes: ['agendaDescription'],
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ['statusDescription'],
+        },
+        {
+          model: User,
+          attributes: ['firstName', 'middleName'],
+        },
+      ],
+    });
+    res.json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 const getAppointment = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -135,4 +165,5 @@ module.exports = {
   getAppointment,
   editAppointment,
   deleteAppointment,
+  getAppointmentDetail
 };

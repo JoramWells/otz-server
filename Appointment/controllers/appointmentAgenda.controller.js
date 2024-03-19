@@ -36,7 +36,7 @@ const getAppointmentAgenda = async (req, res, next) => {
   try {
     const patient = await AppointmentAgenda.findOne({
       where: {
-        cccno: id,
+         id,
       },
     });
     res.json(patient);

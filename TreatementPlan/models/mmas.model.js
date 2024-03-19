@@ -9,7 +9,7 @@ const MMAS = sequelize.define('mmas', {
     defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
@@ -41,9 +41,10 @@ const MMAS = sequelize.define('mmas', {
   },
 });
 
-// (async () => {
-//   await sequelize.sync({force: true});
-//   console.log('Table synced successfully');
-// })();
+
+(async () => {
+  await sequelize.sync();
+  console.log('Table synced successfully');
+})();
 
 module.exports = MMAS;

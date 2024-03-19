@@ -2,11 +2,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const ART = require('../../domain/models/arts/art.model');
 const ArtRegimenPhase = require('../../domain/models/arts/artRegimenPhases.model');
 const OTZEnrollment = require('../../domain/models/otzEnrollment.model');
 const Patient = require('../../domain/models/patients/patients.models');
-
+const tenYearsAgo = new Date().setFullYear(new Date().getFullYear()-10)
 // using *Patients model
 const addOTZEnrollment = async (req, res, next) => {
   // console.log(req.body);
@@ -29,6 +30,11 @@ const getAllOTZEnrollment = async (req, res, next) => {
       include: [
         {
           model: Patient,
+          where:{
+            dob: {
+              [Op.lte]:tenYearsAgo
+            }
+          },
           attributes: ['firstName', 'middleName', 'dob', 'sex'],
         },
         // {

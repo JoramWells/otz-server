@@ -11,12 +11,11 @@ const InternalLabRequest = sequelize.define('internalLabRequests', {
     defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
-    },
-    
+    }, 
   },
   specimenType: {
     type: DataTypes.STRING,

@@ -1,15 +1,16 @@
 /* eslint-disable camelcase */
-const { DataTypes } = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+
 
 const Patient = sequelize.define(
     "patients",
     {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             primaryKey: true,
             autoIncrement: true,
-            // defaultValue: UUIDV4,
+            defaultValue: UUIDV4,
         },
         firstName: {
             type: DataTypes.STRING,
