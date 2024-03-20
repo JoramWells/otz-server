@@ -4,6 +4,8 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http')
+const Sentry = require("@sentry/node");
+const { nodeProfilingIntegration } = require( "@sentry/profiling-node");
 const {Server} = require('socket.io')
 
 const sequelize = require('./db/connect');
@@ -38,6 +40,28 @@ const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.rou
 
 
 const app = express();
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Sentry.Integrations.Express({ app }),
+    nodeProfilingIntegration(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
+
 
 // setup server
 const server = http.createServer(app)

@@ -21,7 +21,7 @@ const addPatient = async (req, res, next) => {
 const getAllPatients = async (req, res, next) => {
   try {
     const results = await Patient.findAll({
-      order:[['updatedAt', 'DESC']],
+      order:[['createdAt', 'DESC']],
     });
     // console.log(results)
     res.json(results);
