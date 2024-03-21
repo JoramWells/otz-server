@@ -16,7 +16,7 @@ const ARTRegimenSwitch = sequelize.define(
       unique: true,
     },
     patientID: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'patients',
         key: 'id',

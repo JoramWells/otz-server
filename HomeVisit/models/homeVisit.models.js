@@ -17,7 +17,7 @@ const HomeVisit = sequelize.define('homeVisits', {
     defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',

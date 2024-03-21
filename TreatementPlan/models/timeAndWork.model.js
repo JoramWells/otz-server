@@ -9,7 +9,7 @@ const TimeWork = sequelize.define('timeWorks', {
     defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
