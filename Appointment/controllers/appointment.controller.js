@@ -25,11 +25,11 @@ const addAppointment = async (req, res, next) => {
 const getAllAppointments = async (req, res, next) => {
   try {
     const results = await Appointment.findAll({
-      order: [['updatedAt', 'DESC']],
+      order: [['appointmentDate', 'DESC']],
       include: [
         {
           model: Patient,
-          attributes: ['firstName', 'middleName', 'dob'],
+          attributes: ['firstName', 'middleName', 'dob', 'sex'],
         },
         {
           model: User,

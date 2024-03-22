@@ -11,6 +11,12 @@ const Hospital = sequelize.define(
       defaultValue: UUIDV4,
       unique: true,
     },
+    subCountyID: {
+      type: DataTypes.STRING,
+    },
+    mflCode: {
+      type: DataTypes.INTEGER,
+    },
     hospitalName: {
       type: DataTypes.STRING,
     },

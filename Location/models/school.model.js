@@ -10,14 +10,26 @@ const School = sequelize.define('schools', {
     autoIncrement:true,
     // defaultValue: UUIDV4,
   },
-  objectID: {
+  schoolName: {
+    type: DataTypes.STRING,
+  },
+  countyName: {
     type: DataTypes.STRING,
   },
 
-  code: {
+  subCountyName: {
     type: DataTypes.STRING,
   },
-  schoolName: {
+  constituency: {
+    type: DataTypes.STRING,
+  },
+  division: {
+    type: DataTypes.STRING,
+  },
+  location: {
+    type: DataTypes.STRING,
+  },
+  subLocation: {
     type: DataTypes.STRING,
   },
   level: {
@@ -26,30 +38,17 @@ const School = sequelize.define('schools', {
   status: {
     type: DataTypes.STRING,
   },
-
-  countyName: {
-    type: DataTypes.STRING,
-  },
-  district: {
-    type: DataTypes.STRING,
-  },
-  zone: {
-    type: DataTypes.STRING,
-  },
-  subCountyName: {
+  sponsor: {
     type: DataTypes.STRING,
   },
 
-  ward: {
+  longitude: {
     type: DataTypes.STRING,
   },
-  X_Coord: {
+  latitude: {
     type: DataTypes.STRING,
   },
-  Y_Coord: {
-    type: DataTypes.STRING,
-  },
-  source: {
+  classrooms: {
     type: DataTypes.STRING,
   },
 },{timestamps:false});

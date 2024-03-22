@@ -2,7 +2,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const Hospital = require('../../Hospital/models/hospital.model');
 const Patient = require('../models/patients.models');
+const School = require('../models/school.model');
 
 // using *Patients model
 const addPatient = async (req, res, next) => {
@@ -22,6 +24,16 @@ const getAllPatients = async (req, res, next) => {
   try {
     const results = await Patient.findAll({
       order:[['createdAt', 'DESC']],
+      include:[{
+        model:School,
+        attributes:['schoolName']
+      },
+      {
+        model: Hospital,
+        attributes: ['hospitalName']
+      }
+    
+    ],
     });
     // console.log(results)
     res.json(results);

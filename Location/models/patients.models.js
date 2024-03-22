@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const School = require('./school.model');
+const Hospital = require('../../Hospital/models/hospital.model');
 
 
 const Patient = sequelize.define(
@@ -60,11 +62,20 @@ const Patient = sequelize.define(
         populationType: {
             type: DataTypes.STRING,
         },
+        schoolID:{
+            type: DataTypes.INTEGER
+        },
+        hospitalID: {
+            type: DataTypes.INTEGER
+        }
     },
     {postgresql:{
         fillFactor:70
     }, timestamps: true }
 );
+
+Patient.belongsTo(School, { foreignKey: 'schoolID' })
+Patient.belongsTo(Hospital, {foreignKey:'hospitalID'})
 
 // (async () => {
 //     await sequelize.sync();
