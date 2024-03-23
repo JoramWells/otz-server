@@ -3,6 +3,7 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan')
 const http = require('http')
 const Sentry = require("@sentry/node");
 const { nodeProfilingIntegration } = require( "@sentry/profiling-node");
@@ -41,6 +42,31 @@ const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.rou
 
 const app = express();
 
+// create redis clietn
+// let redisClient;
+
+// (async () =>{
+//   redisClient = await redis.createClient(6379, 'redis',{})
+//   await redisClient.on('connect', function(){
+//     console.log('connected to redis |@@@@@@')
+//   })
+
+  // check error
+  // await redisClient.on("error", function (error) {
+  //   console.error('@@@@@@@',error);
+  // });
+
+  // await redisClient.connect()
+  // app.locals.redisClient = redisClient
+  // console.log('Connected to redis')
+// })
+
+// redisClient.on('connect',function(){
+//   console.log('Connected to Redis')
+// })
+
+
+
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   integrations: [
@@ -66,12 +92,14 @@ app.use(Sentry.Handlers.tracingHandler());
 // setup server
 const server = http.createServer(app)
 
+// use morgan
+app.use(morgan('dev'))
 
 // setup io
 const io = new Server(server,{
   cors:{
     origin:'http://localhost:3000',
-    methods:['GET','POST']
+    methods:['GET','POST',  'PUT', 'DELETE']
   }
 })
 

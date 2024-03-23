@@ -1,12 +1,21 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-
+const redis = require('redis')
 const Appointment = require('../models/appointment.model');
 const Patient = require('../../models/patient/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
 const AppointmentStatus = require('../models/appointmentStatus.model');
 const User = require('../../Users/models/user.models');
+
+// let client;
+
+// (async()=> client = await redis.createClient()
+// .on('error', err => console.log(err)).connect())
+// client.connect().then(async(res)=>{
+//   console.log('connected',res)
+// }).catch(err=>console.log(err))
+
 
 // using *Patients model
 const addAppointment = async (req, res, next) => {
@@ -23,31 +32,57 @@ const addAppointment = async (req, res, next) => {
 
 // get all priceListItems
 const getAllAppointments = async (req, res, next) => {
+  const appointmentKey = 'appointmentData'
   try {
-    const results = await Appointment.findAll({
-      order: [['appointmentDate', 'DESC']],
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'sex'],
-        },
-        {
-          model: User,
-          attributes: ['firstName', 'middleName'],
-        },
-        {
-          model: AppointmentAgenda,
-          attributes: ['agendaDescription'],
 
-        },
-        {
-          model: AppointmentStatus,
-          attributes: ['statusDescription'],
-        },
-      ],
-    });
-    res.json(results);
-    next();
+    const client = redis.createClient({ url: 'redis://redis:6379' })
+    await client.connect()
+    
+    // 
+if(await client.get(appointmentKey)===null){
+  // get all
+  const results = await Appointment.findAll({
+    order: [['appointmentDate', 'DESC']],
+    include: [
+      {
+        model: Patient,
+        attributes: ['firstName', 'middleName', 'dob', 'sex'],
+      },
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'middleName'],
+      },
+      {
+        model: AppointmentAgenda,
+        attributes: ['id', 'agendaDescription'],
+
+      },
+      {
+        model: AppointmentStatus,
+        attributes: ['id', 'statusDescription'],
+      },
+    ],
+  });
+
+  console.log('Fetching from db')
+
+  await client.set('appointmentData', JSON.stringify(results))
+  res.json(results)
+  next()
+}else{
+  const cachedData = await client.get(appointmentKey)
+  res.json(JSON.parse(cachedData))
+  console.log('Cached')
+  next()
+
+}
+  // console.log('not connected')
+  // console.log(await client.get('jay', redis.print))
+
+
+      // await client.connect();
+    // res.json(results);
+    // next();
   } catch (error) {
     console.log(error);
     res.json({ error: 'Internal Server error' });
@@ -119,26 +154,33 @@ const getAppointment = async (req, res, next) => {
 const editAppointment = async (req, res, next) => {
   const { id } = req.params;
   const {
-    first_name, middle_name, last_name, id_number, cell_phone,
+    userID, appointmentAgendaID, appointmentStatusID
   } = req.body;
   try {
-    const editPAtient = await Appointment.findOne({
+    const results = await Appointment.findOne({
       where: {
-        patient_id: id,
+        id,
       },
+      returning:true
     });
 
-    editPAtient.first_name = first_name;
-    editPAtient.middle_name = middle_name;
-    editPAtient.last_name = last_name;
-    editPAtient.id_number = id_number;
-    editPAtient.cell_phone = cell_phone;
+    results.userID = userID;
+    results.appointmentAgendaID = appointmentAgendaID;
+    results.appointmentStatusID = appointmentStatusID;
+    // results.id_number = id_number;
+    // results.cell_phone = cell_phone;
+
+    results.save();
+
+    // emit event
+    req.app.locals.io.emit('appointment-updated', results)
+    res.status(200).json(results)
     next();
 
-    return editPAtient.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error)
   }
 };
 
