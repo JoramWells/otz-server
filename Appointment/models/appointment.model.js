@@ -64,6 +64,10 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
+Appointment.afterUpdate(async()=>{
+  console.log("@@@@@@")
+})
+
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Appointments D Table synced successfully');

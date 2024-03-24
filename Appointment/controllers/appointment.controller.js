@@ -30,6 +30,7 @@ const addAppointment = async (req, res, next) => {
   }
 };
 
+
 // get all priceListItems
 const getAllAppointments = async (req, res, next) => {
   const appointmentKey = 'appointmentData'
@@ -42,7 +43,7 @@ const getAllAppointments = async (req, res, next) => {
 if(await client.get(appointmentKey)===null){
   // get all
   const results = await Appointment.findAll({
-    order: [['appointmentDate', 'DESC']],
+    order: [['appointmentDate', 'ASC']],
     include: [
       {
         model: Patient,
@@ -152,16 +153,28 @@ const getAppointment = async (req, res, next) => {
 
 // edit patient
 const editAppointment = async (req, res, next) => {
+  const appointmentKey = 'appointmentData';
+
+  const client = redis.createClient({ url: 'redis://redis:6379' })
+  await client.connect()
+
   const { id } = req.params;
   const {
     userID, appointmentAgendaID, appointmentStatusID
   } = req.body;
   try {
+
+    // redis
+  if(await client.get(appointmentKey)){
+    await client.del(appointmentKey)
+    console.log('deleted appointment cache')
+  }
+
     const results = await Appointment.findOne({
       where: {
         id,
       },
-      returning:true
+      // returning:true
     });
 
     results.userID = userID;
@@ -170,11 +183,43 @@ const editAppointment = async (req, res, next) => {
     // results.id_number = id_number;
     // results.cell_phone = cell_phone;
 
-    results.save();
+
+    await results.save();
+
+    if(results){
+    
+
+    const results2 = await Appointment.findAll({
+      order: [['appointmentDate', 'ASC']],
+      include: [
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName', 'dob', 'sex'],
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'middleName'],
+        },
+        {
+          model: AppointmentAgenda,
+          attributes: ['id', 'agendaDescription'],
+
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ['id', 'statusDescription'],
+        },
+      ],
+    })
+    // await client.set(appointmentKey, JSON.stringify(results2))
+    // const daty = await client.get(JSON.parse(appointmentKey))
+
+    // invalidate redis cache
 
     // emit event
-    req.app.locals.io.emit('appointment-updated', results)
-    res.status(200).json(results)
+    req.app.locals.io.emit('appointment-updated', [])}
+    console.log(results.status,'fgt')
+    res.status(200)
     next();
 
   } catch (error) {
@@ -189,7 +234,7 @@ const deleteAppointment = async (req, res, next) => {
   try {
     const results = await Appointment.destroy({
       where: {
-        patient_id: id,
+        id,
       },
     });
 

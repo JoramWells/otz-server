@@ -1,16 +1,13 @@
+const express = require('express')
 const redis = require('redis')
+const { promisify } = require('util')
 
-const client = redis.createClient()
+const app = express()
 
-function checkCache(req,res, next){
-    const key = req.path
+app.use((req,res,next)=>{
+    const client = redis.createClient({ url: 'redis://redis:6379' })
 
-    // check if data
-    client.get(key, (err, data)=>{
-        if(err) throw err
-        if(data){
-            res.json(JSON.parse(data))
-        }
-    })
+    req.redisGet = promisify(client.get).bind(client)
+
     next()
-}
+})
