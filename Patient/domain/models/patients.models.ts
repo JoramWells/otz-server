@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
-import { DataTypes }  from 'sequelize';
+import { DataTypes, UUIDV4 }  from 'sequelize';
 const sequelize = require('../db/connect');
 
 const Patient = sequelize.define(
   "patients",
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
       autoIncrement: true,
-      // defaultValue: UUIDV4,
+      defaultValue: UUIDV4,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -20,7 +20,7 @@ const Patient = sequelize.define(
     lastName: {
       type: DataTypes.STRING,
     },
-    gender: {
+    sex: {
       type: DataTypes.STRING,
     },
     dob: {
@@ -31,6 +31,7 @@ const Patient = sequelize.define(
     },
     occupation: {
       type: DataTypes.UUID,
+      allowNull: true,
     },
     idNo: {
       type: DataTypes.STRING,
@@ -38,21 +39,42 @@ const Patient = sequelize.define(
     cccNo: {
       type: DataTypes.STRING,
     },
+    mflCode: {
+      type: DataTypes.STRING,
+    },
     residence: {
       type: DataTypes.STRING,
     },
-    artStartDate: {
+    ageAtReporting: {
+      type: DataTypes.DATE,
+    },
+    dateConfirmedPositive: {
+      type: DataTypes.DATE,
+    },
+    firstRegimen: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    populationType: {
       type: DataTypes.STRING,
     },
-    originalART: {
-      type: DataTypes.STRING,
+    schoolID: {
+      type: DataTypes.INTEGER,
     },
-    currentRegimenLine: {
-      type: DataTypes.STRING,
+    hospitalID: {
+      type: DataTypes.INTEGER,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    postgresql: {
+      fillFactor: 70,
+    },
+  }
 );
+
+Patient.belongsTo(School, { foreignKey: "schoolID" });
+Patient.belongsTo(Hospital, { foreignKey: "hospitalID" });
 
 // (async () => {
 //   await sequelize.sync();
