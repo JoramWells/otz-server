@@ -3,11 +3,11 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan')
-const http = require('http')
-const Sentry = require("@sentry/node");
-const { nodeProfilingIntegration } = require( "@sentry/profiling-node");
-const {Server} = require('socket.io')
+const morgan = require('morgan');
+const http = require('http');
+const Sentry = require('@sentry/node');
+const { nodeProfilingIntegration } = require('@sentry/profiling-node');
+const { Server } = require('socket.io');
 
 const sequelize = require('./db/connect');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
@@ -39,7 +39,6 @@ const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.r
 const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
 const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
 
-
 const app = express();
 
 // create redis clietn
@@ -51,21 +50,19 @@ const app = express();
 //     console.log('connected to redis |@@@@@@')
 //   })
 
-  // check error
-  // await redisClient.on("error", function (error) {
-  //   console.error('@@@@@@@',error);
-  // });
+// check error
+// await redisClient.on("error", function (error) {
+//   console.error('@@@@@@@',error);
+// });
 
-  // await redisClient.connect()
-  // app.locals.redisClient = redisClient
-  // console.log('Connected to redis')
+// await redisClient.connect()
+// app.locals.redisClient = redisClient
+// console.log('Connected to redis')
 // })
 
 // redisClient.on('connect',function(){
 //   console.log('Connected to Redis')
 // })
-
-
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -88,34 +85,32 @@ app.use(Sentry.Handlers.requestHandler());
 // TracingHandler creates a trace for every incoming request
 app.use(Sentry.Handlers.tracingHandler());
 
-
 // setup server
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 // use morgan
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 
 // setup io
-const io = new Server(server,{
-  cors:{
-    origin:'http://localhost:3000',
-    methods:['GET','POST',  'PUT', 'DELETE']
-  }
-})
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  },
+});
 
 // set up socket.io instance
-app.locals.io = io
-
+app.locals.io = io;
 
 // check connection
 io.on('connection', (socket) => {
-  console.log('Connected to IO sever', socket.id)
+  console.log('Connected to IO sever', socket.id);
 
-  // 
-  socket.on('disconnect',()=>{
-    console.log('A user disconnected')
-  })
-})
+  //
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 const corsOption = {
@@ -129,8 +124,6 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
-
-
 
 // app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);

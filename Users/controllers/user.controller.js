@@ -1,13 +1,29 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-
+const bcrypt = require('bcryptjs');
 const User = require('../models/user.models');
 
 // using *Patients model
 const addUser = async (req, res, next) => {
+  const {
+    firstName, secondName, middleName, email, gender, phone_no, countyID, password,
+  } = req.body;
   try {
-    const newProfile = await User.create(req.body);
+    // hash password
+    const hashSalt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hash(password, hashSalt);
+
+    const newProfile = await User.create({
+      firstName,
+      secondName,
+      middleName,
+      email,
+      gender,
+      phone_no,
+      countyID,
+      password,
+    });
 
     res.json(newProfile);
     next();
@@ -27,6 +43,23 @@ const getAllUsers = async (req, res, next) => {
     console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
+  }
+};
+
+const login = async (req, res, next) => {
+  // console.log(req.params);
+  const { email, password } = req.body;
+  try {
+    const patient = await User.findOne({
+      where: {
+        email,
+      },
+    });
+    res.json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
   }
 };
 
@@ -92,5 +125,5 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  addUser, getAllUsers, getUserDetail, editUser, deleteUser,
+  addUser, getAllUsers, getUserDetail, editUser, deleteUser, login,
 };
