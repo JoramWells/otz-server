@@ -55,7 +55,16 @@ const login = async (req, res, next) => {
         email,
       },
     });
-    res.json(patient);
+    if (patient) {
+      if (password === patient.password) {
+        res.json({
+          id: patient.id,
+          email: patient.email,
+        });
+      }
+    } else {
+      res.sendStatus(500).json({ json: 'No user' });
+    }
     next();
   } catch (error) {
     console.log(error);

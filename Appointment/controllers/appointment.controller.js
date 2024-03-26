@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const redis = require('redis')
+const redis = require('redis');
 const Appointment = require('../models/appointment.model');
 const Patient = require('../../models/patient/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
@@ -16,7 +16,6 @@ const User = require('../../Users/models/user.models');
 //   console.log('connected',res)
 // }).catch(err=>console.log(err))
 
-
 // using *Patients model
 const addAppointment = async (req, res, next) => {
   try {
@@ -30,58 +29,54 @@ const addAppointment = async (req, res, next) => {
   }
 };
 
-
 // get all priceListItems
 const getAllAppointments = async (req, res, next) => {
-  const appointmentKey = 'appointmentData'
+  const appointmentKey = 'appointmentData';
   try {
+    const client = redis.createClient({ url: 'redis://redis:6379' });
+    await client.connect();
 
-    const client = redis.createClient({ url: 'redis://redis:6379' })
-    await client.connect()
-    
-    // 
-if(await client.get(appointmentKey)===null){
-  // get all
-  const results = await Appointment.findAll({
-    order: [['appointmentDate', 'ASC']],
-    include: [
-      {
-        model: Patient,
-        attributes: ['firstName', 'middleName', 'dob', 'sex'],
-      },
-      {
-        model: User,
-        attributes: ['id', 'firstName', 'middleName'],
-      },
-      {
-        model: AppointmentAgenda,
-        attributes: ['id', 'agendaDescription'],
+    //
+    if (await client.get(appointmentKey) === null) {
+      // get all
+      const results = await Appointment.findAll({
+        order: [['appointmentDate', 'ASC']],
+        include: [
+          {
+            model: Patient,
+            attributes: ['firstName', 'middleName', 'dob', 'sex'],
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'middleName'],
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: ['id', 'agendaDescription'],
 
-      },
-      {
-        model: AppointmentStatus,
-        attributes: ['id', 'statusDescription'],
-      },
-    ],
-  });
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ['id', 'statusDescription'],
+          },
+        ],
+      });
 
-  console.log('Fetching from db')
+      console.log('Fetching from db');
 
-  await client.set('appointmentData', JSON.stringify(results))
-  res.json(results)
-  next()
-}else{
-  const cachedData = await client.get(appointmentKey)
-  res.json(JSON.parse(cachedData))
-  console.log('Cached')
-  next()
+      await client.set('appointmentData', JSON.stringify(results));
+      res.json(results);
+      next();
+    } else {
+      const cachedData = await client.get(appointmentKey);
+      res.json(JSON.parse(cachedData));
+      console.log('Cached');
+      next();
+    }
+    // console.log('not connected')
+    // console.log(await client.get('jay', redis.print))
 
-}
-  // console.log('not connected')
-  // console.log(await client.get('jay', redis.print))
-
-
-      // await client.connect();
+    // await client.connect();
     // res.json(results);
     // next();
   } catch (error) {
@@ -96,7 +91,7 @@ const getAppointmentDetail = async (req, res, next) => {
   try {
     const patient = await Appointment.findOne({
       where: {
-         id,
+        id,
       },
       include: [
         {
@@ -148,6 +143,7 @@ const getAppointment = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 
@@ -155,20 +151,19 @@ const getAppointment = async (req, res, next) => {
 const editAppointment = async (req, res, next) => {
   const appointmentKey = 'appointmentData';
 
-  const client = redis.createClient({ url: 'redis://redis:6379' })
-  await client.connect()
+  const client = redis.createClient({ url: 'redis://redis:6379' });
+  await client.connect();
 
   const { id } = req.params;
   const {
-    userID, appointmentAgendaID, appointmentStatusID
+    userID, appointmentAgendaID, appointmentStatusID,
   } = req.body;
   try {
-
     // redis
-  if(await client.get(appointmentKey)){
-    await client.del(appointmentKey)
-    console.log('deleted appointment cache')
-  }
+    if (await client.get(appointmentKey)) {
+      await client.del(appointmentKey);
+      console.log('deleted appointment cache');
+    }
 
     const results = await Appointment.findOne({
       where: {
@@ -183,49 +178,46 @@ const editAppointment = async (req, res, next) => {
     // results.id_number = id_number;
     // results.cell_phone = cell_phone;
 
-
     await results.save();
 
-    if(results){
-    
+    if (results) {
+      const results2 = await Appointment.findAll({
+        order: [['appointmentDate', 'ASC']],
+        include: [
+          {
+            model: Patient,
+            attributes: ['firstName', 'middleName', 'dob', 'sex'],
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'middleName'],
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: ['id', 'agendaDescription'],
 
-    const results2 = await Appointment.findAll({
-      order: [['appointmentDate', 'ASC']],
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'sex'],
-        },
-        {
-          model: User,
-          attributes: ['id', 'firstName', 'middleName'],
-        },
-        {
-          model: AppointmentAgenda,
-          attributes: ['id', 'agendaDescription'],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ['id', 'statusDescription'],
+          },
+        ],
+      });
+      // await client.set(appointmentKey, JSON.stringify(results2))
+      // const daty = await client.get(JSON.parse(appointmentKey))
 
-        },
-        {
-          model: AppointmentStatus,
-          attributes: ['id', 'statusDescription'],
-        },
-      ],
-    })
-    // await client.set(appointmentKey, JSON.stringify(results2))
-    // const daty = await client.get(JSON.parse(appointmentKey))
+      // invalidate redis cache
 
-    // invalidate redis cache
-
-    // emit event
-    req.app.locals.io.emit('appointment-updated', [])}
-    console.log(results.status,'fgt')
-    res.status(200)
+      // emit event
+      req.app.locals.io.emit('appointment-updated', []);
+    }
+    console.log(results.status, 'fgt');
+    res.status(200);
     next();
-
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
-    next(error)
+    next(error);
   }
 };
 
@@ -253,5 +245,5 @@ module.exports = {
   getAppointment,
   editAppointment,
   deleteAppointment,
-  getAppointmentDetail
+  getAppointmentDetail,
 };
