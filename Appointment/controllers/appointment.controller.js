@@ -71,6 +71,10 @@ const getAllAppointments = async (req, res, next) => {
       const cachedData = await client.get(appointmentKey);
       res.json(JSON.parse(cachedData));
       console.log('Cached');
+
+      // invalidate cace
+      client.expire(appointmentKey, expiryDuration)
+
       next();
     }
     // console.log('not connected')

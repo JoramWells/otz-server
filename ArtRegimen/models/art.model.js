@@ -23,6 +23,12 @@ const ART = sequelize.define(
       onDelete: 'CASCADE',
 
     },
+    measuringUnit: {
+      type: DataTypes.STRING,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+    },
   },
   { timestamps: true },
 );
