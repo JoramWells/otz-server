@@ -22,7 +22,7 @@ const Ward = sequelize.define('wards', {
   }
 },{timestamps:false});
 
-Ward.belongsTo(County,{foreignKey:'countyID'})
+// Ward.belongsTo(County,{foreignKey:'countyID'})
 
 // (async () => {
 //   await sequelize.sync();

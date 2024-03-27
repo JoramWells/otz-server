@@ -19,7 +19,7 @@ const SubCounty = sequelize.define('subCounties', {
   }
 },{timestamps:false});
 
-SubCounty.belongsTo(County,{foreignKey:'countyID'})
+// SubCounty.belongsTo(County,{foreignKey:'countyID'})
 
 // (async () => {
 //   await sequelize.sync();
