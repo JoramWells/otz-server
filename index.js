@@ -38,6 +38,7 @@ const hospitalRoutes = require('./Hospital/routes/hospital.routes');
 const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.routes');
 const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
 const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
+const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
 
 const app = express();
 
@@ -154,6 +155,7 @@ app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
 app.use('/patients', patientRoutes);
+app.use('/measuring-unit', measuringUnitRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
