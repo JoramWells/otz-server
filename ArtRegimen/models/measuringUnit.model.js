@@ -12,7 +12,7 @@ const MeasuringUnit = sequelize.define('measuringUnits', {
   description: {
     type: DataTypes.STRING,
   },
-},{timestamps:true});
+}, { timestamps: true });
 
 // (async () => {
 //   await sequelize.sync();

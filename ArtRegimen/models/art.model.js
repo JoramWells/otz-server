@@ -24,7 +24,7 @@ const ART = sequelize.define(
       onDelete: 'CASCADE',
 
     },
-    
+
     measuringUnitID: {
       type: DataTypes.UUID,
       references: {

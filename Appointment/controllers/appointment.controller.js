@@ -8,6 +8,7 @@ const AppointmentAgenda = require('../models/appointmentAgenda.model');
 const AppointmentStatus = require('../models/appointmentStatus.model');
 const User = require('../../Users/models/user.models');
 
+const expiryDuration = 60;
 // let client;
 
 // (async()=> client = await redis.createClient()
@@ -73,7 +74,7 @@ const getAllAppointments = async (req, res, next) => {
       console.log('Cached');
 
       // invalidate cace
-      client.expire(appointmentKey, expiryDuration)
+      client.expire(appointmentKey, expiryDuration);
 
       next();
     }

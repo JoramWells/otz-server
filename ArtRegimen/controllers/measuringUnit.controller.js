@@ -2,8 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const MeasuringUnit = require("../models/measuringUnit.model");
-
+const MeasuringUnit = require('../models/measuringUnit.model');
 
 // using *Patients model
 const addMeasuringUnit = async (req, res, next) => {
@@ -36,6 +35,7 @@ const getMeasuringUnit = async (req, res, next) => {
   const { id } = req.params;
   try {
     const patient = await MeasuringUnit.findAll({
+      order: [['updatedAt', 'DESC']],
       where: {
         patientID: id,
       },
@@ -52,24 +52,19 @@ const getMeasuringUnit = async (req, res, next) => {
 // edit patient
 const editMeasuringUnit = async (req, res, next) => {
   const { id } = req.params;
-  const {
-    first_name, middle_name, last_name, id_number, cell_phone,
-  } = req.body;
+
   try {
-    const editPAtient = await MeasuringUnit.findOne({
+    const results = await MeasuringUnit.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
 
-    editPAtient.first_name = first_name;
-    editPAtient.middle_name = middle_name;
-    editPAtient.last_name = last_name;
-    editPAtient.id_number = id_number;
-    editPAtient.cell_phone = cell_phone;
+    results.description = req.body.description;
+
     next();
 
-    return editPAtient.save();
+    return results.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
