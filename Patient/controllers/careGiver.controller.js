@@ -39,6 +39,7 @@ const getAllCaregivers = async (req, res, next) => {
   }
 };
 
+
 const getCaregiverDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
