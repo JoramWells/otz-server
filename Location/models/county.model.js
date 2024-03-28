@@ -8,12 +8,12 @@ const County = sequelize.define('counties', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     // defaultValue: UUIDV4,
-    autoIncrement: true
+    autoIncrement: true,
   },
   countyName: {
     type: DataTypes.STRING,
   },
-},{timestamps:false});
+}, { timestamps: false });
 
 // (async () => {
 //   await sequelize.sync();

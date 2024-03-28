@@ -9,7 +9,7 @@ const Hospital = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       // defaultValue: UUIDV4,
-      autoIncrement:true,
+      autoIncrement: true,
       unique: true,
     },
     subCountyID: {

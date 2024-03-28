@@ -7,7 +7,7 @@ const School = sequelize.define('schools', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement:true,
+    autoIncrement: true,
     // defaultValue: UUIDV4,
   },
   schoolName: {
@@ -51,7 +51,7 @@ const School = sequelize.define('schools', {
   classrooms: {
     type: DataTypes.STRING,
   },
-},{timestamps:false});
+}, { timestamps: false });
 
 // (async () => {
 //   await sequelize.sync();

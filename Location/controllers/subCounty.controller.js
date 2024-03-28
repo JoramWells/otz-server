@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const County = require("../models/county.model");
-const SubCounty = require("../models/subCounty.model");
+const County = require('../models/county.model');
+const SubCounty = require('../models/subCounty.model');
 
 // using *Patients model
 const addSubCounty = async (req, res, next) => {
@@ -23,9 +23,9 @@ const getAllSubCounties = async (req, res, next) => {
   try {
     const results = await SubCounty.findAll({
       include: {
-        model:County,
-        attributes:['id','countyName']
-      }
+        model: County,
+        attributes: ['id', 'countyName'],
+      },
     });
     res.json(results);
     next();

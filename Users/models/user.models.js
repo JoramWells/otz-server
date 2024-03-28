@@ -37,7 +37,7 @@ const User = sequelize.define('users', {
   },
 });
 
-// User.belongsTo(County, { foreignKey: 'countyID' });
+User.belongsTo(County, { foreignKey: 'countyID' });
 
 // (async () => {
 //   await sequelize.sync();

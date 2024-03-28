@@ -23,17 +23,18 @@ const addPatient = async (req, res, next) => {
 const getAllPatients = async (req, res, next) => {
   try {
     const results = await Patient.findAll({
-      order:[['createdAt', 'DESC']],
-      include:[{
-        model:School,
-        attributes:['schoolName']
-      },
-      {
-        model: Hospital,
-        attributes: ['hospitalName']
-      }
-    
-    ],
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: School,
+          attributes: ['schoolName'],
+        },
+        {
+          model: Hospital,
+          attributes: ['hospitalName'],
+        },
+
+      ],
     });
     // console.log(results)
     res.json(results);

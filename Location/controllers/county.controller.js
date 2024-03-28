@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const redis = require('redis')
-const County = require("../models/county.model");
+const redis = require('redis');
+const County = require('../models/county.model');
 
 // using *Patients model
 const addCounty = async (req, res, next) => {
@@ -20,29 +20,27 @@ const addCounty = async (req, res, next) => {
 
 // get all priceListItems
 const getAllCounties = async (req, res, next) => {
-  const redisKey = 'redisData'
-  const expiryDuration = 60; 
+  const redisKey = 'redisData';
+  const expiryDuration = 60;
   try {
-
     // /define redis client
-    const redisClient = redis.createClient({ url: 'redis://redis:6379' })
-    await redisClient.connect()
+    const redisClient = redis.createClient({ url: 'redis://redis:6379' });
+    await redisClient.connect();
 
-    if (await client.get(redisKey) === null){
+    if (await redisClient.get(redisKey) === null) {
       const results = await County.findAll();
       console.log('Fetching from db');
 
       await redisClient.set(redisKey, JSON.stringify(results));
 
-      res.json(results);    
-    }
-    else{
+      res.json(results);
+    } else {
       const cachedData = await redisClient.get(redisKey);
       res.json(JSON.parse(cachedData));
       console.log('Cached');
 
       // invalidate cace
-      redisClient.expire(redisKey, expiryDuration)
+      redisClient.expire(redisKey, expiryDuration);
     }
 
     next();

@@ -5,6 +5,7 @@
 const ART = require('../models/art.model');
 const ArtCategory = require('../models/artCategory.model');
 const ArtRegimenPhase = require('../models/artRegimenPhases.model');
+const MeasuringUnit = require('../models/measuringUnit.model');
 
 // using *Patients model
 const addArtRegimen = async (req, res, next) => {
@@ -32,6 +33,10 @@ const getAllArtRegimen = async (req, res, next) => {
               attributes: ['id', 'artPhaseDescription'],
             },
           ],
+        },
+        {
+          model: MeasuringUnit,
+          attributes: ['description'],
         },
       ],
     });

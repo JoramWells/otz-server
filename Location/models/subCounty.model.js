@@ -9,17 +9,17 @@ const SubCounty = sequelize.define('subCounties', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     // defaultValue: UUIDV4,
-    autoIncrement: true
+    autoIncrement: true,
   },
   countyID: {
     type: DataTypes.INTEGER,
   },
-  subCountyName:{
-    type: DataTypes.STRING
-  }
-},{timestamps:false});
+  subCountyName: {
+    type: DataTypes.STRING,
+  },
+}, { timestamps: false });
 
-// SubCounty.belongsTo(County,{foreignKey:'countyID'})
+SubCounty.belongsTo(County, { foreignKey: 'countyID' });
 
 // (async () => {
 //   await sequelize.sync();
