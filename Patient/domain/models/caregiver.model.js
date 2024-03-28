@@ -1,25 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../../db/connect');
 const Patient = require('./patients.models');
 
 const Caregiver = sequelize.define('caregivers', {
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
-    autoIncrement: true,
-    // defaultValue: UUIDV4,
+    // autoIncrement: true,
+    defaultValue: UUIDV4,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
     },
     onDelete: 'CASCADE',
   },
-  firstName: {
+    firstName: {
     type: DataTypes.STRING,
   },
   middleName: {
@@ -29,7 +29,7 @@ const Caregiver = sequelize.define('caregivers', {
     type: DataTypes.STRING,
   },
   gender: {
-    type: DataTypes.ENUM('MALE', 'FEMALE'),
+    type: DataTypes.STRING,
   },
   dob: {
     type: DataTypes.DATE,
@@ -49,15 +49,15 @@ const Caregiver = sequelize.define('caregivers', {
   drugs: {
     type: DataTypes.STRING,
   },
-  career: {
+  careerID: {
     type: DataTypes.STRING,
   },
-  hivStatus: {
-    type: DataTypes.STRING,
-  },
-  maritalStatus: {
-    type: DataTypes.STRING,
-  },
+  // hivStatus: {
+  //   type: DataTypes.STRING,
+  // },
+  // maritalStatus: {
+  //   type: DataTypes.STRING,
+  // },
 });
 
 Caregiver.belongsTo(Patient, { foreignKey: 'patientID' });

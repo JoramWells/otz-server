@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Occupation = require("../../models/occupation.model");
+const Occupation = require("../models/occupation.model");
 
 
 // using *Patients model

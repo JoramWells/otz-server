@@ -47,6 +47,7 @@ const Patient = sequelize.define(
     // residence: {
     //   type: DataTypes.STRING,
     // },
+
     ageAtReporting: {
       type: DataTypes.DATE,
     },
