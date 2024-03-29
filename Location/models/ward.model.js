@@ -9,20 +9,20 @@ const Ward = sequelize.define('wards', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     // defaultValue: UUIDV4,
-    autoIncrement: true
+    autoIncrement: true,
   },
   countyID: {
     type: DataTypes.INTEGER,
   },
-  subCountyName:{
-    type: DataTypes.STRING
+  subCountyName: {
+    type: DataTypes.STRING,
   },
-  ward:{
-    type: DataTypes.STRING
-  }
-},{timestamps:false});
+  ward: {
+    type: DataTypes.STRING,
+  },
+}, { timestamps: false });
 
-// Ward.belongsTo(County,{foreignKey:'countyID'})
+Ward.belongsTo(County, { foreignKey: 'countyID' });
 
 // (async () => {
 //   await sequelize.sync();
