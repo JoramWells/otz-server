@@ -7,34 +7,45 @@ const ART = require('./arts/art.model');
 const Patient = require('./patients/patients.models');
 const ArtRegimenPhase = require('./arts/artRegimenPhases.model');
 
-const ViralLoadTests = sequelize.define('viralLoadTests', {
+const ViralLoad = sequelize.define('viralLoad', {
   id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     primaryKey: true,
-    // defaultValue: UUIDV4,
-    autoIncrement: true,
+    defaultValue: UUIDV4,
+  },
+  vlResults: {
+    type: DataTypes.STRING,
+  },
+
+  isValid: {
+    type: DataTypes.STRING,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
     },
   },
-  dateOfVL: {
-    type: DataTypes.DATE,
-  },
-  vlCopies: {
+  lastVLJustification: {
     type: DataTypes.STRING,
+  },
+  dateConfirmedPositive: {
+    type: DataTypes.DATEONLY,
+  },
+  dateOfCurrentVL: {
+    type: DataTypes.DATEONLY,
+  },
+  dateOfNextVL: {
+    type: DataTypes.DATEONLY,
   },
 });
 
-
-ViralLoadTests.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
+ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' });
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Viral Load Results Table synced successfully');
 // })();
 
-module.exports = ViralLoadTests;
+module.exports = ViralLoad;

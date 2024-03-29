@@ -27,7 +27,7 @@ const getAllViralLoadTests = async (req, res, next) => {
       include: [
         {
           model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'gender'],
+          attributes: ['firstName', 'middleName', 'dob', 'sex'],
         },
       ],
     });
@@ -43,9 +43,9 @@ const getAllViralLoadTests = async (req, res, next) => {
 const getViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await ViralLoadTests.findAll({
+    const patient = await ViralLoadTests.findOne({
       where: {
-        patientID:id,
+        patientID: id,
       },
     });
     res.json(patient);
@@ -55,7 +55,6 @@ const getViralLoadTest = async (req, res, next) => {
     res.sendStatus(500).json({ message: 'Internal Server Error' });
   }
 };
-
 
 // edit patient
 const editViralLoadTest = async (req, res, next) => {

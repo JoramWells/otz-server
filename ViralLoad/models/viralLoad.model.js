@@ -4,42 +4,40 @@ const sequelize = require('../db/connect');
 const Patient = require('../../models/patient/patients.models');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
-const ViralLoad = sequelize.define('viralLoads', {
+const ViralLoad = sequelize.define('viralLoad', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  vlResult: {
+  vlResults: {
     type: DataTypes.STRING,
   },
   vlValidity: {
     type: DataTypes.STRING,
   },
+  isValid: {
+    type: DataTypes.STRING,
+  },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
     },
   },
-  // hospitalID: {
-  //   type: DataTypes.UUID,
-  //   references: {
-  //     model: 'hospitals',
-  //     key: 'id',
-  //   },
-  // },
-  vlJustification: {
+  lastVLJustification: {
     type: DataTypes.STRING,
   },
-  lastVlDate: {
+  dateConfirmedPositive: {
     type: DataTypes.DATEONLY,
   },
-  currentVlDate: {
+  dateOfCurrentVL: {
     type: DataTypes.DATEONLY,
   },
-
+  dateOfNextVL: {
+    type: DataTypes.DATEONLY,
+  },
   // CD4
 
 });

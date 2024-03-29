@@ -1,7 +1,9 @@
 const express = require('express');
 
-const { addViralLoadTest, getAllViralLoadTests, getViralLoadTest, 
-  editViralLoadTest, deleteViralLoadTest } = require('../controllers/viralLoadTests.controller');
+const {
+  addViralLoadTest, getAllViralLoadTests, getViralLoadTest,
+  editViralLoadTest, deleteViralLoadTest,
+} = require('../controllers/viralLoadTests.controller');
 
 const router = express.Router();
 
