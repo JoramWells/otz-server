@@ -42,6 +42,7 @@ const getAllViralLoadTests = async (req, res, next) => {
 
 const getViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
+  console.log(id);
   try {
     const patient = await ViralLoadTests.findOne({
       where: {
