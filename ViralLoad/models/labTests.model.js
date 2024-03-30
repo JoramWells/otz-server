@@ -3,46 +3,27 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
-const InternalLabRequest = sequelize.define('internalLabRequests', {
+const LabTest = sequelize.define('labTests', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  // patientID: {
-  //   type: DataTypes.UUID,
-  //   references: {
-  //     model: 'patients',
-  //     key: 'id',
-  //   },
-  // },
-  specimenType: {
-    type: DataTypes.STRING,
+  specimenID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'labSpecimens',
+      key: 'id',
+    },
   },
-  testName: {
-    type: DataTypes.STRING,
-  },
-  urgency: {
-    type: DataTypes.STRING,
+
+  reasons: {
+    type: DataTypes.JSON,
+    defaultValue: {},
   },
   normalValues: {
     type: DataTypes.STRING,
   },
-  dateRequested: {
-    type: DataTypes.DATE,
-  },
-  reason: {
-    type: DataTypes.STRING,
-  },
-  results: {
-    type: DataTypes.STRING,
-  },
-  resultDate: {
-    type: DataTypes.DATE,
-    defaultValue: new Date(),
-  },
-
-  // CD4
 
 });
 
@@ -54,4 +35,4 @@ const InternalLabRequest = sequelize.define('internalLabRequests', {
 //   console.log('Lab requests Table synced successfull');
 // })();
 
-module.exports = InternalLabRequest;
+module.exports = LabTest;
