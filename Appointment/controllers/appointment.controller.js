@@ -91,6 +91,22 @@ const getAllAppointments = async (req, res, next) => {
   }
 };
 
+//
+
+const checkAppointment = async () => {
+  try {
+    const patients = await Patient.findAll();
+
+    //
+    for (const patient of patients) {
+      // const vlDate
+      console.log(patient);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAppointmentDetail = async (req, res, next) => {
   const { id } = req.params;
   try {

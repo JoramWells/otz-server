@@ -1,8 +1,11 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
 const Patient = require('../../domain/models/patients/patients.models');
+const SchoolTermHoliday = require('../../domain/models/school/schoolTermHolidays.model');
 const ViralLoadTests = require('../../domain/models/viralLoadTests.model');
 
 // using *Patients model
@@ -37,6 +40,88 @@ const getAllViralLoadTests = async (req, res, next) => {
     console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
+  }
+};
+
+// ceck next appointment
+const calculateNextAppointmentDate = (appointmentDate, frequency) => {
+  // Parse the frequency to determine the interval
+  const [interval, unit] = frequency.split(' ');
+
+  // Convert appointmentDate to milliseconds
+  let nextAppointmentDate = new Date(appointmentDate).getTime();
+
+  // Calculate the next appointment date based on the frequency
+  switch (unit) {
+    // Assuming 30 days per month
+    case 'months':
+      nextAppointmentDate += parseInt(interval, 10) * 30 * 24 * 60 * 60 * 1000;
+      break;
+    case 'weeks':
+      nextAppointmentDate += parseInt(interval, 10) * 7 * 24 * 60 * 60 * 1000;
+      break;
+    case 'days':
+      nextAppointmentDate += parseInt(interval, 10) * 24 * 60 * 60 * 1000;
+      break;
+    default:
+      nextAppointmentDate += parseInt(interval, 10) * 24 * 60 * 60 * 1000;
+    // Add more cases as needed
+  }
+
+  return new Date(nextAppointmentDate);
+};
+
+// ceck oliday
+const checkSchoolHoliday = async (date) => {
+  try {
+    // Fetch all holidays from the database
+    const holidays = await SchoolTermHoliday.findAll();
+
+    // Check if the date falls within any holiday period
+    for (const holiday of holidays) {
+      const holidayStartDate = new Date(holiday.start_date);
+      const holidayEndDate = new Date(holiday.end_date);
+
+      // Check if the date falls within the holiday period
+      if (date >= holidayStartDate && date <= holidayEndDate) {
+        return true; // Date falls within a holiday
+      }
+    }
+
+    return false; // Date does not fall within any holiday
+  } catch (error) {
+    console.error('Error checking school holiday:', error);
+    return false; // Return false in case of error
+  }
+};
+
+//
+const checkAppointment = async () => {
+  try {
+    const patients = await Patient.findAll();
+
+    //
+    for (const patient of patients) {
+      const vlDate = await ViralLoadTests.findOne({
+        where: { id: patient.id },
+      });
+
+      if (vlDate) {
+        const dueDate = new Date(vlDate.dateOfNextVL);
+        const calculatedDueDate = calaculatDueDate(dueDate, 6);
+        const isHoliday = checkSchoolHoliday(calculatedDueDate);
+
+        if (isHoliday) {
+          console.log('holiday');
+        } else {
+          console.log('not holiday');
+        }
+      } else {
+        console.log('No appointment scheduled');
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 

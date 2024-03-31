@@ -172,3 +172,5 @@ sequelize.authenticate().then(() => {
 server.listen(5000, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
+
+module.exports = server;
