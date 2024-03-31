@@ -8,6 +8,9 @@ const http = require('http');
 const Sentry = require('@sentry/node');
 const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
+const twilio = require('twilio');
+
+require('dotenv').config();
 
 const sequelize = require('./db/connect');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
@@ -121,10 +124,33 @@ const PORT = process.env.PORT || 5000;
 // enable cors
 // app.use(cors(corsOption));
 
+//
+const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
+
+// sendsms
+app.post('/sms/send', (req, res, next) => {
+  const { to, message } = req.body;
+  console.log(message);
+
+  try {
+    const response = twilioClient.messages.create({
+      body: message,
+      to,
+      from: process.env.TWILIO_PHONE,
+    });
+    if (response) {
+      console.log('Sent successfully', response);
+      res.sendStatus(200);
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);

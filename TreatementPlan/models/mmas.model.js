@@ -41,10 +41,9 @@ const MMAS = sequelize.define('mmas', {
   },
 });
 
-
-(async () => {
-  await sequelize.sync();
-  console.log('Table synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('Table synced successfully');
+// })();
 
 module.exports = MMAS;
