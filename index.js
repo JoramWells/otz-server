@@ -132,23 +132,24 @@ app.use(express.urlencoded({
 }));
 
 // sendsms
-app.post('/sms/send', (req, res, next) => {
+app.post('/sms/send', async (req, res, next) => {
   const { to, message } = req.body;
   console.log(message);
 
   try {
-    const response = twilioClient.messages.create({
+    const response = await twilioClient.messages.create({
       body: message,
       to,
       from: process.env.TWILIO_PHONE,
     });
+
     if (response) {
-      console.log('Sent successfully', response);
-      res.sendStatus(200);
+      res.json(response);
     }
     next();
   } catch (error) {
     console.log(error);
+    next(error);
   }
 });
 

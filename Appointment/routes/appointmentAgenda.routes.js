@@ -1,5 +1,6 @@
 const express = require('express');
-const {addAppointmentAgenda, getAllAppointmentAgenda,
+const {
+  addAppointmentAgenda, getAllAppointmentAgenda,
   getAppointmentAgenda, editAppointmentAgenda, deleteAppointmentAgenda,
 } = require('../controllers/appointmentAgenda.controller');
 

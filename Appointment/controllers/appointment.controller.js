@@ -142,7 +142,7 @@ const getAppointment = async (req, res, next) => {
   try {
     const patient = await Appointment.findAll({
       where: {
-        patientID: id,
+        id,
       },
       include: [
         {
@@ -232,7 +232,7 @@ const editAppointment = async (req, res, next) => {
       // emit event
       req.app.locals.io.emit('appointment-updated', []);
     }
-    console.log(results.status, 'fgt');
+    // console.log(results.status, 'fgt');
     res.status(200);
     next();
   } catch (error) {

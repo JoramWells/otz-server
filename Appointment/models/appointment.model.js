@@ -48,7 +48,7 @@ const Appointment = sequelize.define('appointments', {
   appointmentDate: {
     type: DataTypes.DATEONLY,
   },
-  
+
   appointmentTime: {
     type: DataTypes.TIME,
     defaultValue: Sequelize.literal('CURRENT_TIME'),
@@ -64,9 +64,9 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-Appointment.afterUpdate(async()=>{
-  console.log("@@@@@@")
-})
+Appointment.afterUpdate(async () => {
+  console.log('@@@@@@');
+});
 
 // (async () => {
 //   await sequelize.sync();
