@@ -4,6 +4,10 @@
 const twilio = require('twilio');
 
 const SMSWhatsapp = require('../models/smsWhatsapp.model');
+const Appointment = require('../models/appointment.model');
+const Patient = require('../models/patient/patients.models');
+const User = require('../models/users/user.models');
+const AppointmentAgenda = require('../models/appointmentAgenda.model');
 
 const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
@@ -23,7 +27,28 @@ const addSMSWhatsapp = async (req, res, next) => {
 // get all priceListItems
 const getAllSMSWhatsapp = async (req, res, next) => {
   try {
-    const results = await SMSWhatsapp.findAll({ });
+    const results = await SMSWhatsapp.findAll({
+      include: [
+        {
+          model: Appointment,
+          attributes: ['id'],
+          include: [
+            {
+              model: Patient,
+              attributes: ['id', 'firstName', 'middleName'],
+            },
+            {
+              model: User,
+              attributes: ['id', 'firstName', 'middleName'],
+            }, {
+              model: AppointmentAgenda,
+              attributes: ['agendaDescription'],
+            },
+          ],
+        },
+      ],
+
+    });
     res.json(results);
     next();
   } catch (error) {

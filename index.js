@@ -25,6 +25,7 @@ const mmasRoutes = require('./TreatementPlan/routes/mmas.routes');
 const appointmentRoutes = require('./Appointment/routes/appointment.routes');
 const appointmentStatusRoutes = require('./Appointment/routes/appointmentStatus.routes');
 const appointmentAgendaRoutes = require('./Appointment/routes/appointmentAgenda.routes');
+const smsWhatsappRoutes = require('./Appointment/routes/smsWhatsapp.routes');
 const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
@@ -132,26 +133,26 @@ app.use(express.urlencoded({
 }));
 
 // sendsms
-app.post('/sms/send', async (req, res, next) => {
-  const { to, message } = req.body;
-  console.log(message);
+// app.post('/sms/send', async (req, res, next) => {
+//   const { to, message } = req.body;
+//   console.log(message);
 
-  try {
-    const response = await twilioClient.messages.create({
-      body: message,
-      to,
-      from: process.env.TWILIO_PHONE,
-    });
+//   try {
+//     const response = await twilioClient.messages.create({
+//       body: message,
+//       to,
+//       from: process.env.TWILIO_PHONE,
+//     });
 
-    if (response) {
-      res.json(response);
-    }
-    next();
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-});
+//     if (response) {
+//       res.json(response);
+//     }
+//     next();
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// });
 
 // app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);
@@ -168,6 +169,7 @@ app.use('/home-visit', homeVisitRoutes);
 app.use('/time-and-work', timeAndWorkRoutes);
 app.use('/mmas', mmasRoutes);
 app.use('/appointments', appointmentRoutes);
+app.use('/sms', smsWhatsappRoutes);
 app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
@@ -196,7 +198,7 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-server.listen(5000, () => {
+server.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
 

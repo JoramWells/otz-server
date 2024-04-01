@@ -39,9 +39,9 @@ const SMSWhatsapp = sequelize.define('SMSWhatsapp', {
 
 SMSWhatsapp.belongsTo(Appointment, { foreignKey: 'appointmentID', targetKey: 'id' });
 
-SMSWhatsapp.afterUpdate(async () => {
-  console.log('@@@@@@');
-});
+// SMSWhatsapp.afterUpdate(async () => {
+//   console.log('@@@@@@');
+// });
 
 // (async () => {
 //   await sequelize.sync();
