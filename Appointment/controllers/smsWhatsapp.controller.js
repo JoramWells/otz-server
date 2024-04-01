@@ -1,13 +1,17 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const twilio = require('twilio');
+const schedule = require('node-schedule');
 
+const { Op } = require('sequelize');
 const SMSWhatsapp = require('../models/smsWhatsapp.model');
 const Appointment = require('../models/appointment.model');
 const Patient = require('../models/patient/patients.models');
 const User = require('../models/users/user.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
+require('dotenv').config();
 
 const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 

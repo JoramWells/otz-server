@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
@@ -9,9 +10,11 @@ const Sentry = require('@sentry/node');
 const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
 const twilio = require('twilio');
+const schedule = require('node-schedule');
 
 require('dotenv').config();
 
+const { Op } = require('sequelize');
 const sequelize = require('./db/connect');
 const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
 const internalLabRequestRoutes = require('./ViralLoad/routes/internalLabRequests.routes');
@@ -43,6 +46,7 @@ const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.r
 const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
 const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
 const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
+const SMSWhatsapp = require('./Appointment/models/smsWhatsapp.model');
 
 const app = express();
 
@@ -68,6 +72,39 @@ const app = express();
 // redisClient.on('connect',function(){
 //   console.log('Connected to Redis')
 // })
+
+const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true,
+}));
+
+// job
+// schedule.scheduleJob('* * * * * *', async (fireDate) => {
+//   const currentTime = new Date();
+//   const nextMinute = new Date(currentTime.getTime() + 6000);
+//   const smses = await SMSWhatsapp.findAll({
+//     where: {
+//       scheduledTime: currentTime,
+//     },
+//   });
+
+//   if (smses) {
+//     console.log(`Task was supposed to run at${fireDate}but ran at${new Date()}`);
+//   }
+
+// smses.forEach(async (sms) => {
+//   try {
+//     await twilioClient.messages.create({
+//       body: smses.messageText,
+//       to: '+254799980846',
+//       from: process.env.TWILIO_PHONE,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+// });
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -126,11 +163,6 @@ const PORT = process.env.PORT || 5000;
 // app.use(cors(corsOption));
 
 //
-const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true,
-}));
 
 // sendsms
 // app.post('/sms/send', async (req, res, next) => {
