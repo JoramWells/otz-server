@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../db/connect');
-const Patient = require('./patient/patients.models');
+const sequelize = require('../../../db/connect');
+const Patient = require('../patient/patients.models');
+const ART = require('../art.model');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
 const Pill = sequelize.define('pills', {
@@ -17,10 +18,13 @@ const Pill = sequelize.define('pills', {
       key: 'id',
     },
   },
-  currentARTRegimen: {
-    type: DataTypes.STRING,
+  artID: {
+    type: DataTypes.UUID,
   },
   noOfPills: {
+    type: DataTypes.INTEGER,
+  },
+  frequency: {
     type: DataTypes.INTEGER,
   },
   refillDate: {
@@ -30,6 +34,7 @@ const Pill = sequelize.define('pills', {
 });
 
 Pill.belongsTo(Patient, { foreignKey: 'patientID' });
+Pill.belongsTo(ART, { foreignKey: 'artID' });
 // InternalLabRequests.belongsTo(Hospital, { foreignKey: 'hospitalID' });
 
 // (async () => {

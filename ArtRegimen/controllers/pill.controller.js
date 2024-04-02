@@ -6,7 +6,8 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 // const Patient = require('../../Location/models/patients.models');
-const Pill = require('../models/pill.model');
+const Pill = require('../models/pill/pill.model');
+const Patient = require('../../ViralLoad/models/patient/patients.models');
 
 // setup server
 const app = express();
@@ -36,12 +37,12 @@ const addPills = async (req, res, next) => {
 const getAllPills = async (req, res, next) => {
   try {
     const results = await Pill.findAll({
-      // include: [
-      //   {
-      //     model: Patient,
-      //     attributes: ['firstName', 'middleName'],
-      //   },
-      // ],
+      include: [
+        {
+          model: Patient,
+          attributes: ['id', 'firstName', 'middleName'],
+        },
+      ],
     });
     res.json(results);
     next();
