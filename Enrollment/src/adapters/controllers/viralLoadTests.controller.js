@@ -4,6 +4,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Sequelize } = require('sequelize');
 const Patient = require('../../domain/models/patients/patients.models');
 const SchoolTermHoliday = require('../../domain/models/school/schoolTermHolidays.model');
 const ViralLoadTests = require('../../domain/models/viralLoadTests.model');
@@ -40,6 +41,26 @@ const getAllViralLoadTests = async (req, res, next) => {
     console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
+  }
+};
+
+const getAllVlCategories = async (req, res, next) => {
+  try {
+    const results = await ViralLoadTests.findAll({
+      attributes: [
+        [Sequelize.literal(`CASE
+      WHEN "vlResults"::numeric < 50 THEN 'LDL'
+      WHEN "vlResults"::numeric BETWEEN 50 AND 199 THEN 'Low RiskLLV'
+      WHEN "vlResults"::numeric BETWEEN 200 AND 999 THEN 'High Risk LLV'
+      ELSE 'Suspected Treatment Failure'
+      END`), 'category'],
+        [Sequelize.fn('COUNT', Sequelize.col('*')), 'count'],
+      ],
+      group: 'category',
+    });
+    res.json(results);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -193,4 +214,5 @@ module.exports = {
   getViralLoadTest,
   editViralLoadTest,
   deleteViralLoadTest,
+  getAllVlCategories,
 };

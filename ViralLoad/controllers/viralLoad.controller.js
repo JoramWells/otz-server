@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
+const { Sequelize } = require('sequelize');
 const ViralLoad = require('../models/viralLoad.model');
 
 // using *Patients model
@@ -26,6 +27,26 @@ const getAllViralLoads = async (req, res, next) => {
     console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
+  }
+};
+
+const getAllVlCategories = async (req, res, next) => {
+  try {
+    const results = await ViralLoad.findAll({
+      attributes: [
+        [Sequelize.literal(`CASE
+      WHEN vlResults < 50 THEN 'LDL'
+      WHEN vlResults BETWEEN 50 AND 199 THEN 'Low RiskLLV'
+      WHEN vlResults BETWEEN 200 AND 999 THEN 'High Risk LLV'
+      ELSE 'Suspected Treatment Failure'
+      END`), 'category'],
+        [Sequelize.fn('COUNT', Sequelize.col('*')), 'count'],
+      ],
+      group: 'category',
+    });
+    res.json(results);
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -92,5 +113,10 @@ const deleteViralLoad = async (req, res, next) => {
 };
 
 module.exports = {
-  addViralLoad, getAllViralLoads, getViralLoad, editViralLoad, deleteViralLoad,
+  addViralLoad,
+  getAllViralLoads,
+  getViralLoad,
+  editViralLoad,
+  deleteViralLoad,
+  getAllVlCategories,
 };

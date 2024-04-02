@@ -2,6 +2,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const redis = require('redis');
+const moment = require('moment');
+const { Sequelize, Op } = require('sequelize');
 const Appointment = require('../models/appointment.model');
 const Patient = require('../../models/patient/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
@@ -32,8 +34,29 @@ const addAppointment = async (req, res, next) => {
 
 // get all priceListItems
 const getAllAppointments = async (req, res, next) => {
+  const { date, mode } = req.query;
+  console.log(mode === 'weekly', 'body');
+  let startDate;
+  let endDate;
+  const whereCondition = {};
+
   const appointmentKey = 'appointmentData';
   try {
+    if (mode === 'daily') {
+      startDate = new Date(date);
+      endDate = new Date(date);
+      endDate.setDate(endDate.getDate() + 1);
+      whereCondition.appointmentDate = {
+        [Op.between]: [startDate, endDate],
+      };
+    } else if (mode === 'weekly') {
+      startDate = moment().startOf('week').toDate();
+      endDate = moment().endOf('week').toDate();
+      whereCondition.appointmentDate = {
+        [Op.between]: [startDate, endDate],
+      };
+    }
+
     const client = redis.createClient({ url: 'redis://redis:6379' });
     await client.connect();
 
@@ -42,6 +65,7 @@ const getAllAppointments = async (req, res, next) => {
       // get all
       const results = await Appointment.findAll({
         order: [['appointmentDate', 'ASC']],
+        where: whereCondition,
         include: [
           {
             model: Patient,
@@ -102,6 +126,26 @@ const checkAppointment = async () => {
       // const vlDate
       console.log(patient);
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//
+const getWeeklyAppointments = async (req, res, next) => {
+  try {
+    const startDate = moment().startOf('week').toDate();
+    const endDate = moment().endOf('week').toDate();
+
+    const appointments = await Appointment.findAll({
+      where: {
+        appointmentDate: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+    });
+
+    res.json(appointments);
   } catch (error) {
     console.log(error);
   }
@@ -267,4 +311,5 @@ module.exports = {
   editAppointment,
   deleteAppointment,
   getAppointmentDetail,
+  getWeeklyAppointments,
 };
