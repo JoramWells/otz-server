@@ -2,10 +2,12 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 
-const { addInternalLabRequests, getAllInternalLabRequests, getInternalLabRequest, 
-  editInternalLabRequest, deleteInternalLabRequest } = require('../controllers/internalLabRequests.controller');
+const {
+  addInternalLabRequests, getAllInternalLabRequests, getInternalLabRequest,
+  editInternalLabRequest, deleteInternalLabRequest,
+} = require('../controllers/internalLabRequests.controller');
 
-const app = express()
+const app = express();
 
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -22,9 +24,8 @@ router.delete('/delete/:id', deleteInternalLabRequest);
 //   console.log('Client connected');
 //   if(editInternalLabRequest){
 //     io.emit('lab-updated')
-//   }  
+//   }
 //   // You can handle events here if needed
 // });
-
 
 module.exports = router;

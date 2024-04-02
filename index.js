@@ -47,6 +47,7 @@ const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
 const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
 const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
 const SMSWhatsapp = require('./Appointment/models/smsWhatsapp.model');
+const pillRoutes = require('./ViralLoad/routes/pill.routes');
 
 const app = express();
 
@@ -216,7 +217,9 @@ app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
 app.use('/patients', patientRoutes);
+app.use('/pills', pillRoutes);
 app.use('/measuring-unit', measuringUnitRoutes);
+
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
