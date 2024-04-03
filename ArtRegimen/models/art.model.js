@@ -24,7 +24,6 @@ const ART = sequelize.define(
       onDelete: 'CASCADE',
 
     },
-
     measuringUnitID: {
       type: DataTypes.UUID,
       references: {
@@ -36,6 +35,9 @@ const ART = sequelize.define(
     quantity: {
       type: DataTypes.INTEGER,
     },
+    expiryDate: {
+      type: DataTypes.DATE,
+    },
   },
   { timestamps: true },
 );
@@ -45,7 +47,7 @@ ART.belongsTo(MeasuringUnit, { foreignKey: 'measuringUnitID' });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('ART Categorygt Table synced Successfully');
+//   console.log('ART Category Table synced Successfully');
 // })();
 
 module.exports = ART;

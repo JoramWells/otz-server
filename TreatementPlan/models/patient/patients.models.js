@@ -81,7 +81,7 @@ const Patient = sequelize.define(
 
 Patient.belongsTo(School, { foreignKey: 'schoolID' });
 Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' });
-Patient.hasOne(TimeAndWork, { foreignKey: 'patientID' });
+// Patient.hasOne(TimeAndWork, { foreignKey: 'patientID' });
 
 // (async () => {
 //     await sequelize.sync();

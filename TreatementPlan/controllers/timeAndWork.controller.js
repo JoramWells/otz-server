@@ -4,12 +4,12 @@
 
 const MMAS = require('../models/mmas.model');
 const Patient = require('../models/patient/patients.models');
-const Time_and_work = require('../models/timeAndWork.model');
+const TimeAndWork = require('../models/timeAndWork.model');
 
 // using *Patients model
 const addTimeAndWork = async (req, res, next) => {
   try {
-    const newProfile = await Time_and_work.create(req.body);
+    const newProfile = await TimeAndWork.create(req.body);
 
     res.json(newProfile);
     next();
@@ -22,7 +22,7 @@ const addTimeAndWork = async (req, res, next) => {
 // get all priceListItems
 const getAllTimeAndWork = async (req, res, next) => {
   try {
-    const patients = await Time_and_work.findAll({
+    const patients = await TimeAndWork.findAll({
       include: [
         {
           model: Patient,
@@ -39,10 +39,11 @@ const getAllTimeAndWork = async (req, res, next) => {
   }
 };
 
+
 const getTimeAndWork = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Time_and_work.findAll({
+    const patient = await TimeAndWork.findAll({
       where: {
         patientID: id,
       },
@@ -63,7 +64,7 @@ const editTimeAndWork = async (req, res, next) => {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const results = await Time_and_work.findOne({
+    const results = await TimeAndWork.findOne({
       where: {
         patient_id: id,
       },
@@ -86,7 +87,7 @@ const editTimeAndWork = async (req, res, next) => {
 const deleteTimeAndWork = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await Time_and_work.destroy({
+    const results = await TimeAndWork.destroy({
       where: {
         patient_id: id,
       },

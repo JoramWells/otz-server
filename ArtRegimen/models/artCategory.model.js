@@ -12,6 +12,9 @@ const ArtCategory = sequelize.define('artCategories', {
   artCategoryDescription: {
     type: DataTypes.STRING,
   },
+  ageLine: {
+    type: DataTypes.STRING,
+  },
   artPhaseID: {
     type: DataTypes.UUID,
     references: {
