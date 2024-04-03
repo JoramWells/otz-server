@@ -33,7 +33,7 @@ const Patient = sequelize.define(
     phoneNo: {
       type: DataTypes.STRING,
     },
-    occupation: {
+    occupationID: {
       type: DataTypes.UUID,
       allowNull: true,
     },
@@ -43,10 +43,10 @@ const Patient = sequelize.define(
     cccNo: {
       type: DataTypes.STRING,
     },
-    mflCode: {
+    hospitalID: {
       type: DataTypes.STRING,
     },
-    residence: {
+    subCountyID: {
       type: DataTypes.STRING,
     },
     ageAtReporting: {
@@ -55,7 +55,7 @@ const Patient = sequelize.define(
     dateConfirmedPositive: {
       type: DataTypes.DATE,
     },
-    firstRegimen: {
+    initialRegimen: {
       type: DataTypes.STRING,
       allowNull: true,
 

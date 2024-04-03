@@ -2,9 +2,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const moment = require('moment');
+const { Op } = require('sequelize');
 const MMAS = require('../models/mmas.model');
 const Patient = require('../models/patient/patients.models');
 const TimeAndWork = require('../models/timeAndWork.model');
+const Uptake = require('../models/uptake.model');
 
 // using *Patients model
 const addTimeAndWork = async (req, res, next) => {
@@ -19,19 +22,84 @@ const addTimeAndWork = async (req, res, next) => {
   }
 };
 
+//
+const scheduleDailyTask = async (taskFunction) => {
+  const now = moment();
+  const tomorrow = moment().add(1, 'day').startOf('day');
+  const delay = tomorrow.diff(now);
+
+  setTimeout(() => {
+    taskFunction();
+    setInterval(taskFunction, 24 * 60 * 60 * 1000);
+  }, delay);
+};
+
+// scedule
+// scheduleDailyTask(createDailyUptake);
+
 // get all priceListItems
 const getAllTimeAndWork = async (req, res, next) => {
+  const { medicationsDue } = req.query;
+  console.log(req.query);
+  const currentTime = moment();
+  const duePatients = [];
   try {
+    // Get current date
+    const currentDate = moment().format('YYYY-MM-DD');
+
+    // results.forEach(async (results) => {
+    //   await Uptake.create({
+    //     patientID: results.patientID,
+    //   });
+    // });
+
     const patients = await TimeAndWork.findAll({
+      // where: {
+      //   [Op.between]: [new Date(), new Date().setDate(new Date().getDate() + 1)],
+      // },
       include: [
         {
           model: Patient,
-          attributes: ['id'],
+          attributes: ['id', 'firstName'],
         },
       ],
     });
+
+    const todaysUptake = await Uptake.findAll({
+      include: [{
+        model: TimeAndWork,
+        attributes: ['morningTime'],
+      }],
+    });
+    if (medicationsDue) {
+      todaysUptake.forEach(async (uptake) => {
+        const morningTime = moment(uptake.morningTime, 'HH:mm');
+        const eveningTime = moment(uptake.eveningTime, 'HH:mm');
+      });
+    }
+
     res.json(patients);
     next();
+
+    // if (medicationsDue) {
+    //   patients.forEach(async (time) => {
+    //     const morningTime = moment(time.morningTime, 'HH:mm');
+    //     const eveningTime = moment(time.eveningTime, 'HH:mm');
+
+    //     if (currentTime.isSameOrAfter(morningTime) && currentTime.isBefore(eveningTime)) {
+    //       duePatients.push({
+    //         patientID: time.patientID,
+    //         firstName: time.patient.firstName,
+
+    //       });
+    //     }
+    //   });
+    //   res.json(duePatients);
+    //   next();
+    // } else {
+    //   res.json(patients);
+    //   next();
+    // }
   } catch (error) {
     console.log(error);
     res.json({ error: 'Internal Server error' });
@@ -107,4 +175,6 @@ module.exports = {
   getTimeAndWork,
   editTimeAndWork,
   deleteTimeAndWork,
+  //
+  scheduleDailyTask,
 };

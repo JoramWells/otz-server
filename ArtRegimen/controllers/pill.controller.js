@@ -6,6 +6,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 // const Patient = require('../../Location/models/patients.models');
+const moment = require('moment');
 const Pill = require('../models/pill/pill.model');
 const Patient = require('../../ViralLoad/models/patient/patients.models');
 const ART = require('../models/art.model');
@@ -32,6 +33,30 @@ const addPills = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const currentTime = moment();
+
+const dueMedication = async (req, res, next) => {
+  try {
+    const scheduledTimes = await TimeAndWork.findAll({});
+
+    scheduledTimes.forEach(async (time) => {
+      const morningTime = moment(time.morningTime, 'HH:mm'); // Parse morning time
+      const eveningTime = moment(time.eveningTime, 'HH:mm'); // Parse evening time
+
+      if (currentTime.isBetween(morningTime, eveningTime)) {
+        const results = await Pill.findAll({
+          where: {
+
+          },
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 };
 
