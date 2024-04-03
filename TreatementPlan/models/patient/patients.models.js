@@ -3,7 +3,6 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../../db/connect');
 const School = require('../../../Location/models/school.model');
 const Hospital = require('../../../Hospital/models/hospital.model');
-const TimeAndWork = require('../timeAndWork.model');
 
 // const School = require('./school.model');
 // const Hospital = require('../../Hospital/models/hospital.model');
@@ -81,7 +80,6 @@ const Patient = sequelize.define(
 
 Patient.belongsTo(School, { foreignKey: 'schoolID' });
 Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' });
-// Patient.hasOne(TimeAndWork, { foreignKey: 'patientID' });
 
 // (async () => {
 //     await sequelize.sync();

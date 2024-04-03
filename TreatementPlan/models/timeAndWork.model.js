@@ -54,7 +54,7 @@ const TimeAndWork = sequelize.define('timeAndWork', {
   },
 });
 
-// TimeAndWork.belongsTo(Patient, { foreignKey: 'patientID' });
+TimeAndWork.belongsTo(Patient, { foreignKey: 'patientID' });
 // Patient.hasMany(TimeAndWork, { foreignKey: 'patientID' });
 
 // (async () => {
