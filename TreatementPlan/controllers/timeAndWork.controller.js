@@ -39,7 +39,6 @@ const getAllTimeAndWork = async (req, res, next) => {
   }
 };
 
-
 const getTimeAndWork = async (req, res, next) => {
   const { id } = req.params;
   try {
