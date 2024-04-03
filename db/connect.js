@@ -16,10 +16,10 @@ const connect = new Sequelize(
     define: {
       timestamps: true,
       freezeTableName: true,
+      logging: true,
 
     },
   },
-
 );
 
 module.exports = connect;

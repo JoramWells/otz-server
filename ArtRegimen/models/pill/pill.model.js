@@ -22,7 +22,7 @@ const Pill = sequelize.define('pills', {
     type: DataTypes.UUID,
   },
   noOfPills: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   frequency: {
     type: DataTypes.INTEGER,

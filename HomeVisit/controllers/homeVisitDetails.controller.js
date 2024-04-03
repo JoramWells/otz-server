@@ -13,7 +13,7 @@ const addHomeVisit = async (req, res, next) => {
     const newProfile = await Home_visit_detail.create(req.body);
 
     res.json(newProfile);
-    console.log(req.body)
+    console.log(req.body);
     next();
   } catch (error) {
     console.log(error);
@@ -72,7 +72,7 @@ const getHomeVisitDetails = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
-    next(error)
+    next(error);
   }
 };
 

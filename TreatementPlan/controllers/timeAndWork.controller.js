@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const MMAS = require('../models/mmas.model');
+const Patient = require('../models/patient/patients.models');
 const Time_and_work = require('../models/timeAndWork.model');
 
 // using *Patients model
@@ -21,7 +22,14 @@ const addTimeAndWork = async (req, res, next) => {
 // get all priceListItems
 const getAllTimeAndWork = async (req, res, next) => {
   try {
-    const patients = await Time_and_work.findAll();
+    const patients = await Time_and_work.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ['id'],
+        },
+      ],
+    });
     res.json(patients);
     next();
   } catch (error) {
@@ -34,9 +42,9 @@ const getAllTimeAndWork = async (req, res, next) => {
 const getTimeAndWork = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Time_and_work.findOne({
+    const patient = await Time_and_work.findAll({
       where: {
-        patient_id: id,
+        patientID: id,
       },
     });
     res.json(patient);
@@ -44,6 +52,7 @@ const getTimeAndWork = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 

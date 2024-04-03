@@ -8,6 +8,8 @@ const socketIO = require('socket.io');
 // const Patient = require('../../Location/models/patients.models');
 const Pill = require('../models/pill/pill.model');
 const Patient = require('../../ViralLoad/models/patient/patients.models');
+const ART = require('../models/art.model');
+const TimeAndWork = require('../models/treatmentplan/timeAndWork.model');
 
 // setup server
 const app = express();
@@ -41,6 +43,16 @@ const getAllPills = async (req, res, next) => {
         {
           model: Patient,
           attributes: ['id', 'firstName', 'middleName'],
+          // include: [
+          //   {
+          //     model: TimeAndWork,
+          //     attributes: ['id', 'morningTime', 'eveningTime'],
+          //   },
+          // ],
+        },
+        {
+          model: ART,
+          attributes: ['id', 'artName'],
         },
       ],
     });
