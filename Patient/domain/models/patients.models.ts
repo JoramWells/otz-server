@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import { DataTypes, UUIDV4 }  from 'sequelize';
 const sequelize = require('../db/connect');
+const School = require('./school/school.model');
+const Hospital = require("./hospital/hospital.model");
 
 const Patient = sequelize.define(
   "patients",

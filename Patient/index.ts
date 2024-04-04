@@ -24,7 +24,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/patient', patientRoutes);
+app.use('/patients', patientRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');

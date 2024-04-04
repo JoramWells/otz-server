@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const moment = require('moment');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const Patient = require('../../models/patient/patients.models');
 const TimeAndWork = require('../models/timeAndWork.model');
 const Uptake = require('../models/uptake.model');
@@ -27,36 +27,48 @@ const getAllUptake = async (req, res, next) => {
   const currentDate = moment().format('YYYY-MM-DD');
   const currentTime = moment();
   const endMorningTime = moment('10.00.00', 'HH:mm');
-  let whereCondition = {};
-  let morningStatusWhereCondition = {};
+  const whereCondition = {};
+  const morningStatusWhereCondition = {};
+  let patients = {};
 
   try {
     if (patientsDueMorning) {
-      whereCondition = {
-        morningTime: {
-          [Op.between]: ['6:00:00', '9:00:00'],
-        },
+      whereCondition.morningTime = {
+        [Op.between]: ['6:00:00', '9:00:00'],
       };
 
-      morningStatusWhereCondition = {
-        morningStatus: false,
-      };
-    }
-    const patients = await Uptake.findAll({
-      where: {
-        currentDate,
-        morningStatus: morningStatusWhereCondition,
-      },
-      include: {
-        where: whereCondition,
-        model: TimeAndWork,
-        attributes: ['id', 'morningTime', 'eveningTime'],
-        include: {
-          model: Patient,
-          attributes: ['id', 'firstName', 'middleName'],
+      //
+      patients = await Uptake.findAll({
+        where: {
+          currentDate,
+          morningStatus: true,
         },
-      },
-    });
+        include: {
+          where: whereCondition,
+          model: TimeAndWork,
+          attributes: ['id', 'morningTime', 'eveningTime'],
+          include: {
+            model: Patient,
+            attributes: ['id', 'firstName', 'middleName'],
+          },
+        },
+      });
+    } else {
+      patients = await Uptake.findAll({
+        where: {
+          currentDate,
+        },
+        include: {
+          where: whereCondition,
+          model: TimeAndWork,
+          attributes: ['id', 'morningTime', 'eveningTime'],
+          include: {
+            model: Patient,
+            attributes: ['id', 'firstName', 'middleName'],
+          },
+        },
+      });
+    }
 
     // if (due) {
 
@@ -66,6 +78,30 @@ const getAllUptake = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.json({ error: 'Internal Server error' });
+    next(error);
+  }
+};
+
+const getUptakeCount = async (req, res, next) => {
+  const currentDate = moment().format('YYYY-MM-DD');
+
+  try {
+    const results = await Uptake.findOne({
+      attributes: [
+        [Sequelize.literal('SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'), 'morningTrueCount'],
+        [Sequelize.literal('SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'), 'morningFalseCount'],
+        [Sequelize.literal('SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'), 'eveningTrueCount'],
+        [Sequelize.literal('SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'), 'eveningFalseCount'],
+      ],
+      where: {
+        currentDate,
+      },
+    });
+    res.json(results);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
     next(error);
   }
 };
@@ -137,4 +173,5 @@ module.exports = {
   getUptake,
   editUptake,
   deleteUptake,
+  getUptakeCount,
 };
