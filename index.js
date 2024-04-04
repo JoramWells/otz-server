@@ -48,6 +48,7 @@ const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.rou
 const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
 const SMSWhatsapp = require('./Appointment/models/smsWhatsapp.model');
 const pillRoutes = require('./ArtRegimen/routes/pill.routes');
+const dailyUptakeRoutes = require('./TreatementPlan/routes/uptake.routes');
 const dailyUptake = require('./TreatementPlan/middleware/dailyUptake');
 
 const app = express();
@@ -81,14 +82,8 @@ app.use(express.urlencoded({
   extended: true,
 }));
 
-const runDailyUptakeMiddleware = () => {
-  dailyUptake({}, {}, () => {});
-};
-
-schedule.scheduleJob({ hour: 0, minute: 0 }, async () => { await runDailyUptakeMiddleware(); });
-
-app.use(dailyUptake);
-
+schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
+// dailyUptake();
 // job
 // schedule.scheduleJob('* * * * * *', async (fireDate) => {
 //   const currentTime = new Date();
@@ -227,6 +222,7 @@ app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
 app.use('/patients', patientRoutes);
 app.use('/pills', pillRoutes);
+app.use('/daily-uptake', dailyUptakeRoutes);
 app.use('/measuring-unit', measuringUnitRoutes);
 
 // app.use((err, req, res, next) => {

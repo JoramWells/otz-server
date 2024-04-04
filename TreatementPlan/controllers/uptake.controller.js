@@ -2,6 +2,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const moment = require('moment');
+const { Op } = require('sequelize');
+const Patient = require('../../models/patient/patients.models');
+const TimeAndWork = require('../models/timeAndWork.model');
 const Uptake = require('../models/uptake.model');
 
 // using *Patients model
@@ -19,8 +23,44 @@ const addUptake = async (req, res, next) => {
 
 // get all priceListItems
 const getAllUptake = async (req, res, next) => {
+  const { patientsDueMorning } = req.query;
+  const currentDate = moment().format('YYYY-MM-DD');
+  const currentTime = moment();
+  const endMorningTime = moment('10.00.00', 'HH:mm');
+  let whereCondition = {};
+  let morningStatusWhereCondition = {};
+
   try {
-    const patients = await Uptake.findAll();
+    if (patientsDueMorning) {
+      whereCondition = {
+        morningTime: {
+          [Op.between]: ['6:00:00', '9:00:00'],
+        },
+      };
+
+      morningStatusWhereCondition = {
+        morningStatus: false,
+      };
+    }
+    const patients = await Uptake.findAll({
+      where: {
+        currentDate,
+        morningStatus: morningStatusWhereCondition,
+      },
+      include: {
+        where: whereCondition,
+        model: TimeAndWork,
+        attributes: ['id', 'morningTime', 'eveningTime'],
+        include: {
+          model: Patient,
+          attributes: ['id', 'firstName', 'middleName'],
+        },
+      },
+    });
+
+    // if (due) {
+
+    // }
     res.json(patients);
     next();
   } catch (error) {
@@ -35,7 +75,7 @@ const getUptake = async (req, res, next) => {
   try {
     const patient = await Uptake.findOne({
       where: {
-        patientID: id,
+        id,
       },
     });
     res.json(patient);
@@ -43,33 +83,33 @@ const getUptake = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 
 // edit patient
 const editUptake = async (req, res, next) => {
   const { id } = req.params;
+  console.log(req.body);
   const {
-    first_name, middle_name, last_name, id_number, cell_phone,
+    morningStatus,
   } = req.body;
   try {
     const results = await Uptake.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
 
-    results.first_name = first_name;
-    results.middle_name = middle_name;
-    results.last_name = last_name;
-    results.id_number = id_number;
-    results.cell_phone = cell_phone;
-    next();
+    results.morningStatus = morningStatus;
 
-    return results.save();
+    results.save();
+    res.json(results);
+    next();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error);
   }
 };
 
