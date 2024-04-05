@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../db/connect');
+const sequelize = require('../../db/connect');
 
-const ARTSwitchReason = sequelize.define(
-  'artSwitchReasons',
+const ArtRegimenPhase = sequelize.define(
+  'artRegimenPhases',
   {
     id: {
       type: DataTypes.UUID,
@@ -11,7 +11,7 @@ const ARTSwitchReason = sequelize.define(
       defaultValue: UUIDV4,
       unique: true,
     },
-    reason: {
+    artPhaseDescription: {
       type: DataTypes.STRING,
     },
   },
@@ -22,7 +22,7 @@ const ARTSwitchReason = sequelize.define(
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('ART Switch Reason Table synced successfully');
+//   console.log('Table synced successfully');
 // })();
 
-module.exports = ARTSwitchReason;
+module.exports = ArtRegimenPhase;

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../../db/connect');
-const Patient = require('../patient/patients.models');
+const sequelize = require('../../../db/connect');
+const Patient = require('./patient/patients.models');
 
 const TimeAndWork = sequelize.define('timeAndWork', {
   id: {
@@ -15,7 +15,6 @@ const TimeAndWork = sequelize.define('timeAndWork', {
       model: 'patients',
       key: 'id',
     },
-    // onDelete: 'CASCADE',
   },
   wakeUpTime: {
     type: DataTypes.STRING,

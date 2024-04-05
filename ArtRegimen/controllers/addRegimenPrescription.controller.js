@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Patient = require('../../models/patient/patients.models');
+const Patient = require('../../../models/patient/patients.models');
 const ART = require('../models/art.model');
 const ARTPrescription = require('../models/artPrescription.model');
 

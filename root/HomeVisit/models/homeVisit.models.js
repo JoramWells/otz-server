@@ -4,9 +4,9 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../../models/patient/patients.models');
 const User = require('../../Users/models/user.models');
-const ART = require('../../ArtRegimen/models/art.model');
+const ART = require('../../root/ArtRegimen/models/art.model');
 const HomeVisitReason = require('./HomeVisitReason.model');
-const ARTPrescription = require('../../ArtRegimen/models/artPrescription.model');
+const ARTPrescription = require('../../root/ArtRegimen/models/artPrescription.model');
 // const HomeVisitReason = require('./HomeVisitReason.model');
 // const ART = require('../../ArtRegimen/models/art.model');
 

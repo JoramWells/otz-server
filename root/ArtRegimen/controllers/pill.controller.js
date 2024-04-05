@@ -8,7 +8,7 @@ const socketIO = require('socket.io');
 // const Patient = require('../../Location/models/patients.models');
 const moment = require('moment');
 const Pill = require('../models/pill/pill.model');
-const Patient = require('../../../ViralLoad/models/patient/patients.models');
+const Patient = require('../../ViralLoad/models/patient/patients.models');
 const ART = require('../models/art.model');
 const TimeAndWork = require('../models/treatmentplan/timeAndWork.model');
 

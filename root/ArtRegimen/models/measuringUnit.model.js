@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../db/connect');
+const sequelize = require('../../db/connect');
 
 const MeasuringUnit = sequelize.define('measuringUnits', {
   id: {

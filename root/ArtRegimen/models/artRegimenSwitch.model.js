@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../db/connect');
+const sequelize = require('../../db/connect');
 const ARTSwitchReason = require('./artSwitchReasons.model');
 const ART = require('./art.model');
 const ArtRegimenPhase = require('./artRegimenPhases.model');

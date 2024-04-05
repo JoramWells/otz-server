@@ -2,18 +2,16 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const ART = require('../../ArtRegimen/models/art.model');
 const Patient = require('../../models/patient/patients.models');
-const User = require('../../Users/models/user.models');
-const Home_visit_detail = require('../models/homeVisit.models');
-const HomeVisitReason = require('../models/HomeVisitReason.model');
+const ART = require('../models/art.model');
+const ARTPrescription = require('../models/artPrescription.model');
+
 // using *Patients model
-const addHomeVisit = async (req, res, next) => {
+const addRegimenPrescription = async (req, res, next) => {
   try {
-    const newProfile = await Home_visit_detail.create(req.body);
+    const newProfile = await ARTPrescription.create(req.body);
 
     res.json(newProfile);
-    console.log(req.body);
     next();
   } catch (error) {
     console.log(error);
@@ -22,23 +20,10 @@ const addHomeVisit = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllHomeVisits = async (req, res, next) => {
+const getAllRegimenPrescription = async (req, res, next) => {
   try {
-    const results = await Home_visit_detail.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName', 'lastName'],
-        },
-        {
-          model: User,
-          attributes: ['firstName', 'middleName', 'lastName'],
-        },
-        {
-          model: HomeVisitReason,
-          attributes: ['homeVisitReasonDescription'],
-        },
-      ],
+    const results = await ARTPrescription.findAll({
+      order: [['DESC', 'createdAt']],
     });
     res.json(results);
     next();
@@ -49,64 +34,60 @@ const getAllHomeVisits = async (req, res, next) => {
   }
 };
 
-const getHomeVisitDetails = async (req, res, next) => {
+const getRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Home_visit_detail.findAll({
+    const patient = await ARTPrescription.findAll({
       where: {
         patientID: id,
       },
       include: [
         {
-          model: User,
-          attributes: ['firstName', 'middleName', 'lastName'],
-        },
-        {
           model: ART,
           attributes: ['artName'],
         },
       ],
+      order: [['createdAt', 'DESC']],
     });
     res.json(patient);
     next();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
-    next(error);
   }
 };
 
 // edit patient
-const editHomeVisit = async (req, res, next) => {
+const editRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const results = await Home_visit_detail.findOne({
+    const editPAtient = await ARTPrescription.findOne({
       where: {
         patient_id: id,
       },
     });
 
-    results.first_name = first_name;
-    results.middle_name = middle_name;
-    results.last_name = last_name;
-    results.id_number = id_number;
-    results.cell_phone = cell_phone;
+    editPAtient.first_name = first_name;
+    editPAtient.middle_name = middle_name;
+    editPAtient.last_name = last_name;
+    editPAtient.id_number = id_number;
+    editPAtient.cell_phone = cell_phone;
     next();
 
-    return results.save();
+    return editPAtient.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
   }
 };
 
-const deleteHomeVisit = async (req, res, next) => {
+const deleteRegimenPrescription = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await Home_visit_detail.destroy({
+    const results = await ARTPrescription.destroy({
       where: {
         patient_id: id,
       },
@@ -122,9 +103,9 @@ const deleteHomeVisit = async (req, res, next) => {
 };
 
 module.exports = {
-  addHomeVisit,
-  getAllHomeVisits,
-  getHomeVisitDetails,
-  editHomeVisit,
-  deleteHomeVisit,
+  addRegimenPrescription,
+  getAllRegimenPrescription,
+  getRegimenPrescription,
+  editRegimenPrescription,
+  deleteRegimenPrescription,
 };

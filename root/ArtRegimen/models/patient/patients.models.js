@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../../db/connect');
-const School = require('../../../Location/models/school.model');
-const Hospital = require('../../../Hospital/models/hospital.model');
+const School = require('../../../../Location/models/school.model');
+const Hospital = require('../../../../Hospital/models/hospital.model');
+// const TimeAndWork = require('../treatmentplan/timeAndWork.model');
 
 // const School = require('./school.model');
 // const Hospital = require('../../Hospital/models/hospital.model');
@@ -33,7 +34,7 @@ const Patient = sequelize.define(
     phoneNo: {
       type: DataTypes.STRING,
     },
-    occupationID: {
+    occupation: {
       type: DataTypes.UUID,
       allowNull: true,
     },
@@ -43,10 +44,10 @@ const Patient = sequelize.define(
     cccNo: {
       type: DataTypes.STRING,
     },
-    hospitalID: {
+    mflCode: {
       type: DataTypes.STRING,
     },
-    subCountyID: {
+    residence: {
       type: DataTypes.STRING,
     },
     ageAtReporting: {
@@ -55,7 +56,7 @@ const Patient = sequelize.define(
     dateConfirmedPositive: {
       type: DataTypes.DATE,
     },
-    initialRegimen: {
+    firstRegimen: {
       type: DataTypes.STRING,
       allowNull: true,
 
