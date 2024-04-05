@@ -25,10 +25,7 @@ const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.
 const homeVisitRoutes = require('./HomeVisit/routes/homeVisit.routes');
 const timeAndWorkRoutes = require('./TreatementPlan/routes/timeAndWork.routes');
 const mmasRoutes = require('./TreatementPlan/routes/mmas.routes');
-const appointmentRoutes = require('./Appointment/routes/appointment.routes');
-const appointmentStatusRoutes = require('./Appointment/routes/appointmentStatus.routes');
-const appointmentAgendaRoutes = require('./Appointment/routes/appointmentAgenda.routes');
-const smsWhatsappRoutes = require('./Appointment/routes/smsWhatsapp.routes');
+
 const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
@@ -44,7 +41,6 @@ const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.r
 const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
 const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
 const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
-const SMSWhatsapp = require('./Appointment/models/smsWhatsapp.model');
 const pillRoutes = require('./ArtRegimen/routes/pill.routes');
 const dailyUptakeRoutes = require('./TreatementPlan/routes/uptake.routes');
 const dailyUptake = require('./TreatementPlan/middleware/dailyUptake');
@@ -203,11 +199,7 @@ app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
 app.use('/home-visit', homeVisitRoutes);
 app.use('/time-and-work', timeAndWorkRoutes);
 app.use('/mmas', mmasRoutes);
-app.use('/appointments', appointmentRoutes);
-app.use('/sms', smsWhatsappRoutes);
 app.use('/disclosure-checklist', disclosureChecklistRoutes);
-app.use('/appointment-status', appointmentStatusRoutes);
-app.use('/appointment-agenda', appointmentAgendaRoutes);
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/hospital', hospitalRoutes);

@@ -1,0 +1,88 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable max-len */
+/* eslint-disable linebreak-style */
+const express = require('express');
+const morgan = require('morgan');
+const http = require('http');
+const Sentry = require('@sentry/node');
+const { nodeProfilingIntegration } = require('@sentry/profiling-node');
+const { Server } = require('socket.io');
+
+require('dotenv').config();
+
+const sequelize = require('./db/connect');
+
+const appointmentRoutes = require('./routes/appointment.routes');
+const appointmentStatusRoutes = require('./routes/appointmentStatus.routes');
+const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
+const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
+
+const app = express();
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Sentry.Integrations.Express({ app }),
+    nodeProfilingIntegration(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
+
+// setup server
+const server = http.createServer(app);
+
+// use morgan
+app.use(morgan('dev'));
+
+// setup io
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  },
+});
+
+// set up socket.io instance
+app.locals.io = io;
+
+// check connection
+io.on('connection', (socket) => {
+  console.log('Connected to IO sever', socket.id);
+
+  //
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
+
+const PORT = process.env.PORT || 5005;
+
+app.use('/appointments', appointmentRoutes);
+
+app.use('/appointment-status', appointmentStatusRoutes);
+app.use('/appointment-agenda', appointmentAgendaRoutes);
+app.use('/sms', smsWhatsappRoutes);
+
+sequelize.authenticate().then(() => {
+  console.log('Connected to database successfully');
+}).catch((error) => {
+  console.error('Unable to connect to database: ', error);
+});
+
+server.listen(PORT, () => {
+  console.log(`App running on http://localhost:${PORT}`);
+});
+
+module.exports = server;

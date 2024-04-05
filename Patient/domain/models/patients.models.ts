@@ -31,7 +31,7 @@ const Patient = sequelize.define(
     phoneNo: {
       type: DataTypes.STRING,
     },
-    occupation: {
+    occupationID: {
       type: DataTypes.UUID,
       allowNull: true,
     },
@@ -41,19 +41,20 @@ const Patient = sequelize.define(
     cccNo: {
       type: DataTypes.STRING,
     },
-    mflCode: {
-      type: DataTypes.STRING,
-    },
-    residence: {
-      type: DataTypes.STRING,
-    },
+    // mflCode: {
+    //   type: DataTypes.STRING,
+    // },
+    // residence: {
+    //   type: DataTypes.STRING,
+    // },
+
     ageAtReporting: {
       type: DataTypes.DATE,
     },
     dateConfirmedPositive: {
       type: DataTypes.DATE,
     },
-    firstRegimen: {
+    initialRegimen: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -68,12 +69,13 @@ const Patient = sequelize.define(
     },
   },
   {
-    timestamps: true,
     postgresql: {
       fillFactor: 70,
     },
+    timestamps: true,
   }
 );
+
 
 Patient.belongsTo(School, { foreignKey: "schoolID" });
 Patient.belongsTo(Hospital, { foreignKey: "hospitalID" });

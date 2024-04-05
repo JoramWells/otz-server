@@ -16,7 +16,6 @@ export class PatientInteractor implements IPatientInteractor{
         return this.repository.create(patientData)
     }
 
-
     getAllPatients() {
         return this.repository.find()
     }
