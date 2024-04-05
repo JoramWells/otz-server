@@ -2,12 +2,12 @@
 /* eslint-disable max-len */
 /* eslint-disable linebreak-style */
 const express = require('express');
-const morgan = require('morgan');
 const http = require('http');
+const winston = require('winston');
 const Sentry = require('@sentry/node');
 const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
-
+const morgan = require('morgan');
 require('dotenv').config();
 
 const sequelize = require('./db/connect');
@@ -18,6 +18,20 @@ const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
 const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
 
 const app = express();
+
+// morgan
+app.use(morgan('dev'));
+
+// create winston logger
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+  defaultMeta: { service: 'appointment-service' },
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -44,7 +58,6 @@ app.use(Sentry.Handlers.tracingHandler());
 const server = http.createServer(app);
 
 // use morgan
-app.use(morgan('dev'));
 
 // setup io
 const io = new Server(server, {
@@ -78,6 +91,7 @@ app.use('/sms', smsWhatsappRoutes);
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');
 }).catch((error) => {
+  logger.error(error);
   console.error('Unable to connect to database: ', error);
 });
 
