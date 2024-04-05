@@ -2,8 +2,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../db/connect');
-const County = require('../../../Location/models/county.model');
+const sequelize = require('../../db/connect');
+const County = require('../location/county.model');
 
 const User = sequelize.define('users', {
   id: {

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4, Sequelize } = require('sequelize');
-const sequelize = require('../../db/connect');
+const sequelize = require('../db/connect');
 const Appointment = require('./appointment.model');
 
 const SMSWhatsapp = sequelize.define('SMSWhatsapp', {

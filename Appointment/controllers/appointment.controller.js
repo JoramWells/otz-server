@@ -5,10 +5,10 @@ const redis = require('redis');
 const moment = require('moment');
 const { Sequelize, Op } = require('sequelize');
 const Appointment = require('../models/appointment.model');
-const Patient = require('../../models/patient/patients.models');
+const Patient = require('../models/patient/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
 const AppointmentStatus = require('../models/appointmentStatus.model');
-const User = require('../../Users/models/user.models');
+const User = require('../models/users/user.models');
 
 const expiryDuration = 60;
 // let client;

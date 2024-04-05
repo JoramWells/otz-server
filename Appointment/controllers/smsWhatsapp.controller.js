@@ -13,7 +13,7 @@ const User = require('../models/users/user.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
 require('dotenv').config();
 
-const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
+// const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
 // using *Patients model
 const addSMSWhatsapp = async (req, res, next) => {
