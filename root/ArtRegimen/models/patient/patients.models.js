@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../../db/connect');
-const School = require('../../../../Location/models/school.model');
-const Hospital = require('../../../../Hospital/models/hospital.model');
+const School = require('../../../Location/models/school.model');
+const Hospital = require('../../../Hospital/models/hospital.model');
 // const TimeAndWork = require('../treatmentplan/timeAndWork.model');
 
 // const School = require('./school.model');

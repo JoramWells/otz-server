@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../db/connect');
+const sequelize = require('../../db/connect');
 const Patient = require('./patient/patients.models');
 
 const TimeAndWork = sequelize.define('timeAndWork', {

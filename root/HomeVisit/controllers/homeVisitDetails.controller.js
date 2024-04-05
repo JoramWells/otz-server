@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const ART = require('../../root/ArtRegimen/models/art.model');
+const ART = require('../../ArtRegimen/models/art.model');
 const Patient = require('../../models/patient/patients.models');
 const User = require('../../Users/models/user.models');
 const Home_visit_detail = require('../models/homeVisit.models');

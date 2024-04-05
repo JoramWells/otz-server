@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../../../db/connect');
+const sequelize = require('../../../db/connect');
 const School = require('../../../Location/models/school.model');
 const Hospital = require('../../../Hospital/models/hospital.model');
 
@@ -66,9 +66,7 @@ const Patient = sequelize.define(
     schoolID: {
       type: DataTypes.INTEGER,
     },
-    hospitalID: {
-      type: DataTypes.INTEGER,
-    },
+    
   },
   {
     postgresql: {

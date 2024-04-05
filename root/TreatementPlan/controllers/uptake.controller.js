@@ -4,7 +4,7 @@
 
 const moment = require('moment');
 const { Op, Sequelize } = require('sequelize');
-const Patient = require('../../../models/patient/patients.models');
+const Patient = require('../../models/patient/patients.models');
 const TimeAndWork = require('../models/timeAndWork.model');
 const Uptake = require('../models/uptake.model');
 
