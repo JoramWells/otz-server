@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'production') {
   require('dotenv').config({ path: '.env.development' });
 }
 
+
 const sequelize = require('./src/domain/db/connect');
 const enrollmentRoutes = require('./src/adapters/routes/otzEnrollment.routes');
 const viralLoadTestRoutes = require('./src/adapters/routes/viralLoadTests.routes');

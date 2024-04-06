@@ -153,27 +153,52 @@ const getWeeklyAppointments = async (req, res, next) => {
 
 const getAppointmentDetail = async (req, res, next) => {
   const { id } = req.params;
+  const { type } = req.query;
+  console.log('TY', req.query);
   try {
-    const patient = await Appointment.findOne({
-      where: {
-        id,
-      },
-      include: [
-        {
-          model: AppointmentAgenda,
-          attributes: ['agendaDescription'],
+    if (type !== 'patient') {
+      const patient = await Appointment.findAll({
+        where: {
+          patientID: id,
         },
-        {
-          model: AppointmentStatus,
-          attributes: ['statusDescription'],
+        include: [
+          {
+            model: AppointmentAgenda,
+            attributes: ['agendaDescription'],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ['statusDescription'],
+          },
+          {
+            model: User,
+            attributes: ['firstName', 'middleName'],
+          },
+        ],
+      });
+      res.json(patient);
+    } else {
+      const patient = await Appointment.findOne({
+        where: {
+          id,
         },
-        {
-          model: User,
-          attributes: ['firstName', 'middleName'],
-        },
-      ],
-    });
-    res.json(patient);
+        include: [
+          {
+            model: AppointmentAgenda,
+            attributes: ['agendaDescription'],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ['statusDescription'],
+          },
+          {
+            model: User,
+            attributes: ['firstName', 'middleName'],
+          },
+        ],
+      });
+      res.json(patient);
+    }
     next();
   } catch (error) {
     console.log(error);

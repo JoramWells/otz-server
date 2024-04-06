@@ -24,14 +24,13 @@ const dailyUptake = async () => {
       // ],
       });
 
-      results.forEach(async (patient) => {
-        await Uptake.create({
-          timeAndWorkID: patient.id,
-          currentDate,
-          morningStatus: false,
-          eveningStatus: false,
-        });
-      });
+      const uptakeData = results.map((patient) => ({
+        timeAndWorkID: patient.id,
+        currentDate,
+        morningStatus: false,
+        eveningStatus: false,
+      }));
+      await Uptake.bulkCreate(uptakeData);
       console.log('Uptake entries created for all patients.');
     }
   } catch (error) {

@@ -15,7 +15,7 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     autoIncrement: true,
   },
   patientID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     references: {
       model: 'patients',
       key: 'id',
@@ -70,9 +70,9 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 // OTZEnrollment.belongsTo(ArtRegimenPhase, { foreignKey: 'currentRegimenLine', targetKey: 'id' });
 
-(async () => {
-  await sequelize.sync();
-  console.log('OTZ Enrollment Tal synced successfully');
-})();
+// (async () => {
+//   await sequelize.sync();
+//   console.log('OTZ Enrollment Tal synced successfully');
+// })();
 
 module.exports = OTZEnrollment;

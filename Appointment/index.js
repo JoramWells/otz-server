@@ -17,6 +17,7 @@ const appointmentStatusRoutes = require('./routes/appointmentStatus.routes');
 const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
 const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
 
+
 const app = express();
 
 // morgan
