@@ -1,41 +1,42 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../db/connect');
-const County = require('./location/county.model');
+const { DataTypes, UUIDV4 } = require('sequelize')
+const sequelize = require('../db/connect')
+const County = require('./location/county.model')
 
 const User = sequelize.define('users', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
-    defaultValue: UUIDV4,
+    defaultValue: UUIDV4
   },
   firstName: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   middleName: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   lastName: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   email: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   gender: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   phone_no: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   countyID: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.INTEGER
   },
   password: {
-    type: DataTypes.STRING,
-  },
-});
+    type: DataTypes.STRING
+  }
+})
 
 User.belongsTo(County, { foreignKey: 'countyID' })
 
@@ -44,6 +45,4 @@ User.belongsTo(County, { foreignKey: 'countyID' })
 //   console.log('User Table synced successfully');
 // })();
 
-
-
-module.exports = User;
+module.exports = User

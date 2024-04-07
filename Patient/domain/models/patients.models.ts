@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable camelcase */
 import { DataTypes, UUIDV4 } from 'sequelize'
 const sequelize = require('../db/connect')
@@ -66,6 +67,9 @@ const Patient = sequelize.define(
     },
     hospitalID: {
       type: DataTypes.INTEGER
+    },
+    notifications: {
+      type: DataTypes.ARRAY(DataTypes.TEXT)
     }
   },
   {
