@@ -2,26 +2,26 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const AppointmentStatus = require('../models/appointmentStatus.model');
-const Patient = require('../models/patient/patients.models');
+const NotificationCategory = require('../../models/notify/notificationCategory.model');
 
 // using *Patients model
-const addAppointmentStatus = async (req, res, next) => {
+const addNotificationCategory = async (req, res, next) => {
   try {
-    const newProfile = await AppointmentStatus.create(req.body);
+    const results = await NotificationCategory.create(req.body);
 
-    res.json(newProfile);
+    res.json(results);
     next();
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 
 // get all priceListItems
-const getAllAppointmentStatus = async (req, res, next) => {
+const getAllNotificationCategories = async (req, res, next) => {
   try {
-    const results = await AppointmentStatus.findAll({});
+    const results = await NotificationCategory.findAll({});
     res.json(results);
     next();
   } catch (error) {
@@ -31,10 +31,10 @@ const getAllAppointmentStatus = async (req, res, next) => {
   }
 };
 
-const getAppointmentStatus = async (req, res, next) => {
+const getNotificationCategory = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await AppointmentStatus.findOne({
+    const patient = await NotificationCategory.findOne({
       where: {
         id,
       },
@@ -48,13 +48,13 @@ const getAppointmentStatus = async (req, res, next) => {
 };
 
 // edit patient
-const editAppointmentStatus = async (req, res, next) => {
+const editNotificationCategory = async (req, res, next) => {
   const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await AppointmentStatus.findOne({
+    const editPAtient = await NotificationCategory.findOne({
       where: {
         patient_id: id,
       },
@@ -74,10 +74,10 @@ const editAppointmentStatus = async (req, res, next) => {
   }
 };
 
-const deleteAppointmentStatus = async (req, res, next) => {
+const deleteNotificationCategory = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await AppointmentStatus.destroy({
+    const results = await NotificationCategory.destroy({
       where: {
         patient_id: id,
       },
@@ -93,9 +93,9 @@ const deleteAppointmentStatus = async (req, res, next) => {
 };
 
 module.exports = {
-  addAppointmentStatus,
-  getAllAppointmentStatus,
-  getAppointmentStatus,
-  editAppointmentStatus,
-  deleteAppointmentStatus,
+  addNotificationCategory,
+  getAllNotificationCategories,
+  getNotificationCategory,
+  editNotificationCategory,
+  deleteNotificationCategory,
 };

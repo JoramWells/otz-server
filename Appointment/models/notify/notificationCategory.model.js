@@ -13,12 +13,6 @@ const NotificationCategory = sequelize.define('notificationCategories', {
   notificationName: {
     type: DataTypes.STRING,
   },
-  notificationCategory: {
-    type: DataTypes.STRING,
-  },
-  notificationSubCategory: {
-    type: DataTypes.STRING,
-  },
 });
 
 // (async () => {

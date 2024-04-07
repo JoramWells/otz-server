@@ -6,7 +6,7 @@ const NotificationType = require('../../models/notify/notifyType.models');
 
 // using *Patients model
 const addNotificationType = async (req, res, next) => {
-  console.log(req.body);
+  console.log(req.body, 'ku');
   try {
     const results = await NotificationType.create(req.body);
 
@@ -15,6 +15,7 @@ const addNotificationType = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 
