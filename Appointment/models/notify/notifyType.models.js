@@ -18,7 +18,7 @@ const NotificationType = sequelize.define('notificationTypes', {
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('User Table synced successfully');
+//   console.log('NotificationType Table synced successfully');
 // })();
 
 module.exports = NotificationType;

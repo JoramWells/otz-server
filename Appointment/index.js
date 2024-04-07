@@ -16,7 +16,7 @@ const appointmentRoutes = require('./routes/appointment.routes');
 const appointmentStatusRoutes = require('./routes/appointmentStatus.routes');
 const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
 const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
-
+const notificationTypeRoutes = require('./routes/notify/notificationType.routes');
 
 const app = express();
 
@@ -88,6 +88,7 @@ app.use('/appointments', appointmentRoutes);
 app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
 app.use('/sms', smsWhatsappRoutes);
+app.use('/notification-types', notificationTypeRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');
