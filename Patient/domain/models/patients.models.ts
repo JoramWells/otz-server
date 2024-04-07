@@ -69,7 +69,9 @@ const Patient = sequelize.define(
       type: DataTypes.INTEGER
     },
     notifications: {
-      type: DataTypes.ARRAY(DataTypes.TEXT)
+      type: DataTypes.JSONB,
+      allowNull: true,
+      defaultValue: {}
     }
   },
   {
