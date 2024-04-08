@@ -39,7 +39,6 @@ const getAllNotifications = async (req, res, next) => {
     res.json(results);
     next();
   } catch (error) {
-    console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
   }
@@ -56,7 +55,6 @@ const getNotification = async (req, res, next) => {
     res.json(patient);
     next();
   } catch (error) {
-    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
   }
 };
@@ -65,7 +63,6 @@ const getNotification = async (req, res, next) => {
 const editNotification = async (req, res, next) => {
   const { id } = req.params;
   const { notificationDescription } = req.body;
-  console.log(req.body, 'kji');
   try {
     const results = await Notification.findOne({
       where: {
@@ -78,7 +75,6 @@ const editNotification = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
     next(error);
   }
@@ -98,7 +94,6 @@ const deleteNotification = async (req, res, next) => {
     }
     return res.status(404).json({ message: 'User not found.' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
     next(error);
   }

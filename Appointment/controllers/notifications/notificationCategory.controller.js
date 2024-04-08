@@ -6,14 +6,12 @@ const NotificationCategory = require('../../models/notify/notificationCategory.m
 
 // using *Patients model
 const addNotificationCategory = async (req, res, next) => {
-  console.log(req.body, 'ty');
   try {
     const results = await NotificationCategory.create(req.body);
 
     res.json(results);
     next();
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
     next(error);
   }
@@ -26,7 +24,6 @@ const getAllNotificationCategories = async (req, res, next) => {
     res.json(results);
     next();
   } catch (error) {
-    console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
   }
@@ -43,7 +40,6 @@ const getNotificationCategory = async (req, res, next) => {
     res.json(patient);
     next();
   } catch (error) {
-    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
   }
 };
@@ -52,7 +48,6 @@ const getNotificationCategory = async (req, res, next) => {
 const editNotificationCategory = async (req, res, next) => {
   const { id } = req.params;
   const { notificationDescription } = req.body;
-  console.log(req.body, 'kji');
   try {
     const results = await NotificationCategory.findOne({
       where: {
@@ -65,7 +60,6 @@ const editNotificationCategory = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
     next(error);
   }
@@ -85,7 +79,6 @@ const deleteNotificationCategory = async (req, res, next) => {
     }
     return res.status(404).json({ message: 'User not found.' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
     next(error);
   }

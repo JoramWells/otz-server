@@ -6,14 +6,12 @@ const UserNotifications = require('../../models/notify/userNotifications.model')
 
 // using *Patients model
 const addUserNotifications = async (req, res, next) => {
-  console.log(req.body, 'ty');
   try {
     const results = await UserNotifications.create(req.body);
 
     res.json(results);
     next();
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
     next(error);
   }
@@ -27,7 +25,6 @@ const getAllUserNotifications = async (req, res, next) => {
     res.json(results);
     next();
   } catch (error) {
-    console.log(error);
     res.json({ error: 'Internal Server error' });
     next(error);
   }
@@ -44,8 +41,9 @@ const getUserNotifications = async (req, res, next) => {
     res.json(patient);
     next();
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 
@@ -53,7 +51,6 @@ const getUserNotifications = async (req, res, next) => {
 const editUserNotifications = async (req, res, next) => {
   const { id } = req.params;
   const { notificationDescription } = req.body;
-  console.log(req.body, 'kji');
   try {
     const results = await UserNotifications.findOne({
       where: {
@@ -66,7 +63,6 @@ const editUserNotifications = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
     next(error);
   }
@@ -86,7 +82,6 @@ const deleteUserNotifications = async (req, res, next) => {
     }
     return res.status(404).json({ message: 'User not found.' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
     next(error);
   }
