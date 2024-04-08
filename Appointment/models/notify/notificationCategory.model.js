@@ -10,14 +10,14 @@ const NotificationCategory = sequelize.define('notificationCategories', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  notificationName: {
+  notificationDescription: {
     type: DataTypes.STRING,
   },
 });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('User Table synced successfully');
+//   console.log('NotificationCategory Table synced successfully');
 // })();
 
 module.exports = NotificationCategory;

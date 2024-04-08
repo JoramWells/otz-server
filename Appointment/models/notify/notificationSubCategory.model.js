@@ -17,7 +17,7 @@ const NotificationSubCategory = sequelize.define('notificationSubCategories', {
       key: 'id',
     },
   },
-  notificationSubName: {
+  notificationSubCategoryName: {
     type: DataTypes.STRING,
   },
 
@@ -25,7 +25,7 @@ const NotificationSubCategory = sequelize.define('notificationSubCategories', {
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('User Table synced successfully');
+//   console.log('NotificationSubCategory Table synced successfully');
 // })();
 
 module.exports = NotificationSubCategory;

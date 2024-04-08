@@ -18,8 +18,14 @@ const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
 const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
 const notificationTypeRoutes = require('./routes/notify/notificationType.routes');
 const notificationCategoryRoutes = require('./routes/notify/notificationCategory.routes');
+const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
 
 const app = express();
+//
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true,
+}));
 
 // morgan
 app.use(morgan('dev'));
@@ -91,6 +97,7 @@ app.use('/appointment-agenda', appointmentAgendaRoutes);
 app.use('/sms', smsWhatsappRoutes);
 app.use('/notification-types', notificationTypeRoutes);
 app.use('/notification-categories', notificationCategoryRoutes);
+app.use('/notification-sub-categories', notificationSubCategoryRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');

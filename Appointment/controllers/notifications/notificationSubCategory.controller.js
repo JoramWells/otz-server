@@ -2,13 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const NotificationCategory = require('../../models/notify/notificationCategory.model');
+const NotificationSubCategory = require('../../models/notify/notificationSubCategory.model');
 
 // using *Patients model
-const addNotificationCategory = async (req, res, next) => {
+const addNotificationSubCategory = async (req, res, next) => {
   console.log(req.body, 'ty');
   try {
-    const results = await NotificationCategory.create(req.body);
+    const results = await NotificationSubCategory.create(req.body);
 
     res.json(results);
     next();
@@ -20,9 +20,9 @@ const addNotificationCategory = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllNotificationCategories = async (req, res, next) => {
+const getAllNotificationSubCategories = async (req, res, next) => {
   try {
-    const results = await NotificationCategory.findAll({});
+    const results = await NotificationSubCategory.findAll({});
     res.json(results);
     next();
   } catch (error) {
@@ -32,10 +32,10 @@ const getAllNotificationCategories = async (req, res, next) => {
   }
 };
 
-const getNotificationCategory = async (req, res, next) => {
+const getNotificationSubCategory = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await NotificationCategory.findOne({
+    const patient = await NotificationSubCategory.findOne({
       where: {
         id,
       },
@@ -49,12 +49,12 @@ const getNotificationCategory = async (req, res, next) => {
 };
 
 // edit patient
-const editNotificationCategory = async (req, res, next) => {
+const editNotificationSubCategory = async (req, res, next) => {
   const { id } = req.params;
   const { notificationDescription } = req.body;
   console.log(req.body, 'kji');
   try {
-    const results = await NotificationCategory.findOne({
+    const results = await NotificationSubCategory.findOne({
       where: {
         id,
       },
@@ -71,10 +71,10 @@ const editNotificationCategory = async (req, res, next) => {
   }
 };
 
-const deleteNotificationCategory = async (req, res, next) => {
+const deleteNotificationSubCategory = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await NotificationCategory.destroy({
+    const results = await NotificationSubCategory.destroy({
       where: {
         id,
       },
@@ -92,9 +92,9 @@ const deleteNotificationCategory = async (req, res, next) => {
 };
 
 module.exports = {
-  addNotificationCategory,
-  getAllNotificationCategories,
-  getNotificationCategory,
-  editNotificationCategory,
-  deleteNotificationCategory,
+  addNotificationSubCategory,
+  getAllNotificationSubCategories,
+  getNotificationSubCategory,
+  editNotificationSubCategory,
+  deleteNotificationSubCategory,
 };
