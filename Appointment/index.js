@@ -19,6 +19,8 @@ const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
 const notificationTypeRoutes = require('./routes/notify/notificationType.routes');
 const notificationCategoryRoutes = require('./routes/notify/notificationCategory.routes');
 const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
+const notificationRoutes = require('./routes/notify/notification.routes');
+const userNotificationRoutes = require('./routes/notify/userNotifications.routes');
 
 const app = express();
 //
@@ -96,8 +98,10 @@ app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
 app.use('/sms', smsWhatsappRoutes);
 app.use('/notification-types', notificationTypeRoutes);
+app.use('/notifications', notificationRoutes);
 app.use('/notification-categories', notificationCategoryRoutes);
 app.use('/notification-sub-categories', notificationSubCategoryRoutes);
+app.use('/user-notifications', userNotificationRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');

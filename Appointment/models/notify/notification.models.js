@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const NotificationCategory = require('./notificationCategory.model');
+const NotificationSubCategory = require('./notificationSubCategory.model');
 
 const Notification = sequelize.define('notifications', {
   id: {
@@ -24,11 +24,11 @@ const Notification = sequelize.define('notifications', {
 
 });
 
-Notification.belongsTo(NotificationCategory, { foreignKey: 'notificationCategoryID' });
+Notification.belongsTo(NotificationSubCategory, { foreignKey: 'notificationSubCategoryID' });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('User Table synced successfully');
+//   console.log('Notification Table synced successfully');
 // })();
 
 module.exports = Notification;

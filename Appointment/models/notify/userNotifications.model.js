@@ -5,6 +5,7 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../patient/patients.models');
 const Notification = require('./notification.models');
+const NotificationType = require('./notifyType.models');
 
 const UserNotifications = sequelize.define('userNotifications', {
   id: {
@@ -28,17 +29,23 @@ const UserNotifications = sequelize.define('userNotifications', {
     },
     onDelete: 'CASCADE',
   },
-  notificationSubCategory: {
-    type: DataTypes.STRING,
+  notificationTypeID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'notificationTypes',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
   },
 });
 
 UserNotifications.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 UserNotifications.belongsTo(Notification, { foreignKey: 'notificationID', targetKey: 'id' });
+UserNotifications.belongsTo(NotificationType, { foreignKey: 'notificationTypeID' });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('User Table synced successfully');
+//   console.log('UserNotifications Table synced successfully');
 // })();
 
 module.exports = UserNotifications;

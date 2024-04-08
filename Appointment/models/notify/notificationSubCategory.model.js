@@ -3,6 +3,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const NotificationCategory = require('./notificationCategory.model');
 
 const NotificationSubCategory = sequelize.define('notificationSubCategories', {
   id: {
@@ -16,12 +17,15 @@ const NotificationSubCategory = sequelize.define('notificationSubCategories', {
       model: 'notificationCategories',
       key: 'id',
     },
+    onDelete: 'CASCADE',
   },
   notificationSubCategoryName: {
     type: DataTypes.STRING,
   },
 
 });
+
+NotificationSubCategory.belongsTo(NotificationCategory, { foreignKey: 'notificationCategoryID' });
 
 // (async () => {
 //   await sequelize.sync();
