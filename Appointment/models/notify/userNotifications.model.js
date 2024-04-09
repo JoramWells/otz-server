@@ -29,19 +29,16 @@ const UserNotifications = sequelize.define('userNotifications', {
     },
     onDelete: 'CASCADE',
   },
-  notificationTypeID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'notificationTypes',
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
+  notifications: {
+    type: DataTypes.JSON,
+    defaultValue: {}
   },
 });
 
+
 UserNotifications.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 UserNotifications.belongsTo(Notification, { foreignKey: 'notificationID', targetKey: 'id' });
-UserNotifications.belongsTo(NotificationType, { foreignKey: 'notificationTypeID' });
+// UserNotifications.belongsTo(NotificationType, { foreignKey: 'notificationTypeID' });
 
 // (async () => {
 //   await sequelize.sync();

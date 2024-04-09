@@ -50,7 +50,9 @@ const getUserNotifications = async (req, res, next) => {
 // edit patient
 const editUserNotifications = async (req, res, next) => {
   const { id } = req.params;
-  const { notificationDescription } = req.body;
+    console.log(error)
+  const { notifications, notificationID } = req.body;
+  console.log(req.body)
   try {
     const results = await UserNotifications.findOne({
       where: {
@@ -58,11 +60,12 @@ const editUserNotifications = async (req, res, next) => {
       },
     });
 
-    results.notificationDescription = notificationDescription;
+    results.notifications = notifications;
     results.save();
 
     next();
   } catch (error) {
+    console.log(error)
     res.sendStatus(500).json({ message: 'Internal Server' });
     next(error);
   }
