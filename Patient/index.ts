@@ -15,6 +15,7 @@ const corsOption = {
   origin: ['*']
 }
 
+
 app.use(morgan('dev'))
 
 app.use(express.json())
