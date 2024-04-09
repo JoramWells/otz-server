@@ -31,7 +31,12 @@ const UserNotifications = sequelize.define('userNotifications', {
   },
   notifications: {
     type: DataTypes.JSON,
-    defaultValue: {}
+    defaultValue: {
+      pushNotification:false,
+      sms:false,
+      voiceCall:false,
+      whatsapp:false
+    }
   },
 });
 

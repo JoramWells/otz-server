@@ -16,7 +16,6 @@ const addUserNotifications = async (req, res, next) => {
     next(error);
   }
 };
-
 // get all priceListItems
 const getAllUserNotifications = async (req, res, next) => {
   try {
@@ -33,7 +32,7 @@ const getAllUserNotifications = async (req, res, next) => {
 const getUserNotifications = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await UserNotifications.findOne({
+    const patient = await UserNotifications.findAll({
       where: {
         patientID: id,
       },
@@ -47,19 +46,18 @@ const getUserNotifications = async (req, res, next) => {
   }
 };
 
+
 // edit patient
 const editUserNotifications = async (req, res, next) => {
   const { id } = req.params;
-    console.log(error)
-  const { notifications, notificationID } = req.body;
   console.log(req.body)
+  const { notifications, notificationID } = req.body;
   try {
     const results = await UserNotifications.findOne({
       where: {
         id,
       },
     });
-
     results.notifications = notifications;
     results.save();
 
