@@ -22,6 +22,7 @@ const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCa
 const notificationRoutes = require('./routes/notify/notification.routes');
 const userNotificationRoutes = require('./routes/notify/userNotifications.routes');
 
+
 const app = express();
 //
 app.use(express.json());

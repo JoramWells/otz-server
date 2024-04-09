@@ -68,11 +68,11 @@ const Patient = sequelize.define(
     hospitalID: {
       type: DataTypes.INTEGER
     },
-    notifications: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-      defaultValue: {}
-    }
+    // notifications: {
+    //   type: DataTypes.JSONB,
+    //   allowNull: true,
+    //   defaultValue: {}
+    // }
   },
   {
     postgresql: {

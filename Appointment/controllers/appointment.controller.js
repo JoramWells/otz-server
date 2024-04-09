@@ -57,12 +57,12 @@ const getAllAppointments = async (req, res, next) => {
       };
     }
 
-    const client = redis.createClient({ url: 'redis://redis:6379' });
-    await client.connect();
+    // const client = redis.createClient({ url: 'redis://redis:6379' });
+    // await client.connect();
 
     //
-    if (await client.get(appointmentKey) === null) {
-      // get all
+    // if (await client.get(appointmentKey) === null) {
+    //   // get all
       const results = await Appointment.findAll({
         order: [['appointmentDate', 'ASC']],
         where: whereCondition,
@@ -87,27 +87,27 @@ const getAllAppointments = async (req, res, next) => {
         ],
       });
 
-      console.log('Fetching from db');
+    //   console.log('Fetching from db');
 
-      await client.set('appointmentData', JSON.stringify(results));
-      res.json(results);
-      next();
-    } else {
-      const cachedData = await client.get(appointmentKey);
-      res.json(JSON.parse(cachedData));
-      console.log('Cached');
+    //   await client.set('appointmentData', JSON.stringify(results));
+    //   res.json(results);
+    //   next();
+    // } else {
+      // const cachedData = await client.get(appointmentKey);
+      // res.json(JSON.parse(cachedData));
+      // console.log('Cached');
 
       // invalidate cace
-      client.expire(appointmentKey, expiryDuration);
+      // client.expire(appointmentKey, expiryDuration);
 
       next();
-    }
+    // }
     // console.log('not connected')
     // console.log(await client.get('jay', redis.print))
 
     // await client.connect();
-    // res.json(results);
-    // next();
+    res.json(results);
+    next();
   } catch (error) {
     console.log(error);
     res.json({ error: 'Internal Server error' });
