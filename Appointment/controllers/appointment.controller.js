@@ -100,7 +100,7 @@ const getAllAppointments = async (req, res, next) => {
       // invalidate cace
       // client.expire(appointmentKey, expiryDuration);
 
-      next();
+      // next();
     // }
     // console.log('not connected')
     // console.log(await client.get('jay', redis.print))

@@ -17,11 +17,11 @@ const connect = new Sequelize(
       timestamps: true,
       freezeTableName: true,
       // logging: true,
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000,
-      },
+      // pool: {
+      //   max: 5,
+      //   min: 0,
+      //   idle: 10000,
+      // },
 
     },
   },

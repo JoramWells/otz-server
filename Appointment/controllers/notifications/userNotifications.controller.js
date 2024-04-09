@@ -60,7 +60,7 @@ const editUserNotifications = async (req, res, next) => {
     });
     results.notifications = notifications;
     results.save();
-
+    res.sendStatus(200)
     next();
   } catch (error) {
     console.log(error)

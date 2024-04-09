@@ -68,7 +68,7 @@ const getAllTimeAndWork = async (req, res, next) => {
     const todaysUptake = await Uptake.findAll({
       include: [{
         model: TimeAndWork,
-        attributes: ['morningTime'],
+        attributes: ['morningMedicineTime'],
       }],
     });
     if (medicationsDue) {

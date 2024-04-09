@@ -17,31 +17,31 @@ const TimeAndWork = sequelize.define('timeAndWork', {
     },
   },
   wakeUpTime: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
   },
   departureHomeTime: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
   },
-  arrivalTime: {
-    type: DataTypes.STRING,
+  arrivalWorkTime: {
+    type: DataTypes.TIME,
   },
-  departureTime: {
-    type: DataTypes.STRING,
+  departureWorkTime: {
+    type: DataTypes.TIME,
   },
   arrivalHomeTime: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
   },
   morningPlace: {
     type: DataTypes.STRING,
   },
-  morningTime: {
-    type: DataTypes.STRING,
+  morningMedicineTime: {
+    type: DataTypes.TIME,
   },
   eveningPlace: {
     type: DataTypes.STRING,
   },
-  eveningTime: {
-    type: DataTypes.STRING,
+  eveningMedicineTime: {
+    type: DataTypes.TIME,
   },
   medicineStorage: {
     type: DataTypes.STRING,

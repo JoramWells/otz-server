@@ -46,7 +46,7 @@ const getAllUptake = async (req, res, next) => {
         include: {
           where: whereCondition,
           model: TimeAndWork,
-          attributes: ['id', 'morningTime', 'eveningTime'],
+          attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
           include: {
             model: Patient,
             attributes: ['id', 'firstName', 'middleName'],
@@ -61,7 +61,7 @@ const getAllUptake = async (req, res, next) => {
         include: {
           where: whereCondition,
           model: TimeAndWork,
-          attributes: ['id', 'morningTime', 'eveningTime'],
+          attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
           include: {
             model: Patient,
             attributes: ['id', 'firstName', 'middleName'],
