@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const UserNotifications = require('../../models/notify/userNotifications.model');
+const Patient = require('../../models/patient/patients.models');
 
 // using *Patients model
 const addUserNotifications = async (req, res, next) => {
@@ -20,6 +21,12 @@ const addUserNotifications = async (req, res, next) => {
 const getAllUserNotifications = async (req, res, next) => {
   try {
     const results = await UserNotifications.findAll({
+      include:[
+        {
+          model:Patient,
+          attributes:['id','firstName', 'middleName']
+        }
+      ]
     });
     res.json(results);
     next();

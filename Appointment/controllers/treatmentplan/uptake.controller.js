@@ -34,7 +34,7 @@ const getAllUptake = async (req, res, next) => {
   try {
     if (patientsDueMorning) {
       whereCondition.morningTime = {
-        [Op.between]: ['6:00:00', '9:00:00'],
+        [Op.between]: ['6:00:00', '10:00:00'],
       };
 
       //
