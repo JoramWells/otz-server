@@ -27,16 +27,20 @@
     "redis": "^4.6.13",
     "sequelize": "^6.35.1",
     "socket.io": "^4.7.5",
+    "swagger-ui-express": "^5.0.0",
     "twilio": "^5.0.1",
     "winston": "^3.13.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.0.0",
     "chai": "^5.1.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.29.1",
+    "globals": "^15.0.0",
     "mocha": "^10.4.0",
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4"

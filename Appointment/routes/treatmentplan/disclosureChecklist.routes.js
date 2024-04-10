@@ -3,7 +3,7 @@ const {
   addDisclosureChecklist, getAllDisclosureChecklists,
   getDisclosureChecklist, editDisclosureChecklist,
   deleteDisclosureChecklist,
-} = require('../controllers/disclosureChecklist.controller');
+} = require('../../controllers/treatmentplan/disclosureChecklist.controller');
 
 const router = express.Router();
 

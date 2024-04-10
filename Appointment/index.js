@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 /* eslint-disable linebreak-style */
 const express = require('express');
+const schedule = require('node-schedule');
 const http = require('http');
 const winston = require('winston');
 const Sentry = require('@sentry/node');
@@ -10,6 +11,7 @@ const { Server } = require('socket.io');
 const morgan = require('morgan');
 require('dotenv').config();
 
+const swaggerUi = require('swagger-ui-express');
 const sequelize = require('./db/connect');
 
 const appointmentRoutes = require('./routes/appointment.routes');
@@ -21,8 +23,14 @@ const notificationCategoryRoutes = require('./routes/notify/notificationCategory
 const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
 const notificationRoutes = require('./routes/notify/notification.routes');
 const userNotificationRoutes = require('./routes/notify/userNotifications.routes');
+const swaggerDocument = require('./swagger.json');
 
-
+//
+const timeAndWorkRoutes = require('./routes/treatmentplan/timeAndWork.routes');
+const mmasRoutes = require('./routes/treatmentplan/mmas.routes');
+const disclosureChecklistRoutes = require('./routes/treatmentplan/disclosureChecklist.routes');
+const dailyUptakeRoutes = require('./routes/treatmentplan/uptake.routes');
+const dailyUptake = require('./middleware/dailyUptake');
 
 const app = express();
 //
@@ -33,6 +41,10 @@ app.use(express.urlencoded({
 
 // morgan
 app.use(morgan('dev'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
+// dailyUptake();
 
 // create winston logger
 const logger = winston.createLogger({
@@ -104,6 +116,11 @@ app.use('/notifications', notificationRoutes);
 app.use('/notification-categories', notificationCategoryRoutes);
 app.use('/notification-sub-categories', notificationSubCategoryRoutes);
 app.use('/user-notifications', userNotificationRoutes);
+//
+app.use('/time-and-work', timeAndWorkRoutes);
+app.use('/mmas', mmasRoutes);
+app.use('/disclosure-checklist', disclosureChecklistRoutes);
+app.use('/daily-uptake', dailyUptakeRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');

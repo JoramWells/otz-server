@@ -1,7 +1,7 @@
 const express = require('express');
 const {
   addUptake, getAllUptake, getUptake, editUptake, deleteUptake, getUptakeCount,
-} = require('../controllers/uptake.controller');
+} = require('../../controllers/treatmentplan/uptake.controller');
 
 const router = express.Router();
 

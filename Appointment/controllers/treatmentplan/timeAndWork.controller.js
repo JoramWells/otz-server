@@ -4,10 +4,9 @@
 
 const moment = require('moment');
 const { Op } = require('sequelize');
-const MMAS = require('../models/mmas.model');
-const Patient = require('../models/patient/patients.models');
-const TimeAndWork = require('../models/timeAndWork.model');
-const Uptake = require('../models/uptake.model');
+const Patient = require('../../models/patient/patients.models');
+const TimeAndWork = require('../../models/treatmentplan/timeAndWork.model');
+const Uptake = require('../../models/treatmentplan/uptake.model');
 
 // using *Patients model
 const addTimeAndWork = async (req, res, next) => {

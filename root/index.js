@@ -10,7 +10,6 @@ const Sentry = require('@sentry/node');
 const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
 const twilio = require('twilio');
-const schedule = require('node-schedule');
 
 require('dotenv').config();
 
@@ -22,10 +21,7 @@ const userRoutes = require('./Users/routes/user.routes');
 const homeVisitReasonRoute = require('./HomeVisit/routes/reasonDetails.routes');
 const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.routes');
 const homeVisitRoutes = require('./HomeVisit/routes/homeVisit.routes');
-const timeAndWorkRoutes = require('./TreatementPlan/routes/timeAndWork.routes');
-const mmasRoutes = require('./TreatementPlan/routes/mmas.routes');
 
-const disclosureChecklistRoutes = require('./TreatementPlan/routes/disclosureChecklist.routes');
 const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
 const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
 const locationRoutes = require('./Location/routes/location.routes');
@@ -41,8 +37,6 @@ const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
 const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
 const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
 const pillRoutes = require('./ArtRegimen/routes/pill.routes');
-const dailyUptakeRoutes = require('./TreatementPlan/routes/uptake.routes');
-const dailyUptake = require('./TreatementPlan/middleware/dailyUptake');
 
 const app = express();
 
@@ -75,8 +69,6 @@ app.use(express.urlencoded({
   extended: true,
 }));
 
-schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
-// dailyUptake();
 // job
 // schedule.scheduleJob('* * * * * *', async (fireDate) => {
 //   const currentTime = new Date();
@@ -196,9 +188,6 @@ app.use('/art-regimen-switch', artRegimenSwitchRoutes);
 app.use('/home-visit-reason', homeVisitReasonRoute);
 app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
 app.use('/home-visit', homeVisitRoutes);
-app.use('/time-and-work', timeAndWorkRoutes);
-app.use('/mmas', mmasRoutes);
-app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/hospital', hospitalRoutes);
@@ -209,7 +198,6 @@ app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
 app.use('/pills', pillRoutes);
-app.use('/daily-uptake', dailyUptakeRoutes);
 app.use('/measuring-unit', measuringUnitRoutes);
 
 // app.use((err, req, res, next) => {

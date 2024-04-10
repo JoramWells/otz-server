@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const MMAS = require('../models/mmas.model');
+const MMAS = require('../../models/treatmentplan/mmas.model');
 
 // using *Patients model
 const addMmas = async (req, res, next) => {

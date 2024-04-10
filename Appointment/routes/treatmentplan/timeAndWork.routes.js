@@ -5,7 +5,7 @@ const {
   getTimeAndWork,
   editTimeAndWork,
   deleteTimeAndWork,
-} = require('../controllers/timeAndWork.controller');
+} = require('../../controllers/treatmentplan/timeAndWork.controller');
 
 const router = express.Router();
 

@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const DisclosureChecklist = require('../models/disclosureChecklist.model.js');
+const DisclosureChecklist = require('../../models/treatmentplan/disclosureChecklist.model.js');
 
 // using *DisclosureChecklists model
 const addDisclosureChecklist = async (req, res, next) => {
