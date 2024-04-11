@@ -12,6 +12,7 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 const sequelize = require('./db/connect');
 
 const appointmentRoutes = require('./routes/appointment.routes');
@@ -41,10 +42,24 @@ app.use(express.urlencoded({
 
 // morgan
 app.use(morgan('dev'));
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
 // dailyUptake();
+
+// Swagger configuration options
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Publication API',
+      description: 'CRUD API for managing publications',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./routes/*.js'], // Path to the API routes folder
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // create winston logger
 const logger = winston.createLogger({
