@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 const moment = require('moment');
-const Uptake = require('../models/uptake.model');
-const TimeAndWork = require('../models/timeAndWork.model');
+const Uptake = require('../models/treatmentplan/uptake.model');
+const TimeAndWork = require('../models/treatmentplan/timeAndWork.model');
 
 const dailyUptake = async () => {
   try {

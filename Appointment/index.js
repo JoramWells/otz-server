@@ -23,7 +23,7 @@ const notificationCategoryRoutes = require('./routes/notify/notificationCategory
 const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
 const notificationRoutes = require('./routes/notify/notification.routes');
 const userNotificationRoutes = require('./routes/notify/userNotifications.routes');
-const swaggerDocument = require('./swagger.json');
+// const swaggerDocument = require('./swagger.json');
 
 //
 const timeAndWorkRoutes = require('./routes/treatmentplan/timeAndWork.routes');
@@ -41,7 +41,7 @@ app.use(express.urlencoded({
 
 // morgan
 app.use(morgan('dev'));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
 // dailyUptake();
@@ -123,7 +123,7 @@ app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/daily-uptake', dailyUptakeRoutes);
 
 sequelize.authenticate().then(() => {
-  console.log('Connected to database successfully');
+  console.log('Connected to database successfully!');
 }).catch((error) => {
   logger.error(error);
   console.error('Unable to connect to database: ', error);
