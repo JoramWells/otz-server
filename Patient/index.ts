@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
@@ -11,10 +15,9 @@ const careGiverRoutes = require('./routes/caregiver.routes')
 const app: Application = express()
 
 const PORT = process.env.PORT || 5001
-const corsOption = {
-  origin: ['*']
-}
-
+// const corsOption = {
+//   origin: ['*']
+// }
 
 app.use(morgan('dev'))
 

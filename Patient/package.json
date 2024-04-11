@@ -26,6 +26,8 @@
     "sequelize": "^6.35.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.0.0",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.24",
@@ -38,9 +40,11 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
+    "globals": "^15.0.0",
     "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
     "ts-watch": "^1.0.8",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.6.0"
   }
 }

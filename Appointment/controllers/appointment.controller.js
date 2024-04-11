@@ -63,29 +63,29 @@ const getAllAppointments = async (req, res, next) => {
     //
     // if (await client.get(appointmentKey) === null) {
     //   // get all
-      const results = await Appointment.findAll({
-        order: [['appointmentDate', 'ASC']],
-        where: whereCondition,
-        include: [
-          {
-            model: Patient,
-            attributes: ['firstName', 'middleName', 'dob', 'sex'],
-          },
-          {
-            model: User,
-            attributes: ['id', 'firstName', 'middleName'],
-          },
-          {
-            model: AppointmentAgenda,
-            attributes: ['id', 'agendaDescription'],
+    const results = await Appointment.findAll({
+      order: [['appointmentDate', 'ASC']],
+      where: whereCondition,
+      include: [
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName', 'dob', 'sex'],
+        },
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'middleName'],
+        },
+        {
+          model: AppointmentAgenda,
+          attributes: ['id', 'agendaDescription'],
 
-          },
-          {
-            model: AppointmentStatus,
-            attributes: ['id', 'statusDescription'],
-          },
-        ],
-      });
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ['id', 'statusDescription'],
+        },
+      ],
+    });
 
     //   console.log('Fetching from db');
 
@@ -93,14 +93,14 @@ const getAllAppointments = async (req, res, next) => {
     //   res.json(results);
     //   next();
     // } else {
-      // const cachedData = await client.get(appointmentKey);
-      // res.json(JSON.parse(cachedData));
-      // console.log('Cached');
+    // const cachedData = await client.get(appointmentKey);
+    // res.json(JSON.parse(cachedData));
+    // console.log('Cached');
 
-      // invalidate cace
-      // client.expire(appointmentKey, expiryDuration);
+    // invalidate cace
+    // client.expire(appointmentKey, expiryDuration);
 
-      // next();
+    // next();
     // }
     // console.log('not connected')
     // console.log(await client.get('jay', redis.print))
@@ -153,52 +153,28 @@ const getWeeklyAppointments = async (req, res, next) => {
 
 const getAppointmentDetail = async (req, res, next) => {
   const { id } = req.params;
-  const { type } = req.query;
-  console.log('TY', req.query);
   try {
-    if (type !== 'patient') {
-      const patient = await Appointment.findAll({
-        where: {
-          patientID: id,
+    const patient = await Appointment.findAll({
+      where: {
+        patientID: id,
+      },
+      include: [
+        {
+          model: AppointmentAgenda,
+          attributes: ['agendaDescription'],
         },
-        include: [
-          {
-            model: AppointmentAgenda,
-            attributes: ['agendaDescription'],
-          },
-          {
-            model: AppointmentStatus,
-            attributes: ['statusDescription'],
-          },
-          {
-            model: User,
-            attributes: ['firstName', 'middleName'],
-          },
-        ],
-      });
-      res.json(patient);
-    } else {
-      const patient = await Appointment.findOne({
-        where: {
-          id,
+        {
+          model: AppointmentStatus,
+          attributes: ['statusDescription'],
         },
-        include: [
-          {
-            model: AppointmentAgenda,
-            attributes: ['agendaDescription'],
-          },
-          {
-            model: AppointmentStatus,
-            attributes: ['statusDescription'],
-          },
-          {
-            model: User,
-            attributes: ['firstName', 'middleName'],
-          },
-        ],
-      });
-      res.json(patient);
-    }
+        {
+          model: User,
+          attributes: ['firstName', 'middleName'],
+        },
+      ],
+    });
+    console.log(patient);
+    res.json(patient);
     next();
   } catch (error) {
     console.log(error);

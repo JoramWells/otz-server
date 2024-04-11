@@ -1,17 +1,22 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
+import { type NextFunction, type Request, type Response } from 'express'
 
 const CareGiver = require('../domain/models/caregiver.model')
 const Patient = require('../domain/models/patients.models')
 
 // using *Patients model
-const addCaregiver = async (req, res, next) => {
+const addCaregiver = async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.body)
   try {
-    const newProfile = await CareGiver.create(req.body)
+    await CareGiver.create(req.body)
+    res.sendStatus(200).json({ messae: 'Successfully Created New Care' })
 
-    res.json(newProfile)
     next()
   } catch (error) {
     console.log(error)
@@ -21,7 +26,7 @@ const addCaregiver = async (req, res, next) => {
 }
 
 // get all priceListItems
-const getAllCaregivers = async (req, res, next) => {
+const getAllCaregivers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const results = await CareGiver.findAll({
       include: [
@@ -40,7 +45,7 @@ const getAllCaregivers = async (req, res, next) => {
   }
 }
 
-const getCaregiverDetail = async (req, res, next) => {
+const getCaregiverDetail = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const results = await CareGiver.findAll({
@@ -57,7 +62,7 @@ const getCaregiverDetail = async (req, res, next) => {
 }
 
 // edit patient
-const editCaregiver = async (req, res, next) => {
+const editCaregiver = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   const {
     first_name, middle_name, last_name, id_number, cell_phone
@@ -83,7 +88,7 @@ const editCaregiver = async (req, res, next) => {
   }
 }
 
-const deleteCaregiver = async (req, res, next) => {
+const deleteCaregiver = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
     const results = await CareGiver.destroy({

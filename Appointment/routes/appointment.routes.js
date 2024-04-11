@@ -39,7 +39,7 @@ router.get('/fetchAllWeekly', getWeeklyAppointments);
  *       404:
  *         description: Publication not found
  */
-router.get('/detail/:id', getAppointmentDetail);
+router.get('/appointmentDetail/:id', getAppointmentDetail);
 
 /**
  * @swagger
@@ -63,7 +63,7 @@ router.get('/detail/:id', getAppointmentDetail);
  *         description: Publication created successfully
  */
 router.post('/add', addAppointment);
-router.get('/appointmentDetail/:id', getAppointment);
+router.get('/detail/:id', getAppointment);
 
 /**
  * @swagger

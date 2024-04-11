@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 import { DataTypes, UUIDV4 } from 'sequelize'
 const sequelize = require('../db/connect')
-const Patient = require('./patients.models')
+// const Patient = require('./patients.models')
 
 const Caregiver = sequelize.define('caregivers', {
   id: {
@@ -29,7 +29,7 @@ const Caregiver = sequelize.define('caregivers', {
   lastName: {
     type: DataTypes.STRING
   },
-  gender: {
+  sex: {
     type: DataTypes.STRING
   },
   dob: {
@@ -52,20 +52,18 @@ const Caregiver = sequelize.define('caregivers', {
   },
   careerID: {
     type: DataTypes.STRING
+  },
+  maritalStatus: {
+    type: DataTypes.STRING
   }
-  // hivStatus: {
-  //   type: DataTypes.STRING,
-  // },
-  // maritalStatus: {
-  //   type: DataTypes.STRING,
-  // },
-})
+}
+)
+// Caregiver.belongsTo(Patient, { foreignKey: 'patientID' })
 
-Caregiver.belongsTo(Patient, { foreignKey: 'patientID' })
-
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Caregiver Table synced Successfully');
-// })();
+// (
+//   async () => {
+//     await sequelize.sync()
+//     console.log('Caregiver Table synced Successfully')
+//   })()
 
 module.exports = Caregiver

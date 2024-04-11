@@ -67,7 +67,7 @@ const Patient = sequelize.define(
     },
     hospitalID: {
       type: DataTypes.INTEGER
-    },
+    }
     // notifications: {
     //   type: DataTypes.JSONB,
     //   allowNull: true,
@@ -86,8 +86,8 @@ Patient.belongsTo(School, { foreignKey: 'schoolID' })
 Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
 // (async () => {
-//   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
-// })();
+//   await sequelize.sync()
+//   console.log('Patient Table synced successfully')
+// })()
 
 module.exports = Patient

@@ -1,48 +1,47 @@
-import { NextFunction, Request, Response } from "express";
-import { IPatientInteractor } from "../../application/interfaces/IPatientInteractor";
-import { Patient } from "../../domain/entities/Patient";
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { type NextFunction, type Request, type Response } from 'express'
+import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+// import { Patient } from '../../domain/entities/Patient'
 
 export class UserController {
-  private interactor: IPatientInteractor;
+  private readonly interactor: IPatientInteractor
 
-  constructor(interactor: IPatientInteractor) {
-    this.interactor = interactor;
+  constructor (interactor: IPatientInteractor) {
+    this.interactor = interactor
   }
 
-  async onCreatePatient(req: Request, res: Response, next: NextFunction) {
+  async onCreatePatient (req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createPatient(req.body);
-      res.json(newProfile);
-      next();
+      const newProfile = await this.interactor.createPatient(req.body)
+      res.json(newProfile)
+      next()
     } catch (error) {
-      
       console.log(error)
-      next(error);
+      next(error)
     }
   }
 
-  async onGetAllPatients(req: Request, res: Response, next: NextFunction) {
+  async onGetAllPatients (req: Request, res: Response, next: NextFunction) {
     try {
-      const results = await this.interactor.getAllPatients();
-      res.status(200).json(results);
-      next();
+      const results = await this.interactor.getAllPatients()
+      res.status(200).json(results)
+      next()
     } catch (error) {
-      next(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error)
+      res.status(500).json({ message: 'Internal Server Error' })
     }
   }
 
-  async onGetPatientById(req: Request, res: Response, next: NextFunction){
+  async onGetPatientById (req: Request, res: Response, next: NextFunction) {
     try {
-      const {id} = req.params;
+      const { id } = req.params
       const result = await this.interactor.getPatientById(id)
       res.status(200).json(result)
       next()
     } catch (error) {
       next(error)
-      res.status(500).json({message:'Internal Server Error'})
-      
+      res.status(500).json({ message: 'Internal Server Error' })
     }
   }
 }
