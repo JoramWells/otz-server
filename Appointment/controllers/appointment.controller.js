@@ -57,56 +57,56 @@ const getAllAppointments = async (req, res, next) => {
       };
     }
 
-    // const client = redis.createClient({ url: 'redis://redis:6379' });
-    // await client.connect();
+    const client = redis.createClient({ url: 'redis://redis:6379' });
+    await client.connect();
 
     //
-    // if (await client.get(appointmentKey) === null) {
-    //   // get all
-    const results = await Appointment.findAll({
-      order: [['appointmentDate', 'ASC']],
-      where: whereCondition,
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'sex'],
-        },
-        {
-          model: User,
-          attributes: ['id', 'firstName', 'middleName'],
-        },
-        {
-          model: AppointmentAgenda,
-          attributes: ['id', 'agendaDescription'],
+    if (await client.get(appointmentKey) === null) {
+      // get all
+      const results = await Appointment.findAll({
+        order: [['appointmentDate', 'ASC']],
+        where: whereCondition,
+        include: [
+          {
+            model: Patient,
+            attributes: ['firstName', 'middleName', 'dob', 'sex'],
+          },
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'middleName'],
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: ['id', 'agendaDescription'],
 
-        },
-        {
-          model: AppointmentStatus,
-          attributes: ['id', 'statusDescription'],
-        },
-      ],
-    });
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ['id', 'statusDescription'],
+          },
+        ],
+      });
 
-    //   console.log('Fetching from db');
+      console.log('Fetching from db');
 
-    //   await client.set('appointmentData', JSON.stringify(results));
-    //   res.json(results);
-    //   next();
-    // } else {
-    // const cachedData = await client.get(appointmentKey);
-    // res.json(JSON.parse(cachedData));
-    // console.log('Cached');
+      await client.set('appointmentData', JSON.stringify(results));
+      res.json(results);
+      next();
+    } else {
+      const cachedData = await client.get(appointmentKey);
+      res.json(JSON.parse(cachedData));
+      console.log('Cached');
 
-    // invalidate cace
-    // client.expire(appointmentKey, expiryDuration);
+      // invalidate cace
+      // client.expire(appointmentKey, expiryDuration);
+      // res.json(results);
 
-    // next();
-    // }
-    // console.log('not connected')
-    // console.log(await client.get('jay', redis.print))
+      next();
+    }
+    // console.log('not connected');
+    // console.log(await client.get('jay', redis.print));
 
     // await client.connect();
-    res.json(results);
     next();
   } catch (error) {
     console.log(error);

@@ -37,6 +37,6 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-app.listen(5003, () => {
+app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
