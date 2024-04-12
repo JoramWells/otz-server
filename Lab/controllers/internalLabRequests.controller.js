@@ -5,7 +5,7 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 
-const InternalLabRequest = require('../models/internalLabRequests.model');
+const InternalLabRequest = require('../models/lab/internalLabRequests.model');
 const Patient = require('../../Location/models/patients.models');
 
 // setup server

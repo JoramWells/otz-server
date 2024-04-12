@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { Sequelize } = require('sequelize');
-const ViralLoad = require('../models/viralLoad.model');
+const ViralLoad = require('../models/lab/viralLoad.model');
 
 // using *Patients model
 const addViralLoad = async (req, res, next) => {
