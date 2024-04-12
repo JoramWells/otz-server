@@ -5,6 +5,8 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
+const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
+const internalLabRequestRoutes = require('./ViralLoad/routes/internalLabRequests.routes');
 const vitalSignRoutes = require('./routes/vitalSign.routes');
 
 const app = express();
@@ -23,6 +25,8 @@ app.use(express.urlencoded({
 app.use(cors());
 
 app.use('/vital-signs', vitalSignRoutes);
+app.use('/viral-load', viralLoadRoutes);
+app.use('/internal-lab-request', internalLabRequestRoutes);
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully');

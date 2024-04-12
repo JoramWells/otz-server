@@ -14,8 +14,7 @@ const twilio = require('twilio');
 require('dotenv').config();
 
 const sequelize = require('./db/connect');
-const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
-const internalLabRequestRoutes = require('./ViralLoad/routes/internalLabRequests.routes');
+
 const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
 const userRoutes = require('./Users/routes/user.routes');
 const homeVisitReasonRoute = require('./HomeVisit/routes/reasonDetails.routes');
@@ -178,8 +177,6 @@ const PORT = process.env.PORT || 5000;
 
 // app.use('/patient', patientRoutes);
 app.use('/users', userRoutes);
-app.use('/viral-load', viralLoadRoutes);
-app.use('/internal-lab-request', internalLabRequestRoutes);
 app.use('/art-regimen', artRegimeRoutes);
 app.use('/art-regimen-phase', artRegimePhaseRoutes);
 app.use('/art-regimen-category', artRegimenCategoryRoutes);
