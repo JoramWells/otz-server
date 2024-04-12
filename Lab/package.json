@@ -21,10 +21,13 @@
     "sequelize": "^6.35.1"
   },
   "devDependencies": {
-    "eslint": ">=5.16.0",
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.0.0",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-import": "^2.29.0"
+    "eslint-plugin-import": "^2.29.1",
+    "globals": "^15.0.0"
   }
 }
