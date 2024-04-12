@@ -5,7 +5,7 @@
 /* eslint-disable no-unused-vars */
 
 const { Sequelize } = require('sequelize');
-const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
+// const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
 const ViralLoadTests = require('../models/viralLoadTests.model');
 const Patient = require('../models/patient/patients.models');
 
@@ -93,58 +93,58 @@ const calculateNextAppointmentDate = (appointmentDate, frequency) => {
 };
 
 // ceck oliday
-const checkSchoolHoliday = async (date) => {
-  try {
-    // Fetch all holidays from the database
-    const holidays = await SchoolTermHoliday.findAll();
+// const checkSchoolHoliday = async (date) => {
+//   try {
+//     // Fetch all holidays from the database
+//     const holidays = await SchoolTermHoliday.findAll();
 
-    // Check if the date falls within any holiday period
-    for (const holiday of holidays) {
-      const holidayStartDate = new Date(holiday.start_date);
-      const holidayEndDate = new Date(holiday.end_date);
+//     // Check if the date falls within any holiday period
+//     for (const holiday of holidays) {
+//       const holidayStartDate = new Date(holiday.start_date);
+//       const holidayEndDate = new Date(holiday.end_date);
 
-      // Check if the date falls within the holiday period
-      if (date >= holidayStartDate && date <= holidayEndDate) {
-        return true; // Date falls within a holiday
-      }
-    }
+//       // Check if the date falls within the holiday period
+//       if (date >= holidayStartDate && date <= holidayEndDate) {
+//         return true; // Date falls within a holiday
+//       }
+//     }
 
-    return false; // Date does not fall within any holiday
-  } catch (error) {
-    console.error('Error checking school holiday:', error);
-    return false; // Return false in case of error
-  }
-};
+//     return false; // Date does not fall within any holiday
+//   } catch (error) {
+//     console.error('Error checking school holiday:', error);
+//     return false; // Return false in case of error
+//   }
+// };
 
-//
-const checkAppointment = async () => {
-  try {
-    const patients = await Patient.findAll();
+// //
+// const checkAppointment = async () => {
+//   try {
+//     const patients = await Patient.findAll();
 
-    //
-    for (const patient of patients) {
-      const vlDate = await ViralLoadTests.findOne({
-        where: { id: patient.id },
-      });
+//     //
+//     for (const patient of patients) {
+//       const vlDate = await ViralLoadTests.findOne({
+//         where: { id: patient.id },
+//       });
 
-      if (vlDate) {
-        const dueDate = new Date(vlDate.dateOfNextVL);
-        const calculatedDueDate = calaculatDueDate(dueDate, 6);
-        const isHoliday = checkSchoolHoliday(calculatedDueDate);
+//       if (vlDate) {
+//         const dueDate = new Date(vlDate.dateOfNextVL);
+//         const calculatedDueDate = calaculatDueDate(dueDate, 6);
+//         const isHoliday = checkSchoolHoliday(calculatedDueDate);
 
-        if (isHoliday) {
-          console.log('holiday');
-        } else {
-          console.log('not holiday');
-        }
-      } else {
-        console.log('No appointment scheduled');
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+//         if (isHoliday) {
+//           console.log('holiday');
+//         } else {
+//           console.log('not holiday');
+//         }
+//       } else {
+//         console.log('No appointment scheduled');
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const getViralLoadTest = async (req, res, next) => {
   const { id } = req.params;

@@ -4,7 +4,7 @@ const express = require('express');
 const {
   addInternalLabRequests, getAllInternalLabRequests, getInternalLabRequest,
   editInternalLabRequest, deleteInternalLabRequest,
-} = require('../controllers/internalLabRequests.controller');
+} = require('../../controllers/internalLabRequests.controller');
 
 
 

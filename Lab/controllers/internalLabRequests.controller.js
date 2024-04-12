@@ -6,7 +6,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 const InternalLabRequest = require('../models/lab/internalLabRequests.model');
-const Patient = require('../../Location/models/patients.models');
+const Patient = require('../models/patient/patients.models');
 
 // setup server
 const app = express();

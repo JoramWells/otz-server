@@ -1,14 +1,15 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const School = require('../../../Location/models/school.model');
-const Hospital = require('../../../Hospital/models/hospital.model');
+const School = require('../school/school.model');
+const Hospital = require('../location/location.model');
+
+// const sequelize = require('../../db/connect');
 // const School = require('./school.model');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
-
 const Patient = sequelize.define(
-  "patients",
+  'patients',
   {
     id: {
       type: DataTypes.UUID,
@@ -34,9 +35,9 @@ const Patient = sequelize.define(
     phoneNo: {
       type: DataTypes.STRING,
     },
-    occupation: {
+    occupationID: {
       type: DataTypes.UUID,
-      allowNull: true
+      allowNull: true,
     },
     idNo: {
       type: DataTypes.STRING,
@@ -44,42 +45,44 @@ const Patient = sequelize.define(
     cccNo: {
       type: DataTypes.STRING,
     },
-    mflCode: {
-      type: DataTypes.STRING,
-    },
-    residence: {
-      type: DataTypes.STRING,
-    },
+    // mflCode: {
+    //   type: DataTypes.STRING,
+    // },
+    // residence: {
+    //   type: DataTypes.STRING,
+    // },
+
     ageAtReporting: {
       type: DataTypes.DATE,
     },
     dateConfirmedPositive: {
       type: DataTypes.DATE,
     },
-    firstRegimen: {
+    initialRegimen: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
 
     },
     populationType: {
       type: DataTypes.STRING,
     },
     schoolID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     hospitalID: {
-      type: DataTypes.INTEGER
-    }
+      type: DataTypes.INTEGER,
+    },
   },
   {
     postgresql: {
-      fillFactor: 70
-    }, timestamps: true
-  }
+      fillFactor: 70,
+    },
+    timestamps: true,
+  },
 );
 
-Patient.belongsTo(School, { foreignKey: 'schoolID' })
-Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
+Patient.belongsTo(School, { foreignKey: 'schoolID' });
+Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' });
 
 // (async () => {
 //     await sequelize.sync();

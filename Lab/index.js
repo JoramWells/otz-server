@@ -5,10 +5,10 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const viralLoadRoutes = require('./ViralLoad/routes/viralLoad.routes');
-const internalLabRequestRoutes = require('./ViralLoad/routes/internalLabRequests.routes');
+// const viralLoadRoutes = require('./routes/viralLoadTests.routes');
+const internalLabRequestRoutes = require('./routes/lab/internalLabRequests.routes');
 const vitalSignRoutes = require('./routes/vitalSign.routes');
-const viralLoadTestRoutes = require('../routes/viralLoadTests.routes');
+const viralLoadTestRoutes = require('./routes/viralLoadTests.routes');
 
 
 const app = express();
@@ -27,7 +27,6 @@ app.use(express.urlencoded({
 app.use(cors());
 
 app.use('/vital-signs', vitalSignRoutes);
-app.use('/viral-load', viralLoadRoutes);
 app.use('/internal-lab-request', internalLabRequestRoutes);
 app.use('/viral-load-tests', viralLoadTestRoutes);
 

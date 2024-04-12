@@ -18,7 +18,8 @@
     "mysql2": "^3.6.5",
     "nodemon": "^3.0.2",
     "pg": "^8.11.3",
-    "sequelize": "^6.35.1"
+    "sequelize": "^6.35.1",
+    "socket.io": "^4.7.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
