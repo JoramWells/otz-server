@@ -13,11 +13,11 @@ export class PatientInteractor implements IPatientInteractor {
     return await this.repository.findById(id)
   }
 
-  async createPatient (patientData: any): Promise<Patient> {
+  async createPatient (patientData: Patient): Promise<Patient> {
     return await this.repository.create(patientData)
   }
 
-  async getAllPatients () {
+  async getAllPatients (): Promise<Patient[]> {
     return await this.repository.find()
   }
 }

@@ -45,7 +45,9 @@ const InternalLabRequest = sequelize.define('internalLabRequests', {
 
   // CD4
 
-});
+},
+
+{timestamps:true});
 
 InternalLabRequest.belongsTo(Patient, { foreignKey: 'patientID' });
 // InternalLabRequests.belongsTo(Hospital, { foreignKey: 'hospitalID' });

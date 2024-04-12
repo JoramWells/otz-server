@@ -1,41 +1,47 @@
-import { IPatientInteractor } from "../../application/interfaces/IPatientInteractor";
-import { IPatientRepository } from "../../application/interfaces/IPatientRepository";
-import { Patient } from "../../domain/entities/Patient";
-const PatientDetails = require("../../domain/models/patients.models");
-const School = require("../../domain/models/school/school.model");
-const Hospital = require("../../domain/models/hospital/hospital.model");
-const ViralLoad = require("../../domain/models/vl/viralLoadTests.model");
+/* eslint-disable @typescript-eslint/no-var-requires */
+// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
+import { type Patient } from '../../domain/entities/Patient'
+const PatientDetails = require('../../domain/models/patients.models')
+const School = require('../../domain/models/school/school.model')
+const Hospital = require('../../domain/models/hospital/hospital.model')
+const ViralLoad = require('../../domain/models/vl/viralLoadTests.model')
 
 export class PatientRepository implements IPatientRepository {
-  async create(data: Patient): Promise<Patient> {
-    return await PatientDetails.create(data);
+  async create (data: Patient): Promise<Patient> {
+    const results = await PatientDetails.create(data)
+    return results
   }
-  async find(): Promise<Patient> {
-    return await PatientDetails.findAll({
+
+  async find (): Promise<Patient[]> {
+    const results = await PatientDetails.findAll({
       include: [
-        { model: School, attributes: ["schoolName"] },
+        { model: School, attributes: ['schoolName'] },
         {
           model: Hospital,
-          attributes: ["hospitalName"],
+          attributes: ['hospitalName']
         },
         {
           model: ViralLoad,
           attributes: [
-            "id",
-            "dateOfNextVL",
-            "vlResults",
-            "isValid",
-            "dateOfCurrentVL",
-          ],
-        },
-      ],
-    });
+            'id',
+            'dateOfNextVL',
+            'vlResults',
+            'isValid',
+            'dateOfCurrentVL'
+          ]
+        }
+      ]
+    })
+    return results
   }
-  async findById(id: string): Promise<Patient> {
-    return await PatientDetails.findOne({
-      where:{
+
+  async findById (id: string): Promise<Patient> {
+    const results = await PatientDetails.findOne({
+      where: {
         id
       }
     })
+    return results
   }
 }

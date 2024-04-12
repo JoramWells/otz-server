@@ -2,7 +2,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { Patient } from '../../domain/entities/Patient'
-
+const redis = require('redis')
 export class PatientController {
   private readonly interactor: IPatientInteractor
 
@@ -23,10 +23,25 @@ export class PatientController {
   }
 
   async onGetAllPatients (req: Request, res: Response, next: NextFunction) {
+    const PATIENT_DATA = 'patientData'
+
     try {
-      const results = await this.interactor.getAllPatients()
-      res.status(200).json(results)
-      next()
+      const redisClient = redis.createClient({ url: 'redis://redis:6379' })
+      await redisClient.connect()
+      if (await redisClient.get(PATIENT_DATA) === null) {
+        const results = await this.interactor.getAllPatients()
+        res.status(200).json(results)
+        next()
+        console.log('Fetched from patients db')
+
+        // save to redis
+        await redisClient.set(PATIENT_DATA, JSON.stringify(results))
+        console.log('Cached data to redis')
+      } else {
+        const patientCache: string = await redisClient.get(PATIENT_DATA)
+        res.json(JSON.parse(patientCache))
+        console.log('Fetched from cache patient')
+      }
     } catch (error) {
       next(error)
       res.status(500).json({ message: 'Internal Server Error' })

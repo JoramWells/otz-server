@@ -152,7 +152,6 @@ const PORT = process.env.PORT || 5000;
 // app.use(cors(corsOption));
 
 //
-
 // sendsms
 // app.post('/sms/send', async (req, res, next) => {
 //   const { to, message } = req.body;
