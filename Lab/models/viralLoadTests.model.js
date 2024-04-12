@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../Enrollment/src/domain/db/connect');
 // const Patient = require('../../Patient/models/patients.models');
-const ART = require('./arts/art.model');
-const Patient = require('./patients/patients.models');
-const ArtRegimenPhase = require('./arts/artRegimenPhases.model');
+const ART = require('../../Enrollment/src/domain/models/arts/art.model');
+const Patient = require('../../Enrollment/src/domain/models/patients/patients.models');
+const ArtRegimenPhase = require('../../Enrollment/src/domain/models/arts/artRegimenPhases.model');
 
 const ViralLoad = sequelize.define('viralLoad', {
   id: {

@@ -5,9 +5,9 @@
 /* eslint-disable no-unused-vars */
 
 const { Sequelize } = require('sequelize');
-const Patient = require('../../domain/models/patients/patients.models');
-const SchoolTermHoliday = require('../../domain/models/school/schoolTermHolidays.model');
-const ViralLoadTests = require('../../domain/models/viralLoadTests.model');
+const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
+const ViralLoadTests = require('../models/viralLoadTests.model');
+const Patient = require('../models/patient/patients.models');
 
 // using *Patients model
 const addViralLoadTest = async (req, res, next) => {
