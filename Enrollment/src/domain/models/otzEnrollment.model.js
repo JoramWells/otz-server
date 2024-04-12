@@ -63,8 +63,6 @@ const OTZEnrollment = sequelize.define('otzEnrollments', {
     type: DataTypes.UUID,
   },
 });
-
-
 // OTZEnrollment.belongsTo(ART, { foreignKey: 'originalARTRegimen', targetKey: 'id' });
 // OTZEnrollment.belongsTo(ART, { foreignKey: 'currentARTRegimen', targetKey: 'id' });
 OTZEnrollment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });

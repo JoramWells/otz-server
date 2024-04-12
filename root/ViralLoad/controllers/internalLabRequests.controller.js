@@ -1,20 +1,19 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const http = require('http')
+const http = require('http');
 const express = require('express');
-const socketIO = require('socket.io')
+const socketIO = require('socket.io');
 
-const InternalLabRequest = require("../models/internalLabRequests,model");
-const Patient = require("../../Location/models/patients.models")
+const InternalLabRequest = require('../models/internalLabRequests.model');
+const Patient = require('../../Location/models/patients.models');
 
 // setup server
-const app=express()
-const server = http.createServer(app)
+const app = express();
+const server = http.createServer(app);
 
 // setup io
-const io = socketIO(server)
-
+const io = socketIO(server);
 
 // // check connection
 // io.on('connection', (socket)=>{
@@ -37,12 +36,12 @@ const addInternalLabRequests = async (req, res, next) => {
 const getAllInternalLabRequests = async (req, res, next) => {
   try {
     const results = await InternalLabRequest.findAll({
-      include:[
+      include: [
         {
-          model:Patient,
-          attributes:['firstName', 'middleName']
-        }
-      ]
+          model: Patient,
+          attributes: ['firstName', 'middleName'],
+        },
+      ],
     });
     res.json(results);
     next();
@@ -61,12 +60,12 @@ const getInternalLabRequest = async (req, res, next) => {
         id,
       },
       // order: [['createdAt', 'DESC']],
-      include:[
+      include: [
         {
-          model:Patient,
-          attributes:['firstName', 'middleName']
-        }
-      ]
+          model: Patient,
+          attributes: ['firstName', 'middleName'],
+        },
+      ],
     });
     res.json(results);
     next();
@@ -88,16 +87,15 @@ const editInternalLabRequest = async (req, res, next) => {
 
     labResults.results = req.body.results;
     labResults.save();
-    req.app.locals.io.emit('lab-updated', labResults)
+    req.app.locals.io.emit('lab-updated', labResults);
 
-    res.status(200).json(labResults)
+    res.status(200).json(labResults);
     next();
-    return true
-
+    return true;
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
-    next(error)
+    next(error);
   }
 };
 
@@ -120,5 +118,9 @@ const deleteInternalLabRequest = async (req, res, next) => {
 };
 
 module.exports = {
-  addInternalLabRequests, getAllInternalLabRequests, getInternalLabRequest, editInternalLabRequest, deleteInternalLabRequest,
+  addInternalLabRequests,
+  getAllInternalLabRequests,
+  getInternalLabRequest,
+  editInternalLabRequest,
+  deleteInternalLabRequest,
 };

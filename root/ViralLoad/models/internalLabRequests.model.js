@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Patient = require('./patient/patients.models');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
 const InternalLabRequest = sequelize.define('internalLabRequests', {
@@ -9,13 +10,13 @@ const InternalLabRequest = sequelize.define('internalLabRequests', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  // patientID: {
-  //   type: DataTypes.UUID,
-  //   references: {
-  //     model: 'patients',
-  //     key: 'id',
-  //   },
-  // },
+  patientID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'patients',
+      key: 'id',
+    },
+  },
   specimenType: {
     type: DataTypes.STRING,
   },
@@ -46,12 +47,12 @@ const InternalLabRequest = sequelize.define('internalLabRequests', {
 
 });
 
-// InternalLabRequest.belongsTo(Patient, { foreignKey: 'patientID' });
+InternalLabRequest.belongsTo(Patient, { foreignKey: 'patientID' });
 // InternalLabRequests.belongsTo(Hospital, { foreignKey: 'hospitalID' });
 
-// (async () => {
-//   await sequelize.sync();
-//   console.log('Lab requests Table synced successfull');
-// })();
+(async () => {
+  await sequelize.sync();
+  console.log('Lab Requests Table synced successfull');
+})();
 
 module.exports = InternalLabRequest;
