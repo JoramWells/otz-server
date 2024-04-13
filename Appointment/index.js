@@ -4,7 +4,6 @@
 const express = require('express');
 const schedule = require('node-schedule');
 const http = require('http');
-const winston = require('winston');
 const Sentry = require('@sentry/node');
 const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
@@ -60,17 +59,6 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-// create winston logger
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-  defaultMeta: { service: 'appointment-service' },
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'combined.log' }),
-  ],
-});
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -140,7 +128,6 @@ app.use('/daily-uptake', dailyUptakeRoutes);
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully!');
 }).catch((error) => {
-  logger.error(error);
   console.error('Unable to connect to database: ', error);
 });
 

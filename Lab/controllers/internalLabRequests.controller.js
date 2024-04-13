@@ -75,6 +75,31 @@ const getInternalLabRequest = async (req, res, next) => {
   }
 };
 
+// 
+
+const getByPatientIDInternalLabRequest = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const results = await InternalLabRequest.findOne({
+      where: {
+        patientID:id,
+      },
+      // order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName'],
+        },
+      ],
+    });
+    res.json(results);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 // edit patient
 const editInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
@@ -123,4 +148,5 @@ module.exports = {
   getInternalLabRequest,
   editInternalLabRequest,
   deleteInternalLabRequest,
+  getByPatientIDInternalLabRequest
 };

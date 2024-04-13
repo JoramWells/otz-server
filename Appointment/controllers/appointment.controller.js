@@ -9,6 +9,7 @@ const Patient = require('../models/patient/patients.models');
 const AppointmentAgenda = require('../models/appointmentAgenda.model');
 const AppointmentStatus = require('../models/appointmentStatus.model');
 const User = require('../models/users/user.models');
+const winstonLogger = require('../utils/winstonLogger');
 
 const expiryDuration = 60;
 // let client;
@@ -25,9 +26,10 @@ const addAppointment = async (req, res, next) => {
     const newProfile = await Appointment.create(req.body);
 
     res.json(newProfile);
+    winstonLogger.info({ message: 'Successfully created appointment' });
     next();
   } catch (error) {
-    console.log(error);
+    winstonLogger.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -87,6 +89,8 @@ const getAllAppointments = async (req, res, next) => {
         ],
       });
 
+      winstonLogger.info('Fetching from db');
+
       console.log('Fetching from db');
 
       await client.set('appointmentData', JSON.stringify(results));
@@ -95,6 +99,8 @@ const getAllAppointments = async (req, res, next) => {
     } else {
       const cachedData = await client.get(appointmentKey);
       res.json(JSON.parse(cachedData));
+      winstonLogger.info('Cached to redis');
+
       console.log('Cached');
 
       // invalidate cace
