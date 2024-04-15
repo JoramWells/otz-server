@@ -4,6 +4,7 @@ const express = require('express');
 const {
   addInternalLabRequests, getAllInternalLabRequests, getInternalLabRequest,
   editInternalLabRequest, deleteInternalLabRequest,
+  getByPatientIDInternalLabRequest,
 } = require('../../controllers/internalLabRequests.controller');
 
 
@@ -13,6 +14,7 @@ const router = express.Router();
 router.post('/add', addInternalLabRequests);
 router.get('/fetchAll', getAllInternalLabRequests);
 router.get('/detail/:id', getInternalLabRequest);
+router.get('/labDetail/:id', getByPatientIDInternalLabRequest);
 router.put('/update/:id', editInternalLabRequest);
 router.delete('/delete/:id', deleteInternalLabRequest);
 

@@ -23,6 +23,7 @@ const expiryDuration = 60;
 // using *Patients model
 const addAppointment = async (req, res, next) => {
   try {
+    console.log(req.body);
     const newProfile = await Appointment.create(req.body);
 
     res.json(newProfile);
@@ -31,6 +32,8 @@ const addAppointment = async (req, res, next) => {
   } catch (error) {
     winstonLogger.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
+    console.log(error);
+    next(error);
   }
 };
 

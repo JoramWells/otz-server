@@ -76,11 +76,10 @@ const getInternalLabRequest = async (req, res, next) => {
 };
 
 // 
-
 const getByPatientIDInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await InternalLabRequest.findOne({
+    const results = await InternalLabRequest.findAll({
       where: {
         patientID:id,
       },
@@ -129,7 +128,7 @@ const deleteInternalLabRequest = async (req, res, next) => {
   try {
     const results = await InternalLabRequest.destroy({
       where: {
-        patient_id: id,
+         id,
       },
     });
 
