@@ -21,3 +21,4 @@
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-14T12:22:41.186Z"}
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-14T12:56:44.963Z"}
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-14T12:58:25.599Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-15T03:41:01.200Z"}

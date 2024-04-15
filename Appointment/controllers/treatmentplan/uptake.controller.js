@@ -18,6 +18,7 @@ const addUptake = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 
@@ -123,6 +124,29 @@ const getUptake = async (req, res, next) => {
   }
 };
 
+const getUptakeByID = async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id, 'iko');
+  try {
+    const patient = await Uptake.findAll({
+      include: {
+        model: TimeAndWork,
+        attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
+        where: {
+          patientID: id,
+        },
+      },
+    });
+    console.log(patient, 'klio');
+    res.json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
+  }
+};
+
 // edit patient
 const editUptake = async (req, res, next) => {
   const { id } = req.params;
@@ -174,4 +198,5 @@ module.exports = {
   editUptake,
   deleteUptake,
   getUptakeCount,
+  getUptakeByID,
 };

@@ -101,7 +101,7 @@ const getAllTimeAndWork = async (req, res, next) => {
     // }
   } catch (error) {
     console.log(error);
-    res.json({ error: 'Internal Server error' });
+    res.json({ error: 'Internal Server Error' });
     next(error);
   }
 };
@@ -150,12 +150,73 @@ const editTimeAndWork = async (req, res, next) => {
   }
 };
 
+// mornin scedule
+// edit patient
+const updateTimeAndWorkMorningSchedule = async (req, res, next) => {
+  const { id } = req.params;
+  const {
+    wakeUpTime, arrivalWorkTime, departureHomeTime, morningMedicineTime, morningPlace,
+  } = req.body;
+  console.log(req.body);
+  try {
+    const results = await TimeAndWork.findOne({
+      where: {
+        id,
+      },
+    });
+
+    results.wakeUpTime = wakeUpTime;
+    results.arrivalWorkTime = arrivalWorkTime;
+    results.departureHomeTime = departureHomeTime;
+    results.morningMedicineTime = morningMedicineTime;
+    results.morningPlace = morningPlace;
+
+    results.save();
+    res.sendStatus(200);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error);
+  }
+};
+
+// Evening Schedule
+// edit patient
+const updateTimeAndWorkEveningSchedule = async (req, res, next) => {
+  const { id } = req.params;
+  const {
+    departureWorkTime, arrivalHomeTime, eveningMedicineTime, eveningPlace,
+  } = req.body;
+  console.log(req.body);
+  try {
+    const results = await TimeAndWork.findOne({
+      where: {
+        id,
+      },
+    });
+
+    results.departureWorkTime = departureWorkTime;
+    results.arrivalHomeTime = arrivalHomeTime;
+    results.eveningMedicineTime = eveningMedicineTime;
+    results.eveningPlace = eveningPlace;
+
+    results.save();
+    res.sendStatus(200);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error);
+  }
+};
+
 const deleteTimeAndWork = async (req, res, next) => {
   const { id } = req.params;
   try {
     const results = await TimeAndWork.destroy({
       where: {
-        patient_id: id,
+        id,
       },
     });
 
@@ -175,5 +236,7 @@ module.exports = {
   editTimeAndWork,
   deleteTimeAndWork,
   //
+  updateTimeAndWorkMorningSchedule,
+  updateTimeAndWorkEveningSchedule,
   scheduleDailyTask,
 };
