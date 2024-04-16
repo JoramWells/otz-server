@@ -126,9 +126,9 @@ const getUptake = async (req, res, next) => {
 
 const getUptakeByID = async (req, res, next) => {
   const { id } = req.params;
-  console.log(id, 'iko');
   try {
     const patient = await Uptake.findAll({
+      order: [['updatedAt', 'DESC']],
       include: {
         model: TimeAndWork,
         attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
@@ -137,11 +137,9 @@ const getUptakeByID = async (req, res, next) => {
         },
       },
     });
-    console.log(patient, 'klio');
     res.json(patient);
     next();
   } catch (error) {
-    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
     next(error);
   }
