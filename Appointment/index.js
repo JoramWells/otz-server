@@ -28,6 +28,7 @@ const userNotificationRoutes = require('./routes/notify/userNotifications.routes
 //
 const timeAndWorkRoutes = require('./routes/treatmentplan/timeAndWork.routes');
 const chatRoutes = require('./routes/chat/chat.routes');
+const chatMessagesRoutes = require('./routes/chat/messages.routes');
 const mmasRoutes = require('./routes/treatmentplan/mmas.routes');
 const disclosureChecklistRoutes = require('./routes/treatmentplan/disclosureChecklist.routes');
 const dailyUptakeRoutes = require('./routes/treatmentplan/uptake.routes');
@@ -115,6 +116,7 @@ app.use('/appointments', appointmentRoutes);
 app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
 app.use('/chats', chatRoutes);
+app.use('/chat-messages', chatMessagesRoutes);
 app.use('/sms', smsWhatsappRoutes);
 app.use('/notification-types', notificationTypeRoutes);
 app.use('/notifications', notificationRoutes);

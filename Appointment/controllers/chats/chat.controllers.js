@@ -41,6 +41,8 @@ const addChat = async (req, res, next) => {
 
 const getChats = async (req, res, next) => {
   const { id } = req.params;
+
+  console.log(id, 'id');
   try {
     const patient = await Chat.findAll({
       where: {
@@ -49,20 +51,22 @@ const getChats = async (req, res, next) => {
         },
       },
     });
+    console.log(patient);
     res.json(patient);
     next();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 
 // get all priceListItems
 const getChat = async (req, res, next) => {
-  const [id1, id2] = req.body;
+  const { id1, id2 } = req.body;
   try {
     const chatExists = Chat.findAll({
-      members: [id1, id2],
+      // members: [id1, id2],
     });
 
     res.json(chatExists);

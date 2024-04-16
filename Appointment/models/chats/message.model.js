@@ -2,33 +2,36 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4, Sequelize } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Chat = require('./chat.model');
 
-const Chat = sequelize.define('chats', {
+const ChatMessage = sequelize.define('chatMessages', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  appointmentID: {
+  chatID: {
     type: DataTypes.UUID,
     references: {
-      model: 'appointments',
+      model: 'chats',
       key: 'id',
     },
     onDelete: 'CASCADE',
   },
-  members: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+  text: {
+    type: DataTypes.STRING,
   },
 });
 
-// Chat.afterUpdate(async () => {
+ChatMessage.belongsTo(Chat, { foreignKey: 'chatID' });
+
+// ChatMessage.afterUpdate(async () => {
 //   console.log('@@@@@@');
 // });
 
 // (async () => {
 //   await sequelize.sync();
-//   console.log('Chat D Table synced successfully');
+//   console.log('ChatMessage D Table synced successfully');
 // })();
 
-module.exports = Chat;
+module.exports = ChatMessage;
