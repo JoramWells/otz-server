@@ -1,49 +1,49 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-import { DataTypes, UUIDV4 } from "sequelize";
-const sequelize = require("../../db/connect");
-const Patient = require("../patients.models");
+import { DataTypes, UUIDV4 } from 'sequelize'
+import Patient from '../patients.models'
+const sequelize = require('../../db/connect')
 
 const ViralLoad = sequelize.define('viralLoad', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
-    defaultValue: UUIDV4,
+    defaultValue: UUIDV4
   },
   vlResults: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
 
   isValid: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   patientID: {
     type: DataTypes.UUID,
     references: {
       model: 'patients',
-      key: 'id',
-    },
+      key: 'id'
+    }
   },
   lastVLJustification: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   dateConfirmedPositive: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATEONLY
   },
   dateOfCurrentVL: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.DATEONLY
   },
   dateOfNextVL: {
-    type: DataTypes.DATEONLY,
-  },
-});
+    type: DataTypes.DATEONLY
+  }
+})
 
-ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' });
-Patient.hasMany(ViralLoad, { foreignKey: 'patientID' });
+ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' })
+Patient.hasMany(ViralLoad, { foreignKey: 'patientID' })
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Viral Load Results Table synced successfully');
 // })();
 
-module.exports = ViralLoad;
+module.exports = ViralLoad

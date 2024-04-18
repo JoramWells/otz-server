@@ -4,7 +4,7 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize')
 const sequelize = require('../db/connect')
-const County = require('./location/county.model')
+// const County = require('./location/county.model')
 
 const User = sequelize.define('users', {
   id: {
@@ -38,11 +38,11 @@ const User = sequelize.define('users', {
   }
 })
 
-User.belongsTo(County, { foreignKey: 'countyID' })
+// User.belongsTo(County, { foreignKey: 'countyID' })
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('User Table synced successfully');
 // })();
 
-module.exports = User
+export default User

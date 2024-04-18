@@ -6,17 +6,19 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 import { type NextFunction, type Request, type Response } from 'express'
+import CaseManager from '../domain/models/casemanager.model'
+import Patient from '../domain/models/patients.models'
 
-const CareGiver = require('../domain/models/caregiver.model')
-const Patient = require('../domain/models/patients.models')
+// const CaseManager = require('../domain/models/CaseManager.model')
+// const Patient = require('../domain/models/patients.models')
 
 // using *Patients model
-const addCaregiver = async (req: Request, res: Response, next: NextFunction) => {
+const addCaseManager = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await CareGiver.create(req.body)
-    res.json({ message: 'Successfully Created New Care' })
-
+    await CaseManager.create(req.body)
     next()
+
+    return res.json({ message: 'Successfully Created New Care' })
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Internal Server Error' })
@@ -25,9 +27,9 @@ const addCaregiver = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 // get all priceListItems
-const getAllCaregivers = async (req: Request, res: Response, next: NextFunction) => {
+const getAllCaseManagers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const results = await CareGiver.findAll({
+    const results = await CaseManager.findAll({
       include: [
         {
           model: Patient,
@@ -44,10 +46,10 @@ const getAllCaregivers = async (req: Request, res: Response, next: NextFunction)
   }
 }
 
-const getCaregiverDetail = async (req: Request, res: Response, next: NextFunction) => {
+const getCaseManagerDetail = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
-    const results = await CareGiver.findAll({
+    const results = await CaseManager.findAll({
       where: {
         patientID: id
       }
@@ -61,13 +63,13 @@ const getCaregiverDetail = async (req: Request, res: Response, next: NextFunctio
 }
 
 // edit patient
-const editCaregiver = async (req: Request, res: Response, next: NextFunction) => {
+const editCaseManager = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   const {
     first_name, middle_name, last_name, id_number, cell_phone
   } = req.body
   try {
-    const editPAtient = await CareGiver.findOne({
+    const editPAtient = await CaseManager.findOne({
       where: {
         patient_id: id
       }
@@ -87,10 +89,10 @@ const editCaregiver = async (req: Request, res: Response, next: NextFunction) =>
   }
 }
 
-const deleteCaregiver = async (req: Request, res: Response, next: NextFunction) => {
+const deleteCaseManager = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
-    const results = await CareGiver.destroy({
+    const results = await CaseManager.destroy({
       where: {
         patient_id: id
       }
@@ -105,6 +107,6 @@ const deleteCaregiver = async (req: Request, res: Response, next: NextFunction) 
   }
 }
 
-module.exports = {
-  addCaregiver, getAllCaregivers, getCaregiverDetail, editCaregiver, deleteCaregiver
+export {
+  addCaseManager, getAllCaseManagers, getCaseManagerDetail, editCaseManager, deleteCaseManager
 }

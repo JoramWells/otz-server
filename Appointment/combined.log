@@ -46,3 +46,4 @@
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-17T18:36:41.054Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-17T18:41:51.592Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-17T18:47:41.891Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-18T07:47:46.681Z"}

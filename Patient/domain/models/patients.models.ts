@@ -90,4 +90,4 @@ Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 //   console.log('Patient Table synced successfully')
 // })()
 
-module.exports = Patient
+export default Patient

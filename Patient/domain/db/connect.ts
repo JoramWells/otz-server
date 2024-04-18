@@ -1,10 +1,10 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
 // setting up sequelize
 
-const DB = 'otz';
-const USERNAME = 'postgres';
-const PASSWORD = 'postgres';
+const DB = 'otz'
+const USERNAME = 'postgres'
+const PASSWORD = 'postgres'
 
 const connect = new Sequelize(
   DB,
@@ -15,11 +15,11 @@ const connect = new Sequelize(
     dialect: 'postgres',
     define: {
       timestamps: true,
-      freezeTableName: true,
+      freezeTableName: true
 
-    },
-  },
+    }
+  }
 
-);
+)
 
-module.exports = connect;
+module.exports = connect

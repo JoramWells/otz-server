@@ -7,6 +7,8 @@
 /* eslint-disable linebreak-style */
 import express, { type Application } from 'express'
 import morgan from 'morgan'
+
+import { CaseManagerRouter } from './routes/casemanager.routes'
 const cors = require('cors')
 const sequelize = require('./domain/db/connect')
 const patientRoutes = require('./routes/patient.routes')
@@ -31,6 +33,7 @@ app.use(cors())
 
 app.use('/patients', patientRoutes)
 app.use('/caregiver', careGiverRoutes)
+app.use('/casemanager', CaseManagerRouter)
 
 sequelize.authenticate().then(() => {
   console.log('Connected to database successfully')
