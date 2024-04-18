@@ -37,13 +37,16 @@ const getChatMessage = async (req, res, next) => {
   try {
     const patient = await ChatMessage.findOne({
       where: {
-        id,
+        chatID: id,
       },
     });
     res.json(patient);
+
     next();
   } catch (error) {
+    console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 

@@ -45,7 +45,7 @@ app.use(express.urlencoded({
 app.use(morgan('dev'));
 
 schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
-// dailyUptake();
+dailyUptake();
 
 // Swagger configuration options
 const swaggerOptions = {

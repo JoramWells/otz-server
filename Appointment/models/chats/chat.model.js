@@ -9,14 +9,6 @@ const Chat = sequelize.define('chats', {
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  appointmentID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'appointments',
-      key: 'id',
-    },
-    onDelete: 'CASCADE',
-  },
   members: {
     type: DataTypes.ARRAY(DataTypes.STRING),
   },

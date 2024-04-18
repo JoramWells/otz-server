@@ -18,21 +18,24 @@ require('dotenv').config();
 
 // using *Patients model
 const addChat = async (req, res, next) => {
-  const [id1, id2] = req.body;
+  const { id1, id2 } = req.body;
   try {
-    const chatExists = Chat.findOne({
-      members: [id1, id2],
+    const chatExists = await Chat.findOne({
+      where: Sequelize.literal(`members @> ARRAY['${id1}', '${id2}']::varchar[]`),
     });
 
     if (chatExists) {
       res.json(chatExists);
       next();
+      console.log('exists');
+    } else {
+      const newProfile = await Chat.create({
+        members: [id1, id2],
+      });
+
+      res.json(newProfile);
+      next();
     }
-
-    const newProfile = await Chat.create(req.body);
-
-    res.json(newProfile);
-    next();
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -65,8 +68,8 @@ const getChats = async (req, res, next) => {
 const getChat = async (req, res, next) => {
   const { id1, id2 } = req.body;
   try {
-    const chatExists = Chat.findAll({
-      // members: [id1, id2],
+    const chatExists = await Chat.findAll({
+      members: [id1, id2],
     });
 
     res.json(chatExists);
