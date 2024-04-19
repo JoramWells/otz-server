@@ -8,6 +8,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import CaseManager from '../domain/models/casemanager.model'
 import Patient from '../domain/models/patients.models'
+import User from '../domain/models/user.model'
 
 // const CaseManager = require('../domain/models/CaseManager.model')
 // const Patient = require('../domain/models/patients.models')
@@ -32,12 +33,14 @@ const getAllCaseManagers = async (req: Request, res: Response, next: NextFunctio
     const results = await CaseManager.findAll({
       include: [
         {
-          model: Patient,
-          attributes: ['firstName', 'middleName', 'dob', 'gender']
+          model: User,
+          attributes: ['id', 'firstName', 'middleName']
+
         }
       ]
     })
     res.json(results)
+    console.log(results, 'ui')
     next()
   } catch (error) {
     console.log(error)

@@ -28,6 +28,10 @@ const CaseManager = sequelize.define('caseManagers', {
       key: 'id'
     },
     onDelete: 'CASCADE'
+  },
+  isNotification: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 })
 
