@@ -1,11 +1,17 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
+
 const { Sequelize } = require('sequelize');
+// const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
+const Patient = require('../models/patient/patients.models');
 const ViralLoad = require('../models/lab/viralLoad.model');
 
 // using *Patients model
-const addViralLoad = async (req, res, next) => {
+const addViralLoadTest = async (req, res, next) => {
+  // console.log(req.body);
   try {
     const newProfile = await ViralLoad.create(req.body);
 
@@ -14,13 +20,21 @@ const addViralLoad = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 
 // get all priceListItems
-const getAllViralLoads = async (req, res, next) => {
+const getAllViralLoad = async (req, res, next) => {
   try {
-    const results = await ViralLoad.findAll();
+    const results = await ViralLoad.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName', 'dob', 'sex'],
+        },
+      ],
+    });
     res.json(results);
     next();
   } catch (error) {
@@ -35,9 +49,9 @@ const getAllVlCategories = async (req, res, next) => {
     const results = await ViralLoad.findAll({
       attributes: [
         [Sequelize.literal(`CASE
-      WHEN vlResults < 50 THEN 'LDL'
-      WHEN vlResults BETWEEN 50 AND 199 THEN 'Low RiskLLV'
-      WHEN vlResults BETWEEN 200 AND 999 THEN 'High Risk LLV'
+      WHEN "vlResults"::numeric < 50 THEN 'LDL'
+      WHEN "vlResults"::numeric BETWEEN 50 AND 199 THEN 'Low RiskLLV'
+      WHEN "vlResults"::numeric BETWEEN 200 AND 999 THEN 'High Risk LLV'
       ELSE 'Suspected Treatment Failure'
       END`), 'category'],
         [Sequelize.fn('COUNT', Sequelize.col('*')), 'count'],
@@ -50,16 +64,98 @@ const getAllVlCategories = async (req, res, next) => {
   }
 };
 
-const getViralLoad = async (req, res, next) => {
+// ceck next appointment
+const calculateNextAppointmentDate = (appointmentDate, frequency) => {
+  // Parse the frequency to determine the interval
+  const [interval, unit] = frequency.split(' ');
+
+  // Convert appointmentDate to milliseconds
+  let nextAppointmentDate = new Date(appointmentDate).getTime();
+
+  // Calculate the next appointment date based on the frequency
+  switch (unit) {
+    // Assuming 30 days per month
+    case 'months':
+      nextAppointmentDate += parseInt(interval, 10) * 30 * 24 * 60 * 60 * 1000;
+      break;
+    case 'weeks':
+      nextAppointmentDate += parseInt(interval, 10) * 7 * 24 * 60 * 60 * 1000;
+      break;
+    case 'days':
+      nextAppointmentDate += parseInt(interval, 10) * 24 * 60 * 60 * 1000;
+      break;
+    default:
+      nextAppointmentDate += parseInt(interval, 10) * 24 * 60 * 60 * 1000;
+    // Add more cases as needed
+  }
+
+  return new Date(nextAppointmentDate);
+};
+
+// ceck oliday
+// const checkSchoolHoliday = async (date) => {
+//   try {
+//     // Fetch all holidays from the database
+//     const holidays = await SchoolTermHoliday.findAll();
+
+//     // Check if the date falls within any holiday period
+//     for (const holiday of holidays) {
+//       const holidayStartDate = new Date(holiday.start_date);
+//       const holidayEndDate = new Date(holiday.end_date);
+
+//       // Check if the date falls within the holiday period
+//       if (date >= holidayStartDate && date <= holidayEndDate) {
+//         return true; // Date falls within a holiday
+//       }
+//     }
+
+//     return false; // Date does not fall within any holiday
+//   } catch (error) {
+//     console.error('Error checking school holiday:', error);
+//     return false; // Return false in case of error
+//   }
+// };
+
+// //
+// const checkAppointment = async () => {
+//   try {
+//     const patients = await Patient.findAll();
+
+//     //
+//     for (const patient of patients) {
+//       const vlDate = await ViralLoad.findOne({
+//         where: { id: patient.id },
+//       });
+
+//       if (vlDate) {
+//         const dueDate = new Date(vlDate.dateOfNextVL);
+//         const calculatedDueDate = calaculatDueDate(dueDate, 6);
+//         const isHoliday = checkSchoolHoliday(calculatedDueDate);
+
+//         if (isHoliday) {
+//           console.log('holiday');
+//         } else {
+//           console.log('not holiday');
+//         }
+//       } else {
+//         console.log('No appointment scheduled');
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const getViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
+  console.log(id);
   try {
-    const results = await ViralLoad.findAll({
+    const patient = await ViralLoad.findOne({
       where: {
         patientID: id,
       },
-      order: [['createdAt', 'DESC']],
     });
-    res.json(results);
+    res.json(patient);
     next();
   } catch (error) {
     console.log(error);
@@ -68,7 +164,7 @@ const getViralLoad = async (req, res, next) => {
 };
 
 // edit patient
-const editViralLoad = async (req, res, next) => {
+const editViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
   const {
     first_name, middle_name, last_name, id_number, cell_phone,
@@ -94,7 +190,7 @@ const editViralLoad = async (req, res, next) => {
   }
 };
 
-const deleteViralLoad = async (req, res, next) => {
+const deleteViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
   try {
     const results = await ViralLoad.destroy({
@@ -113,10 +209,10 @@ const deleteViralLoad = async (req, res, next) => {
 };
 
 module.exports = {
-  addViralLoad,
-  getAllViralLoads,
-  getViralLoad,
-  editViralLoad,
-  deleteViralLoad,
+  addViralLoadTest,
+  getAllViralLoad,
+  getViralLoadTest,
+  editViralLoadTest,
+  deleteViralLoadTest,
   getAllVlCategories,
 };

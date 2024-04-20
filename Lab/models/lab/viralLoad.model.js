@@ -11,13 +11,11 @@ const ViralLoad = sequelize.define('viralLoad', {
     defaultValue: UUIDV4,
   },
   vlResults: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
-  vlValidity: {
-    type: DataTypes.STRING,
-  },
-  isValid: {
-    type: DataTypes.STRING,
+  isVLValid: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   patientID: {
     type: DataTypes.UUID,
@@ -26,17 +24,18 @@ const ViralLoad = sequelize.define('viralLoad', {
       key: 'id',
     },
   },
-  lastVLJustification: {
+   userID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+  },
+  vlJustification: {
     type: DataTypes.STRING,
   },
-  dateConfirmedPositive: {
-    type: DataTypes.DATEONLY,
-  },
-  dateOfCurrentVL: {
-    type: DataTypes.DATEONLY,
-  },
-  dateOfNextVL: {
-    type: DataTypes.DATEONLY,
+  dateOfVL: {
+    type: DataTypes.DATE,
   },
   // CD4
 
