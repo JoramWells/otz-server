@@ -6,14 +6,41 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 import { type NextFunction, type Request, type Response } from 'express'
+import { CaregiverInstance } from '../domain/models/caregiver.model'
 
-const CareGiver = require('../domain/models/caregiver.model')
 const Patient = require('../domain/models/patients.models')
 
 // using *Patients model
 const addCaregiver = async (req: Request, res: Response, next: NextFunction) => {
+  const {
+    patientID,
+    firstName,
+    middleName,
+    sex,
+    dob,
+    phoneNo,
+    locationID,
+    drugs,
+    careerID,
+    maritalStatus,
+    idNo,
+    relationship
+  } = req.body
   try {
-    await CareGiver.create(req.body)
+    await CaregiverInstance.create({
+      patientID,
+      firstName,
+      middleName,
+      sex,
+      dob,
+      phoneNo,
+      locationID,
+      drugs,
+      careerID,
+      maritalStatus,
+      idNo,
+      relationship
+    })
     res.json({ message: 'Successfully Created New Care' })
 
     next()
@@ -27,7 +54,7 @@ const addCaregiver = async (req: Request, res: Response, next: NextFunction) => 
 // get all priceListItems
 const getAllCaregivers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const results = await CareGiver.findAll({
+    const results = await CaregiverInstance.findAll({
       include: [
         {
           model: Patient,
@@ -47,7 +74,7 @@ const getAllCaregivers = async (req: Request, res: Response, next: NextFunction)
 const getCaregiverDetail = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
-    const results = await CareGiver.findAll({
+    const results = await CaregiverInstance.findAll({
       where: {
         patientID: id
       }
@@ -63,24 +90,30 @@ const getCaregiverDetail = async (req: Request, res: Response, next: NextFunctio
 // edit patient
 const editCaregiver = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
-  const {
-    first_name, middle_name, last_name, id_number, cell_phone
-  } = req.body
+  // const {
+  //   middleName,
+  //   sex,
+  //   dob,
+  //   phoneNo,
+  //   locationID,
+  //   drugs,
+  //   careerID,
+  //   maritalStatus,
+  //   idNo,
+  //   relationship
+  // } = req.body
   try {
-    const editPAtient = await CareGiver.findOne({
+    await CaregiverInstance.findOne({
       where: {
-        patient_id: id
+        id
       }
     })
 
-    editPAtient.first_name = first_name
-    editPAtient.middle_name = middle_name
-    editPAtient.last_name = last_name
-    editPAtient.id_number = id_number
-    editPAtient.cell_phone = cell_phone
+    // results.firstName = firstName
+
     next()
 
-    return editPAtient.save()
+    // return await results.save()
   } catch (error) {
     console.log(error)
     res.sendStatus(500).json({ message: 'Internal Server' })
@@ -90,9 +123,9 @@ const editCaregiver = async (req: Request, res: Response, next: NextFunction) =>
 const deleteCaregiver = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params
   try {
-    const results = await CareGiver.destroy({
+    const results = await CaregiverInstance.destroy({
       where: {
-        patient_id: id
+        id
       }
     })
 
