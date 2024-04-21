@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
@@ -38,7 +39,10 @@ export class PatientController {
         await redisClient.set(PATIENT_DATA, JSON.stringify(results))
         console.log('Cached data to redis')
       } else {
-        const patientCache = await redisClient.get(PATIENT_DATA)
+        const patientCache: string | null = await redisClient.get(PATIENT_DATA)
+        if (patientCache === null) {
+          return res.status(404).json({ error: 'Patient data not found in cache' })
+        }
         res.json(JSON.parse(patientCache))
         console.log('Fetched from cache patient')
       }
