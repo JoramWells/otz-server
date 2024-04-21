@@ -36,8 +36,14 @@ const getAllCaseManagers = async (req: Request, res: Response, next: NextFunctio
       include: [
         {
           model: User,
-          attributes: ['id', 'firstName', 'middleName']
-
+          attributes: [
+            'id',
+            'firstName',
+            'middleName',
+            'dob',
+            'gender',
+            'phoneNo'
+          ]
         }
       ]
     })

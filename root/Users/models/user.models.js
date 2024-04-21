@@ -26,7 +26,7 @@ const User = sequelize.define('users', {
   gender: {
     type: DataTypes.STRING,
   },
-  phone_no: {
+  phoneNo: {
     type: DataTypes.STRING,
   },
   countyID: {

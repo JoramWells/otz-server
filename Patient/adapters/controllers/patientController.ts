@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
-import redis from 'redis'
 export class PatientController {
   private readonly interactor: IPatientInteractor
 
@@ -27,7 +27,7 @@ export class PatientController {
     const PATIENT_DATA = 'patientData'
 
     try {
-      const redisClient = redis.createClient({ url: 'redis://redis:6379' })
+      const redisClient = createClient({ url: 'redis://redis:6379' })
       await redisClient.connect()
       if (await redisClient.get(PATIENT_DATA) === null) {
         const results = await this.interactor.getAllPatients()

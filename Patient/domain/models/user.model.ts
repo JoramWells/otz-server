@@ -19,6 +19,7 @@ interface UserInterface {
   phoneNo: string
   countyID: string
   password: string
+  dob: string
 }
 
 export class User extends Model<UserInterface> {}
@@ -50,6 +51,9 @@ User.init(
     },
     countyID: {
       type: DataTypes.INTEGER
+    },
+    dob: {
+      type: DataTypes.DATE
     },
     password: {
       type: DataTypes.STRING

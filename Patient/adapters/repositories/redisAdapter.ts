@@ -1,9 +1,9 @@
-const redis = require('redis')
+import { createClient } from 'redis'
 
 export class RedisAdapter {
   private readonly client: any
   constructor () {
-    this.client = redis.createClient({ url: 'redis://redis:6379' })
+    this.client = createClient({ url: 'redis://redis:6379' })
   }
 
   //   connect to redis client

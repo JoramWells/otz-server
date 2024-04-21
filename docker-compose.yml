@@ -40,20 +40,21 @@ services:
       - ./server/Patient/:/usr/src/app
       - /usr/src/app/node_modules
     deploy:
-      # mode: replicated
-      # replicas: 5
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
+      mode: replicated
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
       restart_policy:
         condition: on-failure    
       resources:
         limits:
-          cpus: '0.50'
+          cpus: '0.30'
           memory: 500M
         reservations:
+          cpus: '0.25'
           memory: 500M
     ports:
       - 5001:5001

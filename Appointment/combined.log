@@ -81,3 +81,4 @@
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T21:21:31.445Z"}
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-20T21:30:11.857Z"}
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-21T05:47:10.461Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T14:37:01.101Z"}

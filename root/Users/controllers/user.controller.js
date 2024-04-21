@@ -7,7 +7,7 @@ const User = require('../models/user.models');
 // using *Patients model
 const addUser = async (req, res, next) => {
   const {
-    firstName, secondName, middleName, email, gender, phone_no, countyID, password,
+    firstName, secondName, middleName, email, gender, phoneNo, countyID, password,
   } = req.body;
   try {
     // hash password
@@ -20,7 +20,7 @@ const addUser = async (req, res, next) => {
       middleName,
       email,
       gender,
-      phone_no,
+      phoneNo,
       countyID,
       password,
     });
