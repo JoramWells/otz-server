@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
-const sequelize = require('../db/connect')
+import { connect } from '../db/connect'
 
 interface CaregiverAttributes {
   id?: string
@@ -77,7 +77,7 @@ CaregiverInstance.init(
     }
   },
   {
-    sequelize,
+    sequelize: connect,
 
     tableName: 'caregivers'
   }

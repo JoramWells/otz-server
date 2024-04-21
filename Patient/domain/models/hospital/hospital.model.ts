@@ -1,35 +1,42 @@
 /* eslint-disable camelcase */
-import { DataTypes, UUIDV4 } from "sequelize";
-const sequelize = require("../../db/connect");
+import { DataTypes, Model } from 'sequelize'
+import { connect } from '../../db/connect'
 
-const Hospital = sequelize.define(
-  'hospitals',
+interface HospitalAttributes {
+  id: string
+  subCountyID: string
+  mflCode: string
+  hospitalName: string
+}
+
+export class Hospital extends Model<HospitalAttributes> {}
+
+Hospital.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       // defaultValue: UUIDV4,
       autoIncrement: true,
-      unique: true,
+      unique: true
     },
     subCountyID: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     mflCode: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     hospitalName: {
-      type: DataTypes.STRING,
-    },
+      type: DataTypes.STRING
+    }
   },
   {
-    timestamps: true,
-  },
-);
+    sequelize: connect,
+    tableName: 'hospitals'
+  }
+)
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Hospital Table synced successfully');
 // })();
-
-module.exports = Hospital;

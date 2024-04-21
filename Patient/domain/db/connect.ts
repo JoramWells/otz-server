@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+import { Sequelize } from 'sequelize'
 
 // setting up sequelize
 
@@ -22,4 +22,4 @@ const connect = new Sequelize(
 
 )
 
-module.exports = connect
+export { connect }

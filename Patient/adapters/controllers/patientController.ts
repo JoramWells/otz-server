@@ -2,7 +2,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { Patient } from '../../domain/entities/Patient'
-const redis = require('redis')
+import redis from 'redis'
 export class PatientController {
   private readonly interactor: IPatientInteractor
 
@@ -38,7 +38,7 @@ export class PatientController {
         await redisClient.set(PATIENT_DATA, JSON.stringify(results))
         console.log('Cached data to redis')
       } else {
-        const patientCache: string = await redisClient.get(PATIENT_DATA)
+        const patientCache = await redisClient.get(PATIENT_DATA)
         res.json(JSON.parse(patientCache))
         console.log('Fetched from cache patient')
       }
@@ -57,6 +57,7 @@ export class PatientController {
       next()
     } catch (error) {
       next(error)
+      console.log(error)
       res.status(500).json({ message: 'Internal Server Error' })
     }
   }

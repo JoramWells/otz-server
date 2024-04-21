@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-var-requires */
@@ -7,16 +8,17 @@
 /* eslint-disable no-unused-vars */
 import { type NextFunction, type Request, type Response } from 'express'
 import CaseManager from '../domain/models/casemanager.model'
-import Patient from '../domain/models/patients.models'
-import User from '../domain/models/user.model'
+import { Patient } from '../domain/models/patients.models'
+import { User } from '../domain/models/user.model'
 
 // const CaseManager = require('../domain/models/CaseManager.model')
 // const Patient = require('../domain/models/patients.models')
 
 // using *Patients model
 const addCaseManager = async (req: Request, res: Response, next: NextFunction) => {
+  const { patientID, userID, isNotification } = req.body
   try {
-    await CaseManager.create(req.body)
+    await CaseManager.create({ patientID, userID, isNotification })
     next()
 
     return res.json({ message: 'Successfully Created New Care' })
@@ -74,18 +76,18 @@ const editCaseManager = async (req: Request, res: Response, next: NextFunction) 
   try {
     const editPAtient = await CaseManager.findOne({
       where: {
-        patient_id: id
+        id
       }
     })
 
-    editPAtient.first_name = first_name
-    editPAtient.middle_name = middle_name
-    editPAtient.last_name = last_name
-    editPAtient.id_number = id_number
-    editPAtient.cell_phone = cell_phone
+    // editPAtient.first_name = first_name
+    // editPAtient.middle_name = middle_name
+    // editPAtient.last_name = last_name
+    // editPAtient.id_number = id_number
+    // editPAtient.cell_phone = cell_phone
     next()
 
-    return editPAtient.save()
+    // return await editPAtient.save()
   } catch (error) {
     console.log(error)
     res.sendStatus(500).json({ message: 'Internal Server' })
@@ -97,7 +99,7 @@ const deleteCaseManager = async (req: Request, res: Response, next: NextFunction
   try {
     const results = await CaseManager.destroy({
       where: {
-        patient_id: id
+        id
       }
     })
 

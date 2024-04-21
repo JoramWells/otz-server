@@ -75,3 +75,9 @@
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T14:28:17.407Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T14:35:50.268Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T14:40:28.374Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T19:21:37.670Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T19:24:04.552Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T21:19:24.807Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-20T21:21:31.445Z"}
+{"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-20T21:30:11.857Z"}
+{"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-21T05:47:10.461Z"}

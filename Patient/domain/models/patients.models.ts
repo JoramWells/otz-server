@@ -1,12 +1,32 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable camelcase */
-import { DataTypes, UUIDV4 } from 'sequelize'
-const sequelize = require('../db/connect')
-const School = require('./school/school.model')
-const Hospital = require('./hospital/hospital.model')
+import { DataTypes, Model, UUIDV4 } from 'sequelize'
+import { School } from './school/school.model'
+import { Hospital } from './hospital/hospital.model'
+import { connect } from '../db/connect'
 
-const Patient = sequelize.define(
-  'patients',
+interface PatientAttributes {
+  id?: string
+  firstName: string
+  middleName: string
+  lastName?: string
+  sex: string
+  dob: string
+  phoneNo: string
+  idNo: string
+  occupationID: string
+  cccNo: string
+  ageAtReporting: string
+  dateConfirmedPositive: string
+  initialRegimen: string
+  populationType: string
+  schoolID: string
+  hospitalID: string
+}
+
+export class Patient extends Model<PatientAttributes> {}
+
+Patient.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -75,9 +95,11 @@ const Patient = sequelize.define(
     // }
   },
   {
-    postgresql: {
-      fillFactor: 70
-    },
+    sequelize: connect,
+    tableName: 'patients',
+    // postgresql: {
+    //   fillFactor: 70
+    // },
     timestamps: true
   }
 )
@@ -89,5 +111,3 @@ Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 //   await sequelize.sync()
 //   console.log('Patient Table synced successfully')
 // })()
-
-export default Patient

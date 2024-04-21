@@ -9,8 +9,8 @@ import express, { type Application } from 'express'
 import morgan from 'morgan'
 
 import { CaseManagerRouter } from './routes/casemanager.routes'
+import { connect } from './domain/db/connect'
 const cors = require('cors')
-const sequelize = require('./domain/db/connect')
 const patientRoutes = require('./routes/patient.routes')
 const careGiverRoutes = require('./routes/caregiver.routes')
 
@@ -35,7 +35,7 @@ app.use('/patients', patientRoutes)
 app.use('/caregiver', careGiverRoutes)
 app.use('/casemanager', CaseManagerRouter)
 
-sequelize.authenticate().then(() => {
+connect.authenticate().then(() => {
   console.log('Connected to database successfully')
 }).catch((error: Error) => {
   console.error('Unable to connect to database: ', error)
