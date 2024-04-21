@@ -4,27 +4,45 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
+// import { type PatientEntity } from '../entities/PatientEntity'
 
-interface PatientAttributes {
+export interface PatientAttributes {
   id?: string
-  firstName: string
-  middleName: string
+  firstName?: string
+  middleName?: string
   lastName?: string
-  sex: string
-  dob: string
-  phoneNo: string
-  idNo: string
-  occupationID: string
-  cccNo: string
-  ageAtReporting: string
-  dateConfirmedPositive: string
-  initialRegimen: string
-  populationType: string
-  schoolID: string
-  hospitalID: string
+  sex?: string
+  dob?: string
+  phoneNo?: string
+  idNo?: string
+  occupationID?: string
+  cccNo?: string
+  ageAtReporting?: string
+  dateConfirmedPositive?: string
+  initialRegimen?: string
+  populationType?: string
+  schoolID?: string
+  hospitalID?: string
 }
 
-export class Patient extends Model<PatientAttributes> {}
+export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+  id?: string | undefined
+  firstName?: string | undefined
+  middleName: string | undefined
+  lastName?: string | undefined
+  sex?: string | undefined
+  dob?: string | undefined
+  phoneNo?: string | undefined
+  idNo?: string | undefined
+  occupationID?: string | undefined
+  cccNo?: string | undefined
+  ageAtReporting?: string | undefined
+  dateConfirmedPositive?: string | undefined
+  initialRegimen?: string | undefined
+  populationType?: string | undefined
+  schoolID?: string | undefined
+  hospitalID?: string | undefined
+}
 
 Patient.init(
   {

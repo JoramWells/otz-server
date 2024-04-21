@@ -1,4 +1,4 @@
-import { type Patient } from '../../domain/entities/Patient'
+import { type Patient } from '../../domain/entities/PatientEntity'
 import { type IPatientInteractor } from '../interfaces/IPatientInteractor'
 import { type IPatientRepository } from '../interfaces/IPatientRepository'
 
