@@ -82,3 +82,17 @@
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-20T21:30:11.857Z"}
 {"level":"info","message":"Successfully created appointment","service":"appointment-service","timestamp":"2024-04-21T05:47:10.461Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T14:37:01.101Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T16:12:30.871Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T17:57:59.878Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T18:27:39.794Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T18:33:04.883Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T19:08:31.971Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T19:36:59.595Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T19:43:03.512Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T19:55:33.009Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-21T20:29:54.108Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-22T07:23:06.232Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-22T07:24:12.575Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-22T07:50:19.484Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-22T07:59:22.500Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-22T11:10:24.782Z"}

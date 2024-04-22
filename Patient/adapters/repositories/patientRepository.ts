@@ -2,10 +2,9 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
 import { type PatientEntity } from '../../domain/entities/PatientEntity'
+import { Hospital } from '../../domain/models/hospital/hospital.model'
 import { Patient, type PatientAttributes } from '../../domain/models/patients.models'
-const School = require('../../domain/models/school/school.model')
-const Hospital = require('../../domain/models/hospital/hospital.model')
-const ViralLoad = require('../../domain/models/vl/viralLoadTests.model')
+import { School } from '../../domain/models/school/school.model'
 
 export class PatientRepository implements IPatientRepository {
   async create (data: PatientEntity): Promise<PatientEntity> {
@@ -47,17 +46,17 @@ export class PatientRepository implements IPatientRepository {
         {
           model: Hospital,
           attributes: ['hospitalName']
-        },
-        {
-          model: ViralLoad,
-          attributes: [
-            'id',
-            'dateOfNextVL',
-            'vlResults',
-            'isValid',
-            'dateOfCurrentVL'
-          ]
         }
+      //   {
+      //     model: ViralLoad,
+      //     attributes: [
+      //       'id',
+      //       'dateOfNextVL',
+      //       'vlResults',
+      //       'isValid',
+      //       'dateOfCurrentVL'
+      //     ]
+      //   }
       ]
     })
     return results

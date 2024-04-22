@@ -4,6 +4,7 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
+import { createClient } from 'redis'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface PatientAttributes {
@@ -68,7 +69,9 @@ Patient.init(
       type: DataTypes.DATEONLY
     },
     phoneNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: '',
+      unique: false
     },
     occupationID: {
       type: DataTypes.UUID,
@@ -122,10 +125,22 @@ Patient.init(
   }
 )
 
+Patient.afterUpdate(async (instance, options) => {
+  const redisClient = createClient({ url: 'redis://redis:6379' })
+  await redisClient.connect()
+  await redisClient.del('patientData')
+})
+
+Patient.afterCreate(async () => {
+  const redisClient = createClient({ url: 'redis://redis:6379' })
+  await redisClient.connect()
+  await redisClient.del('patientData')
+})
+
 Patient.belongsTo(School, { foreignKey: 'schoolID' })
 Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
 // (async () => {
-//   await sequelize.sync()
-//   console.log('Patient Table synced successfully')
+// connect.sync()
+// console.log('Patient Table synced successfully')
 // })()
