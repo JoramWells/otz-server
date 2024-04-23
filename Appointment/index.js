@@ -19,6 +19,7 @@ const appointmentStatusRoutes = require('./routes/appointmentStatus.routes');
 const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
 const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
 const notificationTypeRoutes = require('./routes/notify/notificationType.routes');
+const messageTextRepliesTypeRoutes = require('./routes/notify/messageTextReply.routes');
 const notificationCategoryRoutes = require('./routes/notify/notificationCategory.routes');
 const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
 const notificationRoutes = require('./routes/notify/notification.routes');
@@ -34,6 +35,7 @@ const mmasRoutes = require('./routes/treatmentplan/mmas.routes');
 const disclosureChecklistRoutes = require('./routes/treatmentplan/disclosureChecklist.routes');
 const dailyUptakeRoutes = require('./routes/treatmentplan/uptake.routes');
 const dailyUptake = require('./middleware/dailyUptake');
+const schedulePatientNotifications = require('./utils/scheduleMessages');
 
 const app = express();
 //
@@ -46,7 +48,10 @@ app.use(express.urlencoded({
 app.use(morgan('dev'));
 
 schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
-dailyUptake();
+schedulePatientNotifications();
+setInterval(schedulePatientNotifications, 3600000); // 3600000 milliseconds = 1 hour
+
+// dailyUptake();
 
 // Swagger configuration options
 const swaggerOptions = {
@@ -125,6 +130,7 @@ app.use('/notification-categories', notificationCategoryRoutes);
 app.use('/notification-sub-categories', notificationSubCategoryRoutes);
 app.use('/user-notifications', userNotificationRoutes);
 app.use('/patient-notifications', patientNotificationRoutes);
+app.use('/messages-text-replies', messageTextRepliesTypeRoutes);
 //
 app.use('/time-and-work', timeAndWorkRoutes);
 
