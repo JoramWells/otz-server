@@ -5,7 +5,7 @@ const Patient = require('../../models/patient/patients.models');
 const ART = require('./art.model');
 
 const ARTPrescription = sequelize.define(
-  'artPrescription',
+  'prescriptions',
   {
     id: {
       type: DataTypes.UUID,
@@ -21,8 +21,7 @@ const ARTPrescription = sequelize.define(
       onDelete: 'CASCADE',
 
     },
-
-    artID: {
+    drugID: {
       type: DataTypes.UUID,
       references: {
         model: 'arts',
@@ -31,11 +30,26 @@ const ARTPrescription = sequelize.define(
       onDelete: 'CASCADE',
 
     },
+    measuringUnitID: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'measuringUnits',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+
+    },
     refillDate: {
       type: DataTypes.DATE,
     },
-    noOfTablets: {
+    noOfPills: {
+      type: DataTypes.INTEGER,
+    },
+    description: {
       type: DataTypes.STRING,
+    },
+    frequency: {
+      type: DataTypes.INTEGER,
     },
   },
   { timestamps: true },

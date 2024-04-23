@@ -24,6 +24,7 @@ export interface PatientAttributes {
   populationType?: string
   schoolID?: string
   hospitalID?: string
+  entryPoint?: string
 }
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
@@ -83,9 +84,9 @@ Patient.init(
     cccNo: {
       type: DataTypes.STRING
     },
-    // mflCode: {
-    //   type: DataTypes.STRING,
-    // },
+    entryPoint: {
+      type: DataTypes.STRING
+    },
     // residence: {
     //   type: DataTypes.STRING,
     // },

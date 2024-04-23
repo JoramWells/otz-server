@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4, Sequelize } = require('sequelize');
+const redis = require('redis');
 const sequelize = require('../db/connect');
 const Patient = require('./patient/patients.models');
 const AppointmentStatus = require('./appointmentStatus.model');
@@ -64,8 +65,16 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
+Appointment.afterCreate(async () => {
+  const redisClient = redis.createClient({ url: 'redis://redis:6379' });
+  await redisClient.connect();
+  await redisClient.del('appointmentData');
+});
+
 Appointment.afterUpdate(async () => {
-  console.log('@@@@@@');
+  const redisClient = redis.createClient({ url: 'redis://redis:6379' });
+  await redisClient.connect();
+  await redisClient.del('appointmentData');
 });
 
 // (async () => {
