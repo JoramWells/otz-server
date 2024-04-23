@@ -32,14 +32,13 @@ const UserNotifications = sequelize.define('userNotifications', {
   notifications: {
     type: DataTypes.JSON,
     defaultValue: {
-      pushNotification:false,
-      sms:false,
-      voiceCall:false,
-      whatsapp:false
-    }
+      pushNotification: false,
+      sms: false,
+      voiceCall: false,
+      whatsapp: false,
+    },
   },
 });
-
 
 UserNotifications.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 UserNotifications.belongsTo(Notification, { foreignKey: 'notificationID', targetKey: 'id' });

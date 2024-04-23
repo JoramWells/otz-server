@@ -2,13 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const UserNotifications = require('../../models/notify/userNotifications.model');
+const PatientNotification = require('../../models/notify/patientNotifications.model');
 const Patient = require('../../models/patient/patients.models');
 
 // using *Patients model
-const addUserNotifications = async (req, res, next) => {
+const addPatientNotifications = async (req, res, next) => {
   try {
-    const results = await UserNotifications.create(req.body);
+    const results = await PatientNotification.create(req.body);
 
     res.json(results);
     next();
@@ -18,9 +18,9 @@ const addUserNotifications = async (req, res, next) => {
   }
 };
 // get all priceListItems
-const getAllUserNotifications = async (req, res, next) => {
+const getAllPatientNotifications = async (req, res, next) => {
   try {
-    const results = await UserNotifications.findAll({
+    const results = await PatientNotification.findAll({
       include: [
         {
           model: Patient,
@@ -36,10 +36,10 @@ const getAllUserNotifications = async (req, res, next) => {
   }
 };
 
-const getUserNotifications = async (req, res, next) => {
+const getPatientNotifications = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await UserNotifications.findAll({
+    const patient = await PatientNotification.findAll({
       where: {
         patientID: id,
       },
@@ -54,12 +54,12 @@ const getUserNotifications = async (req, res, next) => {
 };
 
 // edit patient
-const editUserNotifications = async (req, res, next) => {
+const editPatientNotifications = async (req, res, next) => {
   const { id } = req.params;
   console.log(req.body);
   const { notifications, notificationID } = req.body;
   try {
-    const results = await UserNotifications.findOne({
+    const results = await PatientNotification.findOne({
       where: {
         id,
       },
@@ -75,10 +75,10 @@ const editUserNotifications = async (req, res, next) => {
   }
 };
 
-const deleteUserNotifications = async (req, res, next) => {
+const deletePatientNotifications = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await UserNotifications.destroy({
+    const results = await PatientNotification.destroy({
       where: {
         id,
       },
@@ -95,9 +95,9 @@ const deleteUserNotifications = async (req, res, next) => {
 };
 
 module.exports = {
-  addUserNotifications,
-  getAllUserNotifications,
-  getUserNotifications,
-  editUserNotifications,
-  deleteUserNotifications,
+  addPatientNotifications,
+  getAllPatientNotifications,
+  getPatientNotifications,
+  editPatientNotifications,
+  deletePatientNotifications,
 };

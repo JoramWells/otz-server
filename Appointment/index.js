@@ -23,6 +23,7 @@ const notificationCategoryRoutes = require('./routes/notify/notificationCategory
 const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
 const notificationRoutes = require('./routes/notify/notification.routes');
 const userNotificationRoutes = require('./routes/notify/userNotifications.routes');
+const patientNotificationRoutes = require('./routes/notify/patientNotifications.routes');
 // const swaggerDocument = require('./swagger.json');
 
 //
@@ -123,8 +124,10 @@ app.use('/notifications', notificationRoutes);
 app.use('/notification-categories', notificationCategoryRoutes);
 app.use('/notification-sub-categories', notificationSubCategoryRoutes);
 app.use('/user-notifications', userNotificationRoutes);
+app.use('/patient-notifications', patientNotificationRoutes);
 //
 app.use('/time-and-work', timeAndWorkRoutes);
+
 app.use('/mmas', mmasRoutes);
 app.use('/disclosure-checklist', disclosureChecklistRoutes);
 app.use('/daily-uptake', dailyUptakeRoutes);
