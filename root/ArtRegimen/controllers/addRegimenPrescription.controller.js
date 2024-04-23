@@ -23,7 +23,17 @@ const addRegimenPrescription = async (req, res, next) => {
 const getAllRegimenPrescription = async (req, res, next) => {
   try {
     const results = await ARTPrescription.findAll({
-      order: [['DESC', 'createdAt']],
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName'],
+        },
+        {
+          model: ART,
+          attributes: ['artName'],
+        },
+      ],
     });
     res.json(results);
     next();

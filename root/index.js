@@ -187,7 +187,7 @@ app.use('/home-visit', homeVisitRoutes);
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/hospital', hospitalRoutes);
-app.use('/art-prescription', regimenPrescriptionRoutes);
+app.use('/prescription', regimenPrescriptionRoutes);
 app.use('/occupations', occupationRoutes);
 app.use('/counties', countyRoutes);
 app.use('/sub-counties', subCountyRoutes);

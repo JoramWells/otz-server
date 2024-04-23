@@ -30,6 +30,7 @@ const ARTPrescription = sequelize.define(
       onDelete: 'CASCADE',
 
     },
+
     measuringUnitID: {
       type: DataTypes.UUID,
       references: {
@@ -52,10 +53,9 @@ const ARTPrescription = sequelize.define(
       type: DataTypes.INTEGER,
     },
   },
-  { timestamps: true },
 );
 
-ARTPrescription.belongsTo(ART, { foreignKey: 'artID' });
+ARTPrescription.belongsTo(ART, { foreignKey: 'drugID' });
 ARTPrescription.belongsTo(Patient, { foreignKey: 'patientID' });
 
 // (async () => {
