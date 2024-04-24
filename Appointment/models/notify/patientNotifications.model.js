@@ -28,6 +28,9 @@ const PatientNotification = sequelize.define('patientNotifications', {
     },
     allowNull: true,
   },
+  medicineTime: {
+    type: DataTypes.TIME,
+  },
   message: {
     type: DataTypes.STRING,
   },
