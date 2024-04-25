@@ -17,7 +17,7 @@ const connect = new Sequelize(
       timestamps: true,
       freezeTableName: true,
       // pool: {
-      //   max: 5,
+      //   max: 50,
       //   min: 0,
       //   idle: 10000,
       // },

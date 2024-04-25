@@ -40,7 +40,7 @@ const UserNotifications = sequelize.define('userNotifications', {
   },
 });
 
-UserNotifications.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
+UserNotifications.belongsTo(Patient, { foreignKey: 'patientID' });
 UserNotifications.belongsTo(Notification, { foreignKey: 'notificationID', targetKey: 'id' });
 // UserNotifications.belongsTo(NotificationType, { foreignKey: 'notificationTypeID' });
 

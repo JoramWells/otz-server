@@ -51,7 +51,7 @@ schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
 schedulePatientNotifications();
 setInterval(schedulePatientNotifications, 3600000); // 3600000 milliseconds = 1 hour
 
-dailyUptake();
+// dailyUptake();
 
 // Swagger configuration options
 const swaggerOptions = {

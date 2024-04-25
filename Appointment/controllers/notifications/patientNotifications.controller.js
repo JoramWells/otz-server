@@ -8,6 +8,7 @@ const PatientNotification = require('../../models/notify/patientNotifications.mo
 const Patient = require('../../models/patient/patients.models');
 const TimeAndWork = require('../../models/treatmentplan/timeAndWork.model');
 const Uptake = require('../../models/treatmentplan/uptake.model');
+const UserNotifications = require('../../models/notify/userNotifications.model');
 // using *Patients model
 const addPatientNotifications = async (req, res, next) => {
   try {
@@ -28,13 +29,21 @@ const getAllPatientNotifications = async (req, res, next) => {
         {
           model: Patient,
           attributes: ['id', 'firstName', 'middleName'],
+          // include:
+          //   {
+          //     model: UserNotifications,
+          //     attributes: ['notifications'],
+          //   },
+
         },
       ],
     });
+
     res.json(results);
     next();
   } catch (error) {
     res.json({ error: 'Internal Server error' });
+    console.log(error);
     next(error);
   }
 };
