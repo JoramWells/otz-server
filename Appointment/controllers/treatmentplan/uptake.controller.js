@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const moment = require('moment');
+const moment = require('moment-timezone');
 const { Op, Sequelize } = require('sequelize');
 const Patient = require('../../models/patient/patients.models');
 const TimeAndWork = require('../../models/treatmentplan/timeAndWork.model');
@@ -16,7 +16,6 @@ const addUptake = async (req, res, next) => {
     res.json(newProfile);
     next();
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
     next(error);
   }
@@ -25,7 +24,7 @@ const addUptake = async (req, res, next) => {
 // get all priceListItems
 const getAllUptake = async (req, res, next) => {
   const { patientsDueMorning } = req.query;
-  const currentDate = moment().format('YYYY-MM-DD');
+  const currentDate = moment().tz('Africa/Nairobi').format('YYYY-MM-DD');
   const currentTime = moment();
   const endMorningTime = moment('10.00.00', 'HH:mm');
   const whereCondition = {};
@@ -77,8 +76,7 @@ const getAllUptake = async (req, res, next) => {
     res.json(patients);
     next();
   } catch (error) {
-    console.log(error);
-    res.json({ error: 'Internal Server error' });
+    res.sendStatus(500).json({ error: 'Internal Server error' });
     next(error);
   }
 };

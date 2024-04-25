@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const moment = require('moment');
+const moment = require('moment-timezone');
 const { scheduleJob } = require('node-schedule');
 const PatientNotification = require('../../models/notify/patientNotifications.model');
 const Patient = require('../../models/patient/patients.models');
@@ -23,8 +23,12 @@ const addPatientNotifications = async (req, res, next) => {
 };
 // get all priceListItems
 const getAllPatientNotifications = async (req, res, next) => {
+  const currentDate = moment().tz('Africa/Nairobi').format('YYYY-MM-DD');
   try {
     const results = await PatientNotification.findAll({
+      // where: {
+      //   updatedAt: currentDate,
+      // },
       include: [
         {
           model: Patient,

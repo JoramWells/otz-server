@@ -109,3 +109,7 @@
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-24T12:33:05.615Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-24T12:59:32.939Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-24T12:59:33.222Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-25T09:30:36.945Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-25T10:20:30.546Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-25T13:49:38.128Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-25T17:34:04.095Z"}

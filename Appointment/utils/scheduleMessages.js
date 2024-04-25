@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
-const moment = require('moment');
+const moment = require('moment-timezone');
 const { scheduleJob } = require('node-schedule');
 const { createClient } = require('redis');
 const TimeAndWork = require('../models/treatmentplan/timeAndWork.model');
@@ -32,7 +32,7 @@ const fetchMessages = async () => {
 const schedulePatientNotifications = async () => {
   // const currentDate = moment();
 
-  const currentDate = moment().format('YYYY-MM-DD');
+  const currentDate = moment().tz('Africa/Nairobi').format('YYYY-MM-DD');
   const currentHour = moment().hours();
 
   const isMorning = currentHour >= 5 && currentHour <= 12;
@@ -100,6 +100,8 @@ const schedulePatientNotifications = async () => {
 
           scheduleJob(notificationTime.toDate(), async () => {
             const randomMessage = messages[Math.floor(Math.random() * messages.length)].messageText;
+
+            // ceck if patient exists
 
             await PatientNotification.create({
               patientID: patient.timeAndWork.patient.id,

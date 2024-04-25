@@ -1,11 +1,11 @@
 /* eslint-disable consistent-return */
-const moment = require('moment');
+const moment = require('moment-timezone');
 const Uptake = require('../models/treatmentplan/uptake.model');
 const TimeAndWork = require('../models/treatmentplan/timeAndWork.model');
 
 const dailyUptake = async () => {
   try {
-    const currentDate = moment().format('YYYY-MM-DD');
+    const currentDate = moment().tz('Africa/Nairobi').format('YYYY-MM-DD');
 
     const isSet = await Uptake.findOne({
       where: {
