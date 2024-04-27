@@ -89,22 +89,35 @@ export class PatientRepository implements IPatientRepository {
     return results
   }
 
-  async findById (id: string): Promise<PatientEntity> {
-    const results: Patient | null = await Patient.findOne({
-      where: {
-        id
-      }
-    })
+  async findById (id: string): Promise<PatientEntity | null> {
+    await this.redisClient.connect()
+    if (await this.redisClient.get(id) === null) {
+      const results: Patient | null = await Patient.findOne({
+        where: {
+          id
+        }
+      })
 
-    const patientResults: PatientEntity = {
-      firstName: results?.firstName,
-      middleName: results?.middleName,
-      sex: results?.sex,
-      phoneNo: results?.phoneNo,
-      idNo: results?.idNo,
-      occupationID: results?.occupationID
+      const patientResults: PatientEntity = {
+        firstName: results?.firstName,
+        middleName: results?.middleName,
+        sex: results?.sex,
+        phoneNo: results?.phoneNo,
+        idNo: results?.idNo,
+        occupationID: results?.occupationID
+      }
+      await this.redisClient.set(id, JSON.stringify(patientResults))
+
+      return patientResults
     }
 
-    return patientResults
+    const cachedData: string | null = await this.redisClient.get(id)
+    if (cachedData === null) {
+      return null
+    }
+    const results: PatientEntity = JSON.parse(cachedData)
+    console.log('fetched from cace!')
+
+    return results
   }
 }

@@ -10,7 +10,7 @@ export class PatientInteractor implements IPatientInteractor {
     this.repository = repository
   }
 
-  async getPatientById (id: string): Promise<PatientEntity> {
+  async getPatientById (id: string): Promise<PatientEntity | null> {
     return await this.repository.findById(id)
   }
 

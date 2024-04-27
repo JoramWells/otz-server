@@ -15,9 +15,14 @@ export class RedisAdapter {
     return this.redisClient.get(key)
   }
 
+  // async getById (id: string): Promise<string | null> {
+  //   return
+  // }
+
   async set (key: string, value: string): Promise<void> {
     this.redisClient.set(key, value)
   }
-//   find: () => Promise<Patient[]>
-//   findById: (id: string) => Promise<Patient>
+
+  //   find: () => Promise<Patient[]>
+  //   findById: (id: string) => Promise<Patient>
 }
