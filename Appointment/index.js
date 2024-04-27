@@ -35,7 +35,7 @@ const mmasRoutes = require('./routes/treatmentplan/mmas.routes');
 const disclosureChecklistRoutes = require('./routes/treatmentplan/disclosureChecklist.routes');
 const dailyUptakeRoutes = require('./routes/treatmentplan/uptake.routes');
 const dailyUptake = require('./middleware/dailyUptake');
-const schedulePatientNotifications = require('./utils/scheduleMessages');
+const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 
 const app = express();
 //
@@ -48,7 +48,10 @@ app.use(express.urlencoded({
 app.use(morgan('dev'));
 
 schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
-schedulePatientNotifications();
+// schedulePatientNotifications();
+
+// realtime
+
 setInterval(schedulePatientNotifications, 3600000); // 3600000 milliseconds = 1 hour
 
 // dailyUptake();
@@ -101,19 +104,26 @@ const io = new Server(server, {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });
-
 // set up socket.io instance
 app.locals.io = io;
 
 // check connection
-io.on('connection', (socket) => {
-  console.log('Connected to IO sever', socket.id);
+io.on('connection', (client) => {
+  console.log('Connected to IO sever', client.id);
 
   //
-  socket.on('disconnect', () => {
+  client.on('disconnect', () => {
     console.log('A user disconnected');
   });
 });
+
+io.on('error', () => { console.log('err'); });
+
+// notification realtime
+// notificationEmitter.on('notificationCreated', (data) => {
+//   io.emit('notificationCreated', []);
+//   console.log('Success', data);
+// });
 
 const PORT = process.env.PORT || 5005;
 
@@ -144,7 +154,7 @@ sequelize.authenticate().then(() => {
   console.error('Unable to connect to database: ', error);
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
 

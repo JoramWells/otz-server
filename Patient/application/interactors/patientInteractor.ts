@@ -1,4 +1,5 @@
-import { type Patient } from '../../domain/entities/PatientEntity'
+// import { type Patient } from '../../domain/entities/PatientEntity'
+import { type PatientEntity } from '../../domain/entities/PatientEntity'
 import { type IPatientInteractor } from '../interfaces/IPatientInteractor'
 import { type IPatientRepository } from '../interfaces/IPatientRepository'
 
@@ -9,15 +10,15 @@ export class PatientInteractor implements IPatientInteractor {
     this.repository = repository
   }
 
-  async getPatientById (id: string): Promise<Patient> {
+  async getPatientById (id: string): Promise<PatientEntity> {
     return await this.repository.findById(id)
   }
 
-  async createPatient (patientData: Patient): Promise<Patient> {
+  async createPatient (patientData: PatientEntity): Promise<PatientEntity> {
     return await this.repository.create(patientData)
   }
 
-  async getAllPatients (): Promise<Patient[]> {
+  async getAllPatients (): Promise<PatientEntity[]> {
     return await this.repository.find()
   }
 }
