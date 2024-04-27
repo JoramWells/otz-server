@@ -9,20 +9,33 @@ import { connect } from '../db/connect'
 const { DataTypes, UUIDV4 } = require('sequelize')
 // const County = require('./location/county.model')
 
-interface UserInterface {
-  id: string
+export interface UserInterface {
+  id?: string
   firstName: string
   middleName: string
-  lastName: string
+  lastName?: string
   email: string
-  gender: string
-  phoneNo: string
+  sex: string
+  phoneNo?: string
   countyID: string
-  password: string
+  password?: string
   dob: string
+  idNo: string
 }
 
-export class User extends Model<UserInterface> {}
+export class User extends Model<UserInterface> {
+  id?: string | undefined
+  firstName!: string
+  email!: string
+  middleName!: string
+  lastName?: string | undefined
+  sex!: string
+  dob!: string
+  phoneNo?: string | undefined
+  idNo!: string
+  countyID!: string
+  password: string | undefined
+}
 
 User.init(
   {
@@ -43,7 +56,10 @@ User.init(
     email: {
       type: DataTypes.STRING
     },
-    gender: {
+    idNo: {
+      type: DataTypes.STRING
+    },
+    sex: {
       type: DataTypes.STRING
     },
     phoneNo: {

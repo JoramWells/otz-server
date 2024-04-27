@@ -10,6 +10,7 @@ import morgan from 'morgan'
 
 import { CaseManagerRouter } from './routes/casemanager.routes'
 import { connect } from './domain/db/connect'
+import { userRoutes } from './routes/user.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
 const careGiverRoutes = require('./routes/caregiver.routes')
@@ -34,6 +35,7 @@ app.use(cors())
 app.use('/patients', patientRoutes)
 app.use('/caregiver', careGiverRoutes)
 app.use('/casemanager', CaseManagerRouter)
+app.use('/users', userRoutes)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

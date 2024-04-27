@@ -1,7 +1,7 @@
-import { type User } from '../../domain/entities/UserEntity'
+import { type UserEntity } from '../../domain/entities/UserEntity'
 
 export interface IUserInteractor {
-  createUser: (userData: any) => Promise<User>
-  getAllUsers: () => Promise<User>
-  getUserById: (id: string) => Promise<User>
+  createUser: (userData: any) => Promise<UserEntity>
+  getAllUsers: () => Promise<UserEntity[]>
+  getUserById: (id: string) => Promise<UserEntity | null>
 }

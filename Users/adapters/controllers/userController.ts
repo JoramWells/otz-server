@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
-import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { type IUserInteractor } from '../../application/interfaces/IUserInteractor'
 // import { Patient } from '../../domain/entities/Patient'
 
 export class UserController {
-  private readonly interactor: IPatientInteractor
+  private readonly interactor: IUserInteractor
 
-  constructor (interactor: IPatientInteractor) {
+  constructor (interactor: IUserInteractor) {
     this.interactor = interactor
   }
 
-  async onCreatePatient (req: Request, res: Response, next: NextFunction) {
+  async onCreateUser (req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createPatient(req.body)
+      const newProfile = await this.interactor.createUser(req.body)
       res.json(newProfile)
       next()
     } catch (error) {
@@ -22,9 +23,9 @@ export class UserController {
     }
   }
 
-  async onGetAllPatients (req: Request, res: Response, next: NextFunction) {
+  async onGetAllUsers (req: Request, res: Response, next: NextFunction) {
     try {
-      const results = await this.interactor.getAllPatients()
+      const results = await this.interactor.getAllUsers()
       res.status(200).json(results)
       next()
     } catch (error) {
@@ -33,10 +34,10 @@ export class UserController {
     }
   }
 
-  async onGetPatientById (req: Request, res: Response, next: NextFunction) {
+  async onGetUserById (req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params
-      const result = await this.interactor.getPatientById(id)
+      const result = await this.interactor.getUserById(id)
       res.status(200).json(result)
       next()
     } catch (error) {

@@ -1,7 +1,7 @@
-import { type User } from '../../domain/entities/UserEntity'
+import { type UserEntity } from '../../domain/entities/UserEntity'
 
-export interface IPatientRepository {
-  create: (data: User) => Promise<User>
-  find: () => Promise<User>
-  findById: (id: string) => Promise<User>
+export interface IUserRepository {
+  create: (data: UserEntity) => Promise<UserEntity>
+  find: () => Promise<UserEntity[]>
+  findById: (id: string) => Promise<UserEntity | null>
 }

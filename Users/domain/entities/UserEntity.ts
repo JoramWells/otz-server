@@ -1,13 +1,18 @@
-export class User {
+import { type UserInterface } from '../models/user.model'
+
+export class UserEntity implements UserInterface {
   constructor (
-    public id: string,
     public firstName: string,
     public middleName: string,
-    public lastName: string,
-    public gender: string,
+    public sex: string,
     public dob: string,
-    public phoneNo: string,
     public idNo: string,
-    public residence: string
+    public countyID: string,
+    public email: string,
+    public id?: string,
+    public lastName?: string,
+    public phoneNo?: string,
+    public password?: string
+
   ) {}
 }

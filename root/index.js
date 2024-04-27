@@ -16,7 +16,6 @@ require('dotenv').config();
 const sequelize = require('./db/connect');
 
 const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
-const userRoutes = require('./Users/routes/user.routes');
 const homeVisitReasonRoute = require('./HomeVisit/routes/reasonDetails.routes');
 const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.routes');
 const homeVisitRoutes = require('./HomeVisit/routes/homeVisit.routes');
@@ -175,7 +174,6 @@ const PORT = process.env.PORT || 5000;
 // });
 
 // app.use('/patient', patientRoutes);
-app.use('/users', userRoutes);
 app.use('/art-regimen', artRegimeRoutes);
 app.use('/art-regimen-phase', artRegimePhaseRoutes);
 app.use('/art-regimen-category', artRegimenCategoryRoutes);
