@@ -1,25 +1,22 @@
 import { createClient } from 'redis'
 
 export class RedisAdapter {
-  private readonly client: any
+  private readonly redisClient: any
   constructor () {
-    this.client = createClient({ url: 'redis://redis:6379' })
+    this.redisClient = createClient({ url: 'redis://redis:6379' })
   }
 
   //   connect to redis client
-  async connect () {
-    await new Promise<void>((resolve, reject) => {
-      this.client.on('connect', () => { resolve() })
-      this.client.on('error', (error: Error) => { reject(error) })
-    })
+  async connect (): Promise<string | null> {
+    return this.redisClient.connect()
   }
 
   async get (key: string): Promise<string | null> {
-    return this.client.get(key)
+    return this.redisClient.get(key)
   }
 
   async set (key: string, value: string): Promise<void> {
-    this.client.set(key, value)
+    this.redisClient.set(key, value)
   }
 //   find: () => Promise<Patient[]>
 //   findById: (id: string) => Promise<Patient>

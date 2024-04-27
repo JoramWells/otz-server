@@ -1,4 +1,4 @@
-import { type User } from '../../domain/entities/User'
+import { type User } from '../../domain/entities/UserEntity'
 
 export interface IUserInteractor {
   createUser: (userData: any) => Promise<User>

@@ -121,3 +121,4 @@
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-27T05:57:23.502Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-27T06:37:50.959Z"}
 {"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-27T07:29:56.351Z"}
+{"level":"info","message":"Cached to redis","service":"appointment-service","timestamp":"2024-04-27T19:28:11.065Z"}
