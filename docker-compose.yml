@@ -87,11 +87,11 @@ services:
 
   lab:
     build:
-      context: ./Lab
+      context: ./src/Lab
       dockerfile: Dockerfile
     image: lab-image
     volumes:
-      - ./Lab/:/usr/src/app
+      - ./src/Lab/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5002:5002
@@ -103,11 +103,11 @@ services:
 
   enrollment:
     build:
-      context: ./Enrollment
+      context: ./src/Enrollment
       dockerfile: Dockerfile
     image: enrollment-image
     volumes:
-      - ./Enrollment/:/usr/src/app
+      - ./src/Enrollment/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5003:5003
@@ -120,11 +120,11 @@ services:
 
   root:
     build:
-      context: ./root
+      context: ./src/root
       dockerfile: Dockerfile
     image: root-image
     volumes:
-      - ./root:/usr/src/app
+      - ./src/root:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5000:5000
@@ -145,11 +145,11 @@ services:
 
   school:
     build:
-      context: ./School
+      context: ./src/School
       dockerfile: Dockerfile
     image: school-image
     volumes:
-      - ./School:/usr/src/app
+      - ./src/School:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5004:5004
@@ -162,11 +162,11 @@ services:
 
   appointment:
     build:
-      context: ./Appointment
+      context: ./src/Appointment
       dockerfile: Dockerfile
     image: appointment-image
     volumes:
-      - ./Appointment:/usr/src/app
+      - ./src/Appointment:/usr/src/app
       - /usr/src/app/node_modules
     # deploy:
     #   mode: replicated
