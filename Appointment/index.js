@@ -4,8 +4,8 @@
 const express = require('express');
 const schedule = require('node-schedule');
 const http = require('http');
-const Sentry = require('@sentry/node');
-const { nodeProfilingIntegration } = require('@sentry/profiling-node');
+// const Sentry = require('@sentry/node');
+// const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
 const morgan = require('morgan');
 require('dotenv').config();
@@ -71,26 +71,26 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [
-    // enable HTTP calls tracing
-    new Sentry.Integrations.Http({ tracing: true }),
-    // enable Express.js middleware tracing
-    new Sentry.Integrations.Express({ app }),
-    nodeProfilingIntegration(),
-  ],
-  // Performance Monitoring
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
-  profilesSampleRate: 1.0,
-});
+// Sentry.init({
+//   dsn: process.env.SENTRY_DSN,
+//   integrations: [
+//     // enable HTTP calls tracing
+//     new Sentry.Integrations.Http({ tracing: true }),
+//     // enable Express.js middleware tracing
+//     new Sentry.Integrations.Express({ app }),
+//     nodeProfilingIntegration(),
+//   ],
+//   // Performance Monitoring
+//   tracesSampleRate: 1.0, //  Capture 100% of the transactions
+//   // Set sampling rate for profiling - this is relative to tracesSampleRate
+//   profilesSampleRate: 1.0,
+// });
 
-// The request handler must be the first middleware on the app
-app.use(Sentry.Handlers.requestHandler());
+// // The request handler must be the first middleware on the app
+// app.use(Sentry.Handlers.requestHandler());
 
-// TracingHandler creates a trace for every incoming request
-app.use(Sentry.Handlers.tracingHandler());
+// // TracingHandler creates a trace for every incoming request
+// app.use(Sentry.Handlers.tracingHandler());
 
 // setup server
 const server = http.createServer(app);
@@ -120,10 +120,10 @@ io.on('connection', (client) => {
 io.on('error', () => { console.log('err'); });
 
 // notification realtime
-// notificationEmitter.on('notificationCreated', (data) => {
-//   io.emit('notificationCreated', []);
-//   console.log('Success', data);
-// });
+notificationEmitter.on('notificationCreated', (data) => {
+  io.emit('notificationCreated', []);
+  console.log('Success', data);
+});
 
 const PORT = process.env.PORT || 5005;
 
