@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "otz",
+    "host": "database",
+    "dialect": "postgres"
+  },
+  "test": {
+  },
+  "production": {
+  }
+}

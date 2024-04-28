@@ -20,11 +20,28 @@ services:
     env_file:
       - .env
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       # - postgres_data:/var/lib/postgresql/data
       - ./otz_backup.sql:/docker-entrypoint-initdb.d/otz_backup.sql
 
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.10'
+    #       memory: 400M
+    #     reservations:
+    #       cpus: '0.10'
+    #       memory: 400M
     networks:
       - otz
     healthcheck:
@@ -33,31 +50,31 @@ services:
       timeout: 10s
       retries: 10 
 
-  patient:
+  users:
     build:
-      context: ./server/Patient
+      context: ./src/Users
       dockerfile: Dockerfile
-    image: patient-image
+    image: users-image
     volumes:
-      - ./server/Patient/:/usr/src/app
+      - ./src/Users/:/usr/src/app
       - /usr/src/app/node_modules
-    deploy:
-      mode: replicated
-      replicas: 2
-      placement:
-        max_replicas_per_node: 1
-      update_config:
-        parallelism: 2
-        delay: 10s
-      restart_policy:
-        condition: on-failure    
-      resources:
-        limits:
-          cpus: '0.30'
-          memory: 500M
-        reservations:
-          cpus: '0.25'
-          memory: 500M
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.10'
+    #       memory: 400M
+    #     reservations:
+    #       cpus: '0.10'
+    #       memory: 400M
     ports:
       - 5001:5001
     depends_on:
@@ -70,11 +87,11 @@ services:
 
   lab:
     build:
-      context: ./server/Lab
+      context: ./Lab
       dockerfile: Dockerfile
     image: lab-image
     volumes:
-      - ./server/Lab/:/usr/src/app
+      - ./Lab/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5002:5002
@@ -86,11 +103,11 @@ services:
 
   enrollment:
     build:
-      context: ./server/Enrollment
+      context: ./Enrollment
       dockerfile: Dockerfile
     image: enrollment-image
     volumes:
-      - ./server/Enrollment/:/usr/src/app
+      - ./Enrollment/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5003:5003
@@ -103,11 +120,11 @@ services:
 
   root:
     build:
-      context: ./server/root
+      context: ./root
       dockerfile: Dockerfile
     image: root-image
     volumes:
-      - ./server/root:/usr/src/app
+      - ./root:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5000:5000
@@ -118,7 +135,7 @@ services:
         condition: service_started
 
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/appointments/fetchAll"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000/users/fetchAll"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -128,11 +145,11 @@ services:
 
   school:
     build:
-      context: ./server/School
+      context: ./School
       dockerfile: Dockerfile
     image: school-image
     volumes:
-      - ./server/School:/usr/src/app
+      - ./School:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - 5004:5004
@@ -145,81 +162,115 @@ services:
 
   appointment:
     build:
-      context: ./server/Appointment
+      context: ./Appointment
       dockerfile: Dockerfile
     image: appointment-image
     volumes:
-      - ./server/Appointment:/usr/src/app
+      - ./Appointment:/usr/src/app
       - /usr/src/app/node_modules
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.10'
+    #       memory: 800M
+    #     reservations:
+    #       cpus: '0.10'
+    #       memory: 500M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m       
     ports:
       - 5005:5005
     depends_on:
       database:
         condition: service_healthy
       # - kafka-2
+      redis:
+        condition: service_started    
     networks:
       - otz
 
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    image: otz-client
-    # container_name: huruma-frontendv2
-    volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+  # client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   image: otz-client
+  #   # container_name: huruma-frontendv2
+  #   volumes:
+  #     - ./client:/usr/src/app
+  #     - /usr/src/app/node_modules
 
-    deploy:
-      # mode: replicated
-      # replicas: 5
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      restart_policy:
-        condition: on-failure    
-      resources:
-        limits:
-          cpus: '0.50'
-          # memory: 1000M
+  #   deploy:
+  #     # mode: replicated
+  #     # replicas: 5
+  #     # placement:
+  #     #   max_replicas_per_node: 1
+  #     # update_config:
+  #     #   parallelism: 2
+  #     #   delay: 10s
+  #     # restart_policy:
+  #     #   condition: on-failure    
+  #     resources:
+  #       limits:
+  #         cpus: '0.50'
+  #         # memory: 1000M
 
-    ports:
-      - "3000:3000"
-    depends_on:
-      - enrollment
-      - patient
-      - school
-      - lab
-      - root
-      - appointment    
-    networks:
-      - otz
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - enrollment
+  #     - users
+  #     - school
+  #     - lab
+  #     - root
+  #     - appointment    
+  #   networks:
+  #     - otz
 
   nginx:
     image: nginx:alpine
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8080:8080"
-    deploy:
-      # mode: replicated
-      # replicas: 5
-      restart_policy:
-        condition: on-failure
-      resources:
-        limits:
-          cpus: '0.50'   
+      - 8080:8080
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.05'
+    #       # memory: 400M
+    #     reservations:
+    #       cpus: '0.05'
+    #       # memory: 400M 
 
     depends_on:
-      - patient
+      - users
       - root
       - enrollment
       - school
       - lab
       - appointment    
-      - client
+      # - client
     networks:
       - otz
 
