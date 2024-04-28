@@ -117,13 +117,13 @@ io.on('connection', (client) => {
   });
 });
 
-io.on('error', () => { console.log('err'); });
+// io.on('error', () => { console.log('err'); });
 
 // notification realtime
-notificationEmitter.on('notificationCreated', (data) => {
-  io.emit('notificationCreated', []);
-  console.log('Success', data);
-});
+// notificationEmitter.on('notificationCreated', (data) => {
+//   io.emit('notificationCreated', []);
+//   console.log('Success', data);
+// });
 
 const PORT = process.env.PORT || 5005;
 

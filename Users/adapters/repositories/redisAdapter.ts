@@ -7,8 +7,16 @@ export class RedisAdapter {
   }
 
   //   connect to redis client
-  async connect (): Promise<string | null> {
+  async connect (): Promise<string> {
+    this.redisClient.on('error', (error: any) => {
+      console.log('Redis Client Error', error)
+    })
+
     return this.redisClient.connect()
+  }
+
+  async disconnect (): Promise<string> {
+    return this.redisClient.disconnect()
   }
 
   async get (key: string): Promise<string | null> {

@@ -49,7 +49,6 @@ export class PatientRepository implements IPatientRepository {
 
   async find (): Promise<PatientEntity[]> {
     await this.redisClient.connect()
-
     // check if patient
     if (await this.redisClient.get(patientCache) === null) {
       const results = await Patient.findAll({
@@ -73,9 +72,10 @@ export class PatientRepository implements IPatientRepository {
       })
 
       console.log('fetched from db!')
-
       // set to cace
       await this.redisClient.set(patientCache, JSON.stringify(results))
+
+      await this.redisClient.disconnect()
 
       return results
     }
@@ -83,6 +83,8 @@ export class PatientRepository implements IPatientRepository {
     if (cachedPatients === null) {
       return []
     }
+    await this.redisClient.disconnect()
+
     console.log('fetched from cace!')
 
     const results: PatientEntity[] = JSON.parse(cachedPatients)
