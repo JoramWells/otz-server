@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-len */
 /* eslint-disable linebreak-style */
@@ -12,6 +13,7 @@ require('dotenv').config();
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const cors = require('cors');
 const sequelize = require('./db/connect');
 
 const appointmentRoutes = require('./routes/appointment.routes');
@@ -35,9 +37,14 @@ const mmasRoutes = require('./routes/treatmentplan/mmas.routes');
 const disclosureChecklistRoutes = require('./routes/treatmentplan/disclosureChecklist.routes');
 const dailyUptakeRoutes = require('./routes/treatmentplan/uptake.routes');
 const dailyUptake = require('./middleware/dailyUptake');
+const articleRoutes = require('./routes/articles/articles.routes');
+const articleCategoryRoutes = require('./routes/articles/articleCategory.routes');
 const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 
 const app = express();
+
+app.use(cors());
+
 //
 app.use(express.json());
 app.use(express.urlencoded({
@@ -131,6 +138,8 @@ app.use('/appointments', appointmentRoutes);
 
 app.use('/appointment-status', appointmentStatusRoutes);
 app.use('/appointment-agenda', appointmentAgendaRoutes);
+app.use('/articles', articleRoutes);
+app.use('/articles-category', articleCategoryRoutes);
 app.use('/chats', chatRoutes);
 app.use('/chat-messages', chatMessagesRoutes);
 app.use('/sms', smsWhatsappRoutes);
