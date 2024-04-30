@@ -1,15 +1,27 @@
-const express = require('express')
-const {
-  addCaregiver, getAllCaregivers, getCaregiverDetail,
-  editCaregiver, deleteCaregiver
-} = require('../controllers/careGiver.controller')
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { CaregiverController } from '../adapters/controllers/caregiverController'
+import { CaregiverRepository } from '../adapters/repositories/caregiverRepository'
+import { CaregiverInteractor } from '../application/interactors/caregiverInterator'
+
+import express from 'express'
+
+const repository = new CaregiverRepository()
+const interactor = new CaregiverInteractor(repository)
+
+const controller = new CaregiverController(interactor)
 
 const router = express.Router()
 
-router.post('/add', addCaregiver)
-router.get('/fetchAll', getAllCaregivers)
-router.get('/detail/:id', getCaregiverDetail)
-router.put('/edit/:id', editCaregiver)
-router.delete('/delete/:id', deleteCaregiver)
+router.post('/add', controller.onCreateCaregiver.bind(controller))
+router.get(
+  '/fetchAll',
+  controller.onGetAllCaregivers.bind(controller)
+)
+router.get(
+  '/detail/:id',
+  controller.onGetCaregiverById.bind(controller)
+)
+// router.put('/edit/:id', editPatient);
+// router.delete('/delete/:id', deletePatient);
 
-module.exports = router
+export { router as caregiverRoutes }

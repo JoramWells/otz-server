@@ -11,9 +11,9 @@ import morgan from 'morgan'
 import { CaseManagerRouter } from './routes/casemanager.routes'
 import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
+import { caregiverRoutes } from './routes/caregiver.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
-const careGiverRoutes = require('./routes/caregiver.routes')
 
 const app: Application = express()
 
@@ -29,12 +29,11 @@ app.use(express.urlencoded({
   extended: true
 }))
 
-
 // enable cors
 app.use(cors())
 
 app.use('/patients', patientRoutes)
-app.use('/caregiver', careGiverRoutes)
+app.use('/caregiver', caregiverRoutes)
 app.use('/casemanager', CaseManagerRouter)
 app.use('/users', userRoutes)
 

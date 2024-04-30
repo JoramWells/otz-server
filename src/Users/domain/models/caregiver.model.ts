@@ -5,26 +5,40 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 
-interface CaregiverAttributes {
+export interface CaregiverInterface {
   id?: string
   patientID: string
   firstName: string
   middleName: string
   lastName?: string
+  email?: string
   sex: string
   dob: string
   phoneNo: string
-  locationID: string
-  drugs: string
+  drugs?: string
   careerID: string
   maritalStatus: string
   idNo: string
   relationship: string
+  countyID: string
 }
 
-export class CaregiverInstance extends Model <CaregiverAttributes> {}
+export class Caregiver extends Model<CaregiverInterface> {
+  firstName!: string
+  middleName!: string
+  phoneNo!: string
+  sex!: string
+  dob!: string
+  idNo!: string
+  countyID!: string
+  careerID!: string
+  patientID!: string
+  maritalStatus!: string
+  relationship!: string
+  email: string | undefined
+}
 
-CaregiverInstance.init(
+Caregiver.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -63,7 +77,7 @@ CaregiverInstance.init(
     relationship: {
       type: DataTypes.STRING
     },
-    locationID: {
+    countyID: {
       type: DataTypes.STRING
     },
     drugs: {

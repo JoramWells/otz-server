@@ -7,7 +7,7 @@ import { Patient } from './patients.models'
 import { User } from './user.model'
 import { connect } from '../db/connect'
 
-interface CaseManagerInterface {
+export interface CaseManagerInterface {
   id?: string
   patientID: string
   userID: string

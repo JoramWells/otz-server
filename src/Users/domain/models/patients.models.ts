@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
