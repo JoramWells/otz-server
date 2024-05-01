@@ -6,6 +6,7 @@ import { type PatientEntity } from '../../domain/entities/PatientEntity'
 import { Hospital } from '../../domain/models/hospital/hospital.model'
 import { Patient, type PatientAttributes } from '../../domain/models/patients.models'
 import { School } from '../../domain/models/school/school.model'
+import { logger } from '../../utils/logger'
 // import { createClient } from 'redis'
 import { RedisAdapter } from './redisAdapter'
 
@@ -70,7 +71,7 @@ export class PatientRepository implements IPatientRepository {
         //   }
         ]
       })
-
+      logger.info({ message: 'Fetched from db!' })
       console.log('fetched from db!')
       // set to cace
       await this.redisClient.set(patientCache, JSON.stringify(results))
@@ -84,8 +85,8 @@ export class PatientRepository implements IPatientRepository {
       return []
     }
     await this.redisClient.disconnect()
-
-    console.log('fetched from cace!')
+    logger.info({ message: 'Fetched from cache!' })
+    console.log('fetched from cache!')
 
     const results: PatientEntity[] = JSON.parse(cachedPatients)
     return results

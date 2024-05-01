@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./dist/index.js",
-    "build":"npx tsc",
+    "build": "npx tsc",
     "dev": "npx tsc-watch & nodemon ./dist/index.js"
   },
   "keywords": [],
@@ -24,7 +24,8 @@
     "nodemon": "^3.0.2",
     "pg": "^8.11.3",
     "redis": "^4.6.13",
-    "sequelize": "^6.35.1"
+    "sequelize": "^6.35.1",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
