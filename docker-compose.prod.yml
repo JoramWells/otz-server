@@ -25,23 +25,23 @@ services:
       # - postgres_data:/var/lib/postgresql/data
       - ./otz_backup.sql:/docker-entrypoint-initdb.d/otz_backup.sql
 
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   placement:
-    #     max_replicas_per_node: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure    
-    #   resources:
-    #     limits:
-    #       cpus: '0.10'
-    #       memory: 400M
-    #     reservations:
-    #       cpus: '0.10'
-    #       memory: 400M
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      restart_policy:
+        condition: always    
+      # resources:
+      #   limits:
+      #     cpus: '0.10'
+      #     memory: 400M
+      #   reservations:
+      #     cpus: '0.10'
+      #     memory: 400M
     networks:
       - otz
     healthcheck:
