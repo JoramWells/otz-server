@@ -10,7 +10,7 @@ RUN yarn install --production
 
 COPY . .
 
-RUN yarn run build
+# RUN yarn run build
 
 EXPOSE 5001
 
