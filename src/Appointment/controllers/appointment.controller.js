@@ -70,7 +70,7 @@ const getAllAppointments = async (req, res, next) => {
       // get all
       const results = await Appointment.findAll({
         order: [['appointmentDate', 'ASC']],
-        where: whereCondition,
+        // where: whereCondition,
         include: [
           {
             model: Patient,
