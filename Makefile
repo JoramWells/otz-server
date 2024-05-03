@@ -1,5 +1,5 @@
 build:
-	sudo docker-compose -f docker-compose.prod.yml build  --no-cache
+	docker-compose -f docker-compose.prod.yml build  --no-cache
 
 push:
 	sudo docker compose -f docker-compose.yml push
