@@ -21,7 +21,6 @@ const PORT = process.env.PORT || 5001
 // const corsOption = {
 //   origin: ['*']
 // }
-
 app.use(morgan('dev'))
 
 app.use(express.json())
@@ -43,6 +42,6 @@ connect.authenticate().then(() => {
   console.error('Unable to connect to database: ', error)
 })
 
-app.listen(5001, () => {
+app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`)
 })
