@@ -4,6 +4,7 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
+import { Patient } from './patients.models'
 
 export interface CaregiverInterface {
   id?: string
@@ -96,6 +97,8 @@ Caregiver.init(
     tableName: 'caregivers'
   }
 )
+
+Caregiver.belongsTo(Patient, { foreignKey: 'patientID' })
 
 // sequelize.sync()
 // console.log('User Table synced successfully')

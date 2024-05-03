@@ -8,10 +8,10 @@
 import express, { type Application } from 'express'
 import morgan from 'morgan'
 
-import { CaseManagerRouter } from './routes/casemanager.routes'
 import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
 import { caregiverRoutes } from './routes/caregiver.routes'
+import { caseManagerRoutes } from './routes/caseManager.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
 
@@ -33,7 +33,7 @@ app.use(cors())
 
 app.use('/patients', patientRoutes)
 app.use('/caregiver', caregiverRoutes)
-app.use('/casemanager', CaseManagerRouter)
+app.use('/casemanager', caseManagerRoutes)
 app.use('/users', userRoutes)
 
 connect.authenticate().then(() => {

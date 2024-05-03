@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { type ICaregiverRepository } from '../../application/interfaces/ICaregiverRepository'
-import { type CaregiverEntity } from '../../domain/entities/CaregiverEntity'
-import { Caregiver } from '../../domain/models/caregiver.model'
+import { type ICaseManagerRepository } from '../../application/interfaces/ICaseManagerRepository'
+import { type CaseManagerEntity } from '../../domain/entities/CaseManagerEntity'
+import CaseManager from '../../domain/models/casemanager.model'
 import { Patient } from '../../domain/models/patients.models'
 
-export class CaregiverRepository implements ICaregiverRepository {
-  async create (data: CaregiverEntity): Promise<CaregiverEntity> {
+export class CaseManagerRepository implements ICaseManagerRepository {
+  async create (data: CaseManagerEntity): Promise<CaseManagerEntity> {
     // const {
     //   firstName,
     //   middleName,
@@ -21,7 +21,7 @@ export class CaregiverRepository implements ICaregiverRepository {
     //   password
     // } = data
 
-    const results: CaregiverEntity = await Caregiver.create(data)
+    const results: CaseManagerEntity = await CaseManager.create(data)
     // const caregiverEntity: CaregiverEntity = {
     //   id: results.id,
     //   firstName: results.firstName,
@@ -38,8 +38,8 @@ export class CaregiverRepository implements ICaregiverRepository {
     return results
   }
 
-  async find (): Promise<CaregiverEntity[]> {
-    const results = await Caregiver.findAll({
+  async find (): Promise<CaseManagerEntity[]> {
+    const results = await CaseManager.findAll({
       include: [
         {
           model: Patient,
@@ -50,8 +50,8 @@ export class CaregiverRepository implements ICaregiverRepository {
     return results
   }
 
-  async findById (id: string): Promise<CaregiverEntity | null> {
-    const results = await Caregiver.findOne({
+  async findById (id: string): Promise<CaseManagerEntity | null> {
+    const results = await CaseManager.findOne({
       where: {
         id
       }

@@ -1,26 +1,26 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type CaregiverEntity } from '../../domain/entities/CaregiverEntity'
-import { type ICaregiverInteractor } from '../interfaces/ICaregiverInteractor'
-import { type ICaregiverRepository } from '../interfaces/ICaregiverRepository'
+import { type CaseManagerEntity } from '../../domain/entities/CaseManagerEntity'
+import { type ICaseManagerInteractor } from '../interfaces/ICaseManagerInteractor'
+import { type ICaseManagerRepository } from '../interfaces/ICaseManagerRepository'
 
-export class CaseManagerInteractor implements ICaregiverInteractor {
-  private readonly repository: ICaregiverRepository
+export class CaseManagerInteractor implements ICaseManagerInteractor {
+  private readonly repository: ICaseManagerRepository
 
-  constructor (repository: ICaregiverRepository) {
+  constructor (repository: ICaseManagerRepository) {
     this.repository = repository
   }
 
-  async getCaregiverById (id: string): Promise<CaregiverEntity | null> {
+  async getCaseManagerById (id: string): Promise<CaseManagerEntity | null> {
     return await this.repository.findById(id)
   }
 
-  async createCaregiver (
-    patientData: CaregiverEntity
-  ): Promise<CaregiverEntity> {
+  async createCaseManager (
+    patientData: CaseManagerEntity
+  ): Promise<CaseManagerEntity> {
     return await this.repository.create(patientData)
   }
 
-  async getAllCaregivers (): Promise<CaregiverEntity[]> {
+  async getAllCaseManagers (): Promise<CaseManagerEntity[]> {
     return await this.repository.find()
   }
 }

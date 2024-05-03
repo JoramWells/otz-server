@@ -14,7 +14,12 @@ export interface CaseManagerInterface {
   isNotification: boolean
 }
 
-export class CaseManager extends Model<CaseManagerInterface> {}
+export class CaseManager extends Model<CaseManagerInterface> {
+  id: string | undefined
+  patientID!: string
+  userID!: string
+  isNotification!: boolean
+}
 
 CaseManager.init(
   {
