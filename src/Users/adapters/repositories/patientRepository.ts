@@ -76,7 +76,6 @@ export class PatientRepository implements IPatientRepository {
       // set to cace
       await this.redisClient.set(patientCache, JSON.stringify(results))
 
-
       return results
     }
     const cachedPatients: string | null = await this.redisClient.get(patientCache)

@@ -1,5 +1,5 @@
 build:
-	docker compose -f docker-compose.prod.yml build  --no-cache
+	sudo docker-compose -f docker-compose.prod.yml build
 
 push:
 	sudo docker compose -f docker-compose.yml push
@@ -11,7 +11,7 @@ up-dev-ldap:
 	docker compose -f docker-compose.dev.yml --profile ldap up --build
 
 up-prod:
-	docker compose -f docker-compose.prod.yml up
+	docker compose -f docker-compose.prod.yml up --build -d
 
 down:
 	docker compose -f docker-compose.dev.yml down --build
