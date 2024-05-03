@@ -53,7 +53,7 @@ services:
   users:
     build:
       context: ./src/Users
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     image: users-image
     volumes:
       - ./src/Users/:/usr/src/app
