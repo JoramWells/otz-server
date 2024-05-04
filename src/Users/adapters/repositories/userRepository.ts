@@ -59,4 +59,17 @@ export class UserRepository implements IUserRepository {
 
     return results
   }
+
+  async login (email: string, password: string): Promise<UserEntity | null> {
+    const user: User | null = await User.findOne({
+      where: {
+        email
+      }
+    })
+
+    if (user !== null && user.password === password) {
+      return user
+    }
+    return null
+  }
 }

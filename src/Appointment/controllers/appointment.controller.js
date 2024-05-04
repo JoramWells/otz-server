@@ -101,7 +101,7 @@ const getAllAppointments = async (req, res, next) => {
       next();
     } else {
       const cachedData = await client.get(appointmentKey);
-      console.log(cachedData)
+      console.log(cachedData);
       res.json(JSON.parse(cachedData));
       winstonLogger.info('Cached to redis');
 

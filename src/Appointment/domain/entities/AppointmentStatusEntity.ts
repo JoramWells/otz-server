@@ -1,6 +1,4 @@
-import { AppointmentAttributes } from '../models/appointment/appointment.model';
 import { AppointmentStatusAttributes } from '../models/appointment/appointmentStatus.model';
-import { type PatientAttributes } from '../models/patients.models'
 
 export class AppointmentStatusEntity implements AppointmentStatusAttributes {
   constructor(

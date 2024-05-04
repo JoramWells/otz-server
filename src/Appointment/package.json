@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./dist/index.js",
+    "build": "npx tsc",
+    "dev": "npx tsc-watch & nodemon ./dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -56,8 +58,6 @@
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4",
     "ts-node-dev": "^2.0.0",
-    "tsc": "^2.0.4",
-    "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
   }
 }

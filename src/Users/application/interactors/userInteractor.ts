@@ -21,4 +21,8 @@ export class UserInteractor implements IUserInteractor {
   async getAllUsers (): Promise<UserEntity[]> {
     return await this.repository.find()
   }
+
+  async login (email: string, password: string): Promise<UserEntity | null> {
+    return await this.repository.login(email, password)
+  }
 }

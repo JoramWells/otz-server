@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5005
 
-CMD [ "yarn", "start"]
+CMD [ "yarn", "run", "dev"]

@@ -45,4 +45,16 @@ export class UserController {
       res.status(500).json({ message: 'Internal Server Error' })
     }
   }
+
+  async login (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.params
+      const results = await this.interactor.login(email, password)
+      res.status(200).json(results)
+      next()
+    } catch (error) {
+      next(error)
+      console.log(error)
+    }
+  }
 }
