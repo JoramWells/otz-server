@@ -3,16 +3,16 @@ import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface AppointmentStatusAttributes {
-  id?: string;
-  statusDescription?: string;
+  id: string;
+  statusDescription: string;
 }
 
 export class AppointmentStatus
   extends Model<AppointmentStatusAttributes>
   implements AppointmentStatusAttributes
 {
-  id?: string | undefined;
-  statusDescription?: string | undefined;
+  id!: string
+  statusDescription!: string
 }
 
 AppointmentStatus.init(

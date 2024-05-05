@@ -10,6 +10,8 @@ import {createServer} from 'http';
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
+import { appointmentAgendaRouter } from './routes/appointments/appointmentAgenda.routes';
+import { appointmentStatusRouter } from './routes/appointments/appointmentStatus.routes';
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -116,6 +118,8 @@ io.on('connection', (client) => {
 const PORT = process.env.PORT || 5005;
 
 app.use('/appointments', appointmentRouter);
+app.use("/appointment-agenda", appointmentAgendaRouter);
+app.use("/appointment-status", appointmentStatusRouter);
 
 
 connect.authenticate().then(() => {

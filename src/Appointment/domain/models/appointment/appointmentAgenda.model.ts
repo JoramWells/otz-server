@@ -3,16 +3,16 @@ import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface AppointmentAgendaAttributes {
-  id?: string;
-  agendaDescription?: string;
+  id: string;
+  agendaDescription: string;
 }
 
 export class AppointmentAgenda
   extends Model<AppointmentAgendaAttributes>
   implements AppointmentAgendaAttributes
 {
-  id?: string | undefined;
-  agendaDescription?: string | undefined;
+  id!: string
+  agendaDescription!: string;
 
 }
 
