@@ -23,6 +23,7 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
 
   async find(): Promise<AppointmentStatusEntity[]> {
     await this.redisClient.connect();
+    
     // check if patient
     if ((await this.redisClient.get(appointmentStatusCache)) === null) {
       const results = await AppointmentStatus.findAll({});

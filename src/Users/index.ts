@@ -12,6 +12,7 @@ import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
 import { caregiverRoutes } from './routes/caregiver.routes'
 import { caseManagerRoutes } from './routes/caseManager.routes'
+import { otzRouter } from './routes/enrollment/otz.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
 
@@ -35,6 +36,7 @@ app.use('/patients', patientRoutes)
 app.use('/caregiver', caregiverRoutes)
 app.use('/casemanager', caseManagerRoutes)
 app.use('/users', userRoutes)
+app.use('/otz-enrollment', otzRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

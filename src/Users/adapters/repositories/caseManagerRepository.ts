@@ -5,6 +5,7 @@ import { type ICaseManagerRepository } from '../../application/interfaces/ICaseM
 import { type CaseManagerEntity } from '../../domain/entities/CaseManagerEntity'
 import CaseManager from '../../domain/models/casemanager.model'
 import { Patient } from '../../domain/models/patients.models'
+import { User } from '../../domain/models/user.model'
 
 export class CaseManagerRepository implements ICaseManagerRepository {
   async create (data: CaseManagerEntity): Promise<CaseManagerEntity> {
@@ -44,6 +45,10 @@ export class CaseManagerRepository implements ICaseManagerRepository {
         {
           model: Patient,
           attributes: ['firstName', 'middleName']
+        },
+        {
+          model: User,
+          attributes: ['firstName', 'middleName', 'phoneNo']
         }
       ]
     })
