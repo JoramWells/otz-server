@@ -227,6 +227,7 @@ services:
     image: nginx:alpine
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./client.sh:/usr/share/nginx/client.sh
     ports:
       - 8081:8081
     # deploy:
@@ -256,6 +257,11 @@ services:
       # - client
     networks:
       - otz
+
+    # entrypoint: ["/bin/sh", "-c", "/usr/share/nginx/client.sh && exec nginx -g 'daemon off;'"]
+    command: sh -c "chmod +x /usr/share/nginx/client.sh && /usr/share/nginx/client.sh && nginx -g 'daemon off;'"
+
+  
 
 networks:
  otz:
