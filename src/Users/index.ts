@@ -36,6 +36,7 @@ app.use(
   })
 )
 
+// confirm cors
 app.use('/patients', patientRoutes)
 app.use('/caregiver', caregiverRoutes)
 app.use('/casemanager', caseManagerRoutes)
