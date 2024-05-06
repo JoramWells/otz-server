@@ -49,6 +49,6 @@ connect.authenticate().then(() => {
   console.error('Unable to connect to database: ', error)
 })
 
-app.listen(PORT, () => {
+app.listen(5001, '0.0.0.0', () => {
   console.log(`App running on http://localhost:${PORT}`)
 })
