@@ -101,23 +101,6 @@ services:
     networks:
       - otz
 
-  enrollment:
-    build:
-      context: ./src/Enrollment
-      dockerfile: Dockerfile
-    image: enrollment-image
-    volumes:
-      - ./src/Enrollment/:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - 5003:5003
-    depends_on:
-      database:
-        condition: service_healthy
-    networks:
-      - otz
-
-
   root:
     build:
       context: ./src/root
@@ -266,7 +249,6 @@ services:
     depends_on:
       - users
       - root
-      - enrollment
       - school
       - lab
       - appointment    
