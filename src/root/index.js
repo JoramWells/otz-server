@@ -47,6 +47,13 @@ app.use(express.urlencoded({
   extended: true,
 }));
 
+// const corsOption = {
+//   origin: ['*'],
+// };
+
+// enable cors
+app.use(cors());
+
 // job
 // schedule.scheduleJob('* * * * * *', async (fireDate) => {
 //   const currentTime = new Date();
@@ -104,7 +111,7 @@ app.use(morgan('dev'));
 // setup io
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });
@@ -123,12 +130,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 5000;
-// const corsOption = {
-//   origin: ['*'],
-// };
-
-// enable cors
-// app.use(cors(corsOption));
 
 //
 // sendsms

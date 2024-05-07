@@ -24,6 +24,7 @@ export interface CaregiverInterface {
   countyID: string
 }
 
+
 export class Caregiver extends Model<CaregiverInterface> {
   firstName!: string
   middleName!: string

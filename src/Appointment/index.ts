@@ -5,13 +5,18 @@
 import express from 'express';
 import { appointmentRouter } from './routes/appointments/appointment.routes';
 import { connect } from './db/connect';
-const schedule = require('node-schedule');
+import {scheduleJob} from 'node-schedule';
 import {createServer} from 'http';
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
 import { appointmentAgendaRouter } from './routes/appointments/appointmentAgenda.routes';
 import { appointmentStatusRouter } from './routes/appointments/appointmentStatus.routes';
+import { articleRouter } from './routes/articles/articles.routes';
+import { articleCategoryRouter } from './routes/articles/articleCategory.routes';
+import { pillUptakeRouter } from './routes/treatmentplan/pillUptake.routes';
+import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
+import { dailyPillUpdate } from './utils/dailyPillUpdate';
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -37,14 +42,15 @@ app.use(express.urlencoded({
 // morgan
 app.use(morgan('dev'));
 
-// schedule.scheduleJob({ hour: 0, minute: 0 }, () => { dailyUptake(); });
+scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
+// dailyPillUpdate();
+
 // schedulePatientNotifications();
 
 // realtime
 
 // setInterval(schedulePatientNotifications, 3600000); // 3600000 milliseconds = 1 hour
 
-// dailyUptake();
 
 // Swagger configuration options
 const swaggerOptions = {
@@ -120,6 +126,12 @@ const PORT = process.env.PORT || 5005;
 app.use('/appointments', appointmentRouter);
 app.use("/appointment-agenda", appointmentAgendaRouter);
 app.use("/appointment-status", appointmentStatusRouter);
+
+app.use("/articles", articleRouter);
+app.use("/articles-category", articleCategoryRouter);
+
+app.use("/daily-uptake", pillUptakeRouter);
+app.use("/time-and-work", timeAndWorkRouter);
 
 
 connect.authenticate().then(() => {

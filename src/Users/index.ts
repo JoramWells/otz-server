@@ -30,11 +30,7 @@ app.use(express.urlencoded({
 }))
 
 // enable cors
-app.use(
-  cors({
-    origin: 'http://102.217.158.17:3000'
-  })
-)
+app.use(cors())
 
 // confirm cors
 app.use('/patients', patientRoutes)
