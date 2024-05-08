@@ -6,5 +6,6 @@ export class ArticlesEntity implements ArticleAttributes {
     public userID: string,
     public articleCategoryID: string,
     public description: string,
+    public image: string
   ) {}
 }

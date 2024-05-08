@@ -12,9 +12,11 @@ export class ArticleController {
   }
 
   async onCreateArticle(req: Request, res: Response, next: NextFunction) {
+    const data = { ...req.body, image: req.file?.filename };
+
     try {
       console.log(req.body);
-      const newProfile = await this.interactor.createArticle(req.body);
+      const newProfile = await this.interactor.createArticle(data);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,

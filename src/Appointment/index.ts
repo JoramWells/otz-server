@@ -20,12 +20,11 @@ import { dailyPillUpdate } from './utils/dailyPillUpdate';
 const morgan = require('morgan');
 require('dotenv').config();
 
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const cors = require('cors');
 const sequelize = require('./db/connect');
-
-
 
 // const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 
@@ -38,6 +37,8 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
+
+app.use(express.static('uploads'))
 
 // morgan
 app.use(morgan('dev'));
