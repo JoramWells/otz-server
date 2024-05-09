@@ -30,6 +30,7 @@ export class UserController {
       next()
     } catch (error) {
       next(error)
+      console.log(error)
       res.status(500).json({ message: 'Internal Server Error' })
     }
   }

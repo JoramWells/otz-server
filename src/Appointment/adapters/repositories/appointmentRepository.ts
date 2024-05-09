@@ -20,6 +20,14 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   async create(data: AppointmentEntity): Promise<AppointmentEntity> {
     const results: AppointmentAttributes = await Appointment.create(data);
+    const { patientID } = data;
+    await this.redisClient.connect();
+    if( await this.redisClient.get(patientID.toString()) !== null){
+    await this.redisClient.del(patientID);
+
+    }
+    
+    // await this.redisClient.disconnect()
 
     return results;
   }
@@ -63,7 +71,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     if (cachedPatients === null) {
       return [];
     }
-    await this.redisClient.disconnect();
+    // await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
@@ -71,26 +79,44 @@ export class AppointmentRepository implements IAppointmentRepository {
     return results;
   }
 
-  async findPatientAppointmentByID(id: string) {
-    const results = Appointment.findAll({
-      where: {
-        patientID: id,
-      },
-      include: [
-        {
-          model: AppointmentAgenda,
-          attributes: ["agendaDescription"],
+  async findPatientAppointmentByID(id: string): Promise<AppointmentEntity[] | null> {
+    await this.redisClient.connect();
+    if ((await this.redisClient.get(id)) === null) {
+
+      const results: AppointmentEntity[] | null = await Appointment.findAll({
+        where: {
+          patientID: id,
         },
-        {
-          model: AppointmentStatus,
-          attributes: ["statusDescription"],
-        },
-        {
-          model: User,
-          attributes: ["firstName", "middleName"],
-        },
-      ],
-    });
+        include: [
+          {
+            model: AppointmentAgenda,
+            attributes: ["agendaDescription"],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ["statusDescription"],
+          },
+          {
+            model: User,
+            attributes: ["firstName", "middleName"],
+          },
+        ],
+      });
+
+      await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    }
+
+    const cachedData: string | null = await this.redisClient.get(id);
+    if (cachedData === null) {
+      return null;
+    }
+    const results: AppointmentEntity[] = JSON.parse(cachedData);
+    console.log("fetched appointment from cace!");
+    if(this.redisClient)
+
+    // await this.redisClient.disconnect()
 
     return results;
   }
@@ -119,33 +145,39 @@ export class AppointmentRepository implements IAppointmentRepository {
   }
 
   async findById(id: string): Promise<AppointmentEntity | null> {
-    await this.redisClient.connect();
-    if ((await this.redisClient.get(id)) === null) {
-      const results: Appointment | null = await Appointment.findOne({
-        where: {
-          id,
-        },
-      });
+    
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    //   const results: Appointment | null = await Appointment.findOne({
+    //     where: {
+    //       id,
+    //     },
+    //   });
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
-      await this.redisClient.set(id, JSON.stringify(results));
+    //   // const patientResults: AppointmentEntity = {
+    //   //   firstName: results?.firstName,
+    //   //   middleName: results?.middleName,
+    //   //   sex: results?.sex,
+    //   //   phoneNo: results?.phoneNo,
+    //   //   idNo: results?.idNo,
+    //   //   occupationID: results?.occupationID,
+    //   // };
+    //   await this.redisClient.set(id, JSON.stringify(results));
 
-      return results;
-    }
+    //   return results;
+    // }
 
-    const cachedData: string | null = await this.redisClient.get(id);
-    if (cachedData === null) {
-      return null;
-    }
-    const results: AppointmentEntity = JSON.parse(cachedData);
-    console.log("fetched from cace!");
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: AppointmentEntity = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+        const results: Appointment | null = await Appointment.findOne({
+          where: {
+            id,
+          },
+        });
 
     return results;
   }

@@ -22,4 +22,8 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   async getAllAppointments(): Promise<AppointmentEntity[]> {
     return await this.repository.find();
   }
+  async getAppointmentDetail(id: string):Promise<AppointmentEntity[] | null>{
+   return await this.repository.findPatientAppointmentByID(id)
+  }
+
 }

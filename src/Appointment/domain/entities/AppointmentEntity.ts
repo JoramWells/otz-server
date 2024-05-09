@@ -2,12 +2,12 @@ import { AppointmentAttributes } from '../models/appointment/appointment.model';
 
 export class AppointmentEntity implements AppointmentAttributes {
   constructor(
-    public id?: string,
+    public id: string,
+    public patientID: string,
     public userID?: string,
-    public patientID?: string,
     public appointmentAgendaID?: string,
     public appointmentStatusID?: string,
     public appointmentDate?: string,
-    public appointmentTime?: string,
+    public appointmentTime?: string
   ) {}
 }

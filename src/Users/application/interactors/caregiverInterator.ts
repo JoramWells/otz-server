@@ -10,7 +10,7 @@ export class CaregiverInteractor implements ICaregiverInteractor {
     this.repository = repository
   }
 
-  async getCaregiverById (id: string): Promise<CaregiverEntity | null> {
+  async getCaregiverById (id: string): Promise<CaregiverEntity[] | null> {
     return await this.repository.findById(id)
   }
 

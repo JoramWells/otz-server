@@ -50,10 +50,10 @@ export class CaregiverRepository implements ICaregiverRepository {
     return results
   }
 
-  async findById (id: string): Promise<CaregiverEntity | null> {
-    const results = await Caregiver.findOne({
+  async findById (id: string): Promise<CaregiverEntity[] | null> {
+    const results = await Caregiver.findAll({
       where: {
-        id
+        patientID: id
       }
     })
 

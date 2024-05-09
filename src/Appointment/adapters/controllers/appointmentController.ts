@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IChatInteractor } from "../../application/interfaces/IChatInteractor";
 import { IAppointmentInteractor } from "../../application/interfaces/appointment/IAppointementInteractor";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
@@ -39,8 +38,9 @@ export class AppointmentController {
       next();
     } catch (error) {
       next(error);
+      console.log(error);
+
       res.status(500).json({ message: "Internal Server Error" });
-      // console.log(error)
     }
   }
 
@@ -56,4 +56,18 @@ export class AppointmentController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  // use patient ID
+  async getAppointmentDetail(req: Request, res: Response, next: NextFunction){
+    const { id } = req.params;
+    try {
+      const patient = await this.interactor.getAppointmentDetail(id)
+      res.status(200).json(patient);
+      next();
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      next(error)
+    }
+  };
 }

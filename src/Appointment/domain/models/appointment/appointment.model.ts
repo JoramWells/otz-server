@@ -8,9 +8,9 @@ import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface AppointmentAttributes {
-  id?: string;
+  id: string;
   userID?: string;
-  patientID?: string;
+  patientID: string;
   appointmentAgendaID?: string;
   appointmentStatusID?: string;
   appointmentDate?: string;
@@ -21,9 +21,9 @@ export class Appointment
   extends Model<AppointmentAttributes>
   implements AppointmentAttributes
 {
-  id?: string | undefined;
+  id!: string;
   userID?: string | undefined;
-  patientID: string | undefined;
+  patientID!: string;
   appointmentAgendaID?: string | undefined;
   appointmentStatusID?: string | undefined;
   appointmentDate?: string | undefined;
@@ -97,10 +97,11 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-Appointment.afterCreate(async () => {
+Appointment.afterCreate(async (appointments, options) => {
   const redisClient = createClient({ url: 'redis://redis:6379' });
   await redisClient.connect();
   await redisClient.del('appointmentData');
+  console.log(appointments, 'io')
 });
 
 Appointment.afterUpdate(async () => {

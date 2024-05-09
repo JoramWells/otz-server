@@ -82,7 +82,7 @@ export class PatientRepository implements IPatientRepository {
     if (cachedPatients === null) {
       return []
     }
-    await this.redisClient.disconnect()
+    // await this.redisClient.disconnect()
     logger.info({ message: 'Fetched from cache!' })
     console.log('fetched from cache!')
 
@@ -91,33 +91,38 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async findById (id: string): Promise<PatientEntity | null> {
-    await this.redisClient.connect()
-    if (await this.redisClient.get(id) === null) {
-      const results: Patient | null = await Patient.findOne({
-        where: {
-          id
-        }
-      })
+    // await this.redisClient.connect()
+    // if (await this.redisClient.get(id) === null) {
+    //   const results: Patient | null = await Patient.findOne({
+    //     where: {
+    //       id
+    //     }
+    //   })
 
-      const patientResults: PatientEntity = {
-        firstName: results?.firstName,
-        middleName: results?.middleName,
-        sex: results?.sex,
-        phoneNo: results?.phoneNo,
-        idNo: results?.idNo,
-        occupationID: results?.occupationID
+    //   const patientResults: PatientEntity = {
+    //     firstName: results?.firstName,
+    //     middleName: results?.middleName,
+    //     sex: results?.sex,
+    //     phoneNo: results?.phoneNo,
+    //     idNo: results?.idNo,
+    //     occupationID: results?.occupationID
+    //   }
+    //   await this.redisClient.set(id, JSON.stringify(patientResults))
+
+    //   return patientResults
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id)
+    // if (cachedData === null) {
+    //   return null
+    // }
+    // const results: PatientEntity = JSON.parse(cachedData)
+    // console.log('fetched patient from cace!')
+    const results: Patient | null = await Patient.findOne({
+      where: {
+        id
       }
-      await this.redisClient.set(id, JSON.stringify(patientResults))
-
-      return patientResults
-    }
-
-    const cachedData: string | null = await this.redisClient.get(id)
-    if (cachedData === null) {
-      return null
-    }
-    const results: PatientEntity = JSON.parse(cachedData)
-    console.log('fetched from cace!')
+    })
 
     return results
   }

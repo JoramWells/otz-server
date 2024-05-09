@@ -17,13 +17,13 @@ export class ArticleController {
     try {
       console.log(req.body);
       const newProfile = await this.interactor.createArticle(data);
-      res.json(newProfile);
+      res.sendStatus(200).json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
       //   });
       next();
     } catch (error) {
-      // console.log(error)
+      console.log(error)
 
       next(error);
     }
