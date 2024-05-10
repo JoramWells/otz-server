@@ -123,6 +123,10 @@ export class PatientRepository implements IPatientRepository {
         id
       }
     })
+    if (results === null) {
+      console.log(results, 'resultx')
+    }
+    console.log(results, 'founde')
 
     return results
   }

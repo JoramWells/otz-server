@@ -14,64 +14,70 @@ const Patient = sequelize.define(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
-      defaultValue: UUIDV4,
+      // autoIncrement: true,
+      defaultValue: UUIDV4
     },
     firstName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     middleName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     lastName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     sex: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     dob: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATEONLY
     },
     phoneNo: {
       type: DataTypes.STRING,
+      defaultValue: '',
+      unique: false
     },
     occupationID: {
       type: DataTypes.UUID,
-      allowNull: true,
+      allowNull: true
     },
     idNo: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     cccNo: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
-    // mflCode: {
-    //   type: DataTypes.STRING,
-    // },
+    entryPoint: {
+      type: DataTypes.STRING
+    },
     // residence: {
     //   type: DataTypes.STRING,
     // },
 
     ageAtReporting: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     },
     dateConfirmedPositive: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE
     },
     initialRegimen: {
       type: DataTypes.STRING,
-      allowNull: true,
-
+      allowNull: true
     },
     populationType: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     schoolID: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER
     },
     hospitalID: {
-      type: DataTypes.INTEGER,
-    },
+      type: DataTypes.UUID
+    }
+  // notifications: {
+  //   type: DataTypes.JSONB,
+  //   allowNull: true,
+  //   defaultValue: {}
+  // }
   },
   {
     postgresql: {

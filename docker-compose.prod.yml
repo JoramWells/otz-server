@@ -230,7 +230,7 @@ services:
 
 
     ports:
-      - 8081:8081
+      - 80:80
     # deploy:
     #   mode: replicated
     #   replicas: 2

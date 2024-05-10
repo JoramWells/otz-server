@@ -6,6 +6,8 @@ import { UptakeEntity } from '../../../domain/entities/treatmentplan/UptakeEntit
 import { Uptake, UptakeAttributes } from '../../../domain/models/treatmentplan/uptake.model';
 import { RedisAdapter } from '../redisAdapter'
 import { Sequelize } from 'sequelize';
+import { TimeAndWork } from '../../../domain/models/treatmentplan/timeAndWork.model';
+import { Patient } from '../../../domain/models/patients.models';
 
 
 export class PillUptakeRepository implements IPillUptakeRepository {
@@ -45,7 +47,18 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(pillUptakeCache)) === null) {
-      const results = await Uptake.findAll({});
+      const results = await Uptake.findAll({
+        include: {
+          // where: whereCondition,
+          model: TimeAndWork,
+          attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
+          include: {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName"],
+          },
+        },
+      });
+
       // logger.info({ message: "Fetched from db!" });
       // console.log("fetched from db!");
       // set to cace
