@@ -226,8 +226,9 @@ services:
     image: nginx:alpine
     volumes:
       - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx/ssl:/etc/nginx/ssl
-      # - ./nginx/ssl/otzplus.key:/etc/nginx/ssl/otzplus.key
+      # - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/ssl/otzplus.key:/etc/nginx/ssl/otzplus.crt
+      - ./nginx/ssl/otzplus.key:/etc/nginx/ssl/otzplus.key
 
 
     ports:
