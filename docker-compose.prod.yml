@@ -233,6 +233,7 @@ services:
 
     ports:
       - 80:80
+      - 443:443
     # deploy:
     #   mode: replicated
     #   replicas: 2
