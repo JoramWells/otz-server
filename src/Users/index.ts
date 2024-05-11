@@ -19,9 +19,9 @@ const patientRoutes = require('./routes/patient.routes')
 const app: Application = express()
 
 const PORT = process.env.PORT || 5001
-// const corsOption = {
-//   origin: ['*']
-// }
+const corsOption = {
+  origin: ['*']
+}
 app.use(morgan('dev'))
 
 app.use(express.json())
@@ -30,7 +30,7 @@ app.use(express.urlencoded({
 }))
 
 // enable cors
-app.use(cors())
+app.use(cors(corsOption))
 
 // confirm cors
 app.use('/patients', patientRoutes)
@@ -45,6 +45,6 @@ connect.authenticate().then(() => {
   console.error('Unable to connect to database: ', error)
 })
 
-app.listen(5001, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`)
 })
