@@ -233,7 +233,6 @@ services:
       - ./ssl/www_otzpluz_xyz_chain.crt:/etc/ssl/www_otzpluz_xyz_chain.crt
       
 
-
     ports:
       - 80:80
       - 443:443
