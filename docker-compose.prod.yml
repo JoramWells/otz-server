@@ -229,6 +229,8 @@ services:
       # - ./nginx/ssl:/etc/nginx/ssl
       - ./ssl/otzplus.crt:/etc/ssl/otzplus.crt
       - ./ssl/otzplus.key:/etc/ssl/otzplus.key
+      - ./ssl/www_otzplus_xyz.crt:/etc/ssl/www_otzplus_xyz.crt
+      
 
 
     ports:
