@@ -227,7 +227,7 @@ services:
     volumes:
       - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
       # - ./nginx/ssl:/etc/nginx/ssl
-      - ./ssl/otzplus.key:/etc/ssl/otzplus.crt
+      - ./ssl/otzplus.crt:/etc/ssl/otzplus.crt
       - ./ssl/otzplus.key:/etc/ssl/otzplus.key
 
 
