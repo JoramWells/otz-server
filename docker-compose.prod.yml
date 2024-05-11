@@ -230,6 +230,7 @@ services:
       - ./ssl/otzplus.crt:/etc/ssl/otzplus.crt
       - ./ssl/otzplus.key:/etc/ssl/otzplus.key
       - ./ssl/www_otzplus_xyz.crt:/etc/ssl/www_otzplus_xyz.crt
+      - ./ssl/www_otzpluz_xyz_chain.crt:/etc/ssl/www_otzpluz_xyz_chain.crt
       
 
 
