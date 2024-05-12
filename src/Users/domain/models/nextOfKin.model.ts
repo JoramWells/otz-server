@@ -6,9 +6,9 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 import { Patient } from './patients.models'
 
-export interface CaregiverInterface {
+export interface NextOfKinInterface {
   id?: string
-  patientID: string
+  patientID?: string
   firstName: string
   middleName: string
   lastName?: string
@@ -17,29 +17,25 @@ export interface CaregiverInterface {
   dob: string
   phoneNo: string
   drugs?: string
-  careerID: string
-  maritalStatus: string
+  certificateNo?: string
   idNo: string
   relationship: string
-  countyID: string
 }
 
-export class Caregiver extends Model<CaregiverInterface> {
+export class NextOfKin extends Model<NextOfKinInterface> {
   firstName!: string
   middleName!: string
+  certificateNo: string | undefined
   phoneNo!: string
   sex!: string
   dob!: string
   idNo!: string
-  countyID!: string
-  careerID!: string
-  patientID!: string
-  maritalStatus!: string
+  patientID: string | undefined
   relationship!: string
   email: string | undefined
 }
 
-Caregiver.init(
+NextOfKin.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -78,29 +74,21 @@ Caregiver.init(
     relationship: {
       type: DataTypes.STRING
     },
-    countyID: {
-      type: DataTypes.STRING
-    },
-    drugs: {
-      type: DataTypes.STRING
-    },
-    careerID: {
-      type: DataTypes.STRING
-    },
-    maritalStatus: {
+    certificateNo: {
       type: DataTypes.STRING
     }
+
   },
   {
     sequelize: connect,
 
-    tableName: 'caregivers'
+    tableName: 'nextOfKin'
   }
 )
 
-Caregiver.belongsTo(Patient, { foreignKey: 'patientID' })
+NextOfKin.belongsTo(Patient, { foreignKey: 'patientID' })
 
-// sequelize.sync()
+// connect.sync()
 // console.log('User Table synced successfully')
 
 // export { Caregiver }

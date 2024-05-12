@@ -2,8 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const School = require("../models/school.model");
-
+const School = require('../models/school.model');
 
 // using *Patients model
 const addSchool = async (req, res, next) => {
@@ -21,7 +20,12 @@ const addSchool = async (req, res, next) => {
 // get all priceListItems
 const getAllSchools = async (req, res, next) => {
   try {
-    const results = await School.findAll();
+    const results = await School.findAll({
+      limit: 100,
+      where: {
+        level: 'ECD/PRE-PRIMARY SCHOOL',
+      },
+    });
     res.json(results);
     next();
   } catch (error) {

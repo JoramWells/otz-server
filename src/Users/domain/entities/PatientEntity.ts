@@ -16,6 +16,7 @@ export class PatientEntity implements PatientAttributes {
     public populationType?: string,
     public schoolID?: string,
     public hospitalID?: string,
+    public subCountyName?: string,
     //
     public id?: string,
     public lastName?: string

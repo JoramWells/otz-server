@@ -23,6 +23,7 @@ export interface PatientAttributes {
   schoolID?: string
   hospitalID?: string
   entryPoint?: string
+  subCountyName?: string
 }
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
@@ -42,6 +43,7 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   populationType?: string | undefined
   schoolID?: string | undefined
   hospitalID?: string | undefined
+  subCountyName?: string | undefined
 }
 
 Patient.init(
@@ -85,9 +87,9 @@ Patient.init(
     entryPoint: {
       type: DataTypes.STRING
     },
-    // residence: {
-    //   type: DataTypes.STRING,
-    // },
+    subCountyName: {
+      type: DataTypes.STRING
+    },
 
     ageAtReporting: {
       type: DataTypes.DATE

@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
 import { patientCache } from '../../constants'
+import { connect } from '../../domain/db/connect'
+import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
 import { type PatientEntity } from '../../domain/entities/PatientEntity'
 import { Hospital } from '../../domain/models/hospital/hospital.model'
-import { Patient, type PatientAttributes } from '../../domain/models/patients.models'
+import { NextOfKin } from '../../domain/models/nextOfKin.model'
+import { Patient } from '../../domain/models/patients.models'
 import { School } from '../../domain/models/school/school.model'
 import { logger } from '../../utils/logger'
 // import { createClient } from 'redis'
@@ -16,36 +20,36 @@ export class PatientRepository implements IPatientRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create (data: PatientEntity): Promise<PatientEntity> {
-    const { firstName, middleName, lastName, dob, phoneNo, cccNo, dateConfirmedPositive, ageAtReporting, populationType, occupationID, sex, hospitalID, initialRegimen, schoolID, idNo } = data
-    const results: PatientAttributes = await Patient.create({
-      firstName,
-      middleName,
-      lastName,
-      dob,
-      phoneNo,
-      cccNo,
-      dateConfirmedPositive,
-      ageAtReporting,
-      populationType,
-      occupationID,
-      sex,
-      hospitalID,
-      initialRegimen,
-      schoolID,
-      idNo
-    })
-    const patientEntity: PatientEntity = {
-      id: results.id,
-      firstName: results.firstName,
-      middleName,
-      sex,
-      occupationID,
-      phoneNo,
-      idNo
-    }
+  async create (data: PatientEntity, nextOfKinData: NextOfKinEntity): Promise<string | null> {
+    // const { firstName, middleName, lastName, dob, phoneNo, cccNo, occupationID, sex, hospitalID, schoolID, idNo } = data
+    console.log(nextOfKinData)
+    let results = ''
+    await connect.transaction(async (t) => {
+      const results = await Patient.create(data, { transaction: t })
 
-    return patientEntity
+      //
+      if (results) {
+        const patientID = results.id
+        await NextOfKin.create({
+          patientID,
+          ...nextOfKinData
+        }, { transaction: t })
+      }
+    }).then(() => {
+      results = 'Successfully registered a New Patient'
+    })
+
+    // const patientEntity: PatientEntity = {
+    //   id: results.id,
+    //   firstName: results.firstName,
+    //   middleName,
+    //   sex,
+    //   occupationID,
+    //   phoneNo,
+    //   idNo
+    // }
+
+    return results
   }
 
   async find (): Promise<PatientEntity[]> {

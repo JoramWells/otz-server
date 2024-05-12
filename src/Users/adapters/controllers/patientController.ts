@@ -3,6 +3,8 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { logger } from '../../utils/logger'
+import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
+import { type PatientEntity } from '../../domain/entities/PatientEntity'
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PatientController {
@@ -13,16 +15,60 @@ export class PatientController {
   }
 
   async onCreatePatient (req: Request, res: Response, next: NextFunction) {
+    const {
+      firstName,
+      middleName,
+      lastName,
+      gender,
+      DOB,
+      phoneNo,
+      occupationID,
+      idNo,
+      cccNo,
+      subCountyName,
+
+      kinFirstName,
+      kinLastName,
+      kinGender,
+      kinDOB,
+      kinIDNo,
+      nextOfKinPhoneNo,
+      relationship
+    } = req.body
+
+    const patientData: PatientEntity = {
+      firstName,
+      middleName,
+      lastName,
+      sex: gender,
+      dob: DOB,
+      phoneNo,
+      occupationID,
+      idNo,
+      cccNo,
+      subCountyName
+    }
+
+    const nextOfKinData: NextOfKinEntity = {
+      relationship,
+      certificateNo: '',
+      firstName: kinFirstName,
+      middleName: kinLastName,
+      sex: kinGender,
+      dob: kinDOB,
+      idNo: kinIDNo,
+      phoneNo: nextOfKinPhoneNo
+    }
     try {
-      console.log(req.body)
-      const newProfile = await this.interactor.createPatient(req.body)
-      res.json(newProfile)
+      // console.log(nextOfKinData)
+      await this.interactor.createPatient(patientData, nextOfKinData)
+      res.sendStatus(200)
       logger.info({ message: 'Created New Patient Successfully! ~' + req.body.firstName })
       next()
     } catch (error) {
-      // console.log(error)
+      console.log(error)
       logger.error(error)
-
+      res.status(500).json({ message: 'Internal Server Error' })
       next(error)
     }
   }

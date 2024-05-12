@@ -13,6 +13,9 @@ const School = sequelize.define('schools', {
   schoolName: {
     type: DataTypes.STRING,
   },
+  region: {
+    type: DataTypes.STRING,
+  },
   countyName: {
     type: DataTypes.STRING,
   },
@@ -20,7 +23,7 @@ const School = sequelize.define('schools', {
   subCountyName: {
     type: DataTypes.STRING,
   },
-  constituency: {
+  ward: {
     type: DataTypes.STRING,
   },
   division: {
@@ -48,7 +51,7 @@ const School = sequelize.define('schools', {
   latitude: {
     type: DataTypes.STRING,
   },
-  classrooms: {
+  noClassrooms: {
     type: DataTypes.STRING,
   },
 }, { timestamps: false });

@@ -186,42 +186,41 @@ services:
     networks:
       - otz
 
-  # client:
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   image: otz-client
-  #   # container_name: huruma-frontendv2
-  #   volumes:
-  #     - ./client:/usr/src/app
-  #     - /usr/src/app/node_modules
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    image: otz-client
+    # container_name: huruma-frontendv2
+    volumes:
+      - ../client:/usr/src/app
+      - /usr/src/app/node_modules
 
-  #   deploy:
-  #     # mode: replicated
-  #     # replicas: 5
-  #     # placement:
-  #     #   max_replicas_per_node: 1
-  #     # update_config:
-  #     #   parallelism: 2
-  #     #   delay: 10s
-  #     # restart_policy:
-  #     #   condition: on-failure    
-  #     resources:
-  #       limits:
-  #         cpus: '0.50'
-  #         # memory: 1000M
+    deploy:
+      # mode: replicated
+      # replicas: 5
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.50'
+          # memory: 1000M
 
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - enrollment
-  #     - users
-  #     - school
-  #     - lab
-  #     - root
-  #     - appointment    
-  #   networks:
-  #     - otz
+    ports:
+      - "3000:3000"
+    depends_on:
+      - users
+      - school
+      - lab
+      - root
+      - appointment    
+    networks:
+      - otz
 
   nginx:
     image: nginx:alpine
@@ -255,7 +254,7 @@ services:
       - school
       - lab
       - appointment    
-      # - client
+      - client
     networks:
       - otz
 
