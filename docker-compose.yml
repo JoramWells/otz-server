@@ -101,6 +101,22 @@ services:
     networks:
       - otz
 
+  pharmacy:
+    build:
+      context: ./src/Pharmacy
+      dockerfile: Dockerfile
+    image: pharmacy-image
+    volumes:
+      - ./src/Pharmacy/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5003:5003
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - otz  
+
 
   root:
     build:

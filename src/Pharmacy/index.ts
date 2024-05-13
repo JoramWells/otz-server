@@ -1,0 +1,49 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable max-len */
+/* eslint-disable no-unused-vars */
+/* eslint-disable linebreak-style */
+import express, { type Application } from 'express'
+import morgan from 'morgan'
+
+import { connect } from './domain/db/connect'
+import { userRoutes } from './routes/user.routes'
+
+import { nextOfKinRouter } from './routes/nextOfKin.routes'
+import { patientVisitRouter } from './routes/patientVisits.routes'
+const cors = require('cors')
+const patientRoutes = require('./routes/patient.routes')
+
+const app: Application = express()
+
+const PORT = process.env.PORT || 5003
+const corsOption = {
+  origin: ['*']
+}
+app.use(morgan('dev'))
+
+app.use(express.json())
+app.use(express.urlencoded({
+  extended: true
+}))
+
+// enable cors
+app.use(cors(corsOption))
+
+// confirm cors
+app.use('/patients', patientRoutes)
+app.use('/patient-visits', patientVisitRouter)
+app.use('/users', userRoutes)
+app.use('/next-of-kin', nextOfKinRouter)
+
+connect.authenticate().then(() => {
+  console.log('Connected to database successfully')
+}).catch((error: Error) => {
+  console.error('Unable to connect to database: ', error)
+})
+
+app.listen(PORT, () => {
+  console.log(`App running on http://localhost:${PORT}`)
+})
