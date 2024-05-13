@@ -14,6 +14,7 @@ import { caregiverRoutes } from './routes/caregiver.routes'
 import { caseManagerRoutes } from './routes/caseManager.routes'
 import { otzRouter } from './routes/enrollment/otz.routes'
 import { nextOfKinRouter } from './routes/nextOfKin.routes'
+import { patientVisitRouter } from './routes/patientVisits.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
 
@@ -35,6 +36,7 @@ app.use(cors(corsOption))
 
 // confirm cors
 app.use('/patients', patientRoutes)
+app.use('/patient-visits', patientVisitRouter)
 app.use('/caregiver', caregiverRoutes)
 app.use('/casemanager', caseManagerRoutes)
 app.use('/users', userRoutes)

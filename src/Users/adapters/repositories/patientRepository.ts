@@ -8,6 +8,7 @@ import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
 import { type PatientEntity } from '../../domain/entities/PatientEntity'
 import { Hospital } from '../../domain/models/hospital/hospital.model'
 import { NextOfKin } from '../../domain/models/nextOfKin.model'
+import { PatientVisits } from '../../domain/models/patientVisits.model'
 import { Patient } from '../../domain/models/patients.models'
 import { School } from '../../domain/models/school/school.model'
 import { logger } from '../../utils/logger'
@@ -34,6 +35,9 @@ export class PatientRepository implements IPatientRepository {
           patientID,
           ...nextOfKinData
         }, { transaction: t })
+
+        // create new visit
+        await PatientVisits.create({ patientID }, { transaction: t })
       }
     }).then(() => {
       results = 'Successfully registered a New Patient'
