@@ -12,7 +12,7 @@ export interface MeasuringUnitInterface {
 
 export class MeasuringUnit extends Model<MeasuringUnitInterface> {
   id!: string
-  description!: Date
+  description!: string
 }
 
 MeasuringUnit.init(

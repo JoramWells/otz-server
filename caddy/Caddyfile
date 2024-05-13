@@ -1,8 +1,0 @@
-{
-    email jorammanoah1@gmail.com
-}
-
-localhost:8082 {
-    reverse_proxy /appointment/* appointment:5005
-    redir https://{host}{uri}
-}

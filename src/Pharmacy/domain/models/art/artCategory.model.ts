@@ -25,7 +25,7 @@ export interface ArtCategoryInterface {
 
 export class ArtCategory extends Model<ArtCategoryInterface> {
   id!: string
-  artCategoryDescription!: Date
+  artCategoryDescription!: string
   ageLine!: AgeLine
   artPhase!: ArtPhase
 }

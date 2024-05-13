@@ -9,12 +9,11 @@ import express, { type Application } from 'express'
 import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
-import { userRoutes } from './routes/user.routes'
 
-import { nextOfKinRouter } from './routes/nextOfKin.routes'
-import { patientVisitRouter } from './routes/patientVisits.routes'
+import { artRouter } from './routes/art.routes'
+import { measuringUnitRouter } from './routes/measuringUnit.routes'
+import { artCategoryRouter } from './routes/artCategory.routes'
 const cors = require('cors')
-const patientRoutes = require('./routes/patient.routes')
 
 const app: Application = express()
 
@@ -33,10 +32,9 @@ app.use(express.urlencoded({
 app.use(cors(corsOption))
 
 // confirm cors
-app.use('/patients', patientRoutes)
-app.use('/patient-visits', patientVisitRouter)
-app.use('/users', userRoutes)
-app.use('/next-of-kin', nextOfKinRouter)
+app.use('/art-regimen', artRouter)
+app.use('/art-regimen-category', artCategoryRouter)
+app.use('/measuring-unit', measuringUnitRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

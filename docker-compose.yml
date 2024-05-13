@@ -234,7 +234,8 @@ services:
       - school
       - lab
       - root
-      - appointment    
+      - appointment  
+      - pharmacy  
     networks:
       - otz
 
@@ -271,6 +272,8 @@ services:
       - lab
       - appointment    
       - client
+      - pharmacy  
+
     networks:
       - otz
 

@@ -11,18 +11,18 @@ export interface ARTInterface {
   id: string
   artName: string
   artCategoryID: string
-  measuringUnitID: Date
-  quantity: boolean
-  expiryDate: string
+  measuringUnitID: string
+  quantity: number
+  expiryDate: Date
 }
 
 export class ART extends Model<ARTInterface> {
   id!: string
   artName!: string
   artCategoryID!: string
-  measuringUnitID!: Date
-  quantity!: boolean
-  expiryDate!: string
+  measuringUnitID!: string
+  quantity!: number
+  expiryDate!: Date
 }
 
 ART.init(
