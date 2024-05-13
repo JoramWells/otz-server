@@ -13,6 +13,7 @@ import { connect } from './domain/db/connect'
 import { artRouter } from './routes/art.routes'
 import { measuringUnitRouter } from './routes/measuringUnit.routes'
 import { artCategoryRouter } from './routes/artCategory.routes'
+import { artSwitchReasonRouter } from './routes/artSwitcReason.routes'
 const cors = require('cors')
 
 const app: Application = express()
@@ -21,6 +22,7 @@ const PORT = process.env.PORT || 5003
 const corsOption = {
   origin: ['*']
 }
+
 app.use(morgan('dev'))
 
 app.use(express.json())
@@ -35,6 +37,7 @@ app.use(cors(corsOption))
 app.use('/art-regimen', artRouter)
 app.use('/art-regimen-category', artCategoryRouter)
 app.use('/measuring-unit', measuringUnitRouter)
+app.use('/art-switch-reason', artSwitchReasonRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

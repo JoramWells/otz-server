@@ -4,41 +4,29 @@
 import { type IARTRepository } from '../../application/interfaces/art/IARTRepository'
 import { type ARTEntity } from '../../domain/entities/art/ARTEntity'
 import { ART } from '../../domain/models/art/art.model'
+import { ArtCategory } from '../../domain/models/art/artCategory.model'
+import { MeasuringUnit } from '../../domain/models/art/measuringUnit.model'
 
 export class ARTRepository implements IARTRepository {
   async create (data: ARTEntity): Promise<ARTEntity> {
-    // const {
-    //   firstName,
-    //   middleName,
-    //   lastName,
-    //   dob,
-    //   phoneNo,
-    //   sex,
-    //   idNo,
-    //   email,
-    //   countyID,
-    //   password
-    // } = data
-
     const results: ARTEntity = await ART.create(data)
-    // const ARTEntity: ARTEntity = {
-    //   id: results.id,
-    //   firstName: results.firstName,
-    //   middleName,
-    //   sex,
-    //   countyID,
-    //   phoneNo,
-    //   idNo,
-    //   lastName: '',
-    //   dob: '',
-    //   email: '',
-    //   password: ''
-    // }
+
     return results
   }
 
   async find (): Promise<ARTEntity[]> {
-    const results = await ART.findAll({})
+    const results = await ART.findAll({
+      include: [
+        {
+          model: ArtCategory,
+          attributes: ['id', 'artCategoryDescription']
+        },
+        {
+          model: MeasuringUnit,
+          attributes: ['description']
+        }
+      ]
+    })
     return results
   }
 

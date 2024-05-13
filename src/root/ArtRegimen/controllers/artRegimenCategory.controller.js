@@ -22,12 +22,12 @@ const addArtRegimenCategory = async (req, res, next) => {
 const getAllArtRegimenCategories = async (req, res, next) => {
   try {
     const patients = await Art_category.findAll({
-      include:[
+      include: [
         {
           model: ArtRegimenPhase,
-          attributes:['artPhaseDescription']
-        }
-      ]
+          attributes: ['artPhaseDescription'],
+        },
+      ],
     });
     res.json(patients);
     next();
