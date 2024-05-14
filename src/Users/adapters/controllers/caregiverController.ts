@@ -15,7 +15,7 @@ export class CaregiverController {
     try {
       console.log(req.body)
       const newProfile = await this.interactor.createCaregiver(req.body)
-      res.json(newProfile)
+      res.status(200).json(newProfile)
       next()
     } catch (error) {
       console.log(error)

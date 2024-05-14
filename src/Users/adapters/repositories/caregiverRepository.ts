@@ -8,33 +8,8 @@ import { Patient } from '../../domain/models/patients.models'
 
 export class CaregiverRepository implements ICaregiverRepository {
   async create (data: CaregiverEntity): Promise<CaregiverEntity> {
-    // const {
-    //   firstName,
-    //   middleName,
-    //   lastName,
-    //   dob,
-    //   phoneNo,
-    //   sex,
-    //   idNo,
-    //   email,
-    //   countyID,
-    //   password
-    // } = data
-
     const results: CaregiverEntity = await Caregiver.create(data)
-    // const caregiverEntity: CaregiverEntity = {
-    //   id: results.id,
-    //   firstName: results.firstName,
-    //   middleName,
-    //   sex,
-    //   countyID,
-    //   phoneNo,
-    //   idNo,
-    //   lastName: '',
-    //   dob: '',
-    //   email: '',
-    //   password: ''
-    // }
+
     return results
   }
 

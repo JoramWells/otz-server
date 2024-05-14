@@ -14,6 +14,7 @@ import { artRouter } from './routes/art.routes'
 import { measuringUnitRouter } from './routes/measuringUnit.routes'
 import { artCategoryRouter } from './routes/artCategory.routes'
 import { artSwitchReasonRouter } from './routes/artSwitcReason.routes'
+import { prescriptionRouter } from './routes/prescription.routes'
 const cors = require('cors')
 
 const app: Application = express()
@@ -30,7 +31,7 @@ app.use(express.urlencoded({
   extended: true
 }))
 
-// enable cors
+// enable cors *
 app.use(cors(corsOption))
 
 // confirm cors
@@ -38,6 +39,7 @@ app.use('/art-regimen', artRouter)
 app.use('/art-regimen-category', artCategoryRouter)
 app.use('/measuring-unit', measuringUnitRouter)
 app.use('/art-switch-reason', artSwitchReasonRouter)
+app.use('/prescription', prescriptionRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

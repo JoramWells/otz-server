@@ -10,7 +10,7 @@ import { ART } from './art.model'
 export interface PrescriptionInterface {
   id: string
   patientID: string
-  artID: string
+  drugID: string
   noOfPills: number
   frequency: number
   refillDate: Date
@@ -19,7 +19,7 @@ export interface PrescriptionInterface {
 export class Prescription extends Model<PrescriptionInterface> {
   id!: string
   patientID!: string
-  artID!: string
+  drugID!: string
   noOfPills!: number
   frequency!: number
   refillDate!: Date
@@ -39,8 +39,12 @@ Prescription.init(
         key: 'id'
       }
     },
-    artID: {
-      type: DataTypes.UUID
+    drugID: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'arts',
+        key: 'id'
+      }
     },
     noOfPills: {
       type: DataTypes.STRING
@@ -55,12 +59,12 @@ Prescription.init(
   {
     sequelize: connect,
 
-    tableName: 'pills'
+    tableName: 'prescriptions'
   }
 )
 
 Prescription.belongsTo(Patient, { foreignKey: 'patientID' })
-Prescription.belongsTo(ART, { foreignKey: 'artID' })
+Prescription.belongsTo(ART, { foreignKey: 'drugID' })
 
 // sequelize.sync()
 // console.log('User Table synced successfully')
