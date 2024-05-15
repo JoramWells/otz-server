@@ -21,9 +21,9 @@ const patientRoutes = require('./routes/patient.routes')
 const app: Application = express()
 
 const PORT = process.env.PORT || 5001
-const corsOption = {
-  origin: ['*']
-}
+// const corsOption = {
+//   origin: ['*']
+// }
 app.use(morgan('dev'))
 
 app.use(express.json())
@@ -32,7 +32,7 @@ app.use(express.urlencoded({
 }))
 
 // enable cors
-app.use(cors(corsOption))
+app.use(cors())
 
 // confirm cors
 app.use('/patients', patientRoutes)

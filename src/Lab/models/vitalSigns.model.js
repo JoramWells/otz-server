@@ -1,6 +1,7 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../db/connect');
 const Patient = require('./patient/patients.models');
+const PatientVisits = require('./patient/patientVisits.model');
 // const Patient = require('../../_Patient/models/patients.models');
 // const Patients = require('./patients.models');
 
@@ -15,6 +16,13 @@ const VitalSign = sequelize.define('vitalSigns', {
     type: DataTypes.UUID,
     references: {
       model: 'patients',
+      key: 'id',
+    },
+  },
+  patientVisitID:{
+    type: DataTypes.UUID,
+    references: {
+      model: 'patientVisits',
       key: 'id',
     },
   },
@@ -56,6 +64,7 @@ const VitalSign = sequelize.define('vitalSigns', {
 
 
 VitalSign.belongsTo(Patient, { foreignKey: 'patientID' });
+VitalSign.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' });
 
 // (async () => {
 //   await sequelize.sync();

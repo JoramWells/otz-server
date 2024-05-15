@@ -26,7 +26,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/vital-signs', vitalSignRoutes);
+app.use('/vital-sign', vitalSignRoutes);
 app.use('/internal-lab-request', internalLabRequestRoutes);
 app.use('/viral-load-tests', viralLoadTestRoutes);
 

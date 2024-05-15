@@ -43,7 +43,7 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       include: [
         {
           model: Patient,
-          attributes: ['firstName', 'middleName']
+          attributes: ['id', 'firstName', 'middleName']
         }
       ]
     })
@@ -51,7 +51,7 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
   }
 
   async findById (id: string): Promise<PatientVisitsEntity | null> {
-    const results = await PatientVisits.findAll({
+    const results = await PatientVisits.findOne({
       where: {
         patientID: id
       }
