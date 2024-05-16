@@ -20,7 +20,7 @@ const cors = require('cors')
 
 const app: Application = express()
 
-const PORT = process.env.PORT || 5003
+const PORT = process.env.PORT || 5006
 // const corsOption = {
 //   origin: ['*']
 // }

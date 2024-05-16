@@ -1,4 +1,4 @@
-import { type UserInterface } from '../models/user.model'
+import { type UserInterface } from '../models/allergies.model'
 
 export class UserEntity implements UserInterface {
   constructor (
