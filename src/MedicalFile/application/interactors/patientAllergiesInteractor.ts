@@ -2,7 +2,7 @@ import { type PatientAllergiesEntity } from '../../domain/entities/PatientAllerg
 import { type IPatientAllergiesInteractor } from '../interfaces/IPatientAllergiesInteractor'
 import { type IPatientAllergiesRepository } from '../interfaces/IPatientAllergiesRepository'
 
-export class patientAllergiesInteractor implements IPatientAllergiesInteractor {
+export class PatientAllergiesInteractor implements IPatientAllergiesInteractor {
   private readonly repository: IPatientAllergiesRepository
 
   constructor (repository: IPatientAllergiesRepository) {

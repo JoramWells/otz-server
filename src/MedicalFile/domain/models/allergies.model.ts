@@ -15,13 +15,13 @@ export interface AllergiesInterface {
   reaction: string
 }
 
-export class User extends Model<AllergiesInterface> {
-  id?: string | undefined
+export class Allergies extends Model<AllergiesInterface> {
+  id: string | undefined
   causativeAgent!: string
   reaction!: string
 }
 
-User.init(
+Allergies.init(
   {
     id: {
       type: DataTypes.UUID,

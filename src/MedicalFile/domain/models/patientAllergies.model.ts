@@ -10,17 +10,17 @@ const { DataTypes, UUIDV4 } = require('sequelize')
 // const County = require('./location/county.model')
 
 export interface PatientAllergiesInterface {
-  id?: string
+  id: string
   allergyID: string
   patientID: string
-  onSetDate?: Date
+  onSetDate: Date
 }
 
 export class PatientAllergies extends Model<PatientAllergiesInterface> {
-  id?: string | undefined
+  id!: string
   allergyID!: string
   patientID!: string
-  onSetDate!: string
+  onSetDate!: Date
 }
 
 PatientAllergies.init(

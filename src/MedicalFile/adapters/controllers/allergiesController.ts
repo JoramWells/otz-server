@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
-import { type IMeasuringUnitInteractor } from '../../application/interfaces/art/IMeasuringUnitInteractor'
+import { type IAllergiesInteractor } from '../../application/interfaces/IAllergiesInteractor'
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
-export class MeasuringUnitController {
-  private readonly interactor: IMeasuringUnitInteractor
+export class AllergiesController {
+  private readonly interactor: IAllergiesInteractor
 
-  constructor (interactor: IMeasuringUnitInteractor) {
+  constructor (interactor: IAllergiesInteractor) {
     this.interactor = interactor
   }
 
-  async onCreateMeasuringUnit (req: Request, res: Response, next: NextFunction) {
+  async onCreateAllergies (req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createMeasuringUnit(req.body)
+      const newProfile = await this.interactor.createAllergies(req.body)
       res.json(newProfile)
       next()
     } catch (error) {
@@ -23,12 +23,12 @@ export class MeasuringUnitController {
     }
   }
 
-  async onGetAllARTCategories (req: Request, res: Response, next: NextFunction) {
+  async onGetAllAllergies (req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllMeasuringUnits()
+      const results = await this.interactor.getAllAllergies()
       res.status(200).json(results)
       next()
     } catch (error) {
@@ -38,10 +38,10 @@ export class MeasuringUnitController {
     }
   }
 
-  async onGetMeasuringUnitById (req: Request, res: Response, next: NextFunction) {
+  async onGetAllergiesById (req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params
-      const result = await this.interactor.getMeasuringUnitById(id)
+      const result = await this.interactor.getAllergiesById(id)
       res.status(200).json(result)
       next()
     } catch (error) {

@@ -14,7 +14,7 @@ export interface ChronicIllnessInterface {
 }
 
 export class ChronicIllness extends Model<ChronicIllnessInterface> {
-  patientID: string | undefined
+  patientID!: string
   id!: string
   illness!: string
   onSetDate!: Date

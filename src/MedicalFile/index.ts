@@ -10,12 +10,10 @@ import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
 
-import { artRouter } from './routes/art.routes'
-import { measuringUnitRouter } from './routes/measuringUnit.routes'
-import { artCategoryRouter } from './routes/artCategory.routes'
-import { artSwitchReasonRouter } from './routes/artSwitcReason.routes'
-import { prescriptionRouter } from './routes/prescription.routes'
-import { artPrescriptionRouter } from './routes/artPrescription.routes'
+import { adverseDrugsReactionRepositoryRouter } from './routes/adverseDrugsReaction.routes'
+import { allergiesRouter } from './routes/allergies.routes'
+import { patientAllergiesRouter } from './routes/patientAllergies.routes'
+import { chronicIllnessRouter } from './routes/chronicIllness.routes'
 const cors = require('cors')
 
 const app: Application = express()
@@ -36,12 +34,10 @@ app.use(express.urlencoded({
 }))
 
 // confirm cors
-app.use('/art-regimen', artRouter)
-app.use('/art-regimen-category', artCategoryRouter)
-app.use('/measuring-unit', measuringUnitRouter)
-app.use('/art-switch-reason', artSwitchReasonRouter)
-app.use('/prescription', prescriptionRouter)
-app.use('/art-prescription', artPrescriptionRouter)
+app.use('/adverse-drugs', adverseDrugsReactionRepositoryRouter)
+app.use('/allergies', allergiesRouter)
+app.use('/chronic-illness', chronicIllnessRouter)
+app.use('/patient-allergies', patientAllergiesRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

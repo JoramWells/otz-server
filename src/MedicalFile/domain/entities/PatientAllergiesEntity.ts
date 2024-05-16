@@ -5,6 +5,6 @@ export class PatientAllergiesEntity implements PatientAllergiesInterface {
     public id: string,
     public allergyID: string,
     public patientID: string,
-    public onSetDate?: Date
+    public onSetDate: Date
   ) {}
 }

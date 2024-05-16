@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
-import { type IARTSwitchReasonInteractor } from '../../application/interfaces/art/IARTSwitchReasonInteractor'
+import { type IChronicIllnessInteractor } from '../../application/interfaces/IChronicIllnessInteractor'
 // import { createClient } from 'redis'
-// import { Patient } from '../../domain/entities/Patient'
-export class ARTSwitchReasonController {
-  private readonly interactor: IARTSwitchReasonInteractor
+export class ChronicIllnessController {
+  private readonly interactor: IChronicIllnessInteractor
 
-  constructor (interactor: IARTSwitchReasonInteractor) {
+  constructor (interactor: IChronicIllnessInteractor) {
     this.interactor = interactor
   }
 
-  async onCreateARTSwitchReason (req: Request, res: Response, next: NextFunction) {
+  async onCreateChronicIllness (req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createARTSwitchReasons(req.body)
+      const newProfile = await this.interactor.createChronicIllness(req.body)
       res.json(newProfile)
       next()
     } catch (error) {
@@ -23,12 +22,12 @@ export class ARTSwitchReasonController {
     }
   }
 
-  async onGetAllARTSwitchReasons (req: Request, res: Response, next: NextFunction) {
+  async onGetAllChronicIllness (req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllARTSwitchReasons()
+      const results = await this.interactor.getAllChronicIllness()
       res.status(200).json(results)
       next()
     } catch (error) {
@@ -38,10 +37,10 @@ export class ARTSwitchReasonController {
     }
   }
 
-  async onGetARTSwitchReasonByID (req: Request, res: Response, next: NextFunction) {
+  async onGetChronicIllnessById (req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params
-      const result = await this.interactor.getARTSwitchReasonsById(id)
+      const result = await this.interactor.getChronicIllnessById(id)
       res.status(200).json(result)
       next()
     } catch (error) {

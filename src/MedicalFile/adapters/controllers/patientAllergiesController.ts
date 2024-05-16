@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
-import { type IARTPrescriptionInteractor } from '../../application/interfaces/art/IARTPrescriptionInteractor'
+import { type IPatientAllergiesInteractor } from '../../application/interfaces/IPatientAllergiesInteractor'
 // import { createClient } from 'redis'
-// import { Patient } from '../../domain/entities/Patient'
-export class ARTPrescriptionController {
-  private readonly interactor: IARTPrescriptionInteractor
+export class PatientAllergiesController {
+  private readonly interactor: IPatientAllergiesInteractor
 
-  constructor (interactor: IARTPrescriptionInteractor) {
+  constructor (interactor: IPatientAllergiesInteractor) {
     this.interactor = interactor
   }
 
-  async onCreateARTPrescription (req: Request, res: Response, next: NextFunction) {
+  async onCreatePatientAllergies (req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createARTPrescription(req.body)
+      const newProfile = await this.interactor.createPatientAllergies(req.body)
       res.json(newProfile)
       next()
     } catch (error) {
@@ -23,12 +22,12 @@ export class ARTPrescriptionController {
     }
   }
 
-  async onGetAllARTPrescriptions (req: Request, res: Response, next: NextFunction) {
+  async onGetAllPatientAllergies (req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllARTPrescriptions()
+      const results = await this.interactor.getAllPatientAllergies()
       res.status(200).json(results)
       next()
     } catch (error) {
@@ -38,10 +37,14 @@ export class ARTPrescriptionController {
     }
   }
 
-  async onGetARTPrescriptionById (req: Request, res: Response, next: NextFunction) {
+  async onGetPatientAllergiesById (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params
-      const result = await this.interactor.getARTPrescriptionById(id)
+      const result = await this.interactor.getPatientAllergiesById(id)
       res.status(200).json(result)
       next()
     } catch (error) {

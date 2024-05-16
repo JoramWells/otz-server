@@ -20,7 +20,7 @@ export class AllergiesRepository implements IAllergiesRepository {
   async findById (id: string): Promise<AllergiesEntity | null> {
     const results = await Allergies.findOne({
       where: {
-        patientID: id
+        id
       }
     })
 

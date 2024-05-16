@@ -22,7 +22,7 @@ export class AdverseDrugReactions extends Model<AdverseDrugReactionsInterface> {
   medicine!: string
   reaction!: string
   actionTaken!: string
-  severity!: number
+  severity!: string
   onSetDate!: Date
 }
 
