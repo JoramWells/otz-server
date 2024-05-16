@@ -9,24 +9,22 @@ import express, { type Application } from 'express'
 import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
-
-
-import { adverseDrugsReactionRepositoryRouter } from './routes/adverseDrugsReaction.routes'
-import { allergiesRouter } from './routes/allergies.routes'
-import { patientAllergiesRouter } from './routes/patientAllergies.routes'
-import { chronicIllnessRouter } from './routes/chronicIllness.routes'
+import { userRoutes } from './routes/user.routes'
+import { caregiverRoutes } from './routes/caregiver.routes'
+import { caseManagerRoutes } from './routes/caseManager.routes'
+import { otzRouter } from './routes/enrollment/otz.routes'
+import { nextOfKinRouter } from './routes/nextOfKin.routes'
+import { patientVisitRouter } from './routes/patientVisits.routes'
+import { pamaRouter } from './routes/enrollment/pama.routes'
 const cors = require('cors')
+const patientRoutes = require('./routes/patient.routes')
 
 const app: Application = express()
 
-const PORT = process.env.PORT || 5006
+const PORT = process.env.PORT || 5001
 // const corsOption = {
 //   origin: ['*']
 // }
-
-// enable cors *
-app.use(cors())
-
 app.use(morgan('dev'))
 
 app.use(express.json())
@@ -34,11 +32,18 @@ app.use(express.urlencoded({
   extended: true
 }))
 
+// enable cors
+app.use(cors())
+
 // confirm cors
-app.use('/adverse-drugs', adverseDrugsReactionRepositoryRouter)
-app.use('/allergies', allergiesRouter)
-app.use('/chronic-illness', chronicIllnessRouter)
-app.use('/patient-allergies', patientAllergiesRouter)
+app.use('/patients', patientRoutes)
+app.use('/patient-visits', patientVisitRouter)
+app.use('/caregiver', caregiverRoutes)
+app.use('/casemanager', caseManagerRoutes)
+app.use('/users', userRoutes)
+app.use('/otz-enrollment', otzRouter)
+app.use('/pama-enrollment', pamaRouter)
+app.use('/next-of-kin', nextOfKinRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')
