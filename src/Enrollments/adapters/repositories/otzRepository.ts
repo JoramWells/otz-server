@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { type IOTZRepository } from '../../../application/interfaces/enrollment/IOTZRepository'
-import { type OTZEntity } from '../../../domain/entities/OTZEntity'
-import { OTZ } from '../../../domain/models/enrollment/otz.model'
-import { Patient } from '../../../domain/models/patients.models'
+import { type IOTZRepository } from '../../application/interfaces/IOTZRepository'
+import { type OTZEntity } from '../../domain/entities/OTZEntity'
+import { OTZ } from '../../domain/models/enrollment/otz.model'
+import { Patient } from '../../domain/models/patients.models'
 
 export class OTZRepository implements IOTZRepository {
   async create (data: OTZEntity): Promise<OTZEntity> {

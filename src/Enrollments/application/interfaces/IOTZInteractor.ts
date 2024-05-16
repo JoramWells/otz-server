@@ -1,4 +1,4 @@
-import { type OTZEntity } from '../../../domain/entities/OTZEntity'
+import { type OTZEntity } from '../../domain/entities/OTZEntity'
 
 export interface IOTZInteractor {
   createOTZ: (data: OTZEntity) => Promise<OTZEntity>

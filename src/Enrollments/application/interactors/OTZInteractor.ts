@@ -1,7 +1,7 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type OTZEntity } from '../../../domain/entities/OTZEntity'
-import { type IOTZInteractor } from '../../interfaces/enrollment/IOTZInteractor'
-import { type IOTZRepository } from '../../interfaces/enrollment/IOTZRepository'
+import { type OTZEntity } from '../../domain/entities/OTZEntity'
+import { type IOTZInteractor } from '../interfaces/IOTZInteractor'
+import { type IOTZRepository } from '../interfaces/IOTZRepository'
 
 export class OTZInteractor implements IOTZInteractor {
   private readonly repository: IOTZRepository

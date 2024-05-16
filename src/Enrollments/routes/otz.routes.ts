@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { OTZController } from '../../adapters/controllers/enrollment/otzController'
-import { OTZRepository } from '../../adapters/repositories/enrollment/otzRepository'
-import { OTZInteractor } from '../../application/interactors/enrollment/OTZInteractor'
+import { OTZController } from '../adapters/controllers/otzController'
+import { OTZRepository } from '../adapters/repositories/otzRepository'
+import { OTZInteractor } from '../application/interactors/OTZInteractor'
 
 import express from 'express'
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
-import { type IPAMAInteractor } from '../../../application/interfaces/enrollment/IPAMAInteractor'
+import { type IPAMAInteractor } from '../../application/interfaces/IPAMAInteractor'
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PAMAController {

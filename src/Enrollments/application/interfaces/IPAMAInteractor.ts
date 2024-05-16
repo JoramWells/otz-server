@@ -1,4 +1,4 @@
-import { type PAMAProfileEntity } from '../../../domain/entities/PAMAProfileEntity'
+import { type PAMAProfileEntity } from '../../domain/entities/PAMAProfileEntity'
 
 export interface IPAMAInteractor {
   createPAMA: (data: PAMAProfileEntity) => Promise<PAMAProfileEntity>

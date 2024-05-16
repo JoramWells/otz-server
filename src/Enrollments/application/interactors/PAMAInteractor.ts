@@ -1,7 +1,7 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type PAMAProfileEntity } from '../../../domain/entities/PAMAProfileEntity'
-import { type IPAMAInteractor } from '../../interfaces/enrollment/IPAMAInteractor'
-import { type IPAMARepository } from '../../interfaces/enrollment/IPAMARepository'
+import { type PAMAProfileEntity } from '../../domain/entities/PAMAProfileEntity'
+import { type IPAMAInteractor } from '../interfaces/IPAMAInteractor'
+import { type IPAMARepository } from '../interfaces/IPAMARepository'
 
 export class PAMAInteractor implements IPAMAInteractor {
   private readonly repository: IPAMARepository

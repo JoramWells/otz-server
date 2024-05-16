@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { PAMARepository } from '../../adapters/repositories/enrollment/pamaRepository'
+import { PAMARepository } from '../adapters/repositories/pamaRepository'
 
 import express from 'express'
-import { PAMAInteractor } from '../../application/interactors/enrollment/PAMAInteractor'
-import { PAMAController } from '../../adapters/controllers/enrollment/pamaController'
+import { PAMAInteractor } from '../application/interactors/PAMAInteractor'
+import { PAMAController } from '../adapters/controllers/pamaController'
 
 const repository = new PAMARepository()
 const interactor = new PAMAInteractor(repository)

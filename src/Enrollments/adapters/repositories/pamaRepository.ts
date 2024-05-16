@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { type IPAMARepository } from '../../../application/interfaces/enrollment/IPAMARepository'
-import { type PAMAProfileEntity } from '../../../domain/entities/PAMAProfileEntity'
-import { PAMAProfile } from '../../../domain/models/pama/pamaProfile.models'
-import { Patient } from '../../../domain/models/patients.models'
+import { type IPAMARepository } from '../../application/interfaces/IPAMARepository'
+import { type PAMAProfileEntity } from '../../domain/entities/PAMAProfileEntity'
+import { PAMAProfile } from '../../domain/models/pama/pamaProfile.models'
+import { Patient } from '../../domain/models/patients.models'
 
 export class PAMARepository implements IPAMARepository {
   async create (data: PAMAProfileEntity): Promise<PAMAProfileEntity> {
