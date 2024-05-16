@@ -117,6 +117,22 @@ services:
     networks:
       - otz  
 
+  medical-file:
+    build:
+      context: ./src/MedicalFile
+      dockerfile: Dockerfile
+    image: medical-file-image
+    volumes:
+      - ./src/MedicalFile/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5006:5006
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - otz  
+
 
   root:
     build:
