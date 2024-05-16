@@ -12,10 +12,8 @@ import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
 import { caregiverRoutes } from './routes/caregiver.routes'
 import { caseManagerRoutes } from './routes/caseManager.routes'
-import { otzRouter } from './routes/enrollment/otz.routes'
 import { nextOfKinRouter } from './routes/nextOfKin.routes'
 import { patientVisitRouter } from './routes/patientVisits.routes'
-import { pamaRouter } from './routes/enrollment/pama.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
 
@@ -41,8 +39,6 @@ app.use('/patient-visits', patientVisitRouter)
 app.use('/caregiver', caregiverRoutes)
 app.use('/casemanager', caseManagerRoutes)
 app.use('/users', userRoutes)
-app.use('/otz-enrollment', otzRouter)
-app.use('/pama-enrollment', pamaRouter)
 app.use('/next-of-kin', nextOfKinRouter)
 
 connect.authenticate().then(() => {
