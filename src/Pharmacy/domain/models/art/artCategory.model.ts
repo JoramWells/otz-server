@@ -7,8 +7,10 @@ import { connect } from '../../db/connect'
 
 export enum AgeLine {
   Pediatrics = 'pediatrics',
-  Adult = 'adult'
+  Adult = 'adults'
 }
+
+// artCategories;
 
 export enum ArtPhase {
   First = 'first line',

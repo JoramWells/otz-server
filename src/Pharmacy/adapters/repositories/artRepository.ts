@@ -19,7 +19,7 @@ export class ARTRepository implements IARTRepository {
       include: [
         {
           model: ArtCategory,
-          attributes: ['id', 'artCategoryDescription']
+          attributes: ['id', 'artCategoryDescription', 'artPhase']
         },
         {
           model: MeasuringUnit,

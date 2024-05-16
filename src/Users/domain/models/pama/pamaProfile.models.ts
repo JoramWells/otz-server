@@ -1,56 +1,54 @@
 /* eslint-disable camelcase */
-import { DataTypes } from 'sequelize';
-const sequelize = require('../db/connect');
+import { DataTypes, Model } from 'sequelize'
+import { connect } from '../../db/connect'
 
-const Patient = sequelize.define(
-  "patients",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      // defaultValue: UUIDV4,
-    },
-    firstName: {
-      type: DataTypes.STRING,
-    },
-    middleName: {
-      type: DataTypes.STRING,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-    },
-    gender: {
-      type: DataTypes.ENUM("MALE", "FEMALE"),
-    },
-    dob: {
-      type: DataTypes.DATEONLY,
-    },
-    phoneNo: {
-      type: DataTypes.STRING,
-    },
-    idNo: {
-      type: DataTypes.STRING,
-    },
-    nupi: {
-      type: DataTypes.STRING,
-    },
-    residence: {
-      type: DataTypes.STRING,
-    },
-    // mflCode: {
-    //   type: DataTypes.STRING,
-    // },
-    // cccNo: {
-    //   type: DataTypes.STRING,
-    // },
+export interface PAMAInterface {
+  id?: string
+  childID: string
+  primaryCaregiverID: string
+  dateOfEnrollment: Date
+  isPaired: boolean
+  noOfCaregivers: number
+}
+
+export class PAMAProfile extends Model<PAMAInterface> {
+  childID!: string
+  primaryCaregiverID!: string
+  dateOfEnrollment!: Date
+  isPaired!: boolean
+  noOfCaregivers!: number
+}
+
+PAMAProfile.init({
+  id: {
+    type: DataTypes.UUID,
+    primaryKey: true
+    // autoIncrement: true,
+    // defaultValue: UUIDV4,
   },
-  { timestamps: false }
-);
+  childID: {
+    type: DataTypes.STRING
+  },
+  primaryCaregiverID: {
+    type: DataTypes.STRING
+  },
+  dateOfEnrollment: {
+    type: DataTypes.STRING
+  },
+
+  isPaired: {
+    type: DataTypes.BOOLEAN
+  },
+  noOfCaregivers: {
+    type: DataTypes.STRING
+  }
+},
+{
+  sequelize: connect,
+  tableName: 'pamaProfile'
+})
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Patient Table synced successfully');
 // })();
-
-module.exports = Patient;

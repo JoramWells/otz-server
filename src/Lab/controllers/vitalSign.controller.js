@@ -34,14 +34,14 @@ const getVitalSignDetail = async (req, res, next) => {
   try {
     const patient = await VitalSign.findOne({
       where: {
-        cccno: id,
+        patientVisitID: id,
       },
     });
-    res.json(patient);
+    res.status(200).json(patient);
     next();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
     next(error);
   }
 };

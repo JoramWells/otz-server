@@ -15,6 +15,7 @@ import { measuringUnitRouter } from './routes/measuringUnit.routes'
 import { artCategoryRouter } from './routes/artCategory.routes'
 import { artSwitchReasonRouter } from './routes/artSwitcReason.routes'
 import { prescriptionRouter } from './routes/prescription.routes'
+import { artPrescriptionRouter } from './routes/artPrescription.routes'
 const cors = require('cors')
 
 const app: Application = express()
@@ -24,6 +25,9 @@ const PORT = process.env.PORT || 5003
 //   origin: ['*']
 // }
 
+// enable cors *
+app.use(cors())
+
 app.use(morgan('dev'))
 
 app.use(express.json())
@@ -31,15 +35,13 @@ app.use(express.urlencoded({
   extended: true
 }))
 
-// enable cors *
-app.use(cors())
-
 // confirm cors
 app.use('/art-regimen', artRouter)
 app.use('/art-regimen-category', artCategoryRouter)
 app.use('/measuring-unit', measuringUnitRouter)
 app.use('/art-switch-reason', artSwitchReasonRouter)
 app.use('/prescription', prescriptionRouter)
+app.use('/art-prescription', artPrescriptionRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')
