@@ -11,14 +11,18 @@ const { DataTypes, UUIDV4 } = require('sequelize')
 
 export interface PatientAllergiesInterface {
   id: string
-  allergyID: string
+  allergyName: string
+  allergyReaction: string
+  severity: string
   patientID: string
   onSetDate: Date
 }
 
 export class PatientAllergies extends Model<PatientAllergiesInterface> {
   id!: string
-  allergyID!: string
+  allergyName!: string
+  allergyReaction!: string
+  severity!: string
   patientID!: string
   onSetDate!: Date
 }
@@ -30,14 +34,20 @@ PatientAllergies.init(
       primaryKey: true,
       defaultValue: UUIDV4
     },
-    allergyID: {
+    allergyName: {
+      type: DataTypes.STRING
+    },
+    allergyReaction: {
+      type: DataTypes.STRING
+    },
+    severity: {
       type: DataTypes.STRING
     },
     patientID: {
       type: DataTypes.STRING
     },
     onSetDate: {
-      type: DataTypes.STRING
+      type: DataTypes.DATE
     }
   },
   {

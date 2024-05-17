@@ -58,23 +58,23 @@ services:
     volumes:
       - ./src/Users/:/usr/src/app
       - /usr/src/app/node_modules
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   placement:
-    #     max_replicas_per_node: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure    
-    #   resources:
-    #     limits:
-    #       cpus: '0.10'
-    #       memory: 400M
-    #     reservations:
-    #       cpus: '0.10'
-    #       memory: 400M
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M
     ports:
       - 5001:5001
     depends_on:
@@ -93,6 +93,23 @@ services:
     volumes:
       - ./src/Lab/:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M
     ports:
       - 5002:5002
     depends_on:
@@ -109,6 +126,23 @@ services:
     volumes:
       - ./src/Pharmacy/:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M   
     ports:
       - 5003:5003
     depends_on:
@@ -117,14 +151,31 @@ services:
     networks:
       - otz  
 
-  medical-file:
+  medicalfile:
     build:
       context: ./src/MedicalFile
       dockerfile: Dockerfile
-    image: medical-file-image
+    image: medicalfile-image
     volumes:
       - ./src/MedicalFile/:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M   
     ports:
       - 5006:5006
     depends_on:
@@ -141,6 +192,23 @@ services:
     volumes:
       - ./src/Enrollments/:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M   
     ports:
       - 5007:5007
     depends_on:
@@ -157,6 +225,23 @@ services:
     volumes:
       - ./src/root:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M  
     ports:
       - 5000:5000
     depends_on:
@@ -182,6 +267,24 @@ services:
     volumes:
       - ./src/School:/usr/src/app
       - /usr/src/app/node_modules
+
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 400M
+        reservations:
+          cpus: '0.10'
+          memory: 400M   
     ports:
       - 5004:5004
     depends_on:
@@ -199,23 +302,23 @@ services:
     volumes:
       - ./src/Appointment:/usr/src/app
       - /usr/src/app/node_modules
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   placement:
-    #     max_replicas_per_node: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure    
-    #   resources:
-    #     limits:
-    #       cpus: '0.10'
-    #       memory: 800M
-    #     reservations:
-    #       cpus: '0.10'
-    #       memory: 500M
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 800M
+        reservations:
+          cpus: '0.10'
+          memory: 500M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -303,7 +406,7 @@ services:
       - school
       - lab
       - appointment 
-      - medical-file   
+      - medicalfile   
       # - client
       - pharmacy  
 
