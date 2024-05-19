@@ -142,7 +142,7 @@ app.use("/follow-checklist", followUpChecklistRouter);
 
 
 connect.authenticate().then(() => {
-  console.log('Connected to database successfully!');
+  console.log('Connected to database Successfully!');
 }).catch((error) => {
   console.error('Unable to connect to database: ', error);
 });

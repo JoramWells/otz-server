@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 5001
 // const corsOption = {
 //   origin: ['*']
 // }
+
 app.use(morgan('dev'))
 
 app.use(express.json())

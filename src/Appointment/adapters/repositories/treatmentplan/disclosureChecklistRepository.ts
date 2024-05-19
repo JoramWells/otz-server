@@ -23,6 +23,7 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
 
   async find(): Promise<DisclosureChecklistEntity[]> {
     // await this.redisClient.connect();
+    
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
       const results = await DisclosureChecklist.findAll({});
