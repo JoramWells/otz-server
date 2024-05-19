@@ -4,6 +4,9 @@ export class TimeAndWorkEntity implements TimeAndWorkAttributes {
   constructor(
 
   ) {}
+  patientVisitID!: string;
+    morningWeekendPlace!: string;
+  eveningWeekendPlace!: string;
   id!: string;
   patientID!: string;
   wakeUpTime!: Date;

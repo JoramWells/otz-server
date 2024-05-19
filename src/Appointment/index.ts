@@ -17,6 +17,9 @@ import { articleCategoryRouter } from './routes/articles/articleCategory.routes'
 import { pillUptakeRouter } from './routes/treatmentplan/pillUptake.routes';
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
 import { dailyPillUpdate } from './utils/dailyPillUpdate';
+import { mmasRouter } from './routes/treatmentplan/mmas.routes';
+import { disclosureChecklistRouter } from './routes/treatmentplan/disclosureChecklist.routes';
+import { followUpChecklistRouter } from './routes/treatmentplan/followUpChecklist.routes';
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -127,12 +130,15 @@ const PORT = process.env.PORT || 5005;
 app.use('/appointments', appointmentRouter);
 app.use("/appointment-agenda", appointmentAgendaRouter);
 app.use("/appointment-status", appointmentStatusRouter);
-
+app.use("/mmas", mmasRouter);
 app.use("/articles", articleRouter);
 app.use("/articles-category", articleCategoryRouter);
 
 app.use("/daily-uptake", pillUptakeRouter);
 app.use("/time-and-work", timeAndWorkRouter);
+app.use("/disclosure-checklist", disclosureChecklistRouter);
+app.use("/follow-checklist", followUpChecklistRouter);
+
 
 
 connect.authenticate().then(() => {

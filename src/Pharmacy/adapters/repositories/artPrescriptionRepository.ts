@@ -3,6 +3,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { type IARTPrescriptionRepository } from '../../application/interfaces/art/IARTPrescriptionRepository'
 import { type ARTPrescriptionEntity } from '../../domain/entities/art/ARTPrescriptionEntity'
+import { ART } from '../../domain/models/art/art.model'
 import { ARTPrescription } from '../../domain/models/art/artPrescription.model'
 
 export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
@@ -13,7 +14,14 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   }
 
   async find (): Promise<ARTPrescriptionEntity[]> {
-    const results = await ARTPrescription.findAll({})
+    const results = await ARTPrescription.findAll({
+      include: [
+        {
+          model: ART,
+          attributes: ['artName']
+        }
+      ]
+    })
     return results
   }
 

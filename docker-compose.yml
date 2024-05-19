@@ -37,11 +37,11 @@ services:
     #     condition: on-failure    
     #   resources:
     #     limits:
-    #       cpus: '0.10'
-    #       memory: 400M
+    #       cpus: '0.50'
+    #       memory: 800M
     #     reservations:
-    #       cpus: '0.10'
-    #       memory: 400M
+    #       cpus: '0.50'
+    #       memory: 800M
     networks:
       - otz
     healthcheck:
@@ -70,11 +70,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
     ports:
       - 5001:5001
     depends_on:
@@ -105,11 +105,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
     ports:
       - 5002:5002
     depends_on:
@@ -138,11 +138,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M   
+          cpus: '0.50'
+          memory: 800M   
     ports:
       - 5003:5003
     depends_on:
@@ -171,11 +171,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M   
+          cpus: '0.50'
+          memory: 800M   
     ports:
       - 5006:5006
     depends_on:
@@ -204,11 +204,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M   
+          cpus: '0.50'
+          memory: 800M   
     ports:
       - 5007:5007
     depends_on:
@@ -237,11 +237,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M  
+          cpus: '0.50'
+          memory: 800M  
     ports:
       - 5000:5000
     depends_on:
@@ -280,11 +280,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
-          memory: 400M
+          cpus: '0.50'
+          memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 400M   
+          cpus: '0.50'
+          memory: 800M   
     ports:
       - 5004:5004
     depends_on:
@@ -314,11 +314,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.10'
+          cpus: '0.50'
           memory: 800M
         reservations:
-          cpus: '0.10'
-          memory: 500M
+          cpus: '0.50'
+          memory: 800M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -394,10 +394,10 @@ services:
     #   resources:
     #     limits:
     #       cpus: '0.05'
-    #       # memory: 400M
+    #       # memory: 800M
     #     reservations:
     #       cpus: '0.05'
-    #       # memory: 400M 
+    #       # memory: 800M 
 
     depends_on:
       - users

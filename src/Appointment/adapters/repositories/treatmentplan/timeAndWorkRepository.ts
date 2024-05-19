@@ -104,13 +104,17 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   }
 
   async findById(id: string): Promise<TimeAndWorkEntity | null> {
-    await this.redisClient.connect();
-    if ((await this.redisClient.get(id)) === null) {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
       const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
+        order:[['createdAt','DESC']],
         where: {
-          id,
+          patientVisitID:id,
         },
       });
+
+      console.log(results, 'resultX')
+      
 
       // const patientResults: AppointmentEntity = {
       //   firstName: results?.firstName,
@@ -120,17 +124,17 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       //   idNo: results?.idNo,
       //   occupationID: results?.occupationID,
       // };
-      await this.redisClient.set(id, JSON.stringify(results));
+    //   await this.redisClient.set(id, JSON.stringify(results));
 
-      return results;
-    }
+    //   return results;
+    // }
 
-    const cachedData: string | null = await this.redisClient.get(id);
-    if (cachedData === null) {
-      return null;
-    }
-    const results: TimeAndWorkAttributes = JSON.parse(cachedData);
-    console.log("fetched from cace!");
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: TimeAndWorkAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
 
     return results;
   }

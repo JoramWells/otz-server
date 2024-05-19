@@ -1,37 +1,28 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const TimeAndWork = require('./timeAndWork.model');
+const Patient = require('./patients.models');
 
-const Uptake = sequelize.define('uptake', {
+const PatientVisits = sequelize.define('patientVisits', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
-  timeAndWorkID: {
+  patientID: {
     type: DataTypes.UUID,
     references: {
-      model: 'timeAndWork',
+      model: 'patients',
       key: 'id',
     },
   },
-  currentDate: {
-    type: DataTypes.DATE,
-  },
-  morningStatus: {
-    type: DataTypes.BOOLEAN,
-  },
-  eveningStatus: {
-    type: DataTypes.BOOLEAN,
-  },
 });
 
-Uptake.belongsTo(TimeAndWork, { foreignKey: 'timeAndWorkID' });
+PatientVisits.belongsTo(Patient, { foreignKey: 'patientID' });
 
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Table synced successfully');
 // })();
 
-module.exports = Uptake;
+module.exports = PatientVisits;

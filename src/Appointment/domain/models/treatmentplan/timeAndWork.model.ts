@@ -2,15 +2,17 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { User } from "../user.model";
+import { PatientVisits } from "../patientVisits.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface TimeAndWorkAttributes {
   id: string;
-  patientID: string
-  wakeUpTime: Date
-  departureHomeTime: Date
-  arrivalWorkTime: Date
-  departureWorkTime: Date
+  patientID: string;
+  patientVisitID: string;
+  wakeUpTime: Date;
+  departureHomeTime: Date;
+  arrivalWorkTime: Date;
+  departureWorkTime: Date;
   arrivalHomeTime: Date;
   morningPlace: string;
   morningMedicineTime: Date;
@@ -19,6 +21,8 @@ export interface TimeAndWorkAttributes {
   medicineStorage: string;
   toolsAndCues: string;
   goal: string;
+  morningWeekendPlace: string;
+  eveningWeekendPlace: string;
 }
 
 export class TimeAndWork
@@ -27,6 +31,7 @@ export class TimeAndWork
 {
   id!: string;
   patientID!: string;
+  patientVisitID!: string;
   wakeUpTime!: Date;
   departureHomeTime!: Date;
   arrivalWorkTime!: Date;
@@ -39,7 +44,8 @@ export class TimeAndWork
   medicineStorage!: string;
   toolsAndCues!: string;
   goal!: string;
-
+  morningWeekendPlace!: string;
+  eveningWeekendPlace!: string;
 }
 
 TimeAndWork.init(
@@ -53,6 +59,13 @@ TimeAndWork.init(
       type: DataTypes.UUID,
       references: {
         model: "patients",
+        key: "id",
+      },
+    },
+    patientVisitID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patientVisits",
         key: "id",
       },
     },
@@ -92,6 +105,12 @@ TimeAndWork.init(
     goal: {
       type: DataTypes.STRING,
     },
+    morningWeekendPlace: {
+      type: DataTypes.STRING,
+    },
+    eveningWeekendPlace: {
+      type: DataTypes.STRING,
+    },
   },
   {
     sequelize: connect,
@@ -104,6 +123,7 @@ TimeAndWork.init(
 );
 
 TimeAndWork.belongsTo(Patient, {foreignKey:'patientID'})
+TimeAndWork.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // (async () => {
 // connect.sync()

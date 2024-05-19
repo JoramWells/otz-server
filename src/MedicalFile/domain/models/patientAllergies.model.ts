@@ -59,6 +59,6 @@ PatientAllergies.init(
 // User.belongsTo(County, { foreignKey: 'countyID' })
 
 // (async () => {
-//   await sequelize.sync();
-//   console.log('User Table synced successfully');
+// connect.sync()
+// console.log('User Table synced successfully')
 // })();

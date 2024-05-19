@@ -52,10 +52,10 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           // where: whereCondition,
           model: TimeAndWork,
           attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
-          include: {
+          include: [{
             model: Patient,
             attributes: ["id", "firstName", "middleName"],
-          },
+          }],
         },
       });
 
