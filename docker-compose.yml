@@ -54,7 +54,7 @@ services:
     build:
       context: ./src/Users
       dockerfile: Dockerfile
-    image: users-image
+    image: blackwell18/users:latest
     volumes:
       - ./src/Users/:/usr/src/app
       - /usr/src/app/node_modules
@@ -89,7 +89,7 @@ services:
     build:
       context: ./src/Lab
       dockerfile: Dockerfile
-    image: lab-image
+    image: blackwell18/lab:latest
     volumes:
       - ./src/Lab/:/usr/src/app
       - /usr/src/app/node_modules
@@ -122,7 +122,7 @@ services:
     build:
       context: ./src/Pharmacy
       dockerfile: Dockerfile
-    image: pharmacy-image
+    image: blackwell18/pharmacy:latest
     volumes:
       - ./src/Pharmacy/:/usr/src/app
       - /usr/src/app/node_modules
@@ -155,7 +155,7 @@ services:
     build:
       context: ./src/MedicalFile
       dockerfile: Dockerfile
-    image: medicalfile-image
+    image: blackwell18/medicalfile:latest
     volumes:
       - ./src/MedicalFile/:/usr/src/app
       - /usr/src/app/node_modules
@@ -221,7 +221,7 @@ services:
     build:
       context: ./src/root
       dockerfile: Dockerfile
-    image: root-image
+    image: blackwell18/root:latest
     volumes:
       - ./src/root:/usr/src/app
       - /usr/src/app/node_modules
@@ -298,7 +298,7 @@ services:
     build:
       context: ./src/Appointment
       dockerfile: Dockerfile
-    image: appointment-image
+    image: blackwell18/appointment:latest
     volumes:
       - ./src/Appointment:/usr/src/app
       - /usr/src/app/node_modules

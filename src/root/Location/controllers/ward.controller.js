@@ -2,8 +2,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const County = require("../models/county.model");
-const Ward = require("../models/ward.model");
+const County = require('../models/county.model');
+const SubCounty = require('../models/subCounty.model');
+const Ward = require('../models/ward.model');
 
 // using *Patients model
 const addWard = async (req, res, next) => {
@@ -23,9 +24,9 @@ const getAllWards = async (req, res, next) => {
   try {
     const results = await Ward.findAll({
       include: {
-        model:County,
-        attributes:['id','countyName']
-      }
+        model: SubCounty,
+        attributes: ['id', 'subCountyName'],
+      },
     });
     res.json(results);
     next();

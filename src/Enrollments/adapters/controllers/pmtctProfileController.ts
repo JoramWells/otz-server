@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
-import { type IPAMAInteractor } from '../../application/interfaces/IPAMAInteractor'
+import { type IPMTCTProfileInteractor } from '../../application/interfaces/IPMTCTProfileInteractor'
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
-export class PAMAController {
-  private readonly interactor: IPAMAInteractor
+export class PMTCTProfileController {
+  private readonly interactor: IPMTCTProfileInteractor
 
-  constructor (interactor: IPAMAInteractor) {
+  constructor (interactor: IPMTCTProfileInteractor) {
     this.interactor = interactor
   }
 
-  async onCreatePAMA (req: Request, res: Response, next: NextFunction) {
+  async onCreatePMTCTProfile (req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createPAMA(req.body)
+      const newProfile = await this.interactor.createPMTCTProfile(req.body)
       res.json(newProfile)
       next()
     } catch (error) {
@@ -23,12 +23,12 @@ export class PAMAController {
     }
   }
 
-  async onGetAllPAMAs (req: Request, res: Response, next: NextFunction) {
+  async onGetAllPMTCTProfiles (req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllPAMAs()
+      const results = await this.interactor.getAllPMTCTProfiles()
       res.status(200).json(results)
       next()
     } catch (error) {
@@ -38,10 +38,10 @@ export class PAMAController {
     }
   }
 
-  async onGetPAMAById (req: Request, res: Response, next: NextFunction) {
+  async onGetPMTCTProfileById (req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params
-      const result = await this.interactor.getPAMAById(id)
+      const result = await this.interactor.getPMTCTProfileById(id)
       res.status(200).json(result)
       next()
     } catch (error) {

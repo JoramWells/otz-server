@@ -19,13 +19,14 @@ export class PatientController {
       firstName,
       middleName,
       lastName,
-      gender,
-      DOB,
+      sex,
+      dob,
       phoneNo,
       occupationID,
       idNo,
       cccNo,
-      subCountyName,
+      location,
+      maritalStatus,
 
       kinFirstName,
       kinLastName,
@@ -40,13 +41,14 @@ export class PatientController {
       firstName,
       middleName,
       lastName,
-      sex: gender,
-      dob: DOB,
+      sex,
+      dob,
       phoneNo,
       occupationID,
       idNo,
       cccNo,
-      subCountyName
+      location,
+      maritalStatus
     }
 
     const nextOfKinData: NextOfKinEntity = {
@@ -63,7 +65,9 @@ export class PatientController {
       // console.log(nextOfKinData)
       await this.interactor.createPatient(patientData, nextOfKinData)
       res.sendStatus(200)
-      logger.info({ message: 'Created New Patient Successfully! ~' + req.body.firstName })
+      logger.info({
+        message: 'Created New Patient Successfully! ~' + req.body.firstName
+      })
       next()
     } catch (error) {
       console.log(error)
@@ -79,6 +83,44 @@ export class PatientController {
       // await redisClient.connect()
 
       const results = await this.interactor.getAllPatients()
+      res.status(200).json(results)
+      logger.info({ message: 'Fetched all Patients Successfully!' })
+
+      next()
+    } catch (error) {
+      next(error)
+      logger.error(error)
+      res.status(500).json({ message: 'Internal Server Error' })
+      // console.log(error)
+    }
+  }
+
+  async onGetAllPMTCTPatients (req: Request, res: Response, next: NextFunction) {
+    try {
+      // const redisClient = createClient({ url: 'redis://redis:6379' })
+      // await redisClient.connect()
+
+      const results = await this.interactor.findAllPMTCTPatients()
+      res.status(200).json(results)
+      logger.info({ message: 'Fetched all Patients Successfully!' })
+
+      next()
+    } catch (error) {
+      next(error)
+      logger.error(error)
+      res.status(500).json({ message: 'Internal Server Error' })
+      // console.log(error)
+    }
+  }
+
+  //
+
+  async onGetAllOTZPatients (req: Request, res: Response, next: NextFunction) {
+    try {
+      // const redisClient = createClient({ url: 'redis://redis:6379' })
+      // await redisClient.connect()
+
+      const results = await this.interactor.findAllOTZPatients()
       res.status(200).json(results)
       logger.info({ message: 'Fetched all Patients Successfully!' })
 

@@ -5,4 +5,6 @@ export interface IPatientRepository {
   create: (data: PatientEntity, nextOfKinData: NextOfKinEntity) => Promise<string | null>
   find: () => Promise<PatientEntity[]>
   findById: (id: string) => Promise<PatientEntity | null>
+  findAllPMTCTPatients: () => Promise <PatientEntity[]>
+  findOTZ: () => Promise <PatientEntity[]>
 }

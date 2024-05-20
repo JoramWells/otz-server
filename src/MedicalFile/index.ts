@@ -10,7 +10,6 @@ import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
 
-
 import { adverseDrugsReactionRepositoryRouter } from './routes/adverseDrugsReaction.routes'
 import { allergiesRouter } from './routes/allergies.routes'
 import { patientAllergiesRouter } from './routes/patientAllergies.routes'

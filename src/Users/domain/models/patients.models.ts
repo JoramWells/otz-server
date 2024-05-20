@@ -5,6 +5,16 @@ import { connect } from '../db/connect'
 import { createClient } from 'redis'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
+export interface InputProps {
+  is: string
+  label: string
+}
+
+export interface LocationProps {
+  county: InputProps
+  subCounty: InputProps
+  ward: InputProps
+}
 export interface PatientAttributes {
   id?: string
   firstName?: string
@@ -24,9 +34,13 @@ export interface PatientAttributes {
   hospitalID?: string
   entryPoint?: string
   subCountyName?: string
+  maritalStatus: string
+  location: LocationProps
 }
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+  entryPoint?: string | undefined
+  maritalStatus!: string
   id?: string | undefined
   firstName?: string | undefined
   middleName: string | undefined
@@ -44,6 +58,7 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   schoolID?: string | undefined
   hospitalID?: string | undefined
   subCountyName?: string | undefined
+  location!: LocationProps
 }
 
 Patient.init(
@@ -102,19 +117,23 @@ Patient.init(
       allowNull: true
     },
     populationType: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: 'General Population'
+    },
+    maritalStatus: {
+      type: DataTypes.STRING,
+      defaultValue: 'N/A'
     },
     schoolID: {
       type: DataTypes.INTEGER
     },
     hospitalID: {
       type: DataTypes.INTEGER
+    },
+    location: {
+      type: DataTypes.JSONB,
+      allowNull: true
     }
-    // notifications: {
-    //   type: DataTypes.JSONB,
-    //   allowNull: true,
-    //   defaultValue: {}
-    // }
   },
   {
     sequelize: connect,

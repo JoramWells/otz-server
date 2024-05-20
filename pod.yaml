@@ -1,18 +1,28 @@
 apiVersion: v1
-kind: Pod
+kind: Deployment
 metadata:
-  name: myapp-pod
+  name: lab-deployment
   labels: 
-    app: myapp
-    type: server
+    app: labapp
+    # type: server
 spec:
-  containers:
-  - name: nginx-container
-    image: nginx
-    resources:
-      limits:
-        memory: 512Mi
-        cpu: "1"
-      requests:
-        memory: 256Mi
-        cpu: "0.2"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: labapp
+    template:
+      metadata:
+        labels:
+          app: labapp  
+  spec:
+    containers:
+    - name: labservice
+      image: blackwell18/lab:latest
+      ports:
+      - containerPort: 3001    # resources:
+      #   limits:
+      #     memory: 512Mi
+      #     cpu: "1"
+      #   requests:
+      #     memory: 256Mi
+      #     cpu: "0.2"

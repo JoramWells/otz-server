@@ -29,6 +29,24 @@ const getAllVitalSigns = async (req, res, next) => {
   }
 };
 
+const getVitalSignByPatientID = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const patient = await VitalSign.findOne({
+      order:[['updatedAt', 'DESC']],
+      where: {
+        patientID: id,
+      },
+    });
+    res.status(200).json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+    next(error);
+  }
+};
+
 const getVitalSignDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -97,4 +115,5 @@ module.exports = {
   getVitalSignDetail,
   editVitalSign,
   deleteVitalSign,
+  getVitalSignByPatientID
 };

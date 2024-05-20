@@ -60,6 +60,18 @@ const VitalSign = sequelize.define('vitalSigns', {
   respiratoryRate: {
     type: DataTypes.STRING,
   },
+  lmp: {
+    type: DataTypes.DATE,
+  },
+  gravida: {
+    type: DataTypes.STRING,
+  },
+  parity: {
+    type: DataTypes.STRING,
+  },
+  edd: {
+    type: DataTypes.DATE,
+  },
 });
 
 

@@ -9,19 +9,6 @@ import { Patient } from '../../domain/models/patients.models'
 export class OTZRepository implements IOTZRepository {
   async create (data: OTZEntity): Promise<OTZEntity> {
     const results: OTZEntity = await OTZ.create(data)
-    // const caregiverEntity: CaregiverEntity = {
-    //   id: results.id,
-    //   firstName: results.firstName,
-    //   middleName,
-    //   sex,
-    //   countyID,
-    //   phoneNo,
-    //   idNo,
-    //   lastName: '',
-    //   dob: '',
-    //   email: '',
-    //   password: ''
-    // }
     return results
   }
 

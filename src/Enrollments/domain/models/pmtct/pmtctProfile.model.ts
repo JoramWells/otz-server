@@ -1,56 +1,74 @@
 /* eslint-disable camelcase */
-import { DataTypes, UUIDV4 } from 'sequelize';
-const sequelize = require('../db/connect');
+import { DataTypes, Model, UUIDV4 } from 'sequelize'
+import { connect } from '../../db/connect'
+import { Patient } from '../patients.models'
 
-const PMTCTProfile = sequelize.define(
-  "pmtctProfile",
+export interface LocationProps {
+  id: string
+  countyName: string
+  subCountyName: string
+  ward: string
+  town: string
+}
+
+export interface FacilityProps {
+  id: string
+  name: string
+  mflCode: string
+  location: LocationProps
+}
+
+export interface PMTCTProfileAttributes {
+  id?: string
+  patientID: string
+  kmhflCode: string
+  anc: string
+  pncNo: string
+}
+
+export class PMTCTProfile extends Model<PMTCTProfileAttributes> implements PMTCTProfileAttributes {
+  id?: string | undefined
+  patientID!: string
+  kmhflCode!: string
+  anc!: string
+  pncNo!: string
+}
+
+PMTCTProfile.init(
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       // autoIncrement: true,
-      defaultValue: UUIDV4,
+      defaultValue: UUIDV4
     },
     patientID: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      references: {
+        model: 'patients',
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
     },
-    hivStatus: {
-      type: DataTypes.STRING,
+    kmhflCode: {
+      type: DataTypes.INTEGER
     },
-    disclosedStatus: {
-      type: DataTypes.STRING,
+    anc: {
+      type: DataTypes.STRING
     },
-    gravidae: {
-      type: DataTypes.STRING,
-    },
-    para: {
-      type: DataTypes.STRING,
-    },
-    lmnp: {
-      type: DataTypes.STRING,
-    },
-    edd: {
-      type: DataTypes.STRING,
-    },
-    syphilisResults: {
-      type: DataTypes.STRING,
-    },
-    syphilisTreated: {
-      type: DataTypes.STRING,
-    },
-    hivCategory: {
-      type: DataTypes.STRING,
-    },
-    pregnancyIntended: {
-      type: DataTypes.STRING,
-    },
+    pncNo: {
+      type: DataTypes.STRING
+    }
   },
-  { timestamps: false }
-);
+  {
+    sequelize: connect,
+    tableName: 'pmtctProfile'
+  }
+)
+
+PMTCTProfile.belongsTo(Patient, { foreignKey: 'patientID' })
 
 // (async () => {
-//   await sequelize.sync();
-//   console.log('Patient Table synced successfully');
+// connect.sync()
+// console.log('Patient Table synced successfully')
 // })();
-
-module.exports = PMTCTProfile;

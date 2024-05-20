@@ -15,6 +15,8 @@ const router = express.Router()
 router.post('/add', patientController.onCreatePatient.bind(patientController))
 router.get('/fetchAll', patientController.onGetAllPatients.bind(patientController))
 router.get('/detail/:id', patientController.onGetPatientById.bind(patientController))
+router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))
+router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

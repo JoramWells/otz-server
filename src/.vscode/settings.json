@@ -4,7 +4,7 @@
     "editor.formatOnSave": "explicit"
   },
   "eslint.validate": ["javascript"],
-  "workbench.colorTheme": "Tomorrow Night Blue",
+  "workbench.colorTheme": "Dracula Soft",
   "prettier.disableLanguages": [
     "javascript"
   ],

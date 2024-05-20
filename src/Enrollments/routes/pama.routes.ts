@@ -12,14 +12,14 @@ const controller = new PAMAController(interactor)
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateOTZ.bind(controller))
+router.post('/add', controller.onCreatePAMA.bind(controller))
 router.get(
   '/fetchAll',
-  controller.onGetAllOTZs.bind(controller)
+  controller.onGetAllPAMAs.bind(controller)
 )
 router.get(
   '/detail/:id',
-  controller.onGetOTZById.bind(controller)
+  controller.onGetPAMAById.bind(controller)
 )
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

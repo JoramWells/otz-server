@@ -11,6 +11,7 @@ import morgan from 'morgan'
 import { connect } from './domain/db/connect'
 import { otzRouter } from './routes/otz.routes'
 import { pamaRouter } from './routes/pama.routes'
+import { pmtctProfileRouter } from './routes/pmtctProfile.routes'
 const cors = require('cors')
 
 const app: Application = express()
@@ -32,6 +33,7 @@ app.use(cors())
 // confirm cors
 app.use('/otz-enrollment', otzRouter)
 app.use('/pama-enrollment', pamaRouter)
+app.use('/pmtct-enrollment', pmtctProfileRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

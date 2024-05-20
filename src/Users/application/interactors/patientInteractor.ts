@@ -11,15 +11,30 @@ export class PatientInteractor implements IPatientInteractor {
     this.repository = repository
   }
 
+  async findAllPMTCTPatients (): Promise<PatientEntity[]> {
+    return await this.repository.findAllPMTCTPatients()
+  }
+
   async getPatientById (id: string): Promise<PatientEntity | null> {
     return await this.repository.findById(id)
   }
 
-  async createPatient (patientData: PatientEntity, nextOfKinData: NextOfKinEntity): Promise<string | null> {
+  async createPatient (
+    patientData: PatientEntity,
+    nextOfKinData: NextOfKinEntity
+  ): Promise<string | null> {
     return await this.repository.create(patientData, nextOfKinData)
   }
 
   async getAllPatients (): Promise<PatientEntity[]> {
     return await this.repository.find()
+  }
+
+  async getAllPMTCTPatients (): Promise<PatientEntity[]> {
+    return await this.repository.findAllPMTCTPatients()
+  }
+
+  async findAllOTZPatients (): Promise<PatientEntity[]> {
+    return await this.repository.findOTZ()
   }
 }

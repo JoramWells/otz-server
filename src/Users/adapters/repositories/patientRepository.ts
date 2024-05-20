@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { Op } from 'sequelize'
 import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
 import { patientCache } from '../../constants'
 import { connect } from '../../domain/db/connect'
@@ -21,27 +22,35 @@ export class PatientRepository implements IPatientRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create (data: PatientEntity, nextOfKinData: NextOfKinEntity): Promise<string | null> {
+  async create (
+    data: PatientEntity,
+    nextOfKinData: NextOfKinEntity
+  ): Promise<string | null> {
     // const { firstName, middleName, lastName, dob, phoneNo, cccNo, occupationID, sex, hospitalID, schoolID, idNo } = data
     console.log(nextOfKinData)
     let results = ''
-    await connect.transaction(async (t) => {
-      const results = await Patient.create(data, { transaction: t })
+    await connect
+      .transaction(async (t) => {
+        const results = await Patient.create(data, { transaction: t })
 
-      //
-      if (results) {
-        const patientID = results.id
-        await NextOfKin.create({
-          patientID,
-          ...nextOfKinData
-        }, { transaction: t })
+        //
+        if (results) {
+          const patientID = results.id
+          await NextOfKin.create(
+            {
+              patientID,
+              ...nextOfKinData
+            },
+            { transaction: t }
+          )
 
-        // create new visit
-        await PatientVisits.create({ patientID }, { transaction: t })
-      }
-    }).then(() => {
-      results = 'Successfully registered a New Patient'
-    })
+          // create new visit
+          await PatientVisits.create({ patientID }, { transaction: t })
+        }
+      })
+      .then(() => {
+        results = 'Successfully registered a New Patient'
+      })
 
     // const patientEntity: PatientEntity = {
     //   id: results.id,
@@ -56,10 +65,33 @@ export class PatientRepository implements IPatientRepository {
     return results
   }
 
+  async findAllPMTCTPatients (): Promise<PatientEntity[]> {
+    const results = await Patient.findAll({
+      where: {
+        sex: { [Op.or]: ['F', 'female'] },
+        dob: {
+          [Op.lte]: new Date().setFullYear(new Date().getFullYear() - 15)
+        }
+      }
+    })
+    return results
+  }
+
+  async findOTZ (): Promise<PatientEntity[]> {
+    const results = await Patient.findAll({
+      where: {
+        dob: {
+          [Op.lte]: new Date().setFullYear(new Date().getFullYear() - 24)
+        }
+      }
+    })
+    return results
+  }
+
   async find (): Promise<PatientEntity[]> {
     await this.redisClient.connect()
     // check if patient
-    if (await this.redisClient.get(patientCache) === null) {
+    if ((await this.redisClient.get(patientCache)) === null) {
       const results = await Patient.findAll({
         include: [
           { model: School, attributes: ['schoolName'] },
@@ -67,16 +99,16 @@ export class PatientRepository implements IPatientRepository {
             model: Hospital,
             attributes: ['hospitalName']
           }
-        //   {
-        //     model: ViralLoad,
-        //     attributes: [
-        //       'id',
-        //       'dateOfNextVL',
-        //       'vlResults',
-        //       'isValid',
-        //       'dateOfCurrentVL'
-        //     ]
-        //   }
+          //   {
+          //     model: ViralLoad,
+          //     attributes: [
+          //       'id',
+          //       'dateOfNextVL',
+          //       'vlResults',
+          //       'isValid',
+          //       'dateOfCurrentVL'
+          //     ]
+          //   }
         ]
       })
       logger.info({ message: 'Fetched from db!' })
@@ -86,7 +118,9 @@ export class PatientRepository implements IPatientRepository {
 
       return results
     }
-    const cachedPatients: string | null = await this.redisClient.get(patientCache)
+    const cachedPatients: string | null = await this.redisClient.get(
+      patientCache
+    )
     if (cachedPatients === null) {
       return []
     }

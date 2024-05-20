@@ -64,6 +64,7 @@ const getAllVlCategories = async (req, res, next) => {
   }
 };
 
+
 // ceck next appointment
 const calculateNextAppointmentDate = (appointmentDate, frequency) => {
   // Parse the frequency to determine the interval
@@ -91,6 +92,7 @@ const calculateNextAppointmentDate = (appointmentDate, frequency) => {
 
   return new Date(nextAppointmentDate);
 };
+
 
 // ceck oliday
 // const checkSchoolHoliday = async (date) => {

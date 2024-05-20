@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const County = require('./county.model');
+const SubCounty = require('./subCounty.model');
 
 const Ward = sequelize.define('wards', {
   id: {
@@ -11,18 +10,16 @@ const Ward = sequelize.define('wards', {
     // defaultValue: UUIDV4,
     autoIncrement: true,
   },
-  countyID: {
+
+  subCountyID: {
     type: DataTypes.INTEGER,
-  },
-  subCountyName: {
-    type: DataTypes.STRING,
   },
   ward: {
     type: DataTypes.STRING,
   },
-}, { timestamps: false });
+});
 
-Ward.belongsTo(County, { foreignKey: 'countyID' });
+Ward.belongsTo(SubCounty, { foreignKey: 'subCountyID' });
 
 // (async () => {
 //   await sequelize.sync();

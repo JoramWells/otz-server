@@ -1,7 +1,9 @@
-import { type PatientAttributes } from '../models/patients.models'
+import { type LocationProps, type PatientAttributes } from '../models/patients.models'
 
 export class PatientEntity implements PatientAttributes {
   constructor (
+    public location: LocationProps,
+    public maritalStatus: string,
     public firstName?: string,
     public middleName?: string,
     public sex?: string,
@@ -16,9 +18,10 @@ export class PatientEntity implements PatientAttributes {
     public populationType?: string,
     public schoolID?: string,
     public hospitalID?: string,
-    public subCountyName?: string,
     //
     public id?: string,
-    public lastName?: string
+    public lastName?: string,
+    public entryPoint?: string,
+    public subCountyName?: string
   ) {}
 }
