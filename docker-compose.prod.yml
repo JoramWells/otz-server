@@ -380,7 +380,7 @@ services:
       # - ./nginx/ssl:/etc/nginx/ssl
       # - ./client.sh:/usr/share/nginx/client.sh
     ports:
-      - 8081:8081
+      - 80:80
     # deploy:
     #   mode: replicated
     #   replicas: 2
