@@ -53,28 +53,28 @@ services:
   users:
     build:
       context: ./src/Users
-      dockerfile: Dockerfile.prod
-    image: users-image
+      dockerfile: Dockerfile
+    image: blackwell18/users:latest
     volumes:
       - ./src/Users/:/usr/src/app
       - /usr/src/app/node_modules
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   placement:
-    #     max_replicas_per_node: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure    
-    #   resources:
-    #     limits:
-    #       cpus: '0.10'
-    #       memory: 400M
-    #     reservations:
-    #       cpus: '0.10'
-    #       memory: 400M
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M
     ports:
       - 5001:5001
     depends_on:
@@ -89,10 +89,27 @@ services:
     build:
       context: ./src/Lab
       dockerfile: Dockerfile
-    image: lab-image
+    image: blackwell18/lab:latest
     volumes:
       - ./src/Lab/:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M
     ports:
       - 5002:5002
     depends_on:
@@ -101,14 +118,130 @@ services:
     networks:
       - otz
 
+  pharmacy:
+    build:
+      context: ./src/Pharmacy
+      dockerfile: Dockerfile
+    image: blackwell18/pharmacy:latest
+    volumes:
+      - ./src/Pharmacy/:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M   
+    ports:
+      - 5003:5003
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - otz  
+
+  medicalfile:
+    build:
+      context: ./src/MedicalFile
+      dockerfile: Dockerfile
+    image: blackwell18/medicalfile:latest
+    volumes:
+      - ./src/MedicalFile/:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M   
+    ports:
+      - 5006:5006
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - otz  
+
+  enrollments:
+    build:
+      context: ./src/Enrollments
+      dockerfile: Dockerfile
+    image: enrollment-image
+    volumes:
+      - ./src/Enrollments/:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M   
+    ports:
+      - 5007:5007
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - otz  
+
   root:
     build:
       context: ./src/root
       dockerfile: Dockerfile
-    image: root-image
+    image: blackwell18/root:latest
     volumes:
       - ./src/root:/usr/src/app
       - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M  
     ports:
       - 5000:5000
     depends_on:
@@ -134,6 +267,24 @@ services:
     volumes:
       - ./src/School:/usr/src/app
       - /usr/src/app/node_modules
+
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M   
     ports:
       - 5004:5004
     depends_on:
@@ -147,27 +298,27 @@ services:
     build:
       context: ./src/Appointment
       dockerfile: Dockerfile
-    image: appointment-image
+    image: blackwell18/appointment:latest
     volumes:
       - ./src/Appointment:/usr/src/app
       - /usr/src/app/node_modules
-    # deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   placement:
-    #     max_replicas_per_node: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure    
-    #   resources:
-    #     limits:
-    #       cpus: '0.10'
-    #       memory: 800M
-    #     reservations:
-    #       cpus: '0.10'
-    #       memory: 500M
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -187,12 +338,12 @@ services:
 
   # client:
   #   build:
-  #     context: ./client
+  #     context: ../client
   #     dockerfile: Dockerfile
   #   image: otz-client
   #   # container_name: huruma-frontendv2
   #   volumes:
-  #     - ./client:/usr/src/app
+  #     - ../client:/usr/src/app
   #     - /usr/src/app/node_modules
 
   #   deploy:
@@ -207,35 +358,29 @@ services:
   #     #   condition: on-failure    
   #     resources:
   #       limits:
-  #         cpus: '0.50'
+  #         cpus: '0.40'
   #         # memory: 1000M
 
   #   ports:
   #     - "3000:3000"
   #   depends_on:
-  #     - enrollment
   #     - users
   #     - school
   #     - lab
   #     - root
-  #     - appointment    
+  #     - appointment  
+  #     - pharmacy  
   #   networks:
   #     - otz
 
   nginx:
     image: nginx:alpine
     volumes:
-      - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       # - ./nginx/ssl:/etc/nginx/ssl
-      - ./ssl/otzplus.crt:/etc/ssl/otzplus.crt
-      - ./ssl/otzplus.key:/etc/ssl/otzplus.key
-      - ./ssl/www_otzplus_xyz.crt:/etc/ssl/www_otzplus_xyz.crt
-      - ./ssl/www_otzplus_xyz_chain.crt:/etc/ssl/www_otzplus_xyz_chain.crt
-      
-
+      # - ./client.sh:/usr/share/nginx/client.sh
     ports:
-      - 80:80
-      - 443:443
+      - 8081:8081
     # deploy:
     #   mode: replicated
     #   replicas: 2
@@ -249,20 +394,29 @@ services:
     #   resources:
     #     limits:
     #       cpus: '0.05'
-    #       # memory: 400M
+    #       # memory: 700M
     #     reservations:
     #       cpus: '0.05'
-    #       # memory: 400M 
+    #       # memory: 700M 
 
     depends_on:
       - users
+      - enrollments
       - root
       - school
       - lab
-      - appointment    
+      - appointment 
+      - medicalfile   
       # - client
+      - pharmacy  
+
     networks:
       - otz
+
+    # entrypoint: ["/bin/sh", "-c", "/usr/share/nginx/client.sh && exec nginx -g 'daemon off;'"]
+    # command: sh -c "chmod +x /usr/share/nginx/client.sh && /usr/share/nginx/client.sh && nginx -g 'daemon off;'"
+
+  
 
 networks:
  otz:
@@ -272,4 +426,3 @@ volumes:
   postgres_data:
     driver: local
   redis_data:
-    driver: local

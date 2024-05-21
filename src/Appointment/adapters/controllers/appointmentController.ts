@@ -57,17 +57,30 @@ export class AppointmentController {
     }
   }
 
+  async onGetPriorityAppointmentById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getPriorityAppointmentDetail(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   // use patient ID
-  async getAppointmentDetail(req: Request, res: Response, next: NextFunction){
+  async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
-      const patient = await this.interactor.getAppointmentDetail(id)
+      const patient = await this.interactor.getAppointmentDetail(id);
       res.status(200).json(patient);
       next();
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
-      next(error)
+      next(error);
     }
-  };
+  }
 }

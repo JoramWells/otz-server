@@ -6,4 +6,5 @@ export interface IAppointmentRepository {
   findById: (id: string) => Promise<AppointmentEntity | null>;
   findAllAppointmentById: (id: string) => Promise<AppointmentEntity[] | null>;
   findPatientAppointmentByID:(id: string)=>Promise<AppointmentEntity[] | null>;
+  findPriorityAppointmentDetail:(id: string)=>Promise<AppointmentEntity[] | null>;
 }

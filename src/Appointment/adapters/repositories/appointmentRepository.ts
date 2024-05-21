@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { Op } from 'sequelize'
 import { IAppointmentRepository } from '../../application/interfaces/appointment/IAppointmentRepository'
 import { appointmentCache } from '../../constants/appointmentCache'
 import { AppointmentEntity } from '../../domain/entities/AppointmentEntity'
@@ -12,7 +13,29 @@ import { User } from '../../domain/models/user.model'
 import { RedisAdapter } from './redisAdapter'
 // import { createClient } from 'redis'
 
+
 export class AppointmentRepository implements IAppointmentRepository {
+  async findPriorityAppointmentDetail(id: string):Promise<AppointmentEntity[] | null>{
+return await Appointment.findAll({
+  where: {
+    patientID: id,
+  },
+  include: [
+    {
+      model: AppointmentStatus,
+      attributes: ["id", "statusDescription"],
+      where: {
+        statusDescription: "Upcoming" ,
+      },
+    },
+      {
+            model: AppointmentAgenda,
+            attributes: ["id", "agendaDescription"],
+          },
+  ],
+});
+
+    }
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
@@ -114,9 +137,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     }
     const results: AppointmentEntity[] = JSON.parse(cachedData);
     console.log("fetched appointment from cace!");
-    if(this.redisClient)
 
-    // await this.redisClient.disconnect()
 
     return results;
   }

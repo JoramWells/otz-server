@@ -868,3 +868,9 @@
 {"level":"info","message":"Created New Patient Successfully! ~Farida","service":"user microservice api","timestamp":"2024-05-20T17:36:34.382Z"}
 {"level":"info","message":"Created New Patient Successfully! ~Starlet","service":"user microservice api","timestamp":"2024-05-20T18:10:45.339Z"}
 {"level":"info","message":"Created New Patient Successfully! ~Felisia","service":"user microservice api","timestamp":"2024-05-20T18:57:19.205Z"}
+{"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-05-20T19:08:11.349Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-05-20T19:08:13.063Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-05-20T19:08:53.704Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-05-20T19:08:53.753Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-05-20T19:09:02.918Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-05-20T19:09:02.968Z"}
