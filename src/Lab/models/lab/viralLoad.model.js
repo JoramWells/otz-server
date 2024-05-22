@@ -37,6 +37,9 @@ const ViralLoad = sequelize.define('viralLoad', {
   dateOfVL: {
     type: DataTypes.DATE,
   },
+   dateOfNextVL: {
+    type: DataTypes.DATE,
+  },
   // CD4
 
 });

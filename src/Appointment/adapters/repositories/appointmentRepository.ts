@@ -11,6 +11,8 @@ import { Patient } from '../../domain/models/patients.models'
 import { User } from '../../domain/models/user.model'
 // import { logger } from '../../utils/logger'
 import { RedisAdapter } from './redisAdapter'
+import { connect } from '../../db/connect'
+import { PatientVisits } from '../../domain/models/patientVisits.model'
 // import { createClient } from 'redis'
 
 
@@ -42,7 +44,14 @@ return await Appointment.findAll({
   // }
 
   async create(data: AppointmentEntity): Promise<AppointmentEntity> {
-    const results: AppointmentAttributes = await Appointment.create(data);
+    let results:AppointmentAttributes;
+    await connect.transaction(async (t)=>{
+    results  = await Appointment.create(data, {transaction: t});
+    if(results){
+      await PatientVisits.create(data, {transaction: t})
+    }
+
+    })
     const { patientID } = data;
     await this.redisClient.connect();
     if( await this.redisClient.get(patientID.toString()) !== null){

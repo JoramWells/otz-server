@@ -8,14 +8,50 @@ const { Sequelize } = require('sequelize');
 // const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
 const Patient = require('../models/patient/patients.models');
 const ViralLoad = require('../models/lab/viralLoad.model');
+const connect = require('../db/connect');
+const Appointment = require('../models/appointment.model');
 
 // using *Patients model
 const addViralLoadTest = async (req, res, next) => {
-  // console.log(req.body);
-  try {
-    const newProfile = await ViralLoad.create(req.body);
 
-    res.json(newProfile);
+  const {
+    userID,
+    patientID,
+    patientVisitID,
+    appointmentAgendaID,
+    appointmentStatusID,
+    appointmentDate,
+    dateOfVL,
+    dateOfNextVL,
+    vlResults,
+    vlJustification,
+  } = req.body
+  console.log(appointmentStatusID, 'id');
+  try {
+
+    await connect.transaction(async(t)=>{
+      const results = await ViralLoad.create({
+        userID,
+        dateOfVL,
+        dateOfNextVL,
+        vlResults,
+        vlJustification,
+        patientID
+      }, {transaction:t});
+      if(results){
+        await Appointment.create({
+          userID,
+          patientID,
+          patientVisitID,
+          appointmentAgendaID,
+          appointmentStatusID,
+          appointmentDate  
+        },{transaction:t})
+      }
+
+    })
+
+    res.status(200);
     next();
   } catch (error) {
     console.log(error);
