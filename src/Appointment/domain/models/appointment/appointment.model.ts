@@ -11,6 +11,7 @@ export interface AppointmentAttributes {
   id: string;
   userID?: string;
   patientID: string;
+  patientVisitID: string;
   appointmentAgendaID?: string;
   appointmentStatusID?: string;
   appointmentDate?: string;
@@ -24,6 +25,7 @@ export class Appointment
   id!: string;
   userID?: string | undefined;
   patientID!: string;
+  patientVisitID!: string;
   appointmentAgendaID?: string | undefined;
   appointmentStatusID?: string | undefined;
   appointmentDate?: string | undefined;
@@ -61,6 +63,14 @@ Appointment.init(
       },
       onDelete: "CASCADE",
     },
+    patientVisitID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patientVisits",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
     appointmentStatusID: {
       type: DataTypes.UUID,
       references: {
@@ -76,7 +86,7 @@ Appointment.init(
     appointmentTime: {
       type: DataTypes.TIME,
       defaultValue: Sequelize.literal("CURRENT_TIME"),
-    //   timezone: false,
+      //   timezone: false,
     },
   },
   {

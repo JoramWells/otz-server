@@ -23,7 +23,7 @@ services:
       - 5432:5432
     volumes:
       # - postgres_data:/var/lib/postgresql/data
-      - ./otz_backup.sql:/docker-entrypoint-initdb.d/otz.sql
+      - ./otz.sql:/docker-entrypoint-initdb.d/otz.sql
 
     # deploy:
     #   mode: replicated

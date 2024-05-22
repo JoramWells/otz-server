@@ -47,6 +47,7 @@ app.use(express.static('uploads'))
 app.use(morgan('dev'));
 
 scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
+// scheduleJob('0 0 * *',)
 dailyPillUpdate();
 
 // schedulePatientNotifications();
