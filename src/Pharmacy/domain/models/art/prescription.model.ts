@@ -8,21 +8,23 @@ import { Patient } from '../patients.models'
 import { ART } from './art.model'
 
 export interface PrescriptionInterface {
-  id: string
+  id?: string
   patientID: string
   drugID: string
   noOfPills: number
   frequency: number
   refillDate: Date
+  nextRefillDate: Date
 }
 
 export class Prescription extends Model<PrescriptionInterface> {
-  id!: string
+  id: string | undefined
   patientID!: string
   drugID!: string
   noOfPills!: number
   frequency!: number
   refillDate!: Date
+  nextRefillDate!: Date
 }
 
 Prescription.init(
@@ -53,6 +55,9 @@ Prescription.init(
       type: DataTypes.INTEGER
     },
     refillDate: {
+      type: DataTypes.DATE
+    },
+    nextRefillDate: {
       type: DataTypes.DATE
     }
   },

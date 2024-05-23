@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPrescriptionInteractor } from '../../application/interfaces/art/IPrescriptionInteractor'
+import { type AppointmentEntity } from '../../domain/entities/appointment/AppointmentEntity'
+import { type PrescriptionEntity } from '../../domain/entities/art/PrescriptionEntity'
 // import { Patient } from '../../domain/entities/Patient'
 
 export class PrescriptionController {
@@ -12,9 +14,43 @@ export class PrescriptionController {
   }
 
   async onCreatePrescription (req: Request, res: Response, next: NextFunction) {
+    const {
+      drugID,
+      noOfPill,
+      frequency,
+      refillDate,
+      userID,
+      patientID,
+      patientVisitID,
+      appointmentAgendaID,
+      appointmentStatusID
+    } = req.body
+
+    const nextRefillDate = new Date(refillDate)
+    const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10)
+    nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd)
+
+    const appointmentInput: AppointmentEntity = {
+      userID,
+      patientID,
+      patientVisitID,
+      appointmentAgendaID,
+      appointmentStatusID,
+      appointmentDate: nextRefillDate
+    }
+
+    const prescriptionInput: PrescriptionEntity = {
+      drugID,
+      frequency,
+      refillDate,
+      noOfPills: noOfPill,
+      patientID,
+      nextRefillDate
+    }
+
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createPrescription(req.body)
+      const newProfile = await this.interactor.createPrescription(prescriptionInput, appointmentInput)
       res.status(200).json(newProfile)
       next()
     } catch (error) {

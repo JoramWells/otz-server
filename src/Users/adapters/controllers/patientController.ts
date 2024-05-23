@@ -27,7 +27,7 @@ export class PatientController {
       cccNo,
       location,
       maritalStatus,
-
+      entryPoint,
       kinFirstName,
       kinLastName,
       kinGender,
@@ -48,7 +48,8 @@ export class PatientController {
       idNo,
       cccNo,
       location,
-      maritalStatus
+      maritalStatus,
+      entryPoint
     }
 
     const nextOfKinData: NextOfKinEntity = {
@@ -64,7 +65,7 @@ export class PatientController {
     try {
       // console.log(nextOfKinData)
       await this.interactor.createPatient(patientData, nextOfKinData)
-      res.sendStatus(200)
+      res.status(200).json([])
       logger.info({
         message: 'Created New Patient Successfully! ~' + req.body.firstName
       })
