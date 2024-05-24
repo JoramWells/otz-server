@@ -1,44 +1,36 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { IPatientNotificationRepository } from '../../../application/interfaces/notify/IPatientNotificationRepository';
-import { IMMASRepository } from '../../../application/interfaces/treatmentplan/IMMASRepository';
+
 // import { mmasCache } from '../../../constants/appointmentCache';
-import { PatientNotificationEntity } from '../../../domain/entities/notify/PatientNotificationEntity';
-import { PatientNotification } from '../../../domain/models/notify/patientNotifications.model';
-import { Patient } from '../../../domain/models/patients.models';
+import { INotificationSubCategoryRepository } from '../../../application/interfaces/notify/INotificationSubCategoryRepository';
+import { NotificationSubCategoryEntity } from '../../../domain/entities/notify/NotificationSubCategoryEntity';
+import { NotificationSubCategory } from '../../../domain/models/notify/notificationSubCategory.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class PatientNotificationRepository implements IPatientNotificationRepository {
+export class NotificationSubCategoryRepository implements INotificationSubCategoryRepository {
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(
-    data: PatientNotificationEntity
-  ): Promise<PatientNotificationEntity> {
-    const results  = await PatientNotification.create(data);
+    data: NotificationSubCategoryEntity
+  ): Promise<NotificationSubCategoryEntity> {
+    const results = await NotificationSubCategory.create(data);
 
     return results;
   }
 
-  async find(): Promise<PatientNotificationEntity[]> {
-    await this.redisClient.connect();
+  async find(): Promise<NotificationSubCategoryEntity[]> {
+    // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-      const results = await PatientNotification.findAll({
-        include:[
-          {
-            model: Patient,
-            attributes:['id','firstName', 'middleName']
-          }
-        ]
-      });
+      const results = await NotificationSubCategory.findAll({});
       // logger.info({ message: "Fetched from db!" });
       // console.log("fetched from db!");
       // set to cace
-      // await this.redisClient.set(mmasCache, JSON.stringify(results));
+    //   await this.redisClient.set(mmasCache, JSON.stringify(results));
 
     //   return results;
     // }
@@ -49,19 +41,19 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     //   return [];
     // }
     // await this.redisClient.disconnect();
-    // logger.info({ message: "Fetched from cache!" });
+    // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: PatientNotificationEntity[] = JSON.parse(cachedPatients);
+    // const results: NotificationSubCategoryEntity[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<PatientNotificationEntity | null> {
+  async findById(id: string): Promise<NotificationSubCategoryEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: PatientNotification | null = await PatientNotification.findOne({
+      const results: NotificationSubCategory | null = await NotificationSubCategory.findOne({
         where: {
-          id,
+           id,
         },
       });
 
@@ -82,7 +74,7 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: PatientNotificationEntity = JSON.parse(cachedData);
+    // const results: NotificationSubCategoryEntity = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

@@ -336,6 +336,48 @@ services:
     networks:
       - otz
 
+  notify:
+    build:
+      context: ./src/Notify
+      dockerfile: Dockerfile
+    image: blackwell18/notify:latest
+    volumes:
+      - ./src/Notify:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.40'
+          memory: 700M
+        reservations:
+          cpus: '0.40'
+          memory: 700M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m       
+    ports:
+      - 5008:5008
+    depends_on:
+      database:
+        condition: service_healthy
+      # - kafka-2
+      redis:
+        condition: service_started    
+    networks:
+      - otz   
+
   # client:
   #   build:
   #     context: ../client
@@ -411,7 +453,7 @@ services:
       - lab
       - appointment 
       - medicalfile   
-      # - client
+      - notify
       - pharmacy  
 
     networks:
