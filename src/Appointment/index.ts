@@ -20,13 +20,7 @@ import { dailyPillUpdate } from './utils/dailyPillUpdate';
 import { mmasRouter } from './routes/treatmentplan/mmas.routes';
 import { disclosureChecklistRouter } from './routes/treatmentplan/disclosureChecklist.routes';
 import { followUpChecklistRouter } from './routes/treatmentplan/followUpChecklist.routes';
-import { notificationTypeRouter } from './routes/notify/notificationType.routes';
-import { notificationRouter } from './routes/notify/notification.routes';
-import { notificationCategoryRouter } from './routes/notify/notificationCategory.routes';
-import { notificationSubCategoryRouter } from './routes/notify/notificationSubCategory.routes';
-import { userNotificationRouter } from './routes/notify/userNotification.routes';
-import { patientNotificationRouter } from './routes/notify/patientNotification.routes';
-import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes';
+
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -146,15 +140,6 @@ app.use("/daily-uptake", pillUptakeRouter);
 app.use("/time-and-work", timeAndWorkRouter);
 app.use("/disclosure-checklist", disclosureChecklistRouter);
 app.use("/follow-checklist", followUpChecklistRouter);
-
-app.use("/notification-types", notificationTypeRouter);
-app.use("/notifications", notificationRouter);
-app.use("/notification-categories", notificationCategoryRouter);
-app.use("/notification-sub-categories", notificationSubCategoryRouter);
-app.use("/user-notifications", userNotificationRouter);
-app.use("/patient-notifications", patientNotificationRouter);
-app.use("/messages-text-replies", messageTextReplyRouter);
-
 
 
 connect.authenticate().then(() => {
