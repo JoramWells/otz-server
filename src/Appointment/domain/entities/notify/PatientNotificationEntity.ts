@@ -1,6 +1,6 @@
 import { PatientNotificationAttributes } from "../../models/notify/patientNotifications.model";
 
-export class PatientNotifications implements PatientNotificationAttributes {
+export class PatientNotificationEntity implements PatientNotificationAttributes {
   constructor(
     public id: string,
     public patientID: string,

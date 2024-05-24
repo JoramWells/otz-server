@@ -65,7 +65,7 @@ UserNotification.init(
 );
 
 UserNotification.belongsTo(Patient, {foreignKey:'patientID'})
-UserNotification.belongsTo(Notification, {foreignKey:'userID'})
+// UserNotification.belongsTo(Notification, {foreignKey:'userID'})
 
 // (async () => {
 // connect.sync()

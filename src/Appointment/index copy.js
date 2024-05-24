@@ -20,14 +20,6 @@ const appointmentRoutes = require('./routes/appointment.routes');
 const appointmentStatusRoutes = require('./routes/appointmentStatus.routes');
 const appointmentAgendaRoutes = require('./routes/appointmentAgenda.routes');
 const smsWhatsappRoutes = require('./routes/smsWhatsapp.routes');
-const notificationTypeRoutes = require('./routes/notify/notificationType.routes');
-const messageTextRepliesTypeRoutes = require('./routes/notify/messageTextReply.routes');
-const notificationCategoryRoutes = require('./routes/notify/notificationCategory.routes');
-const notificationSubCategoryRoutes = require('./routes/notify/notificationSubCategory.routes');
-const notificationRoutes = require('./routes/notify/notification.routes');
-const userNotificationRoutes = require('./routes/notify/userNotifications.routes');
-const patientNotificationRoutes = require('./routes/notify/patientNotifications.routes');
-// const swaggerDocument = require('./swagger.json');
 
 //
 const timeAndWorkRoutes = require('./routes/treatmentplan/timeAndWork.routes');
@@ -143,13 +135,7 @@ app.use('/articles-category', articleCategoryRoutes);
 app.use('/chats', chatRoutes);
 app.use('/chat-messages', chatMessagesRoutes);
 app.use('/sms', smsWhatsappRoutes);
-app.use('/notification-types', notificationTypeRoutes);
-app.use('/notifications', notificationRoutes);
-app.use('/notification-categories', notificationCategoryRoutes);
-app.use('/notification-sub-categories', notificationSubCategoryRoutes);
-app.use('/user-notifications', userNotificationRoutes);
-app.use('/patient-notifications', patientNotificationRoutes);
-app.use('/messages-text-replies', messageTextRepliesTypeRoutes);
+
 //
 app.use('/time-and-work', timeAndWorkRoutes);
 

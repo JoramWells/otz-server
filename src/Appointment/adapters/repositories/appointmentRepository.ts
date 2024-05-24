@@ -44,24 +44,26 @@ return await Appointment.findAll({
   // }
 
   async create(data: AppointmentEntity): Promise<AppointmentEntity> {
-    let results:AppointmentAttributes;
-    await connect.transaction(async (t)=>{
-    results  = await Appointment.create(data, {transaction: t});
+    
+    return await connect.transaction(async (t)=>{
+    let results:AppointmentAttributes  = await Appointment.create(data, {transaction: t});
     if(results){
       await PatientVisits.create(data, {transaction: t})
     }
 
-    })
-    const { patientID } = data;
-    await this.redisClient.connect();
-    if( await this.redisClient.get(patientID.toString()) !== null){
-    await this.redisClient.del(patientID);
+        const { patientID } = data;
+        await this.redisClient.connect();
+        if ((await this.redisClient.get(patientID.toString())) !== null) {
+          await this.redisClient.del(patientID);
+        }
+        return results
 
-    }
+    })
+
     
     // await this.redisClient.disconnect()
 
-    return results;
+    // return results;
   }
 
   async find(): Promise<AppointmentEntity[]> {
