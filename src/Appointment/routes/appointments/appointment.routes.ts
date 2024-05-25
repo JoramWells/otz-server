@@ -23,6 +23,7 @@ router.get(
 );
 router.get("/appointmentDetail/:id", controllers.getAppointmentDetail.bind(controllers));
 router.get("/priorityAppointmentDetail/:id", controllers.onGetPriorityAppointmentById.bind(controllers));
+router.get("/priorityAppointments", controllers.onGetAllPriorityAppointments.bind(controllers));
 
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

@@ -13,7 +13,6 @@ export class AppointmentController {
 
   async onCreateAppointment(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createAppointment(req.body);
       res.json(newProfile);
       //   logger.info({
@@ -57,7 +56,11 @@ export class AppointmentController {
     }
   }
 
-  async onGetPriorityAppointmentById(req: Request, res: Response, next: NextFunction) {
+  async onGetPriorityAppointmentById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getPriorityAppointmentDetail(id);
@@ -70,6 +73,22 @@ export class AppointmentController {
     }
   }
 
+  //
+  async onGetAllPriorityAppointments(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const result = await this.interactor.getAllPriorityAppointments();
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
   // use patient ID
   async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;

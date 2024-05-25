@@ -6,4 +6,5 @@ export interface IAppointmentInteractor {
   getAppointmentById: (id: string) => Promise<AppointmentEntity | null>;
   getAppointmentDetail: (id: string) => Promise<AppointmentEntity[] | null>;
   getPriorityAppointmentDetail: (id: string) => Promise<AppointmentEntity[] | null>;
+  getAllPriorityAppointments: () => Promise<AppointmentEntity[] | null>;
 }

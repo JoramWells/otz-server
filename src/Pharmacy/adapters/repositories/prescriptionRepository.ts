@@ -28,6 +28,10 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         {
           model: Patient,
           attributes: ['firstName', 'middleName']
+        },
+        {
+          model: ART,
+          attributes: ['artName']
         }
       ]
     })

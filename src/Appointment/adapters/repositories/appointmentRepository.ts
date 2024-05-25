@@ -17,50 +17,74 @@ import { PatientVisits } from '../../domain/models/patientVisits.model'
 
 
 export class AppointmentRepository implements IAppointmentRepository {
-  async findPriorityAppointmentDetail(id: string):Promise<AppointmentEntity[] | null>{
-return await Appointment.findAll({
-  where: {
-    patientID: id,
-  },
-  include: [
-    {
-      model: AppointmentStatus,
-      attributes: ["id", "statusDescription"],
-      where: {
-        statusDescription: "Upcoming" ,
-      },
-    },
-      {
-            model: AppointmentAgenda,
-            attributes: ["id", "agendaDescription"],
+  async findAllPriorityAppointments(): Promise<AppointmentEntity[] | null> {
+    return await Appointment.findAll({
+      order:[['updatedAt', 'DESC']],
+      limit:5,
+      include: [
+        {
+          model:Patient,
+          attributes:['id', 'firstName','middleName']
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ["id", "statusDescription"],
+          where: {
+            statusDescription: "Upcoming",
           },
-  ],
-});
+        },
+        {
+          model: AppointmentAgenda,
+          attributes: ["id", "agendaDescription"],
+        },
+      ],
+    });
+  }
 
-    }
+  async findPriorityAppointmentDetail(
+    id: string
+  ): Promise<AppointmentEntity[] | null> {
+    return await Appointment.findAll({
+      where: {
+        patientID: id,
+      },
+      include: [
+        {
+          model: AppointmentStatus,
+          attributes: ["id", "statusDescription"],
+          where: {
+            statusDescription: "Upcoming",
+          },
+        },
+        {
+          model: AppointmentAgenda,
+          attributes: ["id", "agendaDescription"],
+        },
+      ],
+    });
+  }
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(data: AppointmentEntity): Promise<AppointmentEntity> {
-    
-    return await connect.transaction(async (t)=>{
-    let results:AppointmentAttributes  = await Appointment.create(data, {transaction: t});
-    if(results){
-      await PatientVisits.create(data, {transaction: t})
-    }
+    return await connect.transaction(async (t) => {
+      let results: AppointmentAttributes = await Appointment.create(data, {
+        transaction: t,
+      });
+      if (results) {
+        await PatientVisits.create(data, { transaction: t });
+      }
 
-        const { patientID } = data;
-        await this.redisClient.connect();
-        if ((await this.redisClient.get(patientID.toString())) !== null) {
-          await this.redisClient.del(patientID);
-        }
-        return results
+      const { patientID } = data;
+      await this.redisClient.connect();
+      if ((await this.redisClient.get(patientID.toString())) !== null) {
+        await this.redisClient.del(patientID);
+      }
+      return results;
+    });
 
-    })
-
-    
     // await this.redisClient.disconnect()
 
     // return results;
@@ -113,10 +137,11 @@ return await Appointment.findAll({
     return results;
   }
 
-  async findPatientAppointmentByID(id: string): Promise<AppointmentEntity[] | null> {
+  async findPatientAppointmentByID(
+    id: string
+  ): Promise<AppointmentEntity[] | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-
       const results: AppointmentEntity[] | null = await Appointment.findAll({
         where: {
           patientID: id,
@@ -149,35 +174,35 @@ return await Appointment.findAll({
     const results: AppointmentEntity[] = JSON.parse(cachedData);
     console.log("fetched appointment from cace!");
 
-
     return results;
   }
 
-  async findAllAppointmentById(id: string): Promise<AppointmentEntity[] | null>{
-        const results = await Appointment.findAll({
-          where: {
-            id,
-          },
-          include: [
-            {
-              model: AppointmentAgenda,
-              attributes: ["agendaDescription"],
-            },
-            {
-              model: AppointmentStatus,
-              attributes: ["statusDescription"],
-            },
-            {
-              model: User,
-              attributes: ["firstName", "middleName"],
-            },
-          ],
-        });
-        return results
+  async findAllAppointmentById(
+    id: string
+  ): Promise<AppointmentEntity[] | null> {
+    const results = await Appointment.findAll({
+      where: {
+        id,
+      },
+      include: [
+        {
+          model: AppointmentAgenda,
+          attributes: ["agendaDescription"],
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ["statusDescription"],
+        },
+        {
+          model: User,
+          attributes: ["firstName", "middleName"],
+        },
+      ],
+    });
+    return results;
   }
 
   async findById(id: string): Promise<AppointmentEntity | null> {
-    
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     //   const results: Appointment | null = await Appointment.findOne({
@@ -205,11 +230,11 @@ return await Appointment.findAll({
     // }
     // const results: AppointmentEntity = JSON.parse(cachedData);
     // console.log("fetched from cace!");
-        const results: Appointment | null = await Appointment.findOne({
-          where: {
-            id,
-          },
-        });
+    const results: Appointment | null = await Appointment.findOne({
+      where: {
+        id,
+      },
+    });
 
     return results;
   }

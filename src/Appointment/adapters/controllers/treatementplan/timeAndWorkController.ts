@@ -43,6 +43,19 @@ export class TimeAndWorkController {
     }
   }
 
+  async onGetTimeAndWorkByPatientId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getTimeAndWorkByPatientId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async onGetTimeAndWorkById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
