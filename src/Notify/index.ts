@@ -10,7 +10,7 @@ import {createServer} from 'http';
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
 
-import { dailyPillUpdate } from './utils/dailyPillUpdate';
+// import { dailyPillUpdate } from './utils/dailyPillUpdate';
 
 import { notificationTypeRouter } from './routes/notify/notificationType.routes';
 import { notificationRouter } from './routes/notify/notification.routes';
@@ -45,9 +45,9 @@ app.use(express.static('uploads'))
 // morgan
 app.use(morgan('dev'));
 
-scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
+// scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
-dailyPillUpdate();
+// dailyPillUpdate();
 
 // schedulePatientNotifications();
 

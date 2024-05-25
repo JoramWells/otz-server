@@ -12,8 +12,7 @@ import {createServer} from 'http';
 import { Server } from 'socket.io';
 import { appointmentAgendaRouter } from './routes/appointments/appointmentAgenda.routes';
 import { appointmentStatusRouter } from './routes/appointments/appointmentStatus.routes';
-import { articleRouter } from './routes/articles/articles.routes';
-import { articleCategoryRouter } from './routes/articles/articleCategory.routes';
+
 import { pillUptakeRouter } from './routes/treatmentplan/pillUptake.routes';
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
 import { dailyPillUpdate } from './utils/dailyPillUpdate';
@@ -133,8 +132,6 @@ app.use('/appointments', appointmentRouter);
 app.use("/appointment-agenda", appointmentAgendaRouter);
 app.use("/appointment-status", appointmentStatusRouter);
 app.use("/mmas", mmasRouter);
-app.use("/articles", articleRouter);
-app.use("/articles-category", articleCategoryRouter);
 
 app.use("/daily-uptake", pillUptakeRouter);
 app.use("/time-and-work", timeAndWorkRouter);
