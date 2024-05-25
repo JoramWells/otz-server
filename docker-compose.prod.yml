@@ -415,6 +415,48 @@ services:
   #   networks:
   #     - otz
 
+  articles:
+    build:
+      context: ./src/Articles
+      dockerfile: Dockerfile
+    image: blackwell18/articles:latest
+    volumes:
+      - ./src/Articles:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.35'
+          memory: 600M
+        reservations:
+          cpus: '0.35'
+          memory: 600M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m       
+    ports:
+      - 5009:5009
+    depends_on:
+      database:
+        condition: service_healthy
+      # - kafka-2
+      redis:
+        condition: service_started    
+    networks:
+      - otz
+
   nginx:
     image: nginx:alpine
     volumes:
@@ -446,6 +488,7 @@ services:
     #       # memory: 700M 
 
     depends_on:
+      - articles
       - users
       - enrollments
       - root

@@ -4,7 +4,6 @@
 /* eslint-disable linebreak-style */
 import express from 'express';
 import { connect } from './db/connect';
-import {scheduleJob} from 'node-schedule';
 import {createServer} from 'http';
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
@@ -40,9 +39,7 @@ app.use(express.static('uploads'))
 // morgan
 app.use(morgan('dev'));
 
-scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
-dailyPillUpdate();
 
 // schedulePatientNotifications();
 
