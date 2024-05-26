@@ -1,6 +1,6 @@
 node_modules
 dist
 ./Users/logs/*
-src/Appointment/uploads/*
-uploads/*
-uploads
+# src/Appointment/uploads/*
+# uploads/*
+# uploads

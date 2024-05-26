@@ -23,7 +23,7 @@ services:
       - 5432:5432
     volumes:
       # - postgres_data:/var/lib/postgresql/data
-      - ./otz.sql:/docker-entrypoint-initdb.d/otz.sql
+      - ./otzv2.sql:/docker-entrypoint-initdb.d/otzv2.sql
 
     # deploy:
     #   mode: replicated
@@ -37,11 +37,11 @@ services:
     #     condition: on-failure    
     #   resources:
     #     limits:
-    #       cpus: '0.35'
-    #       memory: 600M
+    #       cpus: '0.30'
+    #       memory: 550M
     #     reservations:
-    #       cpus: '0.35'
-    #       memory: 600M
+    #       cpus: '0.30'
+    #       memory: 550M
     networks:
       - otz
     healthcheck:
@@ -70,11 +70,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
     ports:
       - 5001:5001
     depends_on:
@@ -105,11 +105,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
     ports:
       - 5002:5002
     depends_on:
@@ -138,11 +138,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M   
+          cpus: '0.30'
+          memory: 550M   
     ports:
       - 5003:5003
     depends_on:
@@ -171,11 +171,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M   
+          cpus: '0.30'
+          memory: 550M   
     ports:
       - 5006:5006
     depends_on:
@@ -204,11 +204,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M   
+          cpus: '0.30'
+          memory: 550M   
     ports:
       - 5007:5007
     depends_on:
@@ -237,11 +237,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M  
+          cpus: '0.30'
+          memory: 550M  
     ports:
       - 5000:5000
     depends_on:
@@ -280,11 +280,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M   
+          cpus: '0.30'
+          memory: 550M   
     ports:
       - 5004:5004
     depends_on:
@@ -314,11 +314,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -356,11 +356,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -400,7 +400,7 @@ services:
   #     #   condition: on-failure    
   #     resources:
   #       limits:
-  #         cpus: '0.35'
+  #         cpus: '0.30'
   #         # memory: 1000M
 
   #   ports:
@@ -435,11 +435,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
         reservations:
-          cpus: '0.35'
-          memory: 600M
+          cpus: '0.30'
+          memory: 550M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -478,10 +478,10 @@ services:
     #   resources:
     #     limits:
     #       cpus: '0.05'
-    #       # memory: 600M
+    #       # memory: 550M
     #     reservations:
     #       cpus: '0.05'
-    #       # memory: 600M 
+    #       # memory: 550M 
 
     depends_on:
       - articles
