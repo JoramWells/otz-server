@@ -1073,3 +1073,5 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-05-26T17:50:11.794Z"}
 {"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-05-26T17:53:13.362Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-05-26T17:53:13.499Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-05-26T18:35:56.295Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-05-26T18:35:56.499Z"}
