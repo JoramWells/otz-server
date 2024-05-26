@@ -4,4 +4,5 @@ export interface IArticleRepository {
   create: (data: ArticlesEntity) => Promise<ArticlesEntity>;
   find: () => Promise<ArticlesEntity[]>;
   findById: (id: string) => Promise<ArticlesEntity | null>;
+  delete: (id: string) => Promise<number | null>;
 }

@@ -3,6 +3,8 @@ import { IArticleRepository } from '../../../application/interfaces/articles/IAr
 import { articleCache } from '../../../constants/appointmentCache'
 import { ArticlesEntity } from '../../../domain/entities/articles/ArticlesEntity'
 import { Article, ArticleAttributes } from '../../../domain/models/articles/article.model'
+import { ArticleCategory } from '../../../domain/models/articles/articleCategory.model'
+import { Chapter } from '../../../domain/models/articles/chapters.model'
 import { RedisAdapter } from '../redisAdapter'
 
 
@@ -12,10 +14,11 @@ export class ArticleRepository implements IArticleRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(
-    data: ArticlesEntity
-  ): Promise<ArticlesEntity> {
+  async create(data: ArticlesEntity): Promise<ArticlesEntity> {
+    await this.redisClient.connect();
     const results: ArticleAttributes = await Article.create(data);
+    await this.redisClient.del(articleCache);
+    await this.redisClient.disconnect();
 
     return results;
   }
@@ -23,26 +26,41 @@ export class ArticleRepository implements IArticleRepository {
   async find(): Promise<ArticlesEntity[]> {
     await this.redisClient.connect();
     // check if patient
-    if ((await this.redisClient.get(articleCache)) === null) {
-      const results = await Article.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      await this.redisClient.set(articleCache, JSON.stringify(results));
+    const results = await Article.findAll({
+      include: [
+        {
+          model: Chapter,
+          attributes: ["id", "description"],
+        },
+      ],
+    });
+    // if ((await this.redisClient.get(articleCache)) === null) {
+    //   const results = await Article.findAll({
+    //     include:[
+    //       {
+    //         model:ArticleCategory,
+    //         attributes:['id','description']
+    //       }
+    //     ]
+    //   });
+    //   // logger.info({ message: "Fetched from db!" });
+    //   // console.log("fetched from db!");
+    //   // set to cace
+    //   await this.redisClient.set(articleCache, JSON.stringify(results));
 
-      return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      articleCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
-    await this.redisClient.disconnect();
-    // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    //   return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   articleCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // await this.redisClient.disconnect();
+    // // logger.info({ message: "Fetched from cache!" });
+    // console.log("fetched from cache!");
 
-    const results: ArticlesEntity[] = JSON.parse(cachedPatients);
+    // const results: ArticlesEntity[] = JSON.parse(cachedPatients);
     return results;
   }
 
@@ -74,6 +92,31 @@ export class ArticleRepository implements IArticleRepository {
     }
     const results: ArticleAttributes = JSON.parse(cachedData);
     console.log("fetched from cace!");
+
+    return results;
+  }
+
+  async delete(id: string): Promise<number | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+      const results = await Article.destroy({
+        where: {
+          id,
+        },
+      });
+
+   
+      // await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: ArticleAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
 
     return results;
   }

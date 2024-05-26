@@ -20,6 +20,8 @@ router.get(
   controllers.onGetArticleById.bind(controllers)
 );
 
+router.delete("/delete/:id", controllers.onDeleteArticleById.bind(controllers));
+
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

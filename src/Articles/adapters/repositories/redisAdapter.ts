@@ -29,8 +29,9 @@ export class RedisAdapter {
      return null
   }
 
-  async disconnect (): Promise<string> {
-      return this.redisClient.disconnect();
+  async disconnect () {
+      await this.redisClient.quit();
+      console.log('Disconnected from redis client!!')
   }
 
   async get (key: string): Promise<string | null> {

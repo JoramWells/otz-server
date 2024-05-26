@@ -11,6 +11,7 @@ import { Server } from 'socket.io';
 
 import { articleRouter } from './routes/articles/articles.routes';
 import { articleCategoryRouter } from './routes/articles/articleCategory.routes';
+import { chapterRouter,  } from './routes/articles/chapter.routes';
 
 
 const morgan = require('morgan');
@@ -23,6 +24,7 @@ const cors = require('cors');
 const sequelize = require('./db/connect');
 
 // const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
+
 
 const app = express();
 
@@ -122,6 +124,7 @@ const PORT = process.env.PORT || 5009;
 
 app.use("/articles", articleRouter);
 app.use("/articles-category", articleCategoryRouter);
+app.use("/chapters", chapterRouter);
 
 
 

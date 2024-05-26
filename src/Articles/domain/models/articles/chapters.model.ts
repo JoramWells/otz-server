@@ -1,23 +1,26 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
+import { ArticleCategory } from "./articleCategory.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface ArticleCategoryAttributes {
+export interface ChapterAttributes {
   id: string;
   description: string;
+  bookID: string;
   thumbnail: string;
 }
 
-export class ArticleCategory
-  extends Model<ArticleCategoryAttributes>
-  implements ArticleCategoryAttributes
+export class Chapter
+  extends Model<ChapterAttributes>
+  implements ChapterAttributes
 {
   id!: string;
   description!: string;
   thumbnail!: string;
+  bookID!: string;
 }
 
-ArticleCategory.init(
+Chapter.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -30,10 +33,19 @@ ArticleCategory.init(
     thumbnail: {
       type: DataTypes.STRING,
     },
+    bookID: {
+      type: DataTypes.UUID,
+       references: {
+        model: 'books',
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+
+  },
   },
   {
     sequelize: connect,
-    tableName: "books",
+    tableName: "chapters",
     // postgresql: {
     //   fillFactor: 70
     // },
@@ -41,6 +53,7 @@ ArticleCategory.init(
   }
 );
 
+Chapter.belongsTo(ArticleCategory,{foreignKey:'bookID'})
 
 // (async () => {
 // connect.sync()

@@ -17,13 +17,13 @@ export class ArticleController {
     try {
       console.log(req.body);
       const newProfile = await this.interactor.createArticle(data);
-      res.sendStatus(200).json(newProfile);
+      res.status(200).json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
       //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
@@ -41,7 +41,7 @@ export class ArticleController {
     } catch (error) {
       next(error);
       res.status(500).json({ message: "Internal Server Error" });
-      // console.log(error)
+      console.log(error);
     }
   }
 
@@ -49,6 +49,19 @@ export class ArticleController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getArticleById(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async onDeleteArticleById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.deleteArticleById(id);
       res.status(200).json(result);
       next();
     } catch (error) {

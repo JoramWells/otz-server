@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IArticleCategoryInteractor } from "../../../application/interfaces/articles/IArticleCategoryInteractor";
+import { IChapterInteractor } from "../../../application/interfaces/articles/IChapterInteractor";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
-export class ArticleCategoryController {
-  private readonly interactor: IArticleCategoryInteractor;
+export class ChapterController {
+  private readonly interactor: IChapterInteractor;
 
-  constructor(interactor: IArticleCategoryInteractor) {
+  constructor(interactor: IChapterInteractor) {
     this.interactor = interactor;
   }
 
-  async onCreateArticleCategory(req: Request, res: Response, next: NextFunction) {
+  async onCreateChapter(req: Request, res: Response, next: NextFunction) {
     try {
       const data = {...req.body, thumbnail: req.file?.filename}
       console.log(data)
-      const newProfile = await this.interactor.createArticleCategory(data);
+      const newProfile = await this.interactor.createChapter(data);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -28,12 +28,12 @@ export class ArticleCategoryController {
     }
   }
 
-  async onGetAllArticleCategory(req: Request, res: Response, next: NextFunction) {
+  async onGetAllChapter(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllArticleCategories();
+      const results = await this.interactor.getAllChapters();
       res.status(200).json(results);
 
       next();
@@ -44,10 +44,10 @@ export class ArticleCategoryController {
     }
   }
 
-  async onGetArticleCategoryById(req: Request, res: Response, next: NextFunction) {
+  async onGetChapterById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getArticleCategoryById(id);
+      const result = await this.interactor.getChapterById(id);
       res.status(200).json(result);
       next();
     } catch (error) {

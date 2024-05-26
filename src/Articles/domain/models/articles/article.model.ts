@@ -4,22 +4,25 @@ import { User } from "../user.model";
 import { ArticleCategory } from "./articleCategory.model";
 import { createClient } from "redis";
 import { articleCache } from "../../../constants/appointmentCache";
+import { Chapter } from "./chapters.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface ArticleAttributes {
   id: string;
   userID: string;
-  articleCategoryID: string;
+  chapterID: string;
   image:string
-  description: string;
+  content: string;
+  title: string
 }
 
 export class Article extends Model<ArticleAttributes> implements ArticleAttributes {
   id!: string;
   userID!: string;
   image!: string;
-  articleCategoryID!: string;
-  description!: string;
+  chapterID!: string;
+  content!: string;
+  title!: string
 }
 
 Article.init(
@@ -37,10 +40,11 @@ Article.init(
       },
       onDelete: "CASCADE",
     },
-    articleCategoryID: {
+
+    chapterID: {
       type: DataTypes.UUID,
       references: {
-        model: "articleCategories",
+        model: "chapters",
         key: "id",
       },
       onDelete: "CASCADE",
@@ -48,8 +52,11 @@ Article.init(
     image: {
       type: DataTypes.STRING,
     },
-    description: {
+    content: {
       type: DataTypes.TEXT,
+    },
+    title: {
+      type: DataTypes.STRING,
     },
   },
   {
@@ -63,7 +70,7 @@ Article.init(
 );
 
 Article.belongsTo(User, {foreignKey:'userID'})
-Article.belongsTo(ArticleCategory, { foreignKey: "articleCategoryID" });
+Article.belongsTo(Chapter, { foreignKey: "chapterID" });
 
 Article.afterCreate(async()=>{
   const redisClient = createClient({ url: "redis://redis:6379" });
@@ -71,10 +78,10 @@ Article.afterCreate(async()=>{
   await redisClient.del(articleCache)
 
   // 
-const results = await Article.findAll({})
-if(results){
-  await redisClient.set(articleCache, JSON.stringify(results))
-}
+// const results = await Article.findAll({})
+// if(results){
+//   await redisClient.set(articleCache, JSON.stringify(results))
+// }
   
 })
 
@@ -84,10 +91,10 @@ Article.afterUpdate(async () => {
   await redisClient.del(articleCache);
 
   //
-  const results = await Article.findAll({});
-  if (results) {
-    await redisClient.set(articleCache, JSON.stringify(results));
-  }
+  // const results = await Article.findAll({});
+  // if (results) {
+  //   await redisClient.set(articleCache, JSON.stringify(results));
+  // }
 });
 
 // connect.sync()

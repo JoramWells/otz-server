@@ -3,6 +3,7 @@ import { ArticleCategoryAttributes } from "../../models/articles/articleCategory
 export class ArticlesCategoryEntity implements ArticleCategoryAttributes {
   constructor(
     public id: string,
-    public description: string
+    public description: string,
+    public thumbnail: string
   ) {}
 }

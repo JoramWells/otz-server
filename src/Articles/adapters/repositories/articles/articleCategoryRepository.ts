@@ -13,38 +13,48 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
   // }
 
   async create(data: ArticlesCategoryEntity): Promise<ArticlesCategoryEntity> {
+    await this.redisClient.connect()
     const results: ArticleCategoryAttributes = await ArticleCategory.create(
       data
     );
+
+    await this.redisClient.del(articleCategoryCache)
+
+    // fetch categories
+    // const savedResults = await ArticleCategory.findAll({})
+    // await this.redisClient.set(articleCategoryCache, JSON.stringify(savedResults) )
+    await this.redisClient.disconnect()
 
     return results;
   }
 
   async find(): Promise<ArticlesCategoryEntity[]> {
-    await this.redisClient.connect();
-    // check if patient
-    if ((await this.redisClient.get(articleCategoryCache)) === null) {
-      const results = await ArticleCategory.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      await this.redisClient.set(articleCategoryCache, JSON.stringify(results));
+     const results = await ArticleCategory.findAll({});
+    // await this.redisClient.connect();
+    // // check if patient
+    // if ((await this.redisClient.get(articleCategoryCache)) === null) {
+    //   const results = await ArticleCategory.findAll({});
+    //   // logger.info({ message: "Fetched from db!" });
+    //   // console.log("fetched from db!");
+    //   // set to cace
+    //   await this.redisClient.set(articleCategoryCache, JSON.stringify(results));
 
-      return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      articleCategoryCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
-    await this.redisClient.disconnect();
-    // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    //   return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   articleCategoryCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // await this.redisClient.disconnect();
+    // // logger.info({ message: "Fetched from cache!" });
+    // console.log("fetched from cache!");
 
-    const results: ArticlesCategoryEntity[] = JSON.parse(cachedPatients);
+    // const results: ArticlesCategoryEntity[] = JSON.parse(cachedPatients);
     return results;
   }
+
 
   async findById(id: string): Promise<ArticlesCategoryEntity | null> {
     await this.redisClient.connect();

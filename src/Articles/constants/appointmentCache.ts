@@ -7,3 +7,4 @@ export const mmasCache = "mmasData";
 
 export const pillUptakeCache = "pillUptakeData";
 export const timeAndWorkCache = "timeAndWorkData";
+export const chapterCache = "chapterData";

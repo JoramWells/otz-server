@@ -22,4 +22,8 @@ export class ArticleInteractor implements IArticleInteractor {
   async getAllArticles(): Promise<ArticlesEntity[]> {
     return await this.repository.find();
   }
+
+  async deleteArticleById(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
+  }
 }
