@@ -18,8 +18,8 @@ export class PillUptakeInteractor implements IPillUptakeInteractor {
     return await this.repository.findById(id);
   }
 
-  async editPillUptake(id: string, status: boolean): Promise<UptakeEntity | null> {
-    return await this.repository.edit(id, status);
+  async editPillUptake(id: string, status: boolean, queryString: string): Promise<UptakeEntity | null> {
+    return await this.repository.edit(id, status, queryString);
   }
 
   async createPillUptake(patientData: UptakeEntity): Promise<UptakeEntity> {

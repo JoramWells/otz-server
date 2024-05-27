@@ -133,7 +133,19 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
     return results;
   }
-  async edit(id: string, status: boolean): Promise<UptakeEntity | null> {
+  async edit(id: string, status: boolean,query: ParsedQs): Promise<UptakeEntity | null> {
+    if(query === 'morning'){
+
+        const results = await Uptake.findOne({
+          where: {
+            id,
+          },
+        });
+        if (results) {
+          results.morningStatus = status;
+          results.save();
+        }
+    }
 
         const results = await Uptake.findOne({
           where: {
@@ -141,7 +153,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           },
         });
         if(results){
-          results.morningStatus = status;
+          results.eveningStatus = status;
           results.save()
 
         }

@@ -60,10 +60,26 @@ export class PillUptakeController {
   async onEditPillUptake(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const {morningStatus} = req.body
-      const result = await this.interactor.editPillUptake(id, morningStatus);
-      res.status(200).json(result);
+      const timeQuery = req.query.time
+      console.log(req.query)
+      if(timeQuery === 'morning'){
+   const { morningStatus } = req.body;
+   const result = await this.interactor.editPillUptake(id, morningStatus, timeQuery);
+   res.status(200).json(result);
       next();
+
+      }else{
+           const { eveningStatus } = req.body;
+           const result = await this.interactor.editPillUptake(
+             id,
+             eveningStatus,
+             timeQuery
+           );
+           res.status(200).json(result);
+            next();
+
+      }
+   
     } catch (error) {
       next(error);
       console.log(error);
