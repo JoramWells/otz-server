@@ -22,6 +22,7 @@ router.get(
   controllers.onGetPillUptakeById.bind(controllers)
 );
 router.get('/dailyUptakeCount', controllers.getDailyPillUptakeCount.bind(controllers));
+router.put('/edit/:id', controllers.onEditPillUptake.bind(controllers));
 // router.delete('/delete/:id', deletePatient);
 
 export { router as pillUptakeRouter };

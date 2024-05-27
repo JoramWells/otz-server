@@ -56,7 +56,26 @@ export class PillUptakeController {
     }
   }
 
-  async getDailyPillUptakeCount(req: Request, res: Response, next: NextFunction) {
+  //
+  async onEditPillUptake(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const {morningStatus} = req.body
+      const result = await this.interactor.editPillUptake(id, morningStatus);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async getDailyPillUptakeCount(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const result = await this.interactor.getDailyPillUptakeCount();
       res.status(200).json(result);

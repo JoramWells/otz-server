@@ -10,12 +10,16 @@ export class PillUptakeInteractor implements IPillUptakeInteractor {
   constructor(repository: IPillUptakeRepository) {
     this.repository = repository;
   }
-  async getDailyPillUptakeCount(){
-    return await this.repository.count()
-  };
+  async getDailyPillUptakeCount() {
+    return await this.repository.count();
+  }
 
   async getPillUptakeById(id: string): Promise<UptakeEntity | null> {
     return await this.repository.findById(id);
+  }
+
+  async editPillUptake(id: string, status: boolean): Promise<UptakeEntity | null> {
+    return await this.repository.edit(id, status);
   }
 
   async createPillUptake(patientData: UptakeEntity): Promise<UptakeEntity> {

@@ -11,72 +11,94 @@ import { Patient } from '../../../domain/models/patients.models';
 
 
 export class PillUptakeRepository implements IPillUptakeRepository {
-  async count(){
-    const currentDate = moment().format('YYYY-MM-DD')
+  async count() {
+    const currentDate = moment().format("YYYY-MM-DD");
 
-    // 
-        const results = await Uptake.findOne({
+    //
+    const results = await Uptake.findOne({
       attributes: [
-        [Sequelize.literal('SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'), 'morningTrueCount'],
-        [Sequelize.literal('SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'), 'morningFalseCount'],
-        [Sequelize.literal('SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'), 'eveningTrueCount'],
-        [Sequelize.literal('SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'), 'eveningFalseCount'],
+        [
+          Sequelize.literal(
+            'SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'
+          ),
+          "morningTrueCount",
+        ],
+        [
+          Sequelize.literal(
+            'SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'
+          ),
+          "morningFalseCount",
+        ],
+        [
+          Sequelize.literal(
+            'SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'
+          ),
+          "eveningTrueCount",
+        ],
+        [
+          Sequelize.literal(
+            'SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'
+          ),
+          "eveningFalseCount",
+        ],
       ],
       where: {
         currentDate,
       },
     });
-    
-    return results
 
-  };
+    return results;
+  }
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(
-    data: UptakeEntity
-  ): Promise<UptakeEntity> {
+  async create(data: UptakeEntity): Promise<UptakeEntity> {
     const results: UptakeAttributes = await Uptake.create(data);
 
     return results;
   }
 
   async find(): Promise<UptakeEntity[]> {
-    await this.redisClient.connect();
+    const currentDate = moment().format("YYYY-MM-DD");
+    // await this.redisClient.connect();
     // check if patient
-    if ((await this.redisClient.get(pillUptakeCache)) === null) {
-      const results = await Uptake.findAll({
-        include: {
-          // where: whereCondition,
-          model: TimeAndWork,
-          attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
-          include: [{
+    // if ((await this.redisClient.get(pillUptakeCache)) === null) {
+    const results = await Uptake.findAll({
+      where: {
+        currentDate,
+      },
+      include: {
+        model: TimeAndWork,
+        attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
+        include: [
+          {
             model: Patient,
             attributes: ["id", "firstName", "middleName"],
-          }],
-        },
-      });
+          },
+        ],
+      },
+    });
 
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
+    //   await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
 
-      return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      pillUptakeCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
-    await this.redisClient.disconnect();
+    //   return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   pillUptakeCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    // console.log("fetched from cache!");
 
-    const results: UptakeEntity[] = JSON.parse(cachedPatients);
+    // const results: UptakeEntity[] = JSON.parse(cachedPatients);
     return results;
   }
 
@@ -108,6 +130,22 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     }
     const results: UptakeAttributes = JSON.parse(cachedData);
     console.log("fetched from cace!");
+
+    return results;
+  }
+  async edit(id: string, status: boolean): Promise<UptakeEntity | null> {
+
+        const results = await Uptake.findOne({
+          where: {
+            id,
+          },
+        });
+        if(results){
+          results.morningStatus = status;
+          results.save()
+
+        }
+
 
     return results;
   }
