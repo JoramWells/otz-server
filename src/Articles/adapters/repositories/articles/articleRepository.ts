@@ -118,6 +118,5 @@ export class ArticleRepository implements IArticleRepository {
     // const results: ArticleAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
-    return results;
   }
 }

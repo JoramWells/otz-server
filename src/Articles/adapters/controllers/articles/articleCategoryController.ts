@@ -11,10 +11,14 @@ export class ArticleCategoryController {
     this.interactor = interactor;
   }
 
-  async onCreateArticleCategory(req: Request, res: Response, next: NextFunction) {
+  async onCreateArticleCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      const data = {...req.body, thumbnail: req.file?.filename}
-      console.log(data)
+      const data = { ...req.body, thumbnail: req.file?.filename };
+      console.log(data);
       const newProfile = await this.interactor.createArticleCategory(data);
       res.json(newProfile);
       //   logger.info({
@@ -22,13 +26,17 @@ export class ArticleCategoryController {
       //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
   }
 
-  async onGetAllArticleCategory(req: Request, res: Response, next: NextFunction) {
+  async onGetAllArticleCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -44,10 +52,27 @@ export class ArticleCategoryController {
     }
   }
 
-  async onGetArticleCategoryById(req: Request, res: Response, next: NextFunction) {
+  async onGetArticleCategoryById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getArticleCategoryById(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async onDeleteBook(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.deleteBook(id);
       res.status(200).json(result);
       next();
     } catch (error) {

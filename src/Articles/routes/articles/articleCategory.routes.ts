@@ -27,6 +27,7 @@ router.get(
   controllers.onGetArticleCategoryById.bind(controllers)
 );
 // router.put('/edit/:id', editPatient);
-// router.delete('/delete/:id', deletePatient);
+router.delete("/delete/:id", controllers.onDeleteBook.bind(controllers));
+
 
 export { router as articleCategoryRouter };

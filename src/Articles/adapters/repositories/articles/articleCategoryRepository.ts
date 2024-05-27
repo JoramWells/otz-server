@@ -13,23 +13,23 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
   // }
 
   async create(data: ArticlesCategoryEntity): Promise<ArticlesCategoryEntity> {
-    await this.redisClient.connect()
+    await this.redisClient.connect();
     const results: ArticleCategoryAttributes = await ArticleCategory.create(
       data
     );
 
-    await this.redisClient.del(articleCategoryCache)
+    await this.redisClient.del(articleCategoryCache);
 
     // fetch categories
     // const savedResults = await ArticleCategory.findAll({})
     // await this.redisClient.set(articleCategoryCache, JSON.stringify(savedResults) )
-    await this.redisClient.disconnect()
+    await this.redisClient.disconnect();
 
     return results;
   }
 
   async find(): Promise<ArticlesCategoryEntity[]> {
-     const results = await ArticleCategory.findAll({});
+    const results = await ArticleCategory.findAll({});
     // await this.redisClient.connect();
     // // check if patient
     // if ((await this.redisClient.get(articleCategoryCache)) === null) {
@@ -55,15 +55,15 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
     return results;
   }
 
-
   async findById(id: string): Promise<ArticlesCategoryEntity | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-      const results: ArticleCategoryAttributes | null = await ArticleCategory.findOne({
-        where: {
-          id,
-        },
-      });
+      const results: ArticleCategoryAttributes | null =
+        await ArticleCategory.findOne({
+          where: {
+            id,
+          },
+        });
 
       // const patientResults: AppointmentEntity = {
       //   firstName: results?.firstName,
@@ -86,5 +86,28 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
     console.log("fetched from cace!");
 
     return results;
+  }
+
+  //
+  async delete(id: string): Promise<number | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    const results = await ArticleCategory.destroy({
+      where: {
+        id,
+      },
+    });
+
+    // await this.redisClient.set(id, JSON.stringify(results));
+
+    return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: ArticleAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
   }
 }
