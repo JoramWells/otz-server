@@ -125,5 +125,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DOC_ROOT = os.path(BASE_DIR, 'docs')
-DOC_URL = '/docs/'
+# DOC_ROOT = os.path(BASE_DIR, 'docs')
+# DOC_URL = '/docs/'
