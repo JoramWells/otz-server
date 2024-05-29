@@ -15,6 +15,8 @@ export class AppointmentAgendaController {
     try {
       console.log(req.body);
       const newProfile = await this.interactor.createAppointmentAgenda(req.body);
+      const io = req.app.locals.io
+      io.emit('appointment-agenda-updated',JSON.stringify(newProfile))
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,

@@ -40,7 +40,7 @@ const HomeVisit = sequelize.define('homeVisits', {
     onDelete: 'CASCADE',
   },
   dateRequested: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
   },
   homeVisitFrequencyID: {
     type: DataTypes.UUID,
@@ -50,46 +50,47 @@ const HomeVisit = sequelize.define('homeVisits', {
     },
     onDelete: 'CASCADE',
   },
-  artPrescriptionID: {
-    type: DataTypes.UUID,
+  artPrescription: {
+    type: DataTypes.JSONB,
     // references: {
     //   model: 'artPrescription',
     //   key: 'id',
     // },
     // onDelete: 'CASCADE',
   },
-  date_of_home_visit_requested: {
+  tbPrescription: {
+    type: DataTypes.JSONB,
+  },
+
+  noOfPills: {
+    type: DataTypes.INTEGER,
+  },
+  medicineStatus: {
     type: DataTypes.STRING,
   },
-  medicine_counted: {
+  actionTaken: {
     type: DataTypes.STRING,
   },
-  medicine_status: {
-    type: DataTypes.STRING,
+  returnToClinic: {
+    type: DataTypes.DATE,
   },
-  action_taken: {
-    type: DataTypes.STRING,
+  isPillsCounted: {
+    type: DataTypes.BOOLEAN,
   },
-  return_to_clinic: {
-    type: DataTypes.STRING,
+  isClinicVisits: {
+    type: DataTypes.BOOLEAN,
   },
-  is_pills_counted: {
-    type: DataTypes.STRING,
+  isDisclosure: {
+    type: DataTypes.BOOLEAN,
   },
-  is_clinic_visits: {
-    type: DataTypes.STRING,
+  isGuardianSupport: {
+    type: DataTypes.BOOLEAN,
   },
-  is_disclosure: {
-    type: DataTypes.STRING,
+  isSupportGroupAttendance: {
+    type: DataTypes.BOOLEAN,
   },
-  is_guardian_support: {
-    type: DataTypes.STRING,
-  },
-  is_support_group_attendance: {
-    type: DataTypes.STRING,
-  },
-  is_household_tested: {
-    type: DataTypes.STRING,
+  isHouseholdTested: {
+    type: DataTypes.BOOLEAN,
   },
 
   // e
