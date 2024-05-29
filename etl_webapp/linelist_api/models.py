@@ -1,8 +1,9 @@
 from django.db import models
-
+import uuid
 
 # Create your models here.
 class Patients(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     firstName = models.CharField(max_length=100)
     middleName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
@@ -27,3 +28,45 @@ class Patients(models.Model):
     def __str__(self):
         return self.firstName
     
+
+class VitalSigns(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    temperature = models.FloatField()
+    weight = models.CharField(max_length=100)
+    height = models.CharField(max_length=100)
+    systolic = models.IntegerField()
+    diastolic = models.IntegerField()
+    # muac = mo
+
+
+class ArtPrescription(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    startDate = models.DateTimeField(auto_now_add=True)
+    regimen = models.CharField(max_length=100)
+    isStandard = models.BooleanField()
+    line = models.CharField(max_length=100)
+    changeReason = models.CharField(max_length=100)
+    stopReason = models.CharField(max_length=100)
+    changeDate = models.DateTimeField()
+    stopDate = models.DateTimeField()
+
+
+class Prescription(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    regimen = models.CharField(max_length=100)
+    noOfPills = models.IntegerField()
+    refillDate = models.DateTimeField()
+    nextRefillDate = models.DateTimeField()
+
+
+
+class ViralLoad(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    vlResults = models.IntegerField()
+    vlJustification = models.CharField(max_length=100)
+    dateOfVL = models.DateTimeField()
+    dateOfNextVL = models.DateTimeField()
