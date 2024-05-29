@@ -1,6 +1,7 @@
 node_modules
 dist
 ./Users/logs/*
+./venv
 # src/Appointment/uploads/*
 # uploads/*
 # uploads

@@ -6,7 +6,7 @@ import express from 'express';
 import { appointmentRouter } from './routes/appointments/appointment.routes';
 import { connect } from './db/connect';
 import {scheduleJob} from 'node-schedule';
-import {createServer} from 'http2';
+import {createServer} from 'http';
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
