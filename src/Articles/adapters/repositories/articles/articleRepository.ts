@@ -34,6 +34,7 @@ export class ArticleRepository implements IArticleRepository {
         },
       ],
     });
+    
     // if ((await this.redisClient.get(articleCache)) === null) {
     //   const results = await Article.findAll({
     //     include:[

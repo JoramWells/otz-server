@@ -4,4 +4,5 @@ export interface IChapterInteractor {
   createChapter: (data: ChapterEntity) => Promise<ChapterEntity>;
   getAllChapters: () => Promise<ChapterEntity[]>;
   getChapterById: (id: string) => Promise<ChapterEntity | null>;
+  getAllBooksById: (id: string) => Promise<ChapterEntity[] | null>;
 }

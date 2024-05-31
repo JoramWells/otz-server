@@ -13,8 +13,8 @@ export class ChapterController {
 
   async onCreateChapter(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = {...req.body, thumbnail: req.file?.filename}
-      console.log(data)
+      const data = { ...req.body, thumbnail: req.file?.filename };
+      console.log(data);
       const newProfile = await this.interactor.createChapter(data);
       res.json(newProfile);
       //   logger.info({
@@ -22,7 +22,7 @@ export class ChapterController {
       //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
@@ -48,6 +48,20 @@ export class ChapterController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getChapterById(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetAllBooksById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getAllBooksById(id);
       res.status(200).json(result);
       next();
     } catch (error) {

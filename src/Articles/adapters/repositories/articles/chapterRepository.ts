@@ -8,18 +8,17 @@ import { RedisAdapter } from '../redisAdapter'
 
 
 export class ChapterRepository implements IChapterRepository {
+  // findAllBooksById: (id: string) => Promise<ChapterEntity[] | null>;
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(
-    data: ChapterEntity
-  ): Promise<ChapterEntity> {
-     await this.redisClient.connect();
+  async create(data: ChapterEntity): Promise<ChapterEntity> {
+    await this.redisClient.connect();
     const results: ChapterAttributes = await Chapter.create(data);
-    await this.redisClient.del(chapterCache)
-    await this.redisClient.disconnect()
+    await this.redisClient.del(chapterCache);
+    await this.redisClient.disconnect();
 
     return results;
   }
@@ -27,14 +26,14 @@ export class ChapterRepository implements IChapterRepository {
   async find(): Promise<ChapterEntity[]> {
     await this.redisClient.connect();
     // check if patient
-          const results = await Chapter.findAll({
-            include: [
-              {
-                model: ArticleCategory,
-                attributes: ["id", "description"],
-              },
-            ],
-          });
+    const results = await Chapter.findAll({
+      include: [
+        {
+          model: ArticleCategory,
+          attributes: ["id", "description"],
+        },
+      ],
+    });
     // if ((await this.redisClient.get(chapterCache)) === null) {
     //   const results = await Chapter.findAll({
     //     include:[
@@ -93,6 +92,17 @@ export class ChapterRepository implements IChapterRepository {
     }
     const results: ChapterAttributes = JSON.parse(cachedData);
     console.log("fetched from cache!");
+
+    return results;
+  }
+
+  //
+  async findAllBooksById(id: string): Promise<ChapterEntity[] | null> {
+    const results: ChapterAttributes[] | null = await Chapter.findAll({
+      where: {
+        bookID: id,
+      },
+    });
 
     return results;
   }

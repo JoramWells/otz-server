@@ -24,4 +24,8 @@ export class ChapterInteractor implements IChapterInteractor {
   async getAllChapters(): Promise<ChapterEntity[]> {
     return await this.repository.find();
   }
+
+  async getAllBooksById(id: string): Promise<ChapterEntity[] | null> {
+    return await this.repository.findAllBooksById(id);
+  }
 }
