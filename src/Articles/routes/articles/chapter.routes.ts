@@ -28,6 +28,9 @@ router.get(
   "/detail/:id",
   controllers.onGetChapterById.bind(controllers)
 );
+
+// 
+router.get("/fetchAllBooksDetail/:id", controllers.onGetAllBooksById.bind(controllers));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 
