@@ -3,6 +3,7 @@ import { type PrescriptionInterface } from '../../models/art/prescription.model'
 export class PrescriptionEntity implements PrescriptionInterface {
   constructor (
     public patientID: string,
+    public patientVisitID: string,
     public drugID: string,
     public noOfPills: number,
     public frequency: number,

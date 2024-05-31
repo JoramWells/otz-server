@@ -49,8 +49,8 @@ class ArtPrescription(models.Model):
     line = models.CharField(max_length=100)
     changeReason = models.CharField(max_length=100)
     stopReason = models.CharField(max_length=100)
-    changeDate = models.DateTimeField()
-    stopDate = models.DateTimeField()
+    changeDate = models.DateTimeField(auto_now_add=True)
+    stopDate = models.DateTimeField(auto_now_add=True)
 
 
 class Prescription(models.Model):
@@ -66,7 +66,7 @@ class Prescription(models.Model):
 class ViralLoad(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
-    vlResults = models.IntegerField()
+    vlResults = models.IntegerField(default=0)
     vlJustification = models.CharField(max_length=100)
-    dateOfVL = models.DateTimeField()
-    dateOfNextVL = models.DateTimeField()
+    dateOfVL = models.DateTimeField(auto_now_add=True)
+    dateOfNextVL = models.DateTimeField(auto_now_add=True)

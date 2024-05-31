@@ -40,6 +40,7 @@ export class PrescriptionController {
     }
 
     const prescriptionInput: PrescriptionEntity = {
+      patientVisitID,
       drugID,
       frequency,
       refillDate,

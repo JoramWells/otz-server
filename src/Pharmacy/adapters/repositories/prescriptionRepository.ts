@@ -41,7 +41,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   async findById (id: string): Promise<PrescriptionEntity | null> {
     const results = await Prescription.findOne({
       where: {
-        patientID: id
+        patientVisitID: id
       },
       include: [
         {
@@ -56,6 +56,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         }
       ]
     })
+    console.log(results, 'resultx')
 
     return results
   }

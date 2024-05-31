@@ -6,10 +6,12 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
 import { ART } from './art.model'
+import { PatientVisits } from '../patientVisits.model'
 
 export interface PrescriptionInterface {
   id?: string
   patientID: string
+  patientVisitID: string
   drugID: string
   noOfPills: number
   frequency: number
@@ -20,6 +22,7 @@ export interface PrescriptionInterface {
 export class Prescription extends Model<PrescriptionInterface> {
   id: string | undefined
   patientID!: string
+  patientVisitID!: string
   drugID!: string
   noOfPills!: number
   frequency!: number
@@ -38,6 +41,13 @@ Prescription.init(
       type: DataTypes.UUID,
       references: {
         model: 'patients',
+        key: 'id'
+      }
+    },
+    patientVisitID: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'patientVisits',
         key: 'id'
       }
     },
@@ -69,6 +79,7 @@ Prescription.init(
 )
 
 Prescription.belongsTo(Patient, { foreignKey: 'patientID' })
+Prescription.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })
 Prescription.belongsTo(ART, { foreignKey: 'drugID' })
 
 // sequelize.sync()

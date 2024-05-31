@@ -21,6 +21,7 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
           attributes: ['artName']
         }
       ]
+
     })
     return results
   }
