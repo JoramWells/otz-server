@@ -15,6 +15,10 @@ export class ArticleInteractor implements IArticleInteractor {
     return await this.repository.findById(id);
   }
 
+  async getAllArticleChaptersById(id: string): Promise<ArticlesEntity[] | null> {
+    return await this.repository.findAllArticleChaptersById(id);
+  }
+
   async createArticle(patientData: ArticlesEntity): Promise<ArticlesEntity> {
     return await this.repository.create(patientData);
   }

@@ -5,4 +5,5 @@ export interface IArticleInteractor {
   getAllArticles: () => Promise<ArticlesEntity[]>;
   getArticleById: (id: string) => Promise<ArticlesEntity | null>;
   deleteArticleById: (id: string) => Promise<number | null>;
+  getAllArticleChaptersById: (id: string) => Promise<ArticlesEntity[] | null>;
 }

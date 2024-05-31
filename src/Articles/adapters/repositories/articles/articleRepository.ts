@@ -34,7 +34,7 @@ export class ArticleRepository implements IArticleRepository {
         },
       ],
     });
-    
+
     // if ((await this.redisClient.get(articleCache)) === null) {
     //   const results = await Article.findAll({
     //     include:[
@@ -63,6 +63,19 @@ export class ArticleRepository implements IArticleRepository {
 
     // const results: ArticlesEntity[] = JSON.parse(cachedPatients);
     return results;
+  }
+
+  async findAllArticleChaptersById(id: string): Promise<ArticlesEntity[] | null> {
+    await this.redisClient.connect();
+      const results: ArticleAttributes[] | null = await Article.findAll({
+        where: {
+          chapterID:id,
+        },
+      });
+
+
+      return results;
+  
   }
 
   async findById(id: string): Promise<ArticlesEntity | null> {
@@ -100,16 +113,15 @@ export class ArticleRepository implements IArticleRepository {
   async delete(id: string): Promise<number | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results = await Article.destroy({
-        where: {
-          id,
-        },
-      });
+    const results = await Article.destroy({
+      where: {
+        id,
+      },
+    });
 
-   
-      // await this.redisClient.set(id, JSON.stringify(results));
+    // await this.redisClient.set(id, JSON.stringify(results));
 
-      return results;
+    return results;
     // }
 
     // const cachedData: string | null = await this.redisClient.get(id);
@@ -118,6 +130,5 @@ export class ArticleRepository implements IArticleRepository {
     // }
     // const results: ArticleAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
-
   }
 }
