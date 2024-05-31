@@ -23,8 +23,8 @@ class LineListView(generics.CreateAPIView):
             # file_serializer.save()
             file = file_serializer.validated_data['file']
             reader = pd.read_csv(file)
-            reader['Last VL Result'] = reader['Last VL Result'].replace('LDL', 50).astype(int),
-            reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
+            # reader['Last VL Result'] = reader['Last VL Result'].replace('LDL', 50).astype(int),
+            # reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
 
             for _, row in reader.iterrows():
                 with transaction.atomic():
@@ -84,7 +84,7 @@ class LineListView(generics.CreateAPIView):
                     new_patients.save()
                     vsData.save()
                     art.save()
-                    vl.save()
+                    # vl.save()
 
 
             print(reader)

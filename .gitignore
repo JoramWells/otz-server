@@ -2,6 +2,7 @@ node_modules
 dist
 ./Users/logs/*
 ./venv
+# ./etl_webapp/
 # src/Appointment/uploads/*
 # uploads/*
 # uploads
