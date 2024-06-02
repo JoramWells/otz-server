@@ -29,7 +29,7 @@ services:
   db_initializer:
     image: postgres:alpine
     depends_on:
-      - db
+      - database
     env_file:
       - .env
     volumes:
