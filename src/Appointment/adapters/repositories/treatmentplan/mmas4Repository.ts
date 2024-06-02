@@ -1,56 +1,56 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { IMMASRepository } from '../../../application/interfaces/treatmentplan/IMMASRepository';
+import { IMMASFourRepository } from '../../../application/interfaces/treatmentplan/IMMAS4Repository';
 import { mmasCache } from '../../../constants/appointmentCache';
-import { MMASEntity } from '../../../domain/entities/treatmentplan/MMASEntity';
-import { MMAS } from '../../../domain/models/treatmentplan/mmas.model';
+import { MMASFourEntity } from '../../../domain/entities/treatmentplan/MMASFourEntity';
+import { MMASFour } from '../../../domain/models/treatmentplan/mmas4.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class MMASRepository implements IMMASRepository {
+export class MMASFourRepository implements IMMASFourRepository {
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(
-    data: MMASEntity
-  ): Promise<MMASEntity> {
-    const results  = await MMAS.create(data);
+    data: MMASFourEntity
+  ): Promise<MMASFourEntity> {
+    const results  = await MMASFour.create(data);
 
     return results;
   }
 
-  async find(): Promise<MMASEntity[]> {
-    await this.redisClient.connect();
-    // check if patient
-    if ((await this.redisClient.get(mmasCache)) === null) {
-      const results = await MMAS.findAll({});
+  async find(): Promise<MMASFourEntity[]> {
+    // await this.redisClient.connect();
+    // // check if patient
+    // if ((await this.redisClient.get(mmasCache)) === null) {
+      const results = await MMASFour.findAll({});
       // logger.info({ message: "Fetched from db!" });
       // console.log("fetched from db!");
       // set to cace
-      await this.redisClient.set(mmasCache, JSON.stringify(results));
+      // await this.redisClient.set(mmasCache, JSON.stringify(results));
 
       return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      mmasCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
-    await this.redisClient.disconnect();
-    // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   mmasCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // await this.redisClient.disconnect();
+    // // logger.info({ message: "Fetched from cache!" });
+    // console.log("fetched from cache!");
 
-    const results: MMASEntity[] = JSON.parse(cachedPatients);
-    return results;
+    // const results: MMASFourEntity[] = JSON.parse(cachedPatients);
+    // return results;
   }
 
-  async findById(id: string): Promise<MMASEntity | null> {
+  async findById(id: string): Promise<MMASFourEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: MMAS | null = await MMAS.findOne({
+      const results: MMASFour | null = await MMASFour.findOne({
         where: {
           patientVisitID:id,
         },
@@ -73,7 +73,7 @@ export class MMASRepository implements IMMASRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MMASEntity = JSON.parse(cachedData);
+    // const results: MMASFourEntity = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

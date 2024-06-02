@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IMMASInteractor } from "../../../application/interfaces/treatmentplan/IMMASInteractor";
+import { IMMASFourInteractor } from "../../../application/interfaces/treatmentplan/IMMAS4Interactor";
 
-export class MMASController {
-  private readonly interactor: IMMASInteractor;
+export class MMASFourController {
+  private readonly interactor: IMMASFourInteractor;
 
-  constructor(interactor: IMMASInteractor) {
+  constructor(interactor: IMMASFourInteractor) {
     this.interactor = interactor;
   }
 
-  async onCreateMMAS(req: Request, res: Response, next: NextFunction) {
+  async onCreateMMASFour(req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body);
-      const newProfile = await this.interactor.createMMAS(req.body);
+      const newProfile = await this.interactor.createMMASFour(req.body);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -26,12 +26,12 @@ export class MMASController {
     }
   }
 
-  async onGetAllMMAS(req: Request, res: Response, next: NextFunction) {
+  async onGetAllMMASFour(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllMMAS();
+      const results = await this.interactor.getAllMMASFour();
       res.status(200).json(results);
 
       next();
@@ -42,10 +42,10 @@ export class MMASController {
     }
   }
 
-  async onGetMMASById(req: Request, res: Response, next: NextFunction) {
+  async onGetMMASFourById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getMMASById(id);
+      const result = await this.interactor.getMMASFourById(id);
       res.status(200).json(result);
       next();
     } catch (error) {

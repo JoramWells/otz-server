@@ -14,6 +14,10 @@ export class DisclosureChecklistInteractor implements IDisclosureChecklistIntera
   //   return await this.repository.count()
   // };
 
+  async getAllDisclosureChecklistByVisitId(id: string): Promise<DisclosureChecklistEntity[] | null> {
+    return await this.repository.findAllByVisitId(id);
+  }
+
   async getDisclosureChecklistById(id: string): Promise<DisclosureChecklistEntity | null> {
     return await this.repository.findById(id);
   }

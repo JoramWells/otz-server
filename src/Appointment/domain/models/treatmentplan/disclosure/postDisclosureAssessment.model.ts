@@ -1,0 +1,126 @@
+import { DataTypes, Model,  UUIDV4 } from "sequelize";
+import { connect } from "../../../../db/connect";
+import { Patient } from "../../patients.models";
+import { PatientVisits } from "../../patientVisits.model";
+// import { type PatientEntity } from '../entities/PatientEntity'
+
+ enum DifficultyRemembering {
+   Never = "never",
+   Once = "once in a while",
+   Sometimes = "sometimes",
+   Usually = "usually",
+   AllTime = "all the time",
+ }
+
+export interface PostDisclosureAttributes {
+  id?: string;
+  patientID: string;
+  patientVisitID: string;
+
+  isAssessedFunctionalSchoolEngagement: boolean;
+  isAssessedPeerRelationshipAssessed: boolean;
+  isAssessedChildEngagement: boolean;
+  isChildQuestionsAllowed: boolean;
+  isAddressedNegativeSelfImage: boolean;
+  isAssessedMoodiness: boolean;
+  isReferredForPsychiatric: boolean;
+  isGivenAppropriateInfo: boolean;
+  taskFourComments: string;
+  finalComments: string;
+}
+
+export class PostDisclosure
+  extends Model<PostDisclosureAttributes>
+  implements PostDisclosureAttributes
+{
+  isGivenAppropriateInfo!: boolean;
+  isAssessedFunctionalSchoolEngagement!: boolean;
+  isAssessedPeerRelationshipAssessed!: boolean;
+  isAssessedChildEngagement!: boolean;
+  isChildQuestionsAllowed!: boolean;
+  isAddressedNegativeSelfImage!: boolean;
+  isAssessedMoodiness!: boolean;
+
+  isReferredForPsychiatric!: boolean;
+
+  taskFourComments!: string;
+  finalComments!: string;
+
+  id: string | undefined;
+  patientID!: string;
+  patientVisitID!: string;
+}
+
+PostDisclosure.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: UUIDV4,
+    },
+    patientID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patients",
+        key: "id",
+      },
+    },
+    patientVisitID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patientVisits",
+        key: "id",
+      },
+    },
+
+    isAddressedNegativeSelfImage: {
+      type: DataTypes.BOOLEAN,
+    },
+    isAssessedChildEngagement: {
+      type: DataTypes.BOOLEAN,
+    },
+    isAssessedFunctionalSchoolEngagement: {
+      type: DataTypes.BOOLEAN,
+    },
+
+    isAssessedPeerRelationshipAssessed: {
+      type: DataTypes.BOOLEAN,
+    },
+
+    isGivenAppropriateInfo: {
+      type: DataTypes.BOOLEAN,
+    },
+    isReferredForPsychiatric: {
+      type: DataTypes.BOOLEAN,
+    },
+    isChildQuestionsAllowed: {
+      type: DataTypes.BOOLEAN,
+    },
+    isAssessedMoodiness: {
+      type: DataTypes.BOOLEAN,
+    },
+    taskFourComments: {
+      type: DataTypes.STRING,
+    },
+    finalComments: {
+      type: DataTypes.STRING,
+    },
+
+  },
+  {
+    sequelize: connect,
+    tableName: "postDisclosure",
+    // postgresql: {
+    //   fillFactor: 70
+    // },
+    timestamps: true,
+  }
+);
+
+PostDisclosure.belongsTo(Patient, { foreignKey: "patientID" });
+PostDisclosure.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
+
+// (async () => {
+// connect.sync()
+// console.log('Patient Table synced successfully')
+// })()

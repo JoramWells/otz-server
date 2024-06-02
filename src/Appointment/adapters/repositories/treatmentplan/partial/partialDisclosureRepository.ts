@@ -1,32 +1,32 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { IDisclosureChecklistRepository } from '../../../application/interfaces/treatmentplan/IDisclosureChecklistRepository';
 // import { mmasCache } from '../../../constants/appointmentCache';
-import { DisclosureChecklistEntity } from '../../../domain/entities/treatmentplan/DisclosureChecklistEntity';
-import { DisclosureChecklist } from '../../../domain/models/treatmentplan/disclosureChecklist.model';
-import { RedisAdapter } from '../redisAdapter'
+import { IPartialDisclosureRepository } from '../../../../application/interfaces/disclosure/partial/IPartialDisclosureRepository';
+import { PartialDisclosureEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/PartialDisclosureEntity';
+import { PartialDisclosure } from '../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model';
+// import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class DisclosureChecklistRepository implements IDisclosureChecklistRepository {
-  private readonly redisClient = new RedisAdapter();
+export class PartialDisclosureRepository implements IPartialDisclosureRepository {
+  // private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(
-    data: DisclosureChecklistEntity
-  ): Promise<DisclosureChecklistEntity> {
-    const results = await DisclosureChecklist.create(data);
+    data: PartialDisclosureEntity
+  ): Promise<PartialDisclosureEntity> {
+    const results = await PartialDisclosure.create(data);
 
     return results;
   }
 
-  async find(): Promise<DisclosureChecklistEntity[]> {
+  async find(): Promise<PartialDisclosureEntity[]> {
     // await this.redisClient.connect();
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await DisclosureChecklist.findAll({});
+    const results = await PartialDisclosure.findAll({});
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace
@@ -44,17 +44,17 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: DisclosureChecklistEntity[] = JSON.parse(cachedPatients);
+    // const results: PartialDisclosureEntity[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<DisclosureChecklistEntity | null> {
+  async findById(id: string): Promise<PartialDisclosureEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: DisclosureChecklist | null =
-      await DisclosureChecklist.findOne({
+    const results: PartialDisclosure | null =
+      await PartialDisclosure.findOne({
         where: {
-          patientVisitID: id,
+           id,
         },
       });
 
@@ -75,19 +75,19 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: DisclosureChecklistEntity = JSON.parse(cachedData);
+    // const results: PartialDisclosureEntity = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<DisclosureChecklistEntity[] | null> {
+  async findAllByVisitId(id: string): Promise<PartialDisclosureEntity[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: DisclosureChecklist[] | null =
-      await DisclosureChecklist.findAll({
+    const results: PartialDisclosure[] | null =
+      await PartialDisclosure.findAll({
         where: {
-          patientVisitID: id,
+           id,
         },
       });
 

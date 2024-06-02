@@ -1,32 +1,32 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { IDisclosureChecklistRepository } from '../../../application/interfaces/treatmentplan/IDisclosureChecklistRepository';
+import { IChildCaregiverRepository } from '../../../../application/interfaces/disclosure/partial/IChildCaregiverRepository';
+import { ChildCaregiverReadinessEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity';
+import { ChildCaregiverReadiness } from '../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
-import { DisclosureChecklistEntity } from '../../../domain/entities/treatmentplan/DisclosureChecklistEntity';
-import { DisclosureChecklist } from '../../../domain/models/treatmentplan/disclosureChecklist.model';
-import { RedisAdapter } from '../redisAdapter'
+// import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class DisclosureChecklistRepository implements IDisclosureChecklistRepository {
-  private readonly redisClient = new RedisAdapter();
+export class ChildCaregiverReadinessRepository implements IChildCaregiverRepository {
+  // private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(
-    data: DisclosureChecklistEntity
-  ): Promise<DisclosureChecklistEntity> {
-    const results = await DisclosureChecklist.create(data);
+    data: ChildCaregiverReadinessEntity
+  ): Promise<ChildCaregiverReadinessEntity> {
+    const results = await ChildCaregiverReadiness.create(data);
 
     return results;
   }
 
-  async find(): Promise<DisclosureChecklistEntity[]> {
+  async find(): Promise<ChildCaregiverReadinessEntity[]> {
     // await this.redisClient.connect();
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await DisclosureChecklist.findAll({});
+    const results = await ChildCaregiverReadiness.findAll({});
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace
@@ -44,15 +44,15 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: DisclosureChecklistEntity[] = JSON.parse(cachedPatients);
+    // const results: ChildCaregiverReadinessEntity[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<DisclosureChecklistEntity | null> {
+  async findById(id: string): Promise<ChildCaregiverReadinessEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: DisclosureChecklist | null =
-      await DisclosureChecklist.findOne({
+    const results: ChildCaregiverReadiness | null =
+      await ChildCaregiverReadiness.findOne({
         where: {
           patientVisitID: id,
         },
@@ -75,23 +75,23 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: DisclosureChecklistEntity = JSON.parse(cachedData);
+    // const results: ChildCaregiverReadinessEntity = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<DisclosureChecklistEntity[] | null> {
+  async findAllByVisitId(
+    id: string
+  ): Promise<ChildCaregiverReadinessEntity[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: DisclosureChecklist[] | null =
-      await DisclosureChecklist.findAll({
+    const results: ChildCaregiverReadiness[] | null =
+      await ChildCaregiverReadiness.findAll({
         where: {
           patientVisitID: id,
         },
       });
-
- 
 
     return results;
   }

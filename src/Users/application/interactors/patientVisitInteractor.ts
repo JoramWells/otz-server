@@ -10,6 +10,10 @@ export class PatientVisitInteractor implements IPatientVisitInteractor {
     this.repository = repository
   }
 
+  async getHistoryPatientVisitById (id: string): Promise<PatientVisitsEntity[] | null> {
+    return await this.repository.findHistoryById(id)
+  }
+
   async getPatientVisitById (id: string): Promise<PatientVisitsEntity | null> {
     return await this.repository.findById(id)
   }

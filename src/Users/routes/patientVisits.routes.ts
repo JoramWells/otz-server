@@ -21,6 +21,8 @@ router.get(
   '/detail/:id',
   controller.onGetPatientVisitById.bind(controller)
 )
+
+router.get('/patient-history/:id', controller.onGetAllPatientHistoryVisitById.bind(controller))
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

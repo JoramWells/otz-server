@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IDisclosureChecklistInteractor } from "../../../application/interfaces/treatmentplan/IDisclosureChecklistInteractor";
+import { IPartialDisclosureInteractor } from "../../../../application/interfaces/disclosure/partial/IPartialDisclosureInteractor";
 
-export class DisclosureChecklistController {
-  private readonly interactor: IDisclosureChecklistInteractor;
+export class PartialDisclosureController {
+  private readonly interactor: IPartialDisclosureInteractor;
 
-  constructor(interactor: IDisclosureChecklistInteractor) {
+  constructor(interactor: IPartialDisclosureInteractor) {
     this.interactor = interactor;
   }
 
-  async onCreateDisclosureChecklist(req: Request, res: Response, next: NextFunction) {
+  async onCreatePartialDisclosure(req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body);
-      const newProfile = await this.interactor.createDisclosureChecklist(req.body);
+      const newProfile = await this.interactor.createPartialDisclosure(req.body);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -26,12 +26,12 @@ export class DisclosureChecklistController {
     }
   }
 
-  async onGetAllDisclosureChecklist(req: Request, res: Response, next: NextFunction) {
+  async onGetAllPartialDisclosure(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllDisclosureChecklist();
+      const results = await this.interactor.getAllPartialDisclosure();
       res.status(200).json(results);
 
       next();
@@ -42,25 +42,25 @@ export class DisclosureChecklistController {
     }
   }
 
-  async onGetDisclosureChecklistById(req: Request, res: Response, next: NextFunction) {
+  async onGetPartialDisclosureById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getDisclosureChecklistById(id);
+      const result = await this.interactor.getPartialDisclosureById(id);
       res.status(200).json(result);
       next();
     } catch (error) {
       next(error);
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" }); 
     }
   }
 
   // 
 
-  async onGetAllDisclosureChecklistByVisitId(req: Request, res: Response, next: NextFunction) {
+  async onGetAllPartialDisclosureByVisitId(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getAllDisclosureChecklistByVisitId(id);
+      const result = await this.interactor.getAllPartialDisclosureByVisitId(id);
       res.status(200).json(result);
       next();
     } catch (error) {

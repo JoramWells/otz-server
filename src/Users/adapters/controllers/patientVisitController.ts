@@ -50,4 +50,18 @@ export class PatientVisitController {
       res.status(500).json({ message: 'Internal Server Error' })
     }
   }
+
+  //
+  async onGetAllPatientHistoryVisitById (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params
+      const result = await this.interactor.getHistoryPatientVisitById(id)
+      res.status(200).json(result)
+      next()
+    } catch (error) {
+      next(error)
+      console.log(error)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
 }

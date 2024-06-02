@@ -16,9 +16,13 @@ import { appointmentStatusRouter } from './routes/appointments/appointmentStatus
 import { pillUptakeRouter } from './routes/treatmentplan/pillUptake.routes';
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
 import { dailyPillUpdate } from './utils/dailyPillUpdate';
-import { mmasRouter } from './routes/treatmentplan/mmas.routes';
 import { disclosureChecklistRouter } from './routes/treatmentplan/disclosureChecklist.routes';
 import { followUpChecklistRouter } from './routes/treatmentplan/followUpChecklist.routes';
+import { mmasFourRouter } from './routes/treatmentplan/mmasFour.routes';
+import { mmasEightRouter } from './routes/treatmentplan/mmasEight.routes';
+import { partialDisclosureRouter } from './routes/treatmentplan/partial/partialDisclosure.routes';
+import { disclosureEligibilityRouter } from './routes/treatmentplan/partial/disclosureEligibility.routes';
+import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/childCaregiverReadiness.routes';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -133,12 +137,17 @@ const PORT = process.env.PORT || 5005;
 app.use('/appointments', appointmentRouter);
 app.use("/appointment-agenda", appointmentAgendaRouter);
 app.use("/appointment-status", appointmentStatusRouter);
-app.use("/mmas", mmasRouter);
+app.use("/mmas-4", mmasFourRouter);
+app.use("/mmas-8", mmasEightRouter);
 
 app.use("/daily-uptake", pillUptakeRouter);
 app.use("/time-and-work", timeAndWorkRouter);
 app.use("/disclosure-checklist", disclosureChecklistRouter);
 app.use("/follow-checklist", followUpChecklistRouter);
+
+app.use("/partial-disclosure", partialDisclosureRouter);
+app.use("/disclosure-eligibility", disclosureEligibilityRouter);
+app.use("/child-readiness", childCaregiverReadinessRouter);
 
 
 connect.authenticate().then(() => {

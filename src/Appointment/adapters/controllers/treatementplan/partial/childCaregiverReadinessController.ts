@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IDisclosureChecklistInteractor } from "../../../application/interfaces/treatmentplan/IDisclosureChecklistInteractor";
+import { IChildCaregiverReadinessInteractor } from "../../../../application/interfaces/disclosure/partial/IChildCaregiverReadinessInteractor";
 
-export class DisclosureChecklistController {
-  private readonly interactor: IDisclosureChecklistInteractor;
+export class ChildCaregiverReadinessController {
+  private readonly interactor: IChildCaregiverReadinessInteractor;
 
-  constructor(interactor: IDisclosureChecklistInteractor) {
+  constructor(interactor: IChildCaregiverReadinessInteractor) {
     this.interactor = interactor;
   }
 
-  async onCreateDisclosureChecklist(req: Request, res: Response, next: NextFunction) {
+  async onCreateChildCaregiverReadiness(req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body);
-      const newProfile = await this.interactor.createDisclosureChecklist(req.body);
+      const newProfile = await this.interactor.createChildCaregiverReadiness(req.body);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -26,12 +26,12 @@ export class DisclosureChecklistController {
     }
   }
 
-  async onGetAllDisclosureChecklist(req: Request, res: Response, next: NextFunction) {
+  async onGetAllChildCaregiverReadiness(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllDisclosureChecklist();
+      const results = await this.interactor.getAllChildCaregiverReadiness();
       res.status(200).json(results);
 
       next();
@@ -42,25 +42,25 @@ export class DisclosureChecklistController {
     }
   }
 
-  async onGetDisclosureChecklistById(req: Request, res: Response, next: NextFunction) {
+  async onGetChildCaregiverReadinessById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getDisclosureChecklistById(id);
+      const result = await this.interactor.getChildCaregiverReadinessById(id);
       res.status(200).json(result);
       next();
     } catch (error) {
       next(error);
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" }); 
     }
   }
 
   // 
 
-  async onGetAllDisclosureChecklistByVisitId(req: Request, res: Response, next: NextFunction) {
+  async onGetAllChildCaregiverReadinessByVisitId(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getAllDisclosureChecklistByVisitId(id);
+      const result = await this.interactor.getAllChildCaregiverReadinessByVisitId(id);
       res.status(200).json(result);
       next();
     } catch (error) {

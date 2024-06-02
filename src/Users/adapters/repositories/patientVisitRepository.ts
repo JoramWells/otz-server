@@ -8,33 +8,8 @@ import { Patient } from '../../domain/models/patients.models'
 
 export class PatientVisitRepository implements IPatientVisitsRepository {
   async create (data: PatientVisitsEntity): Promise<PatientVisitsEntity> {
-    // const {
-    //   firstName,
-    //   middleName,
-    //   lastName,
-    //   dob,
-    //   phoneNo,
-    //   sex,
-    //   idNo,
-    //   email,
-    //   countyID,
-    //   password
-    // } = data
-
     const results: PatientVisitsEntity = await PatientVisits.create(data)
-    // const PatientVisitsEntity: PatientVisitsEntity = {
-    //   id: results.id,
-    //   firstName: results.firstName,
-    //   middleName,
-    //   sex,
-    //   countyID,
-    //   phoneNo,
-    //   idNo,
-    //   lastName: '',
-    //   dob: '',
-    //   email: '',
-    //   password: ''
-    // }
+
     return results
   }
 
@@ -52,6 +27,16 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
 
   async findById (id: string): Promise<PatientVisitsEntity | null> {
     const results = await PatientVisits.findOne({
+      where: {
+        patientID: id
+      }
+    })
+
+    return results
+  }
+
+  async findHistoryById (id: string): Promise<PatientVisitsEntity[] | null> {
+    const results = await PatientVisits.findAll({
       where: {
         patientID: id
       }
