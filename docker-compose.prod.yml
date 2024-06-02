@@ -60,7 +60,7 @@ services:
     volumes:
       - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
     
-    entrypoint: ["sh", "-c", "sleep 10 && psql -h db -U postgres -d otz -f /docker-entrypoint-initdb.d/otz_query.sql"]
+    entrypoint: ["sh", "-c", "sleep 10 && psql -U postgres -d otz -f /docker-entrypoint-initdb.d/otz_query.sql"]
   
   users:
     build:
