@@ -27,7 +27,7 @@ services:
 
       # - ./otzv1.2.sql:/docker-entrypoint-initdb.d/otzv1.2.sql
 
-    entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
+    # entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
 
  
 
