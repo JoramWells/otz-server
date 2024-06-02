@@ -24,19 +24,7 @@ services:
     volumes:
       # - postgres_data:/var/lib/postgresql/data
       - ./otzv1.2.sql:/docker-entrypoint-initdb.d/otzv1.2.sql
-
-  
-  db_initializer:
-    image: postgres:alpine
-    depends_on:
-      - database
-    env_file:
-      - .env
-    volumes:
-      - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
-    
-    entrypoint: ["sh", "-c", "sleep 10 && psql -h db -U postgres -d otz -f /docker-entrypoint-initdb.d/otz_query.sql"]
-
+ 
 
     deploy:
       # mode: replicated
@@ -63,6 +51,17 @@ services:
       timeout: 10s
       retries: 10 
 
+  db_initializer:
+    image: postgres:alpine
+    depends_on:
+      - database
+    env_file:
+      - .env
+    volumes:
+      - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
+    
+    entrypoint: ["sh", "-c", "sleep 10 && psql -h db -U postgres -d otz -f /docker-entrypoint-initdb.d/otz_query.sql"]
+  
   users:
     build:
       context: ./src/Users
