@@ -54,7 +54,8 @@ services:
   db_initializer:
     image: postgres:alpine
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     env_file:
       - .env
     volumes:
