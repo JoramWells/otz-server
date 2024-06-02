@@ -61,7 +61,7 @@ services:
     volumes:
       - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
     
-    # entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
+    entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
     # environment:
     #   PGPASSWORD: ${POSTGRES_PASSWORD}
   
