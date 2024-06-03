@@ -43,6 +43,7 @@ export class MMASEightController {
       isTookMedYesterday,
       isUnderPressure,
       patientVisitID,
+      patientID,
       totalScores: mmassEightScore,
     };
 

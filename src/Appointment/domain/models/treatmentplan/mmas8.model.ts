@@ -17,7 +17,7 @@ export interface MMASEightAttributes {
   id?: string;
   patientID: string;
   patientVisitID: string;
-  mmasFourID: string;
+  mmasFourID?: string;
   isTookMedYesterday: boolean;
   isQuitOutControl: boolean;
   isUnderPressure: boolean;
@@ -29,7 +29,7 @@ export class MMASEight extends Model<MMASEightAttributes> implements MMASEightAt
   id: string | undefined;
   patientID!: string;
   patientVisitID!: string;
-  mmasFourID!: string;
+  mmasFourID: string | undefined;
   isTookMedYesterday!: boolean;
   isQuitOutControl!: boolean;
   isUnderPressure!: boolean;
@@ -97,6 +97,6 @@ MMASEight.belongsTo(Patient, { foreignKey: "patientID" });
 MMASEight.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // (async () => {
-// connect.sync()
-// console.log('Patient Table synced successfully')
+connect.sync()
+console.log('MMAS 8 Table synced successfully')
 // })()

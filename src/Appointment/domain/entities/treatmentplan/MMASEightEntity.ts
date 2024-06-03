@@ -2,7 +2,7 @@ import { MMASEightAttributes } from "../../models/treatmentplan/mmas8.model";
 
 export class MMASEightEntity implements MMASEightAttributes {
   constructor() {}
-  mmasFourID!: string;
+  mmasFourID?: string;
   totalScores!: number;
   patientID!: string;
   patientVisitID!: string;
