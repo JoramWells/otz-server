@@ -22,6 +22,6 @@ router.get(
   controllers.onGetAppointmentAgendaById.bind(controllers)
 );
 // router.put('/edit/:id', editPatient);
-// router.delete('/delete/:id', deletePatient);
+router.delete('/delete/:id', controllers.onDeleteAppointmentAgenda.bind(controllers));
 
 export { router as appointmentAgendaRouter };

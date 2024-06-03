@@ -15,11 +15,13 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
 
   async create(
     data: AppointmentAgendaEntity
-  ): Promise<AppointmentAgendaEntity> { 
-    await this.redisClient.connect()
-    const results: AppointmentAgendaAttributes = await AppointmentAgenda.create(data);
-    await this.redisClient.del(appointmentAgendaCache)
-    console.log('deleted cache!!')
+  ): Promise<AppointmentAgendaEntity> {
+    await this.redisClient.connect();
+    const results: AppointmentAgendaAttributes = await AppointmentAgenda.create(
+      data
+    );
+    await this.redisClient.del(appointmentAgendaCache);
+    console.log("deleted cache!!");
 
     return results;
   }
@@ -32,7 +34,10 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
       // logger.info({ message: "Fetched from db!" });
       // console.log("fetched from db!");
       // set to cace
-      await this.redisClient.set(appointmentAgendaCache, JSON.stringify(results));
+      await this.redisClient.set(
+        appointmentAgendaCache,
+        JSON.stringify(results)
+      );
 
       return results;
     }
@@ -53,11 +58,13 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
   async findById(id: string): Promise<AppointmentAgendaEntity | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-      const results: AppointmentAgenda | null = await AppointmentAgenda.findOne({
-        where: {
-          id,
-        },
-      });
+      const results: AppointmentAgenda | null = await AppointmentAgenda.findOne(
+        {
+          where: {
+            id,
+          },
+        }
+      );
 
       // const patientResults: AppointmentEntity = {
       //   firstName: results?.firstName,
@@ -81,4 +88,21 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
 
     return results;
   }
+
+  //
+  async delete(id: string): Promise<number | null> {
+    await this.redisClient.connect();
+      const results: number | null = await AppointmentAgenda.destroy(
+        {
+          where: {
+            id,
+          },
+        }
+      );
+    await this.redisClient.del(appointmentAgendaCache);
+    console.log('deleted cache!!')
+
+
+      return results;
+}
 }

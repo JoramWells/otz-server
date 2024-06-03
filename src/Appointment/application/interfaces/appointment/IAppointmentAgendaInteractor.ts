@@ -4,4 +4,5 @@ export interface IAppointmentAgendaInteractor {
   createAppointmentAgenda: (data: AppointmentAgendaEntity) => Promise<AppointmentAgendaEntity>;
   getAllAppointmentAgendas: () => Promise<AppointmentAgendaEntity[]>;
   getAppointmentAgendaById: (id: string) => Promise<AppointmentAgendaEntity | null>;
+  deleteAppointmentAgenda: (id: string) => Promise<number | null>;
 }

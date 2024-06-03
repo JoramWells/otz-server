@@ -15,6 +15,10 @@ export class appointmentAgendaInteractor implements IAppointmentAgendaInteractor
     return await this.repository.findById(id);
   }
 
+    async deleteAppointmentAgenda(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
+  }
+
   async createAppointmentAgenda(patientData: AppointmentAgendaEntity): Promise<AppointmentAgendaEntity> {
     return await this.repository.create(patientData);
   }
