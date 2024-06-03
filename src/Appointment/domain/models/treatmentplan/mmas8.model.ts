@@ -97,6 +97,6 @@ MMASEight.belongsTo(Patient, { foreignKey: "patientID" });
 MMASEight.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // (async () => {
-connect.sync()
-console.log('MMAS 8 Table synced successfully')
+// connect.sync()
+// console.log('MMAS 8 Table synced successfully')
 // })()

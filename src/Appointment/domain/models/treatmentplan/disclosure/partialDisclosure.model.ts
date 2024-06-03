@@ -55,6 +55,6 @@ PartialDisclosure.belongsTo(ChildDisclosureEligibility, { foreignKey: "childDisc
 PartialDisclosure.belongsTo(ChildCaregiverReadiness, { foreignKey: "childCaregiverReadinessID" });
 
 // (async () => {
-connect.sync()
-console.log('Partial Disclosure Table synced successfully')
+// connect.sync()
+// console.log('Partial Disclosure Table synced successfully')
 // })()
