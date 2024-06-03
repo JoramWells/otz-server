@@ -15,8 +15,11 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
 
   async create(
     data: AppointmentAgendaEntity
-  ): Promise<AppointmentAgendaEntity> {
+  ): Promise<AppointmentAgendaEntity> { 
+    await this.redisClient.connect()
     const results: AppointmentAgendaAttributes = await AppointmentAgenda.create(data);
+    await this.redisClient.del(appointmentAgendaCache)
+    console.log('deleted cache!!')
 
     return results;
   }
