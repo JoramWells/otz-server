@@ -1,7 +1,7 @@
 # from langchain import PromptTemplate, LLMChain,HuggingFaceHub, LlamaCpp
 from langchain.llms import LlamaCpp
 from langchain.prompts import PromptTemplate
-model_name = './mistral-7b-openorca.gguf2.Q4_0.gguf'
+model_name = './llm/mistral-7b-openorca.gguf2.Q4_0.gguf'
 
 prompt_template = PromptTemplate.from_template("""
                                                Compose a good message to customer  using swahili language

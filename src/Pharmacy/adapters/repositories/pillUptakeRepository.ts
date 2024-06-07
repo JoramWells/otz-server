@@ -180,10 +180,10 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         console.log(pResults, 'evnin')
         if (pResults) {
           if (status) {
-            pResults?.computedNoOfPills = pResults?.computedNoOfPills - 1
+            pResults?.computedNoOfPills = pResults?.computedNoOfPills + 1
             console.log('substrct..')
           } else {
-            pResults?.computedNoOfPills = pResults?.computedNoOfPills + 1
+            pResults?.computedNoOfPills = pResults?.computedNoOfPills - 1
             console.log('added............................................')
           }
           await pResults?.save()

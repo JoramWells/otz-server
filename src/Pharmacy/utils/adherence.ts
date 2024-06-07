@@ -2,7 +2,6 @@
 import { TimeAndWork } from '../domain/models/adherence/timeAndWork.model'
 import { Adherence, type AdherenceAttributes } from '../domain/models/adherence/adherence.model'
 import moment from 'moment'
-import { Patient } from '../domain/models/patients.models'
 import { Prescription } from '../domain/models/art/prescription.model'
 import { Op, col, fn } from 'sequelize'
 
@@ -17,6 +16,49 @@ const adherenceMonitor = async () => {
 
     if (isSet != null) {
       console.log('Uptake Data Is Set!!')
+
+      // const allAdherence = await Adherence.findAll({
+      //   where: {
+      //     currentDate
+      //   }
+      // })
+
+      // //
+      // const latestTimeSchedule = await TimeAndWork.findAll({
+      //   attributes: [
+      //     [fn('MAX', col('createdAt')), 'createdAt'],
+      //     'patientID'
+      //   ],
+      //   group: ['patientID'],
+      //   where: {
+      //     // patientVisitID: {
+      //     //   [Op.not]: null
+      //     // },
+      //     updatedAt: {
+      //       [Op.not]: null
+      //     }
+      //   }
+      // })
+
+      //
+      // const latestPrescriptions = await Prescription.findOne({
+      //   attributes: [
+      //     'id',
+      //     [fn('MAX', col('createdAt')), 'createdAt'],
+      //     'patientID'
+      //   ],
+      //   group: ['patientID', 'id'],
+      //   where: {
+      //     patientVisitID: {
+      //       [Op.not]: null
+      //     },
+      //     createdAt: {
+      //       [Op.not]: null
+      //     }
+      //   }
+      // })
+
+      // console.log(latestPrescriptions)
     } else {
       const latestTimeSchedule = await TimeAndWork.findAll({
         attributes: [[fn('MAX', col('createdAt')), 'createdAt'], 'patientID'],

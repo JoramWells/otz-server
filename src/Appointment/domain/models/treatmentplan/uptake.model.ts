@@ -1,20 +1,27 @@
-import { DataTypes, Model,  UUIDV4 } from "sequelize";
-import { connect } from "../../../db/connect";
+import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { TimeAndWork } from "./timeAndWork.model";
+import { Prescription } from "../art/prescription.model";
+import { connect } from "../../../db/connect";
+
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface UptakeAttributes {
-  id?: string
-  timeAndWorkID: string
-  currentDate: string
-  morningStatus: boolean
-  eveningStatus: boolean
+  id?: string;
+  timeAndWorkID: string;
+  prescriptionID: string;
+  currentDate: Date | string;
+  morningStatus: boolean;
+  eveningStatus: boolean;
 }
 
-export class Uptake extends Model<UptakeAttributes> implements UptakeAttributes {
+export class Uptake
+  extends Model<UptakeAttributes>
+  implements UptakeAttributes
+{
   id: string | undefined;
   timeAndWorkID!: string;
-  currentDate!: string;
+  prescriptionID!: string;
+  currentDate!: Date | string;
   morningStatus!: boolean;
   eveningStatus!: boolean;
 }
@@ -30,6 +37,13 @@ Uptake.init(
       type: DataTypes.UUID,
       references: {
         model: "timeAndWork",
+        key: "id",
+      },
+    },
+    prescriptionID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "prescriptions",
         key: "id",
       },
     },
@@ -53,6 +67,7 @@ Uptake.init(
   }
 );
 
+Uptake.belongsTo(Prescription, { foreignKey: "prescriptionID" });
 Uptake.belongsTo(TimeAndWork, { foreignKey: "timeAndWorkID" });
 
 // (async () => {

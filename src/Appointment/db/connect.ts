@@ -13,7 +13,7 @@ const connect = new Sequelize(
   {
     host: 'database',
     dialect: 'postgres',
-    timezone: '+03:00',
+    // timezone: '+03:00',
     define: {
       timestamps: true,
       freezeTableName: true,

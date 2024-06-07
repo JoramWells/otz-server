@@ -1,9 +1,14 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { Op, col, fn } from 'sequelize';
 import { ITimeAndWorkRepository } from '../../../application/interfaces/treatmentplan/ITimeAndWorkRepository'
 import { timeAndWorkCache } from '../../../constants/appointmentCache';
 import { TimeAndWorkEntity } from '../../../domain/entities/treatmentplan/TimeAndWorkEntity'
+import { Prescription } from '../../../domain/models/art/prescription.model';
 import { TimeAndWork, TimeAndWorkAttributes } from '../../../domain/models/treatmentplan/timeAndWork.model'
 import { RedisAdapter } from '../redisAdapter'
+import { Uptake } from '../../../domain/models/treatmentplan/uptake.model';
+import { connect } from '../../../db/connect';
+import moment from 'moment';
 
 
 export class TimeAndWorkRepository implements ITimeAndWorkRepository {
@@ -72,9 +77,45 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   }
 
   async create(data: TimeAndWorkEntity): Promise<TimeAndWorkEntity> {
-    const results: TimeAndWorkAttributes = await TimeAndWork.create(data);
+    const currentDate = moment().format('YYYY-MM-DD')
+    const {patientID} = data
+    return await connect.transaction(async(t)=>{
+
+      const results: TimeAndWorkAttributes = await TimeAndWork.create(data, {transaction:t});
+          const latestPrescriptions = await Prescription.findOne({
+            attributes: [
+              [fn("MAX", col("createdAt")), "createdAt"],
+              "patientID",
+              'id'
+            ],
+            group: ["patientID", 'id'],
+            where: {
+              // patientVisitID: {
+              //   [Op.not]: null,
+              // },
+              patientID,
+              createdAt: {
+                [Op.not]: null,
+              },
+            },
+          });
+
+          await Uptake.create({
+            currentDate,
+            prescriptionID:latestPrescriptions.dataValues.id,
+            eveningStatus: false,
+            morningStatus: false,
+            timeAndWorkID: results.id,
+          }, {transaction:t});
 
     return results;
+
+    
+
+    })
+
+    
+
   }
 
   async find(): Promise<TimeAndWorkEntity[]> {
