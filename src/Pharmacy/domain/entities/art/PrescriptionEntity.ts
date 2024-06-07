@@ -11,6 +11,8 @@ export class PrescriptionEntity implements PrescriptionInterface {
     public nextRefillDate: Date,
     public expectedNoOfPills: number,
     public updatedAtExpectedNoOfPills: Date,
+    public computedNoOfPills: number,
+
     public id?: string
   ) {}
 }

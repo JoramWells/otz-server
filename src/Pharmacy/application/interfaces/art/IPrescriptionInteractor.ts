@@ -5,6 +5,7 @@ export interface IPrescriptionInteractor {
   createPrescription: (data: PrescriptionEntity, appointmentInput: AppointmentEntity) => Promise<PrescriptionEntity | null>
   getAllPrescriptions: () => Promise<PrescriptionEntity[]>
   getPrescriptionById: (id: string) => Promise<PrescriptionEntity | null>
+  getPrescriptionDetails: (id: string) => Promise<PrescriptionEntity | null>
   getAllAdherence: () => Promise<PrescriptionEntity[] >
 
 }

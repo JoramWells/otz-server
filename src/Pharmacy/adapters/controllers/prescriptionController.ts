@@ -51,7 +51,10 @@ export class PrescriptionController {
 
     try {
       console.log(req.body)
-      const newProfile = await this.interactor.createPrescription(prescriptionInput, appointmentInput)
+      const newProfile = await this.interactor.createPrescription(
+        prescriptionInput,
+        appointmentInput
+      )
       res.status(200).json(newProfile)
       next()
     } catch (error) {
@@ -76,6 +79,20 @@ export class PrescriptionController {
     try {
       const { id } = req.params
       const result = await this.interactor.getPrescriptionById(id)
+      res.status(200).json(result)
+      next()
+    } catch (error) {
+      next(error)
+      console.log(error)
+      res.status(500).json({ message: 'Internal Server Error' })
+    }
+  }
+
+  //
+  async onGetPrescriptionDetails (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params
+      const result = await this.interactor.getPrescriptionDetails(id)
       res.status(200).json(result)
       next()
     } catch (error) {

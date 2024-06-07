@@ -9,7 +9,6 @@ import { Appointment } from '../../domain/models/appointment/appointment.model'
 import { ART } from '../../domain/models/art/art.model'
 import { ArtCategory } from '../../domain/models/art/artCategory.model'
 import { Prescription } from '../../domain/models/art/prescription.model'
-import { Patient } from '../../domain/models/patients.models'
 import { calculatePills2 } from '../../utils/calculatePills'
 
 export class PrescriptionRepository implements IPrescriptionRepository {
@@ -38,6 +37,18 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     return results
   }
 
+  async findDetails (id: string): Promise<PrescriptionEntity | null> {
+    const results = await Prescription.findOne({
+      order: [['updatedAt', 'DESC']],
+      where: {
+        patientID: id
+      }
+
+    })
+
+    return results
+  }
+
   async findById (id: string): Promise<PrescriptionEntity | null> {
     const results = await Prescription.findOne({
       where: {
@@ -56,7 +67,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         }
       ]
     })
-    console.log(results, 'resultx')
 
     return results
   }

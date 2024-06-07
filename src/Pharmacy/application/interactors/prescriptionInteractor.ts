@@ -14,6 +14,10 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     return await this.repository.findById(id)
   }
 
+  async getPrescriptionDetails (id: string): Promise<PrescriptionEntity | null> {
+    return await this.repository.findDetails(id)
+  }
+
   async createPrescription (
     data: PrescriptionEntity,
     appointmentInput: AppointmentEntity
