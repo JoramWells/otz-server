@@ -9,6 +9,8 @@ export class PrescriptionEntity implements PrescriptionInterface {
     public frequency: number,
     public refillDate: Date,
     public nextRefillDate: Date,
+    public expectedNoOfPills: number,
+    public updatedAtExpectedNoOfPills: Date,
     public id?: string
   ) {}
 }

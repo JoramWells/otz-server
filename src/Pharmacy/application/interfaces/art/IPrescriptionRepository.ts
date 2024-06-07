@@ -5,4 +5,6 @@ export interface IPrescriptionRepository {
   create: (data: PrescriptionEntity, appointmentInput: AppointmentEntity) => Promise<PrescriptionEntity | null>
   find: () => Promise<PrescriptionEntity[]>
   findById: (id: string) => Promise<PrescriptionEntity | null>
+  findAllAdherence: () => Promise<PrescriptionEntity[]>
+
 }

@@ -46,8 +46,12 @@ export class AppointmentController {
   async onGetAppointmentById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      if(id){
       const result = await this.interactor.getAppointmentById(id);
       res.status(200).json(result);
+
+      }
+      res.status(500).json({message:'Please provide a valid appointment id.'})
       next();
     } catch (error) {
       next(error);

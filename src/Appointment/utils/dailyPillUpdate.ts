@@ -6,7 +6,7 @@ import { UptakeEntity } from '../domain/entities/treatmentplan/UptakeEntity';
 
 const dailyPillUpdate = async () => {
   try {
-    const currentDate  = moment().tz('Africa/Nairobi').format('YYYY-MM-DD');
+    const currentDate  = moment().format('YYYY-MM-DD');
 
     const isSet = await Uptake.findOne({
       where: {
@@ -14,7 +14,7 @@ const dailyPillUpdate = async () => {
       },
     });
     if (isSet) {
-      console.log('Data is set');
+      console.log('Uptake Data is set!!');
     } else {
       const results = await TimeAndWork.findAll({
       // include: [

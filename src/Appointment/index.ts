@@ -40,6 +40,8 @@ const app = express();
 
 app.use(cors());
 
+
+
 //
 app.use(express.json());
 app.use(express.urlencoded({
@@ -53,9 +55,12 @@ app.use(morgan('dev'));
 
 scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
-dailyPillUpdate();
+
+// dailyPillUpdate();
+
 
 // schedulePatientNotifications();
+
 
 // realtime
 

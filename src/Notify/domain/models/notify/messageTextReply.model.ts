@@ -28,7 +28,7 @@ MessageTextReply.init(
   },
   {
     sequelize: connect,
-    tableName: "messageTextReplies",
+    tableName: "messagesTextReplies",
     // postgresql: {
     //   fillFactor: 70
     // },

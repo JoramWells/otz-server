@@ -16,6 +16,9 @@ import { artCategoryRouter } from './routes/artCategory.routes'
 import { artSwitchReasonRouter } from './routes/artSwitcReason.routes'
 import { prescriptionRouter } from './routes/prescription.routes'
 import { artPrescriptionRouter } from './routes/artPrescription.routes'
+// import { calculatePills, calculatePills2 } from './utils/calculatePills'
+import { adherenceMonitor } from './utils/adherence'
+import { pillUptakeRouter } from './routes/pillUptake.routes'
 const cors = require('cors')
 
 const app: Application = express()
@@ -35,6 +38,11 @@ app.use(express.urlencoded({
   extended: true
 }))
 
+// calculatePills()
+
+adherenceMonitor()
+console.log('lsk')
+
 // confirm cors
 app.use('/art-regimen', artRouter)
 app.use('/art-regimen-category', artCategoryRouter)
@@ -42,6 +50,7 @@ app.use('/measuring-unit', measuringUnitRouter)
 app.use('/art-switch-reason', artSwitchReasonRouter)
 app.use('/prescription', prescriptionRouter)
 app.use('/art-prescription', artPrescriptionRouter)
+app.use('/daily-uptake', pillUptakeRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

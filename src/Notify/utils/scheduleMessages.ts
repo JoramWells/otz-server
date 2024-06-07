@@ -1,15 +1,17 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
-const moment = require('moment-timezone');
-const { scheduleJob } = require('node-schedule');
-const { createClient } = require('redis');
-const EventEmitter = require('events');
-const TimeAndWork = require('../models/treatmentplan/timeAndWork.model');
-const Uptake = require('../models/treatmentplan/uptake.model');
-const PatientNotification = require('../models/notify/patientNotifications.model');
-const Patient = require('../models/patient/patients.models');
-const MessageTextReply = require('../models/notify/messageTextReply.model');
+import { scheduleJob } from 'node-schedule';
+import { createClient }  from 'redis';
+import moment from 'moment'
+
+import EventEmitter from 'events'
+import { Uptake } from '../domain/models/treatmentplan/uptake.model';
+import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
+import { Patient } from '../domain/models/patients.models';
+import { MessageTextReply } from '../domain/models/notify/messageTextReply.model';
+import { PatientNotification } from '../domain/models/notify/patientNotifications.model';
+
 
 const notificationEmitter = new EventEmitter();
 
@@ -35,8 +37,8 @@ const fetchMessages = async () => {
 const schedulePatientNotifications = async () => {
   // const currentDate = moment();
 
-  const currentDate = moment().tz('Africa/Nairobi').format('YYYY-MM-DD');
-  const currentHour = moment().tz('Africa/Nairobi').hours();
+  const currentDate = moment().format('YYYY-MM-DD');
+  const currentHour = moment().hours();
 
   const isMorning = currentHour >= 5 && currentHour <= 12;
   const isEvening = currentHour >= 18 && currentHour <= 23;
@@ -61,14 +63,14 @@ const schedulePatientNotifications = async () => {
     });
     const messages = await fetchMessages();
 
-    // if (isMorning) {
+    if (isMorning) {
     patients.forEach(async (patient) => {
-      const morningMedicineTime = patient?.timeAndWork?.morningMedicineTime;
+      const {morningMedicineTime} = patient?.timeAndWork?.morningMedicineTime;
       if (morningMedicineTime) {
-        const notificationTime = moment(morningMedicineTime, 'HH:mm:ss').tz('Africa/Nairobi');
+        const notificationTime = moment(morningMedicineTime, 'HH:mm:ss');
         // console.log(notificationTime, 'ft');
 
-        const currentTime = moment().tz('Africa/Nairobi');
+        const currentTime = moment();
         const timeDifference = notificationTime.diff(currentTime);
         if (timeDifference > 0) {
           // console.log(notificationTime.toDate(), 'ft');
@@ -86,44 +88,44 @@ const schedulePatientNotifications = async () => {
         }
       }
     });
-    // }
+    }
     // else if (isEvening) {
-    // patients.forEach(async (patient) => {
-    //   // const messages = await fetchMessages();
+    patients.forEach(async (patient) => {
+      // const messages = await fetchMessages();
 
-    //   const eveningMedicineTime = patient?.timeAndWork?.eveningMedicineTime;
-    //   if (eveningMedicineTime) {
-    //     const notificationTime = moment(eveningMedicineTime, 'HH:mm:ss');
-    //     // console.log(notificationTime, 'ft');
+      const eveningMedicineTime = patient?.TimeAndWork?.eveningMedicineTime;
+      if (eveningMedicineTime) {
+        const notificationTime = moment(eveningMedicineTime, 'HH:mm:ss');
+        // console.log(notificationTime, 'ft');
 
-    //     const currentTime = moment();
-    //     const timeDifference = notificationTime.diff(currentTime);
-    //     if (timeDifference > 0) {
-    //       // console.log(notificationTime.toDate(), 'ft');
+        const currentTime = moment();
+        const timeDifference = notificationTime.diff(currentTime);
+        if (timeDifference > 0) {
+          // console.log(notificationTime.toDate(), 'ft');
 
-    //       scheduleJob(notificationTime.toDate(), async () => {
-    //         const randomMessage = messages[Math.floor(Math.random() * messages.length)].messageText;
+          scheduleJob(notificationTime.toDate(), async () => {
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)].messageText;
 
-    //         // ceck if patient exists
+            // ceck if patient exists
 
-    //         await PatientNotification.create({
-    //           patientID: patient.timeAndWork.patient.id,
-    //           message: randomMessage,
-    //           medicineTime: eveningMedicineTime,
-    //         });
-    //         notificationEmitter.emit('notificationCreated', patient.timeAndWork.patient.id);
-    //         // console.log('Notification created for patient:', patient.timeAndWork.patient.id);
-    //       });
-    //     }
-    //   }
-    // });
+            await PatientNotification.create({
+              patientID: patient.TimeAndWork.Patient.id,
+              message: randomMessage,
+              medicineTime: eveningMedicineTime,
+            });
+            notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);
+            // console.log('Notification created for patient:', patient.timeAndWork.patient.id);
+          });
+        }
+      }
+    });
     // }
   } catch (error) {
     console.error('Error scheduling patient notifications:', error);
   }
 };
 
-module.exports = {
+export {
   schedulePatientNotifications,
   notificationEmitter,
 };

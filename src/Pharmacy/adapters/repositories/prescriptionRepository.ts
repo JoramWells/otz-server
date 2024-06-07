@@ -10,11 +10,17 @@ import { ART } from '../../domain/models/art/art.model'
 import { ArtCategory } from '../../domain/models/art/artCategory.model'
 import { Prescription } from '../../domain/models/art/prescription.model'
 import { Patient } from '../../domain/models/patients.models'
+import { calculatePills2 } from '../../utils/calculatePills'
 
 export class PrescriptionRepository implements IPrescriptionRepository {
-  async create (data: PrescriptionEntity, appointmentInput: AppointmentEntity): Promise<PrescriptionEntity | null> {
-    return await connect.transaction(async t => {
-      const results: PrescriptionEntity = await Prescription.create(data, { transaction: t })
+  async create (
+    data: PrescriptionEntity,
+    appointmentInput: AppointmentEntity
+  ): Promise<PrescriptionEntity | null> {
+    return await connect.transaction(async (t) => {
+      const results: PrescriptionEntity = await Prescription.create(data, {
+        transaction: t
+      })
 
       await Appointment.create(appointmentInput, { transaction: t })
 
@@ -23,18 +29,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   }
 
   async find (): Promise<PrescriptionEntity[]> {
-    const results = await Prescription.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ['firstName', 'middleName']
-        },
-        {
-          model: ART,
-          attributes: ['artName']
-        }
-      ]
-    })
+    const results = await calculatePills2()
+    return results
+  }
+
+  async findAllAdherence (): Promise<PrescriptionEntity[]> {
+    const results = await calculatePills2()
     return results
   }
 

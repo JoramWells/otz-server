@@ -17,6 +17,11 @@ export interface PrescriptionInterface {
   frequency: number
   refillDate: Date
   nextRefillDate: Date
+
+  //
+  expectedNoOfPills: number
+  computedNoOfPills: number
+  updatedAtExpectedNoOfPills: Date
 }
 
 export class Prescription extends Model<PrescriptionInterface> {
@@ -28,6 +33,9 @@ export class Prescription extends Model<PrescriptionInterface> {
   frequency!: number
   refillDate!: Date
   nextRefillDate!: Date
+  expectedNoOfPills!: number
+  computedNoOfPills!: number
+  updatedAtExpectedNoOfPills!: Date
 }
 
 Prescription.init(
@@ -68,6 +76,15 @@ Prescription.init(
       type: DataTypes.DATE
     },
     nextRefillDate: {
+      type: DataTypes.DATE
+    },
+    expectedNoOfPills: {
+      type: DataTypes.STRING
+    },
+    computedNoOfPills: {
+      type: DataTypes.INTEGER
+    },
+    updatedAtExpectedNoOfPills: {
       type: DataTypes.DATE
     }
   },

@@ -19,6 +19,7 @@ import { notificationSubCategoryRouter } from './routes/notify/notificationSubCa
 import { userNotificationRouter } from './routes/notify/userNotification.routes';
 import { patientNotificationRouter } from './routes/notify/patientNotification.routes';
 import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes';
+import { schedulePatientNotifications } from './utils/scheduleMessages';
 const morgan = require('morgan');
 require('dotenv').config();
 
