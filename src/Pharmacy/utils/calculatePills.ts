@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { Prescription } from '../domain/models/art/prescription.model'
-import { Op, Sequelize, col, fn, literal } from 'sequelize'
+import { Op, col, fn } from 'sequelize'
 import { type PrescriptionEntity } from '../domain/entities/art/PrescriptionEntity'
 import { Patient } from '../domain/models/patients.models'
 import { ART } from '../domain/models/art/art.model'
@@ -40,11 +40,6 @@ const calculatePills = async () => {
 
 const calculatePills2 = async (): Promise<PrescriptionEntity[]> => {
   const currentDate = moment().format('YYYY-MM-DD')
-
-  const query = `
-  SELECT MAX("createdAt") , "patientID"
-  FROM "prescriptions" GROUP BY "patientID"
-  `
 
   const results: PrescriptionEntity[] = await Prescription.findAll({
     attributes: [

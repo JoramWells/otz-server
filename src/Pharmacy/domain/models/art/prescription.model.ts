@@ -7,11 +7,13 @@ import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
 import { ART } from './art.model'
 import { PatientVisits } from '../patientVisits.model'
+import { ARTPrescription } from './artPrescription.model'
 
 export interface PrescriptionInterface {
   id?: string
   patientID: string
   patientVisitID: string
+  artPrescriptionID: string
   drugID: string
   noOfPills: number
   frequency: number
@@ -28,6 +30,7 @@ export class Prescription extends Model<PrescriptionInterface> {
   id: string | undefined
   patientID!: string
   patientVisitID!: string
+  artPrescriptionID!: string
   drugID!: string
   noOfPills!: number
   frequency!: number
@@ -66,6 +69,13 @@ Prescription.init(
         key: 'id'
       }
     },
+    artPrescriptionID: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'artPrescriptions',
+        key: 'id'
+      }
+    },
     noOfPills: {
       type: DataTypes.STRING
     },
@@ -98,6 +108,7 @@ Prescription.init(
 Prescription.belongsTo(Patient, { foreignKey: 'patientID' })
 Prescription.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })
 Prescription.belongsTo(ART, { foreignKey: 'drugID' })
+Prescription.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' })
 
 // sequelize.sync()
 // console.log('User Table synced successfully')

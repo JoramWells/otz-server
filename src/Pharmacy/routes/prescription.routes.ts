@@ -12,6 +12,7 @@ const controller = new PrescriptionController(interactor)
 
 router.post('/add', controller.onCreatePrescription.bind(controller))
 router.get('/fetchAll', controller.onGetAllPrescriptions.bind(controller))
+router.get('/facility-adherence', controller.onGetFacilityAdherence.bind(controller))
 router.get('/detail/:id', controller.onGetPrescriptionById.bind(controller))
 router.get('/details/:id', controller.onGetPrescriptionDetails.bind(controller))
 // router.put('/edit/:id', editUser)

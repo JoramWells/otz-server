@@ -10,6 +10,10 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     this.repository = repository
   }
 
+  async getFacilityAdherence (): Promise<string | number> {
+    return await this.repository.findFacilityAdherence()
+  }
+
   async getPrescriptionById (id: string): Promise<PrescriptionEntity | null> {
     return await this.repository.findById(id)
   }

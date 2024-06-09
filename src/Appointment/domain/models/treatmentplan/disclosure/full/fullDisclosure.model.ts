@@ -1,5 +1,5 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
-import { connect } from "../../../../db/connect";
+import { connect } from "../../../../../db/connect";
 import { ExecuteDisclosure } from "./executeDisclosure.model";
 import { PostDisclosure } from "./postDisclosureAssessment.model";
 

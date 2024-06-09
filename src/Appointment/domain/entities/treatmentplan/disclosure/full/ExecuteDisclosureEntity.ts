@@ -1,4 +1,4 @@
-import { ExecuteDisclosureAttributes } from "../../../../models/treatmentplan/disclosure/executeDisclosure.model";
+import { ExecuteDisclosureAttributes } from "../../../../models/treatmentplan/disclosure/full/executeDisclosure.model";
 
 export class ExecuteDisclosureEntity implements ExecuteDisclosureAttributes {
   constructor() {}

@@ -79,7 +79,7 @@ MMASEight.init(
       type: DataTypes.STRING,
     },
     totalScores: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
     },
   },
   {

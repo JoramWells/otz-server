@@ -7,5 +7,6 @@ export interface IPrescriptionRepository {
   findById: (id: string) => Promise<PrescriptionEntity | null>
   findDetails: (id: string) => Promise<PrescriptionEntity | null>
   findAllAdherence: () => Promise<PrescriptionEntity[]>
+  findFacilityAdherence: () => Promise<string | number>
 
 }

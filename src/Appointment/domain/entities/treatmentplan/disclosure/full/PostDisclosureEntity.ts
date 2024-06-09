@@ -1,4 +1,4 @@
-import { PostDisclosureAttributes } from "../../../../models/treatmentplan/disclosure/postDisclosureAssessment.model";
+import { PostDisclosureAttributes } from "../../../../models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
 
 export class PostDisclosureEntity implements PostDisclosureAttributes {
   constructor() {}

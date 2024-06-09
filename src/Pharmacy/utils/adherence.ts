@@ -147,8 +147,54 @@ const adherenceMonitor = async () => {
   }
 }
 
+const calculatePatientAdherence = async () => {
+  const prescriptions = await Prescription.findAll({
+    where: {
+      createdAt: {
+        [Op.not]: null
+      },
+      patientID: {
+        [Op.not]: null
+      }
+    }
+  })
+  const adherenceByPatient = {}
+  prescriptions.forEach(prescription => {
+    if (!adherenceByPatient[prescription.patientID]) {
+      adherenceByPatient[prescription.patientID] = {
+        totalQuantityPrescribed: 0,
+        totalQuantityDispensed: 0
+      }
+    }
+    adherenceByPatient[prescription.patientID].totalQuantityPrescribed += prescription.noOfPills
+    adherenceByPatient[prescription.patientID].totalQuantityDispensed += prescription.computedNoOfPills
+  })
+
+  const adherenceData = Object.keys(adherenceByPatient).map(patientID => {
+    const data = adherenceByPatient[patientID]
+    const adherence = (data.totalQuantityDispensed / data.totalQuantityPrescribed) * 100
+    return {
+      patientID,
+      adherence: adherence.toFixed(2)
+    }
+  })
+
+
+  return adherenceData
+}
+
+const calculateFacilityAdherence = async () => {
+  const adherenceData = await calculatePatientAdherence()
+  if (adherenceData.length === 0) {
+    return 0
+  }
+  const totalAdherence = adherenceData.reduce((sum, patient) => sum + parseFloat(patient.adherence), 0)
+  const averageAdherence = totalAdherence / adherenceData.length
+  return averageAdherence.toFixed(2)
+}
+
 // const calculateAdherence = (uptakeEntries) => {
 //   total_days
 // }
 
-export { adherenceMonitor }
+export { adherenceMonitor, calculatePatientAdherence, calculateFacilityAdherence }

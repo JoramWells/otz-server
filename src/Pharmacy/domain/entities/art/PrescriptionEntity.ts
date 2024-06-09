@@ -4,6 +4,7 @@ export class PrescriptionEntity implements PrescriptionInterface {
   constructor (
     public patientID: string,
     public patientVisitID: string,
+    public artPrescriptionID: string,
     public drugID: string,
     public noOfPills: number,
     public frequency: number,

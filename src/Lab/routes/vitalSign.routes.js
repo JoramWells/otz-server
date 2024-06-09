@@ -6,6 +6,7 @@ const {
   deleteVitalSign,
   getVitalSignByPatientID,
   getAllVitalSignDetail,
+  getAllVitalSignByPatientID,
 } = require('../controllers/vitalSign.controller');
 
 const router = express.Router();
@@ -15,6 +16,7 @@ router.get('/fetchAll', getAllVitalSigns);
 router.get('/detail/:id', getVitalSignDetail);
 router.get('/patient-detail/:id', getVitalSignByPatientID);
 router.get('/details/:id', getAllVitalSignDetail);
+router.get('/all-details/:id', getAllVitalSignByPatientID);
 router.put('/edit/:id', editVitalSign);
 router.delete('/delete/:id', deleteVitalSign);
 
