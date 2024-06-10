@@ -24,6 +24,9 @@ export class RedisAdapter {
   }
 
   async get (key: string): Promise<string | null> {
+    if (await this.redisClient.connected === null) {
+      await this.redisClient.disconnect()
+    }
     return this.redisClient.get(key)
   }
 

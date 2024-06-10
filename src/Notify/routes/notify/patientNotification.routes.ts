@@ -2,7 +2,7 @@
 
 
 import express from "express";
-import { PatientNotificationRepository } from "../../adapters/repositories/notify/paitientNotificationEntity";
+import { PatientNotificationRepository } from "../../adapters/repositories/notify/paitientNotificationRepository";
 import { PatientNotificationInteractor } from "../../application/interactors/notify/patientNotificationInteractor";
 import { PatientNotificationController } from "../../adapters/controllers/notify/patientNotificationController";
 

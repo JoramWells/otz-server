@@ -65,7 +65,7 @@ const schedulePatientNotifications = async () => {
 
     if (isMorning) {
     patients.forEach(async (patient) => {
-      const {morningMedicineTime} = patient?.timeAndWork?.morningMedicineTime;
+      const morningMedicineTime = patient?.TimeAndWork?.morningMedicineTime;
       if (morningMedicineTime) {
         const notificationTime = moment(morningMedicineTime, 'HH:mm:ss');
         // console.log(notificationTime, 'ft');
@@ -79,11 +79,11 @@ const schedulePatientNotifications = async () => {
             const randomMessage = messages[Math.floor(Math.random() * messages.length)].messageText;
 
             await PatientNotification.create({
-              patientID: patient.timeAndWork.patient.id,
+              patientID: patient.TimeAndWork.Patient.id,
               message: randomMessage,
               medicineTime: morningMedicineTime,
             });
-            console.log('Notification created for patient:', patient.timeAndWork.patient.id);
+            console.log('Notification created for patient:', patient.TimeAndWork.Patient.id);
           });
         }
       }

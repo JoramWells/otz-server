@@ -2,10 +2,11 @@ import { Op } from "sequelize"
 import { Appointment } from "../domain/models/appointment/appointment.model"
 import { AppointmentStatus } from "../domain/models/appointment/appointmentStatus.model"
 import { logger } from "./logger"
+import moment from "moment"
+
 
 export const markMissedAppointments = async() =>{
-    const today = new Date()
-    today.setHours(0,0,0,0)
+    const today = moment().format('YYYY-MM-DD')
 
 
 
@@ -16,27 +17,35 @@ export const markMissedAppointments = async() =>{
             },
           }); 
 
-          if(appointmentStatus){
-            const updateResults = await Appointment.update(
-              { appointmentStatusID: appointmentStatus.id },
-              {
-                where: {
-                  appointmentDate: {
-                    [Op.lt]: today,
-                  },
-                },
-              }
-            );
+          console.log(appointmentStatus)
 
-            if(updateResults){
-              logger.info({
-                message: "Appointments successfully changed to Missed",
+          if(appointmentStatus){
+            const results = await Appointment.findAll({
+              where: {
+                appointmentDate: {
+                  [Op.lt]: today,
+                },
+                appointmentStatusID: {
+                  [Op.ne]: appointmentStatus.id,
+                },
+              },
+            });
+            if(results){
+              for(const appointment of results){
+                // console.log(appointment)
+                await appointment.update(
+                  {appointmentStatusID: appointmentStatus.id},
+                  {where:{
+                    id:appointment.id
+                  } }            
+                )
+                // 
+               logger.info({
+                message: `Appointments modified for ${appointment.id} `,
               });
+
+              }
             }
-            
-          }
-          else{
-            logger.error({message:'No appointment agenda with missed status'})
           }
    
     } catch (error) {

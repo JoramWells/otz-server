@@ -69,6 +69,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   // }
 
   async create(data: AppointmentEntity): Promise<AppointmentEntity> {
+    await this.redisClient.connect()
     return await connect.transaction(async (t) => {
       let results: AppointmentAttributes = await Appointment.create(data, {
         transaction: t,
@@ -78,12 +79,14 @@ export class AppointmentRepository implements IAppointmentRepository {
       }
 
       const { patientID } = data;
-      await this.redisClient.connect();
       if ((await this.redisClient.get(patientID.toString())) !== null) {
         await this.redisClient.del(patientID);
       }
+    await this.redisClient.del(appointmentCache);
+
       return results;
     });
+
 
     // await this.redisClient.disconnect()
 

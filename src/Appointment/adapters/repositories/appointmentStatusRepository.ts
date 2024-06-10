@@ -1,6 +1,6 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { IAppointmentStatusRepository } from '../../application/interfaces/appointment/IAppointmentStatusRepository'
-import {  appointmentStatusCache } from '../../constants/appointmentCache'
+import {   appointmentStatusCache } from '../../constants/appointmentCache'
 import { AppointmentStatusEntity } from '../../domain/entities/AppointmentStatusEntity'
 import { AppointmentStatus, AppointmentStatusAttributes } from '../../domain/models/appointment/appointmentStatus.model'
 // import { logger } from '../../utils/logger'
@@ -16,8 +16,9 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
   async create(
     data: AppointmentStatusEntity
   ): Promise<AppointmentStatusEntity> {
+    await this.redisClient.connect()
     const results: AppointmentStatusAttributes = await AppointmentStatus.create(data);
-
+    await this.redisClient.del(appointmentStatusCache);
     return results;
   }
 

@@ -1,7 +1,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import moment from 'moment';
 import { IPatientNotificationRepository } from '../../../application/interfaces/notify/IPatientNotificationRepository';
-import { IMMASRepository } from '../../../application/interfaces/treatmentplan/IMMASRepository';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { PatientNotificationEntity } from '../../../domain/entities/notify/PatientNotificationEntity';
 import { PatientNotification } from '../../../domain/models/notify/patientNotifications.model';
@@ -24,10 +24,14 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
   }
 
   async find(): Promise<PatientNotificationEntity[]> {
+    const currentDate = moment().format('YYYY-MM-DD')
     await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
       const results = await PatientNotification.findAll({
+        where:{
+          createdAt: currentDate
+        },
         include:[
           {
             model: Patient,
