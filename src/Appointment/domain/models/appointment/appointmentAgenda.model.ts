@@ -25,6 +25,8 @@ AppointmentAgenda.init(
     },
     agendaDescription: {
       type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
   },
   {

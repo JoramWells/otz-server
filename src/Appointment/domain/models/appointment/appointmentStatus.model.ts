@@ -24,6 +24,8 @@ AppointmentStatus.init(
     },
     statusDescription: {
       type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
   },
   {

@@ -23,6 +23,8 @@ import { mmasEightRouter } from './routes/treatmentplan/mmasEight.routes';
 import { partialDisclosureRouter } from './routes/treatmentplan/partial/partialDisclosure.routes';
 import { disclosureEligibilityRouter } from './routes/treatmentplan/partial/disclosureEligibility.routes';
 import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/childCaregiverReadiness.routes';
+import { logger } from './utils/logger';
+import { markMissedAppointments } from './utils/markMissedAppointment';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -55,6 +57,11 @@ app.use(morgan('dev'));
 
 scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
+
+scheduleJob('*/15 * * * *',()=>{
+  logger.info({message: 'Marking missed appointments'})
+  markMissedAppointments()
+})
 
 // dailyPillUpdate();
 

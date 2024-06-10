@@ -50,7 +50,7 @@ app.use(morgan('dev'));
 // scheduleJob('0 0 * *',)
 // dailyPillUpdate();
 
-// schedulePatientNotifications();
+schedulePatientNotifications();
 
 // realtime
 
