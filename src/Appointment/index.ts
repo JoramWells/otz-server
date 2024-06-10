@@ -58,10 +58,7 @@ app.use(morgan('dev'));
 scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
 
-scheduleJob('*/15 * * * *',()=>{
-  logger.info({message: 'Marking missed appointments'})
-  markMissedAppointments()
-})
+markMissedAppointments()
 
 // dailyPillUpdate();
 

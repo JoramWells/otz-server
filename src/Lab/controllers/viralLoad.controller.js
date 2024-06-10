@@ -26,7 +26,8 @@ const addViralLoadTest = async (req, res, next) => {
     vlResults,
     vlJustification,
   } = req.body
-  console.log(appointmentStatusID, 'id');
+
+  
   try {
 
     await connect.transaction(async(t)=>{
