@@ -84,6 +84,9 @@ const adherenceMonitor = async () => {
           },
           createdAt: {
             [Op.not]: null
+          },
+          expectedNoOfPills: {
+            [Op.gt]: 0
           }
         }
       })
@@ -178,7 +181,6 @@ const calculatePatientAdherence = async () => {
       adherence: adherence.toFixed(2)
     }
   })
-
 
   return adherenceData
 }
