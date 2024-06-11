@@ -109,7 +109,7 @@ Prescription.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })
 Prescription.belongsTo(ART, { foreignKey: 'drugID' })
 Prescription.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' })
 
-void connect.sync().then(async () => {
+void connect.sync({alter:true}).then(async () => {
   console.log('Prescription table created successfully!!')
 })
 
