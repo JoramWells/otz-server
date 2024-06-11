@@ -16,6 +16,7 @@ import { PatientVisits } from '../../domain/models/patientVisits.model'
 // import { createClient } from 'redis'
 
 
+// 
 export class AppointmentRepository implements IAppointmentRepository {
   async findAllPriorityAppointments(): Promise<AppointmentEntity[] | null> {
     return await Appointment.findAll({

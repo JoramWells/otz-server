@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
@@ -110,9 +111,9 @@ Prescription.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })
 Prescription.belongsTo(ART, { foreignKey: 'drugID' })
 Prescription.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' })
 
-(async()=> 
-  await sequelize.sync()
+// ( async ()=> {
+connect.sync()
 console.log('Prescription Table synced successfully')
-)
+// )
 
 // export { Caregiver }
