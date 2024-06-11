@@ -97,9 +97,13 @@ export class AppointmentRepository implements IAppointmentRepository {
     await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(appointmentCache)) === null) {
-      const results = await Appointment.findAll({
+      const results: AppointmentEntity[] = await Appointment.findAll({
         order: [["appointmentDate", "ASC"]],
-        // where: whereCondition,
+        where: {
+          createdAt: {
+            [Op.not]: null,
+          },
+        },
         include: [
           {
             model: Patient,

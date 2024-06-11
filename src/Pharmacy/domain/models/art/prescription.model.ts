@@ -110,7 +110,9 @@ Prescription.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })
 Prescription.belongsTo(ART, { foreignKey: 'drugID' })
 Prescription.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' })
 
-// sequelize.sync()
-// console.log('User Table synced successfully')
+(async()=> 
+  await sequelize.sync()
+console.log('Prescription Table synced successfully')
+)
 
 // export { Caregiver }
