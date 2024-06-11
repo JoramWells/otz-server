@@ -121,10 +121,10 @@ Prescription.belongsTo(ARTPrescription, {
   constraints: false
 })
 
-void connect
-  .sync({alter: true })
-  .then(async () => {
-    console.log('Prescription table created successfully!!')
-  })
+// void connect
+//   .sync({alter: true })
+//   .then(async () => {
+//     console.log('Prescription table created successfully!!')
+//   })
 
 // export { Caregiver }
