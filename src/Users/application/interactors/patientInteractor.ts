@@ -11,6 +11,10 @@ export class PatientInteractor implements IPatientInteractor {
     this.repository = repository
   }
 
+  async editPatient (data: PatientEntity): Promise<PatientEntity | null> {
+    return await this.repository.edit(data)
+  }
+
   async findAllPMTCTPatients (): Promise<PatientEntity[]> {
     return await this.repository.findAllPMTCTPatients()
   }

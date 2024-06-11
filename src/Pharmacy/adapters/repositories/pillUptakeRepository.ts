@@ -163,7 +163,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         }
 
         results.morningStatus = status
-        await results.save()
+        return await results.save()
       }
     } else {
       const results = await Adherence.findOne({

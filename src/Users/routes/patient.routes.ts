@@ -17,7 +17,7 @@ router.get('/fetchAll', patientController.onGetAllPatients.bind(patientControlle
 router.get('/detail/:id', patientController.onGetPatientById.bind(patientController))
 router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))
 router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
-// router.put('/edit/:id', editPatient);
+router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientController))
 // router.delete('/delete/:id', deletePatient);
 
 module.exports = router

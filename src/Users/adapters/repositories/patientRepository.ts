@@ -172,4 +172,22 @@ export class PatientRepository implements IPatientRepository {
 
     return results
   }
+
+  async edit (data: PatientEntity): Promise<PatientEntity | null> {
+    const { id, firstName, middleName, lastName, phoneNo } = data
+    const results = await Patient.findOne({
+      where: {
+        id
+      }
+    })
+
+    if (results) {
+      results.firstName = firstName
+      results.middleName = middleName
+      results.lastName = lastName
+      results.phoneNo = phoneNo
+      await results.save()
+    }
+    return results
+  }
 }

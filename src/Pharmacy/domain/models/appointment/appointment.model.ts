@@ -1,6 +1,7 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { createClient } from 'redis'
 import { connect } from '../../db/connect'
+import { Patient } from '../patients.models'
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 
@@ -49,7 +50,8 @@ Appointment.init(
         model: 'patients',
         key: 'id'
       },
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+      allowNull: true
     },
     appointmentAgendaID: {
       type: DataTypes.UUID,
@@ -94,6 +96,8 @@ Appointment.init(
     timestamps: true
   }
 )
+
+Appointment.belongsTo(Patient, { foreignKey: 'patientID', constraints: false })
 
 Appointment.afterCreate(async (appointments, options) => {
   const redisClient = createClient({ url: 'redis://redis:6379' })

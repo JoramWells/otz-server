@@ -1,4 +1,4 @@
-import { DataTypes, Model, UUIDV4 } from 'sequelize'
+import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
@@ -67,7 +67,7 @@ Patient.init(
       type: DataTypes.STRING
     },
     dob: {
-      type: DataTypes.DATEONLY
+      type: DataTypes.STRING
     },
     phoneNo: {
       type: DataTypes.STRING,
@@ -92,7 +92,7 @@ Patient.init(
     },
 
     ageAtReporting: {
-      type: DataTypes.DATE
+      type: DataTypes.INTEGER
     },
     dateConfirmedPositive: {
       type: DataTypes.DATE
@@ -109,6 +109,14 @@ Patient.init(
     },
     hospitalID: {
       type: DataTypes.INTEGER
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
     // notifications: {
     //   type: DataTypes.JSONB,
@@ -139,7 +147,7 @@ Patient.afterCreate(async () => {
 })
 
 Patient.belongsTo(School, { foreignKey: 'schoolID' })
-Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
+// Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
 // (async () => {
 // connect.sync()

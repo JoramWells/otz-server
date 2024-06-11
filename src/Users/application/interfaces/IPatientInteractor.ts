@@ -7,5 +7,6 @@ export interface IPatientInteractor {
   getPatientById: (id: string) => Promise<PatientEntity | null>
   findAllPMTCTPatients: () => Promise <PatientEntity[]>
   findAllOTZPatients: () => Promise <PatientEntity[]>
+  editPatient: (data: PatientEntity) => Promise<PatientEntity | null>
 
 }

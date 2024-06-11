@@ -146,4 +146,23 @@ export class PatientController {
       res.status(500).json({ message: 'Internal Server Error' })
     }
   }
+
+  async onEditPatientProfile (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params
+      const { firstName, middleName, lastName, phoneNo }: PatientEntity = req.body
+      const values: PatientEntity = {
+        id,
+        firstName,
+        middleName,
+        lastName,
+        phoneNo
+      }
+
+      const results = await this.interactor.editPatient(values)
+      res.status(200).json(results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

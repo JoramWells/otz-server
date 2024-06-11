@@ -104,13 +104,29 @@ Prescription.init(
   }
 )
 
-Prescription.belongsTo(Patient, { foreignKey: 'patientID' })
-Prescription.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })
-Prescription.belongsTo(ART, { foreignKey: 'drugID' })
-Prescription.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' })
+// const disableForeignKeyChecksQuery = 'SET FOREIGN_KEY_CHECKS = 0;'
+// void connect.query(disableForeignKeyChecksQuery)
 
-void connect.sync({alter:true}).then(async () => {
-  console.log('Prescription table created successfully!!')
+Prescription.belongsTo(Patient, {
+  foreignKey: 'patientID',
+  constraints: false
 })
+Prescription.belongsTo(PatientVisits, {
+  foreignKey: 'patientVisitID',
+  constraints: false
+})
+Prescription.belongsTo(ART, { foreignKey: 'drugID', constraints: false })
+Prescription.belongsTo(ARTPrescription, {
+  foreignKey: 'artPrescriptionID',
+  constraints: false
+})
+
+void connect
+  .sync({
+    alter: { exclude: ['createdAt', 'updatedAt'] }
+  })
+  .then(async () => {
+    console.log('Prescription table created successfully!!')
+  })
 
 // export { Caregiver }

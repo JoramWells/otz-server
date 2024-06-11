@@ -6,7 +6,7 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 
 export enum AgeLine {
-  Pediatrics = 'pediatrics',
+  Pediatric = 'pediatric',
   Adult = 'adults'
 }
 
@@ -17,6 +17,7 @@ export enum ArtPhase {
   Second = 'second line',
   Third = 'third line',
 }
+//
 
 export interface ArtCategoryInterface {
   id: string
@@ -43,11 +44,12 @@ ArtCategory.init(
       type: DataTypes.STRING
     },
     ageLine: {
-      type: DataTypes.ENUM(...Object.values(AgeLine))
+      type: DataTypes.ENUM('pediatric', 'Adults')
       // allowNull: false
     },
     artPhase: {
-      type: DataTypes.ENUM(...Object.values(ArtPhase))
+      type: DataTypes.ENUM('first line', 'second line', 'third line'),
+      defaultValue: 'first line'
       // allowNull: false
     }
   },
@@ -58,7 +60,8 @@ ArtCategory.init(
   }
 )
 
-// sequelize.sync()
-// console.log('User Table synced successfully')
+// void connect.sync({ alter: true }).then(async () => {
+//   console.log('Art table synced successfully!!')
+// })
 
 // export { Caregiver }
