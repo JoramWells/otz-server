@@ -47,11 +47,11 @@ ArtCategory.init(
       type: DataTypes.ENUM('pediatric', 'Adults')
       // allowNull: false
     },
-    artPhase: {
-      type: DataTypes.ENUM('first line', 'second line', 'third line'),
-      defaultValue: 'first line'
-      // allowNull: false
-    }
+    // artPhase: {
+    //   type: DataTypes.ENUM('first line', 'second line', 'third line'),
+    //   defaultValue: 'first line'
+    //   // allowNull: false
+    // }
   },
   {
     sequelize: connect,
@@ -60,8 +60,8 @@ ArtCategory.init(
   }
 )
 
-// void connect.sync({ alter: true }).then(async () => {
-//   console.log('Art table synced successfully!!')
-// })
+void connect.sync({ alter: true }).then(async () => {
+  console.log('Art table synced successfully!!')
+})
 
 // export { Caregiver }
