@@ -62,8 +62,8 @@ ArtCategory.init(
   }
 )
 
-void connect.sync({ alter: true }).then(async () => {
-  console.log('Art table synced successfully!!')
-})
+// void connect.sync({ alter: true }).then(async () => {
+//   console.log('Art table synced successfully!!')
+// })
 
 // export { Caregiver }
