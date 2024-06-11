@@ -47,11 +47,11 @@ ArtCategory.init(
       type: DataTypes.ENUM('pediatric', 'Adults')
       // allowNull: false
     },
-    artPhase: {
-      type: DataTypes.ENUM('first line', 'second line', 'third line'),
-      defaultValue: 'first line'
-      // allowNull: false
-    }
+    // artPhase: {
+    //   type: DataTypes.ENUM('first line', 'second line', 'third line'),
+    //   defaultValue: 'first line'
+    //   // allowNull: false
+    // }
   },
   {
     sequelize: connect,
