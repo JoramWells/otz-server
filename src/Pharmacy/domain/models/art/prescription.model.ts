@@ -122,9 +122,7 @@ Prescription.belongsTo(ARTPrescription, {
 })
 
 void connect
-  .sync({
-    alter: { exclude: ['createdAt', 'updatedAt'] }
-  })
+  .sync({alter: true })
   .then(async () => {
     console.log('Prescription table created successfully!!')
   })
