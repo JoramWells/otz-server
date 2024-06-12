@@ -143,11 +143,7 @@ const adherenceMonitor = async () => {
     console.log(error)
   }
 
-  const adherenceRate = () => {
-    const noOfPills = 30
-    const calculatedExpectedValues = 0
-    const noOfDaysTaken = 4
-  }
+
 }
 
 const calculatePatientAdherence = async () => {

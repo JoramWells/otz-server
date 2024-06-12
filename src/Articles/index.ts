@@ -22,7 +22,6 @@ require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const cors = require('cors');
-const sequelize = require('./db/connect');
 
 // const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 

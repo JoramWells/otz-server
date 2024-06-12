@@ -26,7 +26,7 @@ services:
       - ./otz3.0.sql:/docker-entrypoint-initdb.d/otz3.0.sql
 
 
-    # deploy:
+    deploy:
     #   mode: replicated
     #   replicas: 2
     #   placement:
@@ -34,8 +34,8 @@ services:
     #   update_config:
     #     parallelism: 2
     #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure    
+      restart_policy:
+        condition: on-failure    
     #   resources:
     #     limits:
     #       cpus: '0.20'

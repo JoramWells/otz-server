@@ -377,10 +377,10 @@ services:
       resources:
         limits:
           cpus: '0.40'
-          memory: 700M
+          memory: 750M
         reservations:
           cpus: '0.40'
-          memory: 700M
+          memory: 750M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s

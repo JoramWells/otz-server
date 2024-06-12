@@ -1,4 +1,4 @@
-import { DataTypes, Model,  UUIDV4 } from "sequelize";
+import { DataTypes, Model,  Sequelize,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { User } from "../user.model";
@@ -23,6 +23,8 @@ export interface TimeAndWorkAttributes {
   goal: string;
   morningWeekendPlace: string;
   eveningWeekendPlace: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export class TimeAndWork
@@ -46,6 +48,8 @@ export class TimeAndWork
   goal!: string;
   morningWeekendPlace!: string;
   eveningWeekendPlace!: string;
+  createdAt: Date | undefined;
+  updatedAt!: Date | undefined;
 }
 
 TimeAndWork.init(
@@ -110,6 +114,14 @@ TimeAndWork.init(
     },
     eveningWeekendPlace: {
       type: DataTypes.STRING,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
   },
   {
