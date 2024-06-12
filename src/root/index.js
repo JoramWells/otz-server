@@ -6,22 +6,19 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const http = require('http');
-const Sentry = require('@sentry/node');
+// const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 const { Server } = require('socket.io');
-const twilio = require('twilio');
+const helmet = require('helmet');
 
 require('dotenv').config();
 
 const sequelize = require('./db/connect');
 
-const artRegimeRoutes = require('./ArtRegimen/routes/artRegimen.routes');
 const homeVisitReasonRoute = require('./HomeVisit/routes/reasonDetails.routes');
 const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.routes');
 const homeVisitRoutes = require('./HomeVisit/routes/homeVisit.routes');
 
-const artRegimePhaseRoutes = require('./ArtRegimen/routes/artRegimenPhase.routes');
-const artRegimenCategoryRoutes = require('./ArtRegimen/routes/artRegimenCategory.routes');
 const locationRoutes = require('./Location/routes/location.routes');
 const countyRoutes = require('./Location/routes/county.routes');
 const subCountyRoutes = require('./Location/routes/subCounty.routes');
@@ -30,18 +27,13 @@ const occupationRoutes = require('./Location/routes/occupation.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const schoolRoutes = require('./Location/routes/school.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
-const regimenPrescriptionRoutes = require('./ArtRegimen/routes/addPrescription.routes');
-const artSwitchReasons = require('./ArtRegimen/routes/artSwitchReason.routes');
-const artRegimenSwitchRoutes = require('./ArtRegimen/routes/artRegimenSwitch.routes');
-const measuringUnitRoutes = require('./ArtRegimen/routes/measuringUnit.routes');
-const pillRoutes = require('./ArtRegimen/routes/pill.routes');
+
 
 const app = express();
 
 // create redis clietn
 // let redisClient;
 
-const twilioClient = twilio(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
@@ -53,6 +45,7 @@ app.use(express.urlencoded({
 
 // enable cors
 app.use(cors());
+app.use(helmet())
 
 // job
 // schedule.scheduleJob('* * * * * *', async (fireDate) => {
@@ -131,49 +124,21 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 5000;
 
-//
-// sendsms
-// app.post('/sms/send', async (req, res, next) => {
-//   const { to, message } = req.body;
-//   console.log(message);
 
-//   try {
-//     const response = await twilioClient.messages.create({
-//       body: message,
-//       to,
-//       from: process.env.TWILIO_PHONE,
-//     });
-
-//     if (response) {
-//       res.json(response);
-//     }
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//     next(error);
-//   }
-// });
-
-// app.use('/patient', patientRoutes);
-app.use('/art-regimen', artRegimeRoutes);
-app.use('/art-regimen-phase', artRegimePhaseRoutes);
-app.use('/art-regimen-category', artRegimenCategoryRoutes);
-app.use('/art-switch-reason', artSwitchReasons);
-app.use('/art-regimen-switch', artRegimenSwitchRoutes);
+// app.use('/art-regimen', artRegimeRoutes);
+// app.use('/art-regimen-phase', artRegimePhaseRoutes);
+// app.use('/art-regimen-category', artRegimenCategoryRoutes);
 app.use('/home-visit-reason', homeVisitReasonRoute);
 app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
 app.use('/home-visit', homeVisitRoutes);
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/hospital', hospitalRoutes);
-app.use('/prescription', regimenPrescriptionRoutes);
 app.use('/occupations', occupationRoutes);
 app.use('/counties', countyRoutes);
 app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
-app.use('/pills', pillRoutes);
-app.use('/measuring-unit', measuringUnitRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

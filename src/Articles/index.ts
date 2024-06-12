@@ -8,10 +8,11 @@ import {createServer} from 'http';
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
-
+import helmet from 'helmet'
 import { articleRouter } from './routes/articles/articles.routes';
 import { articleCategoryRouter } from './routes/articles/articleCategory.routes';
 import { chapterRouter,  } from './routes/articles/chapter.routes';
+import { questionRouter } from './routes/articles/question.routes';
 
 
 const morgan = require('morgan');
@@ -29,6 +30,7 @@ const sequelize = require('./db/connect');
 const app = express();
 
 app.use(cors());
+app.use(helmet())
 
 //
 app.use(express.json());
@@ -125,6 +127,7 @@ const PORT = process.env.PORT || 5009;
 app.use("/articles", articleRouter);
 app.use("/articles-category", articleCategoryRouter);
 app.use("/chapters", chapterRouter);
+app.use("/questions", questionRouter);
 
 
 

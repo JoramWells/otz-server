@@ -7,6 +7,7 @@ import { appointmentRouter } from './routes/appointments/appointment.routes';
 import { connect } from './db/connect';
 import {scheduleJob} from 'node-schedule';
 import {createServer} from 'http';
+import helmet from 'helmet'
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
@@ -34,7 +35,6 @@ require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const cors = require('cors');
-const sequelize = require('./db/connect');
 
 // const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 
@@ -42,7 +42,7 @@ const app = express();
 
 app.use(cors());
 
-
+app.use(helmet())
 
 //
 app.use(express.json());

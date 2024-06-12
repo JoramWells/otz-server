@@ -1,4 +1,4 @@
-import { DataTypes, Model, UUIDV4 } from 'sequelize'
+import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
@@ -35,7 +35,9 @@ export interface PatientAttributes {
   entryPoint?: string
   subCountyName?: string
   maritalStatus: string
-  location: LocationProps
+  location?: LocationProps
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
@@ -58,7 +60,9 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   schoolID?: string | undefined
   hospitalID?: string | undefined
   subCountyName?: string | undefined
-  location!: LocationProps
+  location: LocationProps | undefined
+  createdAt?: Date | undefined
+  updatedAt?: Date | undefined
 }
 
 Patient.init(
@@ -82,7 +86,7 @@ Patient.init(
       type: DataTypes.STRING
     },
     dob: {
-      type: DataTypes.DATEONLY
+      type: DataTypes.STRING
     },
     phoneNo: {
       type: DataTypes.STRING,
@@ -107,7 +111,7 @@ Patient.init(
     },
 
     ageAtReporting: {
-      type: DataTypes.DATE
+      type: DataTypes.STRING
     },
     dateConfirmedPositive: {
       type: DataTypes.DATE
@@ -133,6 +137,14 @@ Patient.init(
     location: {
       type: DataTypes.JSONB,
       allowNull: true
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
   },
   {
@@ -144,6 +156,10 @@ Patient.init(
     timestamps: true
   }
 )
+
+// const disableForeignKeyChecks = async (sequelize: Sequelize) => {
+//   await sequelize.query('SET session_replication_role = replica;')
+// }
 
 Patient.afterUpdate(async (instance, options) => {
   const redisClient = createClient({ url: 'redis://redis:6379' })
@@ -158,9 +174,19 @@ Patient.afterCreate(async () => {
 })
 
 Patient.belongsTo(School, { foreignKey: 'schoolID' })
-Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
+Patient.belongsTo(Hospital, { foreignKey: 'hospitalID', constraints: false })
+
+// const syncDB = async () => {
+//   try {
+//     await disableForeignKeyChecks(connect)
+//     await connect.sync({ alter: { exclude: ['createdAt', 'updatedAt'] } })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// void syncDB()
 
 // (async () => {
-// connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

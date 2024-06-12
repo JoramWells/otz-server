@@ -11,6 +11,7 @@ import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
 import { Patient } from '../domain/models/patients.models';
 import { MessageTextReply } from '../domain/models/notify/messageTextReply.model';
 import { PatientNotification } from '../domain/models/notify/patientNotifications.model';
+import { sendSMS } from './sendSMS';
 
 
 const notificationEmitter = new EventEmitter();
@@ -52,20 +53,21 @@ const schedulePatientNotifications = async () => {
         currentDate,
       },
       order: [['updatedAt', 'DESC']],
-      include: {
+      include: [{
         model: TimeAndWork,
+        as:'TimeAndWork',
         attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
-        include: {
+        include: [{
           model: Patient,
           attributes: ['id', 'firstName', 'middleName'],
-        },
-      },
+        }],
+      }],
     });
     const messages = await fetchMessages();
 
     if (isMorning) {
     patients.forEach(async (patient) => {
-      const morningMedicineTime = patient?.TimeAndWork?.morningMedicineTime;
+      const morningMedicineTime = patient.TimeAndWork?.morningMedicineTime;
       if (morningMedicineTime) {
         const notificationTime = moment(morningMedicineTime, 'HH:mm:ss');
         // console.log(notificationTime, 'ft');
@@ -83,6 +85,9 @@ const schedulePatientNotifications = async () => {
               message: randomMessage,
               medicineTime: morningMedicineTime,
             });
+
+              sendSMS(randomMessage)
+
             console.log('Notification created for patient:', patient.TimeAndWork.Patient.id);
           });
         }
@@ -113,6 +118,7 @@ const schedulePatientNotifications = async () => {
               message: randomMessage,
               medicineTime: eveningMedicineTime,
             });
+            sendSMS(randomMessage)
             notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);
             // console.log('Notification created for patient:', patient.timeAndWork.patient.id);
           });

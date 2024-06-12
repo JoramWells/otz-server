@@ -357,11 +357,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.20'
-          memory: 450M
+          cpus: '0.25'
+          memory: 750M
         reservations:
-          cpus: '0.20'
-          memory: 450M
+          cpus: '0.25'
+          memory: 750M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s

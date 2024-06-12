@@ -9,7 +9,7 @@ import {createServer} from 'http';
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
 import { Server } from 'socket.io';
-
+import helmet from 'helmet'
 // import { dailyPillUpdate } from './utils/dailyPillUpdate';
 
 import { notificationTypeRouter } from './routes/notify/notificationType.routes';
@@ -34,7 +34,7 @@ const sequelize = require('./db/connect');
 const app = express();
 
 app.use(cors());
-
+app.use(helmet())
 //
 app.use(express.json());
 app.use(express.urlencoded({

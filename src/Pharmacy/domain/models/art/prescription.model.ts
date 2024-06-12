@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-import { DataTypes, Model, UUIDV4 } from 'sequelize'
+import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
 import { ART } from './art.model'
@@ -23,6 +23,8 @@ export interface PrescriptionInterface {
   expectedNoOfPills: number
   computedNoOfPills: number
   updatedAtExpectedNoOfPills: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class Prescription extends Model<PrescriptionInterface> {
@@ -38,6 +40,8 @@ export class Prescription extends Model<PrescriptionInterface> {
   expectedNoOfPills!: number
   computedNoOfPills!: number
   updatedAtExpectedNoOfPills!: Date
+  createdAt!: Date
+  updatedAt!: Date
 }
 
 Prescription.init(
@@ -95,6 +99,14 @@ Prescription.init(
     },
     updatedAtExpectedNoOfPills: {
       type: DataTypes.DATE
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
   },
   {

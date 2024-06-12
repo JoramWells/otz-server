@@ -92,7 +92,7 @@ export class PatientController {
       next(error)
       logger.error(error)
       res.status(500).json({ message: 'Internal Server Error' })
-      // console.log(error)
+      console.log(error)
     }
   }
 
@@ -156,7 +156,9 @@ export class PatientController {
         firstName,
         middleName,
         lastName,
-        phoneNo
+        phoneNo,
+        //
+        maritalStatus: ''
       }
 
       const results = await this.interactor.editPatient(values)

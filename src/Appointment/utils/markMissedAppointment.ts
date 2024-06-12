@@ -18,6 +18,12 @@ export const markMissedAppointments = async() =>{
             },
           }); 
 
+             const upcomingAppointmentStatus = await AppointmentStatus.findOne({
+               where: {
+                 statusDescription: "Upcoming",
+               },
+             }); 
+
           const pendingStatusAppointments = await AppointmentStatus.findOne({
             where:{
               statusDescription:'Pending'
@@ -28,7 +34,7 @@ export const markMissedAppointments = async() =>{
           if(pendingStatusAppointments && appointmentStatus){
             const todaysAppointment = await Appointment.findAll({
               where:{
-                appointmentDate: today,
+                // appointmentDate: today,
                 appointmentStatusID:{[Op.ne]: appointmentStatus.id}
               }
             })
@@ -38,7 +44,6 @@ export const markMissedAppointments = async() =>{
                 const date = moment(`${appointment.appointmentDate} ${appointment.appointmentTime}`, 'YYYY-MM-DD HH:mm')
                 
 
-                console.log(date, 'date', appointment.appointmentDate)
 
                 scheduleJob(date.format(), async()=>{
                 await appointment.update(
@@ -74,13 +79,17 @@ export const markMissedAppointments = async() =>{
             });
             if(results){
               for(const appointment of results){
+                
                 const date = moment(
                   `${appointment.appointmentDate} ${appointment.appointmentTime}`,
                   "YYYY-MM-DD HH:mm"
                 );
 
+                console.log(date.format(), "date", appointment.appointmentDate);
+
+
                 // 
-                scheduleJob(date.format(), async ()=>{
+                // scheduleJob(date.format(), async ()=>{
                   await appointment.update(
                     { appointmentStatusID: appointmentStatus.id },
                     {
@@ -93,7 +102,7 @@ export const markMissedAppointments = async() =>{
                   logger.info({
                     message: `Appointments modified for ${appointment.id} `,
                   });
-                })
+                // })
     
        
 
