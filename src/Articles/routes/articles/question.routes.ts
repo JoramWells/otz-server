@@ -22,7 +22,7 @@ router.get(
 
 // router.get("/fetchAllArticleChaptersById/:id", controllers.onGetAllArticleChaptersById.bind(controllers));
 
-// router.delete("/delete/:id", controllers.onDeleteArticleById.bind(controllers));
+router.delete("/delete/:id", controllers.onDeleteQuestion.bind(controllers));
 
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

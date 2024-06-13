@@ -12,8 +12,8 @@ export class QuestionController {
 
   async onCreateQuestion(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = req.body
-      console.log(data)
+      const data = req.body;
+      console.log(data);
       const newProfile = await this.interactor.createQuestion(data);
       res.json(newProfile);
       //   logger.info({
@@ -56,5 +56,16 @@ export class QuestionController {
     }
   }
 
-
+  async onDeleteQuestion(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.deleteQuestion(id)
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }

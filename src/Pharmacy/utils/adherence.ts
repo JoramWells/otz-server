@@ -142,8 +142,6 @@ const adherenceMonitor = async () => {
   } catch (error) {
     console.log(error)
   }
-
-
 }
 
 const calculatePatientAdherence = async () => {

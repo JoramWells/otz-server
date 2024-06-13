@@ -58,6 +58,6 @@ Question.belongsTo(Article, {foreignKey:'articledID'})
 
 
 // (async () => {
-connect.sync()
-console.log('Questions Table synced successfully')
+// connect.sync()
+// console.log('Questions Table synced successfully')
 // })()

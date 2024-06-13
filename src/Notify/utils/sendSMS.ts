@@ -1,4 +1,5 @@
 import twilio from 'twilio'
+import { logger } from './logger';
 
 
 async function sendSMS(messageText: string)
@@ -9,7 +10,11 @@ try {
       body: messageText,
       to: "+254799980846",
       from: process.env.TWILIO_PHONE,
-    }); 
+    }).then(res=>
+
+      logger.info({message:'Successfully sent SMS!'})
+    )
+    ; 
 } catch (error) {
     console.log(error)
 }   

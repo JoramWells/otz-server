@@ -7,7 +7,7 @@
 /* eslint-disable linebreak-style */
 import express, { type Application } from 'express'
 import morgan from 'morgan'
-
+import { rateLimit } from 'express-rate-limit'
 import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
 import { caregiverRoutes } from './routes/caregiver.routes'
@@ -16,13 +16,26 @@ import { nextOfKinRouter } from './routes/nextOfKin.routes'
 import { patientVisitRouter } from './routes/patientVisits.routes'
 const cors = require('cors')
 const patientRoutes = require('./routes/patient.routes')
-
 const app: Application = express()
 
 const PORT = process.env.PORT || 5001
 // const corsOption = {
 //   origin: ['*']
 // }
+
+const whitelist = ['http://localhost:3000', 'https://xinergy.netlify.app']
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false
+})
+
+const corsOption = {
+  origin: whitelist,
+  optionSuccessStatus: 200
+}
 
 app.use(morgan('dev'))
 
@@ -31,8 +44,19 @@ app.use(express.urlencoded({
   extended: true
 }))
 
+// const corsOption = {
+//   origin: (origin: string, callback: (err: Error | null, origin: boolean) => void) => {
+//     if (whitelist.includes(origin)) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+
 // enable cors
-app.use(cors())
+app.use(cors(corsOption))
+app.use(limiter)
 
 // confirm cors
 app.use('/patients', patientRoutes)

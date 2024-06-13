@@ -26,7 +26,7 @@ export class QuestionInteractor implements IQuestionInteractor {
   async getAllQuestions(): Promise<QuestionEntity[]> {
     return await this.repository.find();
   }
-  // async deleteBook(id: string): Promise<number | null> {
-  //   return await this.repository.delete(id);
-  // }
+  async deleteQuestion(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
+  }
 }

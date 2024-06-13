@@ -4,6 +4,7 @@
 import { scheduleJob } from 'node-schedule';
 import { createClient }  from 'redis';
 import moment from 'moment'
+import {logger} from './logger'
 
 import EventEmitter from 'events'
 import { Uptake } from '../domain/models/treatmentplan/uptake.model';
@@ -69,7 +70,7 @@ const schedulePatientNotifications = async () => {
     patients.forEach(async (patient) => {
       const morningMedicineTime = patient.TimeAndWork?.morningMedicineTime;
       if (morningMedicineTime) {
-        const notificationTime = moment(morningMedicineTime, 'HH:mm:ss');
+        const notificationTime = moment(morningMedicineTime, 'HH:mm:ss').add(3, 'hours');
         // console.log(notificationTime, 'ft');
 
         const currentTime = moment();
@@ -89,6 +90,7 @@ const schedulePatientNotifications = async () => {
               sendSMS(randomMessage)
 
             console.log('Notification created for patient:', patient.TimeAndWork.Patient.id);
+            logger.info({message:`Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`})
           });
         }
       }
@@ -100,7 +102,7 @@ const schedulePatientNotifications = async () => {
 
       const eveningMedicineTime = patient?.TimeAndWork?.eveningMedicineTime;
       if (eveningMedicineTime) {
-        const notificationTime = moment(eveningMedicineTime, 'HH:mm:ss');
+        const notificationTime = moment(eveningMedicineTime, 'HH:mm:ss').add(3, 'hours');
         // console.log(notificationTime, 'ft');
 
         const currentTime = moment();
@@ -119,8 +121,11 @@ const schedulePatientNotifications = async () => {
               medicineTime: eveningMedicineTime,
             });
             sendSMS(randomMessage)
-            notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);
-            // console.log('Notification created for patient:', patient.timeAndWork.patient.id);
+            notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);            logger.info({message:`Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`})
+            logger.info({
+              message: `Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`,
+            });
+
           });
         }
       }

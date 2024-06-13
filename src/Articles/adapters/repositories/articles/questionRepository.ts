@@ -25,9 +25,7 @@ export class QuestionRepository implements IQuestionRepository {
   async find(): Promise<QuestionEntity[]> {
     await this.redisClient.connect();
     // check if patient
-    const results = await Question.findAll({
-      
-    });
+    const results = await Question.findAll({});
     // if ((await this.redisClient.get(QuestionCache)) === null) {
     //   const results = await Question.findAll({
     //     include:[
@@ -94,7 +92,17 @@ export class QuestionRepository implements IQuestionRepository {
   async findAllBooksById(id: string): Promise<QuestionEntity[] | null> {
     const results: QuestionAttributes[] | null = await Question.findAll({
       where: {
-         id,
+        id,
+      },
+    });
+
+    return results;
+  }
+  //
+  async delete(id: string): Promise<number| null> {
+    const results = await Question.destroy({
+      where: {
+        id,
       },
     });
 
