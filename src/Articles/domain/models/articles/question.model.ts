@@ -54,7 +54,7 @@ Question.init(
   }
 );
 
-Question.belongsTo(Article, {foreignKey:'articledID'})
+Question.belongsTo(Article, {foreignKey:'articleID'})
 
 
 // (async () => {

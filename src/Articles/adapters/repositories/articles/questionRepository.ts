@@ -1,6 +1,7 @@
 
 import { IQuestionRepository } from '../../../application/interfaces/articles/IQuestionRepository';
 import { QuestionEntity } from '../../../domain/entities/articles/QuestionEntity';
+import { Article } from '../../../domain/models/articles/article.model';
 import { Question, QuestionAttributes } from '../../../domain/models/articles/question.model';
 
 import { RedisAdapter } from '../redisAdapter'
@@ -25,7 +26,14 @@ export class QuestionRepository implements IQuestionRepository {
   async find(): Promise<QuestionEntity[]> {
     await this.redisClient.connect();
     // check if patient
-    const results = await Question.findAll({});
+    const results = await Question.findAll({
+      include:[
+        {
+          model:Article,
+          attributes:['id','title', 'image']
+        }
+      ]
+    });
     // if ((await this.redisClient.get(QuestionCache)) === null) {
     //   const results = await Question.findAll({
     //     include:[
