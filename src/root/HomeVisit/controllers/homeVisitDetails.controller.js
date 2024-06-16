@@ -54,7 +54,7 @@ const getHomeVisitDetails = async (req, res, next) => {
   try {
     const patient = await Home_visit_detail.findAll({
       where: {
-        patientID: id,
+        id,
       },
       include: [
         {

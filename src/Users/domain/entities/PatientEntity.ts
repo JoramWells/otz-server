@@ -10,7 +10,7 @@ export class PatientEntity implements PatientAttributes {
     public idNo?: string,
     public occupationID?: string,
     public cccNo?: string,
-    public dob?: string,
+    public dob?: string | Date,
     public ageAtReporting?: string,
     public dateConfirmedPositive?: string,
     public initialRegimen?: string,

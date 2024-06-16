@@ -70,7 +70,7 @@ const schedulePatientNotifications = async () => {
     patients.forEach(async (patient) => {
       const morningMedicineTime = patient.TimeAndWork?.morningMedicineTime;
       if (morningMedicineTime) {
-        const notificationTime = moment(morningMedicineTime, 'HH:mm:ss').add(3, 'hours');
+        const notificationTime = moment(morningMedicineTime, 'HH:mm:ss');
         // console.log(notificationTime, 'ft');
 
         const currentTime = moment();
@@ -102,7 +102,7 @@ const schedulePatientNotifications = async () => {
 
       const eveningMedicineTime = patient?.TimeAndWork?.eveningMedicineTime;
       if (eveningMedicineTime) {
-        const notificationTime = moment(eveningMedicineTime, 'HH:mm:ss').add(3, 'hours');
+        const notificationTime = moment(eveningMedicineTime, 'HH:mm:ss');
         // console.log(notificationTime, 'ft');
 
         const currentTime = moment();

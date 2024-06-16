@@ -29,9 +29,9 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
       const results = await PatientNotification.findAll({
-        where:{
-          createdAt: currentDate
-        },
+        // where:{
+        //   createdAt: currentDate
+        // },
         include:[
           {
             model: Patient,

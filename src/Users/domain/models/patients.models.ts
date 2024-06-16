@@ -21,7 +21,7 @@ export interface PatientAttributes {
   middleName?: string
   lastName?: string
   sex?: string
-  dob?: string
+  dob?: Date | string
   phoneNo?: string
   idNo?: string
   occupationID?: string
@@ -48,7 +48,7 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   middleName: string | undefined
   lastName?: string | undefined
   sex?: string | undefined
-  dob?: string | undefined
+  dob?: Date | string | undefined
   phoneNo?: string | undefined
   idNo?: string | undefined
   occupationID?: string | undefined
@@ -86,7 +86,7 @@ Patient.init(
       type: DataTypes.STRING
     },
     dob: {
-      type: DataTypes.STRING
+      type: DataTypes.DATE
     },
     phoneNo: {
       type: DataTypes.STRING,
@@ -178,8 +178,8 @@ Patient.belongsTo(Hospital, { foreignKey: 'hospitalID', constraints: false })
 
 // const syncDB = async () => {
 //   try {
-//     await disableForeignKeyChecks(connect)
-//     await connect.sync({ alter: { exclude: ['createdAt', 'updatedAt'] } })
+//     // await disableForeignKeyChecks(connect)
+//     return await connect.sync({ alter: { exclude: ['createdAt', 'updatedAt'] } })
 //   } catch (error) {
 //     console.log(error)
 //   }
