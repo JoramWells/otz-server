@@ -179,6 +179,10 @@ const calculatePatientAdherence = async () => {
   return adherenceData
 }
 
+// const calculateWeeklyAdherence = (data: string[]) => {
+//   const completedChecks = data.reduce((sum, day))
+// }
+
 const calculateFacilityAdherence = async () => {
   const adherenceData = await calculatePatientAdherence()
   if (adherenceData.length === 0) {

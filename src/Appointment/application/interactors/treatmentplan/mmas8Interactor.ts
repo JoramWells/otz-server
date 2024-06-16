@@ -19,7 +19,14 @@ export class MMASEightInteractor implements IMMASEightInteractor {
     return await this.repository.findById(id);
   }
 
-  async createMMASEight(data4:MMASFourEntity,patientData: MMASEightEntity): Promise<MMASEightEntity> {
+  async getMMASEightByPatientId(id: string): Promise<MMASEightEntity | null> {
+    return await this.repository.findByPatientId(id);
+  }
+
+  async createMMASEight(
+    data4: MMASFourEntity,
+    patientData: MMASEightEntity
+  ): Promise<MMASEightEntity> {
     return await this.repository.create(data4, patientData);
   }
 

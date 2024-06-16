@@ -5,5 +5,6 @@ export interface IMMASEightInteractor {
   createMMASEight: (data4:MMASFourEntity,data: MMASEightEntity) => Promise<MMASEightEntity>;
   getAllMMASEight: () => Promise<MMASEightEntity[]>;
   getMMASEightById: (id: string) => Promise<MMASEightEntity | null>;
+  getMMASEightByPatientId: (id: string) => Promise<MMASEightEntity | null>;
   // getDailyMMASCount: () => Promise<MMASEightEntity | null>;
 }

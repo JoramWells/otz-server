@@ -4,5 +4,6 @@ export interface IMMASFourInteractor {
   createMMASFour: (data: MMASFourEntity) => Promise<MMASFourEntity>;
   getAllMMASFour: () => Promise<MMASFourEntity[]>;
   getMMASFourById: (id: string) => Promise<MMASFourEntity | null>;
+  getMMASFourByPatientId: (id: string) => Promise<MMASFourEntity | null>;
   // getDailyMMASCount: () => Promise<MMASFourEntity | null>;
 }

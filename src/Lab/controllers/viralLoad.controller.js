@@ -190,6 +190,26 @@ const getViralLoadTest = async (req, res, next) => {
   console.log(id);
   try {
     const patient = await ViralLoad.findOne({
+      order:[['createdAt', 'DESC']],
+      where: {
+        patientID: id,
+      },
+    });
+    res.json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// 
+const getAllViralLoadByPatientID = async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const patient = await ViralLoad.findAll({
+      order:[['createdAt', 'DESC']],
       where: {
         patientID: id,
       },
@@ -254,4 +274,5 @@ module.exports = {
   editViralLoadTest,
   deleteViralLoadTest,
   getAllVlCategories,
+  getAllViralLoadByPatientID
 };

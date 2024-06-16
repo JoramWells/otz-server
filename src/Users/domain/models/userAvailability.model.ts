@@ -78,6 +78,6 @@ UserAvailability.init(
 UserAvailability.belongsTo(User, { foreignKey: 'userID' })
 
 // (async () => {
-// connect.sync({ alter: true })
+void connect.sync({ alter: true })
 // console.log('User Availability Table synced successfully')
 // })()

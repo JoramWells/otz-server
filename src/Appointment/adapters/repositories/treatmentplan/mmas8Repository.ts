@@ -16,36 +16,35 @@ export class MMASEightRepository implements IMMASEightRepository {
   // }
 
   async create(
-    data4:MMASFourEntity,
+    data4: MMASFourEntity,
     data: MMASEightEntity
   ): Promise<MMASEightEntity> {
-   return  await connect.transaction(async (t)=>{
-    const mmas4Results = await MMASFour.create(data4,{transaction:t})
-    const mmasFourID = mmas4Results.id
-const results = await MMASEight.create(
-  {
-    mmasFourID,
-    ...data
-  },
-    {transaction:t}
-);
+    return await connect.transaction(async (t) => {
+      const mmas4Results = await MMASFour.create(data4, { transaction: t });
+      const mmasFourID = mmas4Results.id;
+      const results = await MMASEight.create(
+        {
+          mmasFourID,
+          ...data,
+        },
+        { transaction: t }
+      );
 
-return results;
-    })
-    
+      return results;
+    });
   }
 
   async find(): Promise<MMASEightEntity[]> {
     // await this.redisClient.connect();
     // // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-      const results = await MMASEight.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      // await this.redisClient.set(mmasCache, JSON.stringify(results));
+    const results = await MMASEight.findAll({});
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
+    // await this.redisClient.set(mmasCache, JSON.stringify(results));
 
-      return results;
+    return results;
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   mmasCache
@@ -64,20 +63,54 @@ return results;
   async findById(id: string): Promise<MMASEightEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: MMASEight | null = await MMASEight.findOne({
-        where: {
-          patientVisitID:id,
-        },
-      });
+    const results: MMASEight | null = await MMASEight.findOne({
+      where: {
+        patientVisitID: id,
+      },
+    });
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
+    //   await this.redisClient.set(id, JSON.stringify(results));
+
+    //   return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: MMASEightEntity = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+
+    return results;
+  }
+
+  //
+  async findByPatientId(id: string): Promise<MMASEightEntity | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    const results: MMASEight | null = await MMASEight.findOne({
+      order:[['createdAt', 'DESC']],
+      where: {
+         id,
+      },
+    });
+
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;

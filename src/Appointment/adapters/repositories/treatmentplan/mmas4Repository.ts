@@ -13,10 +13,8 @@ export class MMASFourRepository implements IMMASFourRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(
-    data: MMASFourEntity
-  ): Promise<MMASFourEntity> {
-    const results  = await MMASFour.create(data);
+  async create(data: MMASFourEntity): Promise<MMASFourEntity> {
+    const results = await MMASFour.create(data);
 
     return results;
   }
@@ -25,13 +23,13 @@ export class MMASFourRepository implements IMMASFourRepository {
     // await this.redisClient.connect();
     // // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-      const results = await MMASFour.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      // await this.redisClient.set(mmasCache, JSON.stringify(results));
+    const results = await MMASFour.findAll({});
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
+    // await this.redisClient.set(mmasCache, JSON.stringify(results));
 
-      return results;
+    return results;
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   mmasCache
@@ -50,20 +48,54 @@ export class MMASFourRepository implements IMMASFourRepository {
   async findById(id: string): Promise<MMASFourEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: MMASFour | null = await MMASFour.findOne({
-        where: {
-          patientVisitID:id,
-        },
-      });
+    const results: MMASFour | null = await MMASFour.findOne({
+      where: {
+        patientVisitID: id,
+      },
+    });
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
+    //   await this.redisClient.set(id, JSON.stringify(results));
+
+    //   return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: MMASFourEntity = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+
+    return results;
+  }
+
+  //
+  async findByPatientId(id: string): Promise<MMASFourEntity | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    const results: MMASFour | null = await MMASFour.findOne({
+      order:[['createdAt', 'DESC']],
+      where: {
+         patientID:id,
+      },
+    });
+
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;

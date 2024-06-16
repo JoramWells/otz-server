@@ -4,5 +4,6 @@ export interface IMMASFourRepository {
   create: (data: MMASFourEntity) => Promise<MMASFourEntity>;
   find: () => Promise<MMASFourEntity[]>;
   findById: (id: string) => Promise<MMASFourEntity | null>;
+  findByPatientId: (id: string) => Promise<MMASFourEntity | null>;
   // count: () => Promise<MMASFourEntity | null>;
 }
