@@ -1,7 +1,6 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { User } from "../user.model";
-import { ArticleCategory } from "./articleCategory.model";
 import { createClient } from "redis";
 import { articleCache } from "../../../constants/appointmentCache";
 import { Chapter } from "./chapters.model";

@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IArticleCategoryInteractor } from "../../../application/interfaces/articles/IArticleCategoryInteractor";
+import { IBookInteractor } from "../../../application/interfaces/articles/IBookInteractor";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
-export class ArticleCategoryController {
-  private readonly interactor: IArticleCategoryInteractor;
+export class BookController {
+  private readonly interactor: IBookInteractor;
 
-  constructor(interactor: IArticleCategoryInteractor) {
+  constructor(interactor: IBookInteractor) {
     this.interactor = interactor;
   }
 
-  async onCreateArticleCategory(
+  async onCreateBook(
     req: Request,
     res: Response,
     next: NextFunction
@@ -19,7 +19,7 @@ export class ArticleCategoryController {
     try {
       const data = { ...req.body, thumbnail: req.file?.filename };
       console.log(data);
-      const newProfile = await this.interactor.createArticleCategory(data);
+      const newProfile = await this.interactor.createBook(data);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -32,7 +32,7 @@ export class ArticleCategoryController {
     }
   }
 
-  async onGetAllArticleCategory(
+  async onGetAllBook(
     req: Request,
     res: Response,
     next: NextFunction
@@ -48,18 +48,18 @@ export class ArticleCategoryController {
     } catch (error) {
       next(error);
       res.status(500).json({ message: "Internal Server Error" });
-      // console.log(error)
+      console.log(error)
     }
   }
 
-  async onGetArticleCategoryById(
+  async onGetBookById(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getArticleCategoryById(id);
+      const result = await this.interactor.getBookById(id);
       res.status(200).json(result);
       next();
     } catch (error) {

@@ -1,20 +1,21 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { IArticleCategoryRepository } from '../../../application/interfaces/articles/IArticleCategoryRepository'
+import { IBookRepository } from '../../../application/interfaces/articles/IBookRepository';
 import { articleCategoryCache } from '../../../constants/appointmentCache';
-import { ArticlesCategoryEntity } from '../../../domain/entities/articles/ArticleCategoryEntity'
-import { ArticleCategory, ArticleCategoryAttributes } from '../../../domain/models/articles/articleCategory.model'
+import { BookEntity } from '../../../domain/entities/articles/BookEntity';
+import { BookAttributes, Books } from '../../../domain/models/articles/books.model';
+import { Chapter } from '../../../domain/models/articles/chapters.model';
 import { RedisAdapter } from '../redisAdapter'
 
 
-export class ArticleCategoryRepository implements IArticleCategoryRepository {
+export class ArticleCategoryRepository implements IBookRepository {
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: ArticlesCategoryEntity): Promise<ArticlesCategoryEntity> {
+  async create(data: BookEntity): Promise<BookEntity> {
     await this.redisClient.connect();
-    const results: ArticleCategoryAttributes = await ArticleCategory.create(
+    const results: BookAttributes = await Books.create(
       data
     );
 
@@ -28,8 +29,15 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
     return results;
   }
 
-  async find(): Promise<ArticlesCategoryEntity[]> {
-    const results = await ArticleCategory.findAll({});
+  async find(): Promise<BookEntity[]> {
+    const results = await Books.findAll({
+      include:[
+        {
+          model: Chapter,
+          attributes:['id']
+        }
+      ]
+    });
     // await this.redisClient.connect();
     // // check if patient
     // if ((await this.redisClient.get(articleCategoryCache)) === null) {
@@ -51,15 +59,15 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ArticlesCategoryEntity[] = JSON.parse(cachedPatients);
+    // const results: BookEntity[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<ArticlesCategoryEntity | null> {
+  async findById(id: string): Promise<BookEntity | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-      const results: ArticleCategoryAttributes | null =
-        await ArticleCategory.findOne({
+      const results: BookAttributes | null =
+        await Books.findOne({
           where: {
             id,
           },
@@ -82,7 +90,7 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
     if (cachedData === null) {
       return null;
     }
-    const results: ArticleCategoryAttributes = JSON.parse(cachedData);
+    const results: BookAttributes = JSON.parse(cachedData);
     console.log("fetched from cace!");
 
     return results;
@@ -92,7 +100,7 @@ export class ArticleCategoryRepository implements IArticleCategoryRepository {
   async delete(id: string): Promise<number | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results = await ArticleCategory.destroy({
+    const results = await Books.destroy({
       where: {
         id,
       },

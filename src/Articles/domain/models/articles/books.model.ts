@@ -2,22 +2,22 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface ArticleCategoryAttributes {
+export interface BookAttributes {
   id: string;
   description: string;
   thumbnail: string;
 }
 
-export class ArticleCategory
-  extends Model<ArticleCategoryAttributes>
-  implements ArticleCategoryAttributes
+export class Books
+  extends Model<BookAttributes>
+  implements BookAttributes
 {
   id!: string;
   description!: string;
   thumbnail!: string;
 }
 
-ArticleCategory.init(
+Books.init(
   {
     id: {
       type: DataTypes.UUID,

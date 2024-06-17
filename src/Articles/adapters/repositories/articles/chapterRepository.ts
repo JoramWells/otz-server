@@ -2,7 +2,7 @@
 import { IChapterRepository } from '../../../application/interfaces/articles/IChapterRepository';
 import { chapterCache } from '../../../constants/appointmentCache';
 import { ChapterEntity } from '../../../domain/entities/articles/ChapterEntity';
-import { ArticleCategory } from '../../../domain/models/articles/articleCategory.model';
+import { Books } from '../../../domain/models/articles/books.model';
 import { Chapter, ChapterAttributes } from '../../../domain/models/articles/chapters.model';
 import { RedisAdapter } from '../redisAdapter'
 
@@ -29,7 +29,7 @@ export class ChapterRepository implements IChapterRepository {
     const results = await Chapter.findAll({
       include: [
         {
-          model: ArticleCategory,
+          model: Books,
           attributes: ["id", "description"],
         },
       ],

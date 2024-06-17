@@ -3,7 +3,6 @@ import { IArticleRepository } from '../../../application/interfaces/articles/IAr
 import { articleCache } from '../../../constants/appointmentCache'
 import { ArticlesEntity } from '../../../domain/entities/articles/ArticlesEntity'
 import { Article, ArticleAttributes } from '../../../domain/models/articles/article.model'
-import { ArticleCategory } from '../../../domain/models/articles/articleCategory.model'
 import { Chapter } from '../../../domain/models/articles/chapters.model'
 import { RedisAdapter } from '../redisAdapter'
 

@@ -1,6 +1,6 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
-import { ArticleCategory } from "./articleCategory.model";
+import { Books } from "./books.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface ChapterAttributes {
@@ -53,7 +53,8 @@ Chapter.init(
   }
 );
 
-Chapter.belongsTo(ArticleCategory,{foreignKey:'bookID'})
+Chapter.belongsTo(Books,{foreignKey:'bookID'})
+Books.hasMany(Chapter, {foreignKey:'bookID'} )
 
 // (async () => {
 // connect.sync()

@@ -1,33 +1,33 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { ArticleCategoryRepository } from "../../adapters/repositories/articles/articleCategoryRepository";
+import { ArticleCategoryRepository } from "../../adapters/repositories/articles/bookRepository";
 
 import express from "express";
-import { ArticleCategoryInteractor } from "../../application/interactors/articles/articleCategoryInteractor";
-import { ArticleCategoryController } from "../../adapters/controllers/articles/articleCategoryController";
 import { upload } from "../../middleware/uploadImage";
+import { BookController } from "../../adapters/controllers/articles/bookController";
+import { BookInteractor } from "../../application/interactors/articles/bookInteractor";
 
 const repository = new ArticleCategoryRepository();
-const interactor = new ArticleCategoryInteractor(repository);
+const interactor = new BookInteractor(repository);
 
-const controllers = new ArticleCategoryController(interactor);
+const controllers = new BookController(interactor);
 
 const router = express.Router();
 
 router.post(
   "/add",
   upload.single("thumbnail"),
-  controllers.onCreateArticleCategory.bind(controllers)
+  controllers.onCreateBook.bind(controllers)
 );
 router.get(
   "/fetchAll",
-  controllers.onGetAllArticleCategory.bind(controllers)
+  controllers.onGetAllBook.bind(controllers)
 );
 router.get(
   "/detail/:id",
-  controllers.onGetArticleCategoryById.bind(controllers)
+  controllers.onGetBookById.bind(controllers)
 );
 // router.put('/edit/:id', editPatient);
 router.delete("/delete/:id", controllers.onDeleteBook.bind(controllers));
 
 
-export { router as articleCategoryRouter };
+export { router as bookRouter };
