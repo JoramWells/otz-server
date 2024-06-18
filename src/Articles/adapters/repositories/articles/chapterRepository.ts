@@ -61,6 +61,8 @@ export class ChapterRepository implements IChapterRepository {
     // console.log("fetched from cache!");
 
     // const results: ChapterEntity[] = JSON.parse(cachedPatients);
+    console.log(results, 'rt')
+    
     return results;
   }
 
@@ -102,6 +104,9 @@ export class ChapterRepository implements IChapterRepository {
       where: {
         bookID: id,
       },
+      include:{
+        model: Books
+      }
     });
 
     return results;

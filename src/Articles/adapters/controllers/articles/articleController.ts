@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IArticleInteractor } from "../../../application/interfaces/articles/IArticleInteractor";
+import { ArticlesEntity } from "../../../domain/entities/articles/ArticlesEntity";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class ArticleController {
@@ -58,7 +59,11 @@ export class ArticleController {
     }
   }
 
-  async onGetAllArticleChaptersById(req: Request, res: Response, next: NextFunction) {
+  async onGetAllArticleChaptersById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllArticleChaptersById(id);
@@ -81,6 +86,30 @@ export class ArticleController {
       next(error);
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onEditArticle(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { content,image,title, userID,chapterID, video }: ArticlesEntity =
+        req.body;
+      const values: ArticlesEntity = {
+        id,
+        content,
+        image,
+        title,
+        userID,
+        chapterID,
+        video
+        //
+      };
+
+      const results = await this.interactor.editArticle(values);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
     }
   }
 }

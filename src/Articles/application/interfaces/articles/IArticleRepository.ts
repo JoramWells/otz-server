@@ -5,5 +5,6 @@ export interface IArticleRepository {
   find: () => Promise<ArticlesEntity[]>;
   findById: (id: string) => Promise<ArticlesEntity | null>;
   delete: (id: string) => Promise<number | null>;
+  edit: (data: ArticlesEntity) => Promise<ArticlesEntity | null>;
   findAllArticleChaptersById: (id: string) => Promise<ArticlesEntity[] | null>;
 }

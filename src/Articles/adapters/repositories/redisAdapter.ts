@@ -43,7 +43,12 @@ export class RedisAdapter {
   }
 
   async del(key: string): Promise<string | null>{
-    return this.redisClient.del(key)
+     const status =  await this.redisClient.del(key)
+
+        // if (await this.redisClient.connected) {
+        //   await this.redisClient.disconnect();
+        // }
+     return status
   }
 
   // async getById (id: string): Promise<string | null> {
@@ -51,10 +56,11 @@ export class RedisAdapter {
   // }
 
   async set (key: string, value: string): Promise<void> {
+    await this.redisClient.set(key, value);
+
     if(await this.redisClient.connected){
       await this.redisClient.disconnect()
     }
-    await this.redisClient.set(key, value)
   }
 
   //   find: () => Promise<Patient[]>

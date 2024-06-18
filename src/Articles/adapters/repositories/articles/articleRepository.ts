@@ -3,6 +3,7 @@ import { IArticleRepository } from '../../../application/interfaces/articles/IAr
 import { articleCache } from '../../../constants/appointmentCache'
 import { ArticlesEntity } from '../../../domain/entities/articles/ArticlesEntity'
 import { Article, ArticleAttributes } from '../../../domain/models/articles/article.model'
+import { Books } from '../../../domain/models/articles/books.model'
 import { Chapter } from '../../../domain/models/articles/chapters.model'
 import { RedisAdapter } from '../redisAdapter'
 
@@ -64,17 +65,19 @@ export class ArticleRepository implements IArticleRepository {
     return results;
   }
 
-  async findAllArticleChaptersById(id: string): Promise<ArticlesEntity[] | null> {
+  async findAllArticleChaptersById(
+    id: string
+  ): Promise<ArticlesEntity[] | null> {
     await this.redisClient.connect();
-      const results: ArticleAttributes[] | null = await Article.findAll({
-        where: {
-          chapterID:id,
-        },
-      });
-
-
-      return results;
-  
+    const results: ArticleAttributes[] | null = await Article.findAll({
+      where: {
+        chapterID: id,
+      },
+      
+    });
+    // 
+    
+    return results;
   }
 
   async findById(id: string): Promise<ArticlesEntity | null> {
@@ -129,5 +132,24 @@ export class ArticleRepository implements IArticleRepository {
     // }
     // const results: ArticleAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
+  }
+
+  async edit(data: ArticlesEntity): Promise<ArticlesEntity | null> {
+    const {id, chapterID,content,image,title} = data;
+    await this.redisClient.connect()
+    const results = await Article.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.content = content;
+      results.image = image;
+      results.title = title;
+      await results.save();
+    }
+    await this.redisClient.del(id)
+    return results;
   }
 }

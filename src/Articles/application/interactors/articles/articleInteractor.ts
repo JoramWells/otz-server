@@ -10,6 +10,9 @@ export class ArticleInteractor implements IArticleInteractor {
   constructor(repository: IArticleRepository) {
     this.repository = repository;
   }
+  async editArticle (data: ArticlesEntity):Promise<ArticlesEntity | null>{
+    return await this.repository.edit(data)
+  }
 
   async getArticleById(id: string): Promise<ArticlesEntity | null> {
     return await this.repository.findById(id);

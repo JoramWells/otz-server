@@ -24,7 +24,7 @@ router.get("/fetchAllArticleChaptersById/:id", controllers.onGetAllArticleChapte
 
 router.delete("/delete/:id", controllers.onDeleteArticleById.bind(controllers));
 
-// router.put('/edit/:id', editPatient);
+router.put('/edit/:id', controllers.onEditArticle.bind(controllers));
 // router.delete('/delete/:id', deletePatient);
 
 export { router as articleRouter };
