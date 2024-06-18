@@ -78,5 +78,5 @@ Article.belongsTo(Chapter, { foreignKey: "chapterID" });
 
 
 
-void connect.sync({alter:true})
+// void connect.sync({alter:true})
 // console.log('Patient Table synced successfully')

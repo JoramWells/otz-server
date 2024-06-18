@@ -3,8 +3,8 @@ dist
 ./Users/logs/*
 ./venv
 # ./etl_webapp/
-# src/Appointment/uploads/*
+src/Artcles/uploads/*
 # uploads/*
-# uploads
+uploads
 etl_webapp/linelist_api/llm
 ./etl_webapp/linelist_api/llm/mistral-7b-openorca.gguf2.Q4_0.gguf

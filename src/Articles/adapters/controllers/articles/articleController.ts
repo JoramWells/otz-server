@@ -13,10 +13,16 @@ export class ArticleController {
   }
 
   async onCreateArticle(req: Request, res: Response, next: NextFunction) {
-    const data = { ...req.body, image: req.file?.filename };
+    const file = req.file
+
+    const isVideo = file?.mimetype.startsWith('video')
+
+    const mediaData = isVideo ? {video:file?.filename}:{  image: file?.filename} 
+    const image = mediaData.image ? mediaData.image :''
+    const video = mediaData.video ? mediaData.video : "";
+    const data = { ...req.body, image, video };
 
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createArticle(data);
       res.status(200).json(newProfile);
       //   logger.info({
