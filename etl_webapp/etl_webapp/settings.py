@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-gy&us#23&)-+&a$_@uri8pl6&$+f!&8g^+&6q)%%=5$1ub%*ij
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,4 +134,6 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER='json'
 CELERY_RESULT_SERIALIZER='json'
 CELERY_TIMEZONE = 'UTC'
+
+# DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 

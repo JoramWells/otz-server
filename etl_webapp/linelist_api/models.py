@@ -4,7 +4,7 @@ import uuid
 # Create your models here.
 class Patients(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    firstName = models.CharField(max_length=100)
+    firstName = models.CharField(max_length=100, unique=True)
     middleName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     sex = models.CharField(max_length=100)
@@ -12,7 +12,7 @@ class Patients(models.Model):
     phoneNo = models.CharField(max_length=100)
     idNo = models.CharField(max_length=100)
     occupationID = models.CharField(max_length=100)
-    cccNo = models.CharField(max_length=100)
+    cccNo = models.CharField(max_length=100, unique=True)
     ageAtReporting = models.CharField(max_length=100)
     dateConfirmedPositive = models.DateField(auto_now_add=True)
     initialRegimen = models.CharField(max_length=100)
@@ -52,14 +52,25 @@ class ArtPrescription(models.Model):
     changeDate = models.DateTimeField(auto_now_add=True)
     stopDate = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.regimen
+
 
 class Prescription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    artPrescriptionID = models.ForeignKey(ArtPrescription, on_delete=models.CASCADE)
     regimen = models.CharField(max_length=100)
     noOfPills = models.IntegerField()
-    refillDate = models.DateTimeField()
-    nextRefillDate = models.DateTimeField()
+    frequency = models.IntegerField()
+    refillDate = models.DateTimeField(auto_now_add=True)
+    nextRefillDate = models.DateTimeField(auto_now_add=True)
+
+    # 
+    expectedNoOfPills = models.IntegerField()
+    computedNoOfPills = models.IntegerField()
+    updatedAtExpectedNoOfPills = models.DateTimeField(auto_now_add=True)
+
 
 
 
@@ -70,3 +81,6 @@ class ViralLoad(models.Model):
     vlJustification = models.CharField(max_length=100)
     dateOfVL = models.DateTimeField(auto_now_add=True)
     dateOfNextVL = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.vlJustification
