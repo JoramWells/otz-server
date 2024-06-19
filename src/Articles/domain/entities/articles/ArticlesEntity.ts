@@ -8,6 +8,7 @@ export class ArticlesEntity implements ArticleAttributes {
     public content: string,
     public image: string,
     public title: string,
-    public video: string
+    public video: string,
+    public viewers: number
   ) {}
 }

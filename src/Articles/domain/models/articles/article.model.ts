@@ -14,6 +14,7 @@ export interface ArticleAttributes {
   content: string;
   title: string;
   video: string;
+  viewers: number;
 }
 
 export class Article extends Model<ArticleAttributes> implements ArticleAttributes {
@@ -24,6 +25,7 @@ export class Article extends Model<ArticleAttributes> implements ArticleAttribut
   content!: string;
   title!: string;
   video!: string;
+  viewers!: number;
 }
 
 Article.init(
@@ -49,12 +51,18 @@ Article.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false
     },
     image: {
       type: DataTypes.STRING,
     },
     video:{
       type: DataTypes.STRING
+    },
+     viewers:{
+      type: DataTypes.INTEGER,
+      allowNull:false,
+      defaultValue: 0
     },
     content: {
       type: DataTypes.TEXT,
@@ -78,5 +86,5 @@ Article.belongsTo(Chapter, { foreignKey: "chapterID" });
 
 
 
-// void connect.sync({alter:true})
+void connect.sync({alter:true})
 // console.log('Patient Table synced successfully')

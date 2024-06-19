@@ -99,7 +99,7 @@ export class ArticleController {
   async onEditArticle(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { content,image,title, userID,chapterID, video }: ArticlesEntity =
+      const { content,image,title, userID,chapterID, video, viewers }: ArticlesEntity =
         req.body;
       const values: ArticlesEntity = {
         id,
@@ -108,7 +108,8 @@ export class ArticleController {
         title,
         userID,
         chapterID,
-        video
+        video,
+        viewers
         //
       };
 
