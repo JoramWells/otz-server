@@ -69,7 +69,25 @@ services:
   #   entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
     # environment:
     #   PGPASSWORD: ${POSTGRES_PASSWORD}
-  
+  etl:
+    build:
+      context: ./etl_webapp
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8002
+    volumes:
+      - ./etl_webapp:/etl_webapp
+      # - /etl_webapp
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - otz
+    ports:
+      - 8002:8002 
+
+
   users:
     build:
       context: ./src/Users
@@ -518,6 +536,7 @@ services:
       - medicalfile   
       - notify
       - pharmacy  
+      - etl
 
     networks:
       - otz

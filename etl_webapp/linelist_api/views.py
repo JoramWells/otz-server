@@ -9,10 +9,27 @@ import pandas as pd
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from datetime import datetime
+import math
 
 def validate_email(cccNo):
     if(Patients.objects.filter(cccNo=cccNo).exists()):
         raise ValidationError('Email Exists')
+
+def get_or_create_patient(cccNo, firstName, lastName, dob, sex, populationType,middleName):
+    try:
+        patient = Patients.objects.get(cccNo=cccNo)
+        return patient, False
+    except Patients.DoesNotExist:
+        patient = Patients.objects.create(
+            firstName=firstName,
+            lastName=lastName,
+            middleName=middleName,
+            dob=dob,
+            cccNo=cccNo,
+            sex=sex,
+            populationType=populationType
+        )
+        return patient, True
 
 def parse_and_convert_date(date_str):
     try:
@@ -41,10 +58,10 @@ class LineListView(generics.CreateAPIView):
             # reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
 
             for _, row in reader.iterrows():
-                validate_email(row['CCC NO'])
+                # validate_email(row['CCC NO'])
                 converted_date = parse_and_convert_date(row['Last Visit Date'])
                 with transaction.atomic():
-                    new_patients = Patients(
+                    new_patients, created = get_or_create_patient(
                         firstName=row['Name'],
                         middleName=row['Name'],
                         lastName=row['Name'],
@@ -60,7 +77,19 @@ class LineListView(generics.CreateAPIView):
                     print(type(row['Next Appointment Date']), row['Next Appointment Date'])
                     print(row['Blood Pressure'])
 
-                    systolic, diastolic = row['Blood Pressure'].split('/')
+                    blood_pressure = row['Blood Pressure']
+                    vlResults = row['Last VL Results']
+
+                    if(vlResults is not None and math.isnan(vlResults)):
+                        vlResults = 0
+
+                    if(isinstance(blood_pressure, str) and blood_pressure):
+                        try:
+                            systolic, diastolic = row['Blood Pressure'].split('/')
+                        except ValueError:
+                            print(f'Invalid blood pressure value{blood_pressure}')    
+                    else:
+                        print('Blood Pressure empty, skipping')  
 
                     vsData = VitalSigns(
                         temperature=int(systolic),
@@ -96,7 +125,7 @@ class LineListView(generics.CreateAPIView):
                     vl = ViralLoad(
                         patientID = new_patients,
                         # isStandard=True,
-                        vlResults=row['Last VL Results'],
+                        vlResults=vlResults,
                         vlJustification=row['Last VL Justification'],
                         dateOfVL=row['Last VL Date'],
 

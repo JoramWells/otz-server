@@ -4,7 +4,7 @@ import uuid
 # Create your models here.
 class Patients(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    firstName = models.CharField(max_length=100, unique=True)
+    firstName = models.CharField(max_length=100)
     middleName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     sex = models.CharField(max_length=100)
@@ -77,7 +77,7 @@ class Prescription(models.Model):
 class ViralLoad(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
-    vlResults = models.IntegerField(default=0)
+    vlResults = models.IntegerField(default=0, null=True)
     vlJustification = models.CharField(max_length=100)
     dateOfVL = models.DateTimeField(auto_now_add=True)
     dateOfNextVL = models.DateTimeField(auto_now_add=True)
