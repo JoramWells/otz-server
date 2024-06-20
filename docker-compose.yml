@@ -55,7 +55,7 @@ services:
     build:
       context: ./etl_webapp
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8002
+    command:  python manage.py runserver 0.0.0.0:8002
     volumes:
       - ./etl_webapp:/etl_webapp
       # - /etl_webapp
