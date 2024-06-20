@@ -16,6 +16,8 @@ export interface AppointmentAttributes {
   appointmentStatusID?: string;
   appointmentDate?: string;
   appointmentTime?: string;
+  rescheduledDate?: string;
+  rescheduledReason?: string;
 }
 
 export class Appointment
@@ -30,6 +32,8 @@ export class Appointment
   appointmentStatusID?: string | undefined;
   appointmentDate?: string | undefined;
   appointmentTime?: string | undefined;
+  rescheduledDate?: string | undefined;
+  rescheduledReason?: string | undefined;
 }
 
 Appointment.init(
@@ -82,6 +86,12 @@ Appointment.init(
     appointmentDate: {
       type: DataTypes.DATEONLY,
     },
+    rescheduledDate: {
+      type: DataTypes.DATEONLY,
+    },
+    rescheduledReason: {
+      type: DataTypes.STRING,
+    },
 
     appointmentTime: {
       type: DataTypes.TIME,
@@ -122,6 +132,6 @@ Appointment.afterUpdate(async () => {
 
 
 // (async () => {
-// connect.sync()
+// void connect.sync({alter:true}, )
 // console.log('Patient Table synced successfully')
 // })()

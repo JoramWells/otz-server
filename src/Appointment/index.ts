@@ -25,7 +25,7 @@ import { partialDisclosureRouter } from './routes/treatmentplan/partial/partialD
 import { disclosureEligibilityRouter } from './routes/treatmentplan/partial/disclosureEligibility.routes';
 import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/childCaregiverReadiness.routes';
 import { logger } from './utils/logger';
-import { markMissedAppointments } from './utils/markMissedAppointment';
+import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -59,6 +59,7 @@ scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
 
 markMissedAppointments()
+rescheduleOnUnavailable()
 
 // dailyPillUpdate();
 

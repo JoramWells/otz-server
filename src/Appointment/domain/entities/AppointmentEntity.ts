@@ -9,6 +9,8 @@ export class AppointmentEntity implements AppointmentAttributes {
     public appointmentAgendaID?: string,
     public appointmentStatusID?: string,
     public appointmentDate?: string,
+    public rescheduledDate?: string,
+    public rescheduledReason?: string,
     public appointmentTime?: string
   ) {}
 }
