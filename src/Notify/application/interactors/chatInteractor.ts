@@ -10,12 +10,12 @@ export class ChatInteractor implements IChatInteractor {
     this.repository = repository;
   }
 
-  async getChatById(id: string): Promise<ChatEntity | null> {
+  async getChatById(id: string): Promise<ChatEntity[] | null> {
     return await this.repository.findById(id);
   }
 
-  async createChat(patientData: ChatEntity): Promise<ChatEntity> {
-    return await this.repository.create(patientData);
+  async createChat(id1: string, id2: string): Promise<ChatEntity> {
+    return await this.repository.create(id1, id2);
   }
 
   async getAllChats(): Promise<ChatEntity[]> {

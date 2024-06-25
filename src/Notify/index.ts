@@ -20,6 +20,8 @@ import { userNotificationRouter } from './routes/notify/userNotification.routes'
 import { patientNotificationRouter } from './routes/notify/patientNotification.routes';
 import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes';
 import { schedulePatientNotifications } from './utils/scheduleMessages';
+import { chatRouter } from './routes/chat/chat.routes';
+import { messageRouter } from './routes/chat/messages.routes';
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -137,6 +139,8 @@ app.use("/notification-sub-categories", notificationSubCategoryRouter);
 app.use("/user-notifications", userNotificationRouter);
 app.use("/patient-notifications", patientNotificationRouter);
 app.use("/messages-text-replies", messageTextReplyRouter);
+app.use("/chats", chatRouter);
+app.use("/messages", messageRouter);
 
 
 

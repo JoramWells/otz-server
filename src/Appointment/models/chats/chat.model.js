@@ -10,8 +10,11 @@ const Chat = sequelize.define('chats', {
     defaultValue: UUIDV4,
   },
   members: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.ARRAY(DataTypes.UUID),
   },
+  messages:{
+    type: DataTypes.STRING
+  }
 });
 
 // Chat.afterUpdate(async () => {

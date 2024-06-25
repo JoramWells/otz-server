@@ -4,6 +4,7 @@ import { connect } from "../../../db/connect";
 
 export interface ChatAttributes {
   id?: string;
+  messages?: string;
   members?: string[];
 }
 
@@ -12,6 +13,7 @@ export class Chat
   implements ChatAttributes
 {
   id?: string | undefined;
+  messages?: string | undefined;
   members!: string[];
 }
 
@@ -24,6 +26,9 @@ Chat.init(
     },
     members: {
       type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    messages:{
+      type: DataTypes.STRING
     },
   },
   {

@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { IChatInteractor } from "../../application/interfaces/IChatInteractor";
+import { IMessageInteractor } from "../../../application/interfaces/chats/IMessageInteractor";
 // import { createClient } from 'redis'
 // import { Chat } from '../../domain/entities/Chat'
-export class ChatController {
-  private readonly interactor: IChatInteractor;
+export class MessagesController {
+  private readonly interactor: IMessageInteractor;
 
-  constructor(interactor: IChatInteractor) {
+  constructor(interactor: IMessageInteractor) {
     this.interactor = interactor;
   }
 
-  async onCreateChat(req: Request, res: Response, next: NextFunction) {
+  async onCreateMessage(req: Request, res: Response, next: NextFunction) {
     try {
       const {id1, id2} = req.body
-      const newProfile = await this.interactor.createChat(id1, id2);
+      const newProfile = await this.interactor.createMessages(req.body);
       res.json(newProfile);
     //   logger.info({
-    //     message: "Created New Chat Successfully! ~" + req.body.firstName,
+    //     message: "Created New Message Successfully! ~" + req.body.firstName,
     //   });
       next();
     } catch (error) {
@@ -27,12 +27,12 @@ export class ChatController {
     }
   }
 
-  async onGetAllChats(req: Request, res: Response, next: NextFunction) {
+  async onGetAllMessages(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllChats();
+      const results = await this.interactor.getAllMessages();
       res.status(200).json(results);
 
       next();
@@ -43,10 +43,10 @@ export class ChatController {
     }
   }
 
-  async onGetChatById(req: Request, res: Response, next: NextFunction) {
+  async onGetMessageById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getChatById(id);
+      const result = await this.interactor.getMessagesById(id);
       res.status(200).json(result);
       next();
     } catch (error) {
