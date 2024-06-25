@@ -83,6 +83,7 @@ Article.init(
 
 Article.belongsTo(User, {foreignKey:'userID'})
 Article.belongsTo(Chapter, { foreignKey: "chapterID" });
+Chapter.hasMany(Article, { foreignKey: "chapterID" });
 
 
 

@@ -7,6 +7,7 @@ const User = require('../../Users/models/user.models');
 const ART = require('../../ArtRegimen/models/art.model');
 const HomeVisitReason = require('./HomeVisitReason.model');
 const ARTPrescription = require('../../ArtRegimen/models/artPrescription.model');
+const HomeVisitFrequency = require('./homeVisitFrequency.models');
 // const HomeVisitReason = require('./HomeVisitReason.model');
 // const ART = require('../../ArtRegimen/models/art.model');
 
@@ -100,7 +101,7 @@ HomeVisit.belongsTo(ART, { foreignKey: 'artPrescriptionID' });
 HomeVisit.belongsTo(Patient, { foreignKey: 'patientID' });
 HomeVisit.belongsTo(User, { foreignKey: 'userID' });
 HomeVisit.belongsTo(HomeVisitReason, { foreignKey: 'homeVisitReasonID' });
-// HomeVisit.belongsTo(ARTPrescription, { foreignKey: 'artPrescriptionID' });
+HomeVisit.belongsTo(HomeVisitFrequency, { foreignKey: 'homeVisitFrequencyID' });
 
 // (async () => {
 //   await sequelize.sync().then(() => { console.log('Home visit Table synced successfully'); })

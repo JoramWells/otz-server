@@ -6,6 +6,7 @@ const ART = require('../../ArtRegimen/models/art.model');
 const Patient = require('../../models/patient/patients.models');
 const User = require('../../Users/models/user.models');
 const Home_visit_detail = require('../models/homeVisit.models');
+const HomeVisitFrequency = require('../models/homeVisitFrequency.models');
 const HomeVisitReason = require('../models/HomeVisitReason.model');
 // using *Patients model
 const addHomeVisit = async (req, res, next) => {
@@ -38,6 +39,10 @@ const getAllHomeVisits = async (req, res, next) => {
           model: HomeVisitReason,
           attributes: ['homeVisitReasonDescription'],
         },
+        {
+          model: HomeVisitFrequency,
+          attributes: ['homeVisitFrequencyDescription'],
+        },
       ],
     });
     res.json(results);
@@ -64,6 +69,14 @@ const getHomeVisitDetails = async (req, res, next) => {
         {
           model: ART,
           attributes: ['artName'],
+        },
+        {
+          model: HomeVisitReason,
+          attributes: ['id', 'homeVisitReasonDescription'],
+        },
+        {
+          model: HomeVisitFrequency,
+          attributes: ['id', 'homeVisitFrequencyDescription'],
         },
       ],
     });

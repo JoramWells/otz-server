@@ -4,6 +4,7 @@ export class BookEntity implements BookAttributes {
   constructor(
     public id: string,
     public description: string,
-    public thumbnail: string
+    public thumbnail: string,
+    public students?: string[]
   ) {}
 }

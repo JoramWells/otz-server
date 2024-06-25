@@ -2,6 +2,7 @@
 import { IChapterRepository } from '../../../application/interfaces/articles/IChapterRepository';
 import { chapterCache } from '../../../constants/appointmentCache';
 import { ChapterEntity } from '../../../domain/entities/articles/ChapterEntity';
+import { Article } from '../../../domain/models/articles/article.model';
 import { Books } from '../../../domain/models/articles/books.model';
 import { Chapter, ChapterAttributes } from '../../../domain/models/articles/chapters.model';
 import { RedisAdapter } from '../redisAdapter'
@@ -104,9 +105,15 @@ export class ChapterRepository implements IChapterRepository {
       where: {
         bookID: id,
       },
-      include:{
-        model: Books
-      }
+      include: [
+        {
+          model: Books,
+        },
+        {
+          model: Article,
+          attributes: ["id"],
+        },
+      ],
     });
 
     return results;

@@ -1505,3 +1505,12 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-19T22:29:23.329Z"}
 {"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-06-20T06:31:05.778Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-20T06:31:05.960Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-20T13:42:20.182Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-20T13:42:53.835Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-20T18:13:46.708Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-06-21T16:46:19.550Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-21T16:46:20.016Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-06-22T06:14:34.192Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-22T06:14:34.702Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-06-23T08:46:30.827Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-06-23T08:46:31.520Z"}
