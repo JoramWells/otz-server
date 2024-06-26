@@ -14,6 +14,8 @@ import { chapterRouter,  } from './routes/articles/chapter.routes';
 import { questionRouter } from './routes/articles/question.routes';
 import { bookRouter } from './routes/articles/articleCategory.routes';
 import { coursesRouter } from './routes/articles/courses.routes';
+import { articleProgressRouter } from './routes/articles/progress/articleProgress.routes';
+import { chapterProgressRouter } from './routes/articles/progress/chapterProgress.routes';
 
 
 const morgan = require('morgan');
@@ -125,8 +127,10 @@ const PORT = process.env.PORT || 5009;
 
 
 app.use("/articles", articleRouter);
+app.use("/article-progress", articleProgressRouter);
 app.use("/articles-category", bookRouter);
 app.use("/chapters", chapterRouter);
+app.use("/chapter-progress", chapterProgressRouter);
 app.use("/courses", coursesRouter);
 app.use("/questions", questionRouter);
 

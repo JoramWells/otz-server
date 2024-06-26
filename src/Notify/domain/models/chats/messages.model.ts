@@ -62,6 +62,6 @@ Messages.belongsTo(Chat,{foreignKey:'chatID'})
 Messages.belongsTo(Patient ,{ foreignKey: "senderID" });
 
 // (async () => {
-void connect.sync({alter:true})
+// void connect.sync({alter:true})
 // console.log('Patient Table synced successfully')
 // })()
