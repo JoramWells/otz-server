@@ -74,6 +74,6 @@ ChapterProgress.belongsTo(Courses,{foreignKey:'courseID'})
 ChapterProgress.belongsTo(Chapter, { foreignKey: "chapterID" });
 
 // (async () => {
-// void connect.sync({alter:true})
+// void connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

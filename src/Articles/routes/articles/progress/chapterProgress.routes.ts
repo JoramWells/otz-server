@@ -20,6 +20,11 @@ router.get(
   controllers.onGetChapterProgressById.bind(controllers)
 );
 
+router.get(
+  "/details/:id",
+  controllers.onGetAllChapterProgressById.bind(controllers)
+);
+
 // router.get("/fetchAllArticleChaptersById/:id", controllers.onGetAllArticleChaptersById.bind(controllers));
 
 // router.delete("/delete/:id", controllers.onDeleteQuestion.bind(controllers));

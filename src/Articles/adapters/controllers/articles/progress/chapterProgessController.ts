@@ -57,16 +57,16 @@ export class ChapterProgressController {
   }
 
   //
-  // async onGetAllBooksById(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     const { id } = req.params;
-  //     const result = await this.interactor.getAllBooksById(id);
-  //     res.status(200).json(result);
-  //     next();
-  //   } catch (error) {
-  //     next(error);
-  //     console.log(error);
-  //     res.status(500).json({ message: "Internal Server Error" });
-  //   }
-  // }
+  async onGetAllChapterProgressById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getAllChapterProgressById(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }

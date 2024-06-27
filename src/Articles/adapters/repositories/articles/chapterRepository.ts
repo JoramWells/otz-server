@@ -31,7 +31,7 @@ export class ChapterRepository implements IChapterRepository {
       include: [
         {
           model: Books,
-          attributes: ["id", "description"],
+          attributes: ["id", "description", 'thumbnail'],
         },
       ],
     });

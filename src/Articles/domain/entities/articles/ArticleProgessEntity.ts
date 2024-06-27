@@ -3,9 +3,9 @@ import { ArticleProgressAttributes } from "../../models/articles/articleProgress
 export class ArticleProgressEntity implements ArticleProgressAttributes {
   constructor(
     public id: string,
+    public articleID: string,
     public chapterProgressID: string,
     public startTime: string,
-    public timeSpentOnArticle: number,
-
+    public timeSpentOnArticle: number
   ) {}
 }

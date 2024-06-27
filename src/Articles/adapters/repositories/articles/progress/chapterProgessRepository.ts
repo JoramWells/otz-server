@@ -1,6 +1,8 @@
 import { IChapterProgressRepository } from "../../../../application/interfaces/articles/progress/IChapterProgressRepository";
 import { ChapterProgressEntity } from "../../../../domain/entities/articles/ChapterProgessEntity";
 import { ChapterProgress, ChapterProgressAttributes } from "../../../../domain/models/articles/chapterProgress.model";
+import { Chapter } from "../../../../domain/models/articles/chapters.model";
+import { Courses } from "../../../../domain/models/articles/courses.model";
 import { RedisAdapter } from "../../redisAdapter";
 
 
@@ -93,9 +95,19 @@ export class ChapterProgressRepository implements IChapterProgressRepository {
   }
 
   //
-  async findAllBooksById(id: string): Promise<ChapterProgressEntity[] | null> {
+  async findChapterProgressById(id: string): Promise<ChapterProgressEntity[] | null> {
     const results: ChapterProgressAttributes[] | null =
-      await ChapterProgress.findAll({});
+      await ChapterProgress.findAll({
+        where: {
+          courseID: id,
+        },
+        include: [
+          {
+            model: Chapter,
+            attributes: ["id", "description", "thumbnail"],
+          },
+        ],
+      });
 
     return results;
   }

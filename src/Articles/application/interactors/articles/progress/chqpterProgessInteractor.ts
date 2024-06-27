@@ -16,6 +16,12 @@ export class ChapterProgressInteractor implements IChapterProgressInteractor {
     return await this.repository.findById(id);
   }
 
+  async getAllChapterProgressById(
+    id: string
+  ): Promise<ChapterProgressEntity[] | null> {
+    return await this.repository.findChapterProgressById(id);
+  }
+
   async createChapterProgress(
     patientData: ChapterProgressEntity
   ): Promise<ChapterProgressEntity> {

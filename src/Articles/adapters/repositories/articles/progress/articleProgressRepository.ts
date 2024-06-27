@@ -1,5 +1,6 @@
 import { IArticleProgressRepository } from "../../../../application/interfaces/articles/progress/IArticleProgressRepository";
 import { ArticleProgressEntity } from "../../../../domain/entities/articles/ArticleProgessEntity";
+import { Article } from "../../../../domain/models/articles/article.model";
 import { ArticleProgress, ArticleProgressAttributes } from "../../../../domain/models/articles/articleProgress.model";
 import { RedisAdapter } from "../../redisAdapter";
 
@@ -93,14 +94,17 @@ export class ArticleProgressRepository implements IArticleProgressRepository {
   }
 
   //
-  async findAllCoursesById(
-    id: string
-  ): Promise<ArticleProgressEntity[] | null> {
+  async findAllProgress(id: string): Promise<ArticleProgressEntity[] | null> {
     const results: ArticleProgressAttributes[] | null =
       await ArticleProgress.findAll({
         where: {
-          id,
+          chapterProgressID: id,
         },
+        include:[
+          {
+            model: Article,
+          }
+        ]
       });
 
     return results;

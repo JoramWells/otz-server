@@ -28,7 +28,7 @@ router.get(
 );
 
 // 
-// router.get("/fetchAllBooksDetail/:id", controllers.onGetAllBooksById.bind(controllers));
+router.get("/details/:id", controllers.onGetAllArticleProgressByChapterID.bind(controllers));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

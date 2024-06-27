@@ -1,10 +1,12 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { ChapterProgress } from "./chapterProgress.model";
+import { Article } from "./article.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface ArticleProgressAttributes {
   id: string;
+  articleID: string;
   chapterProgressID: string;
   startTime: string;
   timeSpentOnArticle: number;
@@ -15,6 +17,7 @@ export class ArticleProgress
   implements ArticleProgressAttributes
 {
   id!: string;
+  articleID!: string;
   chapterProgressID!: string;
   startTime!: string;
   timeSpentOnArticle!: number;
@@ -27,6 +30,14 @@ ArticleProgress.init(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
+    articleID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "articles",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
     chapterProgressID: {
       type: DataTypes.UUID,
       references: {
@@ -37,7 +48,7 @@ ArticleProgress.init(
     },
     startTime: {
       type: DataTypes.TIME,
-      defaultValue: 0,
+      // defaultValue: 0,
     },
     timeSpentOnArticle: {
       type: DataTypes.INTEGER,
@@ -54,9 +65,11 @@ ArticleProgress.init(
   }
 );
 
+ArticleProgress.belongsTo(Article, { foreignKey: "articleID" });
 ArticleProgress.belongsTo(ChapterProgress, { foreignKey: "chapterProgressID" });
 
 // (async () => {
-// void connect.sync({alter:true})
+void connect.sync()
+
 // console.log('Patient Table synced successfully')
 // })()

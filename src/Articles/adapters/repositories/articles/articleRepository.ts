@@ -80,7 +80,7 @@ export class ArticleRepository implements IArticleRepository {
           include:[
             {
               model: Books,
-              attributes:['id', 'description']
+              attributes:['id', 'description', 'thumbnail']
             }
           ]
         }

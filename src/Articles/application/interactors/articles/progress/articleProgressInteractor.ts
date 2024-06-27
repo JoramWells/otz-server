@@ -16,9 +16,9 @@ export class ArticleProgressInteractor implements IArticleProgressInteractor {
     return await this.repository.findById(id);
   }
 
-  // async getAllArticleChaptersById(id: string): Promise<ArticleProgressEntity[] | null> {
-  //   return await this.repository.findAllArticleChaptersById(id);
-  // }
+  async getAllArticleProgressByChapterID(id: string): Promise<ArticleProgressEntity[] | null> {
+    return await this.repository.findAllProgress(id);
+  }
 
   async createArticleProgress(patientData: ArticleProgressEntity): Promise<ArticleProgressEntity> {
     return await this.repository.create(patientData);

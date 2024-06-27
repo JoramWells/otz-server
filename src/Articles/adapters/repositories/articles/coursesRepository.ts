@@ -69,14 +69,14 @@ export class CoursesRepository implements ICoursesRepository {
   async findById(id: string): Promise<CoursesEntity | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: CoursesAttributes | null = await Courses.findOne({
+      const results: CoursesAttributes | null = await Courses.findAll({
         where: {
           patientID: id,
         },
         include: [
           {
             model: Books,
-            attributes: ["id", "description"],
+            attributes: ["id", "description", 'thumbnail'],
           },
         ],
       });
@@ -111,9 +111,12 @@ export class CoursesRepository implements ICoursesRepository {
       where: {
         bookID: id,
       },
-      include:{
-        model: Books
-      }
+      include: [
+        {
+          model: Books,
+          attributes: ["id", "description", "thumbnail"],
+        },
+      ],
     });
 
     return results;

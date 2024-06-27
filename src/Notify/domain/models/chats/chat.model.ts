@@ -42,6 +42,8 @@ Chat.init(
 );
 
 
+
+
 // (async () => {
 // connect.sync()
 // console.log('Patient Table synced successfully')
