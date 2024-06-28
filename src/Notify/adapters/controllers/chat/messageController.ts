@@ -15,6 +15,8 @@ export class MessagesController {
     try {
       const {id1, id2} = req.body
       const newProfile = await this.interactor.createMessages(req.body);
+      
+      console.log(req.body)
       res.json(newProfile);
     //   logger.info({
     //     message: "Created New Message Successfully! ~" + req.body.firstName,

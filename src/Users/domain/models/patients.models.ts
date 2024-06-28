@@ -24,6 +24,7 @@ export interface PatientAttributes {
   dob?: Date | string
   phoneNo?: string
   idNo?: string
+  password?: string
   occupationID?: string
   cccNo?: string
   ageAtReporting?: string
@@ -47,6 +48,7 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   firstName?: string | undefined
   middleName: string | undefined
   lastName?: string | undefined
+  password?: string | undefined
   sex?: string | undefined
   dob?: Date | string | undefined
   phoneNo?: string | undefined
@@ -71,91 +73,96 @@ Patient.init(
       type: DataTypes.UUID,
       primaryKey: true,
       autoIncrement: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     firstName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     middleName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     lastName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     sex: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     dob: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
     phoneNo: {
       type: DataTypes.STRING,
-      defaultValue: '',
-      unique: false
+      defaultValue: "",
+      unique: false,
     },
     occupationID: {
       type: DataTypes.UUID,
-      allowNull: true
+      allowNull: true,
     },
     idNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     cccNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     entryPoint: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     subCountyName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
 
     ageAtReporting: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     dateConfirmedPositive: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
     initialRegimen: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     populationType: {
       type: DataTypes.STRING,
-      defaultValue: 'General Population'
+      defaultValue: "General Population",
     },
     maritalStatus: {
       type: DataTypes.STRING,
-      defaultValue: 'N/A'
+      defaultValue: "N/A",
     },
     schoolID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     hospitalID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     location: {
       type: DataTypes.JSONB,
-      allowNull: true
+      allowNull: true,
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    password: {
+      type: DataTypes.TEXT,
+      defaultValue: "N/A",
+    },
   },
+
   {
     sequelize: connect,
-    tableName: 'patients',
+    tableName: "patients",
     // postgresql: {
     //   fillFactor: 70
     // },
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 // const disableForeignKeyChecks = async (sequelize: Sequelize) => {
 //   await sequelize.query('SET session_replication_role = replica;')

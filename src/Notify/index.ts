@@ -22,6 +22,7 @@ import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes'
 import { schedulePatientNotifications } from './utils/scheduleMessages';
 import { chatRouter } from './routes/chat/chat.routes';
 import { messageRouter } from './routes/chat/messages.routes';
+import { sendPushNotification } from './utils/fcm';
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -127,6 +128,9 @@ io.on('connection', (client) => {
 //   io.emit('notificationCreated', []);
 //   console.log('Success', data);
 // });
+
+
+// sendPushNotification()
 
 const PORT = process.env.PORT || 5008;
 

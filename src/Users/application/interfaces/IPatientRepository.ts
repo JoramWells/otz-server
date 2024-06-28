@@ -8,4 +8,6 @@ export interface IPatientRepository {
   edit: (data: PatientEntity) => Promise<PatientEntity | null>
   findAllPMTCTPatients: () => Promise <PatientEntity[]>
   findOTZ: () => Promise <PatientEntity[]>
+  login: (firstName: string, password: string) => Promise<PatientEntity | null>
+
 }

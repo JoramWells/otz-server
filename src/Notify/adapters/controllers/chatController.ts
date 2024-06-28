@@ -13,7 +13,10 @@ export class ChatController {
 
   async onCreateChat(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id1, id2} = req.body
+      const {patientID, id} = req.body
+      const id1 = patientID
+      const id2 = id
+      console.log(req.body)
       const newProfile = await this.interactor.createChat(id1, id2);
       res.json(newProfile);
     //   logger.info({

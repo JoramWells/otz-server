@@ -4,7 +4,7 @@ import { connect } from "../../../db/connect";
 
 export interface ChatAttributes {
   id?: string;
-  messages?: string;
+  // messages?: string;
   members?: string[];
 }
 
@@ -13,7 +13,7 @@ export class Chat
   implements ChatAttributes
 {
   id?: string | undefined;
-  messages?: string | undefined;
+  // messages?: string | undefined;
   members!: string[];
 }
 
@@ -25,11 +25,11 @@ Chat.init(
       defaultValue: UUIDV4,
     },
     members: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.UUID),
     },
-    messages:{
-      type: DataTypes.STRING
-    },
+    // messages:{
+    //   type: DataTypes.STRING
+    // },
   },
   {
     sequelize: connect,
@@ -45,6 +45,6 @@ Chat.init(
 
 
 // (async () => {
-// connect.sync()
+// void connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

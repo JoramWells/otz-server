@@ -8,13 +8,13 @@ import { type PatientEntity } from '../../domain/entities/PatientEntity'
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PatientController {
-  private readonly interactor: IPatientInteractor
+  private readonly interactor: IPatientInteractor;
 
-  constructor (interactor: IPatientInteractor) {
-    this.interactor = interactor
+  constructor(interactor: IPatientInteractor) {
+    this.interactor = interactor;
   }
 
-  async onCreatePatient (req: Request, res: Response, next: NextFunction) {
+  async onCreatePatient(req: Request, res: Response, next: NextFunction) {
     const {
       firstName,
       middleName,
@@ -34,8 +34,8 @@ export class PatientController {
       kinDOB,
       kinIDNo,
       nextOfKinPhoneNo,
-      relationship
-    } = req.body
+      relationship,
+    } = req.body;
 
     const patientData: PatientEntity = {
       firstName,
@@ -49,108 +49,109 @@ export class PatientController {
       cccNo,
       location,
       maritalStatus,
-      entryPoint
-    }
+      entryPoint,
+    };
 
     const nextOfKinData: NextOfKinEntity = {
       relationship,
-      certificateNo: '',
+      certificateNo: "",
       firstName: kinFirstName,
       middleName: kinLastName,
       sex: kinGender,
       dob: kinDOB,
       idNo: kinIDNo,
-      phoneNo: nextOfKinPhoneNo
-    }
+      phoneNo: nextOfKinPhoneNo,
+    };
     try {
       // console.log(nextOfKinData)
-      await this.interactor.createPatient(patientData, nextOfKinData)
-      res.status(200).json([])
+      await this.interactor.createPatient(patientData, nextOfKinData);
+      res.status(200).json([]);
       logger.info({
-        message: 'Created New Patient Successfully! ~' + req.body.firstName
-      })
-      next()
+        message: "Created New Patient Successfully! ~" + req.body.firstName,
+      });
+      next();
     } catch (error) {
-      console.log(error)
-      logger.error(error)
-      res.status(500).json({ message: 'Internal Server Error' })
-      next(error)
+      console.log(error);
+      logger.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
 
-  async onGetAllPatients (req: Request, res: Response, next: NextFunction) {
+  async onGetAllPatients(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllPatients()
-      res.status(200).json(results)
-      logger.info({ message: 'Fetched all Patients Successfully!' })
+      const results = await this.interactor.getAllPatients();
+      res.status(200).json(results);
+      logger.info({ message: "Fetched all Patients Successfully!" });
 
-      next()
+      next();
     } catch (error) {
-      next(error)
-      logger.error(error)
-      res.status(500).json({ message: 'Internal Server Error' })
-      console.log(error)
+      next(error);
+      logger.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
     }
   }
 
-  async onGetAllPMTCTPatients (req: Request, res: Response, next: NextFunction) {
+  async onGetAllPMTCTPatients(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.findAllPMTCTPatients()
-      res.status(200).json(results)
-      logger.info({ message: 'Fetched all Patients Successfully!' })
+      const results = await this.interactor.findAllPMTCTPatients();
+      res.status(200).json(results);
+      logger.info({ message: "Fetched all Patients Successfully!" });
 
-      next()
+      next();
     } catch (error) {
-      next(error)
-      logger.error(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      logger.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
       // console.log(error)
     }
   }
 
   //
 
-  async onGetAllOTZPatients (req: Request, res: Response, next: NextFunction) {
+  async onGetAllOTZPatients(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.findAllOTZPatients()
-      res.status(200).json(results)
-      logger.info({ message: 'Fetched all Patients Successfully!' })
+      const results = await this.interactor.findAllOTZPatients();
+      res.status(200).json(results);
+      logger.info({ message: "Fetched all Patients Successfully!" });
 
-      next()
+      next();
     } catch (error) {
-      next(error)
-      logger.error(error)
-      res.status(500).json({ message: 'Internal Server Error' })
-      console.log(error)
+      next(error);
+      logger.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
     }
   }
 
-  async onGetPatientById (req: Request, res: Response, next: NextFunction) {
+  async onGetPatientById(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params
-      const result = await this.interactor.getPatientById(id)
-      res.status(200).json(result)
-      next()
+      const { id } = req.params;
+      const result = await this.interactor.getPatientById(id);
+      res.status(200).json(result);
+      next();
     } catch (error) {
-      next(error)
-      console.log(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  async onEditPatientProfile (req: Request, res: Response, next: NextFunction) {
+  async onEditPatientProfile(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params
-      const { firstName, middleName, lastName, phoneNo }: PatientEntity = req.body
+      const { id } = req.params;
+      const { firstName, middleName, lastName, phoneNo }: PatientEntity =
+        req.body;
       const values: PatientEntity = {
         id,
         firstName,
@@ -158,13 +159,26 @@ export class PatientController {
         lastName,
         phoneNo,
         //
-        maritalStatus: ''
-      }
+        maritalStatus: "",
+      };
 
-      const results = await this.interactor.editPatient(values)
-      res.status(200).json(results)
+      const results = await this.interactor.editPatient(values);
+      res.status(200).json(results);
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    }
+  }
+
+  //
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, password } = req.params;
+      const results = await this.interactor.login(email, password);
+      res.status(200).json(results);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
     }
   }
 }

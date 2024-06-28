@@ -3,9 +3,10 @@
 import { Op, Sequelize } from 'sequelize';
 import { IChatRepository } from '../../../application/interfaces/IChatRepository';
 import { ChatEntity } from '../../../domain/entities/chat/ChatEntity';
-import { Chat } from '../../../domain/models/chats/chat.model';
+import { Chat, ChatAttributes } from '../../../domain/models/chats/chat.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { RedisAdapter } from '../redisAdapter'
+import { Patient } from '../../../domain/models/patients.models';
 // import { createClient } from 'redis'
 
 export class ChatRepository implements IChatRepository {
@@ -17,7 +18,7 @@ export class ChatRepository implements IChatRepository {
   async create(id1:string, id2: string  ): Promise<ChatEntity> {
 
     const chatExists = await Chat.findOne({
-      where: Sequelize.literal(`members @>ARRAY['${id1}', '${id2}']::varchar[]`)
+      where: Sequelize.literal(`members @>ARRAY['${id1}', '${id2}']::uuid[]`)
     })
 
     if(chatExists){
@@ -63,13 +64,39 @@ export class ChatRepository implements IChatRepository {
   async findById(id: string): Promise<ChatEntity[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: Chat[] | null = await Chat.findAll({
+      const results: ChatAttributes[] | null = await Chat.findAll({
         where: {
            members:{
             [Op.contains]:[id]
            },
         },
       });
+      const recentChats = [];
+      if(results){
+         const chatPromises = results.map(async(chat)=>{
+          if(chat){
+            const otherMemberID = chat.members?.find(memberID => memberID !==id)
+            const receivers = await Patient.findOne({
+              attributes:['firstName', 'middleName'],
+              where:{
+                id: otherMemberID
+              }
+            })
+            return {
+              chat: chat.dataValues,
+              receiver:receivers?.dataValues}
+          }
+          return null
+         }) 
+      const chatReceivers = await Promise.all(chatPromises);
+chatReceivers.forEach(receiver=>{
+  if(receiver){
+    recentChats.push(receiver)
+  }
+})
+      }
+      console.log(recentChats)
+
 
       // const patientResults: AppointmentEntity = {
       //   firstName: results?.firstName,
@@ -91,6 +118,6 @@ export class ChatRepository implements IChatRepository {
     // const results: ChatEntity = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
-    return results;
+    return recentChats;
   }
 }

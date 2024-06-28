@@ -55,7 +55,7 @@ export class MessagesRepository implements IMessageRepository {
     // if ((await this.redisClient.get(id)) === null) {
       const results: Messages[] | null = await Messages.findAll({
         where:{
-          id
+          chatID:id
         },
       });
 

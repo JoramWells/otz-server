@@ -619,3 +619,6 @@
 {"level":"info","message":"Appointments modified for 83461503-5ca2-4504-9699-72b64b376afc ","service":"appointment-service","timestamp":"2024-06-26T19:18:28.528Z"}
 {"level":"info","message":"Changed a4fc2d01-c3c0-443f-a037-a93da659cd9a to pending...","service":"appointment-service","timestamp":"2024-06-27T06:10:18.483Z"}
 {"level":"info","message":"Changed bbfe3fcf-7acf-4102-9649-1e9e2720702f to pending...","service":"appointment-service","timestamp":"2024-06-27T13:27:07.403Z"}
+{"level":"info","message":"Appointments modified for a4fc2d01-c3c0-443f-a037-a93da659cd9a ","service":"appointment-service","timestamp":"2024-06-28T13:27:16.331Z"}
+{"level":"info","message":"Appointments modified for 99ca14b5-7d47-44a5-9374-296be20c8a74 ","service":"appointment-service","timestamp":"2024-06-28T13:27:16.520Z"}
+{"level":"info","message":"Appointments modified for bbfe3fcf-7acf-4102-9649-1e9e2720702f ","service":"appointment-service","timestamp":"2024-06-28T13:27:16.765Z"}

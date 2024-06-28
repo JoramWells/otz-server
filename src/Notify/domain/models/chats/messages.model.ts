@@ -21,6 +21,7 @@ export class Messages
   senderID: string | undefined;
 }
 
+
 Messages.init(
   {
     id: {
