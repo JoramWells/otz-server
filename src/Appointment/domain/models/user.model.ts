@@ -4,24 +4,12 @@
 
 import { Model } from 'sequelize'
 import { connect } from '../../db/connect'
+import {UserInterface} from 'otz-types'
 
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize')
 // const County = require('./location/county.model')
 
-export interface UserInterface {
-  id?: string
-  firstName: string
-  middleName: string
-  lastName?: string
-  email: string
-  sex: string
-  phoneNo?: string
-  countyID: string
-  password?: string
-  dob: string
-  idNo: string
-}
 
 export class User extends Model<UserInterface> {
   id?: string | undefined

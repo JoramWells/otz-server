@@ -10,7 +10,7 @@ export class PatientNotification
   extends Model<PatientNotificationAttributes>
   implements PatientNotificationAttributes
 {
-  id?: string;
+  id: string | undefined;
   patientID!: string;
   medicineTime!: string;
   userID!: string;

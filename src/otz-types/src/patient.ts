@@ -1,3 +1,5 @@
+import { WeekDays } from "./weekdays";
+
 export interface PatientVisitsInterface {
   id?: string;
   patientID?: string;
@@ -35,4 +37,16 @@ export interface UserInterface {
   password?: string;
   dob: string;
   idNo: string;
+}
+
+
+
+export interface UserAvailabilityAttributes {
+  id?: string;
+  userID: string;
+  daysAvailable: WeekDays;
+  startTime: Date;
+  endTime: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
