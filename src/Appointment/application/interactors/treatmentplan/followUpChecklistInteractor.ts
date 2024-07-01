@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { FollowUpChecklistEntity } from '../../../domain/entities/treatmentplan/FollowUpChecklistEntity';
+import { FollowUpChecklistAttributes } from 'otz-types';
 import { IFollowUpChecklistInteractor } from '../../interfaces/treatmentplan/IFollowUpChecklistInteractor';
 import { IFollowUpChecklistRepository } from '../../interfaces/treatmentplan/IFollowUpChecklistRepository';
 
@@ -11,15 +11,15 @@ export class FollowUpChecklistInteractor implements IFollowUpChecklistInteractor
     this.repository = repository;
   }
   
-  async getFollowUpChecklistById(id: string): Promise<FollowUpChecklistEntity | null> {
+  async getFollowUpChecklistById(id: string): Promise<FollowUpChecklistAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createFollowUpChecklist(patientData: FollowUpChecklistEntity): Promise<FollowUpChecklistEntity> {
+  async createFollowUpChecklist(patientData: FollowUpChecklistAttributes): Promise<FollowUpChecklistAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllFollowUpChecklist(): Promise<FollowUpChecklistEntity[]> {
+  async getAllFollowUpChecklist(): Promise<FollowUpChecklistAttributes[]> {
     return await this.repository.find();
   }
 }

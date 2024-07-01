@@ -122,20 +122,20 @@ export interface MMASEightAttributes {
 
 export interface ExecuteDisclosureAttributes {
   id?: string;
-  patientID: string;
-  patientVisitID: string;
+  patientID?: string;
+  patientVisitID?: string;
 
   isReassuredCaregiver: boolean;
   isAssessedChildCaregiverComfort: boolean;
   isAssessedEnvironmentAndTiming: boolean;
   isAssessedDepthOfChildKnowledge: boolean;
-  isSupportedCaregiverChildToDisclose: boolean;
+  isSupportedCaregiverChildToDisclose?: boolean;
   isObservedImmediateReactions: boolean;
   isInvitedChildQuestions: boolean;
-  isReviewedBenefitsOfDisclosure: boolean;
+  isReviewedBenefitsOfDisclosure?: boolean;
   isExplainedCareOptions: boolean;
   isConcludedSessionReassured: boolean;
-  taskThreeComments: string;
+  taskThreeComments?: string;
 }
 
 export interface FullDisclosureAttributes {

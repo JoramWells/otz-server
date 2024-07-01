@@ -11,7 +11,7 @@ import { UptakeAttributes } from 'otz-types';
 
 
 export class PillUptakeRepository implements IPillUptakeRepository {
-  async count() {
+  async count(): Promise<UptakeAttributes> {
     const currentDate = moment().format("YYYY-MM-DD");
 
     //
@@ -47,7 +47,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       },
     });
 
-    return results;
+    return results as UptakeAttributes;
   }
   private readonly redisClient = new RedisAdapter();
   // constructor () {

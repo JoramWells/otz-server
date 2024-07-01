@@ -2,9 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IPostDisclosureInteractor } from "../../../../application/interfaces/disclosure/full/IPostDisclosureInteractor";
-import { PostDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/PostDisclosureEntity";
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
-
+import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
 
 export class PostDisclosureController {
   private readonly interactor: IPostDisclosureInteractor;
@@ -38,7 +36,7 @@ export class PostDisclosureController {
             taskFourComments,
           } = req.body;
 
-          const readinessData: ExecuteDisclosureEntity = {
+          const readinessData: ExecuteDisclosureAttributes = {
             isAssessedChildCaregiverComfort,
             isAssessedDepthOfChildKnowledge,
             isAssessedEnvironmentAndTiming,
@@ -49,7 +47,7 @@ export class PostDisclosureController {
             isReassuredCaregiver,
           };
 
-          const disclosureData: PostDisclosureEntity = {
+          const disclosureData: PostDisclosureAttributes = {
           finalComments,
           isAddressedNegativeSelfImage,
           isAssessedChildEngagement,

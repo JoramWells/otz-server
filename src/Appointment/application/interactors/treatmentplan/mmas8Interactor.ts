@@ -1,5 +1,4 @@
-import { MMASEightEntity } from "../../../domain/entities/treatmentplan/MMASEightEntity";
-import { MMASFourEntity } from "../../../domain/entities/treatmentplan/MMASFourEntity";
+import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
 import { IMMASEightInteractor } from "../../interfaces/treatmentplan/IMMAS8Interactor";
 import { IMMASEightRepository } from "../../interfaces/treatmentplan/IMMAS8Repository";
 
@@ -15,22 +14,22 @@ export class MMASEightInteractor implements IMMASEightInteractor {
   //   return await this.repository.count()
   // };
 
-  async getMMASEightById(id: string): Promise<MMASEightEntity | null> {
+  async getMMASEightById(id: string): Promise<MMASEightAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async getMMASEightByPatientId(id: string): Promise<MMASEightEntity | null> {
+  async getMMASEightByPatientId(id: string): Promise<MMASEightAttributes | null> {
     return await this.repository.findByPatientId(id);
   }
 
   async createMMASEight(
-    data4: MMASFourEntity,
-    patientData: MMASEightEntity
-  ): Promise<MMASEightEntity> {
+    data4: MMASFourAttributes,
+    patientData: MMASEightAttributes
+  ): Promise<MMASEightAttributes> {
     return await this.repository.create(data4, patientData);
   }
 
-  async getAllMMASEight(): Promise<MMASEightEntity[]> {
+  async getAllMMASEight(): Promise<MMASEightAttributes[]> {
     return await this.repository.find();
   }
 }

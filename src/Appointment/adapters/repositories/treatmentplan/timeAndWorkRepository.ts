@@ -82,7 +82,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     return await connect.transaction(async(t)=>{
 
       const results  = await TimeAndWork.create(data, {transaction:t});
-          const latestPrescriptions: Prescription = await Prescription.findOne({
+          const latestPrescriptions: Prescription | null = await Prescription.findOne({
             attributes: [
               [fn("MAX", col("createdAt")), "createdAt"],
               "patientID",
@@ -96,13 +96,13 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
               patientID,
               createdAt: {
                 [Op.not]: null,
-              },
+              } as any,
             },
           });
 
           await Uptake.create({
             currentDate,
-            prescriptionID:latestPrescriptions.dataValues.id,
+            prescriptionID:latestPrescriptions?.dataValues.id,
             eveningStatus: false,
             morningStatus: false,
             timeAndWorkID: results.id,

@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IMMASEightInteractor } from "../../../application/interfaces/treatmentplan/IMMAS8Interactor";
-import { MMASFourEntity } from "../../../domain/entities/treatmentplan/MMASFourEntity";
-import { MMASEightAttributes } from "../../../domain/models/treatmentplan/mmas8.model";
+import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
 
 export class MMASEightController {
   private readonly interactor: IMMASEightInteractor;
@@ -27,7 +26,7 @@ export class MMASEightController {
       isTookMedYesterday,
       isUnderPressure,
     } = req.body;
-    const data4: MMASFourEntity = {
+    const data4: MMASFourAttributes = {
       isCareless,
       isForget,
       isQuitFeelBetter,

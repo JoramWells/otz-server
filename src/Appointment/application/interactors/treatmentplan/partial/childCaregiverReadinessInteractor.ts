@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { ChildCaregiverReadinessEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity';
+import { ChildCaregiverReadinessAttributes } from 'otz-types';
 import { IChildCaregiverReadinessInteractor } from '../../../interfaces/disclosure/partial/IChildCaregiverReadinessInteractor';
 import { IChildCaregiverRepository } from '../../../interfaces/disclosure/partial/IChildCaregiverRepository';
 
@@ -14,19 +14,19 @@ export class ChildCaregiverReadinessInteractor implements IChildCaregiverReadine
   //   return await this.repository.count()
   // };
 
-  async getAllChildCaregiverReadiness(): Promise<ChildCaregiverReadinessEntity[]> {
+  async getAllChildCaregiverReadiness(): Promise<ChildCaregiverReadinessAttributes[]> {
     return await this.repository.find()
   }
 
-  async getChildCaregiverReadinessById(id: string): Promise<ChildCaregiverReadinessEntity | null> {
+  async getChildCaregiverReadinessById(id: string): Promise<ChildCaregiverReadinessAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createChildCaregiverReadiness(patientData: ChildCaregiverReadinessEntity): Promise<ChildCaregiverReadinessEntity> {
+  async createChildCaregiverReadiness(patientData: ChildCaregiverReadinessAttributes): Promise<ChildCaregiverReadinessAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllChildCaregiverReadinessByVisitId(): Promise<ChildCaregiverReadinessEntity[]> {
+  async getAllChildCaregiverReadinessByVisitId(): Promise<ChildCaregiverReadinessAttributes[]> {
     return await this.repository.find();
   }
 }

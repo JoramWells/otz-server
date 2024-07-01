@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
 // import { mmasCache } from '../../../constants/appointmentCache';
+import { PartialDisclosureAttributes } from 'otz-types';
 import { IPartialDisclosureRepository } from '../../../../application/interfaces/disclosure/partial/IPartialDisclosureRepository';
-import { PartialDisclosureEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/PartialDisclosureEntity';
 import { PartialDisclosure } from '../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model';
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -14,14 +14,14 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
   // }
 
   async create(
-    data: PartialDisclosureEntity
-  ): Promise<PartialDisclosureEntity> {
+    data: PartialDisclosureAttributes
+  ): Promise<PartialDisclosureAttributes> {
     const results = await PartialDisclosure.create(data);
 
     return results;
   }
 
-  async find(): Promise<PartialDisclosureEntity[]> {
+  async find(): Promise<PartialDisclosureAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -44,11 +44,11 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: PartialDisclosureEntity[] = JSON.parse(cachedPatients);
+    // const results: PartialDisclosureAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<PartialDisclosureEntity | null> {
+  async findById(id: string): Promise<PartialDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: PartialDisclosure | null =
@@ -75,13 +75,13 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: PartialDisclosureEntity = JSON.parse(cachedData);
+    // const results: PartialDisclosureAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<PartialDisclosureEntity[] | null> {
+  async findAllByVisitId(id: string): Promise<PartialDisclosureAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: PartialDisclosure[] | null =

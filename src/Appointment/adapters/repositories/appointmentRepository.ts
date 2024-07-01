@@ -103,7 +103,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         where: {
           createdAt: {
             [Op.not]: null,
-          },
+          } as any,
         },
         include: [
           {

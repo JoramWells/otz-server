@@ -1,7 +1,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import { ChildCaregiverReadinessAttributes } from 'otz-types';
 import { IChildCaregiverRepository } from '../../../../application/interfaces/disclosure/partial/IChildCaregiverRepository';
-import { ChildCaregiverReadinessEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity';
 import { ChildCaregiverReadiness } from '../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
 // import { RedisAdapter } from '../redisAdapter'
@@ -14,14 +14,14 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
   // }
 
   async create(
-    data: ChildCaregiverReadinessEntity
-  ): Promise<ChildCaregiverReadinessEntity> {
+    data: ChildCaregiverReadinessAttributes
+  ): Promise<ChildCaregiverReadinessAttributes> {
     const results = await ChildCaregiverReadiness.create(data);
 
     return results;
   }
 
-  async find(): Promise<ChildCaregiverReadinessEntity[]> {
+  async find(): Promise<ChildCaregiverReadinessAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -44,11 +44,11 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ChildCaregiverReadinessEntity[] = JSON.parse(cachedPatients);
+    // const results: ChildCaregiverReadinessAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<ChildCaregiverReadinessEntity | null> {
+  async findById(id: string): Promise<ChildCaregiverReadinessAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildCaregiverReadiness | null =
@@ -75,7 +75,7 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: ChildCaregiverReadinessEntity = JSON.parse(cachedData);
+    // const results: ChildCaregiverReadinessAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
@@ -83,7 +83,7 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
 
   async findAllByVisitId(
     id: string
-  ): Promise<ChildCaregiverReadinessEntity[] | null> {
+  ): Promise<ChildCaregiverReadinessAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildCaregiverReadiness[] | null =

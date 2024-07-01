@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { MMASFourEntity } from '../../../domain/entities/treatmentplan/MMASFourEntity';
+import { MMASFourAttributes } from 'otz-types';
 import { IMMASFourInteractor } from '../../interfaces/treatmentplan/IMMAS4Interactor';
 import { IMMASFourRepository } from '../../interfaces/treatmentplan/IMMAS4Repository';
 
@@ -15,19 +15,19 @@ export class MMASFourInteractor implements IMMASFourInteractor {
   //   return await this.repository.count()
   // };
 
-  async getMMASFourById(id: string): Promise<MMASFourEntity | null> {
+  async getMMASFourById(id: string): Promise<MMASFourAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async getMMASFourByPatientId(id: string): Promise<MMASFourEntity | null> {
+  async getMMASFourByPatientId(id: string): Promise<MMASFourAttributes | null> {
     return await this.repository.findByPatientId(id);
   }
 
-  async createMMASFour(patientData: MMASFourEntity): Promise<MMASFourEntity> {
+  async createMMASFour(patientData: MMASFourAttributes): Promise<MMASFourAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllMMASFour(): Promise<MMASFourEntity[]> {
+  async getAllMMASFour(): Promise<MMASFourAttributes[]> {
     return await this.repository.find();
   }
 }

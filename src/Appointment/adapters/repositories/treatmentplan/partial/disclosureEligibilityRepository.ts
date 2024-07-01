@@ -1,10 +1,9 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
 // import { mmasCache } from '../../../constants/appointmentCache';
+import { ChildCaregiverReadinessAttributes, ChildDisclosureEligibilityAttributes } from 'otz-types';
 import { IDisclosureEligibilityRepository } from '../../../../application/interfaces/disclosure/partial/IDisclosureEligibilityRepository';
 import { connect } from '../../../../db/connect';
-import { ChildCaregiverReadinessEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity';
-import { DisclosureEligibilityEntity } from '../../../../domain/entities/treatmentplan/disclosure/partial/DisclosureEligibilityEntity';
 import { ChildCaregiverReadiness } from '../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model';
 import { ChildDisclosureEligibility } from '../../../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model';
 import { PartialDisclosure } from '../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model';
@@ -18,8 +17,8 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
   // }
 
   async create(
-    data: DisclosureEligibilityEntity, readiness: ChildCaregiverReadinessEntity
-  ): Promise<DisclosureEligibilityEntity> {
+    data: ChildDisclosureEligibilityAttributes, readiness: ChildCaregiverReadinessAttributes
+  ): Promise<ChildDisclosureEligibilityAttributes> {
 
     return await connect.transaction(async(t)=>{
     const results = await ChildDisclosureEligibility.create(data, {transaction: t});
@@ -38,7 +37,7 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
 
   }
 
-  async find(): Promise<DisclosureEligibilityEntity[]> {
+  async find(): Promise<ChildDisclosureEligibilityAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -61,11 +60,11 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: DisclosureEligibilityEntity[] = JSON.parse(cachedPatients);
+    // const results: ChildDisclosureEligibilityAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<DisclosureEligibilityEntity | null> {
+  async findById(id: string): Promise<ChildDisclosureEligibilityAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildDisclosureEligibility | null =
@@ -92,13 +91,13 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: DisclosureEligibilityEntity = JSON.parse(cachedData);
+    // const results: ChildDisclosureEligibilityAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<DisclosureEligibilityEntity[] | null> {
+  async findAllByVisitId(id: string): Promise<ChildDisclosureEligibilityAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildDisclosureEligibility[] | null =

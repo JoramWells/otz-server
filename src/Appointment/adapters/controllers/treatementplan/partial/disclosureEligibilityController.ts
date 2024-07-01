@@ -2,9 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IDisclosureEligibilityInteractor } from "../../../../application/interfaces/disclosure/partial/IDisclosureEligibilityInteractor";
-import { ChildCaregiverReadinessEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity";
-import { DisclosureChecklistEntity } from "../../../../domain/entities/treatmentplan/DisclosureChecklistEntity";
-import { DisclosureEligibilityEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/DisclosureEligibilityEntity";
+import { ChildCaregiverReadinessAttributes, ChildDisclosureEligibilityAttributes } from "otz-types";
 
 export class DisclosureEligibilityController {
   private readonly interactor: IDisclosureEligibilityInteractor;
@@ -33,7 +31,7 @@ export class DisclosureEligibilityController {
             taskOneComments,
           } = req.body;
 
-          const readinessData: ChildCaregiverReadinessEntity = {
+          const readinessData: ChildCaregiverReadinessAttributes = {
             isAssessedCaregiverReadinessToDisclose,
             isCaregiverCommunicatedToChild,
             isChildKnowsMedicineAndIllness,
@@ -47,7 +45,7 @@ export class DisclosureEligibilityController {
             taskTwoComments,
           };
 
-          const disclosureData: DisclosureEligibilityEntity = {
+          const disclosureData: ChildDisclosureEligibilityAttributes = {
             isCorrectAge,
             isKnowledgeable,
             isWillingToDisclose,

@@ -1,4 +1,4 @@
-import { TimeAndWorkEntity } from '../../../domain/entities/treatmentplan/TimeAndWorkEntity';
+import { TimeAndWorkAttributes } from 'otz-types';
 import { ITimeAndWorkInteractor } from '../../interfaces/treatmentplan/ITimeAndWorkInteractor';
 import { ITimeAndWorkRepository } from '../../interfaces/treatmentplan/ITimeAndWorkRepository';
 
@@ -10,29 +10,29 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     this.repository = repository;
   }
 
-  async getTimeAndWorkById(id: string): Promise<TimeAndWorkEntity | null> {
+  async getTimeAndWorkById(id: string): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.findById(id);
   }
 
-   async getTimeAndWorkByPatientId(id: string): Promise<TimeAndWorkEntity | null> {
+   async getTimeAndWorkByPatientId(id: string): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.findByPatientId(id);
   }
 
-  async updateMorningSchedule(id: string, data: TimeAndWorkEntity): Promise<TimeAndWorkEntity | null> {
+  async updateMorningSchedule(id: string, data: TimeAndWorkAttributes): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.updateMorningSchedule(id, data);
   }
 
-  async updateEveningSchedule(id: string, data:TimeAndWorkEntity): Promise<TimeAndWorkEntity | null> {
+  async updateEveningSchedule(id: string, data:TimeAndWorkAttributes): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.updateEveningSchedule(id, data);
   }
 
   async createTimeAndWork(
-    patientData: TimeAndWorkEntity
-  ): Promise<TimeAndWorkEntity> {
+    patientData: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllTimeAndWork(): Promise<TimeAndWorkEntity[]> {
+  async getAllTimeAndWork(): Promise<TimeAndWorkAttributes[]> {
     return await this.repository.find();
   }
 }

@@ -1,5 +1,4 @@
-import { ChildCaregiverReadinessEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity";
-import { DisclosureEligibilityEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/DisclosureEligibilityEntity";
+import { ChildCaregiverReadinessAttributes, ChildDisclosureEligibilityAttributes } from "otz-types";
 import { IDisclosureEligibilityInteractor } from "../../../interfaces/disclosure/partial/IDisclosureEligibilityInteractor";
 import { IDisclosureEligibilityRepository } from "../../../interfaces/disclosure/partial/IDisclosureEligibilityRepository";
 
@@ -14,19 +13,19 @@ export class DisclosureEligibilityInteractor implements IDisclosureEligibilityIn
   //   return await this.repository.count()
   // };
 
-  async getAllDisclosureEligibility(): Promise<DisclosureEligibilityEntity[]> {
+  async getAllDisclosureEligibility(): Promise<ChildDisclosureEligibilityAttributes[]> {
     return await this.repository.find()
   }
 
-  async getDisclosureEligibilityById(id: string): Promise<DisclosureEligibilityEntity | null> {
+  async getDisclosureEligibilityById(id: string): Promise<ChildDisclosureEligibilityAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createDisclosureEligibility(patientData: DisclosureEligibilityEntity, readiness: ChildCaregiverReadinessEntity): Promise<DisclosureEligibilityEntity> {
+  async createDisclosureEligibility(patientData: ChildDisclosureEligibilityAttributes, readiness: ChildCaregiverReadinessAttributes): Promise<ChildDisclosureEligibilityAttributes> {
     return await this.repository.create(patientData, readiness);
   }
 
-  async getAllDisclosureEligibilityByVisitId(): Promise<DisclosureEligibilityEntity[]> {
+  async getAllDisclosureEligibilityByVisitId(): Promise<ChildDisclosureEligibilityAttributes[]> {
     return await this.repository.find();
   }
 }

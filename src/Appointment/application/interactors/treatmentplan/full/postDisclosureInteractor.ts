@@ -1,5 +1,4 @@
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
-import { PostDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/PostDisclosureEntity";
+import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
 import { IPostDisclosureInteractor } from "../../../interfaces/disclosure/full/IPostDisclosureInteractor";
 import { IPostDisclosureRepository } from "../../../interfaces/disclosure/full/IPostDisclosureRepository";
 
@@ -14,19 +13,19 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
   //   return await this.repository.count()
   // };
 
-  async getAllPostDisclosure(): Promise<PostDisclosureEntity[]> {
+  async getAllPostDisclosure(): Promise<PostDisclosureAttributes[]> {
     return await this.repository.find()
   }
 
-  async getPostDisclosureById(id: string): Promise<PostDisclosureEntity | null> {
+  async getPostDisclosureById(id: string): Promise<PostDisclosureAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createPostDisclosure(patientData: PostDisclosureEntity, readiness: ExecuteDisclosureEntity): Promise<PostDisclosureEntity> {
+  async createPostDisclosure(patientData: PostDisclosureAttributes, readiness: ExecuteDisclosureAttributes): Promise<PostDisclosureAttributes> {
     return await this.repository.create(patientData, readiness);
   }
 
-  async getAllPostDisclosureByVisitId(): Promise<PostDisclosureEntity[]> {
+  async getAllPostDisclosureByVisitId(): Promise<PostDisclosureAttributes[]> {
     return await this.repository.find();
   }
 }
