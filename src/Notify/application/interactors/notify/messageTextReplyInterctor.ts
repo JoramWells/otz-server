@@ -1,4 +1,4 @@
-import { MessageTextReplyEntity } from "../../../domain/entities/notify/MessageTextReplyEntity";
+import { MessageTextReplyAttributes } from "otz-types";
 import { IMessageTextReplyInteractor } from "../../interfaces/notify/IMessageTextReplyInteractor";
 import { IMessageTextReplyRepository } from "../../interfaces/notify/IMessageTextReplyRepository";
 
@@ -14,15 +14,15 @@ export class MessageTextReplyInteractor implements IMessageTextReplyInteractor {
   //   return await this.repository.count()
   // };
 
-  async getMessageTextReplyById(id: string): Promise<MessageTextReplyEntity | null> {
+  async getMessageTextReplyById(id: string): Promise<MessageTextReplyAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createMessageTextReply(patientData: MessageTextReplyEntity): Promise<MessageTextReplyEntity> {
+  async createMessageTextReply(patientData: MessageTextReplyAttributes): Promise<MessageTextReplyAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllMessageTextReplies(): Promise<MessageTextReplyEntity[]> {
+  async getAllMessageTextReplies(): Promise<MessageTextReplyAttributes[]> {
     return await this.repository.find();
   }
 }

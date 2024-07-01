@@ -1,5 +1,5 @@
 
-import { NotificationTypeEntity } from "../../../domain/entities/notify/NotificationTypeEntity";
+import { NotificationTypeAttributes } from "otz-types";
 import { INotificationTypeInteractor } from "../../interfaces/notify/INotificationTypeInteractor";
 import { INotificationTypeRepository } from "../../interfaces/notify/INotificationTypeRepository";
 
@@ -10,15 +10,15 @@ export class NotificationTypeInteractor implements INotificationTypeInteractor {
     this.repository = repository;
   }
   
-  async getNotificationTypeById(id: string): Promise<NotificationTypeEntity | null> {
+  async getNotificationTypeById(id: string): Promise<NotificationTypeAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createNotificationType(patientData: NotificationTypeEntity): Promise<NotificationTypeEntity> {
+  async createNotificationType(patientData: NotificationTypeAttributes): Promise<NotificationTypeAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllNotificationTypes(): Promise<NotificationTypeEntity[]> {
+  async getAllNotificationTypes(): Promise<NotificationTypeAttributes[]> {
     return await this.repository.find();
   }
 }

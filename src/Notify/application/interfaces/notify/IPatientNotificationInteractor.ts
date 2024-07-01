@@ -1,7 +1,7 @@
-import { PatientNotificationEntity } from "../../../domain/entities/notify/PatientNotificationEntity";
+import { PatientNotificationAttributes } from "otz-types";
 
 export interface IPatientNotificationInteractor {
-  createPatientNotification: (data: PatientNotificationEntity) => Promise<PatientNotificationEntity>;
-  getAllPatientNotifications: () => Promise<PatientNotificationEntity[]>;
-  getPatientNotificationById: (id: string) => Promise<PatientNotificationEntity | null>;
+  createPatientNotification: (data: PatientNotificationAttributes) => Promise<PatientNotificationAttributes>;
+  getAllPatientNotifications: () => Promise<PatientNotificationAttributes[]>;
+  getPatientNotificationById: (id: string) => Promise<PatientNotificationAttributes | null>;
 }

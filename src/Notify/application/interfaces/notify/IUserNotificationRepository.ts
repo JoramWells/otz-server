@@ -1,7 +1,7 @@
-import { UserNotificationEntity } from "../../../domain/entities/notify/UserNotificationEntity.model";
+import { UserNotificationAttributes } from "otz-types";
 
 export interface IUserNotificationRepository {
-  create: (data: UserNotificationEntity ) => Promise<UserNotificationEntity>;
-  find: () => Promise<UserNotificationEntity[]>;
-  findById: (id: string) => Promise<UserNotificationEntity | null>;
+  create: (data: UserNotificationAttributes ) => Promise<UserNotificationAttributes>;
+  find: () => Promise<UserNotificationAttributes[]>;
+  findById: (id: string) => Promise<UserNotificationAttributes | null>;
 }

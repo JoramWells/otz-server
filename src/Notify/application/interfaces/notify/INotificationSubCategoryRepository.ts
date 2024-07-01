@@ -1,7 +1,7 @@
-import { NotificationSubCategoryEntity } from "../../../domain/entities/notify/NotificationSubCategoryEntity";
+import { NotificationSubCategoryAttributes } from "otz-types";
 
 export interface INotificationSubCategoryRepository {
-  create: (data: NotificationSubCategoryEntity ) => Promise<NotificationSubCategoryEntity>;
-  find: () => Promise<NotificationSubCategoryEntity[]>;
-  findById: (id: string) => Promise<NotificationSubCategoryEntity | null>;
+  create: (data: NotificationSubCategoryAttributes ) => Promise<NotificationSubCategoryAttributes>;
+  find: () => Promise<NotificationSubCategoryAttributes[]>;
+  findById: (id: string) => Promise<NotificationSubCategoryAttributes | null>;
 }

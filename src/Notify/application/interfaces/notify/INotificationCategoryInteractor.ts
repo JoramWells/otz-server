@@ -1,7 +1,7 @@
-import { NotificationCategoryEntity } from "../../../domain/entities/notify/NotificationCategoryEntity";
+import { NotificationCategoryAttributes } from "otz-types";
 
 export interface INotificationCategoryInteractor {
-  createNotificationCategory: (data: NotificationCategoryEntity) => Promise<NotificationCategoryEntity>;
-  getAllNotificationCategories: () => Promise<NotificationCategoryEntity[]>;
-  getNotificationCategoryById: (id: string) => Promise<NotificationCategoryEntity | null>;
+  createNotificationCategory: (data: NotificationCategoryAttributes) => Promise<NotificationCategoryAttributes>;
+  getAllNotificationCategories: () => Promise<NotificationCategoryAttributes[]>;
+  getNotificationCategoryById: (id: string) => Promise<NotificationCategoryAttributes | null>;
 }

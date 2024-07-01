@@ -3,10 +3,10 @@
 import moment from 'moment';
 import { IPatientNotificationRepository } from '../../../application/interfaces/notify/IPatientNotificationRepository';
 // import { mmasCache } from '../../../constants/appointmentCache';
-import { PatientNotificationEntity } from '../../../domain/entities/notify/PatientNotificationEntity';
 import { PatientNotification } from '../../../domain/models/notify/patientNotifications.model';
 import { Patient } from '../../../domain/models/patients.models';
 import { RedisAdapter } from '../redisAdapter'
+import { PatientNotificationAttributes } from 'otz-types';
 // import { createClient } from 'redis'
 
 export class PatientNotificationRepository implements IPatientNotificationRepository {
@@ -16,14 +16,14 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
   // }
 
   async create(
-    data: PatientNotificationEntity
-  ): Promise<PatientNotificationEntity> {
+    data: PatientNotificationAttributes
+  ): Promise<PatientNotificationAttributes> {
     const results  = await PatientNotification.create(data);
 
     return results;
   }
 
-  async find(): Promise<PatientNotificationEntity[]> {
+  async find(): Promise<PatientNotificationAttributes[]> {
     const currentDate = moment().format('YYYY-MM-DD')
     await this.redisClient.connect();
     // check if patient
@@ -56,11 +56,11 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: PatientNotificationEntity[] = JSON.parse(cachedPatients);
+    // const results: PatientNotificationAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<PatientNotificationEntity | null> {
+  async findById(id: string): Promise<PatientNotificationAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: PatientNotification | null = await PatientNotification.findOne({
@@ -86,7 +86,7 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: PatientNotificationEntity = JSON.parse(cachedData);
+    // const results: PatientNotificationAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

@@ -2,8 +2,8 @@
 // import { logger } from '../../utils/logger'
 
 // import { mmasCache } from '../../../constants/appointmentCache';
+import { NotificationCategoryAttributes } from 'otz-types';
 import { INotificationCategoryRepository } from '../../../application/interfaces/notify/INotificationCategoryRepository';
-import { NotificationCategoryEntity } from '../../../domain/entities/notify/NotificationCategoryEntity';
 import { NotificationCategory } from '../../../domain/models/notify/notificationCategory.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -15,14 +15,14 @@ export class NotificationCategoryRepository implements INotificationCategoryRepo
   // }
 
   async create(
-    data: NotificationCategoryEntity
-  ): Promise<NotificationCategoryEntity> {
+    data: NotificationCategoryAttributes
+  ): Promise<NotificationCategoryAttributes> {
     const results = await NotificationCategory.create(data);
 
     return results;
   }
 
-  async find(): Promise<NotificationCategoryEntity[]> {
+  async find(): Promise<NotificationCategoryAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -44,11 +44,11 @@ export class NotificationCategoryRepository implements INotificationCategoryRepo
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: NotificationCategoryEntity[] = JSON.parse(cachedPatients);
+    // const results: NotificationCategoryAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<NotificationCategoryEntity | null> {
+  async findById(id: string): Promise<NotificationCategoryAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: NotificationCategory | null = await NotificationCategory.findOne({
@@ -74,7 +74,7 @@ export class NotificationCategoryRepository implements INotificationCategoryRepo
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: NotificationCategoryEntity = JSON.parse(cachedData);
+    // const results: NotificationCategoryAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

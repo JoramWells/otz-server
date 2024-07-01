@@ -1,7 +1,7 @@
-import { NotificationEntity } from "../../../domain/entities/notify/NotificationEntity";
+import { NotificationAttributes } from "otz-types";
 
 export interface INotificationRepository {
-  create: (data: NotificationEntity) => Promise<NotificationEntity>;
-  find: () => Promise<NotificationEntity[]>;
-  findById: (id: string) => Promise<NotificationEntity | null>;
+  create: (data: NotificationAttributes) => Promise<NotificationAttributes>;
+  find: () => Promise<NotificationAttributes[]>;
+  findById: (id: string) => Promise<NotificationAttributes | null>;
 }

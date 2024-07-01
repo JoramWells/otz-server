@@ -3,8 +3,8 @@
 
 // import { mmasCache } from '../../../constants/appointmentCache';
 
+import { UserNotificationAttributes } from 'otz-types';
 import { IUserNotificationRepository } from '../../../application/interfaces/notify/IUserNotificationRepository';
-import { UserNotificationEntity } from '../../../domain/entities/notify/UserNotificationEntity.model';
 import { UserNotification } from '../../../domain/models/notify/userNotifications.model';
 import { Patient } from '../../../domain/models/patients.models';
 import { RedisAdapter } from '../redisAdapter'
@@ -17,8 +17,8 @@ export class UserNotificationRepository implements IUserNotificationRepository {
   // }
 
   async create(
-    data: UserNotificationEntity
-  ): Promise<UserNotificationEntity> {
+    data: UserNotificationAttributes
+  ): Promise<UserNotificationAttributes> {
     const results  = await UserNotification.create(data);
 
     return results;
@@ -26,7 +26,7 @@ export class UserNotificationRepository implements IUserNotificationRepository {
   
 
 
-  async find(): Promise<UserNotificationEntity[]> {
+  async find(): Promise<UserNotificationAttributes[]> {
     await this.redisClient.connect();
     // check if User
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -55,11 +55,11 @@ export class UserNotificationRepository implements IUserNotificationRepository {
     // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: UserNotificationEntity[] = JSON.parse(cachedUsers);
+    // const results: UserNotificationAttributes[] = JSON.parse(cachedUsers);
     return results;
   }
 
-  async findById(id: string): Promise<UserNotificationEntity | null> {
+  async findById(id: string): Promise<UserNotificationAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: UserNotification | null = await UserNotification.findOne({
@@ -85,7 +85,7 @@ export class UserNotificationRepository implements IUserNotificationRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: UserNotificationEntity = JSON.parse(cachedData);
+    // const results: UserNotificationAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

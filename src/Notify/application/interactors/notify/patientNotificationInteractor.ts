@@ -1,4 +1,4 @@
-import { PatientNotificationEntity } from "../../../domain/entities/notify/PatientNotificationEntity";
+import { PatientNotificationAttributes } from "otz-types";
 import { IPatientNotificationInteractor } from "../../interfaces/notify/IPatientNotificationInteractor";
 import { IPatientNotificationRepository } from "../../interfaces/notify/IPatientNotificationRepository";
 
@@ -14,15 +14,15 @@ export class PatientNotificationInteractor implements IPatientNotificationIntera
   //   return await this.repository.count()
   // };
 
-  async getPatientNotificationById(id: string): Promise<PatientNotificationEntity | null> {
+  async getPatientNotificationById(id: string): Promise<PatientNotificationAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createPatientNotification(patientData: PatientNotificationEntity): Promise<PatientNotificationEntity> {
+  async createPatientNotification(patientData: PatientNotificationAttributes): Promise<PatientNotificationAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllPatientNotifications(): Promise<PatientNotificationEntity[]> {
+  async getAllPatientNotifications(): Promise<PatientNotificationAttributes[]> {
     return await this.repository.find();
   }
 }

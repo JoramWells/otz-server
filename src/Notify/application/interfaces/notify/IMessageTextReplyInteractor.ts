@@ -1,7 +1,7 @@
-import { MessageTextReplyEntity } from "../../../domain/entities/notify/MessageTextReplyEntity";
+import { MessageTextReplyAttributes } from "otz-types";
 
 export interface IMessageTextReplyInteractor {
-  createMessageTextReply: (data: MessageTextReplyEntity) => Promise<MessageTextReplyEntity>;
-  getAllMessageTextReplies: () => Promise<MessageTextReplyEntity[]>;
-  getMessageTextReplyById: (id: string) => Promise<MessageTextReplyEntity | null>;
+  createMessageTextReply: (data: MessageTextReplyAttributes) => Promise<MessageTextReplyAttributes>;
+  getAllMessageTextReplies: () => Promise<MessageTextReplyAttributes[]>;
+  getMessageTextReplyById: (id: string) => Promise<MessageTextReplyAttributes | null>;
 }

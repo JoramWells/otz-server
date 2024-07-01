@@ -3,8 +3,8 @@
 
 // import { mmasCache } from '../../../constants/appointmentCache';
 
+import { NotificationTypeAttributes } from 'otz-types';
 import { INotificationTypeRepository } from '../../../application/interfaces/notify/INotificationTypeRepository';
-import { NotificationTypeEntity } from '../../../domain/entities/notify/NotificationTypeEntity';
 import { NotificationType } from '../../../domain/models/notify/notificationType.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -16,14 +16,14 @@ export class NotificationTypeRepository implements INotificationTypeRepository {
   // }
 
   async create(
-    data: NotificationTypeEntity
-  ): Promise<NotificationTypeEntity> {
+    data: NotificationTypeAttributes
+  ): Promise<NotificationTypeAttributes> {
     const results = await NotificationType.create(data);
 
     return results;
   }
 
-  async find(): Promise<NotificationTypeEntity[]> {
+  async find(): Promise<NotificationTypeAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -45,11 +45,11 @@ export class NotificationTypeRepository implements INotificationTypeRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: NotificationTypeEntity[] = JSON.parse(cachedPatients);
+    // const results: NotificationTypeAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<NotificationTypeEntity | null> {
+  async findById(id: string): Promise<NotificationTypeAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: NotificationType | null = await NotificationType.findOne({
@@ -75,7 +75,7 @@ export class NotificationTypeRepository implements INotificationTypeRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: NotificationTypeEntity = JSON.parse(cachedData);
+    // const results: NotificationTypeAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

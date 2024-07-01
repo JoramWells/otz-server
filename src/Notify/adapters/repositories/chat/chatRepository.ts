@@ -2,12 +2,12 @@
 // import { logger } from '../../utils/logger'
 import { Op, Sequelize } from 'sequelize';
 import { IChatRepository } from '../../../application/interfaces/IChatRepository';
-import { ChatEntity } from '../../../domain/entities/chat/ChatEntity';
-import { Chat, ChatAttributes } from '../../../domain/models/chats/chat.model';
+import { Chat  } from '../../../domain/models/chats/chat.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { RedisAdapter } from '../redisAdapter'
 import { Patient } from '../../../domain/models/patients.models';
 import { Messages } from '../../../domain/models/chats/messages.model';
+import { ChatAttributes } from 'otz-types';
 // import { createClient } from 'redis'
 
 export class ChatRepository implements IChatRepository {
@@ -16,7 +16,7 @@ export class ChatRepository implements IChatRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(id1:string, id2: string  ): Promise<ChatEntity> {
+  async create(id1:string, id2: string  ): Promise<ChatAttributes> {
 
     const chatExists = await Chat.findOne({
       where: Sequelize.literal(`members @>ARRAY['${id1}', '${id2}']::uuid[]`)
@@ -35,7 +35,7 @@ export class ChatRepository implements IChatRepository {
 
   }
 
-  async find(): Promise<ChatEntity[]> {
+  async find(): Promise<ChatAttributes[]> {
     // await this.redisClient.connect();
     
     // check if patient
@@ -58,12 +58,12 @@ export class ChatRepository implements IChatRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ChatEntity[] = JSON.parse(cachedPatients);
+    // const results: ChatAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
   
-  async findById(id: string): Promise<ChatEntity[] | null> {
+  async findById(id: string): Promise<ChatAttributes[] | null> {
 if(id){
   // await this.redisClient.connect();
   // if ((await this.redisClient.get(id)) === null) {
@@ -126,7 +126,7 @@ if(id){
   // if (cachedData === null) {
   //   return null;
   // }
-  // const results: ChatEntity = JSON.parse(cachedData);
+  // const results: ChatAttributes = JSON.parse(cachedData);
   // console.log("fetched from cace!");
 
   return recentChats;

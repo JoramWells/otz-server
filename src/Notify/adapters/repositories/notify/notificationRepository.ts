@@ -3,8 +3,8 @@
 
 // import { mmasCache } from '../../../constants/appointmentCache';
 
+import { NotificationAttributes } from 'otz-types';
 import { INotificationRepository } from '../../../application/interfaces/notify/INotificationRepository';
-import { NotificationEntity } from '../../../domain/entities/notify/NotificationEntity';
 import { Notification } from '../../../domain/models/notify/notification.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -16,14 +16,14 @@ export class NotificationRepository implements INotificationRepository {
   // }
 
   async create(
-    data: NotificationEntity
-  ): Promise<NotificationEntity> {
+    data: NotificationAttributes
+  ): Promise<NotificationAttributes> {
     const results = await Notification.create(data);
 
     return results;
   }
 
-  async find(): Promise<NotificationEntity[]> {
+  async find(): Promise<NotificationAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -45,11 +45,11 @@ export class NotificationRepository implements INotificationRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: NotificationEntity[] = JSON.parse(cachedPatients);
+    // const results: NotificationAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<NotificationEntity | null> {
+  async findById(id: string): Promise<NotificationAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: Notification | null = await Notification.findOne({
@@ -75,7 +75,7 @@ export class NotificationRepository implements INotificationRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: NotificationEntity = JSON.parse(cachedData);
+    // const results: NotificationAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

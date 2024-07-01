@@ -4,8 +4,8 @@ import { Op, Sequelize } from 'sequelize';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { RedisAdapter } from '../redisAdapter'
 import { IMessageRepository } from '../../../application/interfaces/chats/IMessageRepository';
-import { MessageEntity } from '../../../domain/entities/chat/MessageEntity';
 import { Messages } from '../../../domain/models/chats/messages.model';
+import { MessagesAttributes } from 'otz-types';
 // import { createClient } from 'redis'
 
 export class MessagesRepository implements IMessageRepository {
@@ -14,7 +14,7 @@ export class MessagesRepository implements IMessageRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: MessageEntity  ): Promise<MessageEntity> {
+  async create(data: MessagesAttributes  ): Promise<MessagesAttributes> {
 
 
       const results = await Messages.create(data)
@@ -23,7 +23,7 @@ export class MessagesRepository implements IMessageRepository {
 
   }
 
-  async find(): Promise<MessageEntity[]> {
+  async find(): Promise<MessagesAttributes[]> {
     // await this.redisClient.connect();
     
     // check if patient
@@ -46,11 +46,11 @@ export class MessagesRepository implements IMessageRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: MessageEntity[] = JSON.parse(cachedPatients);
+    // const results: MessagesAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<MessageEntity[] | null> {
+  async findById(id: string): Promise<MessagesAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: Messages[] | null = await Messages.findAll({
@@ -76,7 +76,7 @@ export class MessagesRepository implements IMessageRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MessageEntity = JSON.parse(cachedData);
+    // const results: MessagesAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

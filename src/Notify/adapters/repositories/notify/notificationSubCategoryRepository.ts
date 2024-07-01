@@ -2,8 +2,8 @@
 // import { logger } from '../../utils/logger'
 
 // import { mmasCache } from '../../../constants/appointmentCache';
+import { NotificationSubCategoryAttributes } from 'otz-types';
 import { INotificationSubCategoryRepository } from '../../../application/interfaces/notify/INotificationSubCategoryRepository';
-import { NotificationSubCategoryEntity } from '../../../domain/entities/notify/NotificationSubCategoryEntity';
 import { NotificationSubCategory } from '../../../domain/models/notify/notificationSubCategory.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -15,14 +15,14 @@ export class NotificationSubCategoryRepository implements INotificationSubCatego
   // }
 
   async create(
-    data: NotificationSubCategoryEntity
-  ): Promise<NotificationSubCategoryEntity> {
+    data: NotificationSubCategoryAttributes
+  ): Promise<NotificationSubCategoryAttributes> {
     const results = await NotificationSubCategory.create(data);
 
     return results;
   }
 
-  async find(): Promise<NotificationSubCategoryEntity[]> {
+  async find(): Promise<NotificationSubCategoryAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -44,11 +44,11 @@ export class NotificationSubCategoryRepository implements INotificationSubCatego
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: NotificationSubCategoryEntity[] = JSON.parse(cachedPatients);
+    // const results: NotificationSubCategoryAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<NotificationSubCategoryEntity | null> {
+  async findById(id: string): Promise<NotificationSubCategoryAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: NotificationSubCategory | null = await NotificationSubCategory.findOne({
@@ -74,7 +74,7 @@ export class NotificationSubCategoryRepository implements INotificationSubCatego
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: NotificationSubCategoryEntity = JSON.parse(cachedData);
+    // const results: NotificationSubCategoryAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

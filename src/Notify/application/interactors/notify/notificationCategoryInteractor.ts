@@ -1,4 +1,4 @@
-import { NotificationCategoryEntity } from "../../../domain/entities/notify/NotificationCategoryEntity";
+import { NotificationCategoryAttributes } from "otz-types";
 import { INotificationCategoryInteractor } from "../../interfaces/notify/INotificationCategoryInteractor";
 import { INotificationCategoryRepository } from "../../interfaces/notify/INotificationCategoryRepository";
 
@@ -11,15 +11,15 @@ export class NotificationCategoryInteractor implements INotificationCategoryInte
     this.repository = repository;
   }
   
-  async getNotificationCategoryById(id: string): Promise<NotificationCategoryEntity | null> {
+  async getNotificationCategoryById(id: string): Promise<NotificationCategoryAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createNotificationCategory(patientData: NotificationCategoryEntity): Promise<NotificationCategoryEntity> {
+  async createNotificationCategory(patientData: NotificationCategoryAttributes): Promise<NotificationCategoryAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllNotificationCategories(): Promise<NotificationCategoryEntity[]> {
+  async getAllNotificationCategories(): Promise<NotificationCategoryAttributes[]> {
     return await this.repository.find();
   }
 }

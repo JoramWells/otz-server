@@ -1,7 +1,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import { MessageTextReplyAttributes } from 'otz-types';
 import { IMessageTextReplyRepository } from '../../../application/interfaces/notify/IMessageTextReplyRepository';
-import { MessageTextReplyEntity } from '../../../domain/entities/notify/MessageTextReplyEntity';
 import { MessageTextReply } from '../../../domain/models/notify/messageTextReply.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { RedisAdapter } from '../redisAdapter'
@@ -14,14 +14,14 @@ export class MessageTextReplyRepository implements IMessageTextReplyRepository {
   // }
 
   async create(
-    data: MessageTextReplyEntity
-  ): Promise<MessageTextReplyEntity> {
+    data: MessageTextReplyAttributes
+  ): Promise<MessageTextReplyAttributes> {
     const results = await MessageTextReply.create(data);
 
     return results;
   }
 
-  async find(): Promise<MessageTextReplyEntity[]> {
+  async find(): Promise<MessageTextReplyAttributes[]> {
     // await this.redisClient.connect();
     
     // check if patient
@@ -44,11 +44,11 @@ export class MessageTextReplyRepository implements IMessageTextReplyRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: MessageTextReplyEntity[] = JSON.parse(cachedPatients);
+    // const results: MessageTextReplyAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<MessageTextReplyEntity | null> {
+  async findById(id: string): Promise<MessageTextReplyAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: MessageTextReply | null = await MessageTextReply.findOne({
@@ -74,7 +74,7 @@ export class MessageTextReplyRepository implements IMessageTextReplyRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MessageTextReplyEntity = JSON.parse(cachedData);
+    // const results: MessageTextReplyAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

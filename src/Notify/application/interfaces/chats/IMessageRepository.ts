@@ -1,7 +1,7 @@
-import { MessageEntity } from "../../../domain/entities/chat/MessageEntity";
+import { MessagesAttributes } from "otz-types";
 
 export interface IMessageRepository {
-  create: (data: MessageEntity) => Promise<MessageEntity>;
-  find: () => Promise<MessageEntity[]>;
-  findById: (id: string) => Promise<MessageEntity[] | null>;
+  create: (data: MessagesAttributes) => Promise<MessagesAttributes>;
+  find: () => Promise<MessagesAttributes[]>;
+  findById: (id: string) => Promise<MessagesAttributes[] | null>;
 }

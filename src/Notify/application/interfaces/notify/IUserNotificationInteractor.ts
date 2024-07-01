@@ -1,7 +1,7 @@
-import { UserNotificationEntity } from "../../../domain/entities/notify/UserNotificationEntity.model";
+import { UserNotificationAttributes } from "otz-types";
 
 export interface IUserNotificationInteractor {
-  createUserNotification: (data: UserNotificationEntity) => Promise<UserNotificationEntity>;
-  getAllUserNotifications: () => Promise<UserNotificationEntity[]>;
-  getUserNotificationById: (id: string) => Promise<UserNotificationEntity | null>;
+  createUserNotification: (data: UserNotificationAttributes) => Promise<UserNotificationAttributes>;
+  getAllUserNotifications: () => Promise<UserNotificationAttributes[]>;
+  getUserNotificationById: (id: string) => Promise<UserNotificationAttributes | null>;
 }
