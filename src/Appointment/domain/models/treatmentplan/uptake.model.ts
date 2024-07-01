@@ -1,8 +1,8 @@
 import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { TimeAndWork } from "./timeAndWork.model";
-import { Prescription } from "../art/prescription.model";
 import { connect } from "../../../db/connect";
 import { UptakeAttributes } from "otz-types";
+import { Prescription } from "../art/prescription.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 
