@@ -18,6 +18,8 @@ router.get('/detail/:id', patientController.onGetPatientById.bind(patientControl
 router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))
 router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
 router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientController))
+router.post("/login", patientController.login.bind(patientController));
+
 // router.delete('/delete/:id', deletePatient);
 
 module.exports = router

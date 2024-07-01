@@ -172,12 +172,13 @@ export class PatientController {
   //
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, password } = req.params;
-      const results = await this.interactor.login(email, password);
+      const { firstName, password } = req.body;
+      const results = await this.interactor.login(firstName, password);
       res.status(200).json(results);
       next();
     } catch (error) {
       next(error);
+
       console.log(error);
     }
   }

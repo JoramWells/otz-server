@@ -7,6 +7,7 @@ import { Chat, ChatAttributes } from '../../../domain/models/chats/chat.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { RedisAdapter } from '../redisAdapter'
 import { Patient } from '../../../domain/models/patients.models';
+import { Messages } from '../../../domain/models/chats/messages.model';
 // import { createClient } from 'redis'
 
 export class ChatRepository implements IChatRepository {
@@ -61,63 +62,75 @@ export class ChatRepository implements IChatRepository {
     return results;
   }
 
+  
   async findById(id: string): Promise<ChatEntity[] | null> {
-    // await this.redisClient.connect();
-    // if ((await this.redisClient.get(id)) === null) {
-      const results: ChatAttributes[] | null = await Chat.findAll({
-        where: {
-           members:{
-            [Op.contains]:[id]
-           },
-        },
-      });
-      const recentChats = [];
-      if(results){
-         const chatPromises = results.map(async(chat)=>{
-          if(chat){
-            const otherMemberID = chat.members?.find(memberID => memberID !==id)
-            const receivers = await Patient.findOne({
-              attributes:['firstName', 'middleName'],
-              where:{
-                id: otherMemberID
-              }
-            })
-            return {
-              chat: chat.dataValues,
-              receiver:receivers?.dataValues}
-          }
-          return null
-         }) 
-      const chatReceivers = await Promise.all(chatPromises);
-chatReceivers.forEach(receiver=>{
-  if(receiver){
-    recentChats.push(receiver)
-  }
-})
+if(id){
+  // await this.redisClient.connect();
+  // if ((await this.redisClient.get(id)) === null) {
+  const results: ChatAttributes[] | null = await Chat.findAll({
+    include: [
+      {
+        model: Messages,
+        attributes: ["text", "createdAt"],
+        limit: 1,
+        order: [["createdAt", "DESC"]],
+      },
+    ],
+    where: {
+      members: {
+        [Op.contains]: [id],
+      },
+    },
+  });
+  const recentChats = [];
+  if (results) {
+    const chatPromises = results.map(async (chat) => {
+      if (chat) {
+        const otherMemberID = chat.members?.find((memberID) => memberID !== id);
+        const receivers = await Patient.findOne({
+          attributes: ['id',"firstName", "middleName"],
+          where: {
+            id: otherMemberID,
+          },
+        });
+        return {
+          chat: chat.dataValues,
+          receiver: receivers?.dataValues,
+        };
       }
-      console.log(recentChats)
+      return null;
+    });
+    const chatReceivers = await Promise.all(chatPromises);
+    chatReceivers.forEach((receiver) => {
+      if (receiver) {
+        recentChats.push(receiver);
+      }
+    });
+  }
+  console.log(recentChats);
 
+  // const patientResults: AppointmentEntity = {
+  //   firstName: results?.firstName,
+  //   middleName: results?.middleName,
+  //   sex: results?.sex,
+  //   phoneNo: results?.phoneNo,
+  //   idNo: results?.idNo,
+  //   occupationID: results?.occupationID,
+  // };
+  //   await this.redisClient.set(id, JSON.stringify(results));
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
-    //   await this.redisClient.set(id, JSON.stringify(results));
+  //   return results;
+  // }
 
-    //   return results;
-    // }
+  // const cachedData: string | null = await this.redisClient.get(id);
+  // if (cachedData === null) {
+  //   return null;
+  // }
+  // const results: ChatEntity = JSON.parse(cachedData);
+  // console.log("fetched from cace!");
 
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: ChatEntity = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
-    return recentChats;
+  return recentChats;
+}
+return null
   }
 }

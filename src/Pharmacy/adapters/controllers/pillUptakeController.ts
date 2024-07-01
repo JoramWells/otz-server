@@ -46,6 +46,7 @@ export class PillUptakeController {
   async onGetPillUptakeById (req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params
+      if(id === 'undefined') return;
       const result = await this.interactor.getPillUptakeById(id)
       res.status(200).json(result)
       next()

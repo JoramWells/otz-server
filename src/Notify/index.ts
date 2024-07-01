@@ -37,7 +37,7 @@ const sequelize = require('./db/connect');
 const app = express();
 
 app.use(cors());
-app.use(helmet())
+// app.use(helmet())
 //
 app.use(express.json());
 app.use(express.urlencoded({
@@ -111,12 +111,44 @@ const io = new Server(server, {
 // set up socket.io instance
 app.locals.io = io;
 
+let onlineUsers: any[]=[]
+
 // check connection
-io.on('connection', (client) => {
-  console.log('Connected to IO sever', client.id);
+io.on('connection', (socket) => {
+  console.log('Connected to IO sever', socket.id);
+
+  // 
+  socket.on('addNewUser', patientID=>{
+    !onlineUsers.some(user=>user.patientID === patientID) &&
+    onlineUsers.push({
+      patientID,
+      clientId: socket.id
+    })
+
+    // 
+      console.log(onlineUsers, "online");
+
+      io.emit("getOnlineUsers", onlineUsers);
+
+  })
+
+
+// 
+socket.on('sendMessage', message=>{
+  const receiver = onlineUsers.find(user=> user.patientID === message.recipientID)
+  if(receiver){
+    io.to(receiver.clientId).emit('getMessage', message)
+    console.log('Message sent!!', receiver.clientId)
+
+  }
+  console.log(message.recipientID, receiver);
+  console.log(onlineUsers)
+})
 
   //
-  client.on('disconnect', () => {
+  socket.on('disconnect', () => {
+    onlineUsers = onlineUsers.filter(user => user.clientId !== socket.id)
+    io.emit("getOnlineUsers", onlineUsers);
     console.log('A user disconnected');
   });
 });

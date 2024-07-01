@@ -13,6 +13,7 @@ import { PatientVisits } from '../../domain/models/patientVisits.model'
 import { Patient } from '../../domain/models/patients.models'
 import { School } from '../../domain/models/school/school.model'
 import { logger } from '../../utils/logger'
+import bcrypt from 'bcrypt'
 // import { createClient } from 'redis'
 import { RedisAdapter } from './redisAdapter'
 
@@ -192,16 +193,28 @@ export class PatientRepository implements IPatientRepository {
   }
 
   //
-  async login(email: string, password: string): Promise<PatientEntity | null> {
-    const user: Patient | null = await Patient.findOne({
-      where: {
-        firstName: email,
-      },
-    });
+  async login(
+    firstName: string,
+    password: string
+  ): Promise<PatientEntity | null> {
+    try {
+      const user: Patient | null = await Patient.findOne({
+        where: { firstName: firstName },
+      });
 
-    if (user !== null && user.password === password) {
-      return user;
+      if (user !== null && user.password) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (isMatch) {
+          return user;
+        } else {
+          console.log("Password does not match!!");
+          return null;
+        }
+      }
+      return null;
+    } catch (error) {
+      console.log("Error comparing password!!", error);
+      throw new Error("Error logging in user");
     }
-    return null;
   }
 }

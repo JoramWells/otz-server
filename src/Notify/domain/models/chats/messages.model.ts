@@ -60,6 +60,7 @@ Messages.init(
 );
 
 Messages.belongsTo(Chat,{foreignKey:'chatID'})
+Chat.hasMany(Messages, {foreignKey:'chatID'})
 Messages.belongsTo(Patient ,{ foreignKey: "senderID" });
 
 // (async () => {

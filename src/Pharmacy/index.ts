@@ -21,6 +21,7 @@ import { adherenceMonitor } from './utils/adherence'
 import { pillUptakeRouter } from './routes/pillUptake.routes'
 const cors = require('cors')
 
+
 const app: Application = express()
 
 const PORT = process.env.PORT || 5003
