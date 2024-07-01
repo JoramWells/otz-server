@@ -4,9 +4,6 @@ import { Patient } from "../../patients.models";
 import { PatientVisits } from "../../patientVisits.model";
 import { ChildCaregiverReadinessAttributes } from "otz-types";
 
-
-
-
 export class ChildCaregiverReadiness extends Model<ChildCaregiverReadinessAttributes> implements ChildCaregiverReadinessAttributes {
   isFreeChildCaregiverFromSevereIllness!: boolean;
   isConsistentSocialSupport!: boolean;

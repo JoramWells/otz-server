@@ -1,9 +1,9 @@
-import { FullDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/FullDisclosureEntity";
+import { FullDisclosureAttributes } from "otz-types";
 
 export interface IFullDisclosureRepository {
-  create: (data: FullDisclosureEntity) => Promise<FullDisclosureEntity>;
-  find: () => Promise<FullDisclosureEntity[]>;
-  findById: (id: string) => Promise<FullDisclosureEntity | null>;
-  findAllByVisitId: (id: string) => Promise<FullDisclosureEntity[] | null>;
+  create: (data: FullDisclosureAttributes) => Promise<FullDisclosureAttributes>;
+  find: () => Promise<FullDisclosureAttributes[]>;
+  findById: (id: string) => Promise<FullDisclosureAttributes | null>;
+  findAllByVisitId: (id: string) => Promise<FullDisclosureAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

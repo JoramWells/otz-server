@@ -5,15 +5,6 @@ import { PatientVisits } from "../patientVisits.model";
 import { MMASAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
- enum DifficultyRemembering {
-   Never = "never",
-   Once = "once in a while",
-   Sometimes = "sometimes",
-   Usually = "usually",
-   AllTime = "all the time",
- }
-
-
 
 export class MMAS extends Model<MMASAttributes> implements MMASAttributes {
   id: string | undefined;

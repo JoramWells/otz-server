@@ -1,14 +1,14 @@
-import { PartialDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/PartialDisclosureEntity";
+import { PartialDisclosureAttributes } from "otz-types";
 
 export interface IPartialDisclosureInteractor {
   createPartialDisclosure: (
-    data: PartialDisclosureEntity
-  ) => Promise<PartialDisclosureEntity>;
-  getAllPartialDisclosure: () => Promise<PartialDisclosureEntity[]>;
+    data: PartialDisclosureAttributes
+  ) => Promise<PartialDisclosureAttributes>;
+  getAllPartialDisclosure: () => Promise<PartialDisclosureAttributes[]>;
   getPartialDisclosureById: (
     id: string
-  ) => Promise<PartialDisclosureEntity | null>;
+  ) => Promise<PartialDisclosureAttributes | null>;
   getAllPartialDisclosureByVisitId: (
     id: string
-  ) => Promise<PartialDisclosureEntity[] | null>;
+  ) => Promise<PartialDisclosureAttributes[] | null>;
 }

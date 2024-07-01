@@ -1,11 +1,10 @@
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
-import { PostDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/PostDisclosureEntity";
+import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
 
 
 export interface IPostDisclosureRepository {
-  create: (data: PostDisclosureEntity, readiness: ExecuteDisclosureEntity) => Promise<PostDisclosureEntity>;
-  find: () => Promise<PostDisclosureEntity[]>;
-  findById: (id: string) => Promise<PostDisclosureEntity | null>;
-  findAllByVisitId: (id: string) => Promise<PostDisclosureEntity[] | null>;
+  create: (data: PostDisclosureAttributes, readiness: ExecuteDisclosureAttributes) => Promise<PostDisclosureAttributes>;
+  find: () => Promise<PostDisclosureAttributes[]>;
+  findById: (id: string) => Promise<PostDisclosureAttributes | null>;
+  findAllByVisitId: (id: string) => Promise<PostDisclosureAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

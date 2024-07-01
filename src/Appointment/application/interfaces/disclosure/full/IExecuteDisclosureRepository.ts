@@ -1,9 +1,9 @@
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
+import { ExecuteDisclosureAttributes } from "otz-types";
 
 export interface IExecuteDisclosureRepository {
-  create: (data: ExecuteDisclosureEntity) => Promise<ExecuteDisclosureEntity>;
-  find: () => Promise<ExecuteDisclosureEntity[]>;
-  findById: (id: string) => Promise<ExecuteDisclosureEntity | null>;
-  findAllByVisitId: (id: string) => Promise<ExecuteDisclosureEntity[] | null>;
+  create: (data: ExecuteDisclosureAttributes) => Promise<ExecuteDisclosureAttributes>;
+  find: () => Promise<ExecuteDisclosureAttributes[]>;
+  findById: (id: string) => Promise<ExecuteDisclosureAttributes | null>;
+  findAllByVisitId: (id: string) => Promise<ExecuteDisclosureAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

@@ -1,10 +1,10 @@
-import { TimeAndWorkEntity } from "../../../domain/entities/treatmentplan/TimeAndWorkEntity";
+import { TimeAndWorkAttributes } from "otz-types";
 
 export interface ITimeAndWorkRepository {
-  create: (data: TimeAndWorkEntity) => Promise<TimeAndWorkEntity>;
-  find: () => Promise<TimeAndWorkEntity[]>;
-  findById: (id: string) => Promise<TimeAndWorkEntity | null>;
-  findByPatientId: (id: string) => Promise<TimeAndWorkEntity | null>;
-  updateMorningSchedule: (id: string, data: TimeAndWorkEntity) => Promise<TimeAndWorkEntity | null>;
-  updateEveningSchedule: (id: string, data: TimeAndWorkEntity) => Promise<TimeAndWorkEntity | null>;
+  create: (data: TimeAndWorkAttributes) => Promise<TimeAndWorkAttributes>;
+  find: () => Promise<TimeAndWorkAttributes[]>;
+  findById: (id: string) => Promise<TimeAndWorkAttributes | null>;
+  findByPatientId: (id: string) => Promise<TimeAndWorkAttributes | null>;
+  updateMorningSchedule: (id: string, data: TimeAndWorkAttributes) => Promise<TimeAndWorkAttributes | null>;
+  updateEveningSchedule: (id: string, data: TimeAndWorkAttributes) => Promise<TimeAndWorkAttributes | null>;
 }

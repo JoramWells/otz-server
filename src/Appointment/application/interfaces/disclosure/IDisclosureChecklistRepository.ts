@@ -1,9 +1,9 @@
-import { DisclosureChecklistEntity } from "../../../domain/entities/treatmentplan/DisclosureChecklistEntity";
+import { DisclosureChecklistAttributes } from "otz-types";
 
 export interface IDisclosureChecklistRepository {
-  create: (data: DisclosureChecklistEntity) => Promise<DisclosureChecklistEntity>;
-  find: () => Promise<DisclosureChecklistEntity[]>;
-  findById: (id: string) => Promise<DisclosureChecklistEntity | null>;
-  findAllByVisitId: (id: string) => Promise<DisclosureChecklistEntity[] | null>;
+  create: (data: DisclosureChecklistAttributes) => Promise<DisclosureChecklistAttributes>;
+  find: () => Promise<DisclosureChecklistAttributes[]>;
+  findById: (id: string) => Promise<DisclosureChecklistAttributes | null>;
+  findAllByVisitId: (id: string) => Promise<DisclosureChecklistAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

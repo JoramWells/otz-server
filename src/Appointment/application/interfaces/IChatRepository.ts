@@ -1,7 +1,7 @@
-import { ChatEntity } from '../../domain/entities/chat/ChatEntity';
+import { ChatAttributes } from "otz-types";
 
 export interface IChatRepository {
-  create: (data: ChatEntity) => Promise<ChatEntity>;
-  find: () => Promise<ChatEntity[]>;
-  findById: (id: string) => Promise<ChatEntity | null>;
+  create: (data: ChatAttributes) => Promise<ChatAttributes>;
+  find: () => Promise<ChatAttributes[]>;
+  findById: (id: string) => Promise<ChatAttributes | null>;
 }

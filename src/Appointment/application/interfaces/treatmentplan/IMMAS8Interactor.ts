@@ -1,10 +1,9 @@
-import { MMASEightEntity } from "../../../domain/entities/treatmentplan/MMASEightEntity";
-import { MMASFourEntity } from "../../../domain/entities/treatmentplan/MMASFourEntity";
+import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
 
 export interface IMMASEightInteractor {
-  createMMASEight: (data4:MMASFourEntity,data: MMASEightEntity) => Promise<MMASEightEntity>;
-  getAllMMASEight: () => Promise<MMASEightEntity[]>;
-  getMMASEightById: (id: string) => Promise<MMASEightEntity | null>;
-  getMMASEightByPatientId: (id: string) => Promise<MMASEightEntity | null>;
-  // getDailyMMASCount: () => Promise<MMASEightEntity | null>;
+  createMMASEight: (data4:MMASFourAttributes,data: MMASEightAttributes) => Promise<MMASEightAttributes>;
+  getAllMMASEight: () => Promise<MMASEightAttributes[]>;
+  getMMASEightById: (id: string) => Promise<MMASEightAttributes | null>;
+  getMMASEightByPatientId: (id: string) => Promise<MMASEightAttributes | null>;
+  // getDailyMMASCount: () => Promise<MMASEightAttributes | null>;
 }

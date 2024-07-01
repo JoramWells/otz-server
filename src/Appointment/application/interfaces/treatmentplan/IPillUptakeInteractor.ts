@@ -1,9 +1,9 @@
-import { UptakeEntity } from "../../../domain/entities/treatmentplan/UptakeEntity";
+import { UptakeAttributes } from "otz-types";
 
 export interface IPillUptakeInteractor {
-  createPillUptake: (data: UptakeEntity) => Promise<UptakeEntity>;
-  getAllPillUptakes: () => Promise<UptakeEntity[]>;
-  getPillUptakeById: (id: string) => Promise<UptakeEntity | null>;
-  editPillUptake: (id: string, status: boolean, queryString: ParsedQs) => Promise<UptakeEntity | null>;
-  getDailyPillUptakeCount: () => Promise<UptakeEntity | null>;
+  createPillUptake: (data: UptakeAttributes) => Promise<UptakeAttributes>;
+  getAllPillUptakes: () => Promise<UptakeAttributes[]>;
+  getPillUptakeById: (id: string) => Promise<UptakeAttributes | null>;
+  editPillUptake: (id: string, status: boolean, queryString: string) => Promise<UptakeAttributes | null>;
+  getDailyPillUptakeCount: () => Promise<UptakeAttributes | null>;
 }

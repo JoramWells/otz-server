@@ -1,7 +1,7 @@
-import { FollowUpChecklistEntity } from "../../../domain/entities/treatmentplan/FollowUpChecklistEntity";
+import { FollowUpChecklistAttributes } from "otz-types";
 
 export interface IFollowUpChecklistInteractor {
-  createFollowUpChecklist: (data: FollowUpChecklistEntity) => Promise<FollowUpChecklistEntity>;
-  getAllFollowUpChecklist: () => Promise<FollowUpChecklistEntity[]>;
-  getFollowUpChecklistById: (id: string) => Promise<FollowUpChecklistEntity | null>;
+  createFollowUpChecklist: (data: FollowUpChecklistAttributes) => Promise<FollowUpChecklistAttributes>;
+  getAllFollowUpChecklist: () => Promise<FollowUpChecklistAttributes[]>;
+  getFollowUpChecklistById: (id: string) => Promise<FollowUpChecklistAttributes | null>;
 }

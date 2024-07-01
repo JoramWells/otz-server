@@ -1,14 +1,14 @@
-import { ChildCaregiverReadinessEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity";
+import { ChildCaregiverReadinessAttributes } from "otz-types";
 
 export interface IChildCaregiverReadinessInteractor {
   createChildCaregiverReadiness: (
-    data: ChildCaregiverReadinessEntity
-  ) => Promise<ChildCaregiverReadinessEntity>;
-  getAllChildCaregiverReadiness: () => Promise<ChildCaregiverReadinessEntity[]>;
+    data: ChildCaregiverReadinessAttributes
+  ) => Promise<ChildCaregiverReadinessAttributes>;
+  getAllChildCaregiverReadiness: () => Promise<ChildCaregiverReadinessAttributes[]>;
   getChildCaregiverReadinessById: (
     id: string
-  ) => Promise<ChildCaregiverReadinessEntity | null>;
+  ) => Promise<ChildCaregiverReadinessAttributes | null>;
   getAllChildCaregiverReadinessByVisitId: (
     id: string
-  ) => Promise<ChildCaregiverReadinessEntity[] | null>;
+  ) => Promise<ChildCaregiverReadinessAttributes[] | null>;
 }

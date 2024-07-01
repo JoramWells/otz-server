@@ -1,9 +1,9 @@
-import { ChildCaregiverReadinessEntity } from "../../../../domain/entities/treatmentplan/disclosure/partial/ChildCaregiverReadinessEntity";
+import { ChildCaregiverReadinessAttributes } from "otz-types";
 
 export interface IChildCaregiverRepository {
-  create: (data: ChildCaregiverReadinessEntity) => Promise<ChildCaregiverReadinessEntity>;
-  find: () => Promise<ChildCaregiverReadinessEntity[]>;
-  findById: (id: string) => Promise<ChildCaregiverReadinessEntity | null>;
-  findAllByVisitId: (id: string) => Promise<ChildCaregiverReadinessEntity[] | null>;
+  create: (data: ChildCaregiverReadinessAttributes) => Promise<ChildCaregiverReadinessAttributes>;
+  find: () => Promise<ChildCaregiverReadinessAttributes[]>;
+  findById: (id: string) => Promise<ChildCaregiverReadinessAttributes | null>;
+  findAllByVisitId: (id: string) => Promise<ChildCaregiverReadinessAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

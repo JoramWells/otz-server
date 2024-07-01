@@ -1,13 +1,12 @@
-import { PostDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/PostDisclosureEntity";
-import { ExecuteDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
+import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
 
 export interface IPostDisclosureInteractor {
-  createPostDisclosure: (data: PostDisclosureEntity, disclose: ExecuteDisclosure  ) => Promise<PostDisclosureEntity>;
-  getAllPostDisclosure: () => Promise<PostDisclosureEntity[]>;
+  createPostDisclosure: (data: PostDisclosureAttributes, disclose: ExecuteDisclosureAttributes  ) => Promise<PostDisclosureAttributes>;
+  getAllPostDisclosure: () => Promise<PostDisclosureAttributes[]>;
   getPostDisclosureById: (
     id: string
-  ) => Promise<PostDisclosureEntity | null>;
+  ) => Promise<PostDisclosureAttributes | null>;
   getAllPostDisclosureByVisitId: (
     id: string
-  ) => Promise<PostDisclosureEntity[] | null>;
+  ) => Promise<PostDisclosureAttributes[] | null>;
 }

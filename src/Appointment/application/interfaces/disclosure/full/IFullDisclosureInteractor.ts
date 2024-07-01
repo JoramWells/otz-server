@@ -1,14 +1,14 @@
-import { FullDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/FullDisclosureEntity";
+import { FullDisclosureAttributes } from "otz-types";
 
 export interface IFullDisclosureInteractor {
   createFullDisclosure: (
-    data: FullDisclosureEntity
-  ) => Promise<FullDisclosureEntity>;
-  getAllFullDisclosure: () => Promise<FullDisclosureEntity[]>;
+    data: FullDisclosureAttributes
+  ) => Promise<FullDisclosureAttributes>;
+  getAllFullDisclosure: () => Promise<FullDisclosureAttributes[]>;
   getFullDisclosureById: (
     id: string
-  ) => Promise<FullDisclosureEntity | null>;
+  ) => Promise<FullDisclosureAttributes | null>;
   getAllFullDisclosureByVisitId: (
     id: string
-  ) => Promise<FullDisclosureEntity[] | null>;
+  ) => Promise<FullDisclosureAttributes[] | null>;
 }

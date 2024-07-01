@@ -1,14 +1,14 @@
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
+import { ExecuteDisclosureAttributes } from "otz-types";
 
 export interface IExecuteDisclosureInteractor {
   createExecuteDisclosure: (
-    data: ExecuteDisclosureEntity
-  ) => Promise<ExecuteDisclosureEntity>;
-  getAllExecuteDisclosure: () => Promise<ExecuteDisclosureEntity[]>;
+    data: ExecuteDisclosureAttributes
+  ) => Promise<ExecuteDisclosureAttributes>;
+  getAllExecuteDisclosure: () => Promise<ExecuteDisclosureAttributes[]>;
   getExecuteDisclosureById: (
     id: string
-  ) => Promise<ExecuteDisclosureEntity | null>;
+  ) => Promise<ExecuteDisclosureAttributes | null>;
   getAllExecuteDisclosureByVisitId: (
     id: string
-  ) => Promise<ExecuteDisclosureEntity[] | null>;
+  ) => Promise<ExecuteDisclosureAttributes[] | null>;
 }

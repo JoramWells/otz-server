@@ -1,9 +1,9 @@
-import { UptakeEntity } from "../../../domain/entities/treatmentplan/UptakeEntity";
+import { UptakeAttributes } from "otz-types";
 
 export interface IPillUptakeRepository {
-  create: (data: UptakeEntity) => Promise<UptakeEntity>;
-  find: () => Promise<UptakeEntity[]>;
-  findById: (id: string) => Promise<UptakeEntity | null>;
-  edit: (id: string, status: boolean, queryString:ParsedQs) => Promise<UptakeEntity | null>;
-  count: () => Promise<UptakeEntity | null>;
+  create: (data: UptakeAttributes) => Promise<UptakeAttributes>;
+  find: () => Promise<UptakeAttributes[]>;
+  findById: (id: string) => Promise<UptakeAttributes | null>;
+  edit: (id: string, status: boolean, queryString:string) => Promise<UptakeAttributes | null>;
+  count: () => Promise<UptakeAttributes | null>;
 }
