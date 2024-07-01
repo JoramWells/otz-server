@@ -79,14 +79,14 @@ export interface DisclosureChecklistAttributes {
 }
 
 export interface UserNotificationAttributes {
-  id: string;
+  id?: string;
   patientID: string;
   notificationID: string;
   notifications: string;
 }
 
 export interface PatientNotificationAttributes {
-  id: string;
+  id?: string;
   patientID: string;
   userID: string;
   medicineTime: string;

@@ -13,6 +13,7 @@ import { Patient } from '../domain/models/patients.models';
 import { MessageTextReply } from '../domain/models/notify/messageTextReply.model';
 import { PatientNotification } from '../domain/models/notify/patientNotifications.model';
 import { sendSMS } from './sendSMS';
+import { User } from '../domain/models/user.model';
 
 
 const notificationEmitter = new EventEmitter();
@@ -45,9 +46,12 @@ const schedulePatientNotifications = async () => {
   const isMorning = currentHour >= 5 && currentHour <= 12;
   const isEvening = currentHour >= 18 && currentHour <= 23;
 
+
   try {
     // const messages = await fetchMessages();
     // console.log(messages);
+  const findUser = await User.findOne({});
+
 
     const patients = await Uptake.findAll({
       where: {
@@ -75,7 +79,7 @@ const schedulePatientNotifications = async () => {
 
         const currentTime = moment();
         const timeDifference = notificationTime.diff(currentTime);
-        if (timeDifference > 0) {
+        if (timeDifference > 0 && findUser) {
           // console.log(notificationTime.toDate(), 'ft');
 
           scheduleJob(notificationTime.toDate(), async () => {
@@ -86,6 +90,7 @@ const schedulePatientNotifications = async () => {
               patientID: patient.TimeAndWork.Patient.id,
               message: randomMessage,
               medicineTime: morningMedicineTime,
+              userID:findUser.id
             });
 
             sendSMS(randomMessage);
@@ -113,7 +118,7 @@ const schedulePatientNotifications = async () => {
 
         const currentTime = moment();
         const timeDifference = notificationTime.diff(currentTime);
-        if (timeDifference > 0) {
+        if (timeDifference > 0 && findUser?.id) {
           // console.log(notificationTime.toDate(), 'ft');
 
           scheduleJob(notificationTime.toDate(), async () => {
@@ -122,9 +127,10 @@ const schedulePatientNotifications = async () => {
             // ceck if patient exists
 
             await PatientNotification.create({
-              patientID: patient.TimeAndWork.Patient.id,
-              message: randomMessage,
-              medicineTime: eveningMedicineTime,
+              patientID: patient.TimeAndWork.Patient.id as string,
+              message: randomMessage as string,
+              medicineTime: eveningMedicineTime as string,
+              userID:findUser.id
             });
             sendSMS(randomMessage)
             notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);           

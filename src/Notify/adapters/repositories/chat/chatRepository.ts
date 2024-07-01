@@ -67,7 +67,7 @@ export class ChatRepository implements IChatRepository {
 if(id){
   // await this.redisClient.connect();
   // if ((await this.redisClient.get(id)) === null) {
-  const results: ChatAttributes[] | null = await Chat.findAll({
+  const results = await Chat.findAll({
     include: [
       {
         model: Messages,
@@ -82,8 +82,9 @@ if(id){
       },
     },
   });
-  const recentChats = [];
+  const recentChats: any[] = [];
   if (results) {
+    
     const chatPromises = results.map(async (chat) => {
       if (chat) {
         const otherMemberID = chat.members?.find((memberID) => memberID !== id);

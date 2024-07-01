@@ -4,13 +4,14 @@ import { User } from './user.model'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface WeekDays {
-  Monday: boolean
-  Tuesday: boolean
-  Wednesday: boolean
-  Thursday: boolean
-  Friday: boolean
-  Saturday: boolean
-  Sunday: boolean
+  [key: string]: boolean; // Allow indexing with string keys
+  Monday: boolean;
+  Tuesday: boolean;
+  Wednesday: boolean;
+  Thursday: boolean;
+  Friday: boolean;
+  Saturday: boolean;
+  Sunday: boolean;
 }
 
 export interface UserAvailabilityAttributes {

@@ -6,6 +6,17 @@ import moment from "moment"
 import { scheduleJob } from "node-schedule"
 import { UserAvailability } from "../domain/models/userAvailability.model"
 
+interface WeekDays {
+  [key: string]: boolean;  // Allow indexing with string keys
+  Monday: boolean;
+  Tuesday: boolean;
+  Wednesday: boolean;
+  Thursday: boolean;
+  Friday: boolean;
+  Saturday: boolean;
+  Sunday: boolean;
+}
+
 function getDayName(dateStr:string){
   const daysOfWeek = ['Monday','Tuesday','Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -41,7 +52,7 @@ export const rescheduleOnUnavailable = async()=>{
   const daysNotAvailable =await UserAvailability.findAll();
   // const {data} = daysNotAvailable
   // console.log(daysNotAvailable[0].dataValues)
-  const daysObj = daysNotAvailable[0].dataValues.daysAvailable
+  const daysObj: WeekDays = daysNotAvailable[0].dataValues.daysAvailable
   const unAvailableDays = []
   const availableDays = []
   for(const key in  daysObj){
@@ -87,11 +98,11 @@ if(rescheduledStatus && appointmentStatus){
         const isPresent = unAvailableDays.find(day=>day=== dayName)
         if(isPresent){
            const rescheduledDate = findNextAvailableDate(appointment.appointmentDate, availableDays);
-           console.log(rescheduledDate), "lopi");
+          //  console.log(rescheduledDate), "lopi");
 
           await appointment.update({
             appointmentStatusID:rescheduledStatus.id,
-            rescheduledDate,
+            rescheduledDate: rescheduledDate as unknown as string,
             rescheduledReason: reason
           },
         {where:{
