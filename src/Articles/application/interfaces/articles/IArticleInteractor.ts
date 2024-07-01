@@ -1,10 +1,10 @@
-import { ArticlesEntity } from "../../../domain/entities/articles/ArticlesEntity";
+import { ArticleAttributes } from "otz-types";
 
 export interface IArticleInteractor {
-  createArticle: (data: ArticlesEntity) => Promise<ArticlesEntity>;
-  getAllArticles: () => Promise<ArticlesEntity[]>;
-  getArticleById: (id: string) => Promise<ArticlesEntity | null>;
+  createArticle: (data: ArticleAttributes) => Promise<ArticleAttributes>;
+  getAllArticles: () => Promise<ArticleAttributes[]>;
+  getArticleById: (id: string) => Promise<ArticleAttributes | null>;
   deleteArticleById: (id: string) => Promise<number | null>;
-  editArticle: (data: ArticlesEntity) => Promise<ArticlesEntity | null>;
-  getAllArticleChaptersById: (id: string) => Promise<ArticlesEntity[] | null>;
+  editArticle: (data: ArticleAttributes) => Promise<ArticleAttributes | null>;
+  getAllArticleChaptersById: (id: string) => Promise<ArticleAttributes[] | null>;
 }

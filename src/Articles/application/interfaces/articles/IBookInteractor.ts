@@ -1,9 +1,9 @@
-import { BookEntity } from "../../../domain/entities/articles/BookEntity";
+import { BookAttributes } from "otz-types";
 
 export interface IBookInteractor {
-  createBook: (data: BookEntity) => Promise<BookEntity>;
-  getAllArticleCategories: () => Promise<BookEntity[]>;
-  getBookById: (id: string) => Promise<BookEntity | null>;
+  createBook: (data: BookAttributes) => Promise<BookAttributes>;
+  getAllArticleCategories: () => Promise<BookAttributes[]>;
+  getBookById: (id: string) => Promise<BookAttributes | null>;
   deleteBook: (id: string) => Promise<number | null>;
 
 }

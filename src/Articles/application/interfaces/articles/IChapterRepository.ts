@@ -1,8 +1,8 @@
-import { ChapterEntity } from "../../../domain/entities/articles/ChapterEntity";
+import { ChapterAttributes } from "otz-types";
 
 export interface IChapterRepository {
-  create: (data: ChapterEntity) => Promise<ChapterEntity>;
-  find: () => Promise<ChapterEntity[]>;
-  findById: (id: string) => Promise<ChapterEntity | null>;
-  findAllBooksById: (id: string) => Promise<ChapterEntity[] | null>;
+  create: (data: ChapterAttributes) => Promise<ChapterAttributes>;
+  find: () => Promise<ChapterAttributes[]>;
+  findById: (id: string) => Promise<ChapterAttributes | null>;
+  findAllBooksById: (id: string) => Promise<ChapterAttributes[] | null>;
 }

@@ -1,20 +1,20 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { CoursesAttributes } from 'otz-types';
 import { ICoursesRepository } from '../../../application/interfaces/articles/ICoursesRepository';
 import { coursesCache } from '../../../constants/appointmentCache';
-import { CoursesEntity } from '../../../domain/entities/articles/CoursesEntity';
 import { Books } from '../../../domain/models/articles/books.model';
-import { Courses, CoursesAttributes } from '../../../domain/models/articles/courses.model';
+import { Courses} from '../../../domain/models/articles/courses.model';
 import { RedisAdapter } from '../redisAdapter'
 
 
 export class CoursesRepository implements ICoursesRepository {
-  // findAllBooksById: (id: string) => Promise<CoursesEntity[] | null>;
+  // findAllBooksById: (id: string) => Promise<CoursesAttributes[] | null>;
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: CoursesEntity): Promise<CoursesEntity> {
+  async create(data: CoursesAttributes): Promise<CoursesAttributes> {
     await this.redisClient.connect();
     const results: CoursesAttributes = await Courses.create(data);
     await this.redisClient.del(coursesCache);
@@ -23,7 +23,7 @@ export class CoursesRepository implements ICoursesRepository {
     return results;
   }
 
-  async find(): Promise<CoursesEntity[]> {
+  async find(): Promise<CoursesAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     const results = await Courses.findAll({
@@ -60,16 +60,16 @@ export class CoursesRepository implements ICoursesRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: CoursesEntity[] = JSON.parse(cachedPatients);
+    // const results: CoursesAttributes[] = JSON.parse(cachedPatients);
     console.log(results, 'rt')
     
     return results;
   }
 
-  async findById(id: string): Promise<CoursesEntity | null> {
+  async findById(id: string): Promise<CoursesAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: CoursesAttributes | null = await Courses.findAll({
+      const results = await Courses.findAll({
         where: {
           patientID: id,
         },
@@ -106,7 +106,7 @@ export class CoursesRepository implements ICoursesRepository {
   }
 
   //
-  async findAllCoursesById(id: string): Promise<CoursesEntity[] | null> {
+  async findAllCoursesById(id: string): Promise<CoursesAttributes[] | null> {
     const results: CoursesAttributes[] | null = await Courses.findAll({
       where: {
         bookID: id,

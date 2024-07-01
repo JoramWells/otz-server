@@ -1,4 +1,4 @@
-import { BookEntity } from "../../../domain/entities/articles/BookEntity";
+import { BookAttributes } from "otz-types";
 import { IBookInteractor } from "../../interfaces/articles/IBookInteractor";
 import { IBookRepository } from "../../interfaces/articles/IBookRepository";
 
@@ -13,17 +13,17 @@ export class BookInteractor implements IBookInteractor {
 
   async getBookById(
     id: string
-  ): Promise<BookEntity | null> {
+  ): Promise<BookAttributes | null> {
     return await this.repository.findById(id);
   }
 
   async createBook(
-    patientData: BookEntity
-  ): Promise<BookEntity> {
+    patientData: BookAttributes
+  ): Promise<BookAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllArticleCategories(): Promise<BookEntity[]> {
+  async getAllArticleCategories(): Promise<BookAttributes[]> {
     return await this.repository.find();
   }
   async deleteBook(id: string): Promise<number | null> {

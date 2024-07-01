@@ -1,9 +1,9 @@
-import { ArticleProgressEntity } from "../../../../domain/entities/articles/ArticleProgessEntity";
+import { ArticleProgressAttributes } from "otz-types";
 
 export interface IArticleProgressRepository {
-  create: (data: ArticleProgressEntity) => Promise<ArticleProgressEntity>;
-  find: () => Promise<ArticleProgressEntity[]>;
-  findAllProgress: (id: string) => Promise<ArticleProgressEntity[] | null>;
-  findById: (id: string) => Promise<ArticleProgressEntity | null>;
+  create: (data: ArticleProgressAttributes) => Promise<ArticleProgressAttributes>;
+  find: () => Promise<ArticleProgressAttributes[]>;
+  findAllProgress: (id: string) => Promise<ArticleProgressAttributes[] | null>;
+  findById: (id: string) => Promise<ArticleProgressAttributes | null>;
   delete: (id: string) => Promise<number | null>;
 }

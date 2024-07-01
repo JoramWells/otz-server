@@ -1,20 +1,21 @@
 
+import { QuestionAttributes } from 'otz-types';
 import { IQuestionRepository } from '../../../application/interfaces/articles/IQuestionRepository';
-import { QuestionEntity } from '../../../domain/entities/articles/QuestionEntity';
 import { Article } from '../../../domain/models/articles/article.model';
-import { Question, QuestionAttributes } from '../../../domain/models/articles/question.model';
+import { Question  } from '../../../domain/models/articles/question.model';
 
 import { RedisAdapter } from '../redisAdapter'
 
 
 export class QuestionRepository implements IQuestionRepository {
-  // findAllBooksById: (id: string) => Promise<QuestionEntity[] | null>;
+
+  // findAllBooksById: (id: string) => Promise<QuestionAttributes[] | null>;
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: QuestionEntity[]): Promise<QuestionEntity[]> {
+  async create(data: QuestionAttributes[]): Promise<QuestionAttributes[]> {
     // await this.redisClient.connect();
     const results: QuestionAttributes[] = await Question.bulkCreate(data);
     // await this.redisClient.del(QuestionCache);
@@ -23,16 +24,16 @@ export class QuestionRepository implements IQuestionRepository {
     return results;
   }
 
-  async find(): Promise<QuestionEntity[]> {
+  async find(): Promise<QuestionAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     const results = await Question.findAll({
-      include:[
+      include: [
         {
-          model:Article,
-          attributes:['id','title', 'image']
-        }
-      ]
+          model: Article,
+          attributes: ["id", "title", "image"],
+        },
+      ],
     });
     // if ((await this.redisClient.get(QuestionCache)) === null) {
     //   const results = await Question.findAll({
@@ -60,11 +61,11 @@ export class QuestionRepository implements IQuestionRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: QuestionEntity[] = JSON.parse(cachedPatients);
+    // const results: QuestionAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<QuestionEntity | null> {
+  async findById(id: string): Promise<QuestionAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: QuestionAttributes | null = await Question.findOne({
@@ -97,7 +98,40 @@ export class QuestionRepository implements IQuestionRepository {
   }
 
   //
-  async findAllBooksById(id: string): Promise<QuestionEntity[] | null> {
+  async findAllByArticleProgressId(id: string): Promise<QuestionAttributes[] | null> {
+    await this.redisClient.connect();
+    if ((await this.redisClient.get(id)) === null) {
+      const results: QuestionAttributes[] | null = await Question.findAll({
+        where: {
+          articleID: id,
+        },
+      });
+
+      // const patientResults: AppointmentEntity = {
+      //   firstName: results?.firstName,
+      //   middleName: results?.middleName,
+      //   sex: results?.sex,
+      //   phoneNo: results?.phoneNo,
+      //   idNo: results?.idNo,
+      //   occupationID: results?.occupationID,
+      // };
+      // await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    }
+
+    const cachedData: string | null = await this.redisClient.get(id);
+    if (cachedData === null) {
+      return null;
+    }
+    const results: QuestionAttributes[] = JSON.parse(cachedData);
+    console.log("fetched from cache!");
+
+    return results;
+  }
+
+  //
+  async findAllBooksById(id: string): Promise<QuestionAttributes[] | null> {
     const results: QuestionAttributes[] | null = await Question.findAll({
       where: {
         id,
@@ -107,7 +141,7 @@ export class QuestionRepository implements IQuestionRepository {
     return results;
   }
   //
-  async delete(id: string): Promise<number| null> {
+  async delete(id: string): Promise<number | null> {
     const results = await Question.destroy({
       where: {
         id,

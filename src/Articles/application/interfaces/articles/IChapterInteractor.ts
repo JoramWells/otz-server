@@ -1,8 +1,8 @@
-import { ChapterEntity } from "../../../domain/entities/articles/ChapterEntity";
+import { ChapterAttributes } from "otz-types";
 
 export interface IChapterInteractor {
-  createChapter: (data: ChapterEntity) => Promise<ChapterEntity>;
-  getAllChapters: () => Promise<ChapterEntity[]>;
-  getChapterById: (id: string) => Promise<ChapterEntity | null>;
-  getAllBooksById: (id: string) => Promise<ChapterEntity[] | null>;
+  createChapter: (data: ChapterAttributes) => Promise<ChapterAttributes>;
+  getAllChapters: () => Promise<ChapterAttributes[]>;
+  getChapterById: (id: string) => Promise<ChapterAttributes | null>;
+  getAllBooksById: (id: string) => Promise<ChapterAttributes[] | null>;
 }

@@ -1,10 +1,10 @@
-import { ArticleProgressEntity } from "../../../../domain/entities/articles/ArticleProgessEntity";
+import { ArticleProgressAttributes } from "otz-types";
 
 export interface IArticleProgressInteractor {
-  createArticleProgress: (data: ArticleProgressEntity) => Promise<ArticleProgressEntity>;
-  getAllArticleProgress: () => Promise<ArticleProgressEntity[]>;
-  getAllArticleProgressByChapterID: (id:string) => Promise<ArticleProgressEntity[] | null>;
-  getArticleProgressById: (id: string) => Promise<ArticleProgressEntity | null>;
+  createArticleProgress: (data: ArticleProgressAttributes) => Promise<ArticleProgressAttributes>;
+  getAllArticleProgress: () => Promise<ArticleProgressAttributes[]>;
+  getAllArticleProgressByChapterID: (id:string) => Promise<ArticleProgressAttributes[] | null>;
+  getArticleProgressById: (id: string) => Promise<ArticleProgressAttributes | null>;
   deleteArticleProgress: (id: string) => Promise<number | null>;
 
 }

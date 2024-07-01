@@ -1,10 +1,10 @@
-import { ArticlesEntity } from "../../../domain/entities/articles/ArticlesEntity";
+import { ArticleAttributes } from "otz-types";
 
 export interface IArticleRepository {
-  create: (data: ArticlesEntity) => Promise<ArticlesEntity>;
-  find: () => Promise<ArticlesEntity[]>;
-  findById: (id: string) => Promise<ArticlesEntity | null>;
+  create: (data: ArticleAttributes) => Promise<ArticleAttributes>;
+  find: () => Promise<ArticleAttributes[]>;
+  findById: (id: string) => Promise<ArticleAttributes | null>;
   delete: (id: string) => Promise<number | null>;
-  edit: (data: ArticlesEntity) => Promise<ArticlesEntity | null>;
-  findAllArticleChaptersById: (id: string) => Promise<ArticlesEntity[] | null>;
+  edit: (data: ArticleAttributes) => Promise<ArticleAttributes | null>;
+  findAllArticleChaptersById: (id: string) => Promise<ArticleAttributes[] | null>;
 }

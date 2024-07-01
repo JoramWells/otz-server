@@ -1,8 +1,8 @@
-import { CoursesEntity } from "../../../domain/entities/articles/CoursesEntity";
+import { CoursesAttributes } from "otz-types";
 
 export interface ICoursesRepository {
-  create: (data: CoursesEntity) => Promise<CoursesEntity>;
-  find: () => Promise<CoursesEntity[]>;
-  findById: (id: string) => Promise<CoursesEntity | null>;
-  findAllCoursesById: (id: string) => Promise<CoursesEntity[] | null>;
+  create: (data: CoursesAttributes) => Promise<CoursesAttributes>;
+  find: () => Promise<CoursesAttributes[]>;
+  findById: (id: string) => Promise<CoursesAttributes[] | null>;
+  findAllCoursesById: (id: string) => Promise<CoursesAttributes[] | null>;
 }

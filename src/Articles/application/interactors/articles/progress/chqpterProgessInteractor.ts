@@ -1,4 +1,4 @@
-import { ChapterProgressEntity } from "../../../../domain/entities/articles/ChapterProgessEntity";
+import { ChapterProgressAttributes } from "otz-types";
 import { IChapterProgressInteractor } from "../../../interfaces/articles/progress/IChapterProgressInteractor";
 import { IChapterProgressRepository } from "../../../interfaces/articles/progress/IChapterProgressRepository";
 
@@ -12,23 +12,23 @@ export class ChapterProgressInteractor implements IChapterProgressInteractor {
 
   async getChapterProgressById(
     id: string
-  ): Promise<ChapterProgressEntity | null> {
+  ): Promise<ChapterProgressAttributes | null> {
     return await this.repository.findById(id);
   }
 
   async getAllChapterProgressById(
     id: string
-  ): Promise<ChapterProgressEntity[] | null> {
+  ): Promise<ChapterProgressAttributes[] | null> {
     return await this.repository.findChapterProgressById(id);
   }
 
   async createChapterProgress(
-    patientData: ChapterProgressEntity
-  ): Promise<ChapterProgressEntity> {
+    patientData: ChapterProgressAttributes
+  ): Promise<ChapterProgressAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllChapterProgress(): Promise<ChapterProgressEntity[]> {
+  async getAllChapterProgress(): Promise<ChapterProgressAttributes[]> {
     return await this.repository.find();
   }
   async deleteChapterProgress(id: string): Promise<number | null> {

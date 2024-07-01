@@ -1,13 +1,8 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model } from 'sequelize'
 import { connect } from '../../../db/connect'
+import { HospitalAttributes } from 'otz-types'
 
-interface HospitalAttributes {
-  id: string
-  subCountyID: string
-  mflCode: string
-  hospitalName: string
-}
 
 export class Hospital extends Model<HospitalAttributes> {}
 

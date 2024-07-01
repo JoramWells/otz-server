@@ -1,4 +1,4 @@
-import { QuestionEntity } from "../../../domain/entities/articles/QuestionEntity";
+import { QuestionAttributes } from "otz-types";
 import { IQuestionInteractor } from "../../interfaces/articles/IQuestionInteractor";
 import { IQuestionRepository } from "../../interfaces/articles/IQuestionRepository";
 
@@ -11,19 +11,24 @@ export class QuestionInteractor implements IQuestionInteractor {
     this.repository = repository;
   }
 
-  async getQuestionById(
+
+  async getAllQuestionByArticleProgressId(
     id: string
-  ): Promise<QuestionEntity | null> {
+  ): Promise<QuestionAttributes[] | null> {
+    return await this.repository.findAllByArticleProgressId(id)
+  }
+
+  async getQuestionById(id: string): Promise<QuestionAttributes | null> {
     return await this.repository.findById(id);
   }
 
   async createQuestion(
-    patientData: QuestionEntity[]
-  ): Promise<QuestionEntity[]> {
+    patientData: QuestionAttributes[]
+  ): Promise<QuestionAttributes[]> {
     return await this.repository.create(patientData);
   }
 
-  async getAllQuestions(): Promise<QuestionEntity[]> {
+  async getAllQuestions(): Promise<QuestionAttributes[]> {
     return await this.repository.find();
   }
   async deleteQuestion(id: string): Promise<number | null> {

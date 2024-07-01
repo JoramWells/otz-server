@@ -1,10 +1,10 @@
-import { ChapterProgressEntity } from "../../../../domain/entities/articles/ChapterProgessEntity";
+import { ChapterProgressAttributes } from "otz-types";
 
 export interface IChapterProgressInteractor {
-  createChapterProgress: (data: ChapterProgressEntity) => Promise<ChapterProgressEntity>;
-  getAllChapterProgress: () => Promise<ChapterProgressEntity[]>;
-  getChapterProgressById: (id: string) => Promise<ChapterProgressEntity | null>;
-  getAllChapterProgressById: (id: string) => Promise<ChapterProgressEntity[] | null>;
+  createChapterProgress: (data: ChapterProgressAttributes) => Promise<ChapterProgressAttributes>;
+  getAllChapterProgress: () => Promise<ChapterProgressAttributes[]>;
+  getChapterProgressById: (id: string) => Promise<ChapterProgressAttributes | null>;
+  getAllChapterProgressById: (id: string) => Promise<ChapterProgressAttributes[] | null>;
   deleteChapterProgress: (id: string) => Promise<number | null>;
 
 }

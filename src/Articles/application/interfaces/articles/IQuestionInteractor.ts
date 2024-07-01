@@ -1,9 +1,9 @@
-import { QuestionEntity } from "../../../domain/entities/articles/QuestionEntity";
+import { QuestionAttributes } from "otz-types";
 
 export interface IQuestionInteractor {
-  createQuestion: (data: QuestionEntity[]) => Promise<QuestionEntity[]>;
-  getAllQuestions: () => Promise<QuestionEntity[]>;
-  getQuestionById: (id: string) => Promise<QuestionEntity | null>;
-  getAllQuestionByArticleProgressId: (id: string) => Promise<QuestionEntity[] | null>;
+  createQuestion: (data: QuestionAttributes[]) => Promise<QuestionAttributes[]>;
+  getAllQuestions: () => Promise<QuestionAttributes[]>;
+  getQuestionById: (id: string) => Promise<QuestionAttributes | null>;
+  getAllQuestionByArticleProgressId: (id: string) => Promise<QuestionAttributes[] | null>;
   deleteQuestion: (id: string) => Promise<number | null>;
 }

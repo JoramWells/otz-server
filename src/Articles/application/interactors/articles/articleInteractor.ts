@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { ArticlesEntity } from '../../../domain/entities/articles/ArticlesEntity';
+import { ArticleAttributes } from 'otz-types';
 import { IArticleInteractor } from '../../interfaces/articles/IArticleInteractor';
 import { IArticleRepository } from '../../interfaces/articles/IArticleRepository';
 
@@ -10,23 +10,23 @@ export class ArticleInteractor implements IArticleInteractor {
   constructor(repository: IArticleRepository) {
     this.repository = repository;
   }
-  async editArticle (data: ArticlesEntity):Promise<ArticlesEntity | null>{
+  async editArticle (data: ArticleAttributes):Promise<ArticleAttributes | null>{
     return await this.repository.edit(data)
   }
 
-  async getArticleById(id: string): Promise<ArticlesEntity | null> {
+  async getArticleById(id: string): Promise<ArticleAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async getAllArticleChaptersById(id: string): Promise<ArticlesEntity[] | null> {
+  async getAllArticleChaptersById(id: string): Promise<ArticleAttributes[] | null> {
     return await this.repository.findAllArticleChaptersById(id);
   }
 
-  async createArticle(patientData: ArticlesEntity): Promise<ArticlesEntity> {
+  async createArticle(patientData: ArticleAttributes): Promise<ArticleAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllArticles(): Promise<ArticlesEntity[]> {
+  async getAllArticles(): Promise<ArticleAttributes[]> {
     return await this.repository.find();
   }
 
