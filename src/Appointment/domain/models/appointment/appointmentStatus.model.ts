@@ -1,13 +1,8 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
+import { AppointmentStatusAttributes } from "otz-types";
 
-export interface AppointmentStatusAttributes {
-  id: string;
-  statusDescription: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
 
 export class AppointmentStatus
   extends Model<AppointmentStatusAttributes>

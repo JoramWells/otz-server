@@ -1,11 +1,7 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
-
-export interface AppointmentAgendaAttributes {
-  id: string;
-  agendaDescription: string;
-}
+import { AppointmentAgendaAttributes } from "otz-types";
 
 export class AppointmentAgenda
   extends Model<AppointmentAgendaAttributes>

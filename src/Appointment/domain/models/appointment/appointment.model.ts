@@ -5,20 +5,10 @@ import {AppointmentStatus} from "./appointmentStatus.model";
 import { Patient } from "../patients.models";
 import { User } from "../user.model";
 import { connect } from "../../../db/connect";
+import { AppointmentAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface AppointmentAttributes {
-  id: string;
-  userID?: string;
-  patientID: string;
-  patientVisitID: string;
-  appointmentAgendaID?: string;
-  appointmentStatusID?: string;
-  appointmentDate?: string;
-  appointmentTime?: string;
-  rescheduledDate?: string;
-  rescheduledReason?: string;
-}
+
 
 export class Appointment
   extends Model<AppointmentAttributes>
