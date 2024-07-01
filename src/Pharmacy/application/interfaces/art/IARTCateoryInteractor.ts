@@ -1,7 +1,7 @@
-import { type ARTCategoryEntity } from '../../../domain/entities/art/ARTCategoryEntity'
+import { ArtCategoryInterface } from "otz-types"
 
 export interface IARTCategoryInteractor {
-  createARTCategory: (data: ARTCategoryEntity) => Promise<ARTCategoryEntity | null>
-  getAllARTCategories: () => Promise<ARTCategoryEntity[]>
-  getARTCategoryById: (id: string) => Promise<ARTCategoryEntity | null>
+  createARTCategory: (data: ArtCategoryInterface) => Promise<ArtCategoryInterface | null>
+  getAllARTCategories: () => Promise<ArtCategoryInterface[]>
+  getARTCategoryById: (id: string) => Promise<ArtCategoryInterface | null>
 }

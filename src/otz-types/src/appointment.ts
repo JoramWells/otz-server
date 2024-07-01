@@ -1,5 +1,5 @@
 export interface AppointmentAttributes {
-  id: string;
+  id?: string;
   userID?: string;
   patientID: string;
   patientVisitID: string;

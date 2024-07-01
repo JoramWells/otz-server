@@ -1,7 +1,7 @@
-import { type PatientVisitsEntity } from '../../domain/entities/PatientVisitsEntity'
+import { PatientVisitsInterface } from "otz-types"
 
 export interface IPatientVisitsRepository {
-  create: (data: PatientVisitsEntity) => Promise<PatientVisitsEntity | null>
-  find: () => Promise<PatientVisitsEntity[]>
-  findById: (id: string) => Promise<PatientVisitsEntity | null>
+  create: (data: PatientVisitsInterface) => Promise<PatientVisitsInterface | null>
+  find: () => Promise<PatientVisitsInterface[]>
+  findById: (id: string) => Promise<PatientVisitsInterface | null>
 }

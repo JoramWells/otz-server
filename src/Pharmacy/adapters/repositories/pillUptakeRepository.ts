@@ -6,12 +6,11 @@ import moment from 'moment'
 // import { RedisAdapter } from '../redisAdapter'
 import { Sequelize } from 'sequelize'
 import { type IPillUptakeRepository } from '../../application/interfaces/art/IPillUptakeRepository'
-import { Adherence, type AdherenceAttributes } from '../../domain/models/adherence/adherence.model'
-import { type AdherenceEntity } from '../../domain/entities/art/AdherenceEntity'
+import { Adherence } from '../../domain/models/adherence/adherence.model'
 import { TimeAndWork } from '../../domain/models/adherence/timeAndWork.model'
 import { Patient } from '../../domain/models/patients.models'
 import { Prescription } from '../../domain/models/art/prescription.model'
-
+import { AdherenceAttributes } from "otz-types";
 export class PillUptakeRepository implements IPillUptakeRepository {
   async count () {
     const currentDate = moment().format('YYYY-MM-DD')
@@ -57,13 +56,13 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create (data: AdherenceEntity): Promise<AdherenceEntity> {
+  async create (data: AdherenceAttributes): Promise<AdherenceAttributes> {
     const results: AdherenceAttributes = await Adherence.create(data)
 
     return results
   }
 
-  async find (): Promise<AdherenceEntity[]> {
+  async find (): Promise<AdherenceAttributes[]> {
     const currentDate = moment().format('YYYY-MM-DD')
     // await this.redisClient.connect();
     // check if patient
@@ -101,11 +100,11 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: AdherenceEntity[] = JSON.parse(cachedPatients);
+    // const results: AdherenceAttributes[] = JSON.parse(cachedPatients);
     return results
   }
 
-  async findById (id: string): Promise<AdherenceEntity | null> {
+  async findById (id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
     // if ((await this.redisClient.get(id)) === null) {
     const results: AdherenceAttributes | null = await Adherence.findOne({
@@ -137,7 +136,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     return results
   }
 
-  async edit (id: string, status: boolean, query: string): Promise<AdherenceEntity | null> {
+  async edit (id: string, status: boolean, query: string): Promise<AdherenceAttributes | null> {
     if (query === 'morning') {
       const results = await Adherence.findOne({
         where: {

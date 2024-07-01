@@ -1,7 +1,7 @@
-import { type ARTCategoryEntity } from '../../../domain/entities/art/ARTCategoryEntity'
+import { ArtCategoryInterface } from "otz-types"
 
 export interface IARTCategoryRepository {
-  create: (data: ARTCategoryEntity) => Promise<ARTCategoryEntity | null>
-  find: () => Promise<ARTCategoryEntity[]>
-  findById: (id: string) => Promise<ARTCategoryEntity | null>
+  create: (data: ArtCategoryInterface) => Promise<ArtCategoryInterface | null>
+  find: () => Promise<ArtCategoryInterface[]>
+  findById: (id: string) => Promise<ArtCategoryInterface | null>
 }

@@ -1,7 +1,7 @@
-import { type ARTSwitchReasonsEntity } from '../../../domain/entities/art/ARTSwitchReasonsEntity'
+import { ARTSwitchReasonInterface } from "otz-types"
 
 export interface IARTSwitchReasonInteractor {
-  createARTSwitchReasons: (data: ARTSwitchReasonsEntity) => Promise<ARTSwitchReasonsEntity | null>
-  getAllARTSwitchReasons: () => Promise<ARTSwitchReasonsEntity[]>
-  getARTSwitchReasonsById: (id: string) => Promise<ARTSwitchReasonsEntity | null>
+  createARTSwitchReasons: (data: ARTSwitchReasonInterface) => Promise<ARTSwitchReasonInterface | null>
+  getAllARTSwitchReasons: () => Promise<ARTSwitchReasonInterface[]>
+  getARTSwitchReasonsById: (id: string) => Promise<ARTSwitchReasonInterface | null>
 }

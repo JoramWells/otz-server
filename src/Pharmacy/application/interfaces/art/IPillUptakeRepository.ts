@@ -1,9 +1,9 @@
-import { type AdherenceEntity } from '../../../domain/entities/art/AdherenceEntity'
+import { AdherenceAttributes } from "otz-types";
 
 export interface IPillUptakeRepository {
-  create: (data: AdherenceEntity) => Promise<AdherenceEntity>
-  find: () => Promise<AdherenceEntity[]>
-  findById: (id: string) => Promise<AdherenceEntity | null>
-  edit: (id: string, status: boolean, queryString: ParsedQs) => Promise<AdherenceEntity | null>
-  count: () => Promise<AdherenceEntity | null>
+  create: (data: AdherenceAttributes) => Promise<AdherenceAttributes>
+  find: () => Promise<AdherenceAttributes[]>
+  findById: (id: string) => Promise<AdherenceAttributes | null>
+  edit: (id: string, status: boolean, queryString: string) => Promise<AdherenceAttributes | null>
+  count: () => Promise<AdherenceAttributes | null>
 }

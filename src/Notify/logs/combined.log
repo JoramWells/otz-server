@@ -332,3 +332,12 @@
 {"level":"info","message":"Morning Notification created for patient:, f83f8055-3da8-4e16-9593-bc2a077bf7cf","service":"pharmacy-service","timestamp":"2024-07-01T08:00:02.038Z"}
 {"level":"info","message":"Morning Notification created for patient:, ef8d49e3-2e35-4d45-ad28-89fb956029ab","service":"pharmacy-service","timestamp":"2024-07-01T09:30:02.648Z"}
 {"level":"info","message":"Morning Notification created for patient:, 59ba94dd-a057-4c91-8135-18f4023611b9","service":"pharmacy-service","timestamp":"2024-07-01T10:00:02.840Z"}
+{"level":"info","message":"Morning Notification created for patient:, dbc6e000-d523-4377-b33d-69bd4a141472","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.230Z"}
+{"level":"info","message":"Morning Notification created for patient:, 59b5d3fa-a2bc-45bd-b910-df2e9f36ebcc","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.342Z"}
+{"level":"info","message":"Morning Notification created for patient:, 59b5d3fa-a2bc-45bd-b910-df2e9f36ebcc","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.343Z"}
+{"level":"info","message":"Morning Notification created for patient:, fcdf6bfb-45ad-4b7d-a6d0-d694c57fd978","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.350Z"}
+{"level":"info","message":"Morning Notification created for patient:, fcdf6bfb-45ad-4b7d-a6d0-d694c57fd978","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.351Z"}
+{"level":"info","message":"Morning Notification created for patient:, eaf03235-7342-4d6e-a7bf-35098d7f3312","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.403Z"}
+{"level":"info","message":"Morning Notification created for patient:, eaf03235-7342-4d6e-a7bf-35098d7f3312","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.404Z"}
+{"level":"info","message":"Morning Notification created for patient:, 34cf1bf7-9f30-41b1-898e-8aaaa64d0d66","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.409Z"}
+{"level":"info","message":"Morning Notification created for patient:, 34cf1bf7-9f30-41b1-898e-8aaaa64d0d66","service":"pharmacy-service","timestamp":"2024-07-01T20:34:57.410Z"}

@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { ARTPrescriptionInterface } from 'otz-types'
 import { type IARTPrescriptionRepository } from '../../application/interfaces/art/IARTPrescriptionRepository'
-import { type ARTPrescriptionEntity } from '../../domain/entities/art/ARTPrescriptionEntity'
 import { ART } from '../../domain/models/art/art.model'
 import { ARTPrescription } from '../../domain/models/art/artPrescription.model'
 
 export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
-  async create (data: ARTPrescriptionEntity): Promise<ARTPrescriptionEntity> {
-    const results: ARTPrescriptionEntity = await ARTPrescription.create(data)
+  async create (data: ARTPrescriptionInterface): Promise<ARTPrescriptionInterface> {
+    const results: ARTPrescriptionInterface = await ARTPrescription.create(data)
 
     return results
   }
 
-  async find (): Promise<ARTPrescriptionEntity[]> {
+  async find (): Promise<ARTPrescriptionInterface[]> {
     const results = await ARTPrescription.findAll({
       include: [
         {
@@ -26,7 +26,7 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
     return results
   }
 
-  async findById (id: string): Promise<ARTPrescriptionEntity | null> {
+  async findById (id: string): Promise<ARTPrescriptionInterface | null> {
     const results = await ARTPrescription.findOne({
       where: {
         patientID: id

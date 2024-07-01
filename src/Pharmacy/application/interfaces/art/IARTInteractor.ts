@@ -1,7 +1,7 @@
-import { type ARTEntity } from '../../../domain/entities/art/ARTEntity'
+import { UserInterface } from "otz-types"
 
 export interface IARTInteractor {
-  createART: (data: ARTEntity) => Promise<ARTEntity | null>
-  getAllARTs: () => Promise<ARTEntity[]>
-  getARTById: (id: string) => Promise<ARTEntity | null>
+  createART: (data: UserInterface) => Promise<UserInterface | null>
+  getAllARTs: () => Promise<UserInterface[]>
+  getARTById: (id: string) => Promise<UserInterface | null>
 }

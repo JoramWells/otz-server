@@ -1,12 +1,11 @@
-import { type AppointmentEntity } from '../../../domain/entities/appointment/AppointmentEntity'
-import { type PrescriptionEntity } from '../../../domain/entities/art/PrescriptionEntity'
+import { AppointmentAttributes, PrescriptionInterface } from "otz-types"
 
 export interface IPrescriptionRepository {
-  create: (data: PrescriptionEntity, appointmentInput: AppointmentEntity) => Promise<PrescriptionEntity | null>
-  find: () => Promise<PrescriptionEntity[]>
-  findById: (id: string) => Promise<PrescriptionEntity | null>
-  findDetails: (id: string) => Promise<PrescriptionEntity | null>
-  findAllAdherence: () => Promise<PrescriptionEntity[]>
+  create: (data: PrescriptionInterface, appointmentInput: AppointmentAttributes) => Promise<PrescriptionInterface | null>
+  find: () => Promise<PrescriptionInterface[]>
+  findById: (id: string) => Promise<PrescriptionInterface | null>
+  findDetails: (id: string) => Promise<PrescriptionInterface | null>
+  findAllAdherence: () => Promise<PrescriptionInterface[]>
   findFacilityAdherence: () => Promise<string | number>
 
 }

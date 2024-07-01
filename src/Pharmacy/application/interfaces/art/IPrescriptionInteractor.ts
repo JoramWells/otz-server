@@ -1,12 +1,11 @@
-import { type AppointmentEntity } from '../../../domain/entities/appointment/AppointmentEntity'
-import { type PrescriptionEntity } from '../../../domain/entities/art/PrescriptionEntity'
+import { AppointmentAttributes, PrescriptionInterface } from "otz-types"
 
 export interface IPrescriptionInteractor {
-  createPrescription: (data: PrescriptionEntity, appointmentInput: AppointmentEntity) => Promise<PrescriptionEntity | null>
-  getAllPrescriptions: () => Promise<PrescriptionEntity[]>
-  getPrescriptionById: (id: string) => Promise<PrescriptionEntity | null>
-  getPrescriptionDetails: (id: string) => Promise<PrescriptionEntity | null>
-  getAllAdherence: () => Promise<PrescriptionEntity[] >
+  createPrescription: (data: PrescriptionInterface, appointmentInput: AppointmentAttributes) => Promise<PrescriptionInterface | null>
+  getAllPrescriptions: () => Promise<PrescriptionInterface[]>
+  getPrescriptionById: (id: string) => Promise<PrescriptionInterface | null>
+  getPrescriptionDetails: (id: string) => Promise<PrescriptionInterface | null>
+  getAllAdherence: () => Promise<PrescriptionInterface[] >
   getFacilityAdherence: () => Promise<string | number >
 
 }

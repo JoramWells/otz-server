@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type MeasuringUnitEntity } from '../../domain/entities/art/MeasuringUnitEntity'
+import { MeasuringUnitInterface } from 'otz-types'
 import { type IMeasuringUnitInteractor } from '../interfaces/art/IMeasuringUnitInteractor'
 import { type IMeasuringUnitRepository } from '../interfaces/art/IMeasuringUnitRepository'
 
@@ -10,17 +10,17 @@ export class MeasuringUnitInteractor implements IMeasuringUnitInteractor {
     this.repository = repository
   }
 
-  async getMeasuringUnitById (id: string): Promise<MeasuringUnitEntity | null> {
+  async getMeasuringUnitById (id: string): Promise<MeasuringUnitInterface | null> {
     return await this.repository.findById(id)
   }
 
   async createMeasuringUnit (
-    data: MeasuringUnitEntity
-  ): Promise<MeasuringUnitEntity | null> {
+    data: MeasuringUnitInterface
+  ): Promise<MeasuringUnitInterface | null> {
     return await this.repository.create(data)
   }
 
-  async getAllMeasuringUnits (): Promise<MeasuringUnitEntity[]> {
+  async getAllMeasuringUnits (): Promise<MeasuringUnitInterface[]> {
     return await this.repository.find()
   }
 }

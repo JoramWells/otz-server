@@ -1,7 +1,7 @@
-import { type ARTEntity } from '../../../domain/entities/art/ARTEntity'
+import { ARTInterface } from "otz-types"
 
 export interface IARTRepository {
-  create: (data: ARTEntity) => Promise<ARTEntity | null>
-  find: () => Promise<ARTEntity[]>
-  findById: (id: string) => Promise<ARTEntity | null>
+  create: (data: ARTInterface) => Promise<ARTInterface | null>
+  find: () => Promise<ARTInterface[]>
+  findById: (id: string) => Promise<ARTInterface | null>
 }

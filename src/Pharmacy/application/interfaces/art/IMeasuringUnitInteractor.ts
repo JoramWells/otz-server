@@ -1,7 +1,7 @@
-import { type MeasuringUnitEntity } from '../../../domain/entities/art/MeasuringUnitEntity'
+import { MeasuringUnitInterface } from "otz-types"
 
 export interface IMeasuringUnitInteractor {
-  createMeasuringUnit: (data: MeasuringUnitEntity) => Promise<MeasuringUnitEntity | null>
-  getAllMeasuringUnits: () => Promise<MeasuringUnitEntity[]>
-  getMeasuringUnitById: (id: string) => Promise<MeasuringUnitEntity | null>
+  createMeasuringUnit: (data: MeasuringUnitInterface) => Promise<MeasuringUnitInterface | null>
+  getAllMeasuringUnits: () => Promise<MeasuringUnitInterface[]>
+  getMeasuringUnitById: (id: string) => Promise<MeasuringUnitInterface | null>
 }

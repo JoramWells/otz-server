@@ -1,5 +1,4 @@
-import { type AppointmentEntity } from '../../domain/entities/appointment/AppointmentEntity'
-import { type PrescriptionEntity } from '../../domain/entities/art/PrescriptionEntity'
+import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
 import { type IPrescriptionInteractor } from '../interfaces/art/IPrescriptionInteractor'
 import { type IPrescriptionRepository } from '../interfaces/art/IPrescriptionRepository'
 
@@ -14,26 +13,26 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     return await this.repository.findFacilityAdherence()
   }
 
-  async getPrescriptionById (id: string): Promise<PrescriptionEntity | null> {
+  async getPrescriptionById (id: string): Promise<PrescriptionInterface | null> {
     return await this.repository.findById(id)
   }
 
-  async getPrescriptionDetails (id: string): Promise<PrescriptionEntity | null> {
+  async getPrescriptionDetails (id: string): Promise<PrescriptionInterface | null> {
     return await this.repository.findDetails(id)
   }
 
   async createPrescription (
-    data: PrescriptionEntity,
-    appointmentInput: AppointmentEntity
-  ): Promise<PrescriptionEntity | null> {
+    data: PrescriptionInterface,
+    appointmentInput: AppointmentAttributes
+  ): Promise<PrescriptionInterface | null> {
     return await this.repository.create(data, appointmentInput)
   }
 
-  async getAllPrescriptions (): Promise<PrescriptionEntity[]> {
+  async getAllPrescriptions (): Promise<PrescriptionInterface[]> {
     return await this.repository.find()
   }
 
-  async getAllAdherence (): Promise<PrescriptionEntity[]> {
+  async getAllAdherence (): Promise<PrescriptionInterface[]> {
     return await this.repository.findAllAdherence()
   }
 }

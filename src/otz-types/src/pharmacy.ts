@@ -10,11 +10,11 @@ export interface PrescriptionInterface {
   nextRefillDate: Date;
 
   //
-  expectedNoOfPills: number;
-  computedNoOfPills: number;
-  updatedAtExpectedNoOfPills: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  expectedNoOfPills?: number;
+  computedNoOfPills?: number;
+  updatedAtExpectedNoOfPills?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface MeasuringUnitInterface {

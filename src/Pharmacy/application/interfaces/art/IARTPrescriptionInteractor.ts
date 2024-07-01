@@ -1,7 +1,7 @@
-import { type ARTPrescriptionEntity } from '../../../domain/entities/art/ARTPrescriptionEntity'
+import { ARTPrescriptionInterface } from "otz-types"
 
 export interface IARTPrescriptionInteractor {
-  createARTPrescription: (data: ARTPrescriptionEntity) => Promise<ARTPrescriptionEntity | null>
-  getAllARTPrescriptions: () => Promise<ARTPrescriptionEntity[]>
-  getARTPrescriptionById: (id: string) => Promise<ARTPrescriptionEntity | null>
+  createARTPrescription: (data: ARTPrescriptionInterface) => Promise<ARTPrescriptionInterface | null>
+  getAllARTPrescriptions: () => Promise<ARTPrescriptionInterface[]>
+  getARTPrescriptionById: (id: string) => Promise<ARTPrescriptionInterface | null>
 }

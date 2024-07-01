@@ -1,7 +1,6 @@
-import { type AdherenceEntity } from '../../domain/entities/art/AdherenceEntity'
 import { type IPillUptakeInteractor } from '../interfaces/art/IPillUptakeInteractor'
 import { type IPillUptakeRepository } from '../interfaces/art/IPillUptakeRepository'
-
+import { AdherenceAttributes } from "otz-types";
 export class PillUptakeInteractor implements IPillUptakeInteractor {
   private readonly repository: IPillUptakeRepository
 
@@ -9,23 +8,23 @@ export class PillUptakeInteractor implements IPillUptakeInteractor {
     this.repository = repository
   }
 
-  async getDailyPillUptakeCount (): Promise<AdherenceEntity | null> {
+  async getDailyPillUptakeCount (): Promise<AdherenceAttributes | null> {
     return await this.repository.count()
   }
 
-  async getPillUptakeById (id: string): Promise<AdherenceEntity | null> {
+  async getPillUptakeById (id: string): Promise<AdherenceAttributes | null> {
     return await this.repository.findById(id)
   }
 
-  async editPillUptake (id: string, status: boolean, queryString: string): Promise<AdherenceEntity | null> {
+  async editPillUptake (id: string, status: boolean, queryString: string): Promise<AdherenceAttributes | null> {
     return await this.repository.edit(id, status, queryString)
   }
 
-  async createPillUptake (patientData: AdherenceEntity): Promise<AdherenceEntity> {
+  async createPillUptake (patientData: AdherenceAttributes): Promise<AdherenceAttributes> {
     return await this.repository.create(patientData)
   }
 
-  async getAllPillUptakes (): Promise<AdherenceEntity[]> {
+  async getAllPillUptakes (): Promise<AdherenceAttributes[]> {
     return await this.repository.find()
   }
 }

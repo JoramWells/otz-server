@@ -1,9 +1,9 @@
-import { type AdherenceEntity } from '../../../domain/entities/art/AdherenceEntity'
+import { AdherenceAttributes } from "otz-types";
 
 export interface IPillUptakeInteractor {
-  createPillUptake: (data: AdherenceEntity) => Promise<AdherenceEntity>
-  getAllPillUptakes: () => Promise<AdherenceEntity[]>
-  getPillUptakeById: (id: string) => Promise<AdherenceEntity | null>
-  editPillUptake: (id: string, status: boolean, queryString: ParsedQs) => Promise<AdherenceEntity | null>
-  getDailyPillUptakeCount: () => Promise<AdherenceEntity | null>
+  createPillUptake: (data: AdherenceAttributes) => Promise<AdherenceAttributes>
+  getAllPillUptakes: () => Promise<AdherenceAttributes[]>
+  getPillUptakeById: (id: string) => Promise<AdherenceAttributes | null>
+  editPillUptake: (id: string, status: boolean, queryString: string) => Promise<AdherenceAttributes | null>
+  getDailyPillUptakeCount: () => Promise<AdherenceAttributes | null>
 }

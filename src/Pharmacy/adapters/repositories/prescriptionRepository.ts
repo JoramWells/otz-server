@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
 import { type IPrescriptionRepository } from '../../application/interfaces/art/IPrescriptionRepository'
 import { connect } from '../../domain/db/connect'
-import { type AppointmentEntity } from '../../domain/entities/appointment/AppointmentEntity'
-import { type PrescriptionEntity } from '../../domain/entities/art/PrescriptionEntity'
 import { Appointment } from '../../domain/models/appointment/appointment.model'
 import { ART } from '../../domain/models/art/art.model'
 import { ArtCategory } from '../../domain/models/art/artCategory.model'
@@ -14,11 +13,11 @@ import { calculatePills2 } from '../../utils/calculatePills'
 
 export class PrescriptionRepository implements IPrescriptionRepository {
   async create (
-    data: PrescriptionEntity,
-    appointmentInput: AppointmentEntity
-  ): Promise<PrescriptionEntity | null> {
+    data: PrescriptionInterface,
+    appointmentInput: AppointmentAttributes
+  ): Promise<PrescriptionInterface | null> {
     return await connect.transaction(async (t) => {
-      const results: PrescriptionEntity = await Prescription.create(data, {
+      const results: PrescriptionInterface = await Prescription.create(data, {
         transaction: t
       })
 
@@ -28,12 +27,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     })
   }
 
-  async find (): Promise<PrescriptionEntity[]> {
+  async find (): Promise<PrescriptionInterface[]> {
     const results = await calculatePills2()
     return results
   }
 
-  async findAllAdherence (): Promise<PrescriptionEntity[]> {
+  async findAllAdherence (): Promise<PrescriptionInterface[]> {
     const results = await calculatePills2()
     return results
   }
@@ -43,7 +42,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     return facilityAdherence
   }
 
-  async findDetails (id: string): Promise<PrescriptionEntity | null> {
+  async findDetails (id: string): Promise<PrescriptionInterface | null> {
     const results = await Prescription.findOne({
       order: [['updatedAt', 'DESC']],
       where: {
@@ -55,7 +54,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     return results
   }
 
-  async findById (id: string): Promise<PrescriptionEntity | null> {
+  async findById (id: string): Promise<PrescriptionInterface | null> {
     const results = await Prescription.findOne({
       where: {
         patientVisitID: id
