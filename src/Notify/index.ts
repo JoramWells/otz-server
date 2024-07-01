@@ -22,7 +22,7 @@ import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes'
 import { schedulePatientNotifications } from './utils/scheduleMessages';
 import { chatRouter } from './routes/chat/chat.routes';
 import { messageRouter } from './routes/chat/messages.routes';
-import { sendPushNotification } from './utils/fcm';
+// import { sendPushNotification } from './utils/fcm';
 const morgan = require('morgan');
 require('dotenv').config();
 
@@ -31,6 +31,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const cors = require('cors');
 const sequelize = require('./db/connect');
+
 
 // const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 

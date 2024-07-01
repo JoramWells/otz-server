@@ -1,22 +1,20 @@
-import { DataTypes, Model,  UUIDV4 } from "sequelize";
+import { DataTypes, ForeignKey, InferAttributes, Model,  Optional,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { TimeAndWork } from "./timeAndWork.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
+import { UptakeAttributes } from "otz-types";
 
-export interface UptakeAttributes {
-  id?: string
-  timeAndWorkID: string
-  currentDate: string
-  morningStatus: boolean
-  eveningStatus: boolean
-}
+
+type UptakeCreationAttributes = Optional<UptakeAttributes, 'id'>
 
 export class Uptake extends Model<UptakeAttributes> implements UptakeAttributes {
   id: string | undefined;
-  timeAndWorkID!: string;
+  // timeAndWorkID!: string;
   currentDate!: string;
   morningStatus!: boolean;
   eveningStatus!: boolean;
+
+  declare timeAndWorkID: ForeignKey<TimeAndWork["id"]>;
 }
 
 Uptake.init(
@@ -53,7 +51,7 @@ Uptake.init(
   }
 );
 
-Uptake.belongsTo(TimeAndWork, { foreignKey: "timeAndWorkID" });
+Uptake.belongsTo(TimeAndWork, { foreignKey: "timeAndWorkID", as:'TimeAndWork' });
 
 // (async () => {
 // connect.sync()

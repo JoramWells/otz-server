@@ -79,7 +79,8 @@ const schedulePatientNotifications = async () => {
           // console.log(notificationTime.toDate(), 'ft');
 
           scheduleJob(notificationTime.toDate(), async () => {
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)].messageText;
+            const randomMessage =
+              messages[Math.floor(Math.random() * messages.length)].messageText;
 
             await PatientNotification.create({
               patientID: patient.TimeAndWork.Patient.id,
@@ -87,10 +88,15 @@ const schedulePatientNotifications = async () => {
               medicineTime: morningMedicineTime,
             });
 
-              sendSMS(randomMessage)
+            sendSMS(randomMessage);
 
-            console.log('Notification created for patient:', patient.TimeAndWork.Patient.id);
-            logger.info({message:`Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`})
+            console.log(
+              "Notification created for patient:",
+              patient.TimeAndWork.Patient.id
+            );
+            logger.info({
+              message: `Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`,
+            });
           });
         }
       }
@@ -121,7 +127,10 @@ const schedulePatientNotifications = async () => {
               medicineTime: eveningMedicineTime,
             });
             sendSMS(randomMessage)
-            notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);            logger.info({message:`Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`})
+            notificationEmitter.emit('notificationCreated', patient.TimeAndWork.Patient.id);           
+             logger.info({
+               message: `Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`,
+             });
             logger.info({
               message: `Morning Notification created for patient:, ${patient.TimeAndWork.Patient.id}`,
             });
