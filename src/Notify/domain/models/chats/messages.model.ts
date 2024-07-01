@@ -3,13 +3,8 @@ import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Chat } from "./chat.model";
 import { Patient } from "../patients.models";
+import { MessagesAttributes } from "otz-types";
 
-export interface MessagesAttributes {
-  id?: string;
-  chatID?: string;
-  text?: string;
-  senderID?: string;
-}
 
 export class Messages
   extends Model<MessagesAttributes>

@@ -1,11 +1,8 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
+import { NotificationCategoryAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface NotificationCategoryAttributes {
-  id: string;
-  notificationDescription: string;
-}
 
 export class NotificationCategory
   extends Model<NotificationCategoryAttributes>

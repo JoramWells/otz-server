@@ -2,23 +2,9 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model } from 'sequelize'
 import { connect } from '../../../db/connect'
+import { SchoolAttributes } from 'otz-types'
 
-interface SchoolAttributes {
-  id: string
-  schoolName: string
-  countyName: string
-  subCountyName: string
-  constituency: string
-  division: string
-  location: string
-  subLocation: string
-  level: string
-  status: string
-  sponsor: string
-  longitude: string
-  latitude: string
-  classrooms: string
-}
+
 
 export class School extends Model<SchoolAttributes> {}
 

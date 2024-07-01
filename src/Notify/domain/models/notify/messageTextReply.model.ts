@@ -1,11 +1,8 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
+import { MessageTextReplyAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface MessageTextReplyAttributes {
-  id: string;
-  messageText: string;
-}
 
 export class MessageTextReply
   extends Model<MessageTextReplyAttributes>

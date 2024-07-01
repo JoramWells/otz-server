@@ -5,7 +5,8 @@ const  {Expo, ExpoPushTicket} = require('expo-server-sdk')
 
 function sendPushNotification(){
 
-  
+    const pusTokens = [
+    ]
     const expo = new Expo({
       accessToken: process.env.EXPO_ACCESS_TOKEN,
       useFcmV1: false,

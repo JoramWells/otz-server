@@ -1,12 +1,8 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 
 import { connect } from "../../../db/connect";
+import { ChatAttributes } from "otz-types";
 
-export interface ChatAttributes {
-  id?: string;
-  // messages?: string;
-  members?: string[];
-}
 
 export class Chat
   extends Model<ChatAttributes>
