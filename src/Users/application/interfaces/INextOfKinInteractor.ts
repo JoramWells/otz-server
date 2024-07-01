@@ -1,7 +1,7 @@
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
+import { NextOfKinInterface } from "otz-types"
 
 export interface INextOfKinInteractor {
-  createNextOfKin: (patientData: NextOfKinEntity) => Promise<NextOfKinEntity>
-  getAllNextOfKins: () => Promise<NextOfKinEntity[]>
-  getNextOfKinById: (id: string) => Promise<NextOfKinEntity[] | null>
+  createNextOfKin: (patientData: NextOfKinInterface) => Promise<NextOfKinInterface>
+  getAllNextOfKins: () => Promise<NextOfKinInterface[]>
+  getNextOfKinById: (id: string) => Promise<NextOfKinInterface[] | null>
 }

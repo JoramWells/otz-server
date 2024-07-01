@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { UserInterface } from 'otz-types'
 import { type IUserRepository } from '../../application/interfaces/IUserRepository'
-import { type UserEntity } from '../../domain/entities/UserEntity'
 import { User } from '../../domain/models/user.model'
 
 export class UserRepository implements IUserRepository {
-  async create (data: UserEntity): Promise<UserEntity> {
+  async create (data: UserInterface): Promise<UserInterface> {
     const {
       firstName,
       middleName,
@@ -28,7 +28,7 @@ export class UserRepository implements IUserRepository {
       password,
       idNo
     })
-    const userEntity: UserEntity = {
+    const user: UserInterface = {
       id: results.id,
       firstName: results.firstName,
       middleName,
@@ -41,15 +41,15 @@ export class UserRepository implements IUserRepository {
       email: '',
       password: ''
     }
-    return userEntity
+    return user
   }
 
-  async find (): Promise<UserEntity[]> {
+  async find (): Promise<UserInterface[]> {
     const results = await User.findAll({})
     return results
   }
 
-  async findById (id: string): Promise<UserEntity | null> {
+  async findById (id: string): Promise<UserInterface | null> {
     const results = await User.findOne({
       where: {
         id
@@ -60,7 +60,7 @@ export class UserRepository implements IUserRepository {
     return results
   }
 
-  async login (email: string, password: string): Promise<UserEntity | null> {
+  async login (email: string, password: string): Promise<UserInterface | null> {
     const user: User | null = await User.findOne({
       where: {
         email

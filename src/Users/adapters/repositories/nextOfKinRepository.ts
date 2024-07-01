@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { NextOfKinInterface } from 'otz-types'
 import { type INextOfKinRepository } from '../../application/interfaces/INextOfKinRepository'
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
 import { NextOfKin } from '../../domain/models/nextOfKin.model'
 import { Patient } from '../../domain/models/patients.models'
 
 export class NextOfKinRepository implements INextOfKinRepository {
-  async create (data: NextOfKinEntity): Promise<NextOfKinEntity> {
+  async create (data: NextOfKinInterface): Promise<NextOfKinInterface> {
     // const {
     //   firstName,
     //   middleName,
@@ -21,8 +21,8 @@ export class NextOfKinRepository implements INextOfKinRepository {
     //   password
     // } = data
 
-    const results: NextOfKinEntity = await NextOfKin.create(data)
-    // const NextOfKinEntity: NextOfKinEntity = {
+    const results: NextOfKinInterface = await NextOfKin.create(data)
+    // const NextOfKinInterface: NextOfKinInterface = {
     //   id: results.id,
     //   firstName: results.firstName,
     //   middleName,
@@ -38,7 +38,7 @@ export class NextOfKinRepository implements INextOfKinRepository {
     return results
   }
 
-  async find (): Promise<NextOfKinEntity[]> {
+  async find (): Promise<NextOfKinInterface[]> {
     const results = await NextOfKin.findAll({
       include: [
         {
@@ -50,7 +50,7 @@ export class NextOfKinRepository implements INextOfKinRepository {
     return results
   }
 
-  async findById (id: string): Promise<NextOfKinEntity[] | null> {
+  async findById (id: string): Promise<NextOfKinInterface[] | null> {
     const results = await NextOfKin.findAll({
       where: {
         patientID: id

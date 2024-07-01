@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
+import { NextOfKinInterface } from 'otz-types'
 import { type INextOfKinInteractor } from '../interfaces/INextOfKinInteractor'
 import { type INextOfKinRepository } from '../interfaces/INextOfKinRepository'
 
@@ -10,17 +10,17 @@ export class NextOfKinInteractor implements INextOfKinInteractor {
     this.repository = repository
   }
 
-  async getNextOfKinById (id: string): Promise<NextOfKinEntity[] | null> {
+  async getNextOfKinById (id: string): Promise<NextOfKinInterface[] | null> {
     return await this.repository.findById(id)
   }
 
   async createNextOfKin (
-    patientData: NextOfKinEntity
-  ): Promise<NextOfKinEntity> {
+    patientData: NextOfKinInterface
+  ): Promise<NextOfKinInterface> {
     return await this.repository.create(patientData)
   }
 
-  async getAllNextOfKins (): Promise<NextOfKinEntity[]> {
+  async getAllNextOfKins (): Promise<NextOfKinInterface[]> {
     return await this.repository.find()
   }
 }

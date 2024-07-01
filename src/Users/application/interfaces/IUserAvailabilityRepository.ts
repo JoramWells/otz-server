@@ -1,7 +1,7 @@
-import { type UserAvailabilityEntity } from '../../domain/entities/UserAvailailityEntity'
+import { UserAvailabilityAttributes } from "otz-types"
 
 export interface IUserAvailabilityRepository {
-  create: (data: UserAvailabilityEntity) => Promise<UserAvailabilityEntity>
-  find: () => Promise<UserAvailabilityEntity[]>
-  findById: (id: string) => Promise<UserAvailabilityEntity | null>
+  create: (data: UserAvailabilityAttributes) => Promise<UserAvailabilityAttributes>
+  find: () => Promise<UserAvailabilityAttributes[]>
+  findById: (id: string) => Promise<UserAvailabilityAttributes | null>
 }

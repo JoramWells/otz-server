@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type UserEntity } from '../../domain/entities/UserEntity'
+import { UserInterface } from 'otz-types'
 import { type IUserInteractor } from '../interfaces/IUserInteractor'
 import { type IUserRepository } from '../interfaces/IUserRepository'
 
@@ -10,19 +10,19 @@ export class UserInteractor implements IUserInteractor {
     this.repository = repository
   }
 
-  async getUserById (id: string): Promise<UserEntity | null> {
+  async getUserById (id: string): Promise<UserInterface | null> {
     return await this.repository.findById(id)
   }
 
-  async createUser (patientData: UserEntity): Promise<UserEntity> {
+  async createUser (patientData: UserInterface): Promise<UserInterface> {
     return await this.repository.create(patientData)
   }
 
-  async getAllUsers (): Promise<UserEntity[]> {
+  async getAllUsers (): Promise<UserInterface[]> {
     return await this.repository.find()
   }
 
-  async login (email: string, password: string): Promise<UserEntity | null> {
+  async login (email: string, password: string): Promise<UserInterface | null> {
     return await this.repository.login(email, password)
   }
 }

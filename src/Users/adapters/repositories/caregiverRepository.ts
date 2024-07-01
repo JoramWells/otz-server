@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { CaregiverInterface } from 'otz-types'
 import { type ICaregiverRepository } from '../../application/interfaces/ICaregiverRepository'
-import { type CaregiverEntity } from '../../domain/entities/CaregiverEntity'
 import { Caregiver } from '../../domain/models/caregiver.model'
 import { Patient } from '../../domain/models/patients.models'
 
 export class CaregiverRepository implements ICaregiverRepository {
-  async create (data: CaregiverEntity): Promise<CaregiverEntity> {
-    const results: CaregiverEntity = await Caregiver.create(data)
+  async create (data: CaregiverInterface): Promise<CaregiverInterface> {
+    const results: CaregiverInterface = await Caregiver.create(data)
 
     return results
   }
 
-  async find (): Promise<CaregiverEntity[]> {
+  async find (): Promise<CaregiverInterface[]> {
     const results = await Caregiver.findAll({
       include: [
         {
@@ -25,7 +25,7 @@ export class CaregiverRepository implements ICaregiverRepository {
     return results
   }
 
-  async findById (id: string): Promise<CaregiverEntity[] | null> {
+  async findById (id: string): Promise<CaregiverInterface[] | null> {
     const results = await Caregiver.findAll({
       where: {
         patientID: id

@@ -3,8 +3,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { logger } from '../../utils/logger'
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
-import { type PatientEntity } from '../../domain/entities/PatientEntity'
+import { NextOfKinInterface, PatientAttributes } from 'otz-types';
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PatientController {
@@ -37,7 +36,7 @@ export class PatientController {
       relationship,
     } = req.body;
 
-    const patientData: PatientEntity = {
+    const patientData: PatientAttributes = {
       firstName,
       middleName,
       lastName,
@@ -52,7 +51,7 @@ export class PatientController {
       entryPoint,
     };
 
-    const nextOfKinData: NextOfKinEntity = {
+    const nextOfKinData: NextOfKinInterface = {
       relationship,
       certificateNo: "",
       firstName: kinFirstName,
@@ -150,9 +149,9 @@ export class PatientController {
   async onEditPatientProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { firstName, middleName, lastName, phoneNo }: PatientEntity =
+      const { firstName, middleName, lastName, phoneNo }: PatientAttributes =
         req.body;
-      const values: PatientEntity = {
+      const values: PatientAttributes = {
         id,
         firstName,
         middleName,

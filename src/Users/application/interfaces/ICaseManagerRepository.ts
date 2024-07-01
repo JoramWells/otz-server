@@ -1,7 +1,7 @@
-import { type CaseManagerEntity } from '../../domain/entities/CaseManagerEntity'
+import { CaseManagerInterface } from "otz-types"
 
 export interface ICaseManagerRepository {
-  create: (data: CaseManagerEntity) => Promise<CaseManagerEntity>
-  find: () => Promise<CaseManagerEntity[]>
-  findById: (id: string) => Promise<CaseManagerEntity | null>
+  create: (data: CaseManagerInterface) => Promise<CaseManagerInterface>
+  find: () => Promise<CaseManagerInterface[]>
+  findById: (id: string) => Promise<CaseManagerInterface | null>
 }

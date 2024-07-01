@@ -5,8 +5,6 @@ import { Op } from 'sequelize'
 import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
 import { patientCache } from '../../constants'
 import { connect } from '../../domain/db/connect'
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
-import { type PatientEntity } from '../../domain/entities/PatientEntity'
 import { Hospital } from '../../domain/models/hospital/hospital.model'
 import { NextOfKin } from '../../domain/models/nextOfKin.model'
 import { PatientVisits } from '../../domain/models/patientVisits.model'
@@ -16,6 +14,7 @@ import { logger } from '../../utils/logger'
 import bcrypt from 'bcrypt'
 // import { createClient } from 'redis'
 import { RedisAdapter } from './redisAdapter'
+import { NextOfKinInterface, PatientAttributes } from 'otz-types'
 
 export class PatientRepository implements IPatientRepository {
   private readonly redisClient = new RedisAdapter();
@@ -24,8 +23,8 @@ export class PatientRepository implements IPatientRepository {
   // }
 
   async create(
-    data: PatientEntity,
-    nextOfKinData: NextOfKinEntity
+    data: PatientAttributes,
+    nextOfKinData: NextOfKinInterface
   ): Promise<string | null> {
     // const { firstName, middleName, lastName, dob, phoneNo, cccNo, occupationID, sex, hospitalID, schoolID, idNo } = data
     console.log(nextOfKinData);
@@ -53,7 +52,7 @@ export class PatientRepository implements IPatientRepository {
         results = "Successfully registered a New Patient";
       });
 
-    // const patientEntity: PatientEntity = {
+    // const patientPatientAttributes: PatientAttributes = {
     //   id: results.id,
     //   firstName: results.firstName,
     //   middleName,
@@ -66,7 +65,7 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async findAllPMTCTPatients(): Promise<PatientEntity[]> {
+  async findAllPMTCTPatients(): Promise<PatientAttributes[]> {
     const results = await Patient.findAll({
       where: {
         sex: { [Op.or]: ["F", "female"] },
@@ -78,7 +77,7 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async findOTZ(): Promise<PatientEntity[]> {
+  async findOTZ(): Promise<PatientAttributes[]> {
     const results = await Patient.findAll({
       where: {
         dob: {
@@ -89,7 +88,7 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async find(): Promise<PatientEntity[]> {
+  async find(): Promise<PatientAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(patientCache)) === null) {
@@ -129,11 +128,11 @@ export class PatientRepository implements IPatientRepository {
     logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
-    const results: PatientEntity[] = JSON.parse(cachedPatients);
+    const results: PatientAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<PatientEntity | null> {
+  async findById(id: string): Promise<PatientAttributes | null> {
     // await this.redisClient.connect()
     // if (await this.redisClient.get(id) === null) {
     //   const results: Patient | null = await Patient.findOne({
@@ -142,7 +141,7 @@ export class PatientRepository implements IPatientRepository {
     //     }
     //   })
 
-    //   const patientResults: PatientEntity = {
+    //   const patientResults: PatientAttributes = {
     //     firstName: results?.firstName,
     //     middleName: results?.middleName,
     //     sex: results?.sex,
@@ -159,7 +158,7 @@ export class PatientRepository implements IPatientRepository {
     // if (cachedData === null) {
     //   return null
     // }
-    // const results: PatientEntity = JSON.parse(cachedData)
+    // const results: PatientAttributes = JSON.parse(cachedData)
     // console.log('fetched patient from cace!')
     const results: Patient | null = await Patient.findOne({
       where: {
@@ -174,7 +173,7 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async edit(data: PatientEntity): Promise<PatientEntity | null> {
+  async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
     const { id, firstName, middleName, lastName, phoneNo } = data;
     const results = await Patient.findOne({
       where: {
@@ -196,7 +195,7 @@ export class PatientRepository implements IPatientRepository {
   async login(
     firstName: string,
     password: string
-  ): Promise<PatientEntity | null> {
+  ): Promise<PatientAttributes | null> {
     try {
       const user: Patient | null = await Patient.findOne({
         where: { firstName: firstName },

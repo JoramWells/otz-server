@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { type UserAvailabilityEntity } from '../../domain/entities/UserAvailailityEntity'
+import { UserAvailabilityAttributes } from 'otz-types'
 import { type IUserAvailabilityInteractor } from '../interfaces/IUserAvailabilityInteractor'
 import { type IUserAvailabilityRepository } from '../interfaces/IUserAvailabilityRepository'
 
@@ -10,15 +10,15 @@ export class UserAvailabilityInteractor implements IUserAvailabilityInteractor {
     this.repository = repository
   }
 
-  async getUserAvailabilityById (id: string): Promise<UserAvailabilityEntity | null> {
+  async getUserAvailabilityById (id: string): Promise<UserAvailabilityAttributes | null> {
     return await this.repository.findById(id)
   }
 
-  async createUserAvailability (patientData: UserAvailabilityEntity): Promise<UserAvailabilityEntity> {
+  async createUserAvailability (patientData: UserAvailabilityAttributes): Promise<UserAvailabilityAttributes> {
     return await this.repository.create(patientData)
   }
 
-  async getAllUserAvailabilities (): Promise<UserAvailabilityEntity[]> {
+  async getAllUserAvailabilities (): Promise<UserAvailabilityAttributes[]> {
     return await this.repository.find()
   }
 }

@@ -1,7 +1,7 @@
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
+import { NextOfKinInterface } from "otz-types"
 
 export interface INextOfKinRepository {
-  create: (data: NextOfKinEntity) => Promise<NextOfKinEntity>
-  find: () => Promise<NextOfKinEntity[]>
-  findById: (id: string) => Promise<NextOfKinEntity[] | null>
+  create: (data: NextOfKinInterface) => Promise<NextOfKinInterface>
+  find: () => Promise<NextOfKinInterface[]>
+  findById: (id: string) => Promise<NextOfKinInterface[] | null>
 }

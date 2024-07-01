@@ -1,7 +1,7 @@
-import { type CaregiverEntity } from '../../domain/entities/CaregiverEntity'
+import { CaregiverInterface } from "otz-types"
 
 export interface ICaregiverRepository {
-  create: (data: CaregiverEntity) => Promise<CaregiverEntity>
-  find: () => Promise<CaregiverEntity[]>
-  findById: (id: string) => Promise<CaregiverEntity[] | null>
+  create: (data: CaregiverInterface) => Promise<CaregiverInterface>
+  find: () => Promise<CaregiverInterface[]>
+  findById: (id: string) => Promise<CaregiverInterface[] | null>
 }

@@ -1,7 +1,7 @@
-import { type UserAvailabilityEntity } from '../../domain/entities/UserAvailailityEntity'
+import { UserAvailabilityAttributes } from "otz-types"
 
 export interface IUserAvailabilityInteractor {
-  createUserAvailability: (userData: any) => Promise<UserAvailabilityEntity>
-  getAllUserAvailabilities: () => Promise<UserAvailabilityEntity[]>
-  getUserAvailabilityById: (id: string) => Promise<UserAvailabilityEntity | null>
+  createUserAvailability: (userData: any) => Promise<UserAvailabilityAttributes>
+  getAllUserAvailabilities: () => Promise<UserAvailabilityAttributes[]>
+  getUserAvailabilityById: (id: string) => Promise<UserAvailabilityAttributes | null>
 }

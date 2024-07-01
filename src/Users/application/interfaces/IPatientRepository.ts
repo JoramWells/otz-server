@@ -1,13 +1,12 @@
-import { type NextOfKinEntity } from '../../domain/entities/NextOfKinEntity'
-import { type PatientEntity } from '../../domain/entities/PatientEntity'
+import { NextOfKinInterface, PatientAttributes } from "otz-types"
 
 export interface IPatientRepository {
-  create: (data: PatientEntity, nextOfKinData: NextOfKinEntity) => Promise<string | null>
-  find: () => Promise<PatientEntity[]>
-  findById: (id: string) => Promise<PatientEntity | null>
-  edit: (data: PatientEntity) => Promise<PatientEntity | null>
-  findAllPMTCTPatients: () => Promise <PatientEntity[]>
-  findOTZ: () => Promise <PatientEntity[]>
-  login: (firstName: string, password: string) => Promise<PatientEntity | null>
+  create: (data: PatientAttributes, nextOfKinData: NextOfKinInterface) => Promise<string | null>
+  find: () => Promise<PatientAttributes[]>
+  findById: (id: string) => Promise<PatientAttributes | null>
+  edit: (data: PatientAttributes) => Promise<PatientAttributes | null>
+  findAllPMTCTPatients: () => Promise <PatientAttributes[]>
+  findOTZ: () => Promise <PatientAttributes[]>
+  login: (firstName: string, password: string) => Promise<PatientAttributes | null>
 
 }
