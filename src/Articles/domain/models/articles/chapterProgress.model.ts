@@ -2,16 +2,10 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Courses } from "./courses.model";
 import { Chapter } from "./chapters.model";
+import { ChapterProgressAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface ChapterProgressAttributes {
-  id: string;
-  courseID: string;
-  chapterID: string;
-  startDate: string;
-  endDate: string;
-  isComplete: boolean;
-}
+
 
 export class ChapterProgress
   extends Model<ChapterProgressAttributes>

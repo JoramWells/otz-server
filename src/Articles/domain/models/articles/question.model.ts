@@ -2,14 +2,7 @@ import { DataTypes, Model,  Sequelize,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Article } from "./article.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
-
-export interface QuestionAttributes {
-  id: string;
-  question: string;
-  choices: string;
-  answer: string;
-  articleID: string;
-}
+import { QuestionAttributes } from "otz-types";
 
 export class Question extends Model<QuestionAttributes> implements QuestionAttributes {
   id!: string;

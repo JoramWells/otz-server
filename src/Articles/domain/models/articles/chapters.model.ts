@@ -1,14 +1,10 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Books } from "./books.model";
+import { ChapterAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface ChapterAttributes {
-  id: string;
-  description: string;
-  bookID: string;
-  thumbnail: string;
-}
+
 
 export class Chapter
   extends Model<ChapterAttributes>

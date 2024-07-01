@@ -1,21 +1,12 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { User } from "../user.model";
-import { createClient } from "redis";
 import { articleCache } from "../../../constants/appointmentCache";
 import { Chapter } from "./chapters.model";
+import { ArticleAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface ArticleAttributes {
-  id: string;
-  userID: string;
-  chapterID: string;
-  image: string;
-  content: string;
-  title: string;
-  video: string;
-  viewers: number;
-}
+
 
 export class Article extends Model<ArticleAttributes> implements ArticleAttributes {
   id!: string;
