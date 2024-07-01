@@ -1,8 +1,7 @@
 /* eslint-disable consistent-return */
 import moment from 'moment-timezone'
 import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
-import { Uptake, UptakeAttributes } from '../domain/models/treatmentplan/uptake.model';
-import { UptakeEntity } from '../domain/entities/treatmentplan/UptakeEntity';
+import { Uptake } from '../domain/models/treatmentplan/uptake.model';
 
 const dailyPillUpdate = async () => {
   try {
@@ -25,7 +24,7 @@ const dailyPillUpdate = async () => {
       // ],
       });
 
-      const uptakeData:UptakeEntity[] = results.map((patient: any) => ({
+      const uptakeData = results.map((patient: any) => ({
         timeAndWorkID: patient.id,
         currentDate,
         morningStatus: false,

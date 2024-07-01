@@ -1,18 +1,17 @@
 import { Op } from "sequelize"
 import { Appointment } from "../domain/models/appointment/appointment.model"
-import { AppointmentEntity } from "../domain/entities/AppointmentEntity"
 import { AppointmentStatus } from "../domain/models/appointment/appointmentStatus.model"
-import { AppointmentStatusEntity } from "../domain/entities/AppointmentStatusEntity"
+import { AppointmentAttributes } from "otz-types";
 
 const calculateAppointmentAdherence = async()=>{
 try {
-        const appointmentStatusData: AppointmentStatusEntity =
+        const appointmentStatusData =
           await AppointmentStatus.findOne({
             where: {
               appointmentStatus: "Missed",
             },
           });
-        const appointments: AppointmentEntity[] = await Appointment.findAll({
+        const appointments: AppointmentAttributes[] = await Appointment.findAll({
           where: {
             createdAt: {
               [Op.not]: null,

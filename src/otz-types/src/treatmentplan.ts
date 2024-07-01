@@ -91,7 +91,7 @@ export interface FollowUpChecklistAttributes {
 export interface UptakeAttributes {
   id?: string;
   timeAndWorkID: string;
-  prescriptionID: string;
+  prescriptionID?: string;
   currentDate: Date | string;
   morningStatus: boolean;
   eveningStatus: boolean;

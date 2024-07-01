@@ -14,7 +14,7 @@ export class Uptake
 {
   id: string | undefined;
   timeAndWorkID!: string;
-  prescriptionID!: string;
+  prescriptionID: string | undefined;
   currentDate!: Date | string;
   morningStatus!: boolean;
   eveningStatus!: boolean;
