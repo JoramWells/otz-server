@@ -2,27 +2,9 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
+import { MMASFourAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
- enum DifficultyRemembering {
-   Never = "never",
-   Once = "once in a while",
-   Sometimes = "sometimes",
-   Usually = "usually",
-   AllTime = "all the time",
- }
-
-export interface MMASFourAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  isForget: boolean;
-  isCareless: boolean;
-  isQuitFeelWorse: boolean;
-  isQuitFeelBetter: boolean;
-  totalScores: number;
-
-}
 
 export class MMASFour extends Model<MMASFourAttributes> implements MMASFourAttributes {
   id: string | undefined;

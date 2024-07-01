@@ -2,6 +2,7 @@ import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
+import { FollowUpChecklistAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 enum DifficultyRemembering {
@@ -12,21 +13,6 @@ enum DifficultyRemembering {
   AllTime = "all the time",
 }
 
-export interface FollowUpChecklistAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  followUpDate: Date;
-  bmi: number;
-  tannerStaging: string;
-  disclosure: string;
-  adherenceCounselling: string;
-  isPAMA: boolean;
-  isOVC: boolean;
-  isActiveSupportGroup: boolean;
-  isVLValid: boolean;
-  isOptimizationDone: boolean;
-}
 
 export class FollowUpChecklist
   extends Model<FollowUpChecklistAttributes>

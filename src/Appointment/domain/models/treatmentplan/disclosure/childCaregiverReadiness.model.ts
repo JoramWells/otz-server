@@ -2,23 +2,10 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../../db/connect";
 import { Patient } from "../../patients.models";
 import { PatientVisits } from "../../patientVisits.model";
+import { ChildCaregiverReadinessAttributes } from "otz-types";
 
 
-export interface ChildCaregiverReadinessAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
 
-  isFreeChildCaregiverFromSevereIllness: boolean;
-  isConsistentSocialSupport: boolean;
-  isInterestInEnvironmentAndPlaying: boolean;
-  isChildKnowsMedicineAndIllness: boolean;
-  isChildSchoolEngagement: boolean;
-  isAssessedCaregiverReadinessToDisclose: boolean;
-  isCaregiverCommunicatedToChild: boolean;
-  isSecuredPatientInfo: boolean;
-  taskTwoComments: string;
-}
 
 export class ChildCaregiverReadiness extends Model<ChildCaregiverReadinessAttributes> implements ChildCaregiverReadinessAttributes {
   isFreeChildCaregiverFromSevereIllness!: boolean;

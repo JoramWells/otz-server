@@ -2,32 +2,10 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../../../db/connect";
 import { Patient } from "../../../patients.models";
 import { PatientVisits } from "../../../patientVisits.model";
+import { PostDisclosureAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
- enum DifficultyRemembering {
-   Never = "never",
-   Once = "once in a while",
-   Sometimes = "sometimes",
-   Usually = "usually",
-   AllTime = "all the time",
- }
 
-export interface PostDisclosureAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-
-  isAssessedFunctionalSchoolEngagement: boolean;
-  isAssessedPeerRelationshipAssessed: boolean;
-  isAssessedChildEngagement: boolean;
-  isChildQuestionsAllowed: boolean;
-  isAddressedNegativeSelfImage: boolean;
-  isAssessedMoodiness: boolean;
-  isReferredForPsychiatric: boolean;
-  isGivenAppropriateInfo: boolean;
-  taskFourComments: string;
-  finalComments: string;
-}
 
 export class PostDisclosure
   extends Model<PostDisclosureAttributes>

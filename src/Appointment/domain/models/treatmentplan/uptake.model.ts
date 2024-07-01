@@ -2,17 +2,11 @@ import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { TimeAndWork } from "./timeAndWork.model";
 import { Prescription } from "../art/prescription.model";
 import { connect } from "../../../db/connect";
+import { UptakeAttributes } from "otz-types";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface UptakeAttributes {
-  id?: string;
-  timeAndWorkID: string;
-  prescriptionID: string;
-  currentDate: Date | string;
-  morningStatus: boolean;
-  eveningStatus: boolean;
-}
+
 
 export class Uptake
   extends Model<UptakeAttributes>

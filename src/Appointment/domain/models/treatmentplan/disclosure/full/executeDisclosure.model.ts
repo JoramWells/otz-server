@@ -2,26 +2,10 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../../../db/connect";
 import { Patient } from "../../../patients.models";
 import { PatientVisits } from "../../../patientVisits.model";
+import { ExecuteDisclosureAttributes } from "otz-types";
 
 
-export interface ExecuteDisclosureAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
 
-  isReassuredCaregiver: boolean;
-  isAssessedChildCaregiverComfort: boolean;
-  isAssessedEnvironmentAndTiming: boolean;
-  isAssessedDepthOfChildKnowledge: boolean;
-  isSupportedCaregiverChildToDisclose: boolean;
-  isObservedImmediateReactions: boolean;
-  isInvitedChildQuestions: boolean;
-  isReviewedBenefitsOfDisclosure: boolean;
-  isExplainedCareOptions: boolean;
-  isConcludedSessionReassured: boolean;
-  taskThreeComments: string;
-
-}
 
 export class ExecuteDisclosure
   extends Model<ExecuteDisclosureAttributes>

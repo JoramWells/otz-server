@@ -3,27 +3,9 @@ import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
 import { MMASFour } from "./mmas4.model";
+import { MMASEightAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
- enum DifficultyRemembering {
-   Never = "never",
-   Once = "once in a while",
-   Sometimes = "sometimes",
-   Usually = "usually",
-   AllTime = "all the time",
- }
-
-export interface MMASEightAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  mmasFourID?: string;
-  isTookMedYesterday: boolean;
-  isQuitOutControl: boolean;
-  isUnderPressure: boolean;
-  difficultyRemembering: string;
-  totalScores: number;
-}
 
 export class MMASEight extends Model<MMASEightAttributes> implements MMASEightAttributes {
   id: string | undefined;

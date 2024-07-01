@@ -2,13 +2,9 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../../../db/connect";
 import { ExecuteDisclosure } from "./executeDisclosure.model";
 import { PostDisclosure } from "./postDisclosureAssessment.model";
+import { FullDisclosureAttributes } from "otz-types";
 
-export interface FullDisclosureAttributes {
-  id?: string;
 
-  executeDisclosureID: string;
-  postDisclosureID: string;
-}
 
 export class FullDisclosure
   extends Model<FullDisclosureAttributes>

@@ -2,13 +2,9 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../../db/connect";
 import { ChildDisclosureEligibility } from "./childDisclosureEligibility.model";
 import { ChildCaregiverReadiness } from "./childCaregiverReadiness.model";
+import { PartialDisclosureAttributes } from "otz-types";
 
-export interface PartialDisclosureAttributes {
-  id?: string;
 
-  childDisclosureEligibilityID?: string;
-  childCaregiverReadinessID?: string;
-}
 
 export class PartialDisclosure
   extends Model<PartialDisclosureAttributes>

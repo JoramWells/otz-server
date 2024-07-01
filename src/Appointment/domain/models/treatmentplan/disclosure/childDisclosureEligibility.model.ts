@@ -2,25 +2,9 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../../db/connect";
 import { Patient } from "../../patients.models";
 import { PatientVisits } from "../../patientVisits.model";
+import { ChildDisclosureEligibilityAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
- enum DifficultyRemembering {
-   Never = "never",
-   Once = "once in a while",
-   Sometimes = "sometimes",
-   Usually = "usually",
-   AllTime = "all the time",
- }
-
-export interface ChildDisclosureEligibilityAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  isCorrectAge: boolean;
-  isKnowledgeable: boolean;
-  isWillingToDisclose: boolean;
-  taskOneComments: string;
-}
 
 export class ChildDisclosureEligibility extends Model<ChildDisclosureEligibilityAttributes> implements ChildDisclosureEligibilityAttributes {
   isChildActivityAssessed!: boolean;
