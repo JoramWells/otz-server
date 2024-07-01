@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import { DisclosureChecklistAttributes } from 'otz-types';
 import { IDisclosureChecklistRepository } from '../../../application/interfaces/treatmentplan/IDisclosureChecklistRepository';
 // import { mmasCache } from '../../../constants/appointmentCache';
-import { DisclosureChecklistEntity } from '../../../domain/entities/treatmentplan/DisclosureChecklistEntity';
 import { DisclosureChecklist } from '../../../domain/models/treatmentplan/disclosureChecklist.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -14,14 +14,14 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
   // }
 
   async create(
-    data: DisclosureChecklistEntity
-  ): Promise<DisclosureChecklistEntity> {
+    data: DisclosureChecklistAttributes
+  ): Promise<DisclosureChecklistAttributes> {
     const results = await DisclosureChecklist.create(data);
 
     return results;
   }
 
-  async find(): Promise<DisclosureChecklistEntity[]> {
+  async find(): Promise<DisclosureChecklistAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -44,11 +44,11 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: DisclosureChecklistEntity[] = JSON.parse(cachedPatients);
+    // const results: DisclosureChecklistAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<DisclosureChecklistEntity | null> {
+  async findById(id: string): Promise<DisclosureChecklistAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: DisclosureChecklist | null =
@@ -75,13 +75,13 @@ export class DisclosureChecklistRepository implements IDisclosureChecklistReposi
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: DisclosureChecklistEntity = JSON.parse(cachedData);
+    // const results: DisclosureChecklistAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<DisclosureChecklistEntity[] | null> {
+  async findAllByVisitId(id: string): Promise<DisclosureChecklistAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: DisclosureChecklist[] | null =

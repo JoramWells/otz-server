@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { AppointmentAgendaEntity } from '../../../domain/entities/AppointmentAgendaEntity';
+import { AppointmentAgendaAttributes } from 'otz-types';
 import { IAppointmentAgendaInteractor } from '../../interfaces/appointment/IAppointmentAgendaInteractor';
 import { IAppointmentAgendaRepository } from '../../interfaces/appointment/IAppointmentAgendaRepository';
 
@@ -11,7 +11,7 @@ export class appointmentAgendaInteractor implements IAppointmentAgendaInteractor
     this.repository = repository;
   }
 
-  async getAppointmentAgendaById(id: string): Promise<AppointmentAgendaEntity | null> {
+  async getAppointmentAgendaById(id: string): Promise<AppointmentAgendaAttributes | null> {
     return await this.repository.findById(id);
   }
 
@@ -19,11 +19,11 @@ export class appointmentAgendaInteractor implements IAppointmentAgendaInteractor
     return await this.repository.delete(id);
   }
 
-  async createAppointmentAgenda(patientData: AppointmentAgendaEntity): Promise<AppointmentAgendaEntity> {
+  async createAppointmentAgenda(patientData: AppointmentAgendaAttributes): Promise<AppointmentAgendaAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllAppointmentAgendas(): Promise<AppointmentAgendaEntity[]> {
+  async getAllAppointmentAgendas(): Promise<AppointmentAgendaAttributes[]> {
     return await this.repository.find();
   }
 }

@@ -2,8 +2,8 @@
 // import { logger } from '../../utils/logger'
 // import { mmasCache } from '../../../constants/appointmentCache';
 
+import { FullDisclosureAttributes } from "otz-types";
 import { IFullDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IFullDisclosureRepository";
-import { FullDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/FullDisclosureEntity";
 import { FullDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
 
 // import { RedisAdapter } from '../redisAdapter'
@@ -15,14 +15,14 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
   // }
 
   async create(
-    data: FullDisclosureEntity
-  ): Promise<FullDisclosureEntity> {
+    data: FullDisclosureAttributes
+  ): Promise<FullDisclosureAttributes> {
     const results = await FullDisclosure.create(data);
 
     return results;
   }
 
-  async find(): Promise<FullDisclosureEntity[]> {
+  async find(): Promise<FullDisclosureAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -45,11 +45,11 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: FullDisclosureEntity[] = JSON.parse(cachedPatients);
+    // const results: FullDisclosureAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<FullDisclosureEntity | null> {
+  async findById(id: string): Promise<FullDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: FullDisclosure | null =
@@ -76,13 +76,13 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: FullDisclosureEntity = JSON.parse(cachedData);
+    // const results: FullDisclosureAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<FullDisclosureEntity[] | null> {
+  async findAllByVisitId(id: string): Promise<FullDisclosureAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: FullDisclosure[] | null =

@@ -1,9 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import { MMASEightAttributes, MMASFourAttributes } from 'otz-types';
 import { IMMASEightRepository } from '../../../application/interfaces/treatmentplan/IMMAS8Repository';
 import { connect } from '../../../db/connect';
-import { MMASEightEntity } from '../../../domain/entities/treatmentplan/MMASEightEntity';
-import { MMASFourEntity } from '../../../domain/entities/treatmentplan/MMASFourEntity';
 import { MMASFour } from '../../../domain/models/treatmentplan/mmas4.model';
 import { MMASEight } from '../../../domain/models/treatmentplan/mmas8.model';
 import { RedisAdapter } from '../redisAdapter'
@@ -16,9 +15,9 @@ export class MMASEightRepository implements IMMASEightRepository {
   // }
 
   async create(
-    data4: MMASFourEntity,
-    data: MMASEightEntity
-  ): Promise<MMASEightEntity> {
+    data4: MMASFourAttributes,
+    data: MMASEightAttributes
+  ): Promise<MMASEightAttributes> {
     return await connect.transaction(async (t) => {
       const mmas4Results = await MMASFour.create(data4, { transaction: t });
       const mmasFourID = mmas4Results.id;
@@ -34,7 +33,7 @@ export class MMASEightRepository implements IMMASEightRepository {
     });
   }
 
-  async find(): Promise<MMASEightEntity[]> {
+  async find(): Promise<MMASEightAttributes[]> {
     // await this.redisClient.connect();
     // // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -56,11 +55,11 @@ export class MMASEightRepository implements IMMASEightRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: MMASEightEntity[] = JSON.parse(cachedPatients);
+    // const results: MMASEightAttributes[] = JSON.parse(cachedPatients);
     // return results;
   }
 
-  async findById(id: string): Promise<MMASEightEntity | null> {
+  async findById(id: string): Promise<MMASEightAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: MMASEight | null = await MMASEight.findOne({
@@ -86,14 +85,14 @@ export class MMASEightRepository implements IMMASEightRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MMASEightEntity = JSON.parse(cachedData);
+    // const results: MMASEightAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
   //
-  async findByPatientId(id: string): Promise<MMASEightEntity | null> {
+  async findByPatientId(id: string): Promise<MMASEightAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: MMASEight | null = await MMASEight.findOne({
@@ -120,7 +119,7 @@ export class MMASEightRepository implements IMMASEightRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MMASEightEntity = JSON.parse(cachedData);
+    // const results: MMASEightAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

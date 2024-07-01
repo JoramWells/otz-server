@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { AppointmentAgendaAttributes } from 'otz-types';
 import { IAppointmentAgendaRepository } from '../../application/interfaces/appointment/IAppointmentAgendaRepository'
 import { appointmentAgendaCache } from '../../constants/appointmentCache'
-import { AppointmentAgendaEntity } from '../../domain/entities/AppointmentAgendaEntity'
-import { AppointmentAgenda, AppointmentAgendaAttributes } from '../../domain/models/appointment/appointmentAgenda.model'
+import { AppointmentAgenda } from '../../domain/models/appointment/appointmentAgenda.model'
 // import { logger } from '../../utils/logger'
 import { RedisAdapter } from './redisAdapter'
 // import { createClient } from 'redis'
@@ -14,8 +14,8 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
   // }
 
   async create(
-    data: AppointmentAgendaEntity
-  ): Promise<AppointmentAgendaEntity> {
+    data: AppointmentAgendaAttributes
+  ): Promise<AppointmentAgendaAttributes> {
     await this.redisClient.connect();
     const results: AppointmentAgendaAttributes = await AppointmentAgenda.create(
       data
@@ -26,7 +26,7 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
     return results;
   }
 
-  async find(): Promise<AppointmentAgendaEntity[]> {
+  async find(): Promise<AppointmentAgendaAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(appointmentAgendaCache)) === null) {
@@ -51,11 +51,11 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
     // logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
-    const results: AppointmentAgendaEntity[] = JSON.parse(cachedPatients);
+    const results: AppointmentAgendaAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<AppointmentAgendaEntity | null> {
+  async findById(id: string): Promise<AppointmentAgendaAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: AppointmentAgenda | null = await AppointmentAgenda.findOne(
@@ -83,7 +83,7 @@ export class AppointmentAgendaRepository implements IAppointmentAgendaRepository
     if (cachedData === null) {
       return null;
     }
-    const results: AppointmentAgendaEntity = JSON.parse(cachedData);
+    const results: AppointmentAgendaAttributes = JSON.parse(cachedData);
     console.log("fetched from cace!");
 
     return results;

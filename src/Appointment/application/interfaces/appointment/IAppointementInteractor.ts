@@ -1,10 +1,10 @@
-import { AppointmentEntity } from "../../../domain/entities/AppointmentEntity";
+import { AppointmentAttributes } from "otz-types";
 
 export interface IAppointmentInteractor {
-  createAppointment: (data: AppointmentEntity) => Promise<AppointmentEntity>;
-  getAllAppointments: () => Promise<AppointmentEntity[]>;
-  getAppointmentById: (id: string) => Promise<AppointmentEntity | null>;
-  getAppointmentDetail: (id: string) => Promise<AppointmentEntity[] | null>;
-  getPriorityAppointmentDetail: (id: string) => Promise<AppointmentEntity[] | null>;
-  getAllPriorityAppointments: () => Promise<AppointmentEntity[] | null>;
+  createAppointment: (data: AppointmentAttributes) => Promise<AppointmentAttributes>;
+  getAllAppointments: () => Promise<AppointmentAttributes[]>;
+  getAppointmentById: (id: string) => Promise<AppointmentAttributes | null>;
+  getAppointmentDetail: (id: string) => Promise<AppointmentAttributes[] | null>;
+  getPriorityAppointmentDetail: (id: string) => Promise<AppointmentAttributes[] | null>;
+  getAllPriorityAppointments: () => Promise<AppointmentAttributes[] | null>;
 }

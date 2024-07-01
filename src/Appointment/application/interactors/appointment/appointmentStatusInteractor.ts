@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { AppointmentStatusEntity } from '../../../domain/entities/AppointmentStatusEntity';
+import { AppointmentStatusAttributes } from 'otz-types';
 import { IAppointmentStatusInteractor } from '../../interfaces/appointment/IAppointmentStatusInteractor';
 import { IAppointmentStatusRepository } from '../../interfaces/appointment/IAppointmentStatusRepository';
 
@@ -11,15 +11,15 @@ export class appointmentStatusInteractor implements IAppointmentStatusInteractor
     this.repository = repository;
   }
 
-  async getAppointmentStatusById(id: string): Promise<AppointmentStatusEntity | null> {
+  async getAppointmentStatusById(id: string): Promise<AppointmentStatusAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createAppointmentStatus(patientData: AppointmentStatusEntity): Promise<AppointmentStatusEntity> {
+  async createAppointmentStatus(patientData: AppointmentStatusAttributes): Promise<AppointmentStatusAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllAppointmentStatus(): Promise<AppointmentStatusEntity[]> {
+  async getAllAppointmentStatus(): Promise<AppointmentStatusAttributes[]> {
     return await this.repository.find();
   }
 }

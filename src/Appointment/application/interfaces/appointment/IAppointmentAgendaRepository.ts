@@ -1,8 +1,8 @@
-import { AppointmentAgendaEntity } from '../../../domain/entities/AppointmentAgendaEntity';
+import { AppointmentAgendaAttributes } from "otz-types";
 
 export interface IAppointmentAgendaRepository {
-  create: (data: AppointmentAgendaEntity) => Promise<AppointmentAgendaEntity>;
+  create: (data: AppointmentAgendaAttributes) => Promise<AppointmentAgendaAttributes>;
   delete: (id: string) => Promise<number | null>;
-  find: () => Promise<AppointmentAgendaEntity[]>;
-  findById: (id: string) => Promise<AppointmentAgendaEntity | null>;
+  find: () => Promise<AppointmentAgendaAttributes[]>;
+  findById: (id: string) => Promise<AppointmentAgendaAttributes | null>;
 }

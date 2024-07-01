@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { AppointmentEntity } from '../../../domain/entities/AppointmentEntity';
+import { AppointmentAttributes } from 'otz-types';
 import { IAppointmentInteractor } from '../../interfaces/appointment/IAppointementInteractor';
 import { IAppointmentRepository } from '../../interfaces/appointment/IAppointmentRepository';
 
@@ -10,26 +10,26 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   constructor(repository: IAppointmentRepository) {
     this.repository = repository;
   }
-  async getPriorityAppointmentDetail(id: string):Promise<AppointmentEntity[] | null>{
+  async getPriorityAppointmentDetail(id: string):Promise<AppointmentAttributes[] | null>{
     return await this.repository.findPriorityAppointmentDetail(id)
   }
 
-  async getAllPriorityAppointments():Promise<AppointmentEntity[] | null>{
+  async getAllPriorityAppointments():Promise<AppointmentAttributes[] | null>{
     return await this.repository.findAllPriorityAppointments()
   }
 
-  async getAppointmentById(id: string): Promise<AppointmentEntity | null> {
+  async getAppointmentById(id: string): Promise<AppointmentAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createAppointment(patientData: AppointmentEntity): Promise<AppointmentEntity> {
+  async createAppointment(patientData: AppointmentAttributes): Promise<AppointmentAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllAppointments(): Promise<AppointmentEntity[]> {
+  async getAllAppointments(): Promise<AppointmentAttributes[]> {
     return await this.repository.find();
   }
-  async getAppointmentDetail(id: string):Promise<AppointmentEntity[] | null>{
+  async getAppointmentDetail(id: string):Promise<AppointmentAttributes[] | null>{
    return await this.repository.findPatientAppointmentByID(id)
   }
 

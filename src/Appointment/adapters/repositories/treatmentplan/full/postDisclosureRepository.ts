@@ -2,9 +2,8 @@
 // import { logger } from '../../utils/logger'
 // import { mmasCache } from '../../../constants/appointmentCache';
 
+import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
 import { IPostDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IPostDisclosureRepository";
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
-import { PostDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/PostDisclosureEntity";
 import { PostDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
 
 // import { RedisAdapter } from '../redisAdapter'
@@ -17,15 +16,15 @@ export class DisclosureEligibilityRepository implements IPostDisclosureRepositor
   // }
 
   async create(
-    data: PostDisclosureEntity, readiness: ExecuteDisclosureEntity
-  ): Promise<PostDisclosureEntity> {
+    data: PostDisclosureAttributes, readiness: ExecuteDisclosureAttributes
+  ): Promise<PostDisclosureAttributes> {
 
        return await PostDisclosure.create(data);
 
 
   }
 
-  async find(): Promise<PostDisclosureEntity[]> {
+  async find(): Promise<PostDisclosureAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -48,11 +47,11 @@ export class DisclosureEligibilityRepository implements IPostDisclosureRepositor
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: PostDisclosureEntity[] = JSON.parse(cachedPatients);
+    // const results: PostDisclosureAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<PostDisclosureEntity | null> {
+  async findById(id: string): Promise<PostDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: PostDisclosure | null =
@@ -79,13 +78,13 @@ export class DisclosureEligibilityRepository implements IPostDisclosureRepositor
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: PostDisclosureEntity = JSON.parse(cachedData);
+    // const results: PostDisclosureAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<PostDisclosureEntity[] | null> {
+  async findAllByVisitId(id: string): Promise<PostDisclosureAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: PostDisclosure[] | null =

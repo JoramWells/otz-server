@@ -1,7 +1,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import { FollowUpChecklistAttributes } from 'otz-types';
 import { IFollowUpChecklistRepository } from '../../../application/interfaces/treatmentplan/IFollowUpChecklistRepository';
-import { FollowUpChecklistEntity } from '../../../domain/entities/treatmentplan/FollowUpChecklistEntity';
 import { FollowUpChecklist } from '../../../domain/models/treatmentplan/followupChecklist.model';
 // import { mmasCache } from '../../../constants/appointmentCache';
 import { RedisAdapter } from '../redisAdapter'
@@ -14,14 +14,14 @@ export class FollowUpChecklistRepository implements IFollowUpChecklistRepository
   // }
 
   async create(
-    data: FollowUpChecklistEntity
-  ): Promise<FollowUpChecklistEntity> {
+    data: FollowUpChecklistAttributes
+  ): Promise<FollowUpChecklistAttributes> {
     const results = await FollowUpChecklist.create(data);
 
     return results;
   }
 
-  async find(): Promise<FollowUpChecklistEntity[]> {
+  async find(): Promise<FollowUpChecklistAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -43,11 +43,11 @@ export class FollowUpChecklistRepository implements IFollowUpChecklistRepository
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: FollowUpChecklistEntity[] = JSON.parse(cachedPatients);
+    // const results: FollowUpChecklistAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<FollowUpChecklistEntity | null> {
+  async findById(id: string): Promise<FollowUpChecklistAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: FollowUpChecklist | null = await FollowUpChecklist.findOne({
@@ -73,7 +73,7 @@ export class FollowUpChecklistRepository implements IFollowUpChecklistRepository
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: FollowUpChecklistEntity = JSON.parse(cachedData);
+    // const results: FollowUpChecklistAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;

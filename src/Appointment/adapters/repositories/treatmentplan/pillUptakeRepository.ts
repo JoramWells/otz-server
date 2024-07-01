@@ -2,12 +2,12 @@
 import moment from 'moment';
 import { IPillUptakeRepository } from '../../../application/interfaces/treatmentplan/IPillUptakeRepository'
 import { pillUptakeCache } from '../../../constants/appointmentCache';
-import { UptakeEntity } from '../../../domain/entities/treatmentplan/UptakeEntity';
-import { Uptake, UptakeAttributes } from '../../../domain/models/treatmentplan/uptake.model';
+import { Uptake } from '../../../domain/models/treatmentplan/uptake.model';
 import { RedisAdapter } from '../redisAdapter'
 import { Sequelize } from 'sequelize';
 import { TimeAndWork } from '../../../domain/models/treatmentplan/timeAndWork.model';
 import { Patient } from '../../../domain/models/patients.models';
+import { UptakeAttributes } from 'otz-types';
 
 
 export class PillUptakeRepository implements IPillUptakeRepository {
@@ -54,13 +54,13 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: UptakeEntity): Promise<UptakeEntity> {
-    const results: UptakeAttributes = await Uptake.create(data);
+  async create(data: UptakeAttributes): Promise<UptakeAttributes> {
+    const results = await Uptake.create(data);
 
-    return results;
+    return results as UptakeAttributes;
   }
 
-  async find(): Promise<UptakeEntity[]> {
+  async find(): Promise<UptakeAttributes[]> {
     const currentDate = moment().format("YYYY-MM-DD");
     // await this.redisClient.connect();
     // check if patient
@@ -98,14 +98,14 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: UptakeEntity[] = JSON.parse(cachedPatients);
-    return results;
+    // const results: UptakeAttributes[] = JSON.parse(cachedPatients);
+    return results as UptakeAttributes[];
   }
 
-  async findById(id: string): Promise<UptakeEntity | null> {
+  async findById(id: string): Promise<UptakeAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-      const results: UptakeAttributes | null = await Uptake.findOne({
+      const results = await Uptake.findOne({
         where: {
           id,
         },
@@ -121,7 +121,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       // };
       await this.redisClient.set(id, JSON.stringify(results));
 
-      return results;
+      return results as UptakeAttributes;
     }
 
     const cachedData: string | null = await this.redisClient.get(id);
@@ -133,7 +133,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
     return results;
   }
-  async edit(id: string, status: boolean,query: ParsedQs): Promise<UptakeEntity | null> {
+  async edit(id: string, status: boolean,query: string): Promise<UptakeAttributes | null> {
     if(query === 'morning'){
 
         const results = await Uptake.findOne({
@@ -159,6 +159,6 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         }
 
 
-    return results;
+    return results as UptakeAttributes;
   }
 }

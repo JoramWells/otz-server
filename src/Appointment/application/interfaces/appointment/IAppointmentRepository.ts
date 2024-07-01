@@ -1,11 +1,11 @@
-import { AppointmentEntity } from '../../../domain/entities/AppointmentEntity';
+import { AppointmentAttributes } from "otz-types";
 
 export interface IAppointmentRepository {
-  create: (data: AppointmentEntity) => Promise<AppointmentEntity>;
-  find: () => Promise<AppointmentEntity[]>;
-  findById: (id: string) => Promise<AppointmentEntity | null>;
-  findAllAppointmentById: (id: string) => Promise<AppointmentEntity[] | null>;
-  findPatientAppointmentByID:(id: string)=>Promise<AppointmentEntity[] | null>;
-  findPriorityAppointmentDetail:(id: string)=>Promise<AppointmentEntity[] | null>;
-  findAllPriorityAppointments:()=>Promise<AppointmentEntity[] | null>;
+  create: (data: AppointmentAttributes) => Promise<AppointmentAttributes>;
+  find: () => Promise<AppointmentAttributes[]>;
+  findById: (id: string) => Promise<AppointmentAttributes | null>;
+  findAllAppointmentById: (id: string) => Promise<AppointmentAttributes[] | null>;
+  findPatientAppointmentByID:(id: string)=>Promise<AppointmentAttributes[] | null>;
+  findPriorityAppointmentDetail:(id: string)=>Promise<AppointmentAttributes[] | null>;
+  findAllPriorityAppointments:()=>Promise<AppointmentAttributes[] | null>;
 }

@@ -9,11 +9,15 @@ export interface AppointmentAttributes {
   appointmentTime?: string;
   rescheduledDate?: string;
   rescheduledReason?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface AppointmentAgendaAttributes {
   id: string;
   agendaDescription: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface AppointmentStatusAttributes {

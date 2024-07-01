@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { AppointmentStatusAttributes } from 'otz-types';
 import { IAppointmentStatusRepository } from '../../application/interfaces/appointment/IAppointmentStatusRepository'
 import {   appointmentStatusCache } from '../../constants/appointmentCache'
-import { AppointmentStatusEntity } from '../../domain/entities/AppointmentStatusEntity'
-import { AppointmentStatus, AppointmentStatusAttributes } from '../../domain/models/appointment/appointmentStatus.model'
+import { AppointmentStatus } from '../../domain/models/appointment/appointmentStatus.model'
 // import { logger } from '../../utils/logger'
 import { RedisAdapter } from './redisAdapter'
 // import { createClient } from 'redis'
@@ -14,15 +14,15 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
   // }
 
   async create(
-    data: AppointmentStatusEntity
-  ): Promise<AppointmentStatusEntity> {
+    data: AppointmentStatusAttributes
+  ): Promise<AppointmentStatusAttributes> {
     await this.redisClient.connect()
     const results: AppointmentStatusAttributes = await AppointmentStatus.create(data);
     await this.redisClient.del(appointmentStatusCache);
     return results;
   }
 
-  async find(): Promise<AppointmentStatusEntity[]> {
+  async find(): Promise<AppointmentStatusAttributes[]> {
     await this.redisClient.connect();
     
     // check if patient
@@ -45,11 +45,11 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
     // logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
-    const results: AppointmentStatusEntity[] = JSON.parse(cachedPatients);
+    const results: AppointmentStatusAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<AppointmentStatusEntity | null> {
+  async findById(id: string): Promise<AppointmentStatusAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: AppointmentStatus | null = await AppointmentStatus.findOne({
@@ -75,7 +75,7 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
     if (cachedData === null) {
       return null;
     }
-    const results: AppointmentStatusEntity = JSON.parse(cachedData);
+    const results: AppointmentStatusAttributes = JSON.parse(cachedData);
     console.log("fetched from cace!");
 
     return results;

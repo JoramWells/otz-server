@@ -2,13 +2,13 @@
 import { Op, col, fn } from 'sequelize';
 import { ITimeAndWorkRepository } from '../../../application/interfaces/treatmentplan/ITimeAndWorkRepository'
 import { timeAndWorkCache } from '../../../constants/appointmentCache';
-import { TimeAndWorkEntity } from '../../../domain/entities/treatmentplan/TimeAndWorkEntity'
-import { Prescription } from '../../../domain/models/art/prescription.model';
-import { TimeAndWork, TimeAndWorkAttributes } from '../../../domain/models/treatmentplan/timeAndWork.model'
+import { TimeAndWork  } from '../../../domain/models/treatmentplan/timeAndWork.model'
 import { RedisAdapter } from '../redisAdapter'
 import { Uptake } from '../../../domain/models/treatmentplan/uptake.model';
 import { connect } from '../../../db/connect';
 import moment from 'moment';
+import { TimeAndWorkAttributes } from 'otz-types';
+import { Prescription } from '../../../domain/models/art/prescription.model';
 
 
 export class TimeAndWorkRepository implements ITimeAndWorkRepository {
@@ -19,8 +19,8 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
 
   async updateMorningSchedule(
     id: string,
-    data: TimeAndWorkEntity
-  ): Promise<TimeAndWorkEntity | null> {
+    data: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes | null> {
     const {
       wakeUpTime,
       arrivalWorkTime,
@@ -48,8 +48,8 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   }
   async updateEveningSchedule(
     id: string,
-    data: TimeAndWorkEntity
-  ): Promise<TimeAndWorkEntity | null> {
+    data: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes | null> {
     const {
       departureWorkTime,
       arrivalHomeTime,
@@ -76,13 +76,13 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     return results;
   }
 
-  async create(data: TimeAndWorkEntity): Promise<TimeAndWorkEntity> {
+  async create(data: TimeAndWorkAttributes): Promise<TimeAndWorkAttributes> {
     const currentDate = moment().format('YYYY-MM-DD')
     const {patientID} = data
     return await connect.transaction(async(t)=>{
 
-      const results: TimeAndWorkAttributes = await TimeAndWork.create(data, {transaction:t});
-          const latestPrescriptions = await Prescription.findOne({
+      const results  = await TimeAndWork.create(data, {transaction:t});
+          const latestPrescriptions: Prescription = await Prescription.findOne({
             attributes: [
               [fn("MAX", col("createdAt")), "createdAt"],
               "patientID",
@@ -118,7 +118,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
 
   }
 
-  async find(): Promise<TimeAndWorkEntity[]> {
+  async find(): Promise<TimeAndWorkAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(timeAndWorkCache)) === null) {
@@ -140,11 +140,11 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     // logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
-    const results: TimeAndWorkEntity[] = JSON.parse(cachedPatients);
+    const results: TimeAndWorkAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<TimeAndWorkEntity | null> {
+  async findById(id: string): Promise<TimeAndWorkAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
@@ -179,7 +179,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
 
     return results;
   }
-    async findByPatientId(id: string): Promise<TimeAndWorkEntity | null> {
+    async findByPatientId(id: string): Promise<TimeAndWorkAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({

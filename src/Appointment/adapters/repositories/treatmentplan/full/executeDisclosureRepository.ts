@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
 
+import { ExecuteDisclosureAttributes } from "otz-types";
 import { IExecuteDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IExecuteDisclosureRepository";
-import { ExecuteDisclosureEntity } from "../../../../domain/entities/treatmentplan/disclosure/full/ExecuteDisclosureEntity";
 import { ExecuteDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
 
 // import { mmasCache } from '../../../constants/appointmentCache';
@@ -16,14 +16,14 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
   // }
 
   async create(
-    data: ExecuteDisclosureEntity
-  ): Promise<ExecuteDisclosureEntity> {
+    data: ExecuteDisclosureAttributes
+  ): Promise<ExecuteDisclosureAttributes> {
     const results = await ExecuteDisclosure.create(data);
 
     return results;
   }
 
-  async find(): Promise<ExecuteDisclosureEntity[]> {
+  async find(): Promise<ExecuteDisclosureAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -46,11 +46,11 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ExecuteDisclosureEntity[] = JSON.parse(cachedPatients);
+    // const results: ExecuteDisclosureAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<ExecuteDisclosureEntity | null> {
+  async findById(id: string): Promise<ExecuteDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ExecuteDisclosure | null =
@@ -77,7 +77,7 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: ExecuteDisclosureEntity = JSON.parse(cachedData);
+    // const results: ExecuteDisclosureAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
@@ -85,7 +85,7 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
 
   async findAllByVisitId(
     id: string
-  ): Promise<ExecuteDisclosureEntity[] | null> {
+  ): Promise<ExecuteDisclosureAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ExecuteDisclosure[] | null =

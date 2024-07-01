@@ -1,7 +1,7 @@
-import { AppointmentStatusEntity } from "../../../domain/entities/AppointmentStatusEntity";
+import { AppointmentStatusAttributes } from "otz-types";
 
 export interface IAppointmentStatusRepository {
-  create: (data: AppointmentStatusEntity ) => Promise<AppointmentStatusEntity>;
-  find: () => Promise<AppointmentStatusEntity[]>;
-  findById: (id: string) => Promise<AppointmentStatusEntity | null>;
+  create: (data: AppointmentStatusAttributes ) => Promise<AppointmentStatusAttributes>;
+  find: () => Promise<AppointmentStatusAttributes[]>;
+  findById: (id: string) => Promise<AppointmentStatusAttributes | null>;
 }

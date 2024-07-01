@@ -3,8 +3,7 @@
 import { Op } from 'sequelize'
 import { IAppointmentRepository } from '../../application/interfaces/appointment/IAppointmentRepository'
 import { appointmentCache } from '../../constants/appointmentCache'
-import { AppointmentEntity } from '../../domain/entities/AppointmentEntity'
-import { Appointment, AppointmentAttributes } from '../../domain/models/appointment/appointment.model'
+import { Appointment } from '../../domain/models/appointment/appointment.model'
 import { AppointmentAgenda } from '../../domain/models/appointment/appointmentAgenda.model'
 import { AppointmentStatus } from '../../domain/models/appointment/appointmentStatus.model'
 import { Patient } from '../../domain/models/patients.models'
@@ -13,12 +12,13 @@ import { User } from '../../domain/models/user.model'
 import { RedisAdapter } from './redisAdapter'
 import { connect } from '../../db/connect'
 import { PatientVisits } from '../../domain/models/patientVisits.model'
+import { AppointmentAttributes } from 'otz-types'
 // import { createClient } from 'redis'
 
 
 // 
 export class AppointmentRepository implements IAppointmentRepository {
-  async findAllPriorityAppointments(): Promise<AppointmentEntity[] | null> {
+  async findAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
     return await Appointment.findAll({
       order:[['updatedAt', 'DESC']],
       limit:5,
@@ -44,7 +44,7 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   async findPriorityAppointmentDetail(
     id: string
-  ): Promise<AppointmentEntity[] | null> {
+  ): Promise<AppointmentAttributes[] | null> {
     return await Appointment.findAll({
       where: {
         patientID: id,
@@ -69,7 +69,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: AppointmentEntity): Promise<AppointmentEntity> {
+  async create(data: AppointmentAttributes): Promise<AppointmentAttributes> {
     await this.redisClient.connect()
     return await connect.transaction(async (t) => {
       let results: AppointmentAttributes = await Appointment.create(data, {
@@ -94,11 +94,11 @@ export class AppointmentRepository implements IAppointmentRepository {
     // return results;
   }
 
-  async find(): Promise<AppointmentEntity[]> {
+  async find(): Promise<AppointmentAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(appointmentCache)) === null) {
-      const results: AppointmentEntity[] = await Appointment.findAll({
+      const results: AppointmentAttributes[] = await Appointment.findAll({
         order: [["appointmentDate", "ASC"]],
         where: {
           createdAt: {
@@ -141,16 +141,16 @@ export class AppointmentRepository implements IAppointmentRepository {
     // logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
-    const results: AppointmentEntity[] = JSON.parse(cachedPatients);
+    const results: AppointmentAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
   async findPatientAppointmentByID(
     id: string
-  ): Promise<AppointmentEntity[] | null> {
+  ): Promise<AppointmentAttributes[] | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-      const results: AppointmentEntity[] | null = await Appointment.findAll({
+      const results: AppointmentAttributes[] | null = await Appointment.findAll({
         where: {
           patientID: id,
         },
@@ -179,7 +179,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     if (cachedData === null) {
       return null;
     }
-    const results: AppointmentEntity[] = JSON.parse(cachedData);
+    const results: AppointmentAttributes[] = JSON.parse(cachedData);
     console.log("fetched appointment from cace!");
 
     return results;
@@ -187,7 +187,7 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   async findAllAppointmentById(
     id: string
-  ): Promise<AppointmentEntity[] | null> {
+  ): Promise<AppointmentAttributes[] | null> {
     const results = await Appointment.findAll({
       where: {
         id,
@@ -210,7 +210,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     return results;
   }
 
-  async findById(id: string): Promise<AppointmentEntity | null> {
+  async findById(id: string): Promise<AppointmentAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     //   const results: Appointment | null = await Appointment.findOne({
@@ -219,7 +219,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     //     },
     //   });
 
-    //   // const patientResults: AppointmentEntity = {
+    //   // const patientResults: AppointmentAttributes = {
     //   //   firstName: results?.firstName,
     //   //   middleName: results?.middleName,
     //   //   sex: results?.sex,
@@ -236,7 +236,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: AppointmentEntity = JSON.parse(cachedData);
+    // const results: AppointmentAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
     const results: Appointment | null = await Appointment.findOne({
       where: {

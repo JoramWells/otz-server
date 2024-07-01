@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
+import { MMASFourAttributes } from 'otz-types';
 import { IMMASFourRepository } from '../../../application/interfaces/treatmentplan/IMMAS4Repository';
 import { mmasCache } from '../../../constants/appointmentCache';
-import { MMASFourEntity } from '../../../domain/entities/treatmentplan/MMASFourEntity';
 import { MMASFour } from '../../../domain/models/treatmentplan/mmas4.model';
 import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -13,13 +13,13 @@ export class MMASFourRepository implements IMMASFourRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: MMASFourEntity): Promise<MMASFourEntity> {
+  async create(data: MMASFourAttributes): Promise<MMASFourAttributes> {
     const results = await MMASFour.create(data);
 
     return results;
   }
 
-  async find(): Promise<MMASFourEntity[]> {
+  async find(): Promise<MMASFourAttributes[]> {
     // await this.redisClient.connect();
     // // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
@@ -41,11 +41,11 @@ export class MMASFourRepository implements IMMASFourRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: MMASFourEntity[] = JSON.parse(cachedPatients);
+    // const results: MMASFourAttributes[] = JSON.parse(cachedPatients);
     // return results;
   }
 
-  async findById(id: string): Promise<MMASFourEntity | null> {
+  async findById(id: string): Promise<MMASFourAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: MMASFour | null = await MMASFour.findOne({
@@ -71,14 +71,14 @@ export class MMASFourRepository implements IMMASFourRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MMASFourEntity = JSON.parse(cachedData);
+    // const results: MMASFourAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
   }
 
   //
-  async findByPatientId(id: string): Promise<MMASFourEntity | null> {
+  async findByPatientId(id: string): Promise<MMASFourAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: MMASFour | null = await MMASFour.findOne({
@@ -105,7 +105,7 @@ export class MMASFourRepository implements IMMASFourRepository {
     // if (cachedData === null) {
     //   return null;
     // }
-    // const results: MMASFourEntity = JSON.parse(cachedData);
+    // const results: MMASFourAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
     return results;
