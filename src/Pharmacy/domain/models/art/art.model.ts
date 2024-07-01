@@ -6,15 +6,8 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { ArtCategory } from './artCategory.model'
 import { MeasuringUnit } from './measuringUnit.model'
+import { ARTInterface } from 'otz-types'
 
-export interface ARTInterface {
-  id: string
-  artName: string
-  artCategoryID: string
-  measuringUnitID: string
-  quantity: number
-  expiryDate: Date
-}
 
 export class ART extends Model<ARTInterface> {
   id!: string

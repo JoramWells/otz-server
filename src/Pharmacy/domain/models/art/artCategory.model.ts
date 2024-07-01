@@ -4,27 +4,9 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
+import { AgeLine, ArtCategoryInterface, ArtPhase } from 'otz-types'
 
-export enum AgeLine {
-  Pediatric = 'pediatric',
-  Adult = 'adults'
-}
 
-// artCategories;
-
-export enum ArtPhase {
-  First = 'first line',
-  Second = 'second line',
-  Third = 'third line',
-}
-//
-
-export interface ArtCategoryInterface {
-  id: string
-  artCategoryDescription: string
-  ageLine: AgeLine
-  artPhase: ArtPhase
-}
 
 export class ArtCategory extends Model<ArtCategoryInterface> {
   id!: string

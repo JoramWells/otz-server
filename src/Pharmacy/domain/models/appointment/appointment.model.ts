@@ -2,30 +2,21 @@ import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { createClient } from 'redis'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
-
+import { AppointmentAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface AppointmentAttributes {
-  id?: string
-  userID?: string
-  patientID: string
-  patientVisitID: string
-  appointmentAgendaID?: string
-  appointmentStatusID?: string
-  appointmentDate?: Date
-  appointmentTime?: string
-}
+
 
 export class Appointment
   extends Model<AppointmentAttributes>
   implements AppointmentAttributes {
-  id: string | undefined
+  id!: string 
   userID?: string | undefined
   patientID!: string
   patientVisitID!: string
   appointmentAgendaID?: string | undefined
   appointmentStatusID?: string | undefined
-  appointmentDate?: Date | undefined
+  appointmentDate?: string
   appointmentTime?: string | undefined
 }
 

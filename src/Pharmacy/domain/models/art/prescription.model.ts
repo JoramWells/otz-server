@@ -7,25 +7,8 @@ import { Patient } from '../patients.models'
 import { ART } from './art.model'
 import { PatientVisits } from '../patientVisits.model'
 import { ARTPrescription } from './artPrescription.model'
+import { PrescriptionInterface } from 'otz-types'
 
-export interface PrescriptionInterface {
-  id?: string
-  patientID: string
-  patientVisitID: string
-  artPrescriptionID: string
-  drugID: string
-  noOfPills: number
-  frequency: number
-  refillDate: Date
-  nextRefillDate: Date
-
-  //
-  expectedNoOfPills: number
-  computedNoOfPills: number
-  updatedAtExpectedNoOfPills: Date
-  createdAt: Date
-  updatedAt: Date
-}
 
 export class Prescription extends Model<PrescriptionInterface> {
   id: string | undefined

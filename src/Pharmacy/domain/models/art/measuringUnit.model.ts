@@ -4,11 +4,9 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
+import { MeasuringUnitInterface } from 'otz-types'
 
-export interface MeasuringUnitInterface {
-  id: string
-  description: string
-}
+
 
 export class MeasuringUnit extends Model<MeasuringUnitInterface> {
   id!: string

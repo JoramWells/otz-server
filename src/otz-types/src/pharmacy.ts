@@ -39,6 +39,8 @@ export interface ARTPrescriptionInterface {
   stopDate: Date;
   isStandard: string;
   line: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export enum AgeLine {
@@ -69,6 +71,39 @@ export interface ARTInterface {
   measuringUnitID: string;
   quantity: number;
   expiryDate: Date;
+  createdAt?: Date
+  updatedAt?: Date
 }
 
+export interface AdherenceAttributes {
+  id?: string;
+  timeAndWorkID: string;
+  prescriptionID: string;
+  currentDate: Date;
+  morningStatus: boolean;
+  eveningStatus: boolean;
+  createdAt?: Date
+  updatedAt?: Date
+}
 
+export interface TimeAndWorkAttributes {
+  id: string;
+  patientID: string;
+  patientVisitID: string;
+  wakeUpTime: Date;
+  departureHomeTime: Date;
+  arrivalWorkTime: Date;
+  departureWorkTime: Date;
+  arrivalHomeTime: Date;
+  morningPlace: string;
+  morningMedicineTime: Date;
+  eveningPlace: string;
+  eveningMedicineTime: Date;
+  medicineStorage: string;
+  toolsAndCues: string;
+  goal: string;
+  morningWeekendPlace: string;
+  eveningWeekendPlace: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

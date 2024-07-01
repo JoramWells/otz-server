@@ -110,7 +110,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     // if ((await this.redisClient.get(id)) === null) {
     const results: AdherenceAttributes | null = await Adherence.findOne({
       where: {
-        id
+        patientID:id
       }
     })
 
@@ -137,7 +137,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     return results
   }
 
-  async edit (id: string, status: boolean, query: ParsedQs): Promise<AdherenceEntity | null> {
+  async edit (id: string, status: boolean, query: string): Promise<AdherenceEntity | null> {
     if (query === 'morning') {
       const results = await Adherence.findOne({
         where: {

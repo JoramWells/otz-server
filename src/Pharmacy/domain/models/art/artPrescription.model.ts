@@ -1,19 +1,9 @@
 import { Model, UUIDV4, DataTypes } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
+import { ARTPrescriptionInterface } from 'otz-types'
 
-export interface ARTPrescriptionInterface {
-  id: string
-  patientID: string
-  regimen: string
-  changeReason: string
-  stopReason: string
-  startDate: Date
-  changeDate: Date
-  stopDate: Date
-  isStandard: string
-  line: string
-}
+
 
 export class ARTPrescription extends Model<ARTPrescriptionInterface> {
   id!: string

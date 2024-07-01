@@ -2,17 +2,9 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { TimeAndWork } from './timeAndWork.model'
 import { Prescription } from '../art/prescription.model'
-
+import { AdherenceAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface AdherenceAttributes {
-  id?: string
-  timeAndWorkID: string
-  prescriptionID: string
-  currentDate: Date
-  morningStatus: boolean
-  eveningStatus: boolean
-}
 
 export class Adherence extends Model<AdherenceAttributes> implements AdherenceAttributes {
   id: string | undefined

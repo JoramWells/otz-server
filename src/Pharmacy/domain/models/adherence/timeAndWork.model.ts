@@ -2,28 +2,9 @@ import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
 import { PatientVisits } from '../patientVisits.model'
+import { TimeAndWorkAttributes } from 'otz-types'
 
-export interface TimeAndWorkAttributes {
-  id: string
-  patientID: string
-  patientVisitID: string
-  wakeUpTime: Date
-  departureHomeTime: Date
-  arrivalWorkTime: Date
-  departureWorkTime: Date
-  arrivalHomeTime: Date
-  morningPlace: string
-  morningMedicineTime: Date
-  eveningPlace: string
-  eveningMedicineTime: Date
-  medicineStorage: string
-  toolsAndCues: string
-  goal: string
-  morningWeekendPlace: string
-  eveningWeekendPlace: string
-  createdAt?: Date
-  updatedAt?: Date
-}
+
 
 export class TimeAndWork
   extends Model<TimeAndWorkAttributes>

@@ -4,11 +4,9 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
+import { ARTSwitchReasonInterface } from 'otz-types'
 
-export interface ARTSwitchReasonInterface {
-  id: string
-  reason: string
-}
+
 
 export class ARTSwitchReason extends Model<ARTSwitchReasonInterface> {
   id!: string
