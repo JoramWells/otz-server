@@ -132,3 +132,19 @@ export interface MessagesAttributes {
   text?: string;
   senderID?: string;
 }
+
+export interface FollowUpChecklistAttributes {
+  id?: string;
+  patientID: string;
+  patientVisitID: string;
+  followUpDate: Date;
+  bmi: number;
+  tannerStaging: string;
+  disclosure: string;
+  adherenceCounselling: string;
+  isPAMA: boolean;
+  isOVC: boolean;
+  isActiveSupportGroup: boolean;
+  isVLValid: boolean;
+  isOptimizationDone: boolean;
+}

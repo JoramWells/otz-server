@@ -3,27 +3,10 @@ import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { User } from "../user.model";
 import { PatientVisits } from "../patientVisits.model";
+import { TimeAndWorkAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface TimeAndWorkAttributes {
-  id: string;
-  patientID: string;
-  patientVisitID: string;
-  wakeUpTime: Date;
-  departureHomeTime: Date;
-  arrivalWorkTime: Date;
-  departureWorkTime: Date;
-  arrivalHomeTime: Date;
-  morningPlace: string;
-  morningMedicineTime: Date;
-  eveningPlace: string;
-  eveningMedicineTime: Date;
-  medicineStorage: string;
-  toolsAndCues: string;
-  goal: string;
-  morningWeekendPlace: string;
-  eveningWeekendPlace: string;
-}
+
 
 export class TimeAndWork
   extends Model<TimeAndWorkAttributes>

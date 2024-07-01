@@ -2,6 +2,7 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
+import { DisclosureChecklistAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
  enum DifficultyRemembering {
@@ -12,43 +13,6 @@ import { PatientVisits } from "../patientVisits.model";
    AllTime = "all the time",
  }
 
-export interface DisclosureChecklistAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  disclosureDate: Date;
-  isCorrectAge: boolean;
-  isWillingToDisclose: boolean;
-  isChildActivityAssessed: boolean;
-  isKnowledgeable: boolean;
-  taskOneComments: string;
-  isFreeFromSevereIllness: boolean;
-  isFamilySupport: boolean;
-  isSupportedCaregiverChildToDisclose: boolean;
-  isEnvironmentInterest: boolean;
-  isAware: boolean;
-  isSchoolFree: boolean;
-  isDisclosureReady: boolean;
-  isChildCommunicated: boolean;
-  isSecuredPatientInfo: boolean;
-  taskTwoComments: string;
-  isReassuredCaregiver: boolean;
-  isAssessedChildCaregiverComfort: boolean;
-  isObservedReactions: boolean;
-  isInvitedChildQuestions: boolean;
-  isReviewedBenefitsOfDisclosure: boolean;
-  isExplainedCareOptions: boolean;
-  isConcludedSessionReassured: boolean;
-  taskThreeComments: string;
-  isPeerRelationshipAssessed: boolean;
-  isChildQuestionsAllowed: boolean;
-  isAddressedNegativeImage: boolean;
-  isAssessedMoodiness: boolean;
-  isReferredForPhysic: boolean;
-  isGivenInfo: boolean;
-  taskFourComments: string;
-  finalComments: string;
-}
 
 export class DisclosureChecklist extends Model<DisclosureChecklistAttributes> implements DisclosureChecklistAttributes {
   isChildActivityAssessed!: boolean;

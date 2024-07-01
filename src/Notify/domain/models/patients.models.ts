@@ -3,27 +3,9 @@ import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../../db/connect'
 import { createClient } from 'redis'
+import { PatientAttributes } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface PatientAttributes {
-  id?: string
-  firstName?: string
-  middleName?: string
-  lastName?: string
-  sex?: string
-  dob?: string
-  phoneNo?: string
-  idNo?: string
-  occupationID?: string
-  cccNo?: string
-  ageAtReporting?: string
-  dateConfirmedPositive?: string
-  initialRegimen?: string
-  populationType?: string
-  schoolID?: string
-  hospitalID?: string
-  entryPoint?: string
-}
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
   id?: string | undefined

@@ -5,12 +5,9 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from './patients.models'
+import { PatientVisitsInterface } from 'otz-types'
 
-export interface PatientVisitsInterface {
-  id?: string
-  patientID?: string
 
-}
 
 export class PatientVisits extends Model<PatientVisitsInterface> {
   patientID: string | undefined

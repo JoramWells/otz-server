@@ -3,7 +3,7 @@ import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
-
+import { FollowUpChecklistAttributes } from "otz-types";
 enum DifficultyRemembering {
   Never = "never",
   Once = "once in a while",
@@ -12,21 +12,6 @@ enum DifficultyRemembering {
   AllTime = "all the time",
 }
 
-export interface FollowUpChecklistAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  followUpDate: Date;
-  bmi: number;
-  tannerStaging: string;
-  disclosure: string;
-  adherenceCounselling: string;
-  isPAMA: boolean;
-  isOVC: boolean;
-  isActiveSupportGroup: boolean;
-  isVLValid: boolean;
-  isOptimizationDone: boolean;
-}
 
 export class FollowUpChecklist
   extends Model<FollowUpChecklistAttributes>

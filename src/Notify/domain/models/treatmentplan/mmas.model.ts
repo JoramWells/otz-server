@@ -2,6 +2,7 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
+import { MMASAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
  enum DifficultyRemembering {
@@ -12,19 +13,7 @@ import { PatientVisits } from "../patientVisits.model";
    AllTime = "all the time",
  }
 
-export interface MMASAttributes {
-  id?: string;
-  patientID: string;
-  patientVisitID: string;
-  isForget: boolean;
-  isCareless: boolean;
-  isQuitFeelWorse: boolean;
-  isQuitFeelBetter: boolean;
-  isTookMedYesterday: boolean;
-  isQuitOutControl: boolean;
-  isUnderPressure: boolean;
-  difficultyRemembering: string;
-}
+
 
 export class MMAS extends Model<MMASAttributes> implements MMASAttributes {
   id: string | undefined;
