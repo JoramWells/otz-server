@@ -6,13 +6,8 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { Patient } from './patients.models'
 import { User } from './user.model'
 import { connect } from '../db/connect'
+import { CaseManagerInterface } from 'otz-types'
 
-export interface CaseManagerInterface {
-  id?: string
-  patientID: string
-  userID: string
-  isNotification: boolean
-}
 
 export class CaseManager extends Model<CaseManagerInterface> {
   id: string | undefined

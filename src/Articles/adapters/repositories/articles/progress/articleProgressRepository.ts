@@ -1,18 +1,18 @@
+import { ArticleProgressAttributes } from "otz-types";
 import { IArticleProgressRepository } from "../../../../application/interfaces/articles/progress/IArticleProgressRepository";
-import { ArticleProgressEntity } from "../../../../domain/entities/articles/ArticleProgessEntity";
 import { Article } from "../../../../domain/models/articles/article.model";
-import { ArticleProgress, ArticleProgressAttributes } from "../../../../domain/models/articles/articleProgress.model";
+import { ArticleProgress  } from "../../../../domain/models/articles/articleProgress.model";
 import { RedisAdapter } from "../../redisAdapter";
 
 
 export class ArticleProgressRepository implements IArticleProgressRepository {
-  // findAllBooksById: (id: string) => Promise<ArticleProgressEntity[] | null>;
+  // findAllBooksById: (id: string) => Promise<ArticleProgressAttributes[] | null>;
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: ArticleProgressEntity): Promise<ArticleProgressEntity> {
+  async create(data: ArticleProgressAttributes): Promise<ArticleProgressAttributes> {
     await this.redisClient.connect();
     const results: ArticleProgressAttributes = await ArticleProgress.create(
       data
@@ -23,7 +23,7 @@ export class ArticleProgressRepository implements IArticleProgressRepository {
     return results;
   }
 
-  async find(): Promise<ArticleProgressEntity[]> {
+  async find(): Promise<ArticleProgressAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     const results = await ArticleProgress.findAll({});
@@ -53,13 +53,13 @@ export class ArticleProgressRepository implements IArticleProgressRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ArticleProgressEntity[] = JSON.parse(cachedPatients);
+    // const results: ArticleProgressAttributes[] = JSON.parse(cachedPatients);
     console.log(results, "rt");
 
     return results;
   }
 
-  async findById(id: string): Promise<ArticleProgressEntity | null> {
+  async findById(id: string): Promise<ArticleProgressAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ArticleProgressAttributes | null =
@@ -94,7 +94,7 @@ export class ArticleProgressRepository implements IArticleProgressRepository {
   }
 
   //
-  async findAllProgress(id: string): Promise<ArticleProgressEntity[] | null> {
+  async findAllProgress(id: string): Promise<ArticleProgressAttributes[] | null> {
     const results: ArticleProgressAttributes[] | null =
       await ArticleProgress.findAll({
         where: {

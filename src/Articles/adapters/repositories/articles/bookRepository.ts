@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { BookAttributes } from 'otz-types';
 import { IBookRepository } from '../../../application/interfaces/articles/IBookRepository';
 import { articleCategoryCache } from '../../../constants/appointmentCache';
-import { BookEntity } from '../../../domain/entities/articles/BookEntity';
-import { BookAttributes, Books } from '../../../domain/models/articles/books.model';
+import {  Books } from '../../../domain/models/articles/books.model';
 import { Chapter } from '../../../domain/models/articles/chapters.model';
 import { RedisAdapter } from '../redisAdapter'
 
@@ -13,7 +13,7 @@ export class ArticleCategoryRepository implements IBookRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: BookEntity): Promise<BookEntity> {
+  async create(data: BookAttributes): Promise<BookAttributes> {
     await this.redisClient.connect();
     const results: BookAttributes = await Books.create(
       data
@@ -29,7 +29,7 @@ export class ArticleCategoryRepository implements IBookRepository {
     return results;
   }
 
-  async find(): Promise<BookEntity[]> {
+  async find(): Promise<BookAttributes[]> {
     const results = await Books.findAll({
       include:[
         {
@@ -59,11 +59,11 @@ export class ArticleCategoryRepository implements IBookRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: BookEntity[] = JSON.parse(cachedPatients);
+    // const results: BookAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
-  async findById(id: string): Promise<BookEntity | null> {
+  async findById(id: string): Promise<BookAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: BookAttributes | null =

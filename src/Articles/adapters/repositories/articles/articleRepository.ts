@@ -1,8 +1,8 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { ArticleAttributes } from 'otz-types'
 import { IArticleRepository } from '../../../application/interfaces/articles/IArticleRepository'
 import { articleCache } from '../../../constants/appointmentCache'
-import { ArticlesEntity } from '../../../domain/entities/articles/ArticlesEntity'
-import { Article, ArticleAttributes } from '../../../domain/models/articles/article.model'
+import { Article  } from '../../../domain/models/articles/article.model'
 import { Books } from '../../../domain/models/articles/books.model'
 import { Chapter } from '../../../domain/models/articles/chapters.model'
 import { RedisAdapter } from '../redisAdapter'
@@ -14,7 +14,7 @@ export class ArticleRepository implements IArticleRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: ArticlesEntity): Promise<ArticlesEntity> {
+  async create(data: ArticleAttributes): Promise<ArticleAttributes> {
     await this.redisClient.connect();
     const results: ArticleAttributes = await Article.create(data);
     await this.redisClient.del(articleCache);
@@ -23,7 +23,7 @@ export class ArticleRepository implements IArticleRepository {
     return results;
   }
 
-  async find(): Promise<ArticlesEntity[]> {
+  async find(): Promise<ArticleAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     const results = await Article.findAll({
@@ -61,13 +61,13 @@ export class ArticleRepository implements IArticleRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ArticlesEntity[] = JSON.parse(cachedPatients);
+    // const results: ArticleAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
   async findAllArticleChaptersById(
     id: string
-  ): Promise<ArticlesEntity[] | null> {
+  ): Promise<ArticleAttributes[] | null> {
     await this.redisClient.connect();
     const results: ArticleAttributes[] | null = await Article.findAll({
       where: {
@@ -91,7 +91,7 @@ export class ArticleRepository implements IArticleRepository {
     return results;
   }
 
-  async findById(id: string): Promise<ArticlesEntity | null> {
+  async findById(id: string): Promise<ArticleAttributes | null> {
     await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
       const results: ArticleAttributes | null = await Article.findOne({
@@ -145,7 +145,7 @@ export class ArticleRepository implements IArticleRepository {
     // console.log("fetched from cace!");
   }
 
-  async edit(data: ArticlesEntity): Promise<ArticlesEntity | null> {
+  async edit(data: ArticleAttributes): Promise<ArticleAttributes | null> {
     const {id, chapterID,content,image,title} = data;
     await this.redisClient.connect()
     const results = await Article.findOne({

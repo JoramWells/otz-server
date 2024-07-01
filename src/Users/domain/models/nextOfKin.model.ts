@@ -5,22 +5,9 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 import { Patient } from './patients.models'
+import { NextOfKinInterface } from 'otz-types'
 
-export interface NextOfKinInterface {
-  id?: string
-  patientID?: string
-  firstName: string
-  middleName: string
-  lastName?: string
-  email?: string
-  sex: string
-  dob: string
-  phoneNo: string
-  drugs?: string
-  certificateNo?: string
-  idNo: string
-  relationship: string
-}
+
 
 export class NextOfKin extends Model<NextOfKinInterface> {
   firstName!: string

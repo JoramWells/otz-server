@@ -1,21 +1,21 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+import { ChapterAttributes } from 'otz-types';
 import { IChapterRepository } from '../../../application/interfaces/articles/IChapterRepository';
 import { chapterCache } from '../../../constants/appointmentCache';
-import { ChapterEntity } from '../../../domain/entities/articles/ChapterEntity';
 import { Article } from '../../../domain/models/articles/article.model';
 import { Books } from '../../../domain/models/articles/books.model';
-import { Chapter, ChapterAttributes } from '../../../domain/models/articles/chapters.model';
+import { Chapter } from '../../../domain/models/articles/chapters.model';
 import { RedisAdapter } from '../redisAdapter'
 
 
 export class ChapterRepository implements IChapterRepository {
-  // findAllBooksById: (id: string) => Promise<ChapterEntity[] | null>;
+  // findAllBooksById: (id: string) => Promise<ChapterAttributes[] | null>;
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: ChapterEntity): Promise<ChapterEntity> {
+  async create(data: ChapterAttributes): Promise<ChapterAttributes> {
     await this.redisClient.connect();
     const results: ChapterAttributes = await Chapter.create(data);
     await this.redisClient.del(chapterCache);
@@ -24,7 +24,7 @@ export class ChapterRepository implements IChapterRepository {
     return results;
   }
 
-  async find(): Promise<ChapterEntity[]> {
+  async find(): Promise<ChapterAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     const results = await Chapter.findAll({
@@ -61,13 +61,13 @@ export class ChapterRepository implements IChapterRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ChapterEntity[] = JSON.parse(cachedPatients);
+    // const results: ChapterAttributes[] = JSON.parse(cachedPatients);
     console.log(results, 'rt')
     
     return results;
   }
 
-  async findById(id: string): Promise<ChapterEntity | null> {
+  async findById(id: string): Promise<ChapterAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: ChapterAttributes | null = await Chapter.findOne({
@@ -100,7 +100,7 @@ export class ChapterRepository implements IChapterRepository {
   }
 
   //
-  async findAllBooksById(id: string): Promise<ChapterEntity[] | null> {
+  async findAllBooksById(id: string): Promise<ChapterAttributes[] | null> {
     const results: ChapterAttributes[] | null = await Chapter.findAll({
       where: {
         bookID: id,

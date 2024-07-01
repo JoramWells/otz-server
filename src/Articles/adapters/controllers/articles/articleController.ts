@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IArticleInteractor } from "../../../application/interfaces/articles/IArticleInteractor";
-import { ArticlesEntity } from "../../../domain/entities/articles/ArticlesEntity";
+import { ArticleAttributes } from "otz-types";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class ArticleController {
@@ -99,9 +99,9 @@ export class ArticleController {
   async onEditArticle(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { content,image,title, userID,chapterID, video, viewers }: ArticlesEntity =
+      const { content,image,title, userID,chapterID, video, viewers }: ArticleAttributes =
         req.body;
-      const values: ArticlesEntity = {
+      const values: ArticleAttributes = {
         id,
         content,
         image,

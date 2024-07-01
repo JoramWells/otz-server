@@ -3,43 +3,9 @@ import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
 import { createClient } from 'redis'
+import { LocationProps, PatientAttributes } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface InputProps {
-  is: string
-  label: string
-}
-
-export interface LocationProps {
-  county: InputProps
-  subCounty: InputProps
-  ward: InputProps
-}
-export interface PatientAttributes {
-  id?: string
-  firstName?: string
-  middleName?: string
-  lastName?: string
-  sex?: string
-  dob?: Date | string
-  phoneNo?: string
-  idNo?: string
-  password?: string
-  occupationID?: string
-  cccNo?: string
-  ageAtReporting?: string
-  dateConfirmedPositive?: string
-  initialRegimen?: string
-  populationType?: string
-  schoolID?: string
-  hospitalID?: string
-  entryPoint?: string
-  subCountyName?: string
-  maritalStatus: string
-  location?: LocationProps
-  createdAt?: Date
-  updatedAt?: Date
-}
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
   entryPoint?: string | undefined

@@ -5,24 +5,8 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 import { Patient } from './patients.models'
+import { CaregiverInterface } from 'otz-types'
 
-export interface CaregiverInterface {
-  id?: string
-  patientID: string
-  firstName: string
-  middleName: string
-  lastName?: string
-  email?: string
-  sex: string
-  dob: string
-  phoneNo: string
-  drugs?: string
-  careerID: string
-  maritalStatus: string
-  idNo: string
-  relationship: string
-  countyID: string
-}
 
 export class Caregiver extends Model<CaregiverInterface> {
   firstName!: string

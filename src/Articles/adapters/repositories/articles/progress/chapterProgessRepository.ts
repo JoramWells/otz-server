@@ -1,6 +1,6 @@
+import { ChapterProgressAttributes } from "otz-types";
 import { IChapterProgressRepository } from "../../../../application/interfaces/articles/progress/IChapterProgressRepository";
-import { ChapterProgressEntity } from "../../../../domain/entities/articles/ChapterProgessEntity";
-import { ChapterProgress, ChapterProgressAttributes } from "../../../../domain/models/articles/chapterProgress.model";
+import { ChapterProgress  } from "../../../../domain/models/articles/chapterProgress.model";
 import { Chapter } from "../../../../domain/models/articles/chapters.model";
 import { Courses } from "../../../../domain/models/articles/courses.model";
 import { RedisAdapter } from "../../redisAdapter";
@@ -8,13 +8,13 @@ import { RedisAdapter } from "../../redisAdapter";
 
 
 export class ChapterProgressRepository implements IChapterProgressRepository {
-  // findAllBooksById: (id: string) => Promise<ChapterProgressEntity[] | null>;
+  // findAllBooksById: (id: string) => Promise<ChapterProgressAttributes[] | null>;
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: ChapterProgressEntity): Promise<ChapterProgressEntity> {
+  async create(data: ChapterProgressAttributes): Promise<ChapterProgressAttributes> {
     await this.redisClient.connect();
     const results: ChapterProgressAttributes = await ChapterProgress.create(
       data
@@ -25,7 +25,7 @@ export class ChapterProgressRepository implements IChapterProgressRepository {
     return results;
   }
 
-  async find(): Promise<ChapterProgressEntity[]> {
+  async find(): Promise<ChapterProgressAttributes[]> {
     await this.redisClient.connect();
     // check if patient
     const results = await ChapterProgress.findAll({});
@@ -55,13 +55,13 @@ export class ChapterProgressRepository implements IChapterProgressRepository {
     // // logger.info({ message: "Fetched from cache!" });
     // console.log("fetched from cache!");
 
-    // const results: ChapterProgressEntity[] = JSON.parse(cachedPatients);
+    // const results: ChapterProgressAttributes[] = JSON.parse(cachedPatients);
     console.log(results, "rt");
 
     return results;
   }
 
-  async findById(id: string): Promise<ChapterProgressEntity | null> {
+  async findById(id: string): Promise<ChapterProgressAttributes | null> {
     await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: ChapterProgressAttributes | null =
@@ -95,7 +95,7 @@ export class ChapterProgressRepository implements IChapterProgressRepository {
   }
 
   //
-  async findChapterProgressById(id: string): Promise<ChapterProgressEntity[] | null> {
+  async findChapterProgressById(id: string): Promise<ChapterProgressAttributes[] | null> {
     const results: ChapterProgressAttributes[] | null =
       await ChapterProgress.findAll({
         where: {

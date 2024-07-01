@@ -1,27 +1,8 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 import { User } from './user.model'
+import { UserAvailabilityAttributes, WeekDays } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
-
-export interface WeekDays {
-  Monday: boolean
-  Tuesday: boolean
-  Wednesday: boolean
-  Thursday: boolean
-  Friday: boolean
-  Saturday: boolean
-  Sunday: boolean
-}
-
-export interface UserAvailabilityAttributes {
-  id?: string
-  userID: string
-  daysAvailable: WeekDays
-  startTime: Date
-  endTime: Date
-  createdAt?: Date
-  updatedAt?: Date
-}
 
 export class UserAvailability
   extends Model<UserAvailabilityAttributes>

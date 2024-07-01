@@ -5,15 +5,26 @@ export interface PatientVisitsInterface {
   patientID?: string;
 }
 
+export interface InputProps {
+  is: string;
+  label: string;
+}
+
+export interface LocationProps {
+  county: InputProps;
+  subCounty: InputProps;
+  ward: InputProps;
+}
 export interface PatientAttributes {
   id?: string;
   firstName?: string;
   middleName?: string;
   lastName?: string;
   sex?: string;
-  dob?: string;
+  dob?: Date | string;
   phoneNo?: string;
   idNo?: string;
+  password?: string;
   occupationID?: string;
   cccNo?: string;
   ageAtReporting?: string;
@@ -23,6 +34,11 @@ export interface PatientAttributes {
   schoolID?: string;
   hospitalID?: string;
   entryPoint?: string;
+  subCountyName?: string;
+  maritalStatus: string;
+  location?: LocationProps;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface UserInterface {
@@ -50,3 +66,45 @@ export interface UserAvailabilityAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface NextOfKinInterface {
+  id?: string;
+  patientID?: string;
+  firstName: string;
+  middleName: string;
+  lastName?: string;
+  email?: string;
+  sex: string;
+  dob: string;
+  phoneNo: string;
+  drugs?: string;
+  certificateNo?: string;
+  idNo: string;
+  relationship: string;
+}
+
+export interface CaseManagerInterface {
+  id?: string;
+  patientID: string;
+  userID: string;
+  isNotification: boolean;
+}
+
+export interface CaregiverInterface {
+  id?: string;
+  patientID: string;
+  firstName: string;
+  middleName: string;
+  lastName?: string;
+  email?: string;
+  sex: string;
+  dob: string;
+  phoneNo: string;
+  drugs?: string;
+  careerID: string;
+  maritalStatus: string;
+  idNo: string;
+  relationship: string;
+  countyID: string;
+}
+
