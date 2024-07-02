@@ -2,8 +2,9 @@ export interface PrescriptionInterface {
   id?: string;
   patientID: string;
   patientVisitID: string;
-  artPrescriptionID: string;
+  artPrescriptionID?: string;
   drugID: string;
+  message?: string;
   noOfPills: number;
   frequency: number;
   refillDate: Date;
@@ -77,14 +78,22 @@ export interface ARTInterface {
 
 export interface AdherenceAttributes {
   id?: string;
-  timeAndWorkID: string;
-  prescriptionID: string;
-  currentDate: Date;
+  timeAndWorkID?: string;
+  prescriptionID?: string;
+  currentDate?: Date;
   morningStatus: boolean;
   eveningStatus: boolean;
-  createdAt?: Date
-  updatedAt?: Date
+  totalQuantityPrescribed?: number;
+  totalQuantityDispensed?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
+
+
+  export interface AdherenceByPatientAttributes {
+    [patientID: string]: AdherenceAttributes;
+  }
+
 
 export interface TimeAndWorkAttributes {
   id: string;

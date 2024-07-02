@@ -110,7 +110,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     const results: AdherenceAttributes | null = await Adherence.findOne({
       where: {
         patientID:id
-      }
+      } as any
     })
 
     // const patientResults: AppointmentEntity = {
@@ -154,9 +154,9 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         console.log(status, 'lko')
         if (pResults) {
           if (status) {
-            pResults?.computedNoOfPills = pResults?.computedNoOfPills + 1
+            pResults.computedNoOfPills = pResults?.computedNoOfPills + 1
           } else {
-            pResults?.computedNoOfPills = pResults?.computedNoOfPills - 1
+            pResults.computedNoOfPills = pResults?.computedNoOfPills - 1
           }
           await pResults?.save()
         }
@@ -179,10 +179,10 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         console.log(pResults, 'evnin')
         if (pResults) {
           if (status) {
-            pResults?.computedNoOfPills = pResults?.computedNoOfPills + 1
+            pResults.computedNoOfPills = pResults?.computedNoOfPills + 1
             console.log('substrct..')
           } else {
-            pResults?.computedNoOfPills = pResults?.computedNoOfPills - 1
+            pResults.computedNoOfPills = pResults?.computedNoOfPills - 1
             console.log('added............................................')
           }
           await pResults?.save()
@@ -194,5 +194,6 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
       return results
     }
+    return null
   }
 }

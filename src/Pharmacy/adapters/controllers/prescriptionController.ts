@@ -2,8 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPrescriptionInteractor } from '../../application/interfaces/art/IPrescriptionInteractor'
-import { type AppointmentEntity } from '../../domain/entities/appointment/AppointmentEntity'
-import { type PrescriptionEntity } from '../../domain/entities/art/PrescriptionEntity'
+import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
 // import { Patient } from '../../domain/entities/Patient'
 
 export class PrescriptionController {
@@ -30,16 +29,16 @@ export class PrescriptionController {
     const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10)
     nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd)
 
-    const appointmentInput: AppointmentEntity = {
+    const appointmentInput: AppointmentAttributes = {
       userID,
       patientID,
       patientVisitID,
       appointmentAgendaID,
       appointmentStatusID,
-      appointmentDate: nextRefillDate
+      appointmentDate: nextRefillDate as unknown as string
     }
 
-    const prescriptionInput: PrescriptionEntity = {
+    const prescriptionInput: PrescriptionInterface = {
       patientVisitID,
       drugID,
       frequency,

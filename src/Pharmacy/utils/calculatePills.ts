@@ -1,9 +1,9 @@
 import moment from 'moment'
 import { Prescription } from '../domain/models/art/prescription.model'
 import { Op, col, fn } from 'sequelize'
-import { type PrescriptionEntity } from '../domain/entities/art/PrescriptionEntity'
 import { Patient } from '../domain/models/patients.models'
 import { ART } from '../domain/models/art/art.model'
+import { PrescriptionInterface } from 'otz-types'
 
 const calculatePills = async () => {
   const currentDate = moment().format('YYYY-MM-DD')
@@ -22,7 +22,7 @@ const calculatePills = async () => {
         art.expectedNoOfPills -= art.frequency
         await art.update({
           expectedNoOfPills: art.expectedNoOfPills,
-          updatedAtExpectedNoOfPills: currentDate
+          updatedAtExpectedNoOfPills: currentDate as unknown as Date
         })
 
         console.log(
@@ -38,10 +38,10 @@ const calculatePills = async () => {
   }
 }
 
-const calculatePills2 = async (): Promise<PrescriptionEntity[]> => {
+const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
   const currentDate = moment().format('YYYY-MM-DD')
 
-  const results: PrescriptionEntity[] = await Prescription.findAll({
+  const results: PrescriptionInterface[] = await Prescription.findAll({
     attributes: [
       //   'noOfPills',
       [fn('MAX', col('createdAt')), 'createdAt'],
@@ -50,7 +50,7 @@ const calculatePills2 = async (): Promise<PrescriptionEntity[]> => {
     where: {
       createdAt: {
         [Op.not]: null
-      }
+      } as any
       // drugID: {
       //   [Op.not]: null
       // }
@@ -91,7 +91,7 @@ const calculatePills2 = async (): Promise<PrescriptionEntity[]> => {
 
   //   console.log(prescriptions)
 
-  const arr: PrescriptionEntity[] = []
+  const arr: PrescriptionInterface[] = []
 
   for (const art of prescriptions) {
     const refillDate = art.refillDate
@@ -100,11 +100,11 @@ const calculatePills2 = async (): Promise<PrescriptionEntity[]> => {
     // if(art.noOfPills)
     const remainingPills = art.noOfPills - pillsTaken
     if (art.expectedNoOfPills === remainingPills) {
-      arr.push({ ...art.dataValues, message: 'Patient Adhered', remainingPills })
+      arr.push({ ...art.dataValues, message: 'Patient Adhered', remainingPills } as any)
     } else {
       await art.update({
         expectedNoOfPills: remainingPills,
-        updatedAtExpectedNoOfPills: currentDate
+        updatedAtExpectedNoOfPills: currentDate as unknown as Date
       })
     }
   }

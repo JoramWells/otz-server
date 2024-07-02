@@ -73,7 +73,7 @@ export class PillUptakeController {
         const result = await this.interactor.editPillUptake(
           id,
           eveningStatus,
-          timeQuery
+          timeQuery as string
         )
         res.status(200).json(result)
         next()

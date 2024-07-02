@@ -1,7 +1,7 @@
-import { UserInterface } from "otz-types"
+import { ARTInterface } from "otz-types"
 
 export interface IARTInteractor {
-  createART: (data: UserInterface) => Promise<UserInterface | null>
-  getAllARTs: () => Promise<UserInterface[]>
-  getARTById: (id: string) => Promise<UserInterface | null>
+  createART: (data: ARTInterface) => Promise<ARTInterface | null>
+  getAllARTs: () => Promise<ARTInterface[]>
+  getARTById: (id: string) => Promise<ARTInterface | null>
 }

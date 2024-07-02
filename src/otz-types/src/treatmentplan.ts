@@ -1,25 +1,3 @@
-export interface TimeAndWorkAttributes {
-  id: string;
-  patientID: string;
-  patientVisitID: string;
-  wakeUpTime: Date;
-  departureHomeTime: Date;
-  arrivalWorkTime: Date;
-  departureWorkTime: Date;
-  arrivalHomeTime: Date;
-  morningPlace: string;
-  morningMedicineTime: Date;
-  eveningPlace: string;
-  eveningMedicineTime: Date;
-  medicineStorage: string;
-  toolsAndCues: string;
-  goal: string;
-  morningWeekendPlace: string;
-  eveningWeekendPlace: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 export interface MMASAttributes {
   id?: string;
   patientID: string;

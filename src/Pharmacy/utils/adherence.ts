@@ -1,10 +1,10 @@
 /* eslint-disable consistent-return */
 import { TimeAndWork } from '../domain/models/adherence/timeAndWork.model'
-import { Adherence, type AdherenceAttributes } from '../domain/models/adherence/adherence.model'
+import { Adherence} from '../domain/models/adherence/adherence.model'
 import moment from 'moment'
 import { Prescription } from '../domain/models/art/prescription.model'
 import { Op, col, fn } from 'sequelize'
-
+import { AdherenceAttributes, AdherenceByPatientAttributes, PrescriptionInterface } from "otz-types";
 const adherenceMonitor = async () => {
   try {
     const currentDate = moment().format('YYYY-MM-DD')
@@ -69,7 +69,7 @@ const adherenceMonitor = async () => {
           // },
           updatedAt: {
             [Op.not]: null
-          }
+          } as any
         }
       })
       console.log(latestTimeSchedule)
@@ -81,14 +81,14 @@ const adherenceMonitor = async () => {
         where: {
           patientVisitID: {
             [Op.not]: null
-          },
+          } ,
           createdAt: {
             [Op.not]: null
           },
           expectedNoOfPills: {
             [Op.gt]: 0
-          }
-        }
+          }  
+        } as any
       })
 
       const adherenceResults: AdherenceAttributes[] = []
@@ -112,7 +112,7 @@ const adherenceMonitor = async () => {
         }
 
         //
-        const prescription = await Prescription.findOne({
+        const prescription: PrescriptionInterface | null = await Prescription.findOne({
           where: {
             patientID,
             createdAt: latestPrescription.dataValues.createdAt
@@ -120,8 +120,8 @@ const adherenceMonitor = async () => {
         })
 
         adherenceResults.push({
-          timeAndWorkID: timeAndWork.id,
-          prescriptionID: prescription.id,
+          timeAndWorkID: timeAndWork?.id,
+          prescriptionID: prescription?.id,
           currentDate,
           morningStatus: false,
           eveningStatus: false
@@ -149,13 +149,14 @@ const calculatePatientAdherence = async () => {
     where: {
       createdAt: {
         [Op.not]: null
-      },
+      } ,
       patientID: {
         [Op.not]: null
       }
-    }
+    } as any
   })
-  const adherenceByPatient = {}
+
+  const adherenceByPatient: AdherenceByPatientAttributes = {}
   prescriptions.forEach(prescription => {
     if (!adherenceByPatient[prescription.patientID]) {
       adherenceByPatient[prescription.patientID] = {
