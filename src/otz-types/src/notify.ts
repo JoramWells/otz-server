@@ -12,6 +12,9 @@ export interface PatientNotificationAttributes {
   userID: string;
   medicineTime: string;
   message: string;
+  isRead?:boolean;
+  link?:string;
+  type?: string;
 }
 
 export interface NotificationTypeAttributes {

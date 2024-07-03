@@ -7,13 +7,13 @@ import moment from 'moment'
 import {logger} from './logger'
 
 import EventEmitter from 'events'
-import { Uptake } from '../domain/models/treatmentplan/uptake.model';
-import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
 import { Patient } from '../domain/models/patients.models';
 import { MessageTextReply } from '../domain/models/notify/messageTextReply.model';
 import { PatientNotification } from '../domain/models/notify/patientNotifications.model';
 import { sendSMS } from './sendSMS';
 import { User } from '../domain/models/user.model';
+import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
+import { Uptake } from '../domain/models/treatmentplan/uptake.model';
 
 
 const notificationEmitter = new EventEmitter();

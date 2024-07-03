@@ -15,6 +15,9 @@ export class PatientNotification
   medicineTime!: string;
   userID!: string;
   message!: string;
+  isRead: boolean | undefined
+  link: string | undefined
+  type: string | undefined
 }
 
 PatientNotification.init(
@@ -45,6 +48,17 @@ PatientNotification.init(
     message: {
       type: DataTypes.STRING,
     },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false 
+    },
+    link: {
+      type: DataTypes.STRING,
+    },
+    type: {
+      type: DataTypes.STRING,
+      defaultValue: 'Medicine'
+    },
   },
   {
     sequelize: connect,
@@ -60,6 +74,6 @@ PatientNotification.belongsTo(Patient, {foreignKey:'patientID'})
 PatientNotification.belongsTo(User, {foreignKey:'userID'})
 
 // (async () => {
-// connect.sync()
+void connect.sync()
 // console.log('Patient Table synced successfully')
 // })()
