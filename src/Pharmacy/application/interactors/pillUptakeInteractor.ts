@@ -2,29 +2,39 @@ import { type IPillUptakeInteractor } from '../interfaces/art/IPillUptakeInterac
 import { type IPillUptakeRepository } from '../interfaces/art/IPillUptakeRepository'
 import { AdherenceAttributes } from "otz-types";
 export class PillUptakeInteractor implements IPillUptakeInteractor {
-  private readonly repository: IPillUptakeRepository
+  private readonly repository: IPillUptakeRepository;
 
-  constructor (repository: IPillUptakeRepository) {
-    this.repository = repository
+  constructor(repository: IPillUptakeRepository) {
+    this.repository = repository;
   }
 
-  async getDailyPillUptakeCount (): Promise<AdherenceAttributes | null> {
-    return await this.repository.count()
+  async getDailyPillUptakeCount(): Promise<AdherenceAttributes | null> {
+    return await this.repository.count();
   }
 
-  async getPillUptakeById (id: string): Promise<AdherenceAttributes | null> {
-    return await this.repository.findById(id)
+  async getPillUptakeById(id: string): Promise<AdherenceAttributes | null> {
+    return await this.repository.findById(id);
   }
 
-  async editPillUptake (id: string, status: boolean, queryString: string): Promise<AdherenceAttributes | null> {
-    return await this.repository.edit(id, status, queryString)
+  async getCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
+    return await this.repository.findCurrentPillUptake(id);
   }
 
-  async createPillUptake (patientData: AdherenceAttributes): Promise<AdherenceAttributes> {
-    return await this.repository.create(patientData)
+  async editPillUptake(
+    id: string,
+    status: boolean,
+    queryString: string
+  ): Promise<AdherenceAttributes | null> {
+    return await this.repository.edit(id, status, queryString);
   }
 
-  async getAllPillUptakes (): Promise<AdherenceAttributes[]> {
-    return await this.repository.find()
+  async createPillUptake(
+    patientData: AdherenceAttributes
+  ): Promise<AdherenceAttributes> {
+    return await this.repository.create(patientData);
+  }
+
+  async getAllPillUptakes(): Promise<AdherenceAttributes[]> {
+    return await this.repository.find();
   }
 }

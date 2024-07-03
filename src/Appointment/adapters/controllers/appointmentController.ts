@@ -25,6 +25,7 @@ export class AppointmentController {
       next(error);
     }
   }
+  
 
   async onGetAllAppointments(req: Request, res: Response, next: NextFunction) {
     try {
@@ -46,12 +47,14 @@ export class AppointmentController {
   async onGetAppointmentById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id){
+      if (id === "undefined") {
+        res
+          .status(500)
+          .json({ message: "Please provide a valid appointment id." });
+      }
       const result = await this.interactor.getAppointmentById(id);
       res.status(200).json(result);
 
-      }
-      res.status(500).json({message:'Please provide a valid appointment id.'})
       next();
     } catch (error) {
       next(error);
@@ -67,6 +70,7 @@ export class AppointmentController {
   ) {
     try {
       const { id } = req.params;
+      if(id === 'undefined') return;
       const result = await this.interactor.getPriorityAppointmentDetail(id);
       res.status(200).json(result);
       next();
@@ -97,6 +101,7 @@ export class AppointmentController {
   async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
+      if (id === 'undefined') return;
       const patient = await this.interactor.getAppointmentDetail(id);
       res.status(200).json(patient);
       next();

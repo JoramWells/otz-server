@@ -60,6 +60,38 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     return results;
   }
 
+    async findByPatientId(id: string): Promise<PatientNotificationAttributes[] | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+      const results: PatientNotification[] | null = await PatientNotification.findAll({
+        where: {
+          patientID: id,
+        },
+      });
+
+      // const patientResults: AppointmentEntity = {
+      //   firstName: results?.firstName,
+      //   middleName: results?.middleName,
+      //   sex: results?.sex,
+      //   phoneNo: results?.phoneNo,
+      //   idNo: results?.idNo,
+      //   occupationID: results?.occupationID,
+      // };
+    //   await this.redisClient.set(id, JSON.stringify(results));
+
+    //   return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: PatientNotificationAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+
+    return results;
+  }
+
   async findById(id: string): Promise<PatientNotificationAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {

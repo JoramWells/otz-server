@@ -5,99 +5,117 @@ import { type IPillUptakeInteractor } from '../../application/interfaces/art/IPi
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PillUptakeController {
-  private readonly interactor: IPillUptakeInteractor
+  private readonly interactor: IPillUptakeInteractor;
 
-  constructor (interactor: IPillUptakeInteractor) {
-    this.interactor = interactor
+  constructor(interactor: IPillUptakeInteractor) {
+    this.interactor = interactor;
   }
 
-  async onCreatePillUptake (req: Request, res: Response, next: NextFunction) {
+  async onCreatePillUptake(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body)
-      const newProfile = await this.interactor.createPillUptake(req.body)
-      res.json(newProfile)
+      console.log(req.body);
+      const newProfile = await this.interactor.createPillUptake(req.body);
+      res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
       //   });
-      next()
+      next();
     } catch (error) {
       // console.log(error)
 
-      next(error)
+      next(error);
     }
   }
 
-  async onGetAllPillUptake (req: Request, res: Response, next: NextFunction) {
+  async onGetAllPillUptake(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllPillUptakes()
-      res.status(200).json(results)
+      const results = await this.interactor.getAllPillUptakes();
+      res.status(200).json(results);
 
-      next()
+      next();
     } catch (error) {
-      next(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      res.status(500).json({ message: "Internal Server Error" });
       // console.log(error)
     }
   }
 
-  async onGetPillUptakeById (req: Request, res: Response, next: NextFunction) {
+  async onGetPillUptakeById(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params
-      if(id === 'undefined') return;
-      const result = await this.interactor.getPillUptakeById(id)
-      res.status(200).json(result)
-      next()
+      const { id } = req.params;
+      if (id === "undefined") return;
+      const result = await this.interactor.getPillUptakeById(id);
+      res.status(200).json(result);
+      next();
     } catch (error) {
-      next(error)
-      console.log(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async onGetCurrentPillUptake(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (id === "undefined") return;
+      const result = await this.interactor.getCurrentPillUptake(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
   //
-  async onEditPillUptake (req: Request, res: Response, next: NextFunction) {
+  async onEditPillUptake(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params
-      const timeQuery = req.query.time
-      console.log(req.query)
-      if (timeQuery === 'morning') {
-        const { morningStatus } = req.body
-        const result = await this.interactor.editPillUptake(id, morningStatus, timeQuery)
-        res.status(200).json(result)
-        next()
+      const { id } = req.params;
+      const timeQuery = req.query.time;
+      console.log(req.query);
+      if (timeQuery === "morning") {
+        const { morningStatus } = req.body;
+        const result = await this.interactor.editPillUptake(
+          id,
+          morningStatus,
+          timeQuery
+        );
+        res.status(200).json(result);
+        next();
       } else {
-        const { eveningStatus } = req.body
+        const { eveningStatus } = req.body;
         const result = await this.interactor.editPillUptake(
           id,
           eveningStatus,
           timeQuery as string
-        )
-        res.status(200).json(result)
-        next()
+        );
+        res.status(200).json(result);
+        next();
       }
     } catch (error) {
-      next(error)
-      console.log(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  async getDailyPillUptakeCount (
+  async getDailyPillUptakeCount(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     try {
-      const result = await this.interactor.getDailyPillUptakeCount()
-      res.status(200).json(result)
-      next()
+      const result = await this.interactor.getDailyPillUptakeCount();
+      res.status(200).json(result);
+      next();
     } catch (error) {
-      next(error)
-      console.log(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }

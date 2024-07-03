@@ -81,8 +81,8 @@ export interface AdherenceAttributes {
   timeAndWorkID?: string;
   prescriptionID?: string;
   currentDate?: Date;
-  morningStatus: boolean;
-  eveningStatus: boolean;
+  morningStatus?: boolean;
+  eveningStatus?: boolean;
   totalQuantityPrescribed?: number;
   totalQuantityDispensed?: number;
   createdAt?: Date;

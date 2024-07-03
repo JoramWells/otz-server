@@ -18,6 +18,11 @@ export class PatientNotificationInteractor implements IPatientNotificationIntera
     return await this.repository.findById(id);
   }
 
+  async getNotificationByPatientId(id: string): Promise<PatientNotificationAttributes[] | null> {
+  return await this.repository.findByPatientId(id);
+}
+
+
   async createPatientNotification(patientData: PatientNotificationAttributes): Promise<PatientNotificationAttributes> {
     return await this.repository.create(patientData);
   }

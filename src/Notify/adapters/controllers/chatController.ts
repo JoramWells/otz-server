@@ -10,21 +10,22 @@ export class ChatController {
   constructor(interactor: IChatInteractor) {
     this.interactor = interactor;
   }
+  
 
   async onCreateChat(req: Request, res: Response, next: NextFunction) {
     try {
-      const {patientID, id} = req.body
-      const id1 = patientID
-      const id2 = id
+      const {id1, id2, text} = req.body
+      console.log(req.body, 'body')
+
       console.log(req.body)
-      const newProfile = await this.interactor.createChat(id1, id2);
+      const newProfile = await this.interactor.createChat(id1, id2, text);
       res.json(newProfile);
     //   logger.info({
     //     message: "Created New Chat Successfully! ~" + req.body.firstName,
     //   });
       next();
     } catch (error) {
-      // console.log(error)
+      console.log(error)
 
       next(error);
     }
@@ -49,7 +50,7 @@ export class ChatController {
   async onGetChatById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id === 'undefined') return;
+      if(id === 'undefined'   ) return;
       const result = await this.interactor.getChatById(id);
       res.status(200).json(result);
       next();

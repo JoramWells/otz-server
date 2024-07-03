@@ -21,6 +21,9 @@ router.get(
   '/detail/:id',
   controllers.onGetPillUptakeById.bind(controllers)
 )
+
+router.get("/currentPillUptake/:id", controllers.onGetCurrentPillUptake.bind(controllers));
+
 router.get('/dailyUptakeCount', controllers.getDailyPillUptakeCount.bind(controllers))
 router.put('/edit/:id', controllers.onEditPillUptake.bind(controllers))
 // router.delete('/delete/:id', deletePatient);

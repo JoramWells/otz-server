@@ -104,13 +104,38 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     return results
   }
 
+  async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null>{
+    const recentPrescription = await Prescription.findOne({
+      order:[['createdAt', 'DESC']],
+      where:{
+        patientID:id
+      }
+    })
+
+    if(recentPrescription){
+      const currentUptake = await Adherence.findOne({
+        where: {
+          prescriptionID: recentPrescription.id,
+        },
+        include: [
+          {
+            model: TimeAndWork,
+            attributes: ["eveningMedicineTime", "morningMedicineTime"],
+          },
+        ],
+      });
+      return currentUptake
+    }
+    return null
+  }
+
   async findById (id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
     // if ((await this.redisClient.get(id)) === null) {
     const results: AdherenceAttributes | null = await Adherence.findOne({
       where: {
-        patientID:id
-      } as any
+        id
+      }
     })
 
     // const patientResults: AppointmentEntity = {

@@ -6,6 +6,7 @@ import { RedisAdapter } from '../redisAdapter'
 import { IMessageRepository } from '../../../application/interfaces/chats/IMessageRepository';
 import { Messages } from '../../../domain/models/chats/messages.model';
 import { MessagesAttributes } from 'otz-types';
+import { Chat } from '../../../domain/models/chats/chat.model';
 // import { createClient } from 'redis'
 
 export class MessagesRepository implements IMessageRepository {
@@ -18,6 +19,7 @@ export class MessagesRepository implements IMessageRepository {
 
 
       const results = await Messages.create(data)
+      console.log('new mess!!')
       return results
 
 
@@ -53,11 +55,16 @@ export class MessagesRepository implements IMessageRepository {
   async findById(id: string): Promise<MessagesAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: Messages[] | null = await Messages.findAll({
-        where:{
-          chatID:id
-        },
-      });
+
+          const results: Messages[] | null = await Messages.findAll({
+            where: {
+              chatID: id,
+            },
+          });
+    
+          return results;
+
+
 
       // const patientResults: AppointmentEntity = {
       //   firstName: results?.firstName,
@@ -79,6 +86,6 @@ export class MessagesRepository implements IMessageRepository {
     // const results: MessagesAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
 
-    return results;
+    return null;
   }
 }

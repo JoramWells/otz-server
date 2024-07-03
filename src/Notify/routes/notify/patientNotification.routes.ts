@@ -24,6 +24,11 @@ router.get(
   "/detail/:id",
   controllers.onGetPatientNotificationById.bind(controllers)
 );
+
+router.get(
+  "/details/:id",
+  controllers.onGetNotificationByPatientId.bind(controllers)
+);
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

@@ -122,7 +122,7 @@ const adherenceMonitor = async () => {
         adherenceResults.push({
           timeAndWorkID: timeAndWork?.id,
           prescriptionID: prescription?.id,
-          currentDate,
+          currentDate:currentDate as unknown as Date,
           morningStatus: false,
           eveningStatus: false
         })
@@ -164,12 +164,14 @@ const calculatePatientAdherence = async () => {
         totalQuantityDispensed: 0
       }
     }
-    adherenceByPatient[prescription.patientID].totalQuantityPrescribed += prescription.noOfPills
-    adherenceByPatient[prescription.patientID].totalQuantityDispensed += prescription.computedNoOfPills
+    
+    adherenceByPatient[prescription.patientID].totalQuantityPrescribed += prescription.noOfPills as any
+    adherenceByPatient[prescription.patientID].totalQuantityDispensed += prescription.computedNoOfPills as any
   })
 
   const adherenceData = Object.keys(adherenceByPatient).map(patientID => {
-    const data = adherenceByPatient[patientID]
+    const data: any = adherenceByPatient[patientID]
+    
     const adherence = (data.totalQuantityDispensed / data.totalQuantityPrescribed) * 100
     return {
       patientID,

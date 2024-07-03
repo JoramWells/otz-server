@@ -14,8 +14,8 @@ export class ChatInteractor implements IChatInteractor {
     return await this.repository.findById(id);
   }
 
-  async createChat(id1: string, id2: string): Promise<ChatAttributes> {
-    return await this.repository.create(id1, id2);
+  async createChat(id1: string, id2: string, text: string): Promise<ChatAttributes> {
+    return await this.repository.create(id1, id2, text);
   }
 
   async getAllChats(): Promise<ChatAttributes[]> {

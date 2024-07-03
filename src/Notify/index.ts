@@ -133,6 +133,11 @@ io.on('connection', (socket) => {
 
   })
 
+  socket.on('newChat', (chats)=>{
+    // const user = onlineUsers.find(user=> user.patientID)
+    io.emit('getNewChats', chats)
+  })
+
 
 // 
 socket.on('sendMessage', message=>{

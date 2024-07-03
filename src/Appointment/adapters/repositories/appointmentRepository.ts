@@ -41,6 +41,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       ],
     });
   }
+  
 
   async findPriorityAppointmentDetail(
     id: string
@@ -239,6 +240,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     // const results: AppointmentAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
     const results: Appointment | null = await Appointment.findOne({
+      order:[['updatedAt', 'DESC']],
       where: {
         id,
       },

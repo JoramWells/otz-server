@@ -9,7 +9,7 @@ import express, { type Application } from 'express'
 import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
-
+import {Server} from 'socket.io'
 import { artRouter } from './routes/art.routes'
 import { measuringUnitRouter } from './routes/measuringUnit.routes'
 import { artCategoryRouter } from './routes/artCategory.routes'
@@ -19,12 +19,22 @@ import { artPrescriptionRouter } from './routes/artPrescription.routes'
 // import { calculatePills, calculatePills2 } from './utils/calculatePills'
 import { adherenceMonitor } from './utils/adherence'
 import { pillUptakeRouter } from './routes/pillUptake.routes'
+import { createServer } from 'http'
 const cors = require('cors')
 
 
 const app: Application = express()
 
 const PORT = process.env.PORT || 5003
+
+const server = createServer(app)
+
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  },
+});
 // const corsOption = {
 //   origin: ['*']
 // }
@@ -42,7 +52,47 @@ app.use(express.urlencoded({
 // calculatePills()
 
 adherenceMonitor()
-console.log('lsk')
+
+let onlineUsers: any[] = [];
+
+io.on('connection', socket=>{
+  console.log('New client connected to Pharmacy IO server', socket.id)
+
+  // 
+    socket.on("addNewUser", (patientID) => {
+      !onlineUsers.some((user) => user.patientID === patientID) &&
+        onlineUsers.push({
+          patientID,
+          clientId: socket.id,
+        });
+
+      //
+      console.log(onlineUsers, "online");
+
+      io.emit("getOnlineUsers", onlineUsers);
+    });
+
+  socket.on('morning-uptake', message=>{
+    const receiver = onlineUsers.find(
+      (user) => user.patientID === message.recipientID
+    );
+      if (receiver) {
+        io.to(receiver.clientId).emit("getMessage", message);
+        console.log("Message sent updated !!", receiver.clientId);
+      }
+
+        console.log(message.recipientID, receiver);
+        console.log(onlineUsers);
+  })
+
+  // 
+  socket.on('disconnect',()=>{
+    onlineUsers = onlineUsers.filter((user) => user.clientId !== socket.id);
+    io.emit("getOnlineUsers", onlineUsers);
+    console.log("A user disconnected from Pharmacy IO server");
+  })
+
+})
 
 // confirm cors
 app.use('/art-regimen', artRouter)
@@ -59,6 +109,6 @@ connect.authenticate().then(() => {
   console.error('Unable to connect to database: ', error)
 })
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`)
 })

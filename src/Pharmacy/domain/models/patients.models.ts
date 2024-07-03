@@ -3,36 +3,20 @@ import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
 import { createClient } from 'redis'
+import { LocationProps, PatientAttributes } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-export interface PatientAttributes {
-  id?: string
-  firstName?: string
-  middleName?: string
-  lastName?: string
-  sex?: string
-  dob?: string
-  phoneNo?: string
-  idNo?: string
-  occupationID?: string
-  cccNo?: string
-  ageAtReporting?: string
-  dateConfirmedPositive?: string
-  initialRegimen?: string
-  populationType?: string
-  schoolID?: string
-  hospitalID?: string
-  entryPoint?: string
-  subCountyName?: string
-}
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+  entryPoint?: string | undefined
+  maritalStatus!: string
   id?: string | undefined
   firstName?: string | undefined
   middleName: string | undefined
   lastName?: string | undefined
+  password?: string | undefined
   sex?: string | undefined
-  dob?: string | undefined
+  dob?: Date | string | undefined
   phoneNo?: string | undefined
   idNo?: string | undefined
   occupationID?: string | undefined
@@ -44,6 +28,9 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   schoolID?: string | undefined
   hospitalID?: string | undefined
   subCountyName?: string | undefined
+  location: LocationProps | undefined
+  createdAt?: Date | undefined
+  updatedAt?: Date | undefined
 }
 
 Patient.init(
@@ -52,87 +39,95 @@ Patient.init(
       type: DataTypes.UUID,
       primaryKey: true,
       autoIncrement: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     firstName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     middleName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     lastName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     sex: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     dob: {
-      type: DataTypes.STRING
+      type: DataTypes.DATE,
     },
     phoneNo: {
       type: DataTypes.STRING,
-      defaultValue: '',
-      unique: false
+      defaultValue: "",
+      unique: false,
     },
     occupationID: {
       type: DataTypes.UUID,
-      allowNull: true
+      allowNull: true,
     },
     idNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     cccNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     entryPoint: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     subCountyName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
 
     ageAtReporting: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING,
     },
     dateConfirmedPositive: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
     initialRegimen: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     populationType: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      defaultValue: "General Population",
+    },
+    maritalStatus: {
+      type: DataTypes.STRING,
+      defaultValue: "N/A",
     },
     schoolID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     hospitalID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+    },
+    location: {
+      type: DataTypes.JSONB,
+      allowNull: true,
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
-    // notifications: {
-    //   type: DataTypes.JSONB,
-    //   allowNull: true,
-    //   defaultValue: {}
-    // }
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    password: {
+      type: DataTypes.TEXT,
+      defaultValue: "N/A",
+    },
   },
   {
     sequelize: connect,
-    tableName: 'patients',
+    tableName: "patients",
     // postgresql: {
     //   fillFactor: 70
     // },
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 Patient.afterUpdate(async (instance, options) => {
   const redisClient = createClient({ url: 'redis://redis:6379' })
