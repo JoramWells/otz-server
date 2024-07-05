@@ -4,7 +4,7 @@ import { IPatientNotificationRepository } from "../../interfaces/notify/IPatient
 
 
 
-export class PatientNotificationInteractor implements IPatientNotificationInteractor{
+export class PatientNotificationInteractor implements IPatientNotificationInteractor {
   private readonly repository: IPatientNotificationRepository;
 
   constructor(repository: IPatientNotificationRepository) {
@@ -14,16 +14,27 @@ export class PatientNotificationInteractor implements IPatientNotificationIntera
   //   return await this.repository.count()
   // };
 
-  async getPatientNotificationById(id: string): Promise<PatientNotificationAttributes | null> {
+  async getPatientNotificationById(
+    id: string
+  ): Promise<PatientNotificationAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async getNotificationByPatientId(id: string): Promise<PatientNotificationAttributes[] | null> {
-  return await this.repository.findByPatientId(id);
-}
+  async getNotificationByPatientId(
+    id: string
+  ): Promise<PatientNotificationAttributes[] | null> {
+    return await this.repository.findByPatientId(id);
+  }
 
+  async markAsRead(
+    id: string
+  ): Promise<boolean | null> {
+    return await this.repository.markAsRead(id);
+  }
 
-  async createPatientNotification(patientData: PatientNotificationAttributes): Promise<PatientNotificationAttributes> {
+  async createPatientNotification(
+    patientData: PatientNotificationAttributes
+  ): Promise<PatientNotificationAttributes> {
     return await this.repository.create(patientData);
   }
 

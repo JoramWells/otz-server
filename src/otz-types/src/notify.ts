@@ -8,13 +8,17 @@ export interface UserNotificationAttributes {
 
 export interface PatientNotificationAttributes {
   id?: string;
-  patientID: string;
-  userID: string;
-  medicineTime: string;
+  patientID?: string;
+  userID?: string;
+  medicineTime?: string;
   message: string;
-  isRead?:boolean;
-  link?:string;
+  isRead?: boolean;
+  isSent?:boolean;
+  isSentDate?:Date;
+  link?: string;
   type?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface NotificationTypeAttributes {

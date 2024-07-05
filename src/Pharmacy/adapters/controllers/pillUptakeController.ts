@@ -60,7 +60,7 @@ export class PillUptakeController {
   async onGetCurrentPillUptake(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return;
+      if (id === "undefined") return null;
       const result = await this.interactor.getCurrentPillUptake(id);
       res.status(200).json(result);
       next();
@@ -68,6 +68,19 @@ export class PillUptakeController {
       next(error);
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async onGetPillUptakeByPatientID(req: Request, res: Response, next: NextFunction){
+    const {id} = req.params
+    try {
+      if(id==='undefined') return null;
+      const results = await this.interactor.getPillUptakeByPatientID(id)
+      res.status(200).json(results);
+
+      
+    } catch (error) {
+      console.log(error)
     }
   }
 

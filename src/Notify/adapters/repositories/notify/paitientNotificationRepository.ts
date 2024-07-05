@@ -123,4 +123,23 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
 
     return results;
   }
+
+  async markAsRead (id: string): Promise<boolean | null> {
+    const result = await PatientNotification.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if(result){
+      result.isRead = true
+      result.save()
+      return result as any;
+
+    }
+  return null;
+
+
+  }
+
 }

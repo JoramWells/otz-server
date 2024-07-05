@@ -12,8 +12,8 @@ import { Patient } from '../../domain/models/patients.models'
 import { Prescription } from '../../domain/models/art/prescription.model'
 import { AdherenceAttributes } from "otz-types";
 export class PillUptakeRepository implements IPillUptakeRepository {
-  async count () {
-    const currentDate = moment().format('YYYY-MM-DD')
+  async count() {
+    const currentDate = moment().format("YYYY-MM-DD");
 
     //
     const results = await Adherence.findOne({
@@ -22,33 +22,33 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           Sequelize.literal(
             'SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'
           ),
-          'morningTrueCount'
+          "morningTrueCount",
         ],
         [
           Sequelize.literal(
             'SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'
           ),
-          'morningFalseCount'
+          "morningFalseCount",
         ],
         [
           Sequelize.literal(
             'SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'
           ),
-          'eveningTrueCount'
+          "eveningTrueCount",
         ],
         [
           Sequelize.literal(
             'SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'
           ),
-          'eveningFalseCount'
-        ]
+          "eveningFalseCount",
+        ],
       ],
       where: {
-        currentDate
-      }
-    })
+        currentDate,
+      },
+    });
 
-    return results
+    return results;
   }
 
   // private readonly redisClient = new RedisAdapter()
@@ -56,32 +56,32 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create (data: AdherenceAttributes): Promise<AdherenceAttributes> {
-    const results: AdherenceAttributes = await Adherence.create(data)
+  async create(data: AdherenceAttributes): Promise<AdherenceAttributes> {
+    const results: AdherenceAttributes = await Adherence.create(data);
 
-    return results
+    return results;
   }
 
-  async find (): Promise<AdherenceAttributes[]> {
-    const currentDate = moment().format('YYYY-MM-DD')
+  async find(): Promise<AdherenceAttributes[]> {
+    const currentDate = moment().format("YYYY-MM-DD");
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(pillUptakeCache)) === null) {
     const results = await Adherence.findAll({
       where: {
-        currentDate
+        currentDate,
       },
       include: {
         model: TimeAndWork,
-        attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
+        attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
         include: [
           {
             model: Patient,
-            attributes: ['id', 'firstName', 'middleName']
-          }
-        ]
-      }
-    })
+            attributes: ["id", "firstName", "middleName"],
+          },
+        ],
+      },
+    });
 
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
@@ -101,18 +101,18 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     // console.log("fetched from cache!");
 
     // const results: AdherenceAttributes[] = JSON.parse(cachedPatients);
-    return results
+    return results;
   }
 
-  async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null>{
+  async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
     const recentPrescription = await Prescription.findOne({
-      order:[['createdAt', 'DESC']],
-      where:{
-        patientID:id
-      }
-    })
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: id,
+      },
+    });
 
-    if(recentPrescription){
+    if (recentPrescription) {
       const currentUptake = await Adherence.findOne({
         where: {
           prescriptionID: recentPrescription.id,
@@ -124,19 +124,48 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           },
         ],
       });
-      return currentUptake
+      return currentUptake;
     }
-    return null
+    return null;
   }
 
-  async findById (id: string): Promise<AdherenceAttributes | null> {
+  async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
+    const recentPrescription = await Prescription.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: id,
+      },
+    });
+
+    if (recentPrescription) {
+      const currentUptake = await Adherence.findAll({
+        where: {
+          prescriptionID: recentPrescription.id,
+        },
+        include: [
+          {
+            model: TimeAndWork,
+            attributes: ["eveningMedicineTime", "morningMedicineTime", 'createdAt'],
+          },
+          {
+            model: Prescription,
+            attributes:['refillDate', 'nextRefillDate']
+          }
+        ],
+      });
+      return currentUptake;
+    }
+    return null;
+  }
+
+  async findById(id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
     // if ((await this.redisClient.get(id)) === null) {
     const results: AdherenceAttributes | null = await Adherence.findOne({
       where: {
-        id
-      }
-    })
+        id,
+      },
+    });
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,
@@ -158,67 +187,71 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     // const results: AdherenceAttributes = JSON.parse(cachedData)
     // console.log('fetched from cace!')
 
-    return results
+    return results;
   }
 
-  async edit (id: string, status: boolean, query: string): Promise<AdherenceAttributes | null> {
-    if (query === 'morning') {
+  async edit(
+    id: string,
+    status: boolean,
+    query: string
+  ): Promise<AdherenceAttributes | null> {
+    if (query === "morning") {
       const results = await Adherence.findOne({
         where: {
-          id
-        }
-      })
+          id,
+        },
+      });
 
       if (results) {
         const pResults = await Prescription.findOne({
           where: {
-            id: results?.prescriptionID
-          }
-        })
-        console.log(pResults, 'mornin..')
-        console.log(status, 'lko')
+            id: results?.prescriptionID,
+          },
+        });
+        console.log(pResults, "mornin..");
+        console.log(status, "lko");
         if (pResults) {
           if (status) {
-            pResults.computedNoOfPills = pResults?.computedNoOfPills + 1
+            pResults.computedNoOfPills = pResults?.computedNoOfPills + 1;
           } else {
-            pResults.computedNoOfPills = pResults?.computedNoOfPills - 1
+            pResults.computedNoOfPills = pResults?.computedNoOfPills - 1;
           }
-          await pResults?.save()
+          await pResults?.save();
         }
 
-        results.morningStatus = status
-        return await results.save()
+        results.morningStatus = status;
+        return await results.save();
       }
     } else {
       const results = await Adherence.findOne({
         where: {
-          id
-        }
-      })
+          id,
+        },
+      });
       if (results) {
         const pResults = await Prescription.findOne({
           where: {
-            id: results?.prescriptionID
-          }
-        })
-        console.log(pResults, 'evnin')
+            id: results?.prescriptionID,
+          },
+        });
+        console.log(pResults, "evnin");
         if (pResults) {
           if (status) {
-            pResults.computedNoOfPills = pResults?.computedNoOfPills + 1
-            console.log('substrct..')
+            pResults.computedNoOfPills = pResults?.computedNoOfPills + 1;
+            console.log("substrct..");
           } else {
-            pResults.computedNoOfPills = pResults?.computedNoOfPills - 1
-            console.log('added............................................')
+            pResults.computedNoOfPills = pResults?.computedNoOfPills - 1;
+            console.log("added............................................");
           }
-          await pResults?.save()
+          await pResults?.save();
         }
 
-        results.eveningStatus = status
-        await results.save()
+        results.eveningStatus = status;
+        await results.save();
       }
 
-      return results
+      return results;
     }
-    return null
+    return null;
   }
 }

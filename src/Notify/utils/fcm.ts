@@ -1,20 +1,19 @@
-require('dotenv').config();
 
 
-const  {Expo, ExpoPushTicket} = require('expo-server-sdk')
+import  {Expo, ExpoPushTicket} from 'expo-server-sdk'
 
-function sendPushNotification(){
+async function sendPushNotification(pushTokens: string[], body: string){
 
-    const pusTokens = [
-    ]
+    // const pusTokens = [
+    // ]
     const expo = new Expo({
-      accessToken: process.env.EXPO_ACCESS_TOKEN,
+      // accessToken: process.env.EXPO_ACCESS_TOKEN,
       useFcmV1: false,
     });
 
     const messages = []
 
-    for(let pusToken of pusTokens){
+    for(let pusToken of pushTokens){
         if(!Expo.isExpoPushToken(pusToken)){
             console.error(`Invalid token`)
             continue;
@@ -23,7 +22,7 @@ function sendPushNotification(){
               {
                 to: pusToken,
                 sound: "default",
-                body: "Jay",
+                body: body,
                 data: { withSome: "ello!!" },
               })
 
@@ -75,6 +74,6 @@ function sendPushNotification(){
     })()
 
 }
-sendPushNotification()
+// sendPushNotification()
 
-// export {sendPushNotification}
+export {sendPushNotification}

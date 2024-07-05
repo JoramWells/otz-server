@@ -33,6 +33,7 @@ PatientNotification.init(
         model: "patients",
         key: "id",
       },
+      allowNull: false
     },
     userID: {
       type: DataTypes.UUID,
@@ -40,7 +41,7 @@ PatientNotification.init(
         model: "users",
         key: "id",
       },
-      allowNull: true,
+      allowNull: false,
     },
     medicineTime: {
       type: DataTypes.TIME,
@@ -48,9 +49,18 @@ PatientNotification.init(
     message: {
       type: DataTypes.STRING,
     },
+    isSent:{
+      type: DataTypes.BOOLEAN,
+      defaultValue:false,
+      allowNull:false
+    },
+    isSentDate:{
+      type:DataTypes.DATE
+    },
     isRead: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false 
+      defaultValue: false,
+      allowNull: false 
     },
     link: {
       type: DataTypes.STRING,
@@ -74,6 +84,6 @@ PatientNotification.belongsTo(Patient, {foreignKey:'patientID'})
 PatientNotification.belongsTo(User, {foreignKey:'userID'})
 
 // (async () => {
-void connect.sync()
+// void connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

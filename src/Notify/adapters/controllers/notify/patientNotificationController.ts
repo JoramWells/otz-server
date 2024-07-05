@@ -87,4 +87,14 @@ export class PatientNotificationController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  async onMarkAsRead(req:Request, res:Response){
+    try {
+      const {id} = req.params
+      const results = await this.interactor.markAsRead(id)
+      res.status(200).json(results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

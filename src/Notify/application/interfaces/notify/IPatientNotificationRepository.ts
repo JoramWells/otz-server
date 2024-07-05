@@ -5,4 +5,5 @@ export interface IPatientNotificationRepository {
   find: () => Promise<PatientNotificationAttributes[]>;
   findById: (id: string) => Promise<PatientNotificationAttributes | null>;
   findByPatientId: (id: string) => Promise<PatientNotificationAttributes[] | null>;
+  markAsRead: (id: string) => Promise<boolean | null>;
 }

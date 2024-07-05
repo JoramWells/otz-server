@@ -22,6 +22,9 @@ import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes'
 import { schedulePatientNotifications } from './utils/scheduleMessages';
 import { chatRouter } from './routes/chat/chat.routes';
 import { messageRouter } from './routes/chat/messages.routes';
+import { sendRefillNotification } from './utils/sendRefillNotification';
+import { PatientNotification } from './domain/models/notify/patientNotifications.model';
+import { sendPushNotification } from './utils/fcm';
 // import { sendPushNotification } from './utils/fcm';
 const morgan = require('morgan');
 require('dotenv').config();
@@ -55,6 +58,7 @@ app.use(morgan('dev'));
 // dailyPillUpdate();
 
 schedulePatientNotifications();
+sendRefillNotification()
 
 // realtime
 
@@ -119,10 +123,12 @@ io.on('connection', (socket) => {
   console.log('Connected to IO sever', socket.id);
 
   // 
-  socket.on('addNewUser', patientID=>{
+  socket.on('addNewUser', connect=>{
+    const {patientID, expoPushToken} = connect
     !onlineUsers.some(user=>user.patientID === patientID) &&
     onlineUsers.push({
       patientID,
+      expoPushToken,
       clientId: socket.id
     })
 
@@ -150,6 +156,36 @@ socket.on('sendMessage', message=>{
   console.log(message.recipientID, receiver);
   console.log(onlineUsers)
 })
+
+// 
+socket.on('getNotifications', async (socket)=>{
+  const receiver = onlineUsers.find(user=>user.patientID === socket.patientID)
+  if(receiver){
+    // 
+    const notificationStatus = await PatientNotification.findAll({
+      where:{
+        patientID:receiver.patientID,
+        isSent:false
+      }
+    })
+
+    if(notificationStatus){
+      notificationStatus.forEach(async(notification)=>{
+          await sendPushNotification([socket.expoPushToken], notification.message)
+        
+      })
+
+      notificationStatus.forEach(async(notification)=>{
+        await notification.update({
+          isSent: true,
+          isSentDate: new Date()
+        })
+      })
+    }
+
+
+  }
+} )
 
   //
   socket.on('disconnect', () => {

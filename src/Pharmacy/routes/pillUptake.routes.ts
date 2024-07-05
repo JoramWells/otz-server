@@ -22,6 +22,8 @@ router.get(
   controllers.onGetPillUptakeById.bind(controllers)
 )
 
+router.get("/details/:id", controllers.onGetPillUptakeByPatientID.bind(controllers));
+
 router.get("/currentPillUptake/:id", controllers.onGetCurrentPillUptake.bind(controllers));
 
 router.get('/dailyUptakeCount', controllers.getDailyPillUptakeCount.bind(controllers))

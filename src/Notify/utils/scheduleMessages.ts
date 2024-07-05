@@ -90,6 +90,7 @@ const schedulePatientNotifications = async () => {
               patientID: patient.TimeAndWork.Patient.id,
               message: randomMessage,
               medicineTime: morningMedicineTime,
+              type:'Medicine',
               userID:findUser.id
             });
 
@@ -130,6 +131,7 @@ const schedulePatientNotifications = async () => {
               patientID: patient.TimeAndWork.Patient.id as string,
               message: randomMessage as string,
               medicineTime: eveningMedicineTime as string,
+              type:'Medicine',
               userID:findUser.id
             });
             sendSMS(randomMessage)

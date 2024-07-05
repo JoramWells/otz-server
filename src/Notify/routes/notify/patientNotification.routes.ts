@@ -6,8 +6,6 @@ import { PatientNotificationRepository } from "../../adapters/repositories/notif
 import { PatientNotificationInteractor } from "../../application/interactors/notify/patientNotificationInteractor";
 import { PatientNotificationController } from "../../adapters/controllers/notify/patientNotificationController";
 
-
-
 const repository = new PatientNotificationRepository();
 const interactor = new PatientNotificationInteractor(repository);
 
@@ -28,6 +26,11 @@ router.get(
 router.get(
   "/details/:id",
   controllers.onGetNotificationByPatientId.bind(controllers)
+);
+
+router.put(
+  "/markAsRead/:id",
+  controllers.onMarkAsRead.bind(controllers)
 );
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

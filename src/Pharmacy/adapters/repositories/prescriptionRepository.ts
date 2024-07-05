@@ -12,67 +12,100 @@ import { calculateFacilityAdherence } from '../../utils/adherence'
 import { calculatePills2 } from '../../utils/calculatePills'
 
 export class PrescriptionRepository implements IPrescriptionRepository {
-  async create (
+  async create(
     data: PrescriptionInterface,
     appointmentInput: AppointmentAttributes
   ): Promise<PrescriptionInterface | null> {
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {
-        transaction: t
-      })
+        transaction: t,
+      });
 
-      await Appointment.create(appointmentInput, { transaction: t })
+      await Appointment.create(appointmentInput, { transaction: t });
 
-      return results
-    })
+      return results;
+    });
   }
 
-  async find (): Promise<PrescriptionInterface[]> {
-    const results = await calculatePills2()
-    return results
+  async find(): Promise<PrescriptionInterface[]> {
+    const results = await calculatePills2();
+    return results;
   }
 
-  async findAllAdherence (): Promise<PrescriptionInterface[]> {
-    const results = await calculatePills2()
-    return results
+  async findAllAdherence(): Promise<PrescriptionInterface[]> {
+    const results = await calculatePills2();
+    return results;
   }
 
-  async findFacilityAdherence (): Promise<string | number> {
-    const facilityAdherence = await calculateFacilityAdherence()
-    return facilityAdherence
+  async findFacilityAdherence(): Promise<string | number> {
+    const facilityAdherence = await calculateFacilityAdherence();
+    return facilityAdherence;
   }
 
-  async findDetails (id: string): Promise<PrescriptionInterface | null> {
+  async findDetails(id: string): Promise<PrescriptionInterface | null> {
     const results = await Prescription.findOne({
-      order: [['updatedAt', 'DESC']],
+      order: [["updatedAt", "DESC"]],
       where: {
-        patientID: id
-      }
+        patientID: id,
+      },
+    });
 
-    })
-
-    return results
+    return results;
   }
 
-  async findById (id: string): Promise<PrescriptionInterface | null> {
+  async findAllPrescriptionByPatientID(
+    id: string
+  ): Promise<PrescriptionInterface[] | null> {
+    const results = await Prescription.findAll({
+      where: {
+        patientID: id,
+      },
+    });
+    return results;
+  }
+
+  async findById(id: string): Promise<PrescriptionInterface | null> {
     const results = await Prescription.findOne({
       where: {
-        patientVisitID: id
+        patientVisitID: id,
       },
       include: [
         {
           model: ART,
-          attributes: ['artName'],
+          attributes: ["artName"],
           include: [
             {
               model: ArtCategory,
-              attributes: ['artPhase']
-            }
-          ]
-        }
-      ]
-    })
+              attributes: ["artPhase"],
+            },
+          ],
+        },
+      ],
+    });
 
-    return results
+    return results;
+  }
+
+  //
+  async findAllByPatientId(id: string): Promise<PrescriptionInterface[] | null> {
+    const results = await Prescription.findAll({
+      where: {
+        patientID: id,
+      },
+      include: [
+        {
+          model: ART,
+          attributes: ["artName"],
+          include: [
+            {
+              model: ArtCategory,
+              attributes: ["artPhase"],
+            },
+          ],
+        },
+      ],
+    });
+
+    return results;
   }
 }
