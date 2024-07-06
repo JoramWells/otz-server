@@ -39,6 +39,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false
     },
     patientID: {
       type: DataTypes.UUID,
@@ -47,6 +48,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull:false
     },
     appointmentAgendaID: {
       type: DataTypes.UUID,
@@ -55,6 +57,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull:false
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -63,6 +66,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull:false
     },
     appointmentStatusID: {
       type: DataTypes.UUID,
@@ -71,6 +75,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull:false
     },
     appointmentDate: {
       type: DataTypes.DATEONLY,

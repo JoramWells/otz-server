@@ -111,6 +111,7 @@ TimeAndWork.init(
     //   fillFactor: 70
     // },
     timestamps: true,
+    indexes: [{ fields: ["patientID"] }, { fields: ["patientVisitID"] }],
   }
 );
 

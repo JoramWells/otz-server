@@ -136,6 +136,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   }
   async edit(id: string, status: boolean,query: string): Promise<UptakeAttributes | null> {
      await this.redisClient.del(pillUptakeCache)
+     await this.redisClient.del(id)
     if(query === 'morning'){
 
         const results = await Uptake.findOne({

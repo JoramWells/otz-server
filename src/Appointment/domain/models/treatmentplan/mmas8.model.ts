@@ -71,6 +71,15 @@ MMASEight.init(
     //   fillFactor: 70
     // },
     timestamps: true,
+    indexes: [
+      { fields: ["mmasFourID"] },
+      {
+        fields: ["patientID"],
+      },
+      {
+        fields: ["patientVisitID"],
+      },
+    ],
   }
 );
 
