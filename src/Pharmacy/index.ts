@@ -59,12 +59,22 @@ io.on('connection', socket=>{
   console.log('New client connected to Pharmacy IO server', socket.id)
 
   // 
+
+  // 
+    socket.on("getPharmacyNotifications", (pharmacySocket) => {
+      console.log(pharmacySocket, "pharmacy-data");
+
+      io.emit('newPharmacyNotifications', pharmacySocket)
+    });
+
     socket.on("addNewUser", (patientID) => {
       !onlineUsers.some((user) => user.patientID === patientID) &&
         onlineUsers.push({
           patientID,
           clientId: socket.id,
         });
+
+
 
       //
       console.log(onlineUsers, "online");

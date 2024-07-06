@@ -4,7 +4,7 @@
 import moment from 'moment'
 // import { pillUptakeCache } from '../../../constants/appointmentCache'
 // import { RedisAdapter } from '../redisAdapter'
-import { Sequelize } from 'sequelize'
+import { Sequelize, col, fn } from 'sequelize'
 import { type IPillUptakeRepository } from '../../application/interfaces/art/IPillUptakeRepository'
 import { Adherence } from '../../domain/models/adherence/adherence.model'
 import { TimeAndWork } from '../../domain/models/adherence/timeAndWork.model'
@@ -105,17 +105,25 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   }
 
   async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
+    const currentDate = moment().format("YYYY-MM-DD");
+
     const recentPrescription = await Prescription.findOne({
-      order: [["createdAt", "DESC"]],
+      attributes: [[fn("MAX", col("createdAt")), "createdAt"], "patientID", "id"],
+      group:['patientID', 'id'],
       where: {
         patientID: id,
       },
     });
 
+    console.log(recentPrescription)
+
     if (recentPrescription) {
-      const currentUptake = await Adherence.findOne({
+      const currentUptake = await Adherence.findAll({
+        limit:1,
+        order:[['createdAt', 'DESC']],
         where: {
           prescriptionID: recentPrescription.id,
+          currentDate,
         },
         include: [
           {
@@ -124,6 +132,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           },
         ],
       });
+      console.log(currentUptake, 'uptake!!')
       return currentUptake;
     }
     return null;

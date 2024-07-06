@@ -8,7 +8,7 @@ try {
         const appointmentStatusData =
           await AppointmentStatus.findOne({
             where: {
-              appointmentStatus: "Missed",
+              statusDescription: "Missed",
             },
           });
         const appointments: AppointmentAttributes[] = await Appointment.findAll({
@@ -19,7 +19,7 @@ try {
             patientID: {
               [Op.not]: null,
             },
-          },
+          } as any,
         });
 
         const adherenceByPatient: {
@@ -35,7 +35,7 @@ try {
 
           adherenceByPatient[appointment.patientID].totalAppointments += 1;
 
-          if (appointment.appointmentStatusID !== appointmentStatusData.id) {
+          if (appointment.appointmentStatusID !== appointmentStatusData?.id) {
             adherenceByPatient[appointment.patientID].completed += 1;
           }
         });

@@ -8,12 +8,12 @@ import { connect } from './db/connect';
 import {scheduleJob} from 'node-schedule';
 import {createServer} from 'http';
 import helmet from 'helmet'
-// const Sentry = require('@sentry/node');
-// const { nodeProfilingIntegration } = require('@sentry/profiling-node');
+const  Sentry = require ('@sentry/node');
+import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import { Server } from 'socket.io';
 import { appointmentAgendaRouter } from './routes/appointments/appointmentAgenda.routes';
 import { appointmentStatusRouter } from './routes/appointments/appointmentStatus.routes';
-
+import compression from 'compression'
 import { pillUptakeRouter } from './routes/treatmentplan/pillUptake.routes';
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
 import { dailyPillUpdate } from './utils/dailyPillUpdate';
@@ -52,6 +52,17 @@ app.use(express.urlencoded({
 
 app.use(express.static('uploads'))
 
+const shouldCompress = (req: Request,res:Response) =>{
+  if(req.headers['x-no-compression']){
+    return false
+  }
+
+  return compression.filter(req,res)
+}
+
+// use compression
+app.use(compression({threshold:9}))
+
 // morgan
 app.use(morgan('dev'));
 
@@ -87,26 +98,26 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Sentry.init({
-//   dsn: process.env.SENTRY_DSN,
-//   integrations: [
-//     // enable HTTP calls tracing
-//     new Sentry.Integrations.Http({ tracing: true }),
-//     // enable Express.js middleware tracing
-//     new Sentry.Integrations.Express({ app }),
-//     nodeProfilingIntegration(),
-//   ],
-//   // Performance Monitoring
-//   tracesSampleRate: 1.0, //  Capture 100% of the transactions
-//   // Set sampling rate for profiling - this is relative to tracesSampleRate
-//   profilesSampleRate: 1.0,
-// });
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Sentry.Integrations.Express({ app }),
+    nodeProfilingIntegration(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
 
-// // The request handler must be the first middleware on the app
-// app.use(Sentry.Handlers.requestHandler());
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
 
-// // TracingHandler creates a trace for every incoming request
-// app.use(Sentry.Handlers.tracingHandler());
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
 
 // setup server
 const server = createServer(app);

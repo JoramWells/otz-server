@@ -34,6 +34,7 @@ export class AppointmentController {
 
       const results = await this.interactor.getAllAppointments();
       res.status(200).json(results);
+      res.flush()
 
       next();
     } catch (error) {

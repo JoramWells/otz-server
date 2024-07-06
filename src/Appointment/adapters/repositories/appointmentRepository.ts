@@ -96,7 +96,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   }
 
   async find(): Promise<AppointmentAttributes[]> {
-    await this.redisClient.connect();
+    // await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(appointmentCache)) === null) {
       const results: AppointmentAttributes[] = await Appointment.findAll({
