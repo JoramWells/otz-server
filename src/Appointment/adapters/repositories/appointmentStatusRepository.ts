@@ -16,14 +16,12 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
   async create(
     data: AppointmentStatusAttributes
   ): Promise<AppointmentStatusAttributes> {
-    await this.redisClient.connect()
     const results: AppointmentStatusAttributes = await AppointmentStatus.create(data);
     await this.redisClient.del(appointmentStatusCache);
     return results;
   }
 
   async find(): Promise<AppointmentStatusAttributes[]> {
-    await this.redisClient.connect();
     
     // check if patient
     if ((await this.redisClient.get(appointmentStatusCache)) === null) {
@@ -41,7 +39,6 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
     if (cachedPatients === null) {
       return [];
     }
-    await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
     console.log("fetched from cache!");
 
@@ -50,7 +47,6 @@ export class AppointmentStatusRepository implements IAppointmentStatusRepository
   }
 
   async findById(id: string): Promise<AppointmentStatusAttributes | null> {
-    await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results: AppointmentStatus | null = await AppointmentStatus.findOne({
         where: {

@@ -52,13 +52,13 @@ app.use(express.urlencoded({
 
 app.use(express.static('uploads'))
 
-const shouldCompress = (req: Request,res:Response) =>{
-  if(req.headers['x-no-compression']){
-    return false
-  }
+// const shouldCompress = (req: Request,res:Response) =>{
+//   if(req.headers['x-no-compression']){
+//     return false
+//   }
 
-  return compression.filter(req,res)
-}
+//   return compression.filter(req,res)
+// }
 
 // use compression
 app.use(compression({threshold:9}))

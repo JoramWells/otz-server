@@ -1,5 +1,4 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
-import { createClient } from "redis";
 import {AppointmentAgenda} from "./appointmentAgenda.model";
 import {AppointmentStatus} from "./appointmentStatus.model";
 import { Patient } from "../patients.models";
@@ -115,18 +114,18 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-Appointment.afterCreate(async (appointments, options) => {
-  const redisClient = createClient({ url: 'redis://redis:6379' });
-  await redisClient.connect();
-  await redisClient.del('appointmentData');
-  console.log(appointments, 'io')
-});
+// Appointment.afterCreate(async (appointments, options) => {
+//   const redisClient = createClient({ url: 'redis://redis:6379' });
+//   await redisClient.connect();
+//   await redisClient.del('appointmentData');
+//   console.log(appointments, 'io')
+// });
 
-Appointment.afterUpdate(async () => {
-  const redisClient = createClient({ url: 'redis://redis:6379' });
-  await redisClient.connect();
-  await redisClient.del('appointmentData');
-});
+// Appointment.afterUpdate(async () => {
+//   const redisClient = createClient({ url: 'redis://redis:6379' });
+//   await redisClient.connect();
+//   await redisClient.del('appointmentData');
+// });
 
 
 // (async () => {

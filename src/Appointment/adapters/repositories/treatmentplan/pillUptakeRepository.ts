@@ -64,7 +64,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     const currentDate = moment().format("YYYY-MM-DD");
     // await this.redisClient.connect();
     // check if patient
-    // if ((await this.redisClient.get(pillUptakeCache)) === null) {
+    if ((await this.redisClient.get(pillUptakeCache)) === null) {
     const results = await Uptake.findAll({
       where: {
         currentDate,
@@ -82,28 +82,29 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     });
 
     // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
+    console.log("fetched from db!");
     // set to cace
-    //   await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
+      await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
 
-    //   return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   pillUptakeCache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
+      return results;
+    }
+    const cachedResults: string | null = await this.redisClient.get(
+      pillUptakeCache
+    );
+    if (cachedResults === null) {
+      return [];
+    }
+
+    const parsedResults = JSON.parse(cachedResults)
     // await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+    console.log("fetched from cache!");
 
-    // const results: UptakeAttributes[] = JSON.parse(cachedPatients);
-    return results as UptakeAttributes[];
+    // const results: UptakeAttributes[] = JSON.parse(cachedResults);
+    return parsedResults as unknown as UptakeAttributes[];
   }
 
   async findById(id: string): Promise<UptakeAttributes | null> {
-    await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
       const results = await Uptake.findOne({
         where: {
@@ -134,6 +135,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     return results;
   }
   async edit(id: string, status: boolean,query: string): Promise<UptakeAttributes | null> {
+     await this.redisClient.del(pillUptakeCache)
     if(query === 'morning'){
 
         const results = await Uptake.findOne({

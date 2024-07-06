@@ -2,8 +2,14 @@
 import moment from 'moment-timezone'
 import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
 import { Uptake } from '../domain/models/treatmentplan/uptake.model';
+import { createClient } from "redis";
+import { pillUptakeCache } from '../constants/appointmentCache';
+
 
 const dailyPillUpdate = async () => {
+  const redisClient = createClient({url:'redis://redis:6379'})
+  await redisClient.connect()
+  await redisClient.del(pillUptakeCache)
   try {
     const currentDate  = moment().format('YYYY-MM-DD');
 

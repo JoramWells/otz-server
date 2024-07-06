@@ -44,9 +44,7 @@ export class RedisAdapter {
   }
 
   async del(key: string): Promise<string | null>{
-    if (await this.redisClient.connected) {
-          await this.redisClient.disconnect();
-        }
+     await this.connect();
     return this.redisClient.del(key)
   }
 
@@ -55,9 +53,7 @@ export class RedisAdapter {
   // }
 
   async set (key: string, value: string): Promise<void> {
-    if(await this.redisClient.connected){
-      await this.redisClient.disconnect()
-    }
+    await this.connect();
     await this.redisClient.set(key, value)
   }
 
