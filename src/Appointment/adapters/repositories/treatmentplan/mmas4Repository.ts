@@ -14,11 +14,14 @@ export class MMASFourRepository implements IMMASFourRepository {
   // }
 
   async create(data: MMASFourAttributes): Promise<MMASFourAttributes> {
-    const {patientID} = data
+    const {patientID, patientVisitID} = data
     const results = await MMASFour.create(data);
     if(await this.redisClient.get(patientID)){
       await this.redisClient.del(patientID)
     }
+       if (await this.redisClient.get(patientVisitID)) {
+         await this.redisClient.del(patientVisitID);
+       }
     await this.redisClient.del(mmas4Cache);
 
     return results;
