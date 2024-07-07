@@ -26,11 +26,13 @@ import { disclosureEligibilityRouter } from './routes/treatmentplan/partial/disc
 import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/childCaregiverReadiness.routes';
 import { logger } from './utils/logger';
 import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
+import { startAppointmentConsumer } from './adapters/consumer/appointment.consumer';
+
 
 const morgan = require('morgan');
 require('dotenv').config();
 
-
+startAppointmentConsumer()
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
