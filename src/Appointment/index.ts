@@ -14,7 +14,6 @@ import { Server } from 'socket.io';
 import { appointmentAgendaRouter } from './routes/appointments/appointmentAgenda.routes';
 import { appointmentStatusRouter } from './routes/appointments/appointmentStatus.routes';
 import compression from 'compression'
-import { pillUptakeRouter } from './routes/treatmentplan/pillUptake.routes';
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
 import { dailyPillUpdate } from './utils/dailyPillUpdate';
 import { disclosureChecklistRouter } from './routes/treatmentplan/disclosureChecklist.routes';
@@ -32,7 +31,6 @@ import { startAppointmentConsumer } from './adapters/consumer/appointment.consum
 const morgan = require('morgan');
 require('dotenv').config();
 
-startAppointmentConsumer()
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -163,7 +161,6 @@ app.use("/appointment-status", appointmentStatusRouter);
 app.use("/mmas-4", mmasFourRouter);
 app.use("/mmas-8", mmasEightRouter);
 
-app.use("/daily-uptake", pillUptakeRouter);
 app.use("/time-and-work", timeAndWorkRouter);
 app.use("/disclosure-checklist", disclosureChecklistRouter);
 app.use("/follow-checklist", followUpChecklistRouter);
@@ -178,6 +175,10 @@ connect.authenticate().then(() => {
 }).catch((error) => {
   console.error('Unable to connect to database: ', error);
 });
+
+// 
+startAppointmentConsumer();
+
 
 server.listen(PORT, async () => {
   console.log(`App running on http://localhost:${PORT}`);

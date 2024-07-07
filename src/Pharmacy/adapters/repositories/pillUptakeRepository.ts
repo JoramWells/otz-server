@@ -11,7 +11,10 @@ import { TimeAndWork } from '../../domain/models/adherence/timeAndWork.model'
 import { Patient } from '../../domain/models/patients.models'
 import { Prescription } from '../../domain/models/art/prescription.model'
 import { AdherenceAttributes } from "otz-types";
+import { RedisAdapter } from './redisAdapter'
+import { pillUptakeCache } from '../../constants/cache'
 export class PillUptakeRepository implements IPillUptakeRepository {
+  private readonly redisClient = new RedisAdapter()
   async count() {
     const currentDate = moment().format("YYYY-MM-DD");
 
@@ -57,6 +60,18 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   // }
 
   async create(data: AdherenceAttributes): Promise<AdherenceAttributes> {
+    const {prescriptionID, timeAndWorkID} = data
+    if(prescriptionID  || timeAndWorkID){
+    if (await this.redisClient.get(prescriptionID?.toString() as string)  || await this.redisClient.get(timeAndWorkID?.toString() as string)) {
+      await this.redisClient.del(prescriptionID as string)
+      await this.redisClient.del(timeAndWorkID as string);
+    }
+    }
+
+    await this.redisClient.del(pillUptakeCache)
+
+    
+
     const results: AdherenceAttributes = await Adherence.create(data);
 
     return results;
@@ -64,9 +79,8 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async find(): Promise<AdherenceAttributes[]> {
     const currentDate = moment().format("YYYY-MM-DD");
-    // await this.redisClient.connect();
     // check if patient
-    // if ((await this.redisClient.get(pillUptakeCache)) === null) {
+    if ((await this.redisClient.get(pillUptakeCache)) === null) {
     const results = await Adherence.findAll({
       where: {
         currentDate,
@@ -84,43 +98,47 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     });
 
     // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
+    console.log("fetched from db!");
     // set to cace
-    //   await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
+      await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
 
-    //   return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   pillUptakeCache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
-    // await this.redisClient.disconnect();
+      return results;
+    }
+    const cachedPatients: string | null = await this.redisClient.get(
+      pillUptakeCache
+    );
+    if (cachedPatients === null) {
+      return [];
+    }
+    await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+    console.log("fetched from cache!");
 
-    // const results: AdherenceAttributes[] = JSON.parse(cachedPatients);
+    const results: AdherenceAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
   async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
     const currentDate = moment().format("YYYY-MM-DD");
-
+if(await this.redisClient.get(id) === null){
     const recentPrescription = await Prescription.findOne({
-      attributes: [[fn("MAX", col("createdAt")), "createdAt"], "patientID", "id"],
-      group:['patientID', 'id'],
+      attributes: [
+        [fn("MAX", col("createdAt")), "createdAt"],
+        "patientID",
+        "id",
+      ],
+      group: ["patientID", "id"],
       where: {
         patientID: id,
       },
     });
 
-    console.log(recentPrescription)
+    console.log(recentPrescription);
 
     if (recentPrescription) {
       const currentUptake = await Adherence.findAll({
-        limit:1,
-        order:[['createdAt', 'DESC']],
+        limit: 1,
+        order: [["createdAt", "DESC"]],
         where: {
           prescriptionID: recentPrescription.id,
           currentDate,
@@ -132,10 +150,26 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           },
         ],
       });
-      console.log(currentUptake, 'uptake!!')
-      return currentUptake;
+      console.log(currentUptake, "uptake!!");
+
+      await this.redisClient.set(id, JSON.stringify(currentUptake));
+
+
+      // ?index to find the first element
+      return currentUptake[0];
     }
     return null;
+}
+
+    const cachedData: string | null = await this.redisClient.get(id);
+    if (cachedData === null) {
+      return null;
+    }
+    const results: AdherenceAttributes = JSON.parse(cachedData);
+    console.log("fetched appointment from cace!");
+
+    return results;
+
   }
 
   async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
@@ -169,32 +203,22 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async findById(id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
-    // if ((await this.redisClient.get(id)) === null) {
+    if ((await this.redisClient.get(id)) === null) {
     const results: AdherenceAttributes | null = await Adherence.findOne({
       where: {
         id,
       },
     });
 
-    // const patientResults: AppointmentEntity = {
-    //   firstName: results?.firstName,
-    //   middleName: results?.middleName,
-    //   sex: results?.sex,
-    //   phoneNo: results?.phoneNo,
-    //   idNo: results?.idNo,
-    //   occupationID: results?.occupationID,
-    // };
-    // await this.redisClient.set(id, JSON.stringify(results))
+      return results
+    }
 
-    //   return results
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id)
-    // if (cachedData === null) {
-    //   return null
-    // }
-    // const results: AdherenceAttributes = JSON.parse(cachedData)
-    // console.log('fetched from cace!')
+    const cachedData: string | null = await this.redisClient.get(id)
+    if (cachedData === null) {
+      return null
+    }
+    const results: AdherenceAttributes = JSON.parse(cachedData)
+    console.log('fetched from cace!')
 
     return results;
   }
@@ -204,6 +228,8 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     status: boolean,
     query: string
   ): Promise<AdherenceAttributes | null> {
+      await this.redisClient.del(pillUptakeCache);
+      await this.redisClient.del(id);
     if (query === "morning") {
       const results = await Adherence.findOne({
         where: {
