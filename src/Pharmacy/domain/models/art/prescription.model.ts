@@ -39,28 +39,32 @@ Prescription.init(
       references: {
         model: 'patients',
         key: 'id'
-      }
+      },
+      allowNull: false
     },
     patientVisitID: {
       type: DataTypes.UUID,
       references: {
         model: 'patientVisits',
         key: 'id'
-      }
+      },
+      allowNull: false
     },
     drugID: {
       type: DataTypes.UUID,
       references: {
         model: 'arts',
         key: 'id'
-      }
+      },
+      allowNull: false
     },
     artPrescriptionID: {
       type: DataTypes.UUID,
       references: {
         model: 'artPrescriptions',
         key: 'id'
-      }
+      },
+      allowNull: false
     },
     noOfPills: {
       type: DataTypes.STRING

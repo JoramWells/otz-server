@@ -10,6 +10,7 @@ import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
 import {Server} from 'socket.io'
+
 import { artRouter } from './routes/art.routes'
 import { measuringUnitRouter } from './routes/measuringUnit.routes'
 import { artCategoryRouter } from './routes/artCategory.routes'
@@ -20,6 +21,7 @@ import { artPrescriptionRouter } from './routes/artPrescription.routes'
 import { adherenceMonitor } from './utils/adherence'
 import { pillUptakeRouter } from './routes/pillUptake.routes'
 import { createServer } from 'http'
+import { initSentry } from './config/sentryInit'
 const cors = require('cors')
 
 
@@ -111,6 +113,9 @@ app.use('/art-switch-reason', artSwitchReasonRouter)
 app.use('/prescription', prescriptionRouter)
 app.use('/art-prescription', artPrescriptionRouter)
 app.use('/daily-uptake', pillUptakeRouter)
+
+// init sentry
+initSentry((app))
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

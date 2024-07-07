@@ -12,46 +12,62 @@ import { Patient } from '../../domain/models/patients.models'
 import { Prescription } from '../../domain/models/art/prescription.model'
 import { AdherenceAttributes } from "otz-types";
 import { RedisAdapter } from './redisAdapter'
-import { pillUptakeCache } from '../../constants/cache'
+import { pillUptakeCache, todaysPillCount } from '../../constants/cache'
 export class PillUptakeRepository implements IPillUptakeRepository {
   private readonly redisClient = new RedisAdapter()
   async count() {
     const currentDate = moment().format("YYYY-MM-DD");
 
-    //
-    const results = await Adherence.findOne({
-      attributes: [
-        [
-          Sequelize.literal(
-            'SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'
-          ),
-          "morningTrueCount",
+    if(await this.redisClient.get(todaysPillCount) === null){
+      //
+      const results = await Adherence.findOne({
+        attributes: [
+          [
+            Sequelize.literal(
+              'SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'
+            ),
+            "morningTrueCount",
+          ],
+          [
+            Sequelize.literal(
+              'SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'
+            ),
+            "morningFalseCount",
+          ],
+          [
+            Sequelize.literal(
+              'SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'
+            ),
+            "eveningTrueCount",
+          ],
+          [
+            Sequelize.literal(
+              'SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'
+            ),
+            "eveningFalseCount",
+          ],
         ],
-        [
-          Sequelize.literal(
-            'SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'
-          ),
-          "morningFalseCount",
-        ],
-        [
-          Sequelize.literal(
-            'SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'
-          ),
-          "eveningTrueCount",
-        ],
-        [
-          Sequelize.literal(
-            'SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'
-          ),
-          "eveningFalseCount",
-        ],
-      ],
-      where: {
-        currentDate,
-      },
-    });
+        where: {
+          currentDate,
+        },
+      });
 
-    return results;
+      return results;
+    }
+
+      const cachedPatients: string | null = await this.redisClient.get(
+        todaysPillCount
+      );
+      if (cachedPatients === null) {
+        return [];
+      }
+      await this.redisClient.disconnect();
+      // logger.info({ message: "Fetched from cache!" });
+      console.log("fetched from cache!");
+
+      const results = JSON.parse(cachedPatients);
+      return results;
+
   }
 
   // private readonly redisClient = new RedisAdapter()
@@ -69,6 +85,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     }
 
     await this.redisClient.del(pillUptakeCache)
+    await this,this.redisClient.del(todaysPillCount)
 
     
 
@@ -229,6 +246,7 @@ if(await this.redisClient.get(id) === null){
     query: string
   ): Promise<AdherenceAttributes | null> {
       await this.redisClient.del(pillUptakeCache);
+      await this.redisClient.del(todaysPillCount)
       await this.redisClient.del(id);
     if (query === "morning") {
       const results = await Adherence.findOne({

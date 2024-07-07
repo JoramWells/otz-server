@@ -25,12 +25,6 @@ const calculatePills = async () => {
           updatedAtExpectedNoOfPills: currentDate as unknown as Date
         })
 
-        console.log(
-          'Updated prescription:',
-          'Medication:',
-          `Frequency: ${art.frequency}`,
-          `Remaining pills: ${art.expectedNoOfPills}`
-        )
       } else {
         console.log('No enough medicines')
       }
