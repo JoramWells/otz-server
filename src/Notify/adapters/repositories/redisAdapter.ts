@@ -7,7 +7,7 @@ export class RedisAdapter {
   }
 
   //   connect to redis client
-  async connect (): Promise<string | null> {
+  async connect (): Promise<void> {
     // await this.redisClient.on('error', (error: any) => {
     //   console.log('Redis Client Error', error)
     // })
@@ -20,13 +20,16 @@ export class RedisAdapter {
     //   return null
     // }
 
+    if(!this.redisClient.isOpen){
      await this.redisClient
        .connect()
-       .then((res: Response)=>{
-        console.log(res)
+       .then((res: Response) => {
+         console.log("connected to redis server");
        })
        .catch((err: Error) => console.log(err));
-     return null
+    }
+
+
   }
 
   async disconnect (): Promise<string> {
@@ -34,14 +37,14 @@ export class RedisAdapter {
   }
 
   async get (key: string): Promise<string | null> {
-    if(await this.redisClient.connected){
-      await this.redisClient.disconnect()
-    }
+ 
+    await this.connect()
     return await this.redisClient.get(key);
 
   }
 
   async del(key: string): Promise<string | null>{
+     await this.connect();
     return this.redisClient.del(key)
   }
 
@@ -50,9 +53,7 @@ export class RedisAdapter {
   // }
 
   async set (key: string, value: string): Promise<void> {
-    if(await this.redisClient.connected){
-      await this.redisClient.disconnect()
-    }
+    await this.connect();
     await this.redisClient.set(key, value)
   }
 

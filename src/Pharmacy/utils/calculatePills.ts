@@ -71,15 +71,15 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
         model: Patient,
         attributes: ['id', 'firstName', 'middleName']
       },
-      {
-        model: ART,
-        attributes: ['artName']
+      // {
+      //   model: ART,
+      //   attributes: ['artName']
         // where: {
         //   artName: {
         //     [Op.not]: null
         //   }
         // }
-      }
+      // }
     ]
   })
 

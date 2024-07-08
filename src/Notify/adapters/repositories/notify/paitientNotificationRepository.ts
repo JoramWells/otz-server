@@ -7,6 +7,7 @@ import { PatientNotification } from '../../../domain/models/notify/patientNotifi
 import { Patient } from '../../../domain/models/patients.models';
 import { RedisAdapter } from '../redisAdapter'
 import { PatientNotificationAttributes } from 'otz-types';
+import { col, fn } from 'sequelize';
 // import { createClient } from 'redis'
 
 export class PatientNotificationRepository implements IPatientNotificationRepository {
@@ -25,7 +26,7 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
 
   async find(): Promise<PatientNotificationAttributes[]> {
     const currentDate = moment().format('YYYY-MM-DD')
-    await this.redisClient.connect();
+    // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
       const results = await PatientNotification.findAll({
@@ -92,6 +93,34 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
     return results;
   }
 
+
+  async findByCategory(type:string): Promise<PatientNotificationAttributes[]>{
+    const results = await PatientNotification.findAll({
+      where: {
+        type: type,
+      },
+      attributes: [[fn("MAX", col("PatientNotification.createdAt")), "createdAt"], "Patient.id"],
+      group:['Patient.id', 'message'],
+      include: [
+        {
+          model: Patient,
+
+          attributes: ["id", "firstName", "middleName"],
+        },
+      ],
+    });
+
+    const formattedResults = []
+
+    for(const item in results){
+      formattedResults.push(results[item].dataValues)
+    }
+
+    console.log(formattedResults)
+
+    return formattedResults
+  }
+  
   async findById(id: string): Promise<PatientNotificationAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {

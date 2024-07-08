@@ -8,23 +8,23 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+    restart: always
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-
+    volumes:
+          - ./log4j.properties:/etc/kafka/log4j.properties
     networks:
       - otz
 
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
-      - 29092:29092
+      - 9092:9092
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-      KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       # KAFKA_LOG_DIRS: /kafka/logs
@@ -212,7 +212,7 @@ services:
       database:
         condition: service_healthy
       kafka:
-        condition: service_healthy
+        condition: service_started
     networks:
       - otz  
 
@@ -396,7 +396,7 @@ services:
       database:
         condition: service_healthy
       kafka:
-        condition: service_healthy
+        condition: service_started
       redis:
         condition: service_started
     environment:

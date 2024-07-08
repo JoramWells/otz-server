@@ -42,27 +42,33 @@ export async function sendRefillNotification(){
 
           if (results) {
             results.forEach(async (prescription) => {
-              await PatientNotification.create({
-                patientID: prescription.patientID,
-                message:
-                  "Hello dear, your medicine is almost over. Kindly consider a refill",
-                medicineTime: "00:00",
-                type: "Refill",
-                userID: findUser?.id,
-              });
+              if(prescription.patientID){
+                await PatientNotification.create({
+                  patientID: prescription.patientID,
+                  message:
+                    "Hello dear, your medicine is almost over. Kindly consider a refill",
+                  medicineTime: "00:00",
+                  type: "Refill",
+                  userID: findUser?.id,
+                });
+              }
+       
             });
           }
 
           if (needCompleteRefill) {
             needCompleteRefill.forEach(async (refill) => {
-              await PatientNotification.create({
-                patientID: refill.patientID,
-                message:
-                  "Hello dear, your medicine is over. Please visit our nearest facility for a refill.",
-                medicineTime: "00:00",
-                type: "Refill",
-                userID: findUser?.id,
-              });
+              if(refill.patientID){
+                await PatientNotification.create({
+                  patientID: refill.patientID,
+                  message:
+                    "Hello dear, your medicine is over. Please visit our nearest facility for a refill.",
+                  medicineTime: "00:00",
+                  type: "Refill",
+                  userID: findUser?.id,
+                });
+              }
+         
             });
           }
     }

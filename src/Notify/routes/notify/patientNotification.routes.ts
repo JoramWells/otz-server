@@ -28,6 +28,11 @@ router.get(
   controllers.onGetNotificationByPatientId.bind(controllers)
 );
 
+router.get(
+  "/getNotificationByCategory",
+  controllers.onGetNotificationByCategory.bind(controllers)
+);
+
 router.put(
   "/markAsRead/:id",
   controllers.onMarkAsRead.bind(controllers)

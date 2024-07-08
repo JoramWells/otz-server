@@ -70,6 +70,22 @@ export class PatientNotificationController {
     }
   }
 
+  async onGetNotificationByCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const {type} = req.query
+      const results = await this.interactor.getNotificationByCategory(type as string)
+      res.status(200).json(results)
+      next()
+    } catch (error) {
+      console.log(error);
+      next(error)
+    }
+  }
+
   //
   async onGetNotificationByPatientId(
     req: Request,
@@ -88,13 +104,13 @@ export class PatientNotificationController {
     }
   }
 
-  async onMarkAsRead(req:Request, res:Response){
+  async onMarkAsRead(req: Request, res: Response) {
     try {
-      const {id} = req.params
-      const results = await this.interactor.markAsRead(id)
-      res.status(200).json(results)
+      const { id } = req.params;
+      const results = await this.interactor.markAsRead(id);
+      res.status(200).json(results);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 }

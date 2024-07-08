@@ -10,9 +10,9 @@ export class PatientNotificationInteractor implements IPatientNotificationIntera
   constructor(repository: IPatientNotificationRepository) {
     this.repository = repository;
   }
-  // async getDailyPillUptakeCount(){
-  //   return await this.repository.count()
-  // };
+  async getNotificationByCategory(type: string): Promise<PatientNotificationAttributes[]>{
+    return await this.repository.findByCategory(type)
+  };
 
   async getPatientNotificationById(
     id: string

@@ -73,18 +73,18 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       where: {
         patientVisitID: id,
       },
-      include: [
-        {
-          model: ART,
-          attributes: ["artName"],
-          include: [
-            {
-              model: ArtCategory,
-              attributes: ["artPhase"],
-            },
-          ],
-        },
-      ],
+      // include: [
+      //   {
+      //     model: ART,
+      //     attributes: ["artName"],
+      //     include: [
+      //       {
+      //         model: ArtCategory,
+      //         attributes: ["artPhase"],
+      //       },
+      //     ],
+      //   },
+      // ],
     });
 
     return results;
@@ -96,18 +96,18 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       where: {
         patientID: id,
       },
-      include: [
-        {
-          model: ART,
-          attributes: ["artName"],
-          include: [
-            {
-              model: ArtCategory,
-              attributes: ["artPhase"],
-            },
-          ],
-        },
-      ],
+      // include: [
+      //   {
+      //     model: ART,
+      //     attributes: ["artName"],
+      //     include: [
+      //       {
+      //         model: ArtCategory,
+      //         attributes: ["artPhase"],
+      //       },
+      //     ],
+      //   },
+      // ],
     });
 
     return results;
