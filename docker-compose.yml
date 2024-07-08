@@ -2,7 +2,12 @@ services:
 
   zookeeper:
     image:  confluentinc/cp-zookeeper:latest
-
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -13,19 +18,27 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
-      - 9092:9092
+      - 29092:29092
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       # KAFKA_LOG_DIRS: /kafka/logs
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: kafka-topics --bootstrap-server broker:29092 --list
+      interval: 30s
+      timeout: 10s
+      retries: 3
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     networks:
       - otz
 
@@ -190,14 +203,16 @@ services:
           memory: 450M
         reservations:
           cpus: '0.20'
-          memory: 450M   
+          memory: 450M
+    environment:
+      KAFKA_BROKER: kafka:29092
     ports:
       - 5003:5003
     depends_on:
       database:
         condition: service_healthy
       kafka:
-        condition: service_started
+        condition: service_healthy
     networks:
       - otz  
 
@@ -381,9 +396,11 @@ services:
       database:
         condition: service_healthy
       kafka:
-        condition: service_started
+        condition: service_healthy
       redis:
-        condition: service_started    
+        condition: service_started
+    environment:
+      KAFKA_BROKER: kafka:29092
     networks:
       - otz
 

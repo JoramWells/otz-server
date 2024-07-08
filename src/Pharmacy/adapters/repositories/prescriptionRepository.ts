@@ -10,8 +10,10 @@ import { ArtCategory } from '../../domain/models/art/artCategory.model'
 import { Prescription } from '../../domain/models/art/prescription.model'
 import { calculateFacilityAdherence } from '../../utils/adherence'
 import { calculatePills2 } from '../../utils/calculatePills'
+import { KafkaAdapter } from '../kafka/producer/kafka.producer'
 
 export class PrescriptionRepository implements IPrescriptionRepository {
+  private readonly kafkaProducer = new KafkaAdapter()
   async create(
     data: PrescriptionInterface,
     appointmentInput: AppointmentAttributes
@@ -20,6 +22,8 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       const results: PrescriptionInterface = await Prescription.create(data, {
         transaction: t,
       });
+
+      await this.kafkaProducer.sendMessage('appointment-topic',[{value:JSON.stringify(appointmentInput)}])
 
       await Appointment.create(appointmentInput, { transaction: t });
 

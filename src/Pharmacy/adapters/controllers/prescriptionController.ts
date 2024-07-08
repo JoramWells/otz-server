@@ -14,7 +14,7 @@ export class PrescriptionController {
 
   async onCreatePrescription(req: Request, res: Response, next: NextFunction) {
     const {
-      drugID,
+      artPrescriptionID,
       noOfPill,
       frequency,
       refillDate,
@@ -40,7 +40,7 @@ export class PrescriptionController {
 
     const prescriptionInput: PrescriptionInterface = {
       patientVisitID,
-      drugID,
+      artPrescriptionID,
       frequency,
       refillDate,
       noOfPills: noOfPill,

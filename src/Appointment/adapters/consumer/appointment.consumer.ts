@@ -5,12 +5,15 @@ import { EachMessagePayload } from "kafkajs";
 
 async function handleMessage ({message}: EachMessagePayload){
 
-    if(message.value){
-        const data = JSON.parse(message.value.toString());
-        return await createAppointment(data);
-    }
+try {
+        if (message.value) {
+          const data = JSON.parse(message.value.toString());
+          return await createAppointment(data);
+        }
+} catch (error) {
+   console.log(error)
+}
 
-   
 
 }
 

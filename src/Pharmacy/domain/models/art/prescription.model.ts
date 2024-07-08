@@ -15,7 +15,6 @@ export class Prescription extends Model<PrescriptionInterface> {
   patientID!: string
   patientVisitID!: string
   artPrescriptionID!: string
-  drugID!: string
   noOfPills!: number
   frequency!: number
   refillDate!: Date
@@ -46,14 +45,6 @@ Prescription.init(
       type: DataTypes.UUID,
       references: {
         model: 'patientVisits',
-        key: 'id'
-      },
-      allowNull: false
-    },
-    drugID: {
-      type: DataTypes.UUID,
-      references: {
-        model: 'arts',
         key: 'id'
       },
       allowNull: false
@@ -114,7 +105,6 @@ Prescription.belongsTo(PatientVisits, {
   foreignKey: 'patientVisitID',
   constraints: false
 })
-Prescription.belongsTo(ART, { foreignKey: 'drugID', constraints: false })
 Prescription.belongsTo(ARTPrescription, {
   foreignKey: 'artPrescriptionID',
   constraints: false

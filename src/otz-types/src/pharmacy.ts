@@ -3,7 +3,6 @@ export interface PrescriptionInterface {
   patientID: string;
   patientVisitID: string;
   artPrescriptionID?: string;
-  drugID: string;
   message?: string;
   noOfPills: number;
   frequency: number;
