@@ -179,8 +179,9 @@ export enum AdherenceImpression {
   Inadequate = "inadequate",
 }
 
-export interface EnhancedPillAdherence{
+export interface EnhancedAdherenceAttributes{
   id?: string
+  prescriptionID: string
   treatmentMotivation: string
   date: Date | string
   adherencePercentage: number
