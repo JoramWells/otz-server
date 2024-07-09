@@ -1,21 +1,25 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 
 import { connect } from "../../../db/connect";
-import { RequestsAttributes, RequestStatus } from "otz-types";
+import { FriendRequestsAttributes  } from "otz-types";
 import { Patient } from "../patients.models";
 
+export enum FriendRequestStatus {
+  Pending = "pending",
+  Accepted = "accepted",
+  Rejected = "rejected",
+}
 
-
-export class Request extends Model<RequestsAttributes> implements RequestsAttributes {
+export class FriendRequest extends Model<FriendRequestsAttributes> implements FriendRequestsAttributes {
   id?: string | undefined;
   // messages?: string | undefined;
   patientID: string | undefined;
   from: string | undefined;
   message!: string;
-  status!: RequestStatus
+  status!: FriendRequestStatus
 }
 
-Request.init(
+FriendRequest.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -28,6 +32,7 @@ Request.init(
         model: "patients",
         key: "id",
       },
+      allowNull:false
     },
     from: {
       type: DataTypes.UUID,
@@ -35,19 +40,20 @@ Request.init(
         model: "patients",
         key: "id",
       },
+      allowNull: false
     },
     message: {
       type: DataTypes.STRING,
     },
     status: {
-      type: DataTypes.ENUM(...Object.values(RequestStatus)),
+      type: DataTypes.ENUM(...Object.values(FriendRequestStatus)),
       allowNull: false,
-      defaultValue: RequestStatus.Pending
+      defaultValue: FriendRequestStatus.Pending,
     },
   },
   {
     sequelize: connect,
-    tableName: "requests",
+    tableName: "friendRequests",
     // postgresql: {
     //   fillFactor: 70
     // },
@@ -55,8 +61,8 @@ Request.init(
   }
 );
 
-Request.belongsTo(Patient, { foreignKey: "from" });
-Request.belongsTo(Patient, { foreignKey: "patientID" });
+FriendRequest.belongsTo(Patient, { foreignKey: "from" });
+FriendRequest.belongsTo(Patient, { foreignKey: "patientID" });
 
 
 // (async () => {

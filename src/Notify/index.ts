@@ -25,6 +25,7 @@ import { messageRouter } from './routes/chat/messages.routes';
 import { sendRefillNotification } from './utils/sendRefillNotification';
 import { PatientNotification } from './domain/models/notify/patientNotifications.model';
 import { sendPushNotification } from './utils/fcm';
+import { friendRequestRouter } from './routes/chat/request.routes';
 // import { sendPushNotification } from './utils/fcm';
 const morgan = require('morgan');
 require('dotenv').config();
@@ -220,6 +221,7 @@ app.use("/patient-notifications", patientNotificationRouter);
 app.use("/messages-text-replies", messageTextReplyRouter);
 app.use("/chats", chatRouter);
 app.use("/messages", messageRouter);
+app.use("/friend-requests", friendRequestRouter);
 
 
 
