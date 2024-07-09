@@ -137,7 +137,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
     const currentDate = moment().format("YYYY-MM-DD");
-if(await this.redisClient.get(id) === null){
+// if(await this.redisClient.get(`pill_uptake_${id}`) === null){
     const recentPrescription = await Prescription.findOne({
       attributes: [
         [fn("MAX", col("createdAt")), "createdAt"],
@@ -150,7 +150,7 @@ if(await this.redisClient.get(id) === null){
       },
     });
 
-    console.log(recentPrescription);
+    console.log(recentPrescription?.id, 'pID');
 
     if (recentPrescription) {
       const currentUptake = await Adherence.findAll({
@@ -169,23 +169,23 @@ if(await this.redisClient.get(id) === null){
       });
       console.log(currentUptake, "uptake!!");
 
-      await this.redisClient.set(id, JSON.stringify(currentUptake));
+      // await this.redisClient.set(`pill_uptake_${id}`, JSON.stringify(currentUptake));
 
 
       // ?index to find the first element
       return currentUptake[0];
     }
     return null;
-}
+// }
 
-    const cachedData: string | null = await this.redisClient.get(id);
-    if (cachedData === null) {
-      return null;
-    }
-    const results: AdherenceAttributes = JSON.parse(cachedData);
-    console.log("fetched appointment from cace!");
+//     const cachedData: string | null = await this.redisClient.get(id);
+//     if (cachedData === null) {
+//       return null;
+//     }
+//     const results: AdherenceAttributes = JSON.parse(cachedData);
+//     console.log("fetched appointment from cace!");
 
-    return results;
+//     return results;
 
   }
 

@@ -1,6 +1,6 @@
 
 
-import  {Expo, ExpoPushTicket} from 'expo-server-sdk'
+import  {Expo, ExpoPushMessage, ExpoPushTicket} from 'expo-server-sdk'
 
 async function sendPushNotification(pushTokens: string[], body: string){
 
@@ -11,7 +11,7 @@ async function sendPushNotification(pushTokens: string[], body: string){
       useFcmV1: false,
     });
 
-    const messages = []
+    const messages: ExpoPushMessage[] = []
 
     for(let pusToken of pushTokens){
         if(!Expo.isExpoPushToken(pusToken)){
@@ -31,7 +31,7 @@ async function sendPushNotification(pushTokens: string[], body: string){
 
 
     const chunks = expo.chunkPushNotifications(messages);
-    const tickets = [];
+    const tickets: any[] = [];
     (async () => {
       for (let chunk of chunks) {
         try {

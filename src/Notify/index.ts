@@ -159,6 +159,7 @@ socket.on('sendMessage', message=>{
 
 // 
 socket.on('getNotifications', async (socket)=>{
+  console.log('Checking user notifications...')
   const receiver = onlineUsers.find(user=>user.patientID === socket.patientID)
   if(receiver){
     // 

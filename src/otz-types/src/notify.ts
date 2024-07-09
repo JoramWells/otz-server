@@ -61,4 +61,18 @@ export interface MessagesAttributes {
   senderID?: string;
 }
 
+export enum RequestStatus{
+  Pending = 'pending',
+  Accepted= 'accepted',
+  Rejected='rejected'
+}
+
+export interface RequestsAttributes {
+  id?: string;
+  patientID?: string;
+  from?: string;
+  message: string;
+  status: RequestStatus;
+}
+
 
