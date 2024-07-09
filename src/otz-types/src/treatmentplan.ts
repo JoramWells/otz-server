@@ -172,3 +172,23 @@ export interface PartialDisclosureAttributes {
   childDisclosureEligibilityID?: string;
   childCaregiverReadinessID?: string;
 }
+
+export enum AdherenceImpression {
+  Excellent = "excellent",
+  Unsure = "unsure",
+  Inadequate = "inadequate",
+}
+
+export interface EnhancedPillAdherence{
+  id?: string
+  treatmentMotivation: string
+  date: Date | string
+  adherencePercentage: number
+  mmas8Score: number,
+  barriersToAdherence: string
+  impression: AdherenceImpression
+  plan: string
+  nextAppointmentDate: Date | string
+}
+
+
