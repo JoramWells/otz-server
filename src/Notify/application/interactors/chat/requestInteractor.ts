@@ -13,6 +13,11 @@ export class RequestInteractor implements IRequestInteractor {
     return await this.repository.findById(id);
   }
 
+  // 
+    async getAllFriendRequestsByPatientId(id: string): Promise<FriendRequestsAttributes[] | null> {
+    return await this.repository.findAllByPatientId(id);
+  }
+
   async createRequests(data: FriendRequestsAttributes): Promise<FriendRequestsAttributes> {
     return await this.repository.create(data);
   }

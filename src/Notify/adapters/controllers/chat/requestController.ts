@@ -13,18 +13,17 @@ export class RequestsController {
 
   async onCreateRequest(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id1, id2} = req.body
+      const { id1, id2 } = req.body;
       const newProfile = await this.interactor.createRequests(req.body);
-      
-      
-      console.log(req.body)
+
+      console.log(req.body);
       res.json(newProfile);
-    //   logger.info({
-    //     Request: "Created New Request Successfully! ~" + req.body.firstName,
-    //   });
+      //   logger.info({
+      //     Request: "Created New Request Successfully! ~" + req.body.firstName,
+      //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
@@ -49,8 +48,23 @@ export class RequestsController {
   async onGetRequestById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id === 'undefined' ) return;
+      if (id === "undefined") return;
       const result = await this.interactor.getRequestsById(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ Request: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetAllRequestByPatientId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (id === "undefined") return;
+      const result = await this.interactor.getAllFriendRequestsByPatientId(id);
       res.status(200).json(result);
       next();
     } catch (error) {

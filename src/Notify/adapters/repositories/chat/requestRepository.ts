@@ -3,6 +3,7 @@ import { RedisAdapter } from '../redisAdapter'
 import { IRequestRepository } from '../../../application/interfaces/chats/IRequestRepository';
 import { FriendRequestsAttributes } from 'otz-types';
 import { FriendRequest } from '../../../domain/models/chats/friendRequest.model';
+import { Patient } from '../../../domain/models/patients.models';
 // import { createClient } from 'redis'
 
 export class RequestRepository implements IRequestRepository {
@@ -11,25 +12,23 @@ export class RequestRepository implements IRequestRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(data: FriendRequestsAttributes  ): Promise<FriendRequestsAttributes> {
-
-
-      const results = await FriendRequest.create(data)
-      console.log('new mess!!')
-      return results
-
-
+  async create(
+    data: FriendRequestsAttributes
+  ): Promise<FriendRequestsAttributes> {
+    const results = await FriendRequest.create(data);
+    console.log("new mess!!");
+    return results;
   }
 
   async find(): Promise<FriendRequestsAttributes[]> {
     // await this.redisClient.connect();
-    
+
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-      const results = await FriendRequest.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
+    const results = await FriendRequest.findAll({});
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
     //   await this.redisClient.set(mmasCache, JSON.stringify(results));
 
     //   return results;
@@ -52,24 +51,63 @@ export class RequestRepository implements IRequestRepository {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
 
-          const results: FriendRequest[] | null = await FriendRequest.findAll({
-            where: {
-               id,
-            },
-          });
-    
-          return results;
+    const results: FriendRequest[] | null = await FriendRequest.findAll({
+      where: {
+        id,
+      },
+    });
 
+    return results;
 
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
+    //   await this.redisClient.set(id, JSON.stringify(results));
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
+    //   return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: FriendRequestsAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+
+    // return null;
+  }
+
+  async findAllByPatientId(id: string): Promise<FriendRequestsAttributes[] | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+
+    const results: FriendRequest[] | null = await FriendRequest.findAll({
+      where: {
+        from:id,
+      },
+      include:[
+        {
+          model:Patient,
+          attributes:['firstName', 'middleName']
+        }
+      ]
+    });
+
+    return results;
+
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;

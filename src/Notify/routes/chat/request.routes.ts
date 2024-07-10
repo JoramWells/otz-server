@@ -23,6 +23,8 @@ router.get(
   "/detail/:id",
   controllers.onGetRequestById.bind(controllers)
 );
+
+router.get("/details/:id", controllers.onGetAllRequestByPatientId.bind(controllers));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 
