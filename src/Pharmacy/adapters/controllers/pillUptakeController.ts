@@ -89,7 +89,6 @@ export class PillUptakeController {
     try {
       const { id } = req.params;
       const timeQuery = req.query.time;
-      console.log(req.query);
       if (timeQuery === "morning") {
         const { morningStatus } = req.body;
         const result = await this.interactor.editPillUptake(

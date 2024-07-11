@@ -35,7 +35,7 @@ const calculatePills = async () => {
 const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
   const currentDate = moment().format('YYYY-MM-DD')
 
-  const results: PrescriptionInterface[] = await Prescription.findAll({
+  const results = await Prescription.findAll({
     attributes: [
       //   'noOfPills',
       [fn('MAX', col('createdAt')), 'createdAt'],

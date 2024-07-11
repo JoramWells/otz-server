@@ -112,7 +112,7 @@ const adherenceMonitor = async () => {
         }
 
         //
-        const prescription: PrescriptionInterface | null = await Prescription.findOne({
+        const prescription: Prescription | null = await Prescription.findOne({
           where: {
             patientID,
             createdAt: latestPrescription.dataValues.createdAt
