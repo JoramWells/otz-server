@@ -25,6 +25,7 @@ import { disclosureEligibilityRouter } from './routes/treatmentplan/partial/disc
 import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/childCaregiverReadiness.routes';
 import { logger } from './utils/logger';
 import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
+import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes';
 // import { startAppointmentConsumer } from './adapters/consumer/appointment.consumer';
 
 
@@ -168,6 +169,7 @@ app.use("/follow-checklist", followUpChecklistRouter);
 app.use("/partial-disclosure", partialDisclosureRouter);
 app.use("/disclosure-eligibility", disclosureEligibilityRouter);
 app.use("/child-readiness", childCaregiverReadinessRouter);
+app.use("/enhanced-adherence", enhancedAdherenceRouter);
 
 
 connect.authenticate().then(() => {

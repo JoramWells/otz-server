@@ -1,9 +1,14 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
-import { AdherenceImpression, EnhancedAdherenceAttributes } from "otz-types";
+import { EnhancedAdherenceAttributes } from "otz-types";
 import { Prescription } from "../art/prescription.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
+export enum AdherenceImpression {
+  Excellent = "excellent",
+  Unsure = "unsure",
+  Inadequate = "inadequate",
+}
 
 export class EnhancedAdherence extends Model<EnhancedAdherenceAttributes> implements EnhancedAdherenceAttributes {
   id: string | undefined;
