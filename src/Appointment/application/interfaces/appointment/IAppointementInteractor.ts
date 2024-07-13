@@ -6,6 +6,6 @@ export interface IAppointmentInteractor {
   getAppointmentById: (id: string) => Promise<AppointmentAttributes | null>;
   getAppointmentDetail: (id: string) => Promise<AppointmentAttributes[] | null>;
   getPriorityAppointmentDetail: (id: string) => Promise<AppointmentAttributes[] | null>;
-  markAsFavorite: (id: string) => Promise<string | null>;
+  starAppointment: (id: string, patientID: string,status: boolean) => Promise<string | null>;
   getAllPriorityAppointments: () => Promise<AppointmentAttributes[] | null>;
 }

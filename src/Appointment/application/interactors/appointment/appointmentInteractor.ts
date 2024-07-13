@@ -10,27 +10,35 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   constructor(repository: IAppointmentRepository) {
     this.repository = repository;
   }
-  async getPriorityAppointmentDetail(id: string):Promise<AppointmentAttributes[] | null>{
-    return await this.repository.findPriorityAppointmentDetail(id)
+  async starAppointment(id: string, patientID: string, status: boolean): Promise<string | null> {
+    return await this.repository.markAsStarred(id, patientID,status);
+  }
+  async getPriorityAppointmentDetail(
+    id: string
+  ): Promise<AppointmentAttributes[] | null> {
+    return await this.repository.findPriorityAppointmentDetail(id);
   }
 
-  async getAllPriorityAppointments():Promise<AppointmentAttributes[] | null>{
-    return await this.repository.findAllPriorityAppointments()
+  async getAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
+    return await this.repository.findAllPriorityAppointments();
   }
 
   async getAppointmentById(id: string): Promise<AppointmentAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createAppointment(patientData: AppointmentAttributes): Promise<AppointmentAttributes> {
+  async createAppointment(
+    patientData: AppointmentAttributes
+  ): Promise<AppointmentAttributes> {
     return await this.repository.create(patientData);
   }
 
   async getAllAppointments(): Promise<AppointmentAttributes[]> {
     return await this.repository.find();
   }
-  async getAppointmentDetail(id: string):Promise<AppointmentAttributes[] | null>{
-   return await this.repository.findPatientAppointmentByID(id)
+  async getAppointmentDetail(
+    id: string
+  ): Promise<AppointmentAttributes[] | null> {
+    return await this.repository.findPatientAppointmentByID(id);
   }
-
 }

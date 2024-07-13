@@ -20,12 +20,12 @@ import { AppointmentAttributes } from 'otz-types'
 export class AppointmentRepository implements IAppointmentRepository {
   async findAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
     return await Appointment.findAll({
-      order:[['updatedAt', 'DESC']],
-      limit:5,
+      order: [["updatedAt", "DESC"]],
+      limit: 5,
       include: [
         {
-          model:Patient,
-          attributes:['id', 'firstName','middleName']
+          model: Patient,
+          attributes: ["id", "firstName", "middleName"],
         },
         {
           model: AppointmentStatus,
@@ -41,7 +41,22 @@ export class AppointmentRepository implements IAppointmentRepository {
       ],
     });
   }
-  
+
+  //
+
+  async markAsStarred(id: string, patientID: string, status: boolean): Promise<string | null> {
+    const isTrue =  await Appointment.findByPk(id);
+    await this.redisClient.connect()
+    await this.redisClient.del(appointmentCache)
+    await this.redisClient.del(id)
+    await this.redisClient.del(patientID)
+    if(isTrue){
+      isTrue.isStarred = status
+      await isTrue.save()
+    }
+
+    return null
+  }
 
   async findPriorityAppointmentDetail(
     id: string
@@ -81,17 +96,15 @@ export class AppointmentRepository implements IAppointmentRepository {
 
       const { patientID } = data;
       if ((await this.redisClient.get(patientID.toString())) !== null) {
-
         // delete individual patientCache in the db!!
         await this.redisClient.del(patientID);
       }
 
       // ?delete entire appointment cache
-        await this.redisClient.del(appointmentCache);
+      await this.redisClient.del(appointmentCache);
 
       return results;
     });
-
 
     // await this.redisClient.disconnect()
 
@@ -152,40 +165,42 @@ export class AppointmentRepository implements IAppointmentRepository {
   async findPatientAppointmentByID(
     id: string
   ): Promise<AppointmentAttributes[] | null> {
-    if ((await this.redisClient.get(id)) === null) {
-      const results: AppointmentAttributes[] | null = await Appointment.findAll({
-        where: {
-          patientID: id,
-        },
-        include: [
-          {
-            model: AppointmentAgenda,
-            attributes: ["agendaDescription"],
+    // if ((await this.redisClient.get(id)) === null) {
+      const results: AppointmentAttributes[] | null = await Appointment.findAll(
+        {
+          where: {
+            patientID: id,
           },
-          {
-            model: AppointmentStatus,
-            attributes: ["statusDescription"],
-          },
-          {
-            model: User,
-            attributes: ["firstName", "middleName"],
-          },
-        ],
-      });
+          include: [
+            {
+              model: AppointmentAgenda,
+              attributes: ["agendaDescription"],
+            },
+            {
+              model: AppointmentStatus,
+              attributes: ["statusDescription"],
+            },
+            {
+              model: User,
+              attributes: ["firstName", "middleName"],
+            },
+          ],
+        }
+      );
 
       await this.redisClient.set(id, JSON.stringify(results));
 
       return results;
-    }
+    // }
 
-    const cachedData: string | null = await this.redisClient.get(id);
-    if (cachedData === null) {
-      return null;
-    }
-    const results: AppointmentAttributes[] = JSON.parse(cachedData);
-    console.log("fetched appointment from cace!");
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: AppointmentAttributes[] = JSON.parse(cachedData);
+    // console.log("fetched appointment from cace!");
 
-    return results;
+    // return results;
   }
 
   async findAllAppointmentById(
@@ -222,8 +237,6 @@ export class AppointmentRepository implements IAppointmentRepository {
         },
       });
 
-
-
       await this.redisClient.set(id, JSON.stringify(results));
 
       return results;
@@ -236,6 +249,6 @@ export class AppointmentRepository implements IAppointmentRepository {
     const results: AppointmentAttributes = JSON.parse(cachedData);
     console.log("fetched from cace!");
 
-return results
+    return results;
   }
 }

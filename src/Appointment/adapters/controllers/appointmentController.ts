@@ -25,7 +25,6 @@ export class AppointmentController {
       next(error);
     }
   }
-  
 
   async onGetAllAppointments(req: Request, res: Response, next: NextFunction) {
     try {
@@ -34,7 +33,7 @@ export class AppointmentController {
 
       const results = await this.interactor.getAllAppointments();
       res.status(200).json(results);
-      res.flush()
+      res.flush();
 
       next();
     } catch (error) {
@@ -71,7 +70,7 @@ export class AppointmentController {
   ) {
     try {
       const { id } = req.params;
-      if(id === 'undefined') return;
+      if (id === "undefined") return;
       const result = await this.interactor.getPriorityAppointmentDetail(id);
       res.status(200).json(result);
       next();
@@ -102,8 +101,29 @@ export class AppointmentController {
   async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
-      if (id === 'undefined') return;
+      if (id === "undefined") return;
       const patient = await this.interactor.getAppointmentDetail(id);
+      res.status(200).json(patient);
+      next();
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
+    }
+  }
+
+  // use patient ID
+  async onStar(req: Request, res: Response, next: NextFunction) {
+    console.log(req.body)
+    const { id } = req.params;
+    const {isStarred, patientID} = req.body
+    try {
+      if (id === "undefined") return;
+      const patient = await this.interactor.starAppointment(
+        id,
+        patientID,
+        isStarred
+      );
       res.status(200).json(patient);
       next();
     } catch (error) {

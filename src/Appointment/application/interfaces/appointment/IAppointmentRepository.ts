@@ -8,4 +8,6 @@ export interface IAppointmentRepository {
   findPatientAppointmentByID:(id: string)=>Promise<AppointmentAttributes[] | null>;
   findPriorityAppointmentDetail:(id: string)=>Promise<AppointmentAttributes[] | null>;
   findAllPriorityAppointments:()=>Promise<AppointmentAttributes[] | null>;
+  markAsStarred: (id: string, patientID: string, status: boolean) => Promise<string | null>;
+
 }
