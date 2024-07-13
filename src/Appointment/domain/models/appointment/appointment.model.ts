@@ -18,6 +18,7 @@ export class Appointment
   patientID!: string;
   patientVisitID!: string;
   isStarred!: boolean;
+  isRead?: boolean | undefined;
   appointmentAgendaID?: string | undefined;
   appointmentStatusID?: string | undefined;
   appointmentDate?: string | undefined;
@@ -83,8 +84,13 @@ Appointment.init(
     },
     isStarred: {
       type: DataTypes.BOOLEAN,
-      defaultValue:false,
-      allowNull:false
+      defaultValue: false,
+      allowNull: false,
+    },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
     },
     rescheduledDate: {
       type: DataTypes.DATEONLY,

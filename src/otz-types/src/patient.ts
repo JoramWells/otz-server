@@ -10,6 +10,15 @@ export interface InputProps {
   label: string;
 }
 
+export enum UserRoles{
+  Admin = 'admin',
+  Clinician= 'clinician',
+  MentorMother = 'mentor mother',
+  AYPAdvocate = 'ayp advocate',
+  Nurse = 'nurse',
+  patient='patient'
+}
+
 export interface LocationProps {
   county: InputProps;
   subCounty: InputProps;
@@ -36,6 +45,7 @@ export interface PatientAttributes {
   entryPoint?: string;
   subCountyName?: string;
   maritalStatus: string;
+  role:UserRoles;
   location?: LocationProps;
   createdAt?: Date;
   updatedAt?: Date;

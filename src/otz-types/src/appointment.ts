@@ -10,6 +10,7 @@ export interface AppointmentAttributes {
   rescheduledDate?: string;
   rescheduledReason?: string;
   isStarred?: boolean;
+  isRead?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
