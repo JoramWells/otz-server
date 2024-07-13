@@ -145,7 +145,6 @@ io.on('connection', (socket) => {
     io.emit('getNewChats', chats)
   })
 
-
 // 
 socket.on('sendMessage', message=>{
   const receiver = onlineUsers.find(user=> user.patientID === message.recipientID)

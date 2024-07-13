@@ -136,6 +136,7 @@ export class PatientController {
   async onGetPatientById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      if(id === 'undefined') return null;
       const result = await this.interactor.getPatientById(id);
       res.status(200).json(result);
       next();
@@ -149,6 +150,7 @@ export class PatientController {
   async onEditPatientProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      if(id==='undefined') return null;
       const { firstName, middleName, lastName, phoneNo }: PatientAttributes =
         req.body;
       const values: PatientAttributes = {

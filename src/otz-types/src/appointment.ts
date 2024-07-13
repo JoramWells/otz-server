@@ -9,8 +9,17 @@ export interface AppointmentAttributes {
   appointmentTime?: string;
   rescheduledDate?: string;
   rescheduledReason?: string;
+  isStarred?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export enum AppointmentStatusDescription{
+  Upcoming = 'upcoming',
+  Pending = 'pending',
+  Missed= 'missed',
+  Rescheduled = 'rescheduled',
+  Cancelled = 'cancelled'
 }
 
 export interface AppointmentAgendaAttributes {
@@ -23,6 +32,7 @@ export interface AppointmentAgendaAttributes {
 export interface AppointmentStatusAttributes {
   id: string;
   statusDescription: string;
+  status: AppointmentStatusDescription;
   createdAt?: Date;
   updatedAt?: Date;
 }

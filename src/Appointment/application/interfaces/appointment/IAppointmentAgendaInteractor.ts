@@ -5,4 +5,5 @@ export interface IAppointmentAgendaInteractor {
   getAllAppointmentAgendas: () => Promise<AppointmentAgendaAttributes[]>;
   getAppointmentAgendaById: (id: string) => Promise<AppointmentAgendaAttributes | null>;
   deleteAppointmentAgenda: (id: string) => Promise<number | null>;
+  markAsFavorite: (id: string) => Promise<string | null>;
 }

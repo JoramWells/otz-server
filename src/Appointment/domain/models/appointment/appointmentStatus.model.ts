@@ -4,14 +4,23 @@ import { connect } from "../../../db/connect";
 import { AppointmentStatusAttributes } from "otz-types";
 
 
+export enum AppointmentStatusDescription {
+  Upcoming = "upcoming",
+  Pending = "pending",
+  Missed = "missed",
+  Rescheduled = "rescheduled",
+  Cancelled = "cancelled",
+}
+
 export class AppointmentStatus
   extends Model<AppointmentStatusAttributes>
   implements AppointmentStatusAttributes
 {
-  id!: string
-  statusDescription!: string
-  createdAt: Date | undefined
-  updatedAt: Date | undefined
+  id!: string;
+  statusDescription!: string;
+  status!: AppointmentStatusDescription;
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
 }
 
 AppointmentStatus.init(
@@ -25,6 +34,12 @@ AppointmentStatus.init(
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
+    },
+    status: {
+      type: DataTypes.ENUM(...Object.values(AppointmentStatusDescription)),
+      // unique: true,
+      allowNull: false,
+      defaultValue: AppointmentStatusDescription.Upcoming
     },
     createdAt: {
       type: DataTypes.DATE,

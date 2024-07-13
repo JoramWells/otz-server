@@ -17,6 +17,7 @@ export class Appointment
   userID?: string | undefined;
   patientID!: string;
   patientVisitID!: string;
+  isStarred!: boolean;
   appointmentAgendaID?: string | undefined;
   appointmentStatusID?: string | undefined;
   appointmentDate?: string | undefined;
@@ -39,7 +40,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false
+      allowNull: false,
     },
     patientID: {
       type: DataTypes.UUID,
@@ -48,7 +49,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull:false
+      allowNull: false,
     },
     appointmentAgendaID: {
       type: DataTypes.UUID,
@@ -57,7 +58,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull:false
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -66,7 +67,7 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull:false
+      allowNull: false,
     },
     appointmentStatusID: {
       type: DataTypes.UUID,
@@ -75,10 +76,15 @@ Appointment.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull:false
+      allowNull: false,
     },
     appointmentDate: {
       type: DataTypes.DATEONLY,
+    },
+    isStarred: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false,
+      allowNull:false
     },
     rescheduledDate: {
       type: DataTypes.DATEONLY,
@@ -100,14 +106,14 @@ Appointment.init(
     //   fillFactor: 70
     // },
     timestamps: true,
-    indexes:[
+    indexes: [
       {
-        fields:['patientID']
+        fields: ["patientID"],
       },
       {
-        fields:['appointmentStatusID']
-      }
-    ]
+        fields: ["appointmentStatusID"],
+      },
+    ],
   }
 );
 
