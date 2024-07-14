@@ -114,9 +114,9 @@ export class AppointmentController {
 
   // use patient ID
   async onStar(req: Request, res: Response, next: NextFunction) {
-    console.log(req.body)
+    console.log(req.body);
     const { id } = req.params;
-    const {isStarred, patientID} = req.body
+    const { isStarred, patientID } = req.body;
     try {
       if (id === "undefined") return;
       const patient = await this.interactor.starAppointment(
@@ -130,6 +130,16 @@ export class AppointmentController {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
       next(error);
+    }
+  }
+
+  async onMarkAsRead(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const results = await this.interactor.markAsRead(id);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
     }
   }
 }

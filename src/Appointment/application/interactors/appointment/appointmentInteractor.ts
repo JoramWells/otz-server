@@ -10,9 +10,18 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   constructor(repository: IAppointmentRepository) {
     this.repository = repository;
   }
-  async starAppointment(id: string, patientID: string, status: boolean): Promise<string | null> {
-    return await this.repository.markAsStarred(id, patientID,status);
+  async starAppointment(
+    id: string,
+    patientID: string,
+    status: boolean
+  ): Promise<string | null> {
+    return await this.repository.markAsStarred(id, patientID, status);
   }
+
+  async markAsRead(id: string): Promise<boolean | null> {
+    return await this.repository.markAsRead(id);
+  }
+
   async getPriorityAppointmentDetail(
     id: string
   ): Promise<AppointmentAttributes[] | null> {

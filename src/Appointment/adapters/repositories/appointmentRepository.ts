@@ -58,6 +58,21 @@ export class AppointmentRepository implements IAppointmentRepository {
     return null
   }
 
+  // 
+    async markAsRead (id: string): Promise<boolean | null> {
+    const result = await Appointment.findByPk(id);
+
+    if(result){
+      result.isRead = true
+      result.save()
+      return result as any;
+
+    }
+  return null;
+
+
+  }
+
   async findPriorityAppointmentDetail(
     id: string
   ): Promise<AppointmentAttributes[] | null> {
