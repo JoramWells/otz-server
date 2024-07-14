@@ -13,7 +13,6 @@ const Appointment = require('../models/appointment.model');
 
 // using *Patients model
 const addViralLoadTest = async (req, res, next) => {
-
   const {
     userID,
     patientID,
@@ -25,32 +24,29 @@ const addViralLoadTest = async (req, res, next) => {
     dateOfNextVL,
     vlResults,
     vlJustification,
-  } = req.body
+  } = req.body;
 
-  
   try {
-
-    await connect.transaction(async(t)=>{
+    await connect.transaction(async (t) => {
       const results = await ViralLoad.create({
         userID,
         dateOfVL,
         dateOfNextVL,
         vlResults,
         vlJustification,
-        patientID
-      }, {transaction:t});
-      if(results){
+        patientID,
+      }, { transaction: t });
+      if (results) {
         await Appointment.create({
           userID,
           patientID,
           patientVisitID,
           appointmentAgendaID,
           appointmentStatusID,
-          appointmentDate  
-        },{transaction:t})
+          appointmentDate,
+        }, { transaction: t });
       }
-
-    })
+    });
 
     res.status(200);
     next();
@@ -101,7 +97,6 @@ const getAllVlCategories = async (req, res, next) => {
   }
 };
 
-
 // ceck next appointment
 const calculateNextAppointmentDate = (appointmentDate, frequency) => {
   // Parse the frequency to determine the interval
@@ -129,7 +124,6 @@ const calculateNextAppointmentDate = (appointmentDate, frequency) => {
 
   return new Date(nextAppointmentDate);
 };
-
 
 // ceck oliday
 // const checkSchoolHoliday = async (date) => {
@@ -190,7 +184,7 @@ const getViralLoadTest = async (req, res, next) => {
   console.log(id);
   try {
     const patient = await ViralLoad.findOne({
-      order:[['createdAt', 'DESC']],
+      order: [['createdAt', 'DESC']],
       where: {
         patientID: id,
       },
@@ -203,13 +197,13 @@ const getViralLoadTest = async (req, res, next) => {
   }
 };
 
-// 
+//
 const getAllViralLoadByPatientID = async (req, res, next) => {
   const { id } = req.params;
   console.log(id);
   try {
     const patient = await ViralLoad.findAll({
-      order:[['createdAt', 'DESC']],
+      order: [['createdAt', 'DESC']],
       where: {
         patientID: id,
       },
@@ -274,5 +268,5 @@ module.exports = {
   editViralLoadTest,
   deleteViralLoadTest,
   getAllVlCategories,
-  getAllViralLoadByPatientID
+  getAllViralLoadByPatientID,
 };

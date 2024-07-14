@@ -142,4 +142,16 @@ export class AppointmentController {
       console.log(error);
     }
   }
+
+  //
+  async onReschedule(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const {reason, rescheduledDate} = req.body
+      const results = await this.interactor.rescheduleAppointment(id, reason, rescheduledDate)
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

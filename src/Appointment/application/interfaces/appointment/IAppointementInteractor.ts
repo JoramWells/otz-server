@@ -17,4 +17,5 @@ export interface IAppointmentInteractor {
   ) => Promise<string | null>;
   getAllPriorityAppointments: () => Promise<AppointmentAttributes[] | null>;
   markAsRead: (id: string) => Promise<boolean | null>;
+  rescheduleAppointment: (id: string, reason: string, rescheduledDate: string) => Promise<boolean | null>;
 }

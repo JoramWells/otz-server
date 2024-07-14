@@ -44,33 +44,57 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   //
 
-  async markAsStarred(id: string, patientID: string, status: boolean): Promise<string | null> {
-    const isTrue =  await Appointment.findByPk(id);
-    await this.redisClient.connect()
-    await this.redisClient.del(appointmentCache)
-    await this.redisClient.del(id)
-    await this.redisClient.del(patientID)
-    if(isTrue){
-      isTrue.isStarred = status
-      await isTrue.save()
+  async markAsStarred(
+    id: string,
+    patientID: string,
+    status: boolean
+  ): Promise<string | null> {
+    const isTrue = await Appointment.findByPk(id);
+    await this.redisClient.connect();
+    await this.redisClient.del(appointmentCache);
+    await this.redisClient.del(id);
+    await this.redisClient.del(patientID);
+    if (isTrue) {
+      isTrue.isStarred = status;
+      await isTrue.save();
     }
 
-    return null
+    return null;
   }
 
-  // 
-    async markAsRead (id: string): Promise<boolean | null> {
+  //
+  async markAsRead(id: string): Promise<boolean | null> {
     const result = await Appointment.findByPk(id);
 
-    if(result){
-      result.isRead = true
-      result.save()
+    if (result) {
+      result.isRead = true;
+      result.save();
       return result as any;
-
     }
-  return null;
+    return null;
+  }
 
+  //
+  async reschedule(id: string, reason: string, rescheduledDate: string): Promise<boolean | null> {
+    const result = await Appointment.findByPk(id);
+    const rescheduleID = await  AppointmentStatus.findOne({
+      where:{
+        statusDescription:'Rescheduled'
+      }
+    })
 
+    // console.log(rescheduleID, 'reschedule id')
+
+    if (result && rescheduleID !== null) {
+      result.appointmentStatusID = rescheduleID.id;
+      result.rescheduledReason = reason
+      result.rescheduledDate  = rescheduledDate
+      result.appointmentDate = rescheduledDate
+      result.isRead = false
+      result.save();
+      return result as any;
+    }
+    return null;
   }
 
   async findPriorityAppointmentDetail(
@@ -181,31 +205,29 @@ export class AppointmentRepository implements IAppointmentRepository {
     id: string
   ): Promise<AppointmentAttributes[] | null> {
     // if ((await this.redisClient.get(id)) === null) {
-      const results: AppointmentAttributes[] | null = await Appointment.findAll(
+    const results: AppointmentAttributes[] | null = await Appointment.findAll({
+      where: {
+        patientID: id,
+      },
+      include: [
         {
-          where: {
-            patientID: id,
-          },
-          include: [
-            {
-              model: AppointmentAgenda,
-              attributes: ["agendaDescription"],
-            },
-            {
-              model: AppointmentStatus,
-              attributes: ["statusDescription"],
-            },
-            {
-              model: User,
-              attributes: ["firstName", "middleName"],
-            },
-          ],
-        }
-      );
+          model: AppointmentAgenda,
+          attributes: ["agendaDescription"],
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ["statusDescription"],
+        },
+        {
+          model: User,
+          attributes: ["firstName", "middleName"],
+        },
+      ],
+    });
 
-      await this.redisClient.set(id, JSON.stringify(results));
+    await this.redisClient.set(id, JSON.stringify(results));
 
-      return results;
+    return results;
     // }
 
     // const cachedData: string | null = await this.redisClient.get(id);

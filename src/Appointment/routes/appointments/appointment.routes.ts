@@ -27,6 +27,7 @@ router.get("/priorityAppointments", controllers.onGetAllPriorityAppointments.bin
 
 router.put('/star/:id', controllers.onStar.bind(controllers));
 router.put("/markAsRead/:id", controllers.onMarkAsRead.bind(controllers));
+router.put("/rescheduleAppointment/:id", controllers.onReschedule.bind(controllers));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

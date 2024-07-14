@@ -31,10 +31,10 @@ const getAllVitalSigns = async (req, res, next) => {
 
 const getVitalSignByPatientID = async (req, res, next) => {
   const { id } = req.params;
-  if(id ==='undefined') return null;
+  if (id === 'undefined') return null;
   try {
     const patient = await VitalSign.findOne({
-      order:[['updatedAt', 'DESC']],
+      order: [['updatedAt', 'DESC']],
       where: {
         patientID: id,
       },
@@ -50,7 +50,7 @@ const getVitalSignByPatientID = async (req, res, next) => {
 
 const getAllVitalSignByPatientID = async (req, res, next) => {
   const { id } = req.params;
-  if(id==='undefined') return null;
+  if (id === 'undefined') return null;
   try {
     const patient = await VitalSign.findAll({
       order: [['updatedAt', 'DESC']],
@@ -69,7 +69,7 @@ const getAllVitalSignByPatientID = async (req, res, next) => {
 
 const getVitalSignDetail = async (req, res, next) => {
   const { id } = req.params;
-  if(id === 'undefined') return null;
+  if (id === 'undefined') return null;
   try {
     const patient = await VitalSign.findOne({
       where: {
@@ -84,10 +84,10 @@ const getVitalSignDetail = async (req, res, next) => {
   }
 };
 
-// 
+//
 const getAllVitalSignDetail = async (req, res, next) => {
   const { id } = req.params;
-  if(id === 'undefined') return null;
+  if (id === 'undefined') return null;
   try {
     const patient = await VitalSign.findAll({
       where: {
@@ -130,6 +130,32 @@ const editVitalSign = async (req, res, next) => {
   }
 };
 
+// edit patient
+const updateBMI = async (req, res, next) => {
+  const { id } = req.params;
+  const {
+    weight, height, bmi,
+  } = req.body;
+  try {
+    const results = await VitalSign.findOne({
+      where: {
+        patient_id: id,
+      },
+    });
+
+    results.weight = weight;
+    results.height = height;
+    results.bmi = bmi;
+
+    next();
+
+    return results.save();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+  }
+};
+
 const deleteVitalSign = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -156,5 +182,6 @@ module.exports = {
   deleteVitalSign,
   getVitalSignByPatientID,
   getAllVitalSignDetail,
-  getAllVitalSignByPatientID
+  getAllVitalSignByPatientID,
+  updateBMI,
 };

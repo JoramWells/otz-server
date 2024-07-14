@@ -20,4 +20,5 @@ export interface IAppointmentRepository {
     status: boolean
   ) => Promise<string | null>;
   markAsRead: (id: string) => Promise<boolean | null>;
+  reschedule: (id: string, reason: string, rescheduledDate: string) => Promise<boolean | null>;
 }
