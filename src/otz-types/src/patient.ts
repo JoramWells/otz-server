@@ -1,8 +1,14 @@
 import { WeekDays } from "./weekdays";
 
+
+export enum PatientVisitType {
+  SelfCare = 'self care',
+  ClinicalEncounter = 'clinical encounter'
+}
 export interface PatientVisitsInterface {
   id?: string;
   patientID?: string;
+  type?: PatientVisitType
 }
 
 export interface InputProps {

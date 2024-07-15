@@ -1,7 +1,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
+const { Sequelize } = require('sequelize');
+const PatientVisits = require('../models/patient/patientVisits.model');
 const VitalSign = require('../models/vitalSigns.model');
+const connect = require('../db/connect');
 
 // using *Patients model
 const addVitalSign = async (req, res, next) => {
@@ -134,25 +137,30 @@ const editVitalSign = async (req, res, next) => {
 const updateBMI = async (req, res, next) => {
   const { id } = req.params;
   const {
-    weight, height, bmi,
+    weight, height, bmi, patientID,
   } = req.body;
   try {
-    const results = await VitalSign.findOne({
-      where: {
-        patient_id: id,
-      },
+    //
+    return await connect.transaction(async (t) => {
+      const selfCareVisit = await PatientVisits.create({
+        patientID,
+        type: 'self care',
+      }, { transaction: t });
+
+      const results = await VitalSign.create({
+        patientID: id,
+        patientVisitID: selfCareVisit.id,
+        weight,
+        height,
+        // bmi,
+
+      }, { transaction: t });
+      return results;
     });
-
-    results.weight = weight;
-    results.height = height;
-    results.bmi = bmi;
-
-    next();
-
-    return results.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error);
   }
 };
 

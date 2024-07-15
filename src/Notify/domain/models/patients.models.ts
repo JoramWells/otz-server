@@ -8,22 +8,23 @@ import { PatientAttributes } from 'otz-types'
 
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
-  id?: string | undefined
-  firstName?: string | undefined
-  middleName: string | undefined
-  lastName?: string | undefined
-  sex?: string | undefined
-  dob?: string | undefined
-  phoneNo?: string | undefined
-  idNo?: string | undefined
-  occupationID?: string | undefined
-  cccNo?: string | undefined
-  ageAtReporting?: string | undefined
-  dateConfirmedPositive?: string | undefined
-  initialRegimen?: string | undefined
-  populationType?: string | undefined
-  schoolID?: string | undefined
-  hospitalID?: string | undefined
+  id?: string | undefined;
+  firstName?: string | undefined;
+  middleName: string | undefined;
+  lastName?: string | undefined;
+  sex?: string | undefined;
+  dob?: string | undefined;
+  phoneNo?: string | undefined;
+  idNo?: string | undefined;
+  occupationID?: string | undefined;
+  cccNo?: string | undefined;
+  maritalStatus!: string;
+  ageAtReporting?: string | undefined;
+  dateConfirmedPositive?: string | undefined;
+  initialRegimen?: string | undefined;
+  populationType?: string | undefined;
+  schoolID?: string | undefined;
+  hospitalID?: string | undefined;
 }
 
 Patient.init(
@@ -70,6 +71,10 @@ Patient.init(
     // residence: {
     //   type: DataTypes.STRING,
     // },
+    maritalStatus: {
+      type: DataTypes.STRING,
+      defaultValue: "N/A",
+    },
 
     ageAtReporting: {
       type: DataTypes.DATE

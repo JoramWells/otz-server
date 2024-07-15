@@ -8,7 +8,7 @@ import { Patient } from '../../domain/models/patients.models'
 import { User } from '../../domain/models/user.model'
 
 export class CaseManagerRepository implements ICaseManagerRepository {
-  async create (data: CaseManagerInterface): Promise<CaseManagerInterface> {
+  async create(data: CaseManagerInterface): Promise<CaseManagerInterface> {
     // const {
     //   firstName,
     //   middleName,
@@ -22,7 +22,7 @@ export class CaseManagerRepository implements ICaseManagerRepository {
     //   password
     // } = data
 
-    const results: CaseManagerInterface = await CaseManager.create(data)
+    const results: CaseManagerInterface = await CaseManager.create(data);
     // const caregiverEntity: CaregiverEntity = {
     //   id: results.id,
     //   firstName: results.firstName,
@@ -36,32 +36,43 @@ export class CaseManagerRepository implements ICaseManagerRepository {
     //   email: '',
     //   password: ''
     // }
-    return results
+    return results;
   }
 
-  async find (): Promise<CaseManagerInterface[]> {
+  async find(): Promise<CaseManagerInterface[]> {
     const results = await CaseManager.findAll({
       include: [
         {
           model: Patient,
-          attributes: ['firstName', 'middleName']
+          attributes: ["firstName", "middleName"],
         },
         {
           model: User,
-          attributes: ['firstName', 'middleName', 'phoneNo']
-        }
-      ]
-    })
-    return results
+          attributes: ["firstName", "middleName", "phoneNo"],
+        },
+      ],
+    });
+    return results;
   }
 
-  async findById (id: string): Promise<CaseManagerInterface | null> {
+  async findById(id: string): Promise<CaseManagerInterface | null> {
     const results = await CaseManager.findOne({
       where: {
-        id
-      }
-    })
+        id,
+      },
+    });
 
-    return results
+    return results;
+  }
+
+  //
+  async findByPatientId(id: string): Promise<CaseManagerInterface[] | null> {
+    const results = await CaseManager.findAll({
+      where: {
+        patientID:id,
+      },
+    });
+
+    return results;
   }
 }

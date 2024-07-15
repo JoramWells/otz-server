@@ -4,23 +4,28 @@ import { type ICaseManagerInteractor } from '../interfaces/ICaseManagerInteracto
 import { type ICaseManagerRepository } from '../interfaces/ICaseManagerRepository'
 
 export class CaseManagerInteractor implements ICaseManagerInteractor {
-  private readonly repository: ICaseManagerRepository
+  private readonly repository: ICaseManagerRepository;
 
-  constructor (repository: ICaseManagerRepository) {
-    this.repository = repository
+  constructor(repository: ICaseManagerRepository) {
+    this.repository = repository;
   }
 
-  async getCaseManagerById (id: string): Promise<CaseManagerInterface | null> {
-    return await this.repository.findById(id)
+
+  async getCaseManagerByPatientId(id: string): Promise<CaseManagerInterface[] | null> {
+    return await this.repository.findByPatientId(id);
   }
 
-  async createCaseManager (
+  async getCaseManagerById(id: string): Promise<CaseManagerInterface | null> {
+    return await this.repository.findById(id);
+  }
+
+  async createCaseManager(
     patientData: CaseManagerInterface
   ): Promise<CaseManagerInterface> {
-    return await this.repository.create(patientData)
+    return await this.repository.create(patientData);
   }
 
-  async getAllCaseManagers (): Promise<CaseManagerInterface[]> {
-    return await this.repository.find()
+  async getAllCaseManagers(): Promise<CaseManagerInterface[]> {
+    return await this.repository.find();
   }
 }

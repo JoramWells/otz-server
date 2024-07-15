@@ -14,15 +14,20 @@ const PatientVisits = sequelize.define(
       type: DataTypes.UUID,
       primaryKey: true,
       // autoIncrement: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
-    patientVisitID: {
+    patientID: {
       type: DataTypes.UUID,
       references: {
-        model: 'patientVisits',
-        key: 'id'
+        model: 'patients',
+        key: 'id',
       },
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+    },
+    type: {
+      type: DataTypes.ENUM('self care', 'clinical encounter'),
+      defaultValue: 'self care',
+      allowNull: false,
     },
 
   },
@@ -34,7 +39,7 @@ const PatientVisits = sequelize.define(
   },
 );
 
-PatientVisits.belongsTo(Patient, { foreignKey: 'patientVisits' });
+PatientVisits.belongsTo(Patient, { foreignKey: 'patientID' });
 
 // (async () => {
 //     await sequelize.sync();

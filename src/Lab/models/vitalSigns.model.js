@@ -19,7 +19,7 @@ const VitalSign = sequelize.define('vitalSigns', {
       key: 'id',
     },
   },
-  patientVisitID:{
+  patientVisitID: {
     type: DataTypes.UUID,
     references: {
       model: 'patientVisits',
@@ -29,7 +29,7 @@ const VitalSign = sequelize.define('vitalSigns', {
   bmi: {
     type: DataTypes.STRING,
   },
-  temperature:{
+  temperature: {
     type: DataTypes.STRING,
   },
   weight: {
@@ -74,7 +74,6 @@ const VitalSign = sequelize.define('vitalSigns', {
   },
 });
 
-
 VitalSign.belongsTo(Patient, { foreignKey: 'patientID' });
 VitalSign.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' });
 
@@ -82,6 +81,5 @@ VitalSign.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' });
 //   await sequelize.sync();
 //   console.log('Table synced successfully');
 // })();
-
 
 module.exports = VitalSign;
