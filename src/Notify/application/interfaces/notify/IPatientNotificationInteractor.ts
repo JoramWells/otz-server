@@ -7,4 +7,5 @@ export interface IPatientNotificationInteractor {
   getNotificationByPatientId: (id: string) => Promise<PatientNotificationAttributes[] | null>;
   getNotificationByCategory: (type: string) => Promise<PatientNotificationAttributes[]>;
   markAsRead: (id: string) => Promise<boolean | null>;
+  getUnreadNotifications: (id: string) => Promise<number | null>;
 }

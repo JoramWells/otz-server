@@ -10,6 +10,7 @@ export class PatientNotificationInteractor implements IPatientNotificationIntera
   constructor(repository: IPatientNotificationRepository) {
     this.repository = repository;
   }
+  // getUnreadNotifications: (id: string) => Promise<number | null>;
   async getNotificationByCategory(type: string): Promise<PatientNotificationAttributes[]>{
     return await this.repository.findByCategory(type)
   };
