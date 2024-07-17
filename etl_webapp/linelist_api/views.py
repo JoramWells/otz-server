@@ -51,6 +51,7 @@ class UploadCSV(APIView):
         if(file_serializer.is_valid()):
             file_serializer.save()
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        print(file_serializer.errors)
         return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LineListView(generics.CreateAPIView):
@@ -58,93 +59,95 @@ class LineListView(generics.CreateAPIView):
     # parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        file_serializer = self.get_serializer(data=request.data)
+        # file_serializer = self.get_serializer(data=request.data)
+        file_serializer = CSVFileSerializer(data=request.data)
+
         if file_serializer.is_valid():
-            # file_serializer.save()
+            file_serializer.save()
             file = file_serializer.validated_data['file']
             reader = pd.read_csv(file)
-            # reader['Last VL Result'] = reader['Last VL Result'].replace('LDL', 50).astype(int),
-            # reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
+            # # reader['Last VL Result'] = reader['Last VL Result'].replace('LDL', 50).astype(int),
+            # # reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
 
-            for _, row in reader.iterrows():
-                # validate_email(row['CCC NO'])
-                converted_date = parse_and_convert_date(row['Last Visit Date'])
-                with transaction.atomic():
-                    new_patients, created = get_or_create_patient(
-                        firstName=row['Name'],
-                        middleName=row['Name'],
-                        lastName=row['Name'],
-                        sex=row['Sex'],
-                        dob=row['DOB'],
-                        # dateConfirmedPositive=row['Date confirmed positive'],
-                        # enrollmentDate=row['Enrollment Date'],
-                        cccNo=row['CCC NO'],
-                        populationType=row['Population Type'],
-                        # initialRegimen=row['firstRegimen']
-                    )
+            # for _, row in reader.iterrows():
+            #     # validate_email(row['CCC NO'])
+            #     converted_date = parse_and_convert_date(row['Last Visit Date'])
+            #     with transaction.atomic():
+            #         new_patients, created = get_or_create_patient(
+            #             firstName=row['Name'],
+            #             middleName=row['Name'],
+            #             lastName=row['Name'],
+            #             sex=row['Sex'],
+            #             dob=row['DOB'],
+            #             # dateConfirmedPositive=row['Date confirmed positive'],
+            #             # enrollmentDate=row['Enrollment Date'],
+            #             cccNo=row['CCC NO'],
+            #             populationType=row['Population Type'],
+            #             # initialRegimen=row['firstRegimen']
+            #         )
 
-                    print(type(row['Next Appointment Date']), row['Next Appointment Date'])
-                    print(row['Blood Pressure'])
+            #         print(type(row['Next Appointment Date']), row['Next Appointment Date'])
+            #         print(row['Blood Pressure'])
 
-                    blood_pressure = row['Blood Pressure']
-                    vlResults = row['Last VL Results']
+            #         blood_pressure = row['Blood Pressure']
+            #         vlResults = row['Last VL Results']
 
-                    if(vlResults is not None and math.isnan(vlResults)):
-                        vlResults = 0
+            #         if(vlResults is not None and math.isnan(vlResults)):
+            #             vlResults = 0
 
-                    if(isinstance(blood_pressure, str) and blood_pressure):
-                        try:
-                            systolic, diastolic = row['Blood Pressure'].split('/')
-                        except ValueError:
-                            print(f'Invalid blood pressure value{blood_pressure}')    
-                    else:
-                        print('Blood Pressure empty, skipping')  
+            #         if(isinstance(blood_pressure, str) and blood_pressure):
+            #             try:
+            #                 systolic, diastolic = row['Blood Pressure'].split('/')
+            #             except ValueError:
+            #                 print(f'Invalid blood pressure value{blood_pressure}')    
+            #         else:
+            #             print('Blood Pressure empty, skipping')  
 
-                    vsData = VitalSigns(
-                        temperature=int(systolic),
-                        patientID = new_patients,
-                        weight=row['Weight'],
-                        height=row['Height'],
-                        systolic=int(systolic),
-                        diastolic=int(diastolic),
+            #         vsData = VitalSigns(
+            #             temperature=int(systolic),
+            #             patientID = new_patients,
+            #             weight=row['Weight'],
+            #             height=row['Height'],
+            #             systolic=int(systolic),
+            #             diastolic=int(diastolic),
 
-                    )
+            #         )
 
-                    art = ArtPrescription(
-                        patientID = new_patients,
-                        startDate=row['Art Start Date'],
-                        isStandard=True,
-                        regimen=row['Current Regimen'],
-                        line=row['Current Regimen Line'],
+            #         art = ArtPrescription(
+            #             patientID = new_patients,
+            #             startDate=row['Art Start Date'],
+            #             isStandard=True,
+            #             regimen=row['Current Regimen'],
+            #             line=row['Current Regimen Line'],
 
-                    )
+            #         )
 
-                    prescription = Prescription(
-                        patientID = new_patients,
-                        artPrescriptionID= art,
-                        frequency=1,
-                        noOfPills=30,
-                        expectedNoOfPills=30,
-                        computedNoOfPills=1,
-                        refillDate=converted_date,
-                        nextRefillDate=converted_date,
+            #         prescription = Prescription(
+            #             patientID = new_patients,
+            #             artPrescriptionID= art,
+            #             frequency=1,
+            #             noOfPills=30,
+            #             expectedNoOfPills=30,
+            #             computedNoOfPills=1,
+            #             refillDate=converted_date,
+            #             nextRefillDate=converted_date,
 
-                    )
+            #         )
 
-                    vl = ViralLoad(
-                        patientID = new_patients,
-                        # isStandard=True,
-                        vlResults=vlResults,
-                        vlJustification=row['Last VL Justification'],
-                        dateOfVL=row['Last VL Date'],
+            #         vl = ViralLoad(
+            #             patientID = new_patients,
+            #             # isStandard=True,
+            #             vlResults=vlResults,
+            #             vlJustification=row['Last VL Justification'],
+            #             dateOfVL=row['Last VL Date'],
 
-                    )
+            #         )
 
-                    new_patients.save()
-                    vsData.save()
-                    art.save()
-                    prescription.save()
-                    vl.save()
+            #         new_patients.save()
+            #         vsData.save()
+            #         art.save()
+            #         prescription.save()
+            #         vl.save()
 
 
             print(reader)

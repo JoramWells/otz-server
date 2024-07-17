@@ -6,12 +6,16 @@ class PatientsSerializer(serializers.ModelSerializer):
         model = ViralLoad
         fields = ['vlJustification']
 
-class LineListSerializer(serializers.Serializer):
-    file = serializers.FileField()
+class LineListSerializer(serializers.ModelSerializer):
+    # file = serializers.FileField()
+
+    class Meta:
+        model = CSVFile
+        fields = ('file',)
 
 
 class CSVFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CSVFile
-        fields = ('file', 'uploaded_at')
+        fields = ('file',)
         

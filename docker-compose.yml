@@ -65,7 +65,7 @@ services:
       - 5432:5432
     volumes:
       # - postgres_data:/var/lib/postgresql/data
-      - ./otzv5.sql:/docker-entrypoint-initdb.d/otzv1.0.0.sql
+      - ./otzv1.0.0.sql:/docker-entrypoint-initdb.d/otzv1.0.0.sql
 
 
     deploy:

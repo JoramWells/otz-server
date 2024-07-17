@@ -85,7 +85,6 @@ class Prescription(models.Model):
 
 
 
-
 class ViralLoad(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
@@ -102,9 +101,12 @@ class ViralLoad(models.Model):
     
 
 
-class CSVFile():
+class CSVFile(models.Model):
     file = models.FileField(upload_to='csvs/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    # uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    # def __str__(self) -> str:
+    #     return self.uploaded_at
 
     class Meta:
-        db_table = 'linelistCSVFiles'
+        db_table = 'LineListCSV'

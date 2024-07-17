@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patients, ArtPrescription , VitalSigns, Prescription,  ViralLoad
+from .models import Patients, ArtPrescription , VitalSigns, Prescription,  ViralLoad, CSVFile
 
 # Register your models here.
 class PatientsAdmin(admin.ModelAdmin):
@@ -24,8 +24,13 @@ class ViralLoadAdmin(admin.ModelAdmin):
     list_display = ('patientID','vlResults', 'vlJustification', 'dateOfVL')
     search_fields = ('patientID',)
 
+
+class CSVFileAdmin(admin.ModelAdmin):
+    list_display = ('file',)
+
 admin.site.register(Patients, PatientsAdmin)
 admin.site.register(ArtPrescription, ArtAdmin)
 admin.site.register(VitalSigns, VSAdmin)
 admin.site.register(Prescription, PrescriptionAdmin)
 admin.site.register(ViralLoad, ViralLoadAdmin)
+admin.site.register(CSVFile, CSVFileAdmin)
