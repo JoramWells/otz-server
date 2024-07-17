@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status
 from .models import Patients,ArtPrescription,VitalSigns, ViralLoad, Prescription
-from .serializers import PatientsSerializer, LineListSerializer
+from .serializers import PatientsSerializer, LineListSerializer, CSVFileSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -43,6 +43,15 @@ def parse_and_convert_date(date_str):
 class PatientCreate(generics.ListCreateAPIView):
     queryset = ViralLoad.objects.all()
     serializer_class = PatientsSerializer
+
+
+class UploadCSV(APIView):
+    def post(self, request, format=None):
+        file_serializer = CSVFileSerializer(data=request.data)
+        if(file_serializer.is_valid()):
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LineListView(generics.CreateAPIView):
     serializer_class = LineListSerializer

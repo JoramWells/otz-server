@@ -137,7 +137,7 @@ const editVitalSign = async (req, res, next) => {
 const updateBMI = async (req, res, next) => {
   const { id } = req.params;
   const {
-    weight, height, bmi, patientID,
+    weight, height, bmi, systolic, diastolic, patientID,
   } = req.body;
   try {
     //
@@ -152,7 +152,9 @@ const updateBMI = async (req, res, next) => {
         patientVisitID: selfCareVisit.id,
         weight,
         height,
-        // bmi,
+        bmi,
+        systolic,
+        diastolic,
 
       }, { transaction: t });
       return results;

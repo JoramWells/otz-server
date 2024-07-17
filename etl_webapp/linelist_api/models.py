@@ -11,38 +11,45 @@ class Patients(models.Model):
     dob = models.DateField(auto_now_add=True)
     phoneNo = models.CharField(max_length=100)
     idNo = models.CharField(max_length=100)
-    occupationID = models.CharField(max_length=100)
+    # occupationID = models.CharField(max_length=100)
     cccNo = models.CharField(max_length=100, unique=True)
     ageAtReporting = models.CharField(max_length=100)
     dateConfirmedPositive = models.DateField(auto_now_add=True)
     initialRegimen = models.CharField(max_length=100)
     populationType = models.CharField(max_length=100)
-    schoolID = models.CharField(max_length=100)
-    hospitalID = models.CharField(max_length=100)
-    entryPoint = models.CharField(max_length=100)
-    subCountyName = models.CharField(max_length=100)
-    maritalStatus = models.CharField(max_length=100)
-    location = models.TextField()
+    # schoolID = models.CharField(max_length=100)
+    # hospitalID = models.CharField(max_length=100)
+    # entryPoint = models.CharField(max_length=100)
+    # subCountyName = models.CharField(max_length=100)
+    # maritalStatus = models.CharField(max_length=100)
+    # location = models.TextField()
 
 
-    def __str__(self):
-        return self.firstName
+    # def __str__(self):
+    #     return self.firstName
+    
+    class Meta:
+        db_table = 'patients'
+
     
 
 class VitalSigns(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
     temperature = models.FloatField()
     weight = models.CharField(max_length=100)
     height = models.CharField(max_length=100)
     systolic = models.IntegerField()
     diastolic = models.IntegerField()
+
+    class Meta:
+        db_table = 'vitalSigns'
     # muac = mo
 
 
 class ArtPrescription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
     startDate = models.DateTimeField(auto_now_add=True)
     regimen = models.CharField(max_length=100)
     isStandard = models.BooleanField()
@@ -52,15 +59,17 @@ class ArtPrescription(models.Model):
     changeDate = models.DateTimeField(auto_now_add=True)
     stopDate = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'artPrescriptions'
+
     def __str__(self):
         return self.regimen
 
 
 class Prescription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
-    artPrescriptionID = models.ForeignKey(ArtPrescription, on_delete=models.CASCADE)
-    regimen = models.CharField(max_length=100)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
+    artPrescriptionID = models.ForeignKey(ArtPrescription, on_delete=models.CASCADE,  db_column='artPrescriptionID')
     noOfPills = models.IntegerField()
     frequency = models.IntegerField()
     refillDate = models.DateTimeField(auto_now_add=True)
@@ -71,12 +80,15 @@ class Prescription(models.Model):
     computedNoOfPills = models.IntegerField()
     updatedAtExpectedNoOfPills = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'prescriptions'
+
 
 
 
 class ViralLoad(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    patientID = models.ForeignKey('patients', on_delete=models.CASCADE)
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
     vlResults = models.IntegerField(default=0, null=True)
     vlJustification = models.CharField(max_length=100)
     dateOfVL = models.DateTimeField(auto_now_add=True)
@@ -84,3 +96,15 @@ class ViralLoad(models.Model):
 
     def __str__(self) -> str:
         return self.vlJustification
+    
+    class Meta:
+        db_table = 'viralLoads'
+    
+
+
+class CSVFile():
+    file = models.FileField(upload_to='csvs/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'linelistCSVFiles'
