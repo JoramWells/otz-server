@@ -63,7 +63,8 @@ ArticleProgress.belongsTo(Article, { foreignKey: "articleID" });
 ArticleProgress.belongsTo(ChapterProgress, { foreignKey: "chapterProgressID" });
 
 // (async () => {
-void connect.sync()
+// void connect.sync()
 
 // console.log('Patient Table synced successfully')
 // })()
+// 

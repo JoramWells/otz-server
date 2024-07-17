@@ -12,12 +12,14 @@ export class LineListController {
   }
 
   async onCreateLineListCSV(req: Request, res: Response, next: NextFunction) {
-    const file = req.file
+    const file = req.file;
 
-    const isVideo = file?.mimetype.startsWith('video')
+    const isVideo = file?.mimetype.startsWith("video");
 
-    const mediaData = isVideo ? {video:file?.filename}:{  image: file?.filename} 
-    const image = mediaData.image ? mediaData.image :''
+    const mediaData = isVideo
+      ? { video: file?.filename }
+      : { image: file?.filename };
+    const image = mediaData.image ? mediaData.image : "";
     const video = mediaData.video ? mediaData.video : "";
     const data = { ...req.body, image, video };
 
@@ -51,5 +53,22 @@ export class LineListController {
     }
   }
 
+  
+  //
+  async onGetLineListCSVByIds(req: Request, res: Response, next: NextFunction) {
+    const {id} = req.params
+    try {
+      // const redisClient = createClient({ url: 'redis://redis:6379' })
+      // await redisClient.connect()
 
+      const results = await this.interactor.getLineListById(id);
+      res.status(200).json(results);
+
+      next();
+    } catch (error) {
+      next(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
+    }
+  }
 }

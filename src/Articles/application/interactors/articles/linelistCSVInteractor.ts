@@ -4,15 +4,16 @@ import { ILineListCSVInteractor } from '../../interfaces/articles/ILineListInter
 import { ILineListRepository } from '../../interfaces/articles/ILineListRepository';
 
 
-export class ArticleInteractor implements ILineListCSVInteractor {
+export class LineListCSVInteractor implements ILineListCSVInteractor {
   private readonly repository: ILineListRepository;
 
   constructor(repository: ILineListRepository) {
     this.repository = repository;
   }
 
-
-  async createLineList(patientData: LineListCSVInterface): Promise<LineListCSVInterface> {
+  async createLineList(
+    patientData: LineListCSVInterface
+  ): Promise<LineListCSVInterface> {
     return await this.repository.create(patientData);
   }
 
@@ -20,5 +21,7 @@ export class ArticleInteractor implements ILineListCSVInteractor {
     return await this.repository.find();
   }
 
-
+  async getLineListById(id: string): Promise<LineListCSVInterface | null> {
+    return await this.repository.findById(id);
+  }
 }

@@ -16,6 +16,7 @@ import { bookRouter } from './routes/articles/articleCategory.routes';
 import { coursesRouter } from './routes/articles/courses.routes';
 import { articleProgressRouter } from './routes/articles/progress/articleProgress.routes';
 import { chapterProgressRouter } from './routes/articles/progress/chapterProgress.routes';
+import { lineListCSVRouter } from './routes/articles/lineListCSV.routes';
 
 
 const morgan = require('morgan');
@@ -134,6 +135,7 @@ app.use("/chapters", chapterRouter);
 app.use("/chapter-progress", chapterProgressRouter);
 app.use("/courses", coursesRouter);
 app.use("/questions", questionRouter);
+app.use("/linelist-csv", lineListCSVRouter);
 
 
 
