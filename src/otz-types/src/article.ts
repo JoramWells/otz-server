@@ -69,9 +69,3 @@ export interface QuestionAttributes {
   updatedAt?: Date;
 }
 
-export interface LineListCSVInterface{
-  id:string
-  file: string
-  createdAt?: Date;
-  updatedAt?: Date;
-}

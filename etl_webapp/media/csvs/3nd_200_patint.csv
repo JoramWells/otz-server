@@ -1,0 +1,621 @@
+MFL Code,ID,Name,CCC No,Sex,DOB,Age At Reporting,Weight,Height,Blood Pressure,population Type,Art Start Date,First Regimen,Current Regimen,Current Regimen Line,Latest CD4 Count,Last VL Results,VL Validility,Last VL Justification,Last VL Date,Active in PMTCT,Active in OVC,Active in OTZ,Active in TB,Last Visit Date,Next Appointment Date,Refill Date,Case Manager
+"10,000",11234,Xito Mino,1000000102,F,15-01-09,15,56,169,100/61,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,2000,0,Valid,Routine,19-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11235,Hawo Kave,1000000102,F,24-05-09,15,56,169,117/73,"
+
+Fisher folk",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1800,0,Valid,Routine,23-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11236,Bino Dupi,1000000102,F,13-03-10,14,54,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1600,0,Valid,Routine,11-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11237,Kima Joca,1000000102,F,09-07-10,13,52,160,,"
+
+Fisher folk",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1400,0,Valid,Routine,21-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11238,Nesu Wazi,1000000102,M,21-11-08,15,56,169,,"
+
+Fisher folk",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,1200,0,Valid,Routine,11-04-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11239,Quda Hipo,1000000102,F,30-08-11,12,48,155,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,1000,7,Valid,Routine,03-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11240,Jume Xinu,1000000102,F,17-12-11,12,48,155,,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,800,56,Valid,Routine,16-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11241,Vuti Sefa,1000000102,F,07-04-09,15,56,169,104/68,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,600,40,Valid,Routine,13-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11242,Raxa Yipo,1000000102,F,15-10-10,13,52,160,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/EFV,First line,400,20,Valid,Routine,16-03-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11243,Toma Siki,1000000102,M,23-02-11,13,52,160,,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,200,90,Valid,Routine,20-03-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11244,Xemi Pugi,1000000102,F,19-09-08,15,56,169,107/63,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,100,5,Valid,Routine,16-08-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11245,Kape Wosu,1000000102,M,05-12-08,15,56,169,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,120,Valid,Routine,19-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11246,Fexa Nipo,1000000102,M,12-05-11,13,52,160,117/74,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,500,0,Valid,Routine,28-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11247,Lome Xiti,1000000102,M,20-01-10,14,54,165,,"General Population
+
+",05-06-22,AZT/3TC/LPV/r,AZT/3TC/ATV/r,Second line,700,10,Valid,Routine,12-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11248,Pife Wane,1000000102,F,04-03-12,12,48,155,,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,900,50,Valid,Routine,24-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11249,Suxi Miva,1000000102,F,13-07-09,14,54,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1100,30,Valid,Routine,29-11-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11250,Jusa Kofu,1000000102,F,22-03-08,16,58,172,121/74,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1300,10,Valid,Routine,06-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11251,Vopa Qino,1000000102,M,16-06-12,12,48,155,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1500,0,Valid,Routine,13-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11252,Numi Hute,1000000102,F,30-10-09,14,54,165,,"General Population
+
+",05-06-22,D4T/3TC/EFV,TDF/3TC/DTG,First line,1700,0,Valid,Routine,15-03-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11253,Qavo Liko,1000000102,F,26-06-08,15,56,169,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,1900,60,Valid,Routine,05-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11254,Pume Wefi,1000000102,F,12-08-08,15,56,169,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,2100,0,Valid,Routine,29-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11255,Feni Jazo,1000000102,M,28-11-11,12,48,155,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,2300,80,Valid,Routine,11-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11256,Yima Kati,1000000102,M,15-02-12,12,48,155,156/111,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,2500,20,Valid,Routine,30-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11257,Widu Qesa,1000000102,M,18-05-10,14,54,165,,"
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,2700,70,Invalid,Routine,26-04-21,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11258,Nige Rafi,1000000102,F,06-04-11,13,52,160,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,2900,90,Valid,Routine,21-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11259,Kofu Sata,1000000102,F,23-08-09,14,54,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,3100,10,Valid,Routine,06-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11260,Joxi Nupu,1000000102,F,12-11-10,13,52,160,111/77,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,3300,0,Valid,Pregnancy,13-04-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11261,Buno Rafi,1000000102,M,14-09-11,12,48,155,103/66,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,3500,0,Valid,Routine,05-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11262,Pazo Tifi,1000000102,F,11-03-09,15,56,169,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,3700,0,Valid,Routine,19-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11263,Lusi Dawi,1000000102,M,03-04-08,16,58,172,126/79,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,3900,0,Valid,Confirmation of treatment failure (repeat VL),04-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11264,Xima Pegu,1000000102,F,27-08-10,13,52,160,118/72,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,4100,0,Valid,Routine,13-10-23,Yes,No,No,No,05-06-22,05-09-22,,
+"10,000",11265,Juxi Huma,1000000102,M,22-04-12,12,48,155,134/72,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,4300,20,Valid,Routine,18-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11266,Wipo Kazo,1000000102,M,09-12-09,14,54,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,4500,0,Valid,Routine,27-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11267,Kaxi Tido,1000000102,M,30-06-10,13,52,160,137/71,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,4700,50,Invalid,Routine,07-11-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11268,Bamo Seca,1000000102,M,05-06-09,14,54,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,4900,10,Valid,Routine,07-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11269,Hase Pife,1000000102,F,01-03-11,13,52,160,,"General Population
+
+",05-06-22,D4T/3TC/NVP,AZT/3TC/ATV/r,Second line,5100,0,Valid,Routine,21-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11270,Neme Puxa,1000000102,F,19-07-11,12,48,155,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,5300,40,Valid,Routine,11-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11271,Fopo Livo,1000000102,F,25-09-10,13,52,160,89/60,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,5500,20,Valid,Routine,26-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11272,Sito Qade,1000000102,F,18-12-10,13,52,160,120/81,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,5700,0,Valid,Routine,25-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11273,Paju Tawi,1000000102,F,11-07-12,12,48,155,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,5900,60,Valid,Routine,05-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11274,Kuno Yope,1000000102,F,05-01-11,13,52,160,,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,6100,30,Invalid,Routine,12-10-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11275,Xoma Zide,1000000102,F,17-11-09,14,54,165,,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,6300,50,Valid,Routine,17-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11276,Bovi Jifo,1000000102,F,08-02-08,16,58,172,,"
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,6500,10,Valid,Routine,21-03-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11277,Seca Kuno,1000000102,F,25-02-09,15,56,169,86/56,"
+
+Fisher folk",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,6700,80,Valid,Routine,31-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11278,Lume Piva,1000000102,F,01-10-11,12,48,155,92/64,"General Population
+
+",05-06-22,3TC/NVP/TDF,AZT/3TC/DTG,Second line,300,0,Valid,Confirmation of treatment failure (repeat VL),24-02-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11279,Xose Watu,1000000102,M,07-07-08,15,56,169,105/70,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,600,70,Valid,Routine,24-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11280,Yoxa Nige,1000000102,F,14-05-12,12,52,155,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,400,30,Valid,Routine,20-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11281,Kiva Fope,1000000102,F,08-06-11,13,54,160,201/102,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,900,50,Invalid,Routine,27-10-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11282,Jumo Nofi,1000000102,F,01-05-08,16,58,172,115/67,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,200,70,Valid,Routine,17-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11283,Xafi Kura,1000000102,F,13-02-10,14,54,165,104/63,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,500,40,Invalid,Routine,04-10-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11284,Hame Vuga,1000000102,F,06-09-09,15,54,169,,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,100,60,Valid,Routine,07-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11285,Bafu Qeda,1000000102,M,10-01-12,12,48,155,114/67,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,700,20,Valid,Routine,16-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11286,Semo Juxe,1000000102,M,03-04-10,14,56,165,110/65,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,350,80,Valid,Routine,07-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11287,Xose Dipa,1000000102,M,27-03-10,14,54,165,,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,250,50,Valid,Routine,05-04-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11288,Yipo Numo,1000000102,M,30-01-08,16,54,172,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,450,90,Invalid,Routine,12-10-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11289,Tufi Kago,1000000102,M,01-01-10,14,48,165,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,800,30,Valid,Routine,19-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11290,Kove Zura,1000000102,M,05-06-12,12,54,155,146/86,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,150,65,Valid,Routine,29-08-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11291,Jogi Fuma,1000000102,M,01-08-09,14,56,165,,"
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,550,75,Invalid,Routine,12-07-22,No,No,No,Yes,05-06-22,05-09-22,,
+"10,000",11292,Nisi Hemo,1000000102,F,23-12-12,12,54,155,103/64,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,200,55,Valid,Routine,13-04-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11293,Zadi Pofu,1000000102,M,15-08-10,13,52,160,,"
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,950,25,Valid,Routine,19-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11294,Xiva Jone,1000000102,F,19-10-12,12,54,155,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,500,85,Valid,Routine,10-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11295,Timo Fasi,1000000102,M,02-09-12,14,52,165,139/91,"
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,300,45,Valid,Routine,06-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11296,Jixa Sopu,1000000102,M,03-11-10,13,56,160,106/56,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,700,80,Valid,Routine,12-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11297,Qine Watu,1000000102,M,20-02-10,14,52,165,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,400,15,,,,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11298,Kegu Zine,1000000102,F,01-07-09,12,56,155,,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/ATV/r,Second line,600,50,Invalid,Routine,26-10-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11299,Xola Nafe,1000000102,M,25-07-10,14,48,165,104/68,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/ATV/r,Second line,300,70,Valid,Routine,17-08-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11300,Pova Nufi,1000000102,M,06-11-11,13,54,160,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,750,50,Valid,Routine,26-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11301,Kaxi Yipo,1000000102,F,28-01-09,14,52,165,127/82,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,100,60,Valid,Routine,12-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11302,Nuga Qede,1000000102,F,16-04-11,12,54,155,,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,400,50,Valid,Routine,03-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11303,Sapa Jumi,1000000102,F,09-03-08,14,48,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,500,80,Valid,Routine,05-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11304,Ladu Kipi,1000000102,F,28-03-12,13,56,160,100/57,"
+
+Fisher folk",05-06-22,AZT/3TC/EFV,TDF/3TC/DTG,First line,300,50,Valid,Routine,28-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11305,Wovi Sema,1000000102,F,15-06-10,15,52,169,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,200,70,Valid,Routine,19-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11306,Tuxa Nipo,1000000102,M,20-04-09,13,52,160,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,600,80,Valid,Routine,23-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11307,Fute Puna,1000000102,F,01-02-11,16,48,172,107/68,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,400,60,Valid,Routine,14-08-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11308,Yexa Vopu,1000000102,F,12-05-09,12,48,155,116/87,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,800,70,Valid,Routine,29-08-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11309,Xumo Peto,1000000102,F,10-04-12,14,54,165,,"
+
+Fisher folk",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,200,80,Valid,Routine,25-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11310,Kaji Wupi,1000000102,M,30-09-08,15,52,169,135/84,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,500,90,Valid,Routine,25-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11311,Pimo Vute,1000000102,M,01-12-10,13,56,160,138/91,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,250,70,Valid,Routine,06-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11312,Joxi Rade,1000000102,M,15-08-12,14,48,165,,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,350,80,Valid,Routine,19-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11313,Hape Kimu,1000000102,M,28-07-11,13,54,160,127/77,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,900,60,Valid,Routine,24-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11314,Sagu Pute,1000000102,M,30-05-10,12,52,155,,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,700,70,Valid,Routine,13-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11315,Xena Wote,1000000102,F,09-11-08,15,58,169,,"General Population
+
+",05-06-22,3TC/NVP/TDF,AZT/3TC/ATV/r,First line,600,85,Valid,Routine,24-10-23,No,No,No,No,05-06-22,05-09-22,,OGUTA OGUTA OGUTA
+"10,000",11316,Kofi Rape,1000000102,F,26-02-12,13,52,160,106/73,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,50,Valid,Routine,26-10-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11317,Yimo Jado,1000000102,F,10-02-09,13,54,160,,"General Population
+
+",05-06-22,AZT/3TC/EFV,TDF/3TC/DTG,First line,550,65,Valid,Routine,29-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11318,Qofi Pade,1000000102,M,27-09-11,12,48,155,,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,800,40,Invalid,,06-10-20,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11319,Tuxa Sumu,1000000102,F,12-01-10,12,56,155,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,400,75,Invalid,Routine,19-10-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11320,Jemu Rake,1000000102,M,01-05-11,14,54,165,118/70,"General Population
+
+",05-06-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,150,55,Valid,Routine,05-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11321,Wazu Kadi,1000000102,F,09-06-08,13,54,160,181/100,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,700,60,Valid,Routine,23-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11322,Seka Jupo,1000000102,F,05-12-12,15,52,169,100/70,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,450,70,Invalid,Routine,01-11-22,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11323,Xuvo Nite,1000000102,F,15-03-11,12,56,155,,"
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,600,45,Valid,Routine,06-11-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11324,Raki Puwe,1000000102,F,02-07-10,14,52,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,500,65,Valid,Routine,07-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11325,Yocu Nexo,1000000102,M,23-05-12,13,54,160,127/88,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,80,Valid,Routine,26-07-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11326,Qipa Juxe,1000000102,M,22-03-09,15,52,169,,"General Population
+
+",05-06-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,850,55,Valid,Routine,28-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11327,Xito Numa,1000000102,F,17-10-08,13,48,160,108/77,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,200,50,Valid,Routine,07-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11328,Kufa Zave,1000000102,F,06-03-10,14,56,165,,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,750,60,Valid,Routine,20-11-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11329,Jivo Fawi,1000000102,M,19-06-11,12,54,155,117/70,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,500,70,Valid,Routine,18-09-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11330,Senu Wapi,1000000102,M,14-04-08,15,48,169,109/63,"General Population
+
+",05-06-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,250,80,Valid,Routine,07-06-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11331,Xami Kafi,1000000102,F,15-09-09,13,54,160,155/101,"General Population
+
+",05-06-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,400,90,Valid,Routine,29-05-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11332,Homa Wuse,1000000102,F,22-07-12,14,52,165,120/68,"General Population
+
+",05-06-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,10,Valid,Routine,16-03-23,No,No,No,No,05-06-22,05-09-22,,
+"10,000",11333,Pigo Zeku,1000000102,F,08-08-10,12,54,155,93/67,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,600,20,Valid,Routine,14-11-23,No,No,No,No,05-09-22,05-12-22,,OGUTA OGUTA OGUTA
+"10,000",11334,Nixi Pavi,1000000102,F,08-11-15,15,52,169,97/70,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1200,30,Valid,Routine,04-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11335,Teme Wase,1000000102,F,14-01-16,13,48,160,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,800,40,Valid,Routine,16-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11336,Kipa Ruxe,1000000102,M,22-06-14,14,56,165,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,1500,50,Valid,Routine,05-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11337,Jumo Sipa,1000000102,M,10-09-17,13,58,160,115/67,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,600,60,Valid,Routine,23-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11338,Xepa Wigu,1000000102,M,18-04-16,12,52,155,,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,1000,70,Valid,Routine,30-11-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11339,Hake Pivo,1000000102,F,30-12-14,15,48,169,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,500,80,Invalid,Routine,19-10-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11340,Laze Qomu,1000000102,M,05-08-18,14,54,165,,"
+
+Fisher folk",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,1800,90,Valid,Routine,15-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11341,Posa Kito,1000000102,M,28-07-15,12,52,155,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,700,100,Valid,Routine,19-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11342,Xife Nube,1000000102,F,17-03-13,8,26,128,105/62,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1300,110,Valid,Routine,28-08-23,Yes,No,No,No,05-09-22,05-12-22,,
+"10,000",11343,Yopa Luge,1000000102,F,25-05-17,8,26,128,119/72,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,900,105,Valid,Routine,31-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11344,Sapu Jafe,1000000102,F,11-11-16,9,28,133,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1100,100,Valid,Routine,11-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11345,Noni Kiva,1000000102,M,06-02-18,6,20,115,104/54,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,400,95,Valid,Routine,25-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11346,Juzo Wike,1000000102,F,23-02-15,8,26,128,108/78,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,1400,90,Valid,Routine,08-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11347,Tiko Sadi,1000000102,F,09-07-13,9,28,133,,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,300,85,Valid,Routine,24-07-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11348,Kogi Poma,1000000102,F,04-04-14,5,18,110,104/59,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/ATV/r,Second line,1700,80,Valid,Routine,08-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11349,Ximu Roni,1000000102,F,19-12-17,8,26,128,117/69,"
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,1000,75,Valid,Routine,08-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11350,Heta Qide,1000000102,F,30-05-18,11,31,138,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,800,70,Valid,Routine,11-04-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11351,Sipo Jafi,1000000102,F,01-05-13,7,23,123,,"
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,600,65,Valid,Routine,27-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11352,Xowi Pude,1000000102,M,12-10-17,7,23,123,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,900,60,Valid,Routine,14-11-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11353,Yazi Kiva,1000000102,F,14-09-16,6,20,115,,"
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,,1500,55,Invalid,Routine,17-10-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11354,Tufa Joxe,1000000102,M,03-09-15,9,28,133,,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,1200,50,Valid,Routine,06-11-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11355,Nimo Puxe,1000000102,F,15-02-17,10,29,135,100/68,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,700,45,Valid,Routine,18-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11356,Kati Luge,1000000102,F,22-10-13,10,29,135,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1600,40,Valid,Routine,29-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11357,Jode Pofu,1000000102,M,18-01-14,6,20,115,102/72,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,400,35,Valid,Routine,06-11-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11358,Sugi Xoma,1000000102,F,28-11-18,5,18,110,127/73,"
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,1100,30,Valid,Routine,05-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11359,Xumi Nadi,1000000102,M,23-08-16,11,31,138,129/87,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,500,25,Invalid,,07-10-20,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11360,Piza Jumo,1000000102,F,11-05-14,6,20,115,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1000,20,Valid,Routine,13-03-23,No,No,No,No,05-09-22,05-12-22,,Omukaka Omukaka Omukaka
+"10,000",11361,Qofi Nape,1000000102,F,30-04-15,7,23,123,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,300,15,Valid,Routine,05-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11362,Kega Pavu,1000000102,F,19-09-18,8,26,128,,"General Population
+
+",05-09-22,AZT/3TC/EFV,TDF/3TC/DTG,First line,1300,10,Valid,Routine,18-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11363,Jipo Sona,1000000102,F,16-06-13,7,23,123,109/64,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1500,5,Valid,Pregnancy,26-09-23,Yes,No,No,No,05-09-22,05-12-22,,
+"10,000",11364,Xefi Wute,1000000102,M,05-01-17,10,29,135,101/60,"
+
+",05-09-22,AZT/3TC/EFV,TDF/3TC/DTG,First line,600,0,Valid,Routine,23-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11365,Huna Pifa,1000000102,M,09-02-16,10,29,135,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1400,5,Invalid,Routine,12-10-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11366,Simo Kapa,1000000102,M,14-12-18,5,18,110,131/82,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1200,10,Valid,Confirmation of treatment failure (repeat VL),27-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11367,Xujo Nexe,1000000102,M,07-10-15,7,23,123,,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,800,15,Invalid,Routine,25-10-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11368,Yote Qupa,1000000102,F,27-11-13,10,29,135,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1500,20,Invalid,Routine,13-10-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11369,Kumo Pegi,1000000102,F,09-03-14,8,26,128,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,600,25,Valid,Routine,27-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11370,Jiva Tufi,1000000102,F,05-12-16,5,18,110,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1000,30,Invalid,Routine,26-07-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11371,Sade Xupi,1000000102,F,04-09-13,10,29,135,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,500,35,Valid,Routine,16-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11372,Xeto Nira,1000000102,M,11-07-18,7,23,123,111/76,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1800,40,Valid,Routine,14-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11373,Fopa Lude,1000000102,F,01-06-15,8,26,128,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,700,45,Valid,Routine,24-07-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11374,Qume Kapi,1000000102,M,20-07-16,5,18,110,113/75,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1300,50,Invalid,Routine,02-02-23,No,No,No,Yes,05-09-22,05-12-22,,
+"10,000",11375,Lafi Pixa,1000000102,F,03-11-17,8,23,128,121/74,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,900,55,Valid,Routine,12-07-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11376,Yamo Nupi,1000000102,M,22-12-15,10,29,135,118/72,"
+Men who have sex with men
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1100,60,Valid,Routine,14-04-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11377,Kipe Zema,1000000102,F,28-08-13,10,23,135,118/77,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,400,65,Valid,Routine,29-11-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11378,Joto Suni,1000000102,F,25-06-18,7,26,123,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1400,70,Valid,Routine,23-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11379,Xema Wudi,1000000102,F,15-08-17,10,18,135,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,75,Valid,Routine,29-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11380,Hife Poxa,1000000102,M,28-05-16,5,26,110,117/56,"
+
+Fisher folk",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1700,0,Valid,Routine,04-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11381,Soku Kawi,1000000102,F,04-03-17,8,23,128,119/72,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1000,7,Invalid,Routine,07-02-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11382,Xavu Pita,1000000102,F,17-01-15,7,20,123,,"General Population
+
+",05-09-22,TDF/3TC/EFV,AZT/3TC/ATV/r,Second line,800,60,Valid,Routine,25-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11383,Qipo Lude,1000000102,F,26-02-14,6,26,115,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,600,70,Valid,Routine,08-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11384,Wego Sadi,1000000102,F,10-04-18,8,29,128,137/81,"
+
+Fisher folk",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,900,40,Valid,Routine,14-08-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11385,Jike Xuma,1000000102,F,06-02-13,10,18,135,139/81,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1500,60,Valid,Routine,26-07-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11386,Fami Pote,1000000102,M,11-08-15,5,29,110,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1200,20,Valid,Routine,08-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11387,Tosi Xepo,1000000102,F,23-03-18,10,20,135,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,700,80,Invalid,Routine,02-11-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11388,Nufu Koma,1000000102,F,15-11-14,6,20,115,,"
+
+Fisher folk",05-09-22,D4T/3TC/EFV,TDF/3TC/DTG,First line,1600,50,Valid,Routine,23-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11389,Kiso Zupa,1000000102,F,20-10-16,7,26,123,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,400,90,Valid,Routine,17-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11390,Joxi Nime,1000000102,F,18-12-13,8,29,128,94/57,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1100,30,Valid,Routine,10-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11391,Ximi Pove,1000000102,F,07-08-14,10,22,135,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,500,65,Valid,Routine,03-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11392,Hase Kufa,1000000102,M,09-06-17,6,31,115,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1000,75,Valid,Routine,05-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11393,Sogi Pixa,1000000102,M,19-07-17,11,26,138,,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/ATV/r,Second line,300,55,Valid,Routine,27-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11394,Yomu Nuxi,1000000102,M,04-06-16,8,20,128,139/95,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1300,25,Valid,Confirmation of treatment failure (repeat VL),03-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11395,Quwe Patu,1000000102,M,26-04-13,6,28,115,,"
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,1200,85,Valid,Routine,28-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11396,Koti Nupa,1000000102,M,05-03-15,9,23,133,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/ATV/r,Second line,800,45,Valid,Routine,03-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11397,Jaxa Wafi,1000000102,M,30-09-14,7,31,123,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1500,80,Valid,Routine,13-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11398,Xive Puno,1000000102,F,01-04-17,11,28,138,,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,600,15,Valid,Routine,06-11-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11399,Hapi Kesi,1000000102,F,19-05-15,9,20,133,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/ATV/r,Second line,1000,50,Valid,Routine,09-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11400,Sadi Quvo,1000000102,M,01-01-18,6,23,115,110/67,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,500,70,Valid,Confirmation of treatment failure (repeat VL),25-09-23,No,No,No,No,05-09-22,05-12-22,,nyakinye nyakinye nyakinye
+"10,000",11401,Yamu Nipa,1000000102,M,27-07-14,7,26,123,,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,1800,50,Valid,Routine,11-07-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11402,Qeka Jofi,1000000102,M,20-11-99,8,23,128,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,700,60,Valid,Routine,20-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11403,Kixo Suma,1000000102,M,18-03-00,7,31,123,,"
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1300,50,Valid,Routine,26-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11404,Jupo Nadi,1000000102,M,09-06-01,11,26,138,,"General Population
+
+",05-09-22,TDF/3TC/LPV/r,TDF/3TC/DTG,First line,900,80,Valid,Routine,24-08-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11405,Xida Pate,1000000102,M,22-08-00,8,29,128,136/71,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/ATV/r,Second line,1100,50,Invalid,,01-10-20,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11406,Hamu Kawi,1000000102,F,12-01-99,9,20,133,110/73,"General Population
+
+",05-09-22,D4T/3TC/EFV,TDF/3TC/DTG,First line,400,70,Valid,Routine,16-10-23,Yes,No,No,No,05-09-22,05-12-22,,
+"10,000",11407,Sipa Jove,1000000102,F,30-10-02,6,28,115,,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,1400,80,Valid,Routine,12-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11408,Yuxe Nifa,1000000102,F,04-12-00,7,23,123,,"
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,60,Valid,Routine,21-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11409,Qimu Sogi,1000000102,M,17-02-03,5,30,110,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,,1700,70,Invalid,Routine,21-09-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11410,Kexa Poni,1000000102,F,27-09-99,9,23,133,120/76,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,1000,80,Valid,Routine,31-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11411,Juna Ripo,1000000102,F,14-05-00,10,31,135,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,800,90,Valid,Routine,03-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11412,Xoti Pife,1000000102,F,03-04-02,7,28,123,110/63,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,600,70,Valid,Routine,08-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11413,Havi Jumo,1000000102,F,25-03-01,9,20,133,109/70,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,900,80,Invalid,Routine,03-11-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11414,Sipo Kine,1000000102,F,21-06-99,24,69,175,135/83,"General Population
+
+",05-09-22,AZT/3TC/EFV,TDF/3TC/ATV/r,Second line,1500,60,Valid,Routine,19-06-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11415,Yowe Tuxo,1000000102,M,12-07-01,24,69,175,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1200,70,Invalid,Routine,04-10-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11416,Qadi Nuse,1000000102,M,19-08-03,22,67,172,109/69,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/DTG,First line,700,85,Valid,Routine,21-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11417,Kufi Juma,1000000102,F,05-09-00,23,68,173,103/70,"General Population
+
+",05-09-22,3TC/NVP/TDF,TDF/3TC/DTG,First line,1600,50,Valid,Routine,31-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11418,Jimo Rone,1000000102,M,28-07-02,25,70,176,110/71,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,400,65,Valid,Routine,04-05-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11419,Xepi Kape,1000000102,M,10-05-99,21,66,171,,"
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1100,40,Valid,Routine,25-07-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11420,Hoki Nipa,1000000102,F,07-02-01,23,68,173,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,500,75,Valid,Routine,26-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11421,Sanu Kimo,1000000102,F,01-11-00,21,66,171,,"General Population
+
+",05-09-22,AZT/3TC/NVP,TDF/3TC/ATV/r,Second line,1000,55,Valid,Routine,13-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11422,Xope Luse,1000000102,M,09-01-03,24,69,175,,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/DTG,First line,300,60,Invalid,Routine,26-07-22,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11423,Yato Nagi,1000000102,M,15-04-99,24,69,175,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1300,70,Valid,Confirmation of treatment failure (repeat VL),03-10-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11424,Qapo Kime,1000000102,F,23-01-02,22,67,172,112/75,"
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1500,45,,,,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11425,Kefa Pite,1000000102,M,18-06-00,23,68,173,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,600,65,,,,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11426,Jami Rudi,1000000102,M,14-08-99,24,69,175,125/83,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1400,80,,,,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11427,Xiva Poni,1000000102,M,29-04-01,22,67,172,,"General Population
+
+",05-09-22,3TC/NVP/TDF,AZT/3TC/ATV/r,Second line,1200,55,Invalid,Routine,21-06-18,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11428,Hife Koxi,1000000102,M,22-06-03,20,65,170,,"General Population
+
+",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,800,50,Valid,Routine,12-04-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11429,Sumi Nipu,1000000102,M,15-08-02,23,68,173,,"General Population
+
+",05-09-22,TDF/3TC/DTG,TDF/3TC/DTG,First line,1500,60,Valid,Routine,20-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11430,Yeku Pino,1000000102,M,06-03-99,21,66,171,118/67,"General Population
+
+",05-09-22,TDF/3TC/EFV,TDF/3TC/ATV/r,Second line,600,70,Valid,Routine,05-09-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11431,Qude Jopo,1000000102,M,11-12-03,25,70,176,125/64,"
+
+Fisher folk",05-09-22,D4T/3TC/NVP,TDF/3TC/DTG,First line,1000,80,Valid,Routine,31-03-23,No,No,No,No,05-09-22,05-12-22,,
+"10,000",11432,Kifo Nadi,1000000102,F,13-03-02,23,68,173,,"General Population
+
+",05-09-22,D4T/3TC/EFV,TDF/3TC/DTG,First line,500,90,Valid,Routine,17-10-23,No,No,No,No,05-09-22,05-12-22,,
+,,,,,,,68,173,,,,,,,1800,,,,,,,,,,,,
+,,,,,,,66,171,,,,,,,700,,,,,,,,,,,,
+,,,,,,,70,176,,,,,,,1300,,,,,,,,,,,,
+,,,,,,,67,172,,,,,,,900,,,,,,,,,,,,
+,,,,,,,68,173,,,,,,,1100,,,,,,,,,,,,
+,,,,,,,69,175,,,,,,,400,,,,,,,,,,,,
+,,,,,,,68,173,,,,,,,1400,,,,,,,,,,,,
+,,,,,,,65,170,,,,,,,300,,,,,,,,,,,,
+,,,,,,,66,171,,,,,,,1700,,,,,,,,,,,,
+,,,,,,,68,176,,,,,,,1000,,,,,,,,,,,,
+,,,,,,,68,170,,,,,,,800,,,,,,,,,,,,
+,,,,,,,69,172,,,,,,,600,,,,,,,,,,,,
+,,,,,,,65,173,,,,,,,900,,,,,,,,,,,,
+,,,,,,,67,175,,,,,,,1500,,,,,,,,,,,,
+,,,,,,,70,172,,,,,,,1200,,,,,,,,,,,,
+,,,,,,,65,171,,,,,,,700,,,,,,,,,,,,
+,,,,,,,67,172,,,,,,,1600,,,,,,,,,,,,
+,,,,,,,68,173,,,,,,,400,,,,,,,,,,,,
+,,,,,,,69,171,,,,,,,1100,,,,,,,,,,,,
+,,,,,,,67,175,,,,,,,500,,,,,,,,,,,,
+,,,,,,,66,170,,,,,,,1000,,,,,,,,,,,,
+,,,,,,,,,,,,,,,300,,,,,,,,,,,,
+,,,,,,,,,,,,,,,1300,,,,,,,,,,,,
