@@ -17,14 +17,21 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     data: PrescriptionInterface,
     appointmentInput: AppointmentAttributes
   ): Promise<PrescriptionInterface | null> {
+    const {patientID} = appointmentInput
+    const agenda = 'refill'
+    const completeInputs={
+      patientID,
+      agenda
+    }
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {
         transaction: t,
       });
 
-      // await this.kafkaProducer.sendMessage('appointment-topic',[{value:JSON.stringify(appointmentInput)}])
+      await this.kafkaProducer.sendMessage('appointment-topic',[{value:JSON.stringify(appointmentInput)}])
+      await this.kafkaProducer.sendMessage('complete-appointment-topic',[{value:JSON.stringify(completeInputs)}])
 
-      await Appointment.create(appointmentInput, { transaction: t });
+      // await Appointment.create(appointmentInput, { transaction: t });
 
       return results;
     });

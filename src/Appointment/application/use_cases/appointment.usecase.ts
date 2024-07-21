@@ -10,4 +10,11 @@ import { AppointmentInteractor } from "../interactors/appointment/appointmentInt
     return await interactor.createAppointment(data)
 }
 
-export {createAppointment}
+async function markAppointmentAsCompleted(data: AppointmentAttributes){
+    const {patientID, agenda} = data
+    const repository = new AppointmentRepository()
+    const interactor = new AppointmentInteractor(repository)
+    return await interactor.getRecentAppointmentByPatientID(patientID, agenda as string)
+}
+
+export {createAppointment, markAppointmentAsCompleted}

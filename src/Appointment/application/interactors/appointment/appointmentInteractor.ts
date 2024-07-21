@@ -22,8 +22,12 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.markAsRead(id);
   }
 
-  async rescheduleAppointment(id: string, reason: string): Promise<boolean | null> {
-    return await this.repository.reschedule(id, reason);
+    async getRecentAppointmentByPatientID(id: string, agenda: string): Promise<AppointmentAttributes | null> {
+    return await this.repository.findRecentAppointmentByPatientID(id, agenda);
+  }
+
+  async rescheduleAppointment(id: string, reason: string, rescheduleDate: string): Promise<boolean | null> {
+    return await this.repository.reschedule(id, reason, rescheduleDate);
   }
 
   async getPriorityAppointmentDetail(

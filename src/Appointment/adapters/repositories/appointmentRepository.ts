@@ -18,6 +18,7 @@ import { AppointmentAttributes } from 'otz-types'
 
 // 
 export class AppointmentRepository implements IAppointmentRepository {
+
   async findAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
     return await Appointment.findAll({
       order: [["updatedAt", "DESC"]],
@@ -75,22 +76,26 @@ export class AppointmentRepository implements IAppointmentRepository {
   }
 
   //
-  async reschedule(id: string, reason: string, rescheduledDate: string): Promise<boolean | null> {
+  async reschedule(
+    id: string,
+    reason: string,
+    rescheduledDate: string
+  ): Promise<boolean | null> {
     const result = await Appointment.findByPk(id);
-    const rescheduleID = await  AppointmentStatus.findOne({
-      where:{
-        statusDescription:'Rescheduled'
-      }
-    })
+    const rescheduleID = await AppointmentStatus.findOne({
+      where: {
+        statusDescription: "Rescheduled",
+      },
+    });
 
     // console.log(rescheduleID, 'reschedule id')
 
     if (result && rescheduleID !== null) {
       result.appointmentStatusID = rescheduleID.id;
-      result.rescheduledReason = reason
-      result.rescheduledDate  = rescheduledDate
-      result.appointmentDate = rescheduledDate
-      result.isRead = false
+      result.rescheduledReason = reason;
+      result.rescheduledDate = rescheduledDate;
+      result.appointmentDate = rescheduledDate;
+      result.isRead = false;
       result.save();
       return result as any;
     }
@@ -120,9 +125,6 @@ export class AppointmentRepository implements IAppointmentRepository {
     });
   }
   private readonly redisClient = new RedisAdapter();
-  // constructor () {
-  //   this.redisClient = createClient({})
-  // }
 
   async create(data: AppointmentAttributes): Promise<AppointmentAttributes> {
     return await connect.transaction(async (t) => {
@@ -201,6 +203,60 @@ export class AppointmentRepository implements IAppointmentRepository {
     return results;
   }
 
+  //
+  async findRecentAppointmentByPatientID(
+    id: string,
+    agenda: string
+  ): Promise<AppointmentAttributes | null> {
+    // if ((await this.redisClient.get(id)) === null) {
+
+    const appointmentStatus = await AppointmentStatus.findOne({
+      where:{
+        statusDescription:'completed'
+      }
+    })
+
+    const appointmentAgenda = await AppointmentAgenda.findOne({
+      where:{
+        agendaDescription: agenda
+      }
+    })
+
+    if(appointmentStatus && appointmentAgenda){
+      const results = await Appointment.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+          appointmentAgendaID: appointmentAgenda.id,
+        },
+      });
+
+      if(results){
+        results.appointmentStatusID = appointmentStatus.id;
+        await results.save()
+      }
+
+    return results;
+
+}
+
+
+    // await this.redisClient.set(id, JSON.stringify(results));
+
+    return null;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: AppointmentAttributes[] = JSON.parse(cachedData);
+    // console.log("fetched appointment from cace!");
+
+    // return results;
+  }
+
+  //
   async findPatientAppointmentByID(
     id: string
   ): Promise<AppointmentAttributes[] | null> {

@@ -26,7 +26,7 @@ import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/ch
 import { logger } from './utils/logger';
 import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
 import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes';
-// import { startAppointmentConsumer } from './adapters/consumer/appointment.consumer';
+import { startAppointmentConsumer } from './adapters/consumer/appointment.consumer';
 
 
 const morgan = require('morgan');
@@ -179,7 +179,7 @@ connect.authenticate().then(() => {
 });
 
 // 
-// startAppointmentConsumer();
+startAppointmentConsumer();
 
 
 server.listen(PORT, async () => {

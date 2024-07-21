@@ -97,6 +97,26 @@ export class AppointmentController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  //
+  async onFindRecentAppointmentByPatientID(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const {id} = req.params
+    const {agenda} = req.query
+    try {
+      const result = await this.interactor.getRecentAppointmentByPatientID(id, agenda as string);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   // use patient ID
   async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
@@ -147,8 +167,12 @@ export class AppointmentController {
   async onReschedule(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const {reason, rescheduledDate} = req.body
-      const results = await this.interactor.rescheduleAppointment(id, reason, rescheduledDate)
+      const { reason, rescheduledDate } = req.body;
+      const results = await this.interactor.rescheduleAppointment(
+        id,
+        reason,
+        rescheduledDate
+      );
       res.status(200).json(results);
     } catch (error) {
       console.log(error);
