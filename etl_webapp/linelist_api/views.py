@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, status
-from .models import Patients,ArtPrescription,VitalSigns, ViralLoad, Prescription
+from .models import Patients,ArtPrescription,VitalSigns, ViralLoad, Prescription, FacilityMAPS, CSVFile
 from .serializers import PatientsSerializer, LineListSerializer, CSVFileSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -9,7 +9,9 @@ import pandas as pd
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from datetime import datetime
+from .preprocessLinest import preprocessCSV
 import math
+import os
 
 def validate_email(cccNo):
     if(Patients.objects.filter(cccNo=cccNo).exists()):
@@ -59,13 +61,38 @@ class LineListView(generics.CreateAPIView):
     # parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        # file_serializer = self.get_serializer(data=request.data)
-        file_serializer = CSVFileSerializer(data=request.data)
+        file_serializer = self.get_serializer(data=request.data)
+        # file_serializer = CSVFileSerializer(data=request.data)
 
         if file_serializer.is_valid():
-            file_serializer.save()
-            file = file_serializer.validated_data['file']
-            reader = pd.read_csv(file)
+            file_instance = file_serializer.save()
+            file_path = file_instance.file.path
+            print(file_path)
+            if (os.path.exists(file_path) and os.path.getsize(file_path)>0):
+                try:
+                    lineListID = CSVFile.objects.latest('id').id
+                    
+                    reader = pd.read_csv(file_path)
+                    df=preprocessCSV(reader)
+                    df_json = df.to_dict(orient='records')
+                    
+                    # for _, row in df.iterrows():
+                    with transaction.atomic():
+                        # details={
+                        #     'ageGroup':row['Age Group'],
+                        #     'gender': row['Gender'],
+                        #     'regimenLine' : row['Regimen Line'],
+                        #     'regimen': row['Regimen'],
+                        #     'count':row['Count']
+                        # }
+                        FacilityMAPS.objects.create(
+                            lineListID = file_instance,
+                            details=df_json
+                
+                        )
+
+                except pd.errors.EmptyDataError:
+                    print('This file is empty or has no columns')
             # # reader['Last VL Result'] = reader['Last VL Result'].replace('LDL', 50).astype(int),
             # # reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
 
@@ -150,7 +177,7 @@ class LineListView(generics.CreateAPIView):
             #         vl.save()
 
 
-            print(reader)
+               
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -102,11 +102,30 @@ class ViralLoad(models.Model):
 
 
 class CSVFile(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     file = models.FileField(upload_to='csvs/')
     # uploaded_at = models.DateTimeField(auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now_add=True)
 
     # def __str__(self) -> str:
     #     return self.uploaded_at
 
     class Meta:
         db_table = 'LineListCSV'
+
+
+class FacilityMAPS(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    lineListID = models.ForeignKey('CSVFile', on_delete=models.CASCADE, db_column='lineListID')
+    details = models.JSONField() # type: ignore
+    # ageGroup = models.CharField(max_length=100, db_column='ageGroup')
+    # gender = models.CharField(max_length=100)
+    # regimenLine = models.CharField(max_length=100, db_column='regimenLine')
+    # regimen = models.CharField(max_length=100)
+    # count = models.CharField(max_length=100)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'FacilityMAPS'

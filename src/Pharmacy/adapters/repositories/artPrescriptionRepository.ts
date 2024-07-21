@@ -28,6 +28,7 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
 
   async findById (id: string): Promise<ARTPrescriptionInterface | null> {
     const results = await ARTPrescription.findOne({
+      order:[['createdAt', 'DESC']],
       where: {
         patientID: id
       }

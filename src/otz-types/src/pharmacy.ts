@@ -37,7 +37,8 @@ export interface ARTPrescriptionInterface {
   startDate: Date;
   changeDate: Date;
   stopDate: Date;
-  isStandard: string;
+  isStandard: boolean;
+  isSwitched: boolean;
   line: string;
   createdAt?: Date;
   updatedAt?: Date;

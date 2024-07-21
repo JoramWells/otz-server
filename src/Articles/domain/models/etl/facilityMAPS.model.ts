@@ -1,22 +1,26 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
-import { FacilityMAPSInterface } from "otz-types";
+import {  FacilityMAPSInterface } from "otz-types";
 import { LineListCSV } from "../articles/linelistCSV.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
+export interface FacilityMAPSDetailsInterface {
+  id: string;
+  ageGroup: string;
+  gender: string;
+  regimenLine: string;
+  regimen: string;
+  count: number;
+}
 
 export class FacilityMAPS
   extends Model<FacilityMAPSInterface>
   implements FacilityMAPSInterface
 {
   id!: string;
-  ageGroup!: string;
-  gender!: string;
-  regimenLine!: string;
-  regimen!: string;
   lineListID?: string | undefined;
-  count!: number;
+  details!: FacilityMAPSDetailsInterface;
 }
 
 FacilityMAPS.init(
@@ -34,25 +38,9 @@ FacilityMAPS.init(
       },
       onDelete: "CASCADE",
     },
-    ageGroup: {
-      type: DataTypes.STRING,
+    details: {
+      type: DataTypes.JSON,
       allowNull: false,
-    },
-    gender: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    regimenLine: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    regimen: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    count: {
-      type: DataTypes.INTEGER,
-      // allowNull: false,
     },
   },
   {
@@ -67,7 +55,7 @@ FacilityMAPS.init(
 
 
 // (async () => {
-void connect.sync({alter:true})
+// void connect.sync({alter:true})
 // console.log('Patient Table synced successfully')
 // })()
 

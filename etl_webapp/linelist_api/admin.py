@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patients, ArtPrescription , VitalSigns, Prescription,  ViralLoad, CSVFile
+from .models import Patients, ArtPrescription , VitalSigns, Prescription,  ViralLoad, CSVFile, FacilityMAPS
 
 # Register your models here.
 class PatientsAdmin(admin.ModelAdmin):
@@ -24,6 +24,15 @@ class ViralLoadAdmin(admin.ModelAdmin):
     list_display = ('patientID','vlResults', 'vlJustification', 'dateOfVL')
     search_fields = ('patientID',)
 
+class FacilityMapsAdmin(admin.ModelAdmin):
+    list_display = ('lineListID',)
+    # readonly_fields = ('details',)
+
+    def details(self, obj):
+        import json
+        return json.dumps(obj.details, indent=4)
+
+
 
 class CSVFileAdmin(admin.ModelAdmin):
     list_display = ('file',)
@@ -34,3 +43,4 @@ admin.site.register(VitalSigns, VSAdmin)
 admin.site.register(Prescription, PrescriptionAdmin)
 admin.site.register(ViralLoad, ViralLoadAdmin)
 admin.site.register(CSVFile, CSVFileAdmin)
+admin.site.register(FacilityMAPS, FacilityMapsAdmin)
