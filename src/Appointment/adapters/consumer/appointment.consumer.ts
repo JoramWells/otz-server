@@ -14,7 +14,6 @@ async function handleMessage ({message}: EachMessagePayload){
       console.log(error)
     }
 
-
 }
 
 async function completeAppointment({message}: EachMessagePayload){
@@ -31,10 +30,16 @@ async function completeAppointment({message}: EachMessagePayload){
 
 const startAppointmentConsumer = async ()=>{
     console.log('appointment consumer started...')
-    await consumeMessages("appointment-topic", handleMessage);
-    await consumeMessages('complete-appointment-topic', completeAppointment)
+    await consumeMessages("appointment", handleMessage);
+    // await consumeMessages('complete-appointment-topic', completeAppointment)
 
 }
 
-export {startAppointmentConsumer}
+const startCompleteAppointmentConsumer = async () => {
+  console.log("appointment consumer started...");
+  // await consumeMessages("appointment-topic", handleMessage);
+  await consumeMessages("complete", completeAppointment);
+};
+
+export {startAppointmentConsumer, startCompleteAppointmentConsumer}
 

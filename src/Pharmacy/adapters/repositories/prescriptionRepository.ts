@@ -29,7 +29,8 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       });
 
       await this.kafkaProducer.sendMessage('appointment-topic',[{value:JSON.stringify(appointmentInput)}])
-      await this.kafkaProducer.sendMessage('complete-appointment-topic',[{value:JSON.stringify(completeInputs)}])
+      console.log('Calling kafka appointment-topic producer...!!')
+      // await this.kafkaProducer.sendMessage('complete-appointment-topic',[{value:JSON.stringify(completeInputs)}])
 
       // await Appointment.create(appointmentInput, { transaction: t });
 

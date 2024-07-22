@@ -18,6 +18,7 @@ import { AppointmentAttributes } from 'otz-types'
 
 // 
 export class AppointmentRepository implements IAppointmentRepository {
+  private readonly redisClient = new RedisAdapter();
 
   async findAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
     return await Appointment.findAll({
@@ -124,10 +125,10 @@ export class AppointmentRepository implements IAppointmentRepository {
       ],
     });
   }
-  private readonly redisClient = new RedisAdapter();
 
   async create(data: AppointmentAttributes): Promise<AppointmentAttributes> {
     return await connect.transaction(async (t) => {
+      console.log('Running transaction data...!!!', data)
       let results: AppointmentAttributes = await Appointment.create(data, {
         transaction: t,
       });
@@ -155,7 +156,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   async find(): Promise<AppointmentAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
-    if ((await this.redisClient.get(appointmentCache)) === null) {
+    // if ((await this.redisClient.get(appointmentCache)) === null) {
       const results: AppointmentAttributes[] = await Appointment.findAll({
         order: [["appointmentDate", "ASC"]],
         where: {
@@ -185,22 +186,22 @@ export class AppointmentRepository implements IAppointmentRepository {
       // logger.info({ message: "Fetched from db!" });
       // console.log("fetched from db!");
       // set to cace
-      await this.redisClient.set(appointmentCache, JSON.stringify(results));
+      // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
       return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      appointmentCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   appointmentCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
     // await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    // console.log("fetched from cache!");
 
-    const results: AppointmentAttributes[] = JSON.parse(cachedPatients);
-    return results;
+    // const results: AppointmentAttributes[] = JSON.parse(cachedPatients);
+    // return results;
   }
 
   //
@@ -210,19 +211,21 @@ export class AppointmentRepository implements IAppointmentRepository {
   ): Promise<AppointmentAttributes | null> {
     // if ((await this.redisClient.get(id)) === null) {
 
+    console.log(id, agenda, '***********************************************')
+
     const appointmentStatus = await AppointmentStatus.findOne({
-      where:{
-        statusDescription:'completed'
-      }
-    })
+      where: {
+        statusDescription: "Completed",
+      },
+    });
 
     const appointmentAgenda = await AppointmentAgenda.findOne({
-      where:{
-        agendaDescription: agenda
-      }
-    })
+      where: {
+        agendaDescription: agenda,
+      },
+    });
 
-    if(appointmentStatus && appointmentAgenda){
+    if (appointmentStatus && appointmentAgenda) {
       const results = await Appointment.findOne({
         order: [["createdAt", "DESC"]],
         where: {
@@ -231,15 +234,13 @@ export class AppointmentRepository implements IAppointmentRepository {
         },
       });
 
-      if(results){
+      if (results) {
         results.appointmentStatusID = appointmentStatus.id;
-        await results.save()
+        await results.save();
       }
 
-    return results;
-
-}
-
+      return results;
+    }
 
     // await this.redisClient.set(id, JSON.stringify(results));
 
