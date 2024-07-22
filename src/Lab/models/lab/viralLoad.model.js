@@ -2,6 +2,7 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../patient/patients.models');
+const PatientVisits = require('../patient/patientVisits.model');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
 const ViralLoad = sequelize.define('viralLoad', {
@@ -15,7 +16,17 @@ const ViralLoad = sequelize.define('viralLoad', {
   },
   isVLValid: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false
+    defaultValue: false,
+  },
+
+  patientVisitID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'patientVisits',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
+    unique: true,
   },
   patientID: {
     type: DataTypes.UUID,
@@ -24,7 +35,7 @@ const ViralLoad = sequelize.define('viralLoad', {
       key: 'id',
     },
   },
-   userID: {
+  userID: {
     type: DataTypes.UUID,
     references: {
       model: 'users',
@@ -37,7 +48,7 @@ const ViralLoad = sequelize.define('viralLoad', {
   dateOfVL: {
     type: DataTypes.DATE,
   },
-   dateOfNextVL: {
+  dateOfNextVL: {
     type: DataTypes.DATE,
   },
   // CD4
@@ -45,6 +56,8 @@ const ViralLoad = sequelize.define('viralLoad', {
 });
 
 ViralLoad.belongsTo(Patient, { foreignKey: 'patientID' });
+ViralLoad.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' });
+
 // ViralLoad.belongsTo(Hospital, { foreignKey: 'hospitalID' });
 
 // (async () => {

@@ -37,6 +37,7 @@ const addViralLoadTest = async (req, res, next) => {
         dateOfNextVL,
         vlResults,
         vlJustification,
+        patientVisitID,
         patientID,
       }, { transaction: t });
       if (results) {

@@ -31,7 +31,7 @@ const Appointment = sequelize.define('appointments', {
       key: 'id',
     },
     onDelete: 'CASCADE',
-    unique: true
+    unique: true,
   },
   appointmentAgendaID: {
     type: DataTypes.UUID,
@@ -59,7 +59,6 @@ const Appointment = sequelize.define('appointments', {
     timezone: false,
   },
 });
-
 
 // (async () => {
 //   await sequelize.sync();
