@@ -31,6 +31,7 @@ const Appointment = sequelize.define('appointments', {
       key: 'id',
     },
     onDelete: 'CASCADE',
+    unique: true
   },
   appointmentAgendaID: {
     type: DataTypes.UUID,

@@ -176,6 +176,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      kafka:
+        condition: service_started
     networks:
       - otz
 

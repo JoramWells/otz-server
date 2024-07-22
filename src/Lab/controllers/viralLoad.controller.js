@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
@@ -10,6 +11,7 @@ const Patient = require('../models/patient/patients.models');
 const ViralLoad = require('../models/lab/viralLoad.model');
 const connect = require('../db/connect');
 const Appointment = require('../models/appointment.model');
+const KafkaAdapter = require('../kafka/producer/kafka.producer');
 
 // using *Patients model
 const addViralLoadTest = async (req, res, next) => {
@@ -27,6 +29,7 @@ const addViralLoadTest = async (req, res, next) => {
   } = req.body;
 
   try {
+    const kafkaProducer = new KafkaAdapter();
     await connect.transaction(async (t) => {
       const results = await ViralLoad.create({
         userID,
@@ -47,6 +50,11 @@ const addViralLoadTest = async (req, res, next) => {
         }, { transaction: t });
       }
     });
+
+    //  kafka send message
+    await kafkaProducer.sendMessage('complete', [{
+      value: JSON.stringify({ patientID, agenda: 'viral load' }),
+    }]);
 
     res.status(200);
     next();

@@ -25,6 +25,8 @@ const VitalSign = sequelize.define('vitalSigns', {
       model: 'patientVisits',
       key: 'id',
     },
+    onDelete:'CASCADE',
+    unique: true
   },
   bmi: {
     type: DataTypes.STRING,
