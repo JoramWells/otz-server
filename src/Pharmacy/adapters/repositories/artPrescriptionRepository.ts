@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { AppointmentAttributes, ARTPrescriptionInterface } from 'otz-types'
+import {  ARTPrescriptionInterface } from 'otz-types'
 import { type IARTPrescriptionRepository } from '../../application/interfaces/art/IARTPrescriptionRepository'
 import { ART } from '../../domain/models/art/art.model'
 import { ARTPrescription } from '../../domain/models/art/artPrescription.model'
@@ -17,57 +17,57 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   ): Promise<ARTPrescriptionInterface> {
     //
 
-    const { noOfPill, frequency } = data;
+    // const { noOfPill, frequency } = data;
     
     console.log(data, 'data from artprescription repo...!!')
 
-    const {
-      userID,
-      patientID,
-      patientVisitID,
-      appointmentAgendaID,
-      appointmentStatusID,
-      refillDate,
-    } = data;
+    // const {
+    //   userID,
+    //   patientID,
+    //   patientVisitID,
+    //   appointmentAgendaID,
+    //   appointmentStatusID,
+    //   refillDate,
+    // } = data;
 
-    const nextRefillDate = new Date(refillDate);
-    const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
-    nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd);
+    // const nextRefillDate = new Date(refillDate);
+    // const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
+    // nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd);
 
-    const appointmentInput2: AppointmentAttributes = {
-      userID,
-      patientID,
-      patientVisitID,
-      appointmentAgendaID,
-      appointmentStatusID,
-      appointmentDate: nextRefillDate,
-    };
+    // const appointmentInput2: AppointmentAttributes = {
+    //   userID,
+    //   patientID,
+    //   patientVisitID,
+    //   appointmentAgendaID,
+    //   appointmentStatusID,
+    //   appointmentDate: nextRefillDate,
+    // };
 
-    const agenda = "Refill";
-    const completeInputs = {
-      patientID,
-      agenda,
-    };
+    // const agenda = "Refill";
+    // const completeInputs = {
+    //   patientID,
+    //   agenda,
+    // };
 
     return await connect.transaction(async(t)=>{
-    const results: ARTPrescriptionInterface = await ARTPrescription.create(
+    return await ARTPrescription.create(
       data,{transaction:t}
     );
-    if (data.appointmentAgendaID) {
+    // if (data.appointmentAgendaID) {
       // await this.kafkaProducer.sendMessage("appointment", [
       //   { value: JSON.stringify(appointmentInput2) },
       // ]);
-      await Appointment.create(appointmentInput2, { transaction: t });
+      // await Appointment.create(appointmentInput2, { transaction: t });
 
       //
-      await this.kafkaProducer.sendMessage("complete", [
-        { value: JSON.stringify(completeInputs) },
-      ]);
-      console.log("Prescribing...!!");
-    }
+      // await this.kafkaProducer.sendMessage("complete", [
+      //   { value: JSON.stringify(completeInputs) },
+      // ]);
+      // console.log("Prescribing...!!");
+    // }
 
 
-    return results;
+    // return results;
     })
 
 

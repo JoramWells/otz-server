@@ -1,7 +1,7 @@
 export interface PrescriptionInterface {
   id?: string;
-  patientID: string;
-  patientVisitID: string;
+  patientID?: string;
+  patientVisitID?: string;
   artPrescriptionID?: string;
   message?: string;
   noOfPills: number;

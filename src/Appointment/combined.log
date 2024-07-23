@@ -918,3 +918,56 @@
 {"level":"info","message":"Changed 44f7cd74-d906-4746-9e41-14d34aa6bc08 to pending...","service":"appointment-service","timestamp":"2024-07-22T15:54:00.106Z"}
 {"level":"info","message":"Changed 8f2141df-b7f7-4dd8-b9e9-0d4f024a9e9c to pending...","service":"appointment-service","timestamp":"2024-07-22T16:05:00.102Z"}
 {"level":"info","message":"Changed fe57ec46-11c5-4f04-97b5-a682eecd7078 to pending...","service":"appointment-service","timestamp":"2024-07-22T16:30:00.275Z"}
+{"level":"info","message":"Appointments modified for 662c36d4-5c1a-40ab-9e2f-19ccf163f694 ","service":"appointment-service","timestamp":"2024-07-23T04:35:22.986Z"}
+{"level":"info","message":"Appointments modified for 10d6597e-9fc4-4a88-87a9-2deba1875449 ","service":"appointment-service","timestamp":"2024-07-23T04:35:23.514Z"}
+{"level":"info","message":"Appointments modified for 8f2141df-b7f7-4dd8-b9e9-0d4f024a9e9c ","service":"appointment-service","timestamp":"2024-07-23T04:35:23.892Z"}
+{"level":"info","message":"Appointments modified for 56084e1b-777a-462e-a5d4-7ed862458d7d ","service":"appointment-service","timestamp":"2024-07-23T04:35:24.346Z"}
+{"level":"info","message":"Appointments modified for 91455fc9-6bf7-4b74-99d6-226f84c5db24 ","service":"appointment-service","timestamp":"2024-07-23T04:35:24.534Z"}
+{"level":"info","message":"Appointments modified for f946de3b-a36e-4ce5-b8e4-ee596c42f048 ","service":"appointment-service","timestamp":"2024-07-23T04:35:24.845Z"}
+{"level":"info","message":"Appointments modified for 0d6d2148-9ec8-4b52-92fd-e344fa88678b ","service":"appointment-service","timestamp":"2024-07-23T04:35:25.078Z"}
+{"level":"info","message":"Appointments modified for 65097a50-c5e8-4d63-a1fb-c89559546c61 ","service":"appointment-service","timestamp":"2024-07-23T04:35:25.278Z"}
+{"level":"info","message":"Appointments modified for 15a73cc0-6860-41dc-af7e-cbfe29f3f673 ","service":"appointment-service","timestamp":"2024-07-23T04:35:25.412Z"}
+{"level":"info","message":"Appointments modified for 66d9a0a0-3457-4bfd-8f63-d38b8bd2f97f ","service":"appointment-service","timestamp":"2024-07-23T04:35:25.612Z"}
+{"level":"info","message":"Appointments modified for 8f3295d7-97b1-4fd2-ab73-108b3b722418 ","service":"appointment-service","timestamp":"2024-07-23T04:35:25.825Z"}
+{"level":"info","message":"Appointments modified for 1f1e44b3-5d31-4ec0-9319-60071425840a ","service":"appointment-service","timestamp":"2024-07-23T04:35:26.177Z"}
+{"level":"info","message":"Appointments modified for 0eeeaf0c-190c-4ecb-85eb-3878db49f1f4 ","service":"appointment-service","timestamp":"2024-07-23T04:35:26.414Z"}
+{"level":"info","message":"Appointments modified for fe57ec46-11c5-4f04-97b5-a682eecd7078 ","service":"appointment-service","timestamp":"2024-07-23T04:35:26.809Z"}
+{"level":"info","message":"Appointments modified for f61909e8-d1cb-4b97-a0d2-6b7f3969317f ","service":"appointment-service","timestamp":"2024-07-23T04:35:27.020Z"}
+{"level":"info","message":"Appointments modified for b95cf2c6-749f-459a-a7ea-c4cd11fb3987 ","service":"appointment-service","timestamp":"2024-07-23T04:35:27.375Z"}
+{"level":"info","message":"Appointments modified for 6b8f06f1-9f80-4002-8333-38a0f12f3316 ","service":"appointment-service","timestamp":"2024-07-23T04:35:27.852Z"}
+{"level":"info","message":"Appointments modified for 7f3ac515-2d6a-47c0-aa56-c17af901dac0 ","service":"appointment-service","timestamp":"2024-07-23T04:35:28.086Z"}
+{"level":"info","message":"Appointments modified for 4bbd55d9-61bf-48d3-a8b1-d1ed484158a6 ","service":"appointment-service","timestamp":"2024-07-23T04:35:28.219Z"}
+{"level":"info","message":"Appointments modified for 165c6e4a-7b75-474d-a0ab-73d5dda81081 ","service":"appointment-service","timestamp":"2024-07-23T04:35:28.518Z"}
+{"level":"info","message":"Appointments modified for 8d663c8e-0949-433c-9b5c-4c580ce95741 ","service":"appointment-service","timestamp":"2024-07-23T04:35:28.874Z"}
+{"level":"info","message":"Appointments modified for 44f7cd74-d906-4746-9e41-14d34aa6bc08 ","service":"appointment-service","timestamp":"2024-07-23T04:35:29.206Z"}
+{"level":"info","message":"Appointments modified for 115cfde1-8412-4ab8-9f3e-502a4fcb0772 ","service":"appointment-service","timestamp":"2024-07-23T04:35:29.395Z"}
+{"level":"info","message":"Appointments modified for 4215d83d-df39-4689-8ec9-71dabedc0cc4 ","service":"appointment-service","timestamp":"2024-07-23T04:35:29.730Z"}
+{"level":"info","message":"Changed 201bc044-6f23-4b73-9010-c6cf6c43a279 to pending...","service":"appointment-service","timestamp":"2024-07-23T06:50:02.676Z"}
+{"level":"info","message":"Changed e68d0117-6e65-4b5b-835c-5b7421b67ffb to pending...","service":"appointment-service","timestamp":"2024-07-23T08:17:00.680Z"}
+{"level":"info","message":"Changed 825f9b9a-5b45-44c5-9fb7-2e07c858caa3 to pending...","service":"appointment-service","timestamp":"2024-07-23T08:28:00.239Z"}
+{"level":"info","message":"Changed b3c5632f-41c2-43a3-8ba6-7341a22d0446 to pending...","service":"appointment-service","timestamp":"2024-07-23T08:41:59.126Z"}
+{"level":"info","message":"Changed e724aea6-b986-44d7-863b-54970b9e6f50 to pending...","service":"appointment-service","timestamp":"2024-07-23T08:46:00.298Z"}
+{"level":"info","message":"Changed 0b20cba4-d6ad-40ba-a25c-33f71e7ae74e to pending...","service":"appointment-service","timestamp":"2024-07-23T09:09:00.419Z"}
+{"level":"info","message":"Changed 2371e880-5872-449f-942f-59da72d0c64a to pending...","service":"appointment-service","timestamp":"2024-07-23T09:10:03.841Z"}
+{"level":"info","message":"Changed 4a0c53b5-f018-454f-a79c-a395713a4831 to pending...","service":"appointment-service","timestamp":"2024-07-23T09:16:01.888Z"}
+{"level":"info","message":"Changed 318a09cc-df94-455d-9689-8197d16a7b6f to pending...","service":"appointment-service","timestamp":"2024-07-23T09:32:58.434Z"}
+{"level":"info","message":"Changed 30a47009-8180-4160-b559-00d1ca8b64d2 to pending...","service":"appointment-service","timestamp":"2024-07-23T09:34:05.058Z"}
+{"level":"info","message":"Changed 6615a972-17f6-48db-b43b-2e129b09d8e7 to pending...","service":"appointment-service","timestamp":"2024-07-23T09:56:00.151Z"}
+{"level":"info","message":"Changed c3551f62-ae26-4f60-b1f3-52f898023e83 to pending...","service":"appointment-service","timestamp":"2024-07-23T10:01:00.021Z"}
+{"level":"info","message":"Changed 5edf5173-c334-4cd7-b965-53790c42d3f4 to pending...","service":"appointment-service","timestamp":"2024-07-23T10:01:04.199Z"}
+{"level":"info","message":"Changed 62bf05bb-9dbc-4486-95db-915ab2cd4ddf to pending...","service":"appointment-service","timestamp":"2024-07-23T10:14:00.332Z"}
+{"level":"info","message":"Changed e6a216db-2ac3-47a1-887d-deac3b8f00ca to pending...","service":"appointment-service","timestamp":"2024-07-23T10:25:00.027Z"}
+{"level":"info","message":"Changed 5d408234-e9f5-4ff4-ba30-65201728dd78 to pending...","service":"appointment-service","timestamp":"2024-07-23T10:39:01.184Z"}
+{"level":"info","message":"Changed 5090e4e2-da56-4290-9989-c6c1069719ab to pending...","service":"appointment-service","timestamp":"2024-07-23T10:39:01.479Z"}
+{"level":"info","message":"Changed e0151314-ff54-42c6-9192-c0fc04621233 to pending...","service":"appointment-service","timestamp":"2024-07-23T10:44:05.028Z"}
+{"level":"info","message":"Changed 033df31e-c635-4f39-955c-7767b176223d to pending...","service":"appointment-service","timestamp":"2024-07-23T10:45:01.382Z"}
+{"level":"info","message":"Changed aff7d4b0-e184-493a-920d-49df77b915a9 to pending...","service":"appointment-service","timestamp":"2024-07-23T10:50:01.271Z"}
+{"level":"info","message":"Changed fb3a8a9d-22c9-4b35-97c3-0aaa54c49cf0 to pending...","service":"appointment-service","timestamp":"2024-07-23T11:00:08.284Z"}
+{"level":"info","message":"Changed 030b4d94-f1c5-44b8-8fbc-343b3ab3259f to pending...","service":"appointment-service","timestamp":"2024-07-23T11:02:00.303Z"}
+{"level":"info","message":"Changed 5302e320-faf0-4dc3-85de-936d4ae41913 to pending...","service":"appointment-service","timestamp":"2024-07-23T11:32:13.430Z"}
+{"level":"info","message":"Changed 8e863aef-af07-4990-896e-47fd6e5ac864 to pending...","service":"appointment-service","timestamp":"2024-07-23T11:34:00.300Z"}
+{"level":"info","message":"Changed 8561300f-d5d8-4776-9cc8-2fe051ff616e to pending...","service":"appointment-service","timestamp":"2024-07-23T11:39:00.001Z"}
+{"level":"info","message":"Changed 1007f3ef-f9ca-4d03-9b2e-72d65d99b190 to pending...","service":"appointment-service","timestamp":"2024-07-23T11:59:00.022Z"}
+{"level":"info","message":"Changed 9f3256a6-6037-40ec-8fd1-f537cd5ef2b1 to pending...","service":"appointment-service","timestamp":"2024-07-23T12:00:00.151Z"}
+{"level":"info","message":"Changed b072a7c6-5079-4d7d-a360-340b3a8a960c to pending...","service":"appointment-service","timestamp":"2024-07-23T12:25:00.001Z"}
+{"level":"info","message":"Changed b3523008-bdbf-43e4-8127-6060ea01355b to pending...","service":"appointment-service","timestamp":"2024-07-23T12:29:00.170Z"}
