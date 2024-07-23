@@ -984,3 +984,6 @@
 {"level":"info","message":"Changed adaee12d-b245-486d-9eab-b2ce778e485e to pending...","service":"appointment-service","timestamp":"2024-07-23T14:30:08.828Z"}
 {"level":"info","message":"Changed 263ee1c3-9ff9-49d9-9ed0-c41592800ccf to pending...","service":"appointment-service","timestamp":"2024-07-23T14:30:08.920Z"}
 {"level":"info","message":"Changed f271a960-3b3a-4b4a-b3a1-d297e4c89262 to pending...","service":"appointment-service","timestamp":"2024-07-23T14:32:00.165Z"}
+{"level":"info","message":"Changed 9fd7a8dd-bb2e-4da1-aef2-17e4878b535c to pending...","service":"appointment-service","timestamp":"2024-07-23T14:41:00.713Z"}
+{"level":"info","message":"Changed cf05d7fa-c385-42c7-85b7-af123946d6ec to pending...","service":"appointment-service","timestamp":"2024-07-23T14:45:00.068Z"}
+{"level":"info","message":"Changed 8f236b73-1214-4e74-a969-a10ccd461281 to pending...","service":"appointment-service","timestamp":"2024-07-23T14:49:00.078Z"}
