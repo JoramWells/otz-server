@@ -3,8 +3,16 @@ import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../../db/connect'
 import { createClient } from 'redis'
-import { LocationProps, PatientAttributes, UserRoles } from 'otz-types'
+import { LocationProps, PatientAttributes } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
+export enum UserRoles {
+  Admin = "admin",
+  Clinician = "clinician",
+  MentorMother = "mentor mother",
+  AYPAdvocate = "ayp advocate",
+  Nurse = "nurse",
+  patient = "patient",
+}
 
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {

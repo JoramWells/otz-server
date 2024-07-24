@@ -10,6 +10,7 @@ import { calculateFacilityAdherence } from '../../utils/adherence'
 import { calculatePills2 } from '../../utils/calculatePills'
 import { KafkaAdapter } from '../kafka/producer/kafka.producer'
 
+
 export class PrescriptionRepository implements IPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter()
   async create(

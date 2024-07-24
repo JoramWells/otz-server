@@ -3,8 +3,6 @@ import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
 import { ARTPrescriptionInterface } from 'otz-types'
 
-
-
 export class ARTPrescription extends Model<ARTPrescriptionInterface> {
   id!: string;
   patientID!: string;
