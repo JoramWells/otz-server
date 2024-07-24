@@ -34,8 +34,8 @@ export class PatientNotificationInteractor implements IPatientNotificationIntera
   }
 
   async createPatientNotification(
-    patientData: PatientNotificationAttributes
-  ): Promise<PatientNotificationAttributes> {
+    patientData: PatientNotificationAttributes[]
+  ): Promise<PatientNotificationAttributes[] | null> {
     return await this.repository.create(patientData);
   }
 

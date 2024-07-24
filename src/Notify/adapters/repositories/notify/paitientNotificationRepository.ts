@@ -7,7 +7,7 @@ import { PatientNotification } from '../../../domain/models/notify/patientNotifi
 import { Patient } from '../../../domain/models/patients.models';
 import { RedisAdapter } from '../redisAdapter'
 import { PatientNotificationAttributes } from 'otz-types';
-import { col, fn } from 'sequelize';
+import { col, fn, literal, Op } from 'sequelize';
 // import { createClient } from 'redis'
 
 export class PatientNotificationRepository implements IPatientNotificationRepository {
@@ -17,11 +17,31 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
   // }
 
   async create(
-    data: PatientNotificationAttributes
-  ): Promise<PatientNotificationAttributes> {
-    const results  = await PatientNotification.create(data);
+    data: PatientNotificationAttributes[]
+  ): Promise<PatientNotificationAttributes[] | null> {
+    const currentDate = new Date().toISOString().split("T")[0];
+
+    // 
+    const isNotified = await PatientNotification.findOne({
+      where: {
+        [Op.and]: [
+          literal(`date_trunc('day', "createdAt") ='${currentDate}'`),
+          { type: "Refill" },
+        ],
+      },
+    });
+    // 
+    if(isNotified){
+        console.log('Refill Notification created!!!')
+    }else{
+    const results = await PatientNotification.bulkCreate(data);
 
     return results;
+    }
+
+    // 
+    return null
+
   }
 
   async find(): Promise<PatientNotificationAttributes[]> {

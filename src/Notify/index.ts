@@ -28,6 +28,7 @@ import { sendPushNotification } from './utils/fcm';
 import { friendRequestRouter } from './routes/chat/request.routes';
 // import { sendPushNotification } from './utils/fcm';
 import { initSentry } from "./config/sentryInit";
+import { startRefillConsumer } from './adapters/consumer/notify.consumer';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -182,14 +183,13 @@ socket.on('getNotifications', async (socket)=>{
 
 // io.on('error', () => { console.log('err'); });
 
-// notification realtime
-// notificationEmitter.on('notificationCreated', (data) => {
-//   io.emit('notificationCreated', []);
-//   console.log('Success', data);
-// });
-
-
-// sendPushNotification()
+(async () => {
+  try {
+    await startRefillConsumer();
+  } catch (error) {
+    console.log("Error connecting to kafka!!", error);
+  }
+})();
 
 const PORT = process.env.PORT || 5008;
 

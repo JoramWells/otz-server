@@ -1,6 +1,6 @@
 import { AppointmentAttributes } from "otz-types";
 import { createAppointment, markAppointmentAsCompleted } from "../../application/use_cases/appointment.usecase";
-import { consumeMessages, createConsumer } from "../repositories/kafkaConsumerAdapter";
+import {  createConsumer } from "../repositories/kafkaConsumerAdapter";
 import { EachMessagePayload } from "kafkajs";
 
 async function handleMessage ({message}: EachMessagePayload){
