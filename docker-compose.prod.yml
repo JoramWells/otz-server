@@ -343,16 +343,16 @@ services:
     networks:
       - otz
 
-  school:
-    build:
-      context: ./src/School
-      dockerfile: Dockerfile
-    image: school-image
-    volumes:
-      - ./src/School:/usr/src/app
-      - /usr/src/app/node_modules
+  # school:
+  #   build:
+  #     context: ./src/School
+  #     dockerfile: Dockerfile
+  #   image: school-image
+  #   volumes:
+  #     - ./src/School:/usr/src/app
+  #     - /usr/src/app/node_modules
 
-    deploy:
+  #   deploy:
       # mode: replicated
       # replicas: 2
       # placement:
@@ -362,21 +362,21 @@ services:
       #   delay: 10s
       # restart_policy:
       #   condition: on-failure    
-      resources:
-        limits:
-          cpus: '0.40'
-          memory: 700M
-        reservations:
-          cpus: '0.40'
-          memory: 700M   
-    ports:
-      - 5004:5004
-    depends_on:
-      database:
-        condition: service_healthy
-      # - kafka-2
-    networks:
-      - otz
+    #   resources:
+    #     limits:
+    #       cpus: '0.40'
+    #       memory: 700M
+    #     reservations:
+    #       cpus: '0.40'
+    #       memory: 700M   
+    # ports:
+    #   - 5004:5004
+    # depends_on:
+    #   database:
+    #     condition: service_healthy
+    #   # - kafka-2
+    # networks:
+    #   - otz
 
   appointment:
     build:
@@ -577,7 +577,7 @@ services:
       - users
       - enrollments
       - root
-      - school
+      # - school
       - lab
       - appointment 
       - medicalfile   

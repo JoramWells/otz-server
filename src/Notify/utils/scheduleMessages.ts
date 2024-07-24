@@ -17,6 +17,15 @@ import { Uptake } from '../domain/models/treatmentplan/uptake.model';
 
 
 const notificationEmitter = new EventEmitter();
+    type TimeWorkUptake = Uptake & {
+      TimeAndWork: {
+        morningMedicineTime: string;
+        eveningMedicineTime: string;
+        Patient: {
+          id: string;
+        };
+      };
+    };
 
 const fetchMessages = async () => {
   try {
@@ -50,6 +59,8 @@ const schedulePatientNotifications = async () => {
   try {
     // const messages = await fetchMessages();
     // console.log(messages);
+
+
   const findUser = await User.findOne({});
 
 
@@ -57,17 +68,21 @@ const schedulePatientNotifications = async () => {
       where: {
         currentDate,
       },
-      order: [['updatedAt', 'DESC']],
-      include: [{
-        model: TimeAndWork,
-        as:'TimeAndWork',
-        attributes: ['id', 'morningMedicineTime', 'eveningMedicineTime'],
-        include: [{
-          model: Patient,
-          attributes: ['id', 'firstName', 'middleName'],
-        }],
-      }],
-    });
+      order: [["updatedAt", "DESC"]],
+      include: [
+        {
+          model: TimeAndWork,
+          as: "TimeAndWork",
+          attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
+          include: [
+            {
+              model: Patient,
+              attributes: ["id", "firstName", "middleName"],
+            },
+          ],
+        },
+      ],
+    }) as TimeWorkUptake[] ;
     const messages = await fetchMessages();
 
     if (isMorning) {

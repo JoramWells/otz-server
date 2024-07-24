@@ -60,7 +60,8 @@ async function sendPushNotification(pushTokens: string[], body: string){
                 console.log(receipts)
 
                 for(let receiptID in receipts){
-                    let {status, message, details} = receipts[receiptID]
+                    let {status, message, details} = receipts[receiptID] as any
+                    console.log(message)
                     if(status == 'ok'){
                         continue;
                     }else if(status === 'error'){
