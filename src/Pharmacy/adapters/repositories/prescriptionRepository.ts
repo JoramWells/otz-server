@@ -28,11 +28,11 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         transaction: t,
       });
 
-      // await this.kafkaProducer.sendMessage('appointment-topic',[{value:JSON.stringify(appointmentInput)}])
+      await this.kafkaProducer.sendMessage('appointment',[{value:JSON.stringify(appointmentInput)}])
       console.log('Calling kafka appointment-topic producer...!!')
       await this.kafkaProducer.sendMessage('complete',[{value:JSON.stringify(completeInputs)}])
 
-      await Appointment.create(appointmentInput, { transaction: t });
+      // await Appointment.create(appointmentInput, { transaction: t });
 
       return results;
     });

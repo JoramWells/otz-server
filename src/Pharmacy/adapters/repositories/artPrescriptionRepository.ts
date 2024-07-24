@@ -7,7 +7,6 @@ import { ART } from '../../domain/models/art/art.model'
 import { ARTPrescription } from '../../domain/models/art/artPrescription.model'
 import { KafkaAdapter } from '../kafka/producer/kafka.producer';
 import { connect } from '../../domain/db/connect';
-import { Appointment } from '../../domain/models/appointment/appointment.model';
 
 export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();

@@ -26,7 +26,7 @@ import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/ch
 import { logger } from './utils/logger';
 import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
 import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes';
-import {  startCompleteAppointmentConsumer } from './adapters/consumer/appointment.consumer';
+import {  startAppointmentConsumer, startCompleteAppointmentConsumer } from './adapters/consumer/appointment.consumer';
 
 
 const morgan = require('morgan');
@@ -179,8 +179,15 @@ connect.authenticate().then(() => {
 });
 
 // 
-// startAppointmentConsumer();
-startCompleteAppointmentConsumer()
+(async()=>{
+  try {
+   await startAppointmentConsumer();
+   await startCompleteAppointmentConsumer(); 
+  } catch (error) {
+    console.log('Error connecting to kafka!!',error);
+  }
+})()
+
 
 
 server.listen(PORT, async () => {

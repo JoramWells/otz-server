@@ -212,6 +212,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     // if ((await this.redisClient.get(id)) === null) {
 
     console.log(id, agenda, '***********************************************')
+    const currentDate = new  Date()
 
     const appointmentStatus = await AppointmentStatus.findOne({
       where: {
@@ -231,7 +232,10 @@ export class AppointmentRepository implements IAppointmentRepository {
         where: {
           patientID: id,
           appointmentAgendaID: appointmentAgenda.id,
-        },
+          createdAt:{
+            [Op.not]: currentDate
+          }
+        } as any,
       });
 
       if (results) {
