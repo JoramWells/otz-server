@@ -4,7 +4,6 @@
 import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
 import { type IPrescriptionRepository } from '../../application/interfaces/art/IPrescriptionRepository'
 import { connect } from '../../domain/db/connect'
-import { Appointment } from '../../domain/models/appointment/appointment.model'
 
 import { Prescription } from '../../domain/models/art/prescription.model'
 import { calculateFacilityAdherence } from '../../utils/adherence'
@@ -23,6 +22,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       patientID,
       agenda
     }
+
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {
         transaction: t,
@@ -32,7 +32,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       console.log('Calling kafka appointment-topic producer...!!')
       await this.kafkaProducer.sendMessage('complete',[{value:JSON.stringify(completeInputs)}])
 
-      // await Appointment.create(appointmentInput, { transaction: t });
 
       return results;
     });

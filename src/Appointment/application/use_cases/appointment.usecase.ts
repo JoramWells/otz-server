@@ -11,7 +11,7 @@ import { AppointmentInteractor } from "../interactors/appointment/appointmentInt
 }
 
 async function markAppointmentAsCompleted(data: AppointmentAttributes){
-    const {patientID, agenda} = data
+    const {patientID, agenda} = data as any
     const repository = new AppointmentRepository()
     const interactor = new AppointmentInteractor(repository)
     return await interactor.getRecentAppointmentByPatientID(patientID, agenda as string)

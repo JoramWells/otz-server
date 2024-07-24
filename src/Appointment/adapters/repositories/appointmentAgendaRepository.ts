@@ -9,9 +9,6 @@ import { RedisAdapter } from './redisAdapter'
 
 export class AppointmentAgendaRepository implements IAppointmentAgendaRepository {
   private readonly redisClient = new RedisAdapter();
-  // constructor () {
-  //   this.redisClient = createClient({})
-  // }
 
   async create(
     data: AppointmentAgendaAttributes

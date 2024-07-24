@@ -16,37 +16,6 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   ): Promise<ARTPrescriptionInterface> {
     //
 
-    // const { noOfPill, frequency } = data;
-    
-    console.log(data, 'data from artprescription repo...!!')
-
-    // const {
-    //   userID,
-    //   patientID,
-    //   patientVisitID,
-    //   appointmentAgendaID,
-    //   appointmentStatusID,
-    //   refillDate,
-    // } = data;
-
-    // const nextRefillDate = new Date(refillDate);
-    // const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
-    // nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd);
-
-    // const appointmentInput2: AppointmentAttributes = {
-    //   userID,
-    //   patientID,
-    //   patientVisitID,
-    //   appointmentAgendaID,
-    //   appointmentStatusID,
-    //   appointmentDate: nextRefillDate,
-    // };
-
-    // const agenda = "Refill";
-    // const completeInputs = {
-    //   patientID,
-    //   agenda,
-    // };
 
     return await connect.transaction(async(t)=>{
     return await ARTPrescription.create(

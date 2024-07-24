@@ -3,11 +3,19 @@ import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
 import { connect } from '../../db/connect'
 import { createClient } from 'redis'
-import { PatientAttributes } from 'otz-types'
+import { LocationProps, PatientAttributes, UserRoles } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+  password?: string | undefined
+  entryPoint?: string | undefined
+  subCountyName?: string | undefined
+  maritalStatus!: string
+  role!: UserRoles
+  location?: LocationProps | undefined
+  createdAt?: Date | undefined
+  updatedAt?: Date | undefined
   id?: string | undefined
   firstName?: string | undefined
   middleName: string | undefined
@@ -32,64 +40,68 @@ Patient.init(
       type: DataTypes.UUID,
       primaryKey: true,
       autoIncrement: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     firstName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     middleName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     lastName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     sex: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     dob: {
-      type: DataTypes.DATEONLY
+      type: DataTypes.DATEONLY,
     },
     phoneNo: {
       type: DataTypes.STRING,
-      defaultValue: '',
-      unique: false
+      defaultValue: "",
+      unique: false,
     },
     occupationID: {
       type: DataTypes.UUID,
-      allowNull: true
+      allowNull: true,
     },
     idNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     cccNo: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     entryPoint: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
-    // residence: {
-    //   type: DataTypes.STRING,
-    // },
-
+    maritalStatus: {
+      type: DataTypes.STRING,
+    },
+    role: {
+      type: DataTypes.ENUM(...Object.values(UserRoles)),
+      allowNull: false,
+      defaultValue: UserRoles.patient
+    },
     ageAtReporting: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
     dateConfirmedPositive: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
     },
     initialRegimen: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     populationType: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     schoolID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     hospitalID: {
-      type: DataTypes.INTEGER
-    }
+      type: DataTypes.INTEGER,
+    },
     // notifications: {
     //   type: DataTypes.JSONB,
     //   allowNull: true,
@@ -98,13 +110,13 @@ Patient.init(
   },
   {
     sequelize: connect,
-    tableName: 'patients',
+    tableName: "patients",
     // postgresql: {
     //   fillFactor: 70
     // },
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 Patient.afterUpdate(async (instance, options) => {
   const redisClient = createClient({ url: 'redis://redis:6379' })

@@ -3,7 +3,6 @@ import { connect } from "../../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
 import { AppointmentStatusAttributes } from "otz-types";
 
-
 export enum AppointmentStatusDescription {
   Upcoming = "upcoming",
   Pending = "pending",
