@@ -189,7 +189,6 @@ connect.authenticate().then(() => {
 })()
 
 
-
 server.listen(PORT, async () => {
   console.log(`App running on http://localhost:${PORT}`);
 });

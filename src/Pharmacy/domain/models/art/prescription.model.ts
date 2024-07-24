@@ -4,7 +4,6 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
-import { ART } from './art.model'
 import { PatientVisits } from '../patientVisits.model'
 import { ARTPrescription } from './artPrescription.model'
 import { PrescriptionInterface } from 'otz-types'

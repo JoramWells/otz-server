@@ -7,8 +7,6 @@ import { connect } from "../../../db/connect";
 import { AppointmentAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
-
-
 export class Appointment
   extends Model<AppointmentAttributes>
   implements AppointmentAttributes

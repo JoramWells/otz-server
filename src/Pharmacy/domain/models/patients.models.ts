@@ -1,6 +1,5 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
-import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
 import { createClient } from 'redis'
 import { LocationProps, PatientAttributes  } from 'otz-types'
