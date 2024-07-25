@@ -13,11 +13,18 @@ const connect = new Sequelize(
   {
     host: 'database',
     dialect: 'postgres',
-    // define: {
-    //   freezeTableName: true,
+    define: {
+      freezeTableName: true,
 
-    // },
+    },
+    pool: {
+      max: 50,
+      min: 0,
+      idle: 10000,
+    },
+    logging: false,
   },
+
 
 );
 
