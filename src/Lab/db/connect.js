@@ -25,7 +25,6 @@ const connect = new Sequelize(
     logging: false,
   },
 
-
 );
 
 module.exports = connect;

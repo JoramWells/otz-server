@@ -1136,3 +1136,13 @@
 {"level":"info","message":"Appointments modified for 78b08446-9ff9-4beb-8412-d3b961c190c8 ","service":"appointment-service","timestamp":"2024-07-25T05:13:26.281Z"}
 {"level":"info","message":"Appointments modified for 4a537fa8-a4d1-4a4e-9926-961fe296b5cd ","service":"appointment-service","timestamp":"2024-07-25T05:13:26.481Z"}
 {"level":"info","message":"Appointments modified for 61cc5a4d-9e44-4c40-9cd1-2a3b8ad2ffe6 ","service":"appointment-service","timestamp":"2024-07-25T05:13:26.585Z"}
+{"level":"info","message":"Changed 34bae64e-de78-476f-8217-4dd0d1fc348a to pending...","service":"appointment-service","timestamp":"2024-07-25T08:02:00.091Z"}
+{"level":"info","message":"Changed c3966a73-8d61-4a75-a747-c276e07c1414 to pending...","service":"appointment-service","timestamp":"2024-07-25T08:29:00.041Z"}
+{"level":"info","message":"Changed 223eb377-419a-49cf-8f38-697dfff52a78 to pending...","service":"appointment-service","timestamp":"2024-07-25T08:38:00.296Z"}
+{"level":"info","message":"Changed 517db349-5326-4587-b53d-b0912d6b404a to pending...","service":"appointment-service","timestamp":"2024-07-25T08:44:00.096Z"}
+{"level":"info","message":"Changed 27a36116-043d-45fd-9399-243936d74e1f to pending...","service":"appointment-service","timestamp":"2024-07-25T08:55:00.001Z"}
+{"level":"info","message":"Changed bb3540cf-f3d0-4e82-8cca-c01b9e11e81d to pending...","service":"appointment-service","timestamp":"2024-07-25T09:00:00.103Z"}
+{"level":"info","message":"Changed cffe0b5e-81b0-4df8-9200-314d6cf4f1bd to pending...","service":"appointment-service","timestamp":"2024-07-25T09:16:00.110Z"}
+{"level":"info","message":"Changed c3db3672-fd25-462c-8bc0-8da50d2b3050 to pending...","service":"appointment-service","timestamp":"2024-07-25T09:18:00.054Z"}
+{"level":"info","message":"Changed 6ff937c2-74cb-410f-82af-390fed0e8e43 to pending...","service":"appointment-service","timestamp":"2024-07-25T09:21:00.133Z"}
+{"level":"info","message":"Changed d8433e3a-da68-42a1-ba5e-9f2d731b09bb to pending...","service":"appointment-service","timestamp":"2024-07-25T09:25:00.158Z"}

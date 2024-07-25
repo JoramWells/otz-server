@@ -5,7 +5,7 @@ const Patient = require('../patient/patients.models');
 const PatientVisits = require('../patient/patientVisits.model');
 // const Hospital = require('../../Hospital/models/hospital.model');
 
-const ViralLoad = sequelize.define('viralLoad', {
+const ViralLoad = sequelize.define('viralLoads', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

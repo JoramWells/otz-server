@@ -5,9 +5,17 @@ import { connect } from '../db/connect'
 import { createClient } from 'redis'
 import { LocationProps, PatientAttributes } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
-
+export enum UserRoles {
+  Admin = "admin",
+  Clinician = "clinician",
+  MentorMother = "mentor mother",
+  AYPAdvocate = "ayp advocate",
+  Nurse = "nurse",
+  patient = "patient",
+}
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+  role!: UserRoles
   entryPoint?: string | undefined
   maritalStatus!: string
   id?: string | undefined
@@ -104,6 +112,11 @@ Patient.init(
     },
     location: {
       type: DataTypes.JSONB,
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.ENUM(...Object.values(UserRoles)),
+      defaultValue:UserRoles.patient,
       allowNull: true,
     },
     createdAt: {
