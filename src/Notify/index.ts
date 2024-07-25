@@ -22,7 +22,6 @@ import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes'
 import { schedulePatientNotifications } from './utils/scheduleMessages';
 import { chatRouter } from './routes/chat/chat.routes';
 import { messageRouter } from './routes/chat/messages.routes';
-import { sendRefillNotification } from './utils/sendRefillNotification';
 import { PatientNotification } from './domain/models/notify/patientNotifications.model';
 import { sendPushNotification } from './utils/fcm';
 import { friendRequestRouter } from './routes/chat/request.routes';
@@ -62,7 +61,6 @@ app.use(morgan('dev'));
 // dailyPillUpdate();
 
 schedulePatientNotifications();
-sendRefillNotification()
 
 // realtime
 

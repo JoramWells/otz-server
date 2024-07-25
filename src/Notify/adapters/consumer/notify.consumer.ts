@@ -18,10 +18,10 @@ async function handleMessage({ message }: EachMessagePayload) {
 const startRefillConsumer = async () => {
   console.log("appointment consumer started...");
   // await consumeMessages("appointment", handleMessage);
-  await createConsumer("notify-group", "refill", handleMessage);
+  await createConsumer("pharmacy", "refill", handleMessage);
   // await consumeMessages('complete-appointment-topic', completeAppointment)
 };
 
 
 
-export { startRefillConsumer,  };
+export { startRefillConsumer };

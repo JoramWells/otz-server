@@ -32,7 +32,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     healthcheck:
-      test: kafka-topics --bootstrap-server broker:29092 --list
+      test: ["CMD-SHELL", "bash", "-c", "kafka-topics --bootstrap-server broker:9092 --list"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -142,7 +142,7 @@ services:
       database:
         condition: service_healthy
       redis:
-        condition: service_started  
+        condition: service_started
     networks:
       - otz
 
@@ -177,7 +177,7 @@ services:
       database:
         condition: service_healthy
       kafka:
-        condition: service_started
+        condition: service_healthy
     networks:
       - otz
 
@@ -214,7 +214,7 @@ services:
       database:
         condition: service_healthy
       kafka:
-        condition: service_started
+        condition: service_healthy
     networks:
       - otz  
 
@@ -387,7 +387,7 @@ services:
           cpus: '0.20'
           memory: 450M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
+      test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
       timeout: 10s
       retries: 3
@@ -398,7 +398,7 @@ services:
       database:
         condition: service_healthy
       kafka:
-        condition: service_started
+        condition: service_healthy
       redis:
         condition: service_started
     environment:
@@ -442,7 +442,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
-      # - kafka-2
+      kafka:
+        condition: service_healthy
       redis:
         condition: service_started    
     networks:

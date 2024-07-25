@@ -9,7 +9,6 @@ export async function sendRefillNotification(){
   const kafkaProducer = new KafkaAdapter()
     const findUser = await User.findOne({});
     // const refillLevel = 
-
     
 
     const results = await Prescription.findAll({

@@ -22,6 +22,7 @@ import { adherenceMonitor } from './utils/adherence'
 import { pillUptakeRouter } from './routes/pillUptake.routes'
 import { createServer } from 'http'
 import { initSentry } from './config/sentryInit'
+import { sendRefillNotification } from './utils/sendRefillNotification'
 const cors = require('cors')
 
 
@@ -96,6 +97,7 @@ io.on('connection', socket=>{
         console.log(onlineUsers);
   })
 
+  
     // 
   socket.on('disconnect',()=>{
     onlineUsers = onlineUsers.filter((user) => user.clientId !== socket.id);
@@ -116,6 +118,7 @@ app.use('/daily-uptake', pillUptakeRouter)
 
 // init sentry
 initSentry((app))
+sendRefillNotification()
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')
