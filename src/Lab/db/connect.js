@@ -22,7 +22,7 @@ const connect = new Sequelize(
       min: 0,
       idle: 10000,
     },
-    logging: false,
+    // logging: false,
   },
 
 );

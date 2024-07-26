@@ -15,6 +15,28 @@ import { PatientVisits } from '../../domain/models/patientVisits.model'
 import { AppointmentAttributes } from 'otz-types'
 // import { createClient } from 'redis'
 
+const getWeekRange = (date: Date) =>{
+  const startOfWeek = new Date(date)
+  const endOfWeek = new Date(date)
+
+  startOfWeek.setDate(date.getDate()-date.getDay())
+  endOfWeek.setDate(date.getDate() + (6 -date.getDay()))
+
+  return {
+    start: startOfWeek.toISOString().split('T')[0],
+    end: endOfWeek.toISOString().split('T')[0]
+  }
+}
+
+// 
+const getMonthRange = (date:Date) =>{
+  const startOfMonth = new Date(date.getFullYear(), date.getMonth(),1)
+  const endOfMonth = new Date(date.getFullYear(), date.getMonth()+1,0)
+  return {
+    start: startOfMonth.toISOString().split("T")[0],
+    end: endOfMonth.toISOString().split("T")[0],
+  };
+}
 
 // 
 export class AppointmentRepository implements IAppointmentRepository {
@@ -153,9 +175,55 @@ export class AppointmentRepository implements IAppointmentRepository {
     // return results;
   }
 
-  async find(): Promise<AppointmentAttributes[]> {
+  async find(dateQuery: string): Promise<AppointmentAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
+
+    const currentDate = new Date()
+
+    if(dateQuery === 'weekly'){
+         const { start, end } = getWeekRange(currentDate);
+
+         // if ((await this.redisClient.get(appointmentCache)) === null) {
+         const results: AppointmentAttributes[] = await Appointment.findAll({
+           order: [["appointmentDate", "ASC"]],
+           where: {
+             createdAt: {
+               [Op.not]: null,
+             } as any,
+             appointmentDate: {
+               [Op.between]: [start, end],
+             },
+           },
+           include: [
+             {
+               model: Patient,
+               attributes: ["firstName", "middleName", "dob", "sex"],
+             },
+             {
+               model: User,
+               attributes: ["id", "firstName", "middleName"],
+             },
+             {
+               model: AppointmentAgenda,
+               attributes: ["id", "agendaDescription"],
+             },
+             {
+               model: AppointmentStatus,
+               attributes: ["id", "statusDescription"],
+             },
+           ],
+         });
+         // logger.info({ message: "Fetched from db!" });
+         // console.log("fetched from db!");
+         // set to cace
+         // await this.redisClient.set(appointmentCache, JSON.stringify(results));
+
+         return results; 
+    }
+
+    const {start, end} = getMonthRange(currentDate)
+
     // if ((await this.redisClient.get(appointmentCache)) === null) {
       const results: AppointmentAttributes[] = await Appointment.findAll({
         order: [["appointmentDate", "ASC"]],
@@ -163,6 +231,9 @@ export class AppointmentRepository implements IAppointmentRepository {
           createdAt: {
             [Op.not]: null,
           } as any,
+          appointmentDate:{
+            [Op.between]:[start, end]
+          }
         },
         include: [
           {

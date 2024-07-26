@@ -50,8 +50,8 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllAppointments(): Promise<AppointmentAttributes[]> {
-    return await this.repository.find();
+  async getAllAppointments(dateQuery: string): Promise<AppointmentAttributes[]> {
+    return await this.repository.find(dateQuery);
   }
   async getAppointmentDetail(
     id: string

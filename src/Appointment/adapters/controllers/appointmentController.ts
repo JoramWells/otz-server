@@ -30,10 +30,13 @@ export class AppointmentController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      const {mode} = req.query
 
-      const results = await this.interactor.getAllAppointments();
+      const results = await this.interactor.getAllAppointments(mode as string);
       res.status(200).json(results);
       res.flush();
+
+
 
       next();
     } catch (error) {
