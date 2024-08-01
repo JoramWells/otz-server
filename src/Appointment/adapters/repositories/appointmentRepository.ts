@@ -220,9 +220,47 @@ export class AppointmentRepository implements IAppointmentRepository {
          // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
          return results; 
+    }    else if (dateQuery === "monthly") {
+          const { start, end } = getMonthRange(currentDate);
+
+      // if ((await this.redisClient.get(appointmentCache)) === null) {
+      const results: AppointmentAttributes[] = await Appointment.findAll({
+        order: [["appointmentDate", "ASC"]],
+        where: {
+          createdAt: {
+            [Op.not]: null,
+          } as any,
+          appointmentDate: {
+            [Op.between]: [start, end],
+          },
+        },
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName", "dob", "sex"],
+          },
+          {
+            model: User,
+            attributes: ["id", "firstName", "middleName"],
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: ["id", "agendaDescription"],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ["id", "statusDescription"],
+          },
+        ],
+      });
+      // logger.info({ message: "Fetched from db!" });
+      // console.log("fetched from db!");
+      // set to cace
+      // await this.redisClient.set(appointmentCache, JSON.stringify(results));
+
+      return results;
     }
 
-    const {start, end} = getMonthRange(currentDate)
 
     // if ((await this.redisClient.get(appointmentCache)) === null) {
       const results: AppointmentAttributes[] = await Appointment.findAll({
@@ -231,9 +269,6 @@ export class AppointmentRepository implements IAppointmentRepository {
           createdAt: {
             [Op.not]: null,
           } as any,
-          appointmentDate:{
-            [Op.between]:[start, end]
-          }
         },
         include: [
           {

@@ -6,6 +6,7 @@ import express from 'express';
 import { appointmentRouter } from './routes/appointments/appointment.routes';
 import { connect } from './db/connect';
 import {scheduleJob} from 'node-schedule';
+import * as schedule from 'node-schedule'
 import {createServer} from 'http';
 import helmet from 'helmet'
 const  Sentry = require ('@sentry/node');
@@ -67,7 +68,6 @@ app.use(compression({threshold:9}))
 // morgan
 app.use(morgan('dev'));
 
-scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
 
 markMissedAppointments()
@@ -119,6 +119,41 @@ app.use(Sentry.Handlers.requestHandler());
 
 // TracingHandler creates a trace for every incoming request
 app.use(Sentry.Handlers.tracingHandler());
+
+// 
+const monitorConfig = {
+  schedule: {
+    type: "crontab",
+    value: "* * * * *",
+  },
+  checkinMargin: 2,
+  maxRuntime: 10,
+};
+
+// 
+const scheduleWithCheckIn = Sentry.cron.instrumentNodeSchedule(schedule);
+scheduleWithCheckIn.scheduleJob('daily-pill-update-cron','0 0 * * *', () => {
+  dailyPillUpdate();
+}, monitorConfig);
+
+Sentry.withMonitor('monitor-daily-pill-update',()=>{
+  dailyPillUpdate()
+})
+
+
+
+// 
+const checkInId = Sentry.captureCheckIn({
+  monitorSlug: 'monitor-daily-pill-update',
+  status:'in_progress'
+})
+
+// ok
+Sentry.captureCheckIn({
+  checkInId,
+  monitorSlug:'monitor-daily-pill-update',
+  status:'ok'
+})
 
 // setup server
 const server = createServer(app);
