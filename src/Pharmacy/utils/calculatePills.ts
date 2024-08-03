@@ -38,19 +38,19 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
   const results = await Prescription.findAll({
     attributes: [
       //   'noOfPills',
-      [fn('MAX', col('createdAt')), 'createdAt'],
-      'patientID'
+      [fn("MAX", col("Prescription.createdAt")), "createdAt"],
+      "patientID",
     ],
     where: {
       createdAt: {
-        [Op.not]: null
-      } as any
+        [Op.not]: null,
+      } as any,
       // drugID: {
       //   [Op.not]: null
       // }
     },
-    group: ['patientID']
-  })
+    group: ["patientID"],
+  });
 
   const latestUpdates = results.map((item: any) => {
     return {

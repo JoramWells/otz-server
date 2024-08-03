@@ -46,7 +46,8 @@ Prescription.init(
         model: 'patientVisits',
         key: 'id'
       },
-      allowNull: false
+      allowNull: false,
+      unique: true,
     },
     artPrescriptionID: {
       type: DataTypes.UUID,

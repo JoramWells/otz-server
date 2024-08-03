@@ -9,6 +9,8 @@ import { Prescription } from '../../domain/models/art/prescription.model'
 import { calculateFacilityAdherence } from '../../utils/adherence'
 import { calculatePills2 } from '../../utils/calculatePills'
 import { KafkaAdapter } from '../kafka/producer/kafka.producer'
+import { col, fn, Op } from 'sequelize'
+import { Patient } from '../../domain/models/patients.models'
 
 
 export class PrescriptionRepository implements IPrescriptionRepository {
@@ -40,7 +42,55 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
 
   async find(): Promise<PrescriptionInterface[]> {
-    const results = await calculatePills2();
+    const results = await Prescription.findAll({
+      attributes: [
+        //   'noOfPills',
+        [fn("MAX", col("Prescription.createdAt")), "createdAt"],
+        "patientID",
+        "frequency",
+        'refillDate',
+        'nextRefillDate',
+        "noOfPills",
+        "expectedNoOfPills",
+        "computedNoOfPills",
+      ],
+      where: {
+        createdAt: {
+          [Op.not]: null,
+        },
+        patientVisitID: {
+          [Op.not]: null
+        }
+      } as any,
+      include: [
+        {
+          model: Patient,
+          attributes: ["id", "firstName", "middleName"],
+        },
+
+        // {
+        //   model: ART,
+        //   attributes: ['artName']
+        // where: {
+        //   artName: {
+        //     [Op.not]: null
+        //   }
+        // }
+        // }
+      ],
+      group: [
+        "expectedNoOfPills",
+        'computedNoOfPills',
+        "frequency",
+        'refillDate',
+        'nextRefillDate',
+        "patientID",
+        "noOfPills",
+        "Patient.id",
+        "Patient.firstName",
+        "Patient.middleName",
+      ],
+    });
     return results;
   }
 
