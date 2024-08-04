@@ -89,7 +89,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async find(): Promise<PatientAttributes[]> {
-    await this.redisClient.connect();
+    // await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(patientCache)) === null) {
       const results = await Patient.findAll({

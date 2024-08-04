@@ -7,27 +7,45 @@ export class RedisAdapter {
   }
 
   //   connect to redis client
-  async connect (): Promise<string | null> {
-    // this.redisClient.on('error', (error: any) => {
+  async connect (): Promise<void> {
+    // await this.redisClient.on('error', (error: any) => {
     //   console.log('Redis Client Error', error)
     // })
 
-    await this.redisClient.connect().then((res: Response) => {
-      console.log(res)
-    })
-      .catch((err: Error) => { console.log(err) })
-    return null
+    // this.redisClient.on('connect', err=>{
+    //   consol
+    // })
+
+    // if(await this.redisClient.connected){
+    //   return null
+    // }
+
+    if(!this.redisClient.isOpen){
+     await this.redisClient
+       .connect()
+       .then((res: Response) => {
+         console.log("connected to redis server");
+       })
+       .catch((err: Error) => console.log(err));
+    }
+
+
   }
 
   async disconnect (): Promise<string> {
-    return this.redisClient.disconnect()
+      return this.redisClient.disconnect();
   }
 
   async get (key: string): Promise<string | null> {
-    if (await this.redisClient.connected === null) {
-      await this.redisClient.disconnect()
-    }
-    return this.redisClient.get(key)
+ 
+    await this.connect()
+    return await this.redisClient.get(key);
+
+  }
+
+  async del(key: string): Promise<string | null>{
+     await this.connect();
+    return this.redisClient.del(key)
   }
 
   // async getById (id: string): Promise<string | null> {
@@ -35,7 +53,8 @@ export class RedisAdapter {
   // }
 
   async set (key: string, value: string): Promise<void> {
-    this.redisClient.set(key, value)
+    await this.connect();
+    await this.redisClient.set(key, value)
   }
 
   //   find: () => Promise<Patient[]>
