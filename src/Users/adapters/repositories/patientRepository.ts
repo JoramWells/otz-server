@@ -174,7 +174,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
-    const { id, firstName, middleName, lastName, phoneNo } = data;
+    const { id, firstName, middleName, lastName, phoneNo, role } = data;
     const results = await Patient.findOne({
       where: {
         id,
@@ -186,6 +186,7 @@ export class PatientRepository implements IPatientRepository {
       results.middleName = middleName;
       results.lastName = lastName;
       results.phoneNo = phoneNo;
+      results.role = role;
       await results.save();
     }
     return results;
