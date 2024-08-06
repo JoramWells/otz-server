@@ -34,7 +34,7 @@ export class PatientController {
       kinIDNo,
       nextOfKinPhoneNo,
       relationship,
-      role
+      role,
     } = req.body;
 
     const patientData: PatientAttributes = {
@@ -138,7 +138,7 @@ export class PatientController {
   async onGetPatientById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id === 'undefined') return null;
+      if (id === "undefined") return null;
       const result = await this.interactor.getPatientById(id);
       res.status(200).json(result);
       next();
@@ -152,9 +152,14 @@ export class PatientController {
   async onEditPatientProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id==='undefined') return null;
-      const { firstName, middleName, lastName, phoneNo, role }: PatientAttributes =
-        req.body;
+      if (id === "undefined") return null;
+      const {
+        firstName,
+        middleName,
+        lastName,
+        phoneNo,
+        role,
+      }: PatientAttributes = req.body;
       const values: PatientAttributes = {
         id,
         firstName,
@@ -178,6 +183,21 @@ export class PatientController {
     try {
       const { firstName, password } = req.body;
       const results = await this.interactor.login(firstName, password);
+      res.status(200).json(results);
+      next();
+    } catch (error) {
+      next(error);
+
+      console.log(error);
+    }
+  }
+
+  //
+  async onMarkAsImportant(req: Request, res: Response, next: NextFunction) {
+    try {
+      const {id} = req.params;
+      const { isImportant } = req.body;
+      const results = await this.interactor.markAsImportant(id, isImportant);
       res.status(200).json(results);
       next();
     } catch (error) {

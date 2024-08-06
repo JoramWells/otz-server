@@ -9,6 +9,9 @@ export class PatientInteractor implements IPatientInteractor {
   constructor(repository: IPatientRepository) {
     this.repository = repository;
   }
+  async markAsImportant (id: string, isImportant: boolean) :Promise<string | null>{
+    return await this.repository.important(id, isImportant)
+  }
 
   async editPatient(data: PatientAttributes): Promise<PatientAttributes | null> {
     return await this.repository.edit(data);

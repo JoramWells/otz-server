@@ -15,30 +15,31 @@ export enum UserRoles {
 }
 
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
-  role!: UserRoles
-  entryPoint?: string | undefined
-  maritalStatus!: string
-  id?: string | undefined
-  firstName?: string | undefined
-  middleName: string | undefined
-  lastName?: string | undefined
-  password?: string | undefined
-  sex?: string | undefined
-  dob?: Date | string | undefined
-  phoneNo?: string | undefined
-  idNo?: string | undefined
-  occupationID?: string | undefined
-  cccNo?: string | undefined
-  ageAtReporting?: string | undefined
-  dateConfirmedPositive?: string | undefined
-  initialRegimen?: string | undefined
-  populationType?: string | undefined
-  schoolID?: string | undefined
-  hospitalID?: string | undefined
-  subCountyName?: string | undefined
-  location: LocationProps | undefined
-  createdAt?: Date | undefined
-  updatedAt?: Date | undefined
+  role!: UserRoles;
+  entryPoint?: string | undefined;
+  maritalStatus!: string;
+  id?: string | undefined;
+  firstName?: string | undefined;
+  middleName: string | undefined;
+  lastName?: string | undefined;
+  password?: string | undefined;
+  sex?: string | undefined;
+  dob?: Date | string | undefined;
+  phoneNo?: string | undefined;
+  idNo?: string | undefined;
+  occupationID?: string | undefined;
+  cccNo?: string | undefined;
+  ageAtReporting?: string | undefined;
+  dateConfirmedPositive?: string | undefined;
+  initialRegimen?: string | undefined;
+  isImportant?: boolean | undefined;
+  populationType?: string | undefined;
+  schoolID?: string | undefined;
+  hospitalID?: string | undefined;
+  subCountyName?: string | undefined;
+  location: LocationProps | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 
 Patient.init(
@@ -110,13 +111,18 @@ Patient.init(
     hospitalID: {
       type: DataTypes.INTEGER,
     },
+    isImportant: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
     location: {
       type: DataTypes.JSONB,
       allowNull: true,
     },
     role: {
       type: DataTypes.ENUM(...Object.values(UserRoles)),
-      defaultValue:UserRoles.patient,
+      defaultValue: UserRoles.patient,
       allowNull: true,
     },
     createdAt: {

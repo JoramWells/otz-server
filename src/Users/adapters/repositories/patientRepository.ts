@@ -21,6 +21,15 @@ export class PatientRepository implements IPatientRepository {
   // constructor () {
   //   this.redisClient = createClient({})
   // }
+  async important (id: string, isImportant: boolean): Promise<string | null>{
+    const results = await Patient.findByPk(id)
+    if(results){
+      results.isImportant = isImportant;
+      results.save()
+
+    }
+    return null;
+  }
 
   async create(
     data: PatientAttributes,
