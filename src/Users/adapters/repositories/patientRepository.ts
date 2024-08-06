@@ -175,6 +175,11 @@ export class PatientRepository implements IPatientRepository {
 
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
     const { id, firstName, middleName, lastName, phoneNo, role } = data;
+
+    // delete cache
+    await this.redisClient.del(patientCache)
+    await this.redisClient.del(id as string)
+
     const results = await Patient.findOne({
       where: {
         id,

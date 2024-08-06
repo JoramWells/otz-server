@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "otz",
+    "database": "otz-users",
     "host": "database",
     "dialect": "postgres"
   },

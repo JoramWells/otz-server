@@ -34,11 +34,13 @@ export class PatientController {
       kinIDNo,
       nextOfKinPhoneNo,
       relationship,
+      role
     } = req.body;
 
     const patientData: PatientAttributes = {
       firstName,
       middleName,
+      role,
       lastName,
       sex,
       dob,
@@ -151,7 +153,7 @@ export class PatientController {
     try {
       const { id } = req.params;
       if(id==='undefined') return null;
-      const { firstName, middleName, lastName, phoneNo }: PatientAttributes =
+      const { firstName, middleName, lastName, phoneNo, role }: PatientAttributes =
         req.body;
       const values: PatientAttributes = {
         id,
@@ -159,6 +161,7 @@ export class PatientController {
         middleName,
         lastName,
         phoneNo,
+        role,
         //
         maritalStatus: "",
       };

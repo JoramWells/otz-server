@@ -1354,3 +1354,4 @@
 {"level":"info","message":"Appointments modified for 106d2ed1-733e-4279-a0ae-9c24eea0142a ","service":"appointment-service","timestamp":"2024-08-06T06:25:02.577Z"}
 {"level":"info","message":"Appointments modified for dd96f069-380d-4ac3-9666-87b3f66bc83a ","service":"appointment-service","timestamp":"2024-08-06T06:25:02.615Z"}
 {"level":"info","message":"Appointments modified for b4f662cd-0cb8-4303-a57c-8626a2ab4e84 ","service":"appointment-service","timestamp":"2024-08-06T06:25:02.881Z"}
+{"level":"info","message":"Changed 7fad17c0-c92f-41ef-b617-fea2c00ab2f1 to pending...","service":"appointment-service","timestamp":"2024-08-06T08:42:00.779Z"}
