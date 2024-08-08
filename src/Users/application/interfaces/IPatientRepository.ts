@@ -3,6 +3,7 @@ import { NextOfKinInterface, PatientAttributes } from "otz-types"
 export interface IPatientRepository {
   create: (data: PatientAttributes, nextOfKinData: NextOfKinInterface) => Promise<string | null>
   find: () => Promise<PatientAttributes[]>
+  findImportant: () => Promise<PatientAttributes[]>
   findById: (id: string) => Promise<PatientAttributes | null>
   important: (id: string, isImportant: boolean) => Promise<string | null>
   edit: (data: PatientAttributes) => Promise<PatientAttributes | null>

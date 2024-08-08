@@ -22,6 +22,8 @@ export class PatientRepository implements IPatientRepository {
   //   this.redisClient = createClient({})
   // }
   async important (id: string, isImportant: boolean): Promise<string | null>{
+    await this.redisClient.del(patientCache);
+    await this.redisClient.del(id)
     const results = await Patient.findByPk(id)
     if(results){
       results.isImportant = isImportant;

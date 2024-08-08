@@ -19,7 +19,7 @@ router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patien
 router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
 router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientController))
 router.post("/login", patientController.login.bind(patientController));
-router.post("/mark-important", patientController.onMarkAsImportant.bind(patientController));
+router.put("/mark-important/:id", patientController.onMarkAsImportant.bind(patientController));
 
 // router.delete('/delete/:id', deletePatient);
 
