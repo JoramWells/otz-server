@@ -21,14 +21,13 @@ export class PatientRepository implements IPatientRepository {
   // constructor () {
   //   this.redisClient = createClient({})
   // }
-  async important (id: string, isImportant: boolean): Promise<string | null>{
+  async important(id: string, isImportant: boolean): Promise<string | null> {
     await this.redisClient.del(patientCache);
-    await this.redisClient.del(id)
-    const results = await Patient.findByPk(id)
-    if(results){
+    await this.redisClient.del(id);
+    const results = await Patient.findByPk(id);
+    if (results) {
       results.isImportant = isImportant;
-      results.save()
-
+      results.save();
     }
     return null;
   }
@@ -86,6 +85,22 @@ export class PatientRepository implements IPatientRepository {
       },
     });
     return results;
+  }
+
+  async findImportant(limit:number): Promise<PatientAttributes[]> {
+    if(limit){
+        return await Patient.findAll({
+          limit,
+          where: {
+            isImportant: true,
+          },
+        });
+    }
+    return await Patient.findAll({
+      where:{
+        isImportant: true
+      }
+    })
   }
 
   async findOTZ(): Promise<PatientAttributes[]> {
@@ -188,8 +203,8 @@ export class PatientRepository implements IPatientRepository {
     const { id, firstName, middleName, lastName, phoneNo, role } = data;
 
     // delete cache
-    await this.redisClient.del(patientCache)
-    await this.redisClient.del(id as string)
+    await this.redisClient.del(patientCache);
+    await this.redisClient.del(id as string);
 
     const results = await Patient.findOne({
       where: {

@@ -4,7 +4,7 @@ export interface IPatientInteractor {
   createPatient: (patientData: PatientAttributes, nextOfKinData: NextOfKinInterface) => Promise<string | null>
   getAllPatients: () => Promise<PatientAttributes[]>
   getPatientById: (id: string) => Promise<PatientAttributes | null>
-  getImportantPatientById: () => Promise<PatientAttributes[]>
+  getImportantPatient: (limit: number) => Promise<PatientAttributes[]>
   markAsImportant: (id: string, isImportant: boolean) => Promise<string | null>
   findAllPMTCTPatients: () => Promise <PatientAttributes[]>
   findAllOTZPatients: () => Promise <PatientAttributes[]>

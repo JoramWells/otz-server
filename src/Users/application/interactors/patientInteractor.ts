@@ -9,11 +9,19 @@ export class PatientInteractor implements IPatientInteractor {
   constructor(repository: IPatientRepository) {
     this.repository = repository;
   }
-  async markAsImportant (id: string, isImportant: boolean) :Promise<string | null>{
-    return await this.repository.important(id, isImportant)
+  async getImportantPatient(limit: number): Promise<PatientAttributes[]> {
+    return await this.repository.findImportant(limit);
+  }
+  async markAsImportant(
+    id: string,
+    isImportant: boolean
+  ): Promise<string | null> {
+    return await this.repository.important(id, isImportant);
   }
 
-  async editPatient(data: PatientAttributes): Promise<PatientAttributes | null> {
+  async editPatient(
+    data: PatientAttributes
+  ): Promise<PatientAttributes | null> {
     return await this.repository.edit(data);
   }
 
@@ -45,7 +53,10 @@ export class PatientInteractor implements IPatientInteractor {
   }
 
   //
-  async login(firstName: string, password: string): Promise<PatientAttributes | null> {
+  async login(
+    firstName: string,
+    password: string
+  ): Promise<PatientAttributes | null> {
     return await this.repository.login(firstName, password);
   }
 }

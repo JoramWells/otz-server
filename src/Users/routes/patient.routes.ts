@@ -17,6 +17,7 @@ router.get('/fetchAll', patientController.onGetAllPatients.bind(patientControlle
 router.get('/detail/:id', patientController.onGetPatientById.bind(patientController))
 router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))
 router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
+router.get('/important-patients', patientController.onGetImportantPatient.bind(patientController))
 router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientController))
 router.post("/login", patientController.login.bind(patientController));
 router.put("/mark-important/:id", patientController.onMarkAsImportant.bind(patientController));

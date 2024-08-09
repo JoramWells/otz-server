@@ -195,9 +195,23 @@ export class PatientController {
   //
   async onMarkAsImportant(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const { isImportant } = req.body;
       const results = await this.interactor.markAsImportant(id, isImportant);
+      res.status(200).json(results);
+      next();
+    } catch (error) {
+      next(error);
+
+      console.log(error);
+    }
+  }
+
+  //
+  async onGetImportantPatient(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { limit } = req.body;
+      const results = await this.interactor.getImportantPatient(limit);
       res.status(200).json(results);
       next();
     } catch (error) {
