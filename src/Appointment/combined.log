@@ -1402,3 +1402,17 @@
 {"level":"info","message":"Appointments modified for 8cbea157-a87b-4038-bb21-fe89ba89a12c ","service":"appointment-service","timestamp":"2024-08-07T06:57:24.977Z"}
 {"level":"info","message":"Appointments modified for 4975cd4a-ed95-42d9-ac3c-26f79c2c7ff4 ","service":"appointment-service","timestamp":"2024-08-07T06:57:25.174Z"}
 {"level":"info","message":"Appointments modified for f16fba94-f847-4658-938b-c6bdca2da128 ","service":"appointment-service","timestamp":"2024-08-07T06:57:25.319Z"}
+{"level":"info","message":"Appointments modified for 14193c13-0e08-46d2-83a4-e968ccaa6b8b ","service":"appointment-service","timestamp":"2024-08-09T07:39:10.723Z"}
+{"level":"info","message":"Appointments modified for 2185bcb9-4ea6-477a-8e0e-be4a62d36dea ","service":"appointment-service","timestamp":"2024-08-09T07:39:11.079Z"}
+{"level":"info","message":"Appointments modified for 9ddad8b9-4acf-4885-b2ec-6c236acfe60d ","service":"appointment-service","timestamp":"2024-08-09T07:39:11.378Z"}
+{"level":"info","message":"Appointments modified for f7b16917-8846-4984-90e7-a82233b6d657 ","service":"appointment-service","timestamp":"2024-08-09T07:39:11.572Z"}
+{"level":"info","message":"Appointments modified for 91edac7a-066c-4b37-bf30-16a54a11e5a1 ","service":"appointment-service","timestamp":"2024-08-09T07:39:11.772Z"}
+{"level":"info","message":"Appointments modified for b8528927-16de-4097-b0c0-13ac0f30548a ","service":"appointment-service","timestamp":"2024-08-09T07:39:12.049Z"}
+{"level":"info","message":"Appointments modified for 2a56eb4d-4ec7-4eed-8f31-9c2741c46b9b ","service":"appointment-service","timestamp":"2024-08-09T07:39:12.139Z"}
+{"level":"info","message":"Appointments modified for 136572c6-a3db-451e-8647-d444a4ed7c4d ","service":"appointment-service","timestamp":"2024-08-09T07:39:12.292Z"}
+{"level":"info","message":"Appointments modified for c135dce2-e052-4be3-8e5e-f8ff58628a3f ","service":"appointment-service","timestamp":"2024-08-09T07:39:12.429Z"}
+{"level":"info","message":"Appointments modified for b7e908ce-14df-4c30-8053-123b57dfbf06 ","service":"appointment-service","timestamp":"2024-08-09T07:39:12.615Z"}
+{"level":"info","message":"Appointments modified for 7e99dded-2a85-46a0-84c6-7f191aae2379 ","service":"appointment-service","timestamp":"2024-08-09T07:39:12.749Z"}
+{"level":"info","message":"Appointments modified for 41316463-9ee4-498b-8fc5-9bcba1885eee ","service":"appointment-service","timestamp":"2024-08-10T04:45:23.976Z"}
+{"level":"error","message":{"error":{"name":"SequelizeConnectionError","original":{"code":"EAI_AGAIN","errno":-3001,"hostname":"database","syscall":"getaddrinfo"},"parent":{"code":"EAI_AGAIN","errno":-3001,"hostname":"database","syscall":"getaddrinfo"}}},"service":"appointment-service","timestamp":"2024-08-10T18:34:19.201Z"}
+{"level":"error","message":{"error":{"name":"SequelizeConnectionError","original":{"code":"EAI_AGAIN","errno":-3001,"hostname":"database","syscall":"getaddrinfo"},"parent":{"code":"EAI_AGAIN","errno":-3001,"hostname":"database","syscall":"getaddrinfo"}}},"service":"appointment-service","timestamp":"2024-08-10T18:35:29.702Z"}

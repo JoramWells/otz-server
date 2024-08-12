@@ -5,43 +5,45 @@ import { PatientVisitsInterface } from 'otz-types'
 import { type IPatientVisitsRepository } from '../../application/interfaces/IPatientVisitsRepository'
 import { PatientVisits } from '../../domain/models/patientVisits.model'
 import { Patient } from '../../domain/models/patients.models'
+import { KafkaAdapter } from '../kafka/kafka.producer'
 
 export class PatientVisitRepository implements IPatientVisitsRepository {
-  async create (data: PatientVisitsInterface): Promise<PatientVisitsInterface> {
-    const results: PatientVisitsInterface = await PatientVisits.create(data)
-
-    return results
+  private readonly kafkaProducer = new KafkaAdapter();
+  async create(data: PatientVisitsInterface): Promise<PatientVisitsInterface> {
+    // const results: PatientVisitsInterface = await PatientVisits.create(data);
+    await this.kafkaProducer.sendMessage('lab',[{value:JSON.stringify(data)}])
+    // return results;
   }
 
-  async find (): Promise<PatientVisitsInterface[]> {
+  async find(): Promise<PatientVisitsInterface[]> {
     const results = await PatientVisits.findAll({
       include: [
         {
           model: Patient,
-          attributes: ['id', 'firstName', 'middleName']
-        }
-      ]
-    })
-    return results
+          attributes: ["id", "firstName", "middleName"],
+        },
+      ],
+    });
+    return results;
   }
 
-  async findById (id: string): Promise<PatientVisitsInterface | null> {
+  async findById(id: string): Promise<PatientVisitsInterface | null> {
     const results = await PatientVisits.findOne({
       where: {
-        patientID: id
-      }
-    })
+        patientID: id,
+      },
+    });
 
-    return results
+    return results;
   }
 
-  async findHistoryById (id: string): Promise<PatientVisitsInterface[] | null> {
+  async findHistoryById(id: string): Promise<PatientVisitsInterface[] | null> {
     const results = await PatientVisits.findAll({
       where: {
-        patientID: id
-      }
-    })
+        patientID: id,
+      },
+    });
 
-    return results
+    return results;
   }
 }

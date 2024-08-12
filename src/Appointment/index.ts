@@ -130,6 +130,7 @@ const monitorConfig = {
   maxRuntime: 10,
 };
 
+
 // 
 const scheduleWithCheckIn = Sentry.cron.instrumentNodeSchedule(schedule);
 scheduleWithCheckIn.scheduleJob('daily-pill-update-cron','0 0 * * *', () => {

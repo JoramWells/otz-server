@@ -1,6 +1,6 @@
 const kafka = require('../../config/kafka.config');
 
-class KafkaAdapter {
+class KafkaProducer {
   constructor() {
     this.kafkaProducer = kafka.producer();
   }
@@ -27,4 +27,4 @@ class KafkaAdapter {
   }
 }
 
-module.exports = KafkaAdapter;
+module.exports = KafkaProducer;

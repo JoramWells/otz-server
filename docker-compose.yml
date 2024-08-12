@@ -186,6 +186,8 @@ services:
     ports:
       - 5001:5001
     depends_on:
+      kafka:
+        condition: service_healthy
       user_db:
         condition: service_healthy
       redis:

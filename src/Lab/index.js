@@ -9,6 +9,7 @@ const sequelize = require('./db/connect');
 const internalLabRequestRoutes = require('./routes/lab/internalLabRequests.routes');
 const vitalSignRoutes = require('./routes/vitalSign.routes');
 const viralLoadTestRoutes = require('./routes/viralLoadTests.routes');
+const startPatientVisitConsumer = require('./kafka/consumer/patientVisitConsumer.');
 
 
 
@@ -30,6 +31,15 @@ app.use(cors());
 app.use('/vital-sign', vitalSignRoutes);
 app.use('/internal-lab-request', internalLabRequestRoutes);
 app.use('/viral-load-tests', viralLoadTestRoutes);
+
+// 
+(async ()=>{
+  try {
+    await startPatientVisitConsumer()
+  } catch (error) {
+    console.log('Error connecting to kafka!!',error)
+  }
+})()
 
 
 sequelize.authenticate().then(() => {
