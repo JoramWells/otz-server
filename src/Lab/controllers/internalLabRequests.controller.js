@@ -75,13 +75,13 @@ const getInternalLabRequest = async (req, res, next) => {
   }
 };
 
-// 
+//
 const getByPatientIDInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
     const results = await InternalLabRequest.findAll({
       where: {
-        patientID:id,
+        patientID: id,
       },
       // order: [['createdAt', 'DESC']],
       include: [
@@ -128,7 +128,7 @@ const deleteInternalLabRequest = async (req, res, next) => {
   try {
     const results = await InternalLabRequest.destroy({
       where: {
-         id,
+        id,
       },
     });
 
@@ -147,5 +147,5 @@ module.exports = {
   getInternalLabRequest,
   editInternalLabRequest,
   deleteInternalLabRequest,
-  getByPatientIDInternalLabRequest
+  getByPatientIDInternalLabRequest,
 };

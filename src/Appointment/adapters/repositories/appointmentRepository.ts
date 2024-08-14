@@ -150,13 +150,15 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   async create(data: AppointmentAttributes): Promise<AppointmentAttributes> {
     return await connect.transaction(async (t) => {
-      console.log('Running transaction data...!!!', data)
       let results: AppointmentAttributes = await Appointment.create(data, {
         transaction: t,
       });
-      if (results) {
-        await PatientVisits.create(data, { transaction: t });
-      }
+      
+      console.log("Running transaction data...!!!", results);
+
+      // if (results) {
+      //   await PatientVisits.create(data, { transaction: t });
+      // }
 
       const { patientID } = data;
       if ((await this.redisClient.get(patientID.toString())) !== null) {

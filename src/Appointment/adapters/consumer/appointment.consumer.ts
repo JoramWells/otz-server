@@ -1,4 +1,3 @@
-import { AppointmentAttributes } from "otz-types";
 import { createAppointment, markAppointmentAsCompleted } from "../../application/use_cases/appointment.usecase";
 import {  createConsumer } from "../repositories/kafkaConsumerAdapter";
 import { EachMessagePayload } from "kafkajs";
@@ -8,6 +7,7 @@ async function handleMessage ({message}: EachMessagePayload){
     try {
       if (message.value) {
         const data = JSON.parse(message.value.toString());
+        console.log('Creating new upcoming appointment****')
         return await createAppointment(data);
       }
     } catch (error) {

@@ -10,9 +10,9 @@ import { KafkaAdapter } from '../kafka/kafka.producer'
 export class PatientVisitRepository implements IPatientVisitsRepository {
   private readonly kafkaProducer = new KafkaAdapter();
   async create(data: PatientVisitsInterface): Promise<PatientVisitsInterface> {
-    // const results: PatientVisitsInterface = await PatientVisits.create(data);
+    const results: PatientVisitsInterface = await PatientVisits.create(data);
     await this.kafkaProducer.sendMessage('lab',[{value:JSON.stringify(data)}])
-    // return results;
+    return results;
   }
 
   async find(): Promise<PatientVisitsInterface[]> {
