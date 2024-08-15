@@ -67,7 +67,7 @@ services:
       # - postgres_data:/var/lib/postgresql/data
       # - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
 
-      - ./otzv1.0.0.sql:/docker-entrypoint-initdb.d/otzv1.0.0.sql
+      - ./users2.sql:/docker-entrypoint-initdb.d/users2.sql
 
     # entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
 
@@ -129,6 +129,45 @@ services:
     ports:
       - 8002:8002 
 
+  user_db:
+    image: postgres:alpine
+    # environment:
+    #   POSTGRES_DB: "otz-users"
+    #   POSTGRES_USER: "postgres"
+    #   POSTGRES_PASSWORD: "postgres"
+    env_file:
+    - .env
+    ports:
+    - 5437:5432
+    volumes:
+    # - postgres_data:/var/lib/postgresql/data
+    - ./users2.sql:/docker-entrypoint-initdb.d/users2.sql
+
+
+    deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    # restart_policy:
+    #   condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.20'
+    #       memory: 450M
+    #     reservations:
+    #       cpus: '0.20'
+    #       memory: 450M
+    networks:
+    - otz
+    healthcheck:
+      test: "pg_isready --username=${POSTGRES_USER} && psql --username=${POSTGRES_USER} --list"
+      interval: 5s
+      timeout: 10s
+      retries: 10    
 
   users:
     build:
