@@ -2,7 +2,8 @@ import { Sequelize } from 'sequelize'
 
 // setting up sequelize
 
-const DB = 'otz-users'
+
+const DB = 'otz'
 const USERNAME = 'postgres'
 const PASSWORD = 'postgres'
 
