@@ -1,14 +1,14 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { Op, col, fn } from 'sequelize';
-import { ITimeAndWorkRepository } from '../../../application/interfaces/treatmentplan/ITimeAndWorkRepository'
-import { timeAndWorkCache } from '../../../constants/appointmentCache';
 import { TimeAndWork  } from '../../../domain/models/treatmentplan/timeAndWork.model'
-import { RedisAdapter } from '../redisAdapter'
 import { Uptake } from '../../../domain/models/treatmentplan/uptake.model';
-import { connect } from '../../../db/connect';
 import moment from 'moment';
 import { TimeAndWorkAttributes } from 'otz-types';
 import { Prescription } from '../../../domain/models/art/prescription.model';
+import { connect } from '../../../domain/db/connect';
+import { RedisAdapter } from '../redisAdapter';
+import { ITimeAndWorkRepository } from '../../../application/interfaces/treatmentplan/ITimeAndWorkRepository';
+import { timeAndWorkCache } from '../../../constants/cache';
 
 
 export class TimeAndWorkRepository implements ITimeAndWorkRepository {

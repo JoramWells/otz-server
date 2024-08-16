@@ -15,8 +15,6 @@ import { Server } from 'socket.io';
 import { appointmentAgendaRouter } from './routes/appointments/appointmentAgenda.routes';
 import { appointmentStatusRouter } from './routes/appointments/appointmentStatus.routes';
 import compression from 'compression'
-import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes';
-import { dailyPillUpdate } from './utils/dailyPillUpdate';
 import { disclosureChecklistRouter } from './routes/treatmentplan/disclosureChecklist.routes';
 import { followUpChecklistRouter } from './routes/treatmentplan/followUpChecklist.routes';
 import { mmasFourRouter } from './routes/treatmentplan/mmasFour.routes';
@@ -26,9 +24,7 @@ import { disclosureEligibilityRouter } from './routes/treatmentplan/partial/disc
 import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/childCaregiverReadiness.routes';
 import { logger } from './utils/logger';
 import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
-import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes';
 import {  startAppointmentConsumer, startCompleteAppointmentConsumer } from './adapters/consumer/appointment.consumer';
-
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -132,14 +128,14 @@ const monitorConfig = {
 
 
 // 
-const scheduleWithCheckIn = Sentry.cron.instrumentNodeSchedule(schedule);
-scheduleWithCheckIn.scheduleJob('daily-pill-update-cron','0 0 * * *', () => {
-  dailyPillUpdate();
-}, monitorConfig);
+// const scheduleWithCheckIn = Sentry.cron.instrumentNodeSchedule(schedule);
+// scheduleWithCheckIn.scheduleJob('daily-pill-update-cron','0 0 * * *', () => {
+//   dailyPillUpdate();
+// }, monitorConfig);
 
-Sentry.withMonitor('monitor-daily-pill-update',()=>{
-  dailyPillUpdate()
-})
+// Sentry.withMonitor('monitor-daily-pill-update',()=>{
+//   dailyPillUpdate()
+// })
 
 
 
@@ -198,14 +194,14 @@ app.use("/appointment-status", appointmentStatusRouter);
 app.use("/mmas-4", mmasFourRouter);
 app.use("/mmas-8", mmasEightRouter);
 
-app.use("/time-and-work", timeAndWorkRouter);
+
+
 app.use("/disclosure-checklist", disclosureChecklistRouter);
 app.use("/follow-checklist", followUpChecklistRouter);
 
 app.use("/partial-disclosure", partialDisclosureRouter);
 app.use("/disclosure-eligibility", disclosureEligibilityRouter);
 app.use("/child-readiness", childCaregiverReadinessRouter);
-app.use("/enhanced-adherence", enhancedAdherenceRouter);
 
 
 connect.authenticate().then(() => {

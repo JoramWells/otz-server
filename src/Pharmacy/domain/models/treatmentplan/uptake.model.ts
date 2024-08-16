@@ -1,6 +1,6 @@
 import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { TimeAndWork } from "./timeAndWork.model";
-import { connect } from "../../../db/connect";
+import { connect } from "../../db/connect";
 import { UptakeAttributes } from "otz-types";
 import { Prescription } from "../art/prescription.model";
 

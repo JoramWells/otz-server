@@ -2,8 +2,6 @@ import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
 import { IMMASEightInteractor } from "../../interfaces/treatmentplan/IMMAS8Interactor";
 import { IMMASEightRepository } from "../../interfaces/treatmentplan/IMMAS8Repository";
 
-
-
 export class MMASEightInteractor implements IMMASEightInteractor {
   private readonly repository: IMMASEightRepository;
 

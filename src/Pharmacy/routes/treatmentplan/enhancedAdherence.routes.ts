@@ -1,4 +1,4 @@
-import { EnhancedAdherenceController } from "../../adapters/controllers/treatementplan/enhancedAdherenceController";
+import { EnhancedAdherenceController } from "../../adapters/controllers/treatmentplan/enhancedAdherenceController";
 import { EnhancedAdherenceRepository } from "../../adapters/repositories/treatmentplan/enhancedAdherenceRepository";
 import { EnhancedAdherenceInteractor } from "../../application/interactors/treatmentplan/enhacendAdherenceInteractor";
 

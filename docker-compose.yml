@@ -100,45 +100,45 @@ services:
       retries: 10
 
 
-  user_db:
-    image: postgres:alpine
-    # environment:
-    #   POSTGRES_DB: "otz-users"
-    #   POSTGRES_USER: "postgres"
-    #   POSTGRES_PASSWORD: "postgres"
-    env_file:
-    - .env
-    ports:
-    - 5437:5432
-    volumes:
-    # - postgres_data:/var/lib/postgresql/data
-    - ./users2.sql:/docker-entrypoint-initdb.d/users2.sql
+  # user_db:
+  #   image: postgres:alpine
+  #   # environment:
+  #   #   POSTGRES_DB: "otz-users"
+  #   #   POSTGRES_USER: "postgres"
+  #   #   POSTGRES_PASSWORD: "postgres"
+  #   env_file:
+  #   - .env
+  #   ports:
+  #   - 5437:5432
+  #   volumes:
+  #   # - postgres_data:/var/lib/postgresql/data
+  #   - ./users2.sql:/docker-entrypoint-initdb.d/users2.sql
 
 
-    deploy:
-    #   mode: replicated
-    #   replicas: 2
-    #   placement:
-    #     max_replicas_per_node: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    # restart_policy:
-    #   condition: on-failure    
-    #   resources:
-    #     limits:
-    #       cpus: '0.20'
-    #       memory: 450M
-    #     reservations:
-    #       cpus: '0.20'
-    #       memory: 450M
-    networks:
-    - otz
-    healthcheck:
-      test: "pg_isready --username=${POSTGRES_USER} && psql --username=${POSTGRES_USER} --list"
-      interval: 5s
-      timeout: 10s
-      retries: 10    
+  #   deploy:
+  #   #   mode: replicated
+  #   #   replicas: 2
+  #   #   placement:
+  #   #     max_replicas_per_node: 1
+  #   #   update_config:
+  #   #     parallelism: 2
+  #   #     delay: 10s
+  #   # restart_policy:
+  #   #   condition: on-failure    
+  #   #   resources:
+  #   #     limits:
+  #   #       cpus: '0.20'
+  #   #       memory: 450M
+  #   #     reservations:
+  #   #       cpus: '0.20'
+  #   #       memory: 450M
+  #   networks:
+  #   - otz
+  #   healthcheck:
+  #     test: "pg_isready --username=${POSTGRES_USER} && psql --username=${POSTGRES_USER} --list"
+  #     interval: 5s
+  #     timeout: 10s
+  #     retries: 10    
 
   etl:
     build:
@@ -188,7 +188,7 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
-      user_db:
+      database:
         condition: service_healthy
       redis:
         condition: service_healthy

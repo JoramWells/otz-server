@@ -1,8 +1,8 @@
 
-import { RedisAdapter } from '../redisAdapter'
 import { IEnhancedAdherenceRepository } from '../../../application/interfaces/treatmentplan/IEnhancedAdherenceRepository';
 import { EnhancedAdherenceAttributes } from 'otz-types';
 import { EnhancedAdherence } from '../../../domain/models/treatmentplan/enhancedAdherence.model';
+import { RedisAdapter } from '../redisAdapter';
 // import { createClient } from 'redis'
 
 export class EnhancedAdherenceRepository implements IEnhancedAdherenceRepository {

@@ -3,7 +3,7 @@ import moment from 'moment-timezone'
 import { TimeAndWork } from '../domain/models/treatmentplan/timeAndWork.model';
 import { Uptake } from '../domain/models/treatmentplan/uptake.model';
 import { createClient } from "redis";
-import { pillUptakeCache } from '../constants/appointmentCache';
+import { pillUptakeCache } from '../constants/cache';
 
 
 const dailyPillUpdate = async () => {

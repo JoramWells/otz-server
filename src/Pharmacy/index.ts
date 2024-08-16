@@ -23,6 +23,8 @@ import { pillUptakeRouter } from './routes/pillUptake.routes'
 import { createServer } from 'http'
 import { initSentry } from './config/sentryInit'
 import { sendRefillNotification } from './utils/sendRefillNotification'
+import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes'
+import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes'
 const cors = require('cors')
 
 
@@ -115,6 +117,8 @@ app.use('/art-switch-reason', artSwitchReasonRouter)
 app.use('/prescription', prescriptionRouter)
 app.use('/art-prescription', artPrescriptionRouter)
 app.use('/daily-uptake', pillUptakeRouter)
+app.use("/time-and-work", timeAndWorkRouter);
+app.use("/enhanced-adherence", enhancedAdherenceRouter);
 
 // init sentry
 initSentry((app))

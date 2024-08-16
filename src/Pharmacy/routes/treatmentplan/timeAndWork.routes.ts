@@ -1,8 +1,9 @@
-import { TimeAndWorkController } from "../../adapters/controllers/treatementplan/timeAndWorkController";
+import { TimeAndWorkController } from "../../adapters/controllers/treatmentplan/timeAndWorkController";
 import { TimeAndWorkRepository } from "../../adapters/repositories/treatmentplan/timeAndWorkRepository";
 import { TimeAndWorkInteractor } from "../../application/interactors/treatmentplan/timeAndWorkInteractor";
 
 const express = require('express');
+
 
 const router = express.Router();
 

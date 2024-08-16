@@ -8,4 +8,3 @@ export const mmas4Cache = "mmas4Data";
 export const mmas8Cache = "mmas8Data";
 
 export const pillUptakeCache = "pillUptakeData";
-export const timeAndWorkCache = "timeAndWorkData";
