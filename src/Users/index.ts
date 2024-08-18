@@ -56,7 +56,7 @@ app.use(express.urlencoded({
 // }
 
 // enable cors
-app.use(cors(corsOption))
+app.use(cors())
 app.use(limiter)
 
 // confirm cors
