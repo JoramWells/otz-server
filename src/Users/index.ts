@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 5001
 //   origin: ['*']
 // }
 
-const whitelist = ['http://localhost:3000', 'https://xinergy.netlify.app']
+const whitelist = ['http://localhost:3000', 'https://otzplus.xyz']
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
