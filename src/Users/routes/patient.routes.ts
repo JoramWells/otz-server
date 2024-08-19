@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { PatientController } from '../adapters/controllers/patientController'
 import { PatientRepository } from '../adapters/repositories/patientRepository'
+import { createPatientValidator } from '../adapters/validators/PatientValidator'
 import { PatientInteractor } from '../application/interactors/patientInteractor'
 
 import express from 'express'
@@ -12,7 +13,7 @@ const patientController = new PatientController(interactor)
 
 const router = express.Router()
 
-router.post('/add', patientController.onCreatePatient.bind(patientController))
+router.post('/add', createPatientValidator,patientController.onCreatePatient.bind(patientController))
 router.get('/fetchAll', patientController.onGetAllPatients.bind(patientController))
 router.get('/detail/:id', patientController.onGetPatientById.bind(patientController))
 router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))

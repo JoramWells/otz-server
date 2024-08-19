@@ -4,6 +4,8 @@ import { type NextFunction, type Request, type Response } from 'express'
 import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { logger } from '../../utils/logger'
 import { NextOfKinInterface, PatientAttributes } from 'otz-types';
+import { validationResult } from 'express-validator';
+import {validate as isUUID} from 'uuid'
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PatientController {
@@ -14,6 +16,14 @@ export class PatientController {
   }
 
   async onCreatePatient(req: Request, res: Response, next: NextFunction) {
+
+    // validate
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+      return res.status(400).json({errors: errors.array()})
+    }
+
     const {
       firstName,
       middleName,
@@ -63,6 +73,7 @@ export class PatientController {
       idNo: kinIDNo,
       phoneNo: nextOfKinPhoneNo,
     };
+
     try {
       // console.log(nextOfKinData)
       await this.interactor.createPatient(patientData, nextOfKinData);
@@ -138,7 +149,14 @@ export class PatientController {
   async onGetPatientById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return null;
+      if (id === "undefined") {
+        logger.error('This id is undefined')
+        return null};
+      if(!isUUID(id)){
+        const errMessage = `${id} is not a valid UUID `
+        logger.error(errMessage)
+        return res.status(400).json({error: errMessage })
+      }
       const result = await this.interactor.getPatientById(id);
       res.status(200).json(result);
       next();

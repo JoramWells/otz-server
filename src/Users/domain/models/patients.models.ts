@@ -4,6 +4,8 @@ import { Hospital } from './hospital/hospital.model'
 import { connect } from '../db/connect'
 import { createClient } from 'redis'
 import { LocationProps, PatientAttributes } from 'otz-types'
+import bcrypt from 'bcrypt'
+
 // import { type PatientEntity } from '../entities/PatientEntity'
 export enum UserRoles {
   Admin = "admin",
@@ -149,9 +151,17 @@ Patient.init(
   }
 );
 
-// const disableForeignKeyChecks = async (sequelize: Sequelize) => {
-//   await sequelize.query('SET session_replication_role = replica;')
-// }
+async function generateDefaultHashedPassword() {
+  const password = "12345678";
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+  console.log(passwordHash, "as");
+  return passwordHash;
+}
+
+Patient.beforeCreate(async(patient)=>{
+  patient.password = await generateDefaultHashedPassword()
+})
 
 Patient.afterUpdate(async (instance, options) => {
   const redisClient = createClient({ url: 'redis://redis:6379' })
