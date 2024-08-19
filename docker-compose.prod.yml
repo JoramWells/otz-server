@@ -172,7 +172,7 @@ services:
   users:
     build:
       context: ./src/Users
-      dockerfile: Dockerfile.production
+      dockerfile: Dockerfile
     image: blackwell18/users:latest
     volumes:
       - ./src/Users/:/usr/src/app
