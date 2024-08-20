@@ -155,7 +155,7 @@ export class PatientController {
       if(!isUUID(id)){
         const errMessage = `${id} is not a valid UUID `
         logger.error(errMessage)
-        return res.status(400).json({error: errMessage })
+        return res.status(404).json({error: errMessage })
       }
       const result = await this.interactor.getPatientById(id);
       res.status(200).json(result);

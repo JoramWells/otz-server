@@ -15,8 +15,8 @@ import { caseManagerRoutes } from './routes/caseManager.routes'
 import { nextOfKinRouter } from './routes/nextOfKin.routes'
 import { patientVisitRouter } from './routes/patientVisits.routes'
 import { userAvailabilityRoutes } from './routes/userAvailability.routes'
+import { patientRouter } from './routes/patient.routes'
 const cors = require('cors')
-const patientRoutes = require('./routes/patient.routes')
 const app: Application = express()
 
 const PORT = process.env.PORT || 5001
@@ -60,7 +60,7 @@ app.use(cors())
 app.use(limiter)
 
 // confirm cors
-app.use('/patients', patientRoutes)
+app.use('/patients', patientRouter)
 app.use('/patient-visits', patientVisitRouter)
 app.use('/caregiver', caregiverRoutes)
 app.use('/casemanager', caseManagerRoutes)

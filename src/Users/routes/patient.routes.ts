@@ -25,4 +25,4 @@ router.put("/mark-important/:id", patientController.onMarkAsImportant.bind(patie
 
 // router.delete('/delete/:id', deletePatient);
 
-module.exports = router
+export {router as patientRouter}
