@@ -25,14 +25,13 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       patientID,
       agenda
     }
-
+  
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {
         transaction: t,
       });
 
-      await this.kafkaProducer.sendMessage('appointment',[{value:JSON.stringify(appointmentInput)}])
-      console.log('Calling kafka appointment-topic producer...!!')
+      await this.kafkaProducer.sendMessage('create',[{value:JSON.stringify(appointmentInput)}])
       await this.kafkaProducer.sendMessage('complete',[{value:JSON.stringify(completeInputs)}])
 
 

@@ -3,6 +3,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPrescriptionInteractor } from '../../application/interfaces/art/IPrescriptionInteractor'
 import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
+import { logger } from '../../utils/logger';
 // import { Patient } from '../../domain/entities/Patient'
 
 export class PrescriptionController {
@@ -49,7 +50,6 @@ export class PrescriptionController {
     };
 
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createPrescription(
         prescriptionInput,
         appointmentInput
@@ -58,6 +58,7 @@ export class PrescriptionController {
       next();
     } catch (error) {
       console.log(error);
+      logger.error(error)
       next(error);
     }
   }

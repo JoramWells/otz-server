@@ -214,7 +214,7 @@ connect.authenticate().then(() => {
 (async()=>{
   try {
    await startAppointmentConsumer();
-   await startCompleteAppointmentConsumer(); 
+  //  await startCompleteAppointmentConsumer(); 
   } catch (error) {
     console.log('Error connecting to kafka!!',error);
   }

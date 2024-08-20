@@ -1,5 +1,6 @@
 import { createAppointment, markAppointmentAsCompleted } from "../../application/use_cases/appointment.usecase";
-import {  createConsumer } from "../repositories/kafkaConsumerAdapter";
+import { logger } from "../../utils/logger";
+import {  consumeMessages, createConsumer } from "../repositories/kafkaConsumerAdapter";
 import { EachMessagePayload } from "kafkajs";
 
 async function handleMessage ({message}: EachMessagePayload){
@@ -7,14 +8,23 @@ async function handleMessage ({message}: EachMessagePayload){
     try {
       if (message.value) {
         const data = JSON.parse(message.value.toString());
-        console.log('Creating new upcoming appointment****')
+        const {patientID} = data
+        const agenda = 'Refill'
+        const completeInputs={
+          patientID,
+          agenda
+        }
+       await markAppointmentAsCompleted(completeInputs as any);
+
         return await createAppointment(data);
       }
     } catch (error) {
+      logger.error(error)
       console.log(error)
     }
 
 }
+
 
 async function completeAppointment({message}: EachMessagePayload){
   try {
@@ -24,21 +34,29 @@ async function completeAppointment({message}: EachMessagePayload){
 
     }
   } catch (error) {
+      logger.error(error)
+
     console.log(error)
   }
 }
 
 const startAppointmentConsumer = async ()=>{
     console.log('appointment consumer started...')
-    // await consumeMessages("appointment", handleMessage);
-    await createConsumer('appointment-group',"appointment", handleMessage);
-    // await consumeMessages('complete-appointment-topic', completeAppointment)
+
+    await Promise.all([
+      // consumeMessages("create", handleMessage),
+      // consumeMessages("complete", completeAppointment),
+      createConsumer('create-group',"create", handleMessage),
+      // createConsumer("complete-group", "complete", completeAppointment)
+    ]);
+
+
 
 }
 
 const startCompleteAppointmentConsumer = async () => {
   console.log("appointment consumer started...");
-  await createConsumer('completed-group', 'complete', completeAppointment)
+  await createConsumer("appointment-group", "complete", completeAppointment);
   // await consumeMessages("appointment-topic", handleMessage);
   // await consumeMessages("complete", completeAppointment);
 };
