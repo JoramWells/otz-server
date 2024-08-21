@@ -10,3 +10,4 @@ etl_webapp/linelist_api/llm
 ./etl_webapp/linelist_api/llm/mistral-7b-openorca.gguf2.Q4_0.gguf
 env
 .env
+logs
