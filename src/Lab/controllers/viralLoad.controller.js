@@ -30,7 +30,7 @@ const addViralLoadTest = async (req, res, next) => {
 
   try {
     const kafkaProducer = new KafkaAdapter();
-    await connect.transaction(async (t) => {
+     await connect.transaction(async (t) => {
       const results = await ViralLoad.create({
         userID,
         dateOfVL,
@@ -50,6 +50,8 @@ const addViralLoadTest = async (req, res, next) => {
           appointmentDate,
         }, { transaction: t });
       }
+      res.status(200).json(results)
+
     });
 
     //  kafka send message
@@ -57,7 +59,6 @@ const addViralLoadTest = async (req, res, next) => {
       value: JSON.stringify({ patientID, agenda: 'viral load' }),
     }]);
 
-    res.status(200);
     next();
   } catch (error) {
     console.log(error);

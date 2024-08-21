@@ -5,7 +5,7 @@ import { appointmentAgendaCache } from '../../constants/appointmentCache'
 import { AppointmentAgenda } from '../../domain/models/appointment/appointmentAgenda.model'
 // import { logger } from '../../utils/logger'
 import { RedisAdapter } from './redisAdapter'
-// import { createClient } from 'redis'
+
 
 export class AppointmentAgendaRepository implements IAppointmentAgendaRepository {
   private readonly redisClient = new RedisAdapter();

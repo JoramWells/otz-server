@@ -74,10 +74,13 @@ export class AppointmentRepository implements IAppointmentRepository {
     status: boolean
   ): Promise<string | null> {
     const isTrue = await Appointment.findByPk(id);
+    const appointmentDetailID = `appointment_detail_${id}`;
+
     await this.redisClient.connect();
     await this.redisClient.del(appointmentCache);
     await this.redisClient.del(id);
     await this.redisClient.del(patientID);
+    await this.redisClient.del(appointmentDetailID);
     if (isTrue) {
       isTrue.isStarred = status;
       await isTrue.save();
@@ -89,6 +92,12 @@ export class AppointmentRepository implements IAppointmentRepository {
   //
   async markAsRead(id: string): Promise<boolean | null> {
     const result = await Appointment.findByPk(id);
+    const appointmentDetailID = `appointment_detail_${id}`;
+
+    await this.redisClient.connect()
+    await this.redisClient.del(appointmentCache)
+    await this.redisClient.del(id)
+    await this.redisClient.del(appointmentDetailID)
 
     if (result) {
       result.isRead = true;
@@ -161,6 +170,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       // }
 
       const { patientID } = data;
+      
       if ((await this.redisClient.get(patientID.toString())) !== null) {
         // delete individual patientCache in the db!!
         await this.redisClient.del(patientID);
@@ -319,7 +329,6 @@ export class AppointmentRepository implements IAppointmentRepository {
   ): Promise<AppointmentAttributes | null> {
     // if ((await this.redisClient.get(id)) === null) {
 
-    console.log(id, agenda, '***********************************************')
     const currentDate = new  Date()
 
     const appointmentStatus = await AppointmentStatus.findOne({
@@ -435,20 +444,35 @@ export class AppointmentRepository implements IAppointmentRepository {
   }
 
   async findById(id: string): Promise<AppointmentAttributes | null> {
+    const appointmentDetailID = `appointment_detail_${id}`
     // await this.redisClient.connect();
-    if ((await this.redisClient.get(id)) === null) {
+    if ((await this.redisClient.get(appointmentDetailID)) === null) {
       const results: AppointmentAttributes | null = await Appointment.findOne({
         where: {
           id,
         },
+        include: [
+        {
+          model: AppointmentAgenda,
+          attributes: ["agendaDescription"],
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ["statusDescription"],
+        },
+        {
+          model: User,
+          attributes: ["firstName", "middleName"],
+        },
+      ],
       });
 
-      await this.redisClient.set(id, JSON.stringify(results));
+      await this.redisClient.set(appointmentDetailID, JSON.stringify(results));
 
       return results;
     }
 
-    const cachedData: string | null = await this.redisClient.get(id);
+    const cachedData: string | null = await this.redisClient.get(appointmentDetailID);
     if (cachedData === null) {
       return null;
     }
