@@ -1513,3 +1513,5 @@
 {"level":"info","message":"Appointments modified for 687ca31d-c3f5-45db-a8ae-afc9093a17fd ","service":"appointment-service","timestamp":"2024-08-20T08:45:17.255Z"}
 {"level":"info","message":"Changed ab472427-1a99-449f-ba52-e28df24c52c6 to pending...","service":"appointment-service","timestamp":"2024-08-21T08:39:01.486Z"}
 {"level":"info","message":"Changed f485c608-9a8f-4320-9a48-799856c8b0ab to pending...","service":"appointment-service","timestamp":"2024-08-21T09:46:00.318Z"}
+{"level":"info","message":"Appointments modified for ab472427-1a99-449f-ba52-e28df24c52c6 ","service":"appointment-service","timestamp":"2024-08-22T04:22:13.395Z"}
+{"level":"info","message":"Appointments modified for f485c608-9a8f-4320-9a48-799856c8b0ab ","service":"appointment-service","timestamp":"2024-08-22T04:22:13.833Z"}

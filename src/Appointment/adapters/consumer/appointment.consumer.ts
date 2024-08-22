@@ -14,9 +14,13 @@ async function handleMessage ({message}: EachMessagePayload){
           patientID,
           agenda
         }
-       await markAppointmentAsCompleted(completeInputs as any);
 
-        return await createAppointment(data);
+        return await Promise.all([
+            markAppointmentAsCompleted(completeInputs as any),
+            createAppointment(data)
+        ])
+
+
       }
     } catch (error) {
       logger.error(error)
