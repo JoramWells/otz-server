@@ -3,19 +3,73 @@ import { TimeAndWork } from '../domain/models/adherence/timeAndWork.model'
 import { Adherence} from '../domain/models/adherence/adherence.model'
 import moment from 'moment'
 import { Prescription } from '../domain/models/art/prescription.model'
-import { Op, col, fn } from 'sequelize'
+import { Op, Sequelize, col, fn } from 'sequelize'
 import { AdherenceAttributes, AdherenceByPatientAttributes, PrescriptionInterface } from "otz-types";
+import {scheduleJob} from 'node-schedule'
+import { logger } from './logger'
+
+const updatePills = async() =>{
+  const currentDate = moment().format("YYYY-MM-DD");
+  // const isSet: Adherence | null = await Prescription.findOne({
+  //   where: {
+  //     updatedAt
+  //   }
+  // })
+
+try {
+    const results = await Prescription.findAll({
+      attributes: [
+        "id", // Assuming 'id' is the primary key of the prescription
+        "patientID",
+        "frequency",
+        "refillDate",
+        [
+          Sequelize.literal(
+            `GREATEST(DATE_PART('day', NOW()::timestamp - "refillDate"::timestamp) * "frequency", 0)`
+          ),
+          "expectedNoOfPills",
+        ],
+        "createdAt",
+      ],
+      where: {
+        createdAt: {
+          [Op.not]: null,
+        },
+        patientVisitID: {
+          [Op.not]: null,
+        },
+      } as any,
+    });
+
+
+        for (const result of results) {
+      const { id, expectedNoOfPills } = result.get();
+
+      // Update the expected number of pills in the database
+      await Prescription.update(
+        { expectedNoOfPills },
+        { where: { id } }
+      );
+    }
+
+    console.log('Daily update of expected number of pills completed.');
+
+} catch (error) {
+  console.log(error)
+}
+}
+
 const adherenceMonitor = async () => {
   try {
     const currentDate = moment().format('YYYY-MM-DD')
-    const isSet: Adherence | null = await Adherence.findOne({
-      where: {
-        currentDate
-      }
-    })
+    // const isSet: Adherence | null = await Adherence.findOne({
+    //   where: {
+    //     currentDate
+    //   }
+    // })
 
-    if (isSet != null) {
-      console.log('Uptake Data Is Set!!')
+    // if (isSet) {
+    //   console.log('Uptake Data Is Set!!')
 
       // const allAdherence = await Adherence.findAll({
       //   where: {
@@ -59,10 +113,12 @@ const adherenceMonitor = async () => {
       // })
 
       // console.log(latestPrescriptions)
-    } else {
+    // } else {
+
+      // get latest time for each patient
       const latestTimeSchedule = await TimeAndWork.findAll({
-        attributes: [[fn('MAX', col('createdAt')), 'createdAt'], 'patientID'],
-        group: ['patientID'],
+        attributes: [[fn('MAX', col('createdAt')), 'createdAt'], 'patientID', 'morningMedicineTime', 'eveningMedicineTime'],
+        group: ['patientID', 'morningMedicineTime', 'eveningMedicineTime'],
         where: {
           // patientVisitID: {
           //   [Op.not]: null
@@ -72,7 +128,6 @@ const adherenceMonitor = async () => {
           } as any
         }
       })
-      console.log(latestTimeSchedule)
 
       //
       const latestPrescriptions = await Prescription.findAll({
@@ -85,47 +140,105 @@ const adherenceMonitor = async () => {
           createdAt: {
             [Op.not]: null
           },
-          expectedNoOfPills: {
-            [Op.gt]: 0
-          }  
+          // expectedNoOfPills: {
+          //   [Op.gt]: 0
+          // }  
         } as any
       })
+
+      // console.log(latestPrescriptions)
 
       const adherenceResults: AdherenceAttributes[] = []
 
       for (const latestTIme of latestTimeSchedule) {
-        // console.log(latestTIme.dataValues)
-        const { patientID } = latestTIme
+        const { patientID } = latestTIme;
         const timeAndWork = await TimeAndWork.findOne({
           where: {
             patientID,
-            createdAt: latestTIme.dataValues.createdAt
+            createdAt: latestTIme.dataValues.createdAt,
             // patientVisitID: {
             //   [Op.not]: null
             // }
-          }
-        })
+          },
+        });
 
-        const latestPrescription = latestPrescriptions.find(p => p.patientID === patientID)
+        const latestPrescription = latestPrescriptions.find(
+          (p) => p.patientID === patientID
+        );
         if (!latestPrescription) {
-          continue
+          continue;
         }
 
         //
         const prescription: Prescription | null = await Prescription.findOne({
           where: {
             patientID,
-            createdAt: latestPrescription.dataValues.createdAt
-          }
-        })
+            createdAt: latestPrescription.dataValues.createdAt,
+          },
+        });
 
-        adherenceResults.push({
-          timeAndWorkID: timeAndWork?.id,
-          prescriptionID: prescription?.id,
-          currentDate:currentDate as unknown as Date,
-          morningStatus: false,
-          eveningStatus: false
-        })
+        const morningMedicineDate = moment(
+          `${currentDate} ${latestTIme.dataValues.morningMedicineTime}`,
+          "YYYY-MM-DD HH:mm"
+        );
+
+        const eveningMedicineDate = moment(
+          `${currentDate} ${latestTIme.dataValues.morningMedicineTime}`,
+          "YYYY-MM-DD HH:mm"
+        );
+
+        
+        // console.log(morningMedicineDate.format(), "morningDate");
+        // Before pushing to array, add each patient to adherence, get time and work id
+        if(prescription?.id){
+            const isSet: Adherence | null = await Adherence.findOne({
+              where: {
+                currentDate,
+                prescriptionID: prescription?.id,
+              },
+            });
+
+            if(isSet){
+              console.log(1)
+            }else{
+              scheduleJob(morningMedicineDate.format(), async () => {
+                await Adherence.create({
+                  timeAndWorkID: timeAndWork?.id,
+                  prescriptionID: prescription?.id,
+                  currentDate: currentDate as unknown as Date,
+                  morningStatus: false,
+                  eveningStatus: false,
+                });
+                logger.info({message:`Created new uptake for ${prescription} prescription!!`})
+              });
+              //
+                // scheduleJob(eveningMedicineDate.format(), async () => {
+                //   await Adherence.create({
+                //     timeAndWorkID: timeAndWork?.id,
+                //     prescriptionID: prescription?.id,
+                //     currentDate: currentDate as unknown as Date,
+                //     morningStatus: false,
+                //     eveningStatus: false,
+                //   });
+                // });
+            }
+
+            // console.log(isSet?.dataValues, "set!!");
+        }
+
+        // if(!isSet){
+
+        // }
+
+
+
+        // adherenceResults.push({
+        //   timeAndWorkID: timeAndWork?.id,
+        //   prescriptionID: prescription?.id,
+        //   currentDate:currentDate as unknown as Date,
+        //   morningStatus: false,
+        //   eveningStatus: false
+        // })
         // console.log(prescription, 'presx')
       }
 
@@ -136,9 +249,9 @@ const adherenceMonitor = async () => {
       //   morningStatus: false,
       //   eveningStatus: false
       // }))
-      await Adherence.bulkCreate(adherenceResults)
+      // await Adherence.bulkCreate(adherenceResults)
       console.log('Uptake entries created for all patients.')
-    }
+    // }
   } catch (error) {
     console.log(error)
   }
@@ -200,4 +313,4 @@ const calculateFacilityAdherence = async () => {
 //   total_days
 // }
 
-export { adherenceMonitor, calculatePatientAdherence, calculateFacilityAdherence }
+export { adherenceMonitor, calculatePatientAdherence, calculateFacilityAdherence, updatePills }

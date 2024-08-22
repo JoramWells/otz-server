@@ -52,6 +52,7 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
     group: ["patientID"],
   });
 
+
   const latestUpdates = results.map((item: any) => {
     return {
       patientID: item.dataValues.patientID,
@@ -89,13 +90,23 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
 
   for (const art of prescriptions) {
     const refillDate = art.refillDate
+
     const expectedValue = moment(currentDate).diff(refillDate, 'days')
+
     const pillsTaken = art.frequency * expectedValue
+  // console.log(expectedValue, pillsTaken,"Calcx");
+
     // if(art.noOfPills)
     const remainingPills = art.noOfPills - pillsTaken
     if (art.expectedNoOfPills === remainingPills) {
+      console.log(
+        remainingPills,
+        "Expected no of pills",
+        art.expectedNoOfPills
+      );
       arr.push({ ...art.dataValues, message: 'Patient Adhered', remainingPills } as any)
     } else {
+      console.log('Updating...')
       await art.update({
         expectedNoOfPills: remainingPills,
         updatedAtExpectedNoOfPills: currentDate as unknown as Date

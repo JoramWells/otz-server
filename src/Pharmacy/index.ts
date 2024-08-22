@@ -18,13 +18,14 @@ import { artSwitchReasonRouter } from './routes/artSwitcReason.routes'
 import { prescriptionRouter } from './routes/prescription.routes'
 import { artPrescriptionRouter } from './routes/artPrescription.routes'
 // import { calculatePills, calculatePills2 } from './utils/calculatePills'
-import { adherenceMonitor } from './utils/adherence'
+import { adherenceMonitor, updatePills } from './utils/adherence'
 import { pillUptakeRouter } from './routes/pillUptake.routes'
 import { createServer } from 'http'
 import { initSentry } from './config/sentryInit'
 import { sendRefillNotification } from './utils/sendRefillNotification'
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes'
 import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes'
+import { calculatePills2 } from './utils/calculatePills'
 const cors = require('cors')
 
 
@@ -57,6 +58,8 @@ app.use(express.urlencoded({
 // calculatePills()
 
 adherenceMonitor()
+calculatePills2()
+updatePills()
 
 let onlineUsers: any[] = [];
 

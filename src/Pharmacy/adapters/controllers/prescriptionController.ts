@@ -39,6 +39,7 @@ export class PrescriptionController {
       appointmentDate: nextRefillDate as unknown as string,
     };
 
+
     const prescriptionInput: PrescriptionInterface = {
       patientVisitID,
       artPrescriptionID,

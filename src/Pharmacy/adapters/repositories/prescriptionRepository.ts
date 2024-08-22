@@ -9,7 +9,7 @@ import { Prescription } from '../../domain/models/art/prescription.model'
 import { calculateFacilityAdherence } from '../../utils/adherence'
 import { calculatePills2 } from '../../utils/calculatePills'
 import { KafkaAdapter } from '../kafka/producer/kafka.producer'
-import { col, fn, Op } from 'sequelize'
+import { col, fn, Op, Sequelize } from 'sequelize'
 import { Patient } from '../../domain/models/patients.models'
 
 
@@ -41,18 +41,13 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
 
   async find(): Promise<PrescriptionInterface[]> {
-    const results = await Prescription.findAll({
+    console.log('finding...')
+    const latestPrescription = await Prescription.findAll({
       attributes: [
         //   'noOfPills',
-        [fn("MAX", col("Prescription.createdAt")), "createdAt"],
+        [fn("MAX", col("createdAt")), "latestCreatedAt"],
         "patientID",
-        "frequency",
-        'refillDate',
-        'nextRefillDate',
-        "noOfPills",
-        "expectedNoOfPills",
-        "computedNoOfPills",
-      ],
+             ],
       where: {
         createdAt: {
           [Op.not]: null,
@@ -61,6 +56,42 @@ export class PrescriptionRepository implements IPrescriptionRepository {
           [Op.not]: null
         }
       } as any,
+
+      group: [
+        // "expectedNoOfPills",
+        // 'computedNoOfPills',
+        // "frequency",
+        // 'refillDate',
+        // 'nextRefillDate',
+        "patientID",
+        // 'Patient.id',
+        // "noOfPills",
+        // "Patient.id",
+        // "Patient.firstName",
+        // "Patient.middleName",
+      ],
+      raw: true
+    });
+
+    const results = await Prescription.findAll({
+      where: {
+        [Op.and]: [
+          {
+            patientID: {
+              [Op.in]: latestPrescription.map(
+                (prescription) => prescription.patientID
+              ),
+            },
+          },
+          Sequelize.where(
+            col("Prescription.createdAt"),
+            Op.eq,
+            Sequelize.literal(
+              `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
+            )
+          ),
+        ],
+      },
       include: [
         {
           model: Patient,
@@ -77,19 +108,21 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         // }
         // }
       ],
-      group: [
+      attributes: [
         "expectedNoOfPills",
         'computedNoOfPills',
         "frequency",
         'refillDate',
         'nextRefillDate',
         "patientID",
+        // 'Patient.id',
         "noOfPills",
-        "Patient.id",
-        "Patient.firstName",
-        "Patient.middleName",
+        // "Patient.id",
+        // "Patient.firstName",
+        // "Patient.middleName",
       ],
     });
+
     return results;
   }
 
