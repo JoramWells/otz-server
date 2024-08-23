@@ -24,8 +24,9 @@ try {
         "frequency",
         "refillDate",
         [
+          // Calculate the expected number of pills, allowing for negative values
           Sequelize.literal(
-            `GREATEST(DATE_PART('day', NOW()::timestamp - "refillDate"::timestamp) * "frequency", 0)`
+            `(DATE_PART('day', NOW()::timestamp - "refillDate"::timestamp) * "frequency")`
           ),
           "expectedNoOfPills",
         ],
