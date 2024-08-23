@@ -119,13 +119,16 @@ export class PatientNotificationRepository implements IPatientNotificationReposi
       where: {
         type: type,
       },
-      attributes: [[fn("MAX", col("PatientNotification.createdAt")), "createdAt"], "Patient.id"],
-      group:['Patient.id', 'message'],
+      attributes: [
+        [fn("MAX", col("PatientNotification.createdAt")), "createdAt"],
+        "Patient.id",
+      ],
+      group: ["Patient.id", "message"],
       include: [
         {
           model: Patient,
 
-          attributes: ["id", "firstName", "middleName"],
+          attributes: ["id", "firstName", "middleName", "isImportant"],
         },
       ],
     });

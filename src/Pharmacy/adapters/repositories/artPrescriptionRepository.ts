@@ -7,6 +7,7 @@ import { ART } from '../../domain/models/art/art.model'
 import { ARTPrescription } from '../../domain/models/art/artPrescription.model'
 import { KafkaAdapter } from '../kafka/producer/kafka.producer';
 import { connect } from '../../domain/db/connect';
+import { col, fn, Op, Sequelize } from 'sequelize';
 
 export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -42,14 +43,52 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   }
 
   async find(): Promise<ARTPrescriptionInterface[]> {
-    const results = await ARTPrescription.findAll({
-      include: [
-        {
-          model: ART,
-          attributes: ["artName"],
-        },
+    const latestArtPrescription = await ARTPrescription.findAll({
+      attributes: [
+        //   'noOfPills',
+        [fn("MAX", col("createdAt")), "latestCreatedAt"],
+        "patientID",
+      ],
+
+      group: [
+        // "expectedNoOfPills",
+        // 'computedNoOfPills',
+        // "frequency",
+        // 'refillDate',
+        // 'nextRefillDate',
+        "patientID",
+        // 'Patient.id',
+        // "noOfPills",
+        // "Patient.id",
+        // "Patient.firstName",
+        // "Patient.middleName",
       ],
     });
+
+    // 
+        const results = await ARTPrescription.findAll({
+          where: {
+            [Op.or]: latestArtPrescription.map((date) => ({
+              patientID: date.patientID,
+              createdAt: date.get("latestCreatedAt"),
+            })),
+          } as any,
+
+          attributes: [
+            "patientID",
+            "regimen",
+            "changeReason",
+            "stopReason",
+            "startDate",
+            "stopDate",
+            "changeDate",
+            // 'Patient.id',
+            "line",
+            // "Patient.id",
+            // "Patient.firstName",
+            // "Patient.middleName",
+          ],
+        });
     return results;
   }
 

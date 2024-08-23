@@ -49,7 +49,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       include: [
         {
           model: Patient,
-          attributes: ["id", "firstName", "middleName"],
+          attributes: ["id", "firstName", "middleName", 'isStarred'],
         },
         {
           model: AppointmentStatus,
@@ -210,7 +210,7 @@ export class AppointmentRepository implements IAppointmentRepository {
            include: [
              {
                model: Patient,
-               attributes: ["firstName", "middleName", "dob", "sex"],
+               attributes: ["firstName", "middleName", "dob", "sex", 'isStarred'],
              },
              {
                model: User,
@@ -249,7 +249,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName", "dob", "sex"],
+            attributes: ["firstName", "middleName", "dob", "sex", 'isStarred'],
           },
           {
             model: User,
@@ -285,7 +285,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName", "dob", "sex"],
+            attributes: ["firstName", "middleName", "dob", "sex", 'isStarred'],
           },
           {
             model: User,

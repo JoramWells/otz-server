@@ -194,8 +194,6 @@ app.use("/appointment-status", appointmentStatusRouter);
 app.use("/mmas-4", mmasFourRouter);
 app.use("/mmas-8", mmasEightRouter);
 
-
-
 app.use("/disclosure-checklist", disclosureChecklistRouter);
 app.use("/follow-checklist", followUpChecklistRouter);
 
