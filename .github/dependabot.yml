@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Configuration for npm (JavaScript)
+  - package-ecosystem: "npm" # Type of package manager (npm, maven, pip, etc.)
+    directory: "/" # Location in the repository where the package files are located
+    schedule:
+      interval: "daily" # Check for updates daily (options: daily, weekly, monthly)
+    commit-message:
+      prefix: "deps" # Prefix for commit messages
+    open-pull-requests-limit: 5 # Limit the number of open PRs
