@@ -9,6 +9,7 @@ const sequelize = require('./db/connect');
 const internalLabRequestRoutes = require('./routes/lab/internalLabRequests.routes');
 const vitalSignRoutes = require('./routes/vitalSign.routes');
 const viralLoadTestRoutes = require('./routes/viralLoadTests.routes');
+const userLocation = require('./routes/lab/userLocation.routes');
 const startPatientVisitConsumer = require('./kafka/consumer/patientVisitConsumer.');
 
 
@@ -31,6 +32,7 @@ app.use(cors());
 app.use('/vital-sign', vitalSignRoutes);
 app.use('/internal-lab-request', internalLabRequestRoutes);
 app.use('/viral-load-tests', viralLoadTestRoutes);
+app.use('/user-location', userLocation);
 
 // 
 (async ()=>{
