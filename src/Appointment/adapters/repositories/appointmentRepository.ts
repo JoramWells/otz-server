@@ -193,6 +193,7 @@ export class AppointmentRepository implements IAppointmentRepository {
 
     const currentDate = new Date()
 
+    
     if(dateQuery === 'weekly'){
          const { start, end } = getWeekRange(currentDate);
 
