@@ -9,6 +9,7 @@ const sequelize = require('./db/connect');
 const internalLabRequestRoutes = require('./routes/lab/internalLabRequests.routes');
 const vitalSignRoutes = require('./routes/vitalSign.routes');
 const viralLoadTestRoutes = require('./routes/viralLoadTests.routes');
+const userLocationRoutes = require('./routes/userLocation.routes');
 const startPatientVisitConsumer = require('./kafka/consumer/patientVisitConsumer.');
 
 
@@ -31,6 +32,7 @@ app.use(cors());
 app.use('/vital-sign', vitalSignRoutes);
 app.use('/internal-lab-request', internalLabRequestRoutes);
 app.use('/viral-load-tests', viralLoadTestRoutes);
+app.use('/user-location', userLocationRoutes);
 
 // 
 (async ()=>{
@@ -51,3 +53,7 @@ sequelize.authenticate().then(() => {
 app.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`);
 });
+
+
+
+
