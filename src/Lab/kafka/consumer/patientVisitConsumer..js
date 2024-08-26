@@ -11,7 +11,8 @@ async function handleMessage({ message }) {
       console.log('Error');
     }
     const data = JSON.parse(message.value.toString());
-    return await PatientVisits.create(data);
+    // return await PatientVisits.create(data);
+    console.log('Called patient visit consumer**')
   } catch (error) {
     console.log(error);
   }
