@@ -49,7 +49,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       include: [
         {
           model: Patient,
-          attributes: ["id", "firstName", "middleName", 'isImportant'],
+          attributes: ["id", "firstName", "middleName", 'isStarred'],
         },
         {
           model: AppointmentStatus,
@@ -193,7 +193,6 @@ export class AppointmentRepository implements IAppointmentRepository {
 
     const currentDate = new Date()
 
-    
     if(dateQuery === 'weekly'){
          const { start, end } = getWeekRange(currentDate);
 
@@ -211,7 +210,7 @@ export class AppointmentRepository implements IAppointmentRepository {
            include: [
              {
                model: Patient,
-               attributes: ["firstName", "middleName", "dob", "sex", 'isImportant'],
+               attributes: ["firstName", "middleName", "dob", "sex", 'isStarred'],
              },
              {
                model: User,
@@ -250,7 +249,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName", "dob", "sex", 'isImportant'],
+            attributes: ["firstName", "middleName", "dob", "sex", 'isStarred'],
           },
           {
             model: User,
@@ -286,7 +285,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName", "dob", "sex", 'isImportant'],
+            attributes: ["firstName", "middleName", "dob", "sex", 'isStarred'],
           },
           {
             model: User,
