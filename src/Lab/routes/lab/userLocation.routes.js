@@ -1,16 +1,12 @@
 const express = require('express');
-const { addUserLocations, getAllUserLocations, getUserLocation, editUserLocation, deleteUserLocation } = require('../../controllers/userLocationController');
-
-
-
-
-
+const { addUserLocations, getAllUserLocations, getUserLocation, editUserLocation, deleteUserLocation, getByPatientIDUserLocation } = require('../../controllers/userLocationController');
 
 const router = express.Router();
 
 router.post('/add', addUserLocations);
 router.get('/fetchAll', getAllUserLocations);
 router.get('/detail/:id', getUserLocation);
+router.get('/details/:id', getByPatientIDUserLocation);
 router.put('/update/:id', editUserLocation);
 router.delete('/delete/:id', deleteUserLocation);
 

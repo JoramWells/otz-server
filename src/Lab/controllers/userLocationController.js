@@ -79,7 +79,7 @@ const getUserLocation = async (req, res, next) => {
 const getByPatientIDUserLocation = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await UserLocation.findAll({
+    const results = await UserLocation.findOne({
       where: {
         patientID: id,
       },
