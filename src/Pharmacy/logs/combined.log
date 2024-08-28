@@ -15,3 +15,7 @@
 {"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-25T07:00:03.955Z"}
 {"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-25T07:00:04.756Z"}
 {"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-25T07:30:00.169Z"}
+{"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:00:01.540Z"}
+{"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:00:01.691Z"}
+{"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:00:01.695Z"}
+{"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:30:00.250Z"}

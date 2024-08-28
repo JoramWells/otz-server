@@ -46,6 +46,7 @@ export class PrescriptionController {
       frequency,
       refillDate,
       noOfPills: noOfPill,
+      expectedNoOfPills: noOfPill,
       patientID,
       nextRefillDate,
     };

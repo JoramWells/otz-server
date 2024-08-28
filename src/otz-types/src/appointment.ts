@@ -10,9 +10,17 @@ export interface AppointmentAttributes {
   rescheduledDate?: string;
   rescheduledReason?: string;
   isStarred?: boolean;
+  text?: string
   isRead?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface AppointmentMessageAttributes{
+  id?: string
+  appointmentID?:string
+  senderID?:string
+  text?:string
 }
 
 export enum AppointmentStatusDescription{

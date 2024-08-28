@@ -138,19 +138,32 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
     const currentDate = moment().format("YYYY-MM-DD");
 // if(await this.redisClient.get(`pill_uptake_${id}`) === null){
-    const recentPrescription = await Prescription.findOne({
-      attributes: [
-        [fn("MAX", col("createdAt")), "createdAt"],
-        "patientID",
-        "id",
-      ],
-      group: ["patientID", "id"],
-      where: {
-        patientID: id,
-      },
-    });
+    // const recentPrescription = await Prescription.findOne({
+    //   attributes: [
+    //     [fn("MAX", col("createdAt")), "createdAt"],
+    //     "patientID",
+    //     "id",
+    //   ],
+    //   group: ["patientID", "id"],
+    //   where: {
+    //     patientID: id,
+    //   },
+    // });
 
-    console.log(recentPrescription?.id, 'pID');
+        const recentPrescription = await Prescription.findOne({
+          // attributes: [
+          //   [fn("MAX", col("createdAt")), "createdAt"],
+          //   "patientID",
+          //   "id",
+          // ],
+          // group: ["patientID", "id"],
+          order:[['createdAt', 'DESC']],
+          where: {
+            patientID: id,
+          },
+        });
+
+    // console.log(recentPrescription?.id, 'pID');
 
     if (recentPrescription) {
       const currentUptake = await Adherence.findAll({

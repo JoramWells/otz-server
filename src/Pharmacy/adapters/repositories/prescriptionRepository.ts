@@ -25,6 +25,8 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       patientID,
       agenda
     }
+
+    console.log(data, 'pData')
   
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {

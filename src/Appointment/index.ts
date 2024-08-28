@@ -25,6 +25,7 @@ import { childCaregiverReadinessRouter } from './routes/treatmentplan/partial/ch
 import { logger } from './utils/logger';
 import { markMissedAppointments, rescheduleOnUnavailable } from './utils/markMissedAppointment';
 import {  startAppointmentConsumer, startCompleteAppointmentConsumer } from './adapters/consumer/appointment.consumer';
+import { appointmentMessageRouter } from './routes/appointments/messages.routes';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -200,6 +201,7 @@ app.use("/follow-checklist", followUpChecklistRouter);
 app.use("/partial-disclosure", partialDisclosureRouter);
 app.use("/disclosure-eligibility", disclosureEligibilityRouter);
 app.use("/child-readiness", childCaregiverReadinessRouter);
+app.use("/appointment-messages", appointmentMessageRouter);
 
 
 connect.authenticate().then(() => {

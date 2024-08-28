@@ -58,10 +58,14 @@ Prescription.init(
       allowNull: false
     },
     noOfPills: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 0
     },
     frequency: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1
     },
     refillDate: {
       type: DataTypes.DATE
@@ -70,10 +74,14 @@ Prescription.init(
       type: DataTypes.DATE
     },
     expectedNoOfPills: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     },
     computedNoOfPills: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     },
     updatedAtExpectedNoOfPills: {
       type: DataTypes.DATE
