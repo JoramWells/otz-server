@@ -97,7 +97,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   async find(): Promise<AdherenceAttributes[]> {
     const currentDate = moment().format("YYYY-MM-DD");
     // check if patient
-    if ((await this.redisClient.get(pillUptakeCache)) === null) {
+    // if ((await this.redisClient.get(pillUptakeCache)) === null) {
     const results = await Adherence.findAll({
       where: {
         currentDate,
@@ -115,23 +115,23 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     });
 
     // logger.info({ message: "Fetched from db!" });
-    console.log("fetched from db!");
-    // set to cace
-      await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
+    // console.log("fetched from db!");
+    // // set to cace
+    //   await this.redisClient.set(pillUptakeCache, JSON.stringify(results));
 
-      return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      pillUptakeCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
-    await this.redisClient.disconnect();
+    //   return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   pillUptakeCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // await this.redisClient.disconnect();
     // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    // console.log("fetched from cache!");
 
-    const results: AdherenceAttributes[] = JSON.parse(cachedPatients);
+    // const results: AdherenceAttributes[] = JSON.parse(cachedPatients);
     return results;
   }
 
