@@ -35,82 +35,91 @@ TimeAndWork.init(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     patientID: {
       type: DataTypes.UUID,
       references: {
-        model: 'patients',
-        key: 'id'
-      }
+        model: "patients",
+        key: "id",
+      },
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
       references: {
-        model: 'patientVisits',
-        key: 'id'
-      }
+        model: "patientVisits",
+        key: "id",
+      },
+      allowNull: false,
     },
     wakeUpTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     departureHomeTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     arrivalWorkTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     departureWorkTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     arrivalHomeTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     morningPlace: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     morningMedicineTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     eveningPlace: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     eveningMedicineTime: {
-      type: DataTypes.TIME
+      type: DataTypes.TIME,
     },
     medicineStorage: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     toolsAndCues: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     goal: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     morningWeekendPlace: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     eveningWeekendPlace: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
   },
   {
     sequelize: connect,
-    tableName: 'timeAndWork',
+    tableName: "timeAndWork",
     // postgresql: {
     //   fillFactor: 70
     // },
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 TimeAndWork.belongsTo(Patient, { foreignKey: 'patientID' })
 TimeAndWork.belongsTo(PatientVisits, { foreignKey: 'patientVisitID' })

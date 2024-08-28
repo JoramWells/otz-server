@@ -27,14 +27,16 @@ Adherence.init(
       references: {
         model: 'timeAndWork',
         key: 'id'
-      }
+      },
+      allowNull: false
     },
     prescriptionID: {
       type: DataTypes.UUID,
       references: {
         model: 'prescriptions',
         key: 'id'
-      }
+      },
+      allowNull:false
     },
     currentDate: {
       type: DataTypes.DATE

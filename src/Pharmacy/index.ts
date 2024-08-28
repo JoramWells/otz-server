@@ -27,6 +27,7 @@ import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes'
 import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes'
 import { calculatePills2 } from './utils/calculatePills'
 import { adherenceMonitor2 } from './utils/adherence2'
+import { scheduleJob } from 'node-schedule'
 const cors = require('cors')
 
 
@@ -58,7 +59,7 @@ app.use(express.urlencoded({
 
 // calculatePills()
 
-adherenceMonitor2()
+scheduleJob(('*/1* * * *'), function(){adherenceMonitor2()})
 
 // calculatePills2()
 // updatePills()
