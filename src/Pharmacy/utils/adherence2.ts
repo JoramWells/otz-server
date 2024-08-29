@@ -2,6 +2,7 @@ import { col, fn, Op, Sequelize } from "sequelize";
 import { TimeAndWork } from "../domain/models/adherence/timeAndWork.model";
 import { Adherence } from "../domain/models/adherence/adherence.model";
 import { Prescription } from "../domain/models/art/prescription.model";
+import moment from "moment";
 
 const adherenceMonitor2 = async () => {
   const latestTimeSchedule = await TimeAndWork.findAll({
@@ -38,7 +39,9 @@ const adherenceMonitor2 = async () => {
 
   for (const schedule of latestTimeSchedule) {
     const { patientID, createdAt, id } = schedule.dataValues;
-    const currentDate = createdAt?.toISOString().split("T")[0];
+    const currentDate = moment().format("YYYY-MM-DD");
+
+    // const currentDate = createdAt?.toISOString().split("T")[0];
     const isSet: Adherence | null = await Adherence.findOne({
       where: {
         currentDate,
@@ -63,7 +66,7 @@ const adherenceMonitor2 = async () => {
 
     
     // 
-    latestPrescriptions.find(p=>{console.log(p.dataValues.patientID, patientID)})
+    // latestPrescriptions.find(p=>{console.log(p.dataValues.patientID, patientID)})
     // console.log(latestPrescription, patientID,'poilo')
 
     // 

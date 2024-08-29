@@ -59,7 +59,8 @@ app.use(express.urlencoded({
 
 // calculatePills()
 
-scheduleJob(('*/1* * * *'), function(){adherenceMonitor2()})
+// scheduleJob(('*/1 * * *'), function(){adherenceMonitor2()})
+adherenceMonitor2()
 
 // calculatePills2()
 // updatePills()
