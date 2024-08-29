@@ -53,6 +53,11 @@ export class PatientInteractor implements IPatientInteractor {
   }
 
   //
+  async deletePatient(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
+  }
+
+  //
   async login(
     firstName: string,
     password: string

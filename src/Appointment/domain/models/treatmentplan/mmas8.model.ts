@@ -33,6 +33,7 @@ MMASEight.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -40,6 +41,7 @@ MMASEight.init(
         model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     mmasFourID: {
       type: DataTypes.UUID,
@@ -47,6 +49,7 @@ MMASEight.init(
         model: "mmasFour",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     isTookMedYesterday: {
       type: DataTypes.BOOLEAN,
@@ -88,6 +91,6 @@ MMASEight.belongsTo(Patient, { foreignKey: "patientID" });
 MMASEight.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // (async () => {
-// connect.sync()
-// console.log('MMAS 8 Table synced successfully')
+// await connect.sync()
+// console.log('MMAS 8 Table synced successfully!')
 // })()

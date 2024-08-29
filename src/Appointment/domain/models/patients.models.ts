@@ -89,7 +89,7 @@ Patient.init(
     role: {
       type: DataTypes.ENUM(...Object.values(UserRoles)),
       allowNull: false,
-      defaultValue: UserRoles.patient
+      defaultValue: UserRoles.patient,
     },
     ageAtReporting: {
       type: DataTypes.DATE,
@@ -107,8 +107,16 @@ Patient.init(
     schoolID: {
       type: DataTypes.INTEGER,
     },
+    // hospitalID: {
+    //   type: DataTypes.INTEGER,
+    // },
     hospitalID: {
       type: DataTypes.INTEGER,
+      references: {
+        model: "patients",
+        key: "id",
+      },
+      onDelete: "CASCADE",
     },
     // notifications: {
     //   type: DataTypes.JSONB,
@@ -118,7 +126,7 @@ Patient.init(
   },
   {
     sequelize: connect,
-    tableName: "patients",
+    tableName: "hospitals",
     // postgresql: {
     //   fillFactor: 70
     // },

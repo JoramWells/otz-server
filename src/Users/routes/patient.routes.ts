@@ -23,6 +23,6 @@ router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientContr
 router.post("/login", patientController.login.bind(patientController));
 router.put("/mark-important/:id", patientController.onMarkAsImportant.bind(patientController));
 
-// router.delete('/delete/:id', deletePatient);
+router.delete('/delete/:id', patientController.onDeletePatient.bind(patientController));
 
 export {router as patientRouter}

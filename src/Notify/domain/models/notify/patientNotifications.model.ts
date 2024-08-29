@@ -33,41 +33,43 @@ PatientNotification.init(
         model: "patients",
         key: "id",
       },
-      allowNull: false
-    },
-    userID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "users",
-        key: "id",
-      },
       allowNull: false,
+      onDelete: "CASCADE",
     },
+    // userID: {
+    //   type: DataTypes.UUID,
+    //   references: {
+    //     model: "users",
+    //     key: "id",
+    //   },
+    //   allowNull: false,
+    //   onDelete: "CASCADE",
+    // },
     medicineTime: {
       type: DataTypes.TIME,
     },
     message: {
       type: DataTypes.STRING,
     },
-    isSent:{
+    isSent: {
       type: DataTypes.BOOLEAN,
-      defaultValue:false,
-      allowNull:false
+      defaultValue: false,
+      allowNull: false,
     },
-    isSentDate:{
-      type:DataTypes.DATE
+    isSentDate: {
+      type: DataTypes.DATE,
     },
     isRead: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-      allowNull: false 
+      allowNull: false,
     },
     link: {
       type: DataTypes.STRING,
     },
     type: {
       type: DataTypes.STRING,
-      defaultValue: 'Medicine'
+      defaultValue: "Medicine",
     },
   },
   {
@@ -81,9 +83,10 @@ PatientNotification.init(
 );
 
 PatientNotification.belongsTo(Patient, {foreignKey:'patientID'})
-PatientNotification.belongsTo(User, {foreignKey:'userID'})
+// PatientNotification.belongsTo(User, {foreignKey:'userID'})
 
-// (async () => {
-// void connect.sync()
-// console.log('Patient Table synced successfully')
-// })()
+
+(async () => {
+await connect.sync()
+console.log('Patient Table synced successfully')
+})()

@@ -9,6 +9,7 @@ export interface IPatientRepository {
   edit: (data: PatientAttributes) => Promise<PatientAttributes | null>
   findAllPMTCTPatients: () => Promise <PatientAttributes[]>
   findOTZ: () => Promise <PatientAttributes[]>
+  delete: (id: string) => Promise<number | null>;
   login: (firstName: string, password: string) => Promise<PatientAttributes | null>
 
 }

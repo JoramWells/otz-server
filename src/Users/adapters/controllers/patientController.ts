@@ -16,12 +16,11 @@ export class PatientController {
   }
 
   async onCreatePatient(req: Request, res: Response, next: NextFunction) {
-
     // validate
-    const errors = validationResult(req)
+    const errors = validationResult(req);
 
-    if(!errors.isEmpty()){
-      return res.status(400).json({errors: errors.array()})
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const {
@@ -150,12 +149,13 @@ export class PatientController {
     try {
       const { id } = req.params;
       if (id === "undefined") {
-        logger.error('This id is undefined')
-        return null};
-      if(!isUUID(id)){
-        const errMessage = `${id} is not a valid UUID `
-        logger.error(errMessage)
-        return res.status(404).json({error: errMessage })
+        logger.error("This id is undefined");
+        return null;
+      }
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
       }
       const result = await this.interactor.getPatientById(id);
       res.status(200).json(result);
@@ -236,6 +236,25 @@ export class PatientController {
       next(error);
 
       console.log(error);
+    }
+  }
+
+  //
+  //
+  async onDeletePatient(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.deletePatient(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
