@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { Prescription } from '../domain/models/art/prescription.model'
-import { Op, col, fn } from 'sequelize'
+import { Op, Sequelize, col, fn } from 'sequelize'
 import { Patient } from '../domain/models/patients.models'
 import { ART } from '../domain/models/art/art.model'
 import { PrescriptionInterface } from 'otz-types'
@@ -35,56 +35,111 @@ const calculatePills = async () => {
 const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
   const currentDate = moment().format('YYYY-MM-DD')
 
-  const results = await Prescription.findAll({
-    attributes: [
-      //   'noOfPills',
-      [fn("MAX", col("Prescription.createdAt")), "createdAt"],
-      "patientID",
-    ],
-    where: {
-      createdAt: {
-        [Op.not]: null,
+    const latestPrescription = await Prescription.findAll({
+      attributes: [
+        //   'noOfPills',
+        [fn("MAX", col("createdAt")), "latestCreatedAt"],
+        "patientID",
+      ],
+      where: {
+        patientVisitID: {
+          [Op.not]: null,
+        },
       } as any,
-      // drugID: {
-      //   [Op.not]: null
-      // }
-    },
-    group: ["patientID"],
-  });
 
+      group: [
+        // "expectedNoOfPills",
+        // 'computedNoOfPills',
+        // "frequency",
+        // 'refillDate',
+        // 'nextRefillDate',
+        "patientID",
+        // 'Patient.id',
+        // "noOfPills",
+        // "Patient.id",
+        // "Patient.firstName",
+        // "Patient.middleName",
+      ],
+      raw: true,
+    });
 
-  const latestUpdates = results.map((item: any) => {
-    return {
-      patientID: item.dataValues.patientID,
-      createdAt: item.dataValues.createdAt
-    }
-  })
+  // const prescriptions = await Prescription.findAll({
+  //   where: {
+  //     [Op.or]: latestUpdates.map(({ patientID, createdAt }) => ({
+  //       patientID,
+  //       createdAt
+  //     }))
+  //   },
+  //   include: [
+  //     {
+  //       model: Patient,
+  //       attributes: ['id', 'firstName', 'middleName']
+  //     },
+  //     // {
+  //     //   model: ART,
+  //     //   attributes: ['artName']
+  //       // where: {
+  //       //   artName: {
+  //       //     [Op.not]: null
+  //       //   }
+  //       // }
+  //     // }
+  //   ]
+  // })
 
-  const prescriptions = await Prescription.findAll({
-    where: {
-      [Op.or]: latestUpdates.map(({ patientID, createdAt }) => ({
-        patientID,
-        createdAt
-      }))
-    },
-    include: [
-      {
-        model: Patient,
-        attributes: ['id', 'firstName', 'middleName']
-      },
-      // {
-      //   model: ART,
-      //   attributes: ['artName']
-        // where: {
-        //   artName: {
-        //     [Op.not]: null
-        //   }
-        // }
-      // }
-    ]
-  })
+  // 
+      const prescriptions = await Prescription.findAll({
+        where: {
+          [Op.and]: [
+            {
+              patientID: {
+                [Op.in]: latestPrescription.map(
+                  (prescription) => prescription.patientID
+                ),
+              },
+            },
+            Sequelize.where(
+              col("Prescription.createdAt"),
+              Op.eq,
+              Sequelize.literal(
+                `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
+              )
+            ),
+          ],
+        },
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName", "isImportant"],
+          },
 
-  //   console.log(prescriptions)
+          // {
+          //   model: ART,
+          //   attributes: ['artName']
+          // where: {
+          //   artName: {
+          //     [Op.not]: null
+          //   }
+          // }
+          // }
+        ],
+        attributes: [
+          'id',
+          "expectedNoOfPills",
+          "computedNoOfPills",
+          "frequency",
+          "refillDate",
+          "nextRefillDate",
+          "patientID",
+          // 'Patient.id',
+          "noOfPills",
+          // "Patient.id",
+          // "Patient.firstName",
+          // "Patient.middleName",
+        ],
+      });
+
+    // console.log(prescriptions)
 
   const arr: PrescriptionInterface[] = []
 
@@ -104,10 +159,12 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
         "Expected no of pills",
         art.expectedNoOfPills
       );
+      
       arr.push({ ...art.dataValues, message: 'Patient Adhered', remainingPills } as any)
     } else {
-      console.log('Updating...')
+      // console.log(art)
       await art.update({
+        id: art.dataValues.id,
         expectedNoOfPills: remainingPills,
         updatedAtExpectedNoOfPills: currentDate as unknown as Date
       })

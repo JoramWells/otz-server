@@ -51,9 +51,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "patientID",
              ],
       where: {
-        createdAt: {
-          [Op.not]: null,
-        },
         patientVisitID: {
           [Op.not]: null
         }
