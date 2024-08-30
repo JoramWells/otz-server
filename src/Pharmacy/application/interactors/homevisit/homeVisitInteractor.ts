@@ -9,6 +9,9 @@ export class HomeVisitInteractor implements IHomeVisitInteractor {
   constructor (repository: IHomeVisitRepository) {
     this.repository = repository
   }
+  async getAllHomeVisitById (id: string): Promise<HomeVisitAttributes[] | null>{
+    return await this.repository.findAllById(id)
+  }
 
   async getHomeVisitById (id: string): Promise<HomeVisitAttributes | null> {
     return await this.repository.findById(id)

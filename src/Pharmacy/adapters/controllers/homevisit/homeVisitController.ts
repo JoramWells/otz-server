@@ -49,4 +49,18 @@ export class HomeVisitController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  //
+  async onGetAllHomeVisitById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getAllHomeVisitById(id)
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }

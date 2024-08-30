@@ -8,22 +8,18 @@ import { Patient } from "../../../domain/models/patients.models";
 import { User } from "../../../domain/models/user.model";
 import { HomeVisitReason } from "../../../domain/models/homevisit/homeVisitReason.model";
 import { HomeVisitFrequency } from "../../../domain/models/homevisit/homeVisitFrequency.model";
+import { ART } from "../../../domain/models/art/art.model";
 
 
 export class HomeVisitRepository implements IHomeVisitRepository {
   private readonly kafkaProducer = new KafkaAdapter();
 
-  async create(
-    data: HomeVisitAttributes
-  ): Promise<HomeVisitAttributes> {
+  async create(data: HomeVisitAttributes): Promise<HomeVisitAttributes> {
     //
 
-
-    return await connect.transaction(async(t)=>{
-    return await HomeVisit.create(
-      data,{transaction:t}
-    );
-    // if (data.appointmentAgendaID) {
+    return await connect.transaction(async (t) => {
+      return await HomeVisit.create(data, { transaction: t });
+      // if (data.appointmentAgendaID) {
       // await this.kafkaProducer.sendMessage("appointment", [
       //   { value: JSON.stringify(appointmentInput2) },
       // ]);
@@ -34,36 +30,33 @@ export class HomeVisitRepository implements IHomeVisitRepository {
       //   { value: JSON.stringify(completeInputs) },
       // ]);
       // console.log("Prescribing...!!");
-    // }
+      // }
 
-
-    // return results;
-    })
-
-
+      // return results;
+    });
   }
 
   async find(): Promise<HomeVisitAttributes[]> {
-     const results = await HomeVisit.findAll({
-       include: [
-         {
-           model: Patient,
-           attributes: ["firstName", "middleName", "lastName"],
-         },
-         {
-           model: User,
-           attributes: ["firstName", "middleName", "lastName"],
-         },
-         {
-           model: HomeVisitReason,
-           attributes: ["homeVisitReasonDescription"],
-         },
-         {
-           model: HomeVisitFrequency,
-           attributes: ["homeVisitFrequencyDescription"],
-         },
-       ],
-     });
+    const results = await HomeVisit.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "lastName"],
+        },
+        {
+          model: User,
+          attributes: ["firstName", "middleName", "lastName"],
+        },
+        {
+          model: HomeVisitReason,
+          attributes: ["homeVisitReasonDescription"],
+        },
+        {
+          model: HomeVisitFrequency,
+          attributes: ["homeVisitFrequencyDescription"],
+        },
+      ],
+    });
     return results;
   }
 
@@ -77,4 +70,32 @@ export class HomeVisitRepository implements IHomeVisitRepository {
 
     return results;
   }
+
+  async findAllById (id: string) :Promise<HomeVisitAttributes[] | null>{
+        const results = await HomeVisit.findAll({
+          where: {
+            id,
+          },
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "middleName", "lastName"],
+            },
+            {
+              model: ART,
+              attributes: ["artName"],
+            },
+            {
+              model: HomeVisitReason,
+              attributes: ["id", "homeVisitReasonDescription"],
+            },
+            {
+              model: HomeVisitFrequency,
+              attributes: ["id", "homeVisitFrequencyDescription"],
+            },
+          ],
+        });
+        return results
+   
+  };
 }

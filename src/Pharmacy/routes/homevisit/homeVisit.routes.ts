@@ -14,6 +14,7 @@ const router = express.Router()
 router.post('/add', controller.onCreateAHomeVisit.bind(controller))
 router.get('/fetchAll', controller.onGetAllHomeVisits.bind(controller))
 router.get('/detail/:id', controller.onGetAHomeVisitById.bind(controller))
+router.get("/details/:id", controller.onGetAllHomeVisitById.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

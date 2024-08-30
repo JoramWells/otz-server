@@ -1,27 +1,27 @@
-import { HomeVisitFrequencyAttributes } from "otz-types";
-import { IHomeVisitFrequencyInteractor } from "../../interfaces/homevisit/IHomeVisitFrequencyInteractor";
+import {  HomeVisitReasonAttributes } from "otz-types";
 import { IHomeVisitFrequencyRepository } from "../../interfaces/homevisit/IHomeVisitFRequencyRepository";
+import { IHomeVisitReasonInteractor } from "../../interfaces/homevisit/IHomeVisitReasonInteractor";
 
-export class HomeVisitReasonInteractor implements IHomeVisitFrequencyInteractor {
+export class HomeVisitReasonInteractor implements IHomeVisitReasonInteractor {
   private readonly repository: IHomeVisitFrequencyRepository;
 
   constructor(repository: IHomeVisitFrequencyRepository) {
     this.repository = repository;
   }
 
-  async getHomeVisitFrequencyById(
+  async getHomeVisitReasonById(
     id: string
-  ): Promise<HomeVisitFrequencyAttributes | null> {
+  ): Promise<HomeVisitReasonAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createHomeVisitFrequency(
-    patientData: HomeVisitFrequencyAttributes
-  ): Promise<HomeVisitFrequencyAttributes | null> {
+  async createHomeVisitReason(
+    patientData: HomeVisitReasonAttributes
+  ): Promise<HomeVisitReasonAttributes | null> {
     return await this.repository.create(patientData);
   }
 
-  async getAllHomeVisitFrequencies(): Promise<HomeVisitFrequencyAttributes[]> {
+  async getAllHomeVisitReasons(): Promise<HomeVisitReasonAttributes[]> {
     return await this.repository.find();
   }
 }
