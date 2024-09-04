@@ -1,4 +1,4 @@
-import { HomeVisitAttributes } from "otz-types";
+import { AppointmentAttributes, HomeVisitAttributes } from "otz-types";
 import { IHomeVisitRepository } from "../../../application/interfaces/homevisit/IHomeVisitRepository";
 import { KafkaAdapter } from "../../kafka/producer/kafka.producer";
 import { connect } from "../../../domain/db/connect";
@@ -10,14 +10,16 @@ import { HomeVisitReason } from "../../../domain/models/homevisit/homeVisitReaso
 import { HomeVisitFrequency } from "../../../domain/models/homevisit/homeVisitFrequency.model";
 import { ART } from "../../../domain/models/art/art.model";
 
-
 export class HomeVisitRepository implements IHomeVisitRepository {
   private readonly kafkaProducer = new KafkaAdapter();
 
-  async create(data: HomeVisitAttributes): Promise<HomeVisitAttributes> {
+  async create(data: HomeVisitAttributes, appointmentInput: AppointmentAttributes): Promise<HomeVisitAttributes> {
     //
 
     return await connect.transaction(async (t) => {
+      await this.kafkaProducer.sendMessage("create", [
+        { value: JSON.stringify({...appointmentInput, agenda:'Home Visit'}) },
+      ]);
       return await HomeVisit.create(data, { transaction: t });
       // if (data.appointmentAgendaID) {
       // await this.kafkaProducer.sendMessage("appointment", [
@@ -26,9 +28,7 @@ export class HomeVisitRepository implements IHomeVisitRepository {
       // await Appointment.create(appointmentInput2, { transaction: t });
 
       //
-      // await this.kafkaProducer.sendMessage("complete", [
-      //   { value: JSON.stringify(completeInputs) },
-      // ]);
+
       // console.log("Prescribing...!!");
       // }
 
@@ -71,31 +71,30 @@ export class HomeVisitRepository implements IHomeVisitRepository {
     return results;
   }
 
-  async findAllById (id: string) :Promise<HomeVisitAttributes[] | null>{
-        const results = await HomeVisit.findAll({
-          where: {
-            id,
-          },
-          include: [
-            {
-              model: User,
-              attributes: ["firstName", "middleName", "lastName"],
-            },
-            {
-              model: ART,
-              attributes: ["artName"],
-            },
-            {
-              model: HomeVisitReason,
-              attributes: ["id", "homeVisitReasonDescription"],
-            },
-            {
-              model: HomeVisitFrequency,
-              attributes: ["id", "homeVisitFrequencyDescription"],
-            },
-          ],
-        });
-        return results
-   
-  };
+  async findAllById(id: string): Promise<HomeVisitAttributes[] | null> {
+    const results = await HomeVisit.findAll({
+      where: {
+        id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "middleName", "lastName"],
+        },
+        {
+          model: ART,
+          attributes: ["artName"],
+        },
+        {
+          model: HomeVisitReason,
+          attributes: ["id", "homeVisitReasonDescription"],
+        },
+        {
+          model: HomeVisitFrequency,
+          attributes: ["id", "homeVisitFrequencyDescription"],
+        },
+      ],
+    });
+    return results;
+  }
 }

@@ -16,7 +16,7 @@ async function handleMessage ({message}: EachMessagePayload){
         }
 
         return await Promise.all([
-            markAppointmentAsCompleted(completeInputs as any),
+            // markAppointmentAsCompleted(completeInputs as any),
             createAppointment(data)
         ])
 

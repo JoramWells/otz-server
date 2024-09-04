@@ -7,6 +7,14 @@ import { connect } from "../../../db/connect";
 import { AppointmentAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
+export enum AppointmentFrequency {
+  Bimonthly = "Bimonthly",
+  Daily = "Daily",
+  Weekly = "Weekly",
+  Monthly = "Monthly",
+  Once = 'Once'
+}
+
 export class Appointment
   extends Model<AppointmentAttributes>
   implements AppointmentAttributes
@@ -20,6 +28,7 @@ export class Appointment
   appointmentAgendaID?: string | undefined;
   appointmentStatusID?: string | undefined;
   appointmentDate?: string | undefined;
+  frequency?: AppointmentFrequency | undefined;
   appointmentTime?: string | undefined;
   rescheduledDate?: string | undefined;
   rescheduledReason?: string | undefined;
@@ -79,6 +88,12 @@ Appointment.init(
     },
     appointmentDate: {
       type: DataTypes.DATEONLY,
+    },
+    frequency: {
+      type: DataTypes.ENUM(...Object.values(AppointmentFrequency)),
+      // unique: true,
+      allowNull: true,
+      defaultValue: AppointmentFrequency.Once,
     },
     isStarred: {
       type: DataTypes.BOOLEAN,
@@ -143,7 +158,8 @@ Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 // });
 
 
+
 // (async () => {
-// void connect.sync({alter:true}, )
+void connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

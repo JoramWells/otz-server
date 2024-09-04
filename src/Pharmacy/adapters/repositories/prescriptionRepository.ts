@@ -1,59 +1,58 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
-import { type IPrescriptionRepository } from '../../application/interfaces/art/IPrescriptionRepository'
-import { connect } from '../../domain/db/connect'
+import { AppointmentAttributes, PrescriptionInterface } from "otz-types";
+import { type IPrescriptionRepository } from "../../application/interfaces/art/IPrescriptionRepository";
+import { connect } from "../../domain/db/connect";
 
-import { Prescription } from '../../domain/models/art/prescription.model'
-import { calculateFacilityAdherence } from '../../utils/adherence'
-import { calculatePills2 } from '../../utils/calculatePills'
-import { KafkaAdapter } from '../kafka/producer/kafka.producer'
-import { col, fn, Op, Sequelize } from 'sequelize'
-import { Patient } from '../../domain/models/patients.models'
-
+import { Prescription } from "../../domain/models/art/prescription.model";
+import { calculateFacilityAdherence } from "../../utils/adherence";
+import { calculatePills2 } from "../../utils/calculatePills";
+import { KafkaAdapter } from "../kafka/producer/kafka.producer";
+import { col, fn, Op, Sequelize } from "sequelize";
+import { Patient } from "../../domain/models/patients.models";
 
 export class PrescriptionRepository implements IPrescriptionRepository {
-  private readonly kafkaProducer = new KafkaAdapter()
+  private readonly kafkaProducer = new KafkaAdapter();
   async create(
     data: PrescriptionInterface,
     appointmentInput: AppointmentAttributes
   ): Promise<PrescriptionInterface | null> {
-    const {patientID} = appointmentInput
-    const agenda = 'Refill'
-    const completeInputs={
+    const { patientID } = appointmentInput;
+    const agenda = "Refill";
+    const completeInputs = {
       patientID,
-      agenda
-    }
+      agenda,
+    };
 
-    console.log(data, 'pData')
-  
+    console.log(data, "pData");
+
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {
         transaction: t,
       });
 
-      await this.kafkaProducer.sendMessage('create',[{value:JSON.stringify(appointmentInput)}])
+      await this.kafkaProducer.sendMessage("create", [
+        { value: JSON.stringify({ ...appointmentInput, agenda: "Refill" }) },
+      ]);
       // await this.kafkaProducer.sendMessage('complete',[{value:JSON.stringify(completeInputs)}])
-
 
       return results;
     });
   }
 
-
   async find(): Promise<PrescriptionInterface[]> {
-    console.log('finding...')
+    console.log("finding...");
     const latestPrescription = await Prescription.findAll({
       attributes: [
         //   'noOfPills',
         [fn("MAX", col("createdAt")), "latestCreatedAt"],
         "patientID",
-             ],
+      ],
       where: {
         patientVisitID: {
-          [Op.not]: null
-        }
+          [Op.not]: null,
+        },
       } as any,
 
       group: [
@@ -69,7 +68,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         // "Patient.firstName",
         // "Patient.middleName",
       ],
-      raw: true
+      raw: true,
     });
 
     const results = await Prescription.findAll({
@@ -94,7 +93,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       include: [
         {
           model: Patient,
-          attributes: ["id", "firstName", "middleName", 'isImportant'],
+          attributes: ["id", "firstName", "middleName", "isImportant"],
         },
 
         // {
@@ -109,10 +108,10 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       ],
       attributes: [
         "expectedNoOfPills",
-        'computedNoOfPills',
+        "computedNoOfPills",
         "frequency",
-        'refillDate',
-        'nextRefillDate',
+        "refillDate",
+        "nextRefillDate",
         "patientID",
         // 'Patient.id',
         "noOfPills",
@@ -180,7 +179,9 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   }
 
   //
-  async findAllByPatientId(id: string): Promise<PrescriptionInterface[] | null> {
+  async findAllByPatientId(
+    id: string
+  ): Promise<PrescriptionInterface[] | null> {
     const results = await Prescription.findAll({
       where: {
         patientID: id,

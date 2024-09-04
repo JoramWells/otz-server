@@ -1,4 +1,4 @@
-import { HomeVisitAttributes } from "otz-types"
+import { AppointmentAttributes, HomeVisitAttributes } from "otz-types"
 import { IHomeVisitRepository } from "../../interfaces/homevisit/IHomeVisitRepository"
 import { IHomeVisitInteractor } from "../../interfaces/homevisit/IHomeVisitInteractor"
 
@@ -18,9 +18,10 @@ export class HomeVisitInteractor implements IHomeVisitInteractor {
   }
 
   async createHomeVisit (
-    data: HomeVisitAttributes
+    data: HomeVisitAttributes,
+    appointmentInput: AppointmentAttributes
   ): Promise<HomeVisitAttributes | null> {
-    return await this.repository.create(data)
+    return await this.repository.create(data, appointmentInput)
   }
 
   async getAllHomeVisits (): Promise<HomeVisitAttributes[]> {

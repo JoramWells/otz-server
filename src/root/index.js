@@ -15,8 +15,6 @@ require('dotenv').config();
 
 const sequelize = require('./db/connect');
 
-
-
 const locationRoutes = require('./Location/routes/location.routes');
 const countyRoutes = require('./Location/routes/county.routes');
 const subCountyRoutes = require('./Location/routes/subCounty.routes');

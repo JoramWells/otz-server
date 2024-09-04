@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
-import { IHomeVisitInteractor } from '../../../application/interfaces/homevisit/IHomeVisitInteractor'
+import { type NextFunction, type Request, type Response } from "express";
+import { IHomeVisitInteractor } from "../../../application/interfaces/homevisit/IHomeVisitInteractor";
+import { AppointmentAttributes, HomeVisitAttributes } from "otz-types";
 
 export class HomeVisitController {
   private readonly interactor: IHomeVisitInteractor;
@@ -12,8 +13,63 @@ export class HomeVisitController {
 
   async onCreateAHomeVisit(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
-      const newProfile = await this.interactor.createHomeVisit(req.body);
+      const {
+        homeVisitReasonID,
+        userID,
+        patientID,
+        dateRequested,
+        artPrescription,
+        tbPrescription,
+        homeVisitFrequencyID,
+        frequency,
+        ol_drugs,
+        noOfPills,
+        medicineStatus,
+        actionTaken,
+        returnToClinic,
+        isPillsCounted,
+        isClinicVisits,
+        isDisclosure,
+        isGuardianSupport,
+        isSupportGroupAttendance,
+        isHouseholdTested,
+        appointmentAgendaID,
+        appointmentStatusID,
+        patientVisitID,
+        nextRefillDate,
+      } = req.body;
+
+          const appointmentInput: AppointmentAttributes = {
+            userID,
+            patientID,
+            patientVisitID,
+            appointmentAgendaID,
+            appointmentStatusID,
+            frequency,
+            appointmentDate: nextRefillDate as unknown as string,
+          };
+
+          const homeVisitInput: HomeVisitAttributes = {
+            homeVisitReasonID,
+
+            dateRequested,
+            artPrescription,
+            tbPrescription,
+            homeVisitFrequencyID,
+            ol_drugs,
+            noOfPills,
+            medicineStatus,
+            actionTaken,
+            returnToClinic,
+            isPillsCounted,
+            isClinicVisits,
+            isDisclosure,
+            isGuardianSupport,
+            isSupportGroupAttendance,
+            isHouseholdTested,
+          };
+
+      const newProfile = await this.interactor.createHomeVisit(homeVisitInput, appointmentInput);
       res.json(newProfile);
       next();
     } catch (error) {
@@ -54,7 +110,7 @@ export class HomeVisitController {
   async onGetAllHomeVisitById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getAllHomeVisitById(id)
+      const result = await this.interactor.getAllHomeVisitById(id);
       res.status(200).json(result);
       next();
     } catch (error) {
