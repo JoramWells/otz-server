@@ -10,6 +10,7 @@ export interface HomeVisitAttributes {
   noOfPills?: number;
   medicineStatus?: string;
   actionTaken?: string;
+  ol_drugs?: string;
   returnToClinic?: string;
   isPillsCounted?: boolean;
   isClinicVisits?: boolean;
