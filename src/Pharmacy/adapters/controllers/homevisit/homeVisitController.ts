@@ -14,13 +14,11 @@ export class HomeVisitController {
   async onCreateAHomeVisit(req: Request, res: Response, next: NextFunction) {
     try {
       const {
-        homeVisitReasonID,
         userID,
         patientID,
-        dateRequested,
         artPrescription,
         tbPrescription,
-        homeVisitFrequencyID,
+        homeVisitConfigID,
         frequency,
         ol_drugs,
         noOfPills,
@@ -50,12 +48,10 @@ export class HomeVisitController {
           };
 
           const homeVisitInput: HomeVisitAttributes = {
-            homeVisitReasonID,
+            homeVisitConfigID,
 
-            dateRequested,
             artPrescription,
             tbPrescription,
-            homeVisitFrequencyID,
             ol_drugs,
             noOfPills,
             medicineStatus,

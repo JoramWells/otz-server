@@ -31,6 +31,7 @@ import { scheduleJob } from 'node-schedule'
 import { homeVisitReasonRouter } from './routes/homevisit/homeVisitReason.routes'
 import { homeVisitFrequencyRouter } from './routes/homevisit/homeVisitFrequency.routes'
 import { homeVisitRouter } from './routes/homevisit/homeVisit.routes'
+import { homeVisitConfigRouter } from './routes/homevisit/homeVisitConfig.routes'
 const cors = require('cors')
 
 
@@ -139,6 +140,7 @@ app.use("/enhanced-adherence", enhancedAdherenceRouter);
 app.use('/home-visit-reason', homeVisitReasonRouter);
 app.use('/home-visit-frequency', homeVisitFrequencyRouter);
 app.use('/home-visit', homeVisitRouter);
+app.use('/home-visit-config', homeVisitConfigRouter);
 
 // init sentry
 initSentry((app))

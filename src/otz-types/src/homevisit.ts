@@ -1,10 +1,23 @@
-export interface HomeVisitAttributes {
+export enum FrequencyAttributes {
+  Bimonthly = "Bimonthly",
+  Daily = "Daily",
+  Monthly = "Monthly",
+  Once = "Once",
+  Weekly = "Weekly",
+}
+
+export interface HomeVisitConfigAttributes {
   id?: string;
   patientID?: string;
   homeVisitReasonID?: string;
   userID?: string;
   dateRequested?: string;
-  homeVisitFrequencyID?: string;
+  frequency?: FrequencyAttributes;
+}
+
+export interface HomeVisitAttributes {
+  id?: string;
+  homeVisitConfigID?: string;
   artPrescription?: string;
   tbPrescription?: string;
   noOfPills?: number;
@@ -29,4 +42,3 @@ export interface HomeVisitReasonAttributes {
   id?: string;
   homeVisitReasonDescription?: string;
 }
-

@@ -6,37 +6,27 @@ import { Patient } from '../patients.models';
 import { User } from '../user.model';
 import { HomeVisitReason } from './homeVisitReason.model';
 import { HomeVisitFrequency } from './homeVisitFrequency.model';
-// import { type PatientEntity } from '../entities/PatientEntity'
+import { HomeVisitConfig } from './homeVisitConfig.model';
 
-export enum UserRoles {
-  Admin = "admin",
-  Clinician = "clinician",
-  MentorMother = "mentor mother",
-  AYPAdvocate = "ayp advocate",
-  Nurse = "nurse",
-  patient = "patient",
-}
 
-export class HomeVisit extends Model<HomeVisitAttributes> implements HomeVisitAttributes {
-id?: string | undefined;
-patientID?: string | undefined;
-homeVisitFrequencyID?: string | undefined;
-homeVisitReasonID?: string | undefined;
-userID?: string | undefined;
-dateRequested?: string | undefined;
-artPrescription?: string | undefined;
-tbPrescription?: string | undefined;
-noOfPills?: number | undefined;
-medicineStatus?: string | undefined;
-actionTaken?: string | undefined;
-returnToClinic?: string | undefined;
-isPillsCounted?: boolean | undefined;
-isClinicVisits?: boolean | undefined;
-isDisclosure?: boolean | undefined;
-isGuardianSupport?: boolean | undefined;
-isSupportGroupAttendance?: boolean | undefined;
-isHouseholdTested?: boolean | undefined;
-
+export class HomeVisit
+  extends Model<HomeVisitAttributes>
+  implements HomeVisitAttributes
+{
+  id?: string | undefined;
+  homeVisitConfigID?: string | undefined;
+  artPrescription?: string | undefined;
+  tbPrescription?: string | undefined;
+  noOfPills?: number | undefined;
+  medicineStatus?: string | undefined;
+  actionTaken?: string | undefined;
+  returnToClinic?: string | undefined;
+  isPillsCounted?: boolean | undefined;
+  isClinicVisits?: boolean | undefined;
+  isDisclosure?: boolean | undefined;
+  isGuardianSupport?: boolean | undefined;
+  isSupportGroupAttendance?: boolean | undefined;
+  isHouseholdTested?: boolean | undefined;
 }
 
 HomeVisit.init(
@@ -46,48 +36,16 @@ HomeVisit.init(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    patientID: {
+    homeVisitConfigID: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "homeVisitConfig",
         key: "id",
       },
-    },
-    homeVisitReasonID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "homeVisitReasons",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    userID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "users",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-    },
-    dateRequested: {
-      type: DataTypes.DATE,
-    },
-    homeVisitFrequencyID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "homeVisitFrequencies",
-        key: "id",
-      },
-      onDelete: "CASCADE",
     },
     artPrescription: {
       type: DataTypes.JSONB,
-      // references: {
-      //   model: 'artPrescription',
-      //   key: 'id',
-      // },
-      // onDelete: 'CASCADE',
-    },
+     },
     tbPrescription: {
       type: DataTypes.JSONB,
     },
@@ -133,11 +91,8 @@ HomeVisit.init(
   }
 );
 
-HomeVisit.belongsTo(ART, { foreignKey: "artPrescriptionID" });
-HomeVisit.belongsTo(Patient, { foreignKey: "patientID" });
-HomeVisit.belongsTo(User, { foreignKey: "userID" });
-HomeVisit.belongsTo(HomeVisitReason, { foreignKey: "homeVisitReasonID" });
-HomeVisit.belongsTo(HomeVisitFrequency, { foreignKey: "homeVisitFrequencyID" });
+HomeVisit.belongsTo(HomeVisitConfig, { foreignKey: "homeVisitConfigID" });
+
 
 // Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
