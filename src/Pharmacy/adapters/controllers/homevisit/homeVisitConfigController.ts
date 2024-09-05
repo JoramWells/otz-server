@@ -17,14 +17,16 @@ export class HomeVisitConfigController {
         userID,
         patientID,
         dateRequested,
-        homeVisitFrequencyID,
         frequency,
+        // frequency,
 
         appointmentAgendaID,
         appointmentStatusID,
         patientVisitID,
-        nextRefillDate,
+        // nextRefillDate,
       } = req.body;
+
+      // console.log(req.body)
 
       const appointmentInput: AppointmentAttributes = {
         userID,
@@ -33,12 +35,12 @@ export class HomeVisitConfigController {
         appointmentAgendaID,
         appointmentStatusID,
         frequency,
-        appointmentDate: nextRefillDate as unknown as string,
+        appointmentDate: dateRequested as unknown as string,
       };
 
       const homeVisitInput: HomeVisitConfigAttributes = {
         dateRequested,
-        homeVisitFrequencyID,
+        frequency,
         patientID,
         userID,
       };

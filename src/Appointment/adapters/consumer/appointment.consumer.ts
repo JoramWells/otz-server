@@ -1,4 +1,5 @@
 import { createAppointment, markAppointmentAsCompleted } from "../../application/use_cases/appointment.usecase";
+import { createAppointmentOccurrence } from "../../utils/calculateNextOccurrence";
 import { logger } from "../../utils/logger";
 import {  consumeMessages, createConsumer } from "../repositories/kafkaConsumerAdapter";
 import { EachMessagePayload } from "kafkajs";
@@ -8,17 +9,16 @@ async function handleMessage ({message}: EachMessagePayload){
     try {
       if (message.value) {
         const data = JSON.parse(message.value.toString());
-        const {patientID} = data
-        const agenda = 'Refill'
-        const completeInputs={
-          patientID,
-          agenda
-        }
+        // const {appointmentDate, frequency} = data
+        const nextAppointment = await createAppointmentOccurrence(data)
+        console.log({...data, nextAppointment}, 'Data at consumer!!')
 
-        return await Promise.all([
+
+
+        // return await Promise.all([
             // markAppointmentAsCompleted(completeInputs as any),
-            createAppointment(data)
-        ])
+            await createAppointment({...data, appointmentDate: nextAppointment})
+        // ])
 
 
       }
@@ -47,12 +47,12 @@ async function completeAppointment({message}: EachMessagePayload){
 const startAppointmentConsumer = async ()=>{
     console.log('appointment consumer started...')
 
-    await Promise.all([
+    // await Promise.all([
       // consumeMessages("create", handleMessage),
       // consumeMessages("complete", completeAppointment),
-      createConsumer('create-group',"create", handleMessage),
+      await createConsumer('create-group',"create", handleMessage)
       // createConsumer("complete-group", "complete", completeAppointment)
-    ]);
+    // ]);
 
 
 

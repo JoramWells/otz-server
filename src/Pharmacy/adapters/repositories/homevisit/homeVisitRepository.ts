@@ -36,26 +36,27 @@ export class HomeVisitRepository implements IHomeVisitRepository {
     });
   }
 
+
   async find(): Promise<HomeVisitAttributes[]> {
     const results = await HomeVisit.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ["firstName", "middleName", "lastName"],
-        },
-        {
-          model: User,
-          attributes: ["firstName", "middleName", "lastName"],
-        },
-        {
-          model: HomeVisitReason,
-          attributes: ["homeVisitReasonDescription"],
-        },
-        {
-          model: HomeVisitFrequency,
-          attributes: ["homeVisitFrequencyDescription"],
-        },
-      ],
+      // include: [
+        // {
+        //   model: Patient,
+        //   attributes: ["firstName", "middleName", "lastName"],
+        // },
+        // {
+        //   model: User,
+        //   attributes: ["firstName", "middleName", "lastName"],
+        // },
+      //   {
+      //     model: HomeVisitReason,
+      //     attributes: ["homeVisitReasonDescription"],
+      //   },
+      //   {
+      //     model: HomeVisitFrequency,
+      //     attributes: ["homeVisitFrequencyDescription"],
+      //   },
+      // ],
     });
     return results;
   }

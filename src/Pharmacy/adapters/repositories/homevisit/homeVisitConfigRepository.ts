@@ -19,6 +19,9 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
       await this.kafkaProducer.sendMessage("create", [
         { value: JSON.stringify({...appointmentInput, agenda:'Home Visit'}) },
       ]);
+
+      console.log('Calling create***')
+
       return await HomeVisitConfig.create(data, { transaction: t });
       // if (data.appointmentAgendaID) {
       // await this.kafkaProducer.sendMessage("appointment", [
@@ -33,6 +36,15 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
 
       // return results;
     });
+
+    // await Promise.all([
+    //   this.kafkaProducer.sendMessage("create", [
+    //     {
+    //       value: JSON.stringify({ ...appointmentInput, agenda: "Home Visit" }),
+    //     },
+    //   ]),
+    //   HomeVisitConfig.create(data)
+    // ]);
   }
 
   async find(): Promise<HomeVisitConfigAttributes[]> {

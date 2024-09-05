@@ -44,7 +44,7 @@ Appointment.init(
     userID: {
       type: DataTypes.UUID,
       references: {
-        model: "users",
+        model: "patients",
         key: "id",
       },
       onDelete: "CASCADE",
@@ -161,5 +161,6 @@ Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
 // (async () => {
 void connect.sync()
-// console.log('Patient Table synced successfully')
+
+console.log('Patient Table synced successfully')
 // })()

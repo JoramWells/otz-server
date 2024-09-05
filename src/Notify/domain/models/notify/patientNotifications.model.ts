@@ -86,7 +86,7 @@ PatientNotification.belongsTo(Patient, {foreignKey:'patientID'})
 // PatientNotification.belongsTo(User, {foreignKey:'userID'})
 
 
-(async () => {
-await connect.sync()
-console.log('Patient Table synced successfully')
-})()
+// (async () => {
+connect.sync()
+// console.log('Patient Table synced successfully')
+// })()
