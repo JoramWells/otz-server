@@ -29,7 +29,6 @@ async function handleMessage ({message}: EachMessagePayload){
 
 }
 
-
 async function completeAppointment({message}: EachMessagePayload){
   try {
     if(message.value){

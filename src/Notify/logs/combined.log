@@ -688,3 +688,6 @@
 {"level":"info","message":"Morning Notification created for patient:, 240a8369-9323-49bb-b079-b1fd96f9ec3b","service":"pharmacy-service","timestamp":"2024-08-28T08:15:10.876Z"}
 {"level":"info","message":"Morning Notification created for patient:, 6f5ce5e6-ad54-4a11-b207-162d8a447950","service":"pharmacy-service","timestamp":"2024-08-29T08:00:12.009Z"}
 {"level":"info","message":"Morning Notification created for patient:, 240a8369-9323-49bb-b079-b1fd96f9ec3b","service":"pharmacy-service","timestamp":"2024-08-29T08:15:02.717Z"}
+{"level":"info","message":"Morning Notification created for patient:, 3025777e-a5e0-480c-a772-08187913ac22","service":"pharmacy-service","timestamp":"2024-09-05T07:34:45.099Z"}
+{"level":"info","message":"Morning Notification created for patient:, 6f5ce5e6-ad54-4a11-b207-162d8a447950","service":"pharmacy-service","timestamp":"2024-09-05T08:05:44.819Z"}
+{"level":"info","message":"Morning Notification created for patient:, 240a8369-9323-49bb-b079-b1fd96f9ec3b","service":"pharmacy-service","timestamp":"2024-09-05T08:15:03.416Z"}

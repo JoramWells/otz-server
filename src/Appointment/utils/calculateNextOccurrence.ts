@@ -2,7 +2,7 @@ import moment from "moment";
 import { AppointmentAttributes } from "otz-types";
 
 
-function calculateNextOccurrence(appointmentDate, frequency: string){
+function calculateNextOccurrence(appointmentDate: string | Date, frequency: string){
     const startDate = new Date(appointmentDate)
     let nextRefillDate;
 
@@ -37,7 +37,7 @@ function calculateNextOccurrence(appointmentDate, frequency: string){
 async function createAppointmentOccurrence(data: AppointmentAttributes) {
   const { appointmentDate, frequency } = data;
   console.log(data)
-  let nextRefillDate  = calculateNextOccurrence(new Date(appointmentDate), frequency)
+  let nextRefillDate  = calculateNextOccurrence(new Date(appointmentDate!), frequency!)
 
 
   return nextRefillDate;

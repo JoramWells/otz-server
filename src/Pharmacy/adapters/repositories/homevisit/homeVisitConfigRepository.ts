@@ -54,18 +54,18 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
           model: Patient,
           attributes: ["firstName", "middleName", "lastName"],
         },
-        {
-          model: User,
-          attributes: ["firstName", "middleName", "lastName"],
-        },
+        // {
+        //   model: User,
+        //   attributes: ["firstName", "middleName", "lastName"],
+        // },
         {
           model: HomeVisitReason,
           attributes: ["homeVisitReasonDescription"],
         },
-        {
-          model: HomeVisitFrequency,
-          attributes: ["homeVisitFrequencyDescription"],
-        },
+        // {
+        //   model: HomeVisitFrequency,
+        //   attributes: ["homeVisitFrequencyDescription"],
+        // },
       ],
     });
     return results;

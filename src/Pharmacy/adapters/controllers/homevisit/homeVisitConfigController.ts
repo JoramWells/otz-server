@@ -23,6 +23,7 @@ export class HomeVisitConfigController {
         appointmentAgendaID,
         appointmentStatusID,
         patientVisitID,
+        homeVisitReasonID,
         // nextRefillDate,
       } = req.body;
 
@@ -39,6 +40,7 @@ export class HomeVisitConfigController {
       };
 
       const homeVisitInput: HomeVisitConfigAttributes = {
+        homeVisitReasonID,
         dateRequested,
         frequency,
         patientID,
