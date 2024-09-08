@@ -35,6 +35,8 @@ HomeVisitConfig.init(
         model: "patients",
         key: "id",
       },
+      onDelete: 'CASCADE',
+      allowNull: false
     },
     homeVisitReasonID: {
       type: DataTypes.UUID,
@@ -43,6 +45,7 @@ HomeVisitConfig.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false
     },
     userID: {
       type: DataTypes.UUID,
@@ -51,6 +54,7 @@ HomeVisitConfig.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false
     },
     dateRequested: {
       type: DataTypes.DATE,

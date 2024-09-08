@@ -15,13 +15,18 @@ export interface HomeVisitConfigAttributes {
   frequency?: FrequencyAttributes;
 }
 
+export enum MedicineStatusAttributes {
+  Adequate = "Adequate",
+  Inadequate = "Inadequate",
+}
+
 export interface HomeVisitAttributes {
   id?: string;
   homeVisitConfigID?: string;
   artPrescription?: string;
   tbPrescription?: string;
   noOfPills?: number;
-  medicineStatus?: string;
+  medicineStatus?: MedicineStatusAttributes;
   actionTaken?: string;
   ol_drugs?: string;
   returnToClinic?: string;

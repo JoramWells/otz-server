@@ -12,8 +12,6 @@ const viralLoadTestRoutes = require('./routes/viralLoadTests.routes');
 const userLocationRoutes = require('./routes/userLocation.routes');
 const startPatientVisitConsumer = require('./kafka/consumer/patientVisitConsumer.');
 
-
-
 const app = express();
 
 const PORT = process.env.PORT || 5002;

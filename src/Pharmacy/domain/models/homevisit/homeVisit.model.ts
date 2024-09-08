@@ -9,6 +9,11 @@ import { HomeVisitFrequency } from './homeVisitFrequency.model';
 import { HomeVisitConfig } from './homeVisitConfig.model';
 
 
+
+export enum MedicineStatusAttributes{
+  Adequate = 'Adequate',
+  Inadequate = 'Inadequate'
+}
 export class HomeVisit
   extends Model<HomeVisitAttributes>
   implements HomeVisitAttributes
@@ -42,6 +47,8 @@ HomeVisit.init(
         model: "homeVisitConfig",
         key: "id",
       },
+      onDelete: 'CASCADE',
+      allowNull: false
     },
     artPrescription: {
       type: DataTypes.JSONB,
@@ -54,7 +61,9 @@ HomeVisit.init(
       type: DataTypes.INTEGER,
     },
     medicineStatus: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(...Object.values(MedicineStatusAttributes)),
+      defaultValue: MedicineStatusAttributes.Adequate,
+      allowNull: false
     },
     actionTaken: {
       type: DataTypes.STRING,

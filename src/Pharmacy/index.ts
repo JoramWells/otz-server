@@ -115,7 +115,6 @@ io.on('connection', socket=>{
         console.log(onlineUsers);
   })
 
-  
     // 
   socket.on('disconnect',()=>{
     onlineUsers = onlineUsers.filter((user) => user.clientId !== socket.id);

@@ -6,7 +6,7 @@ function calculateNextOccurrence(appointmentDate: string | Date, frequency: stri
     const startDate = new Date(appointmentDate)
     let nextRefillDate;
 
-    switch (frequency.toLowerCase()) {
+    switch (frequency?.toLowerCase()) {
       case "daily":
         nextRefillDate = new Date(appointmentDate);
         nextRefillDate.setDate(startDate.getDate() + 1);
@@ -28,7 +28,7 @@ function calculateNextOccurrence(appointmentDate: string | Date, frequency: stri
         break;
 
       default:
-        throw new Error('Invalid Frequency')
+        console.log('Invalid Frequency')
     }
 
     return nextRefillDate

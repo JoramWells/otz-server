@@ -11,7 +11,9 @@ export class HomeVisitController {
     this.interactor = interactor;
   }
 
+
   async onCreateAHomeVisit(req: Request, res: Response, next: NextFunction) {
+   console.log(req.body)
     try {
       const {
         userID,
@@ -34,7 +36,7 @@ export class HomeVisitController {
         appointmentAgendaID,
         appointmentStatusID,
         patientVisitID,
-        nextRefillDate,
+        appointmentDate,
       } = req.body;
 
           const appointmentInput: AppointmentAttributes = {
@@ -44,7 +46,7 @@ export class HomeVisitController {
             appointmentAgendaID,
             appointmentStatusID,
             frequency,
-            appointmentDate: nextRefillDate as unknown as string,
+            appointmentDate,
           };
 
           const homeVisitInput: HomeVisitAttributes = {
@@ -64,6 +66,8 @@ export class HomeVisitController {
             isSupportGroupAttendance,
             isHouseholdTested,
           };
+
+          console.log(req.body)
 
       const newProfile = await this.interactor.createHomeVisit(homeVisitInput, appointmentInput);
       res.json(newProfile);

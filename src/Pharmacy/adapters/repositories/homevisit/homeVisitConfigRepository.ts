@@ -75,8 +75,14 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
     const results = await HomeVisitConfig.findOne({
       order: [["createdAt", "DESC"]],
       where: {
-        patientID: id,
+        id,
       },
+      include: [
+        {
+          model: HomeVisitReason,
+          attributes: ["id", "homeVisitReasonDescription"],
+        },
+      ],
     });
 
     return results;

@@ -75,26 +75,15 @@ export class HomeVisitRepository implements IHomeVisitRepository {
   async findAllById(id: string): Promise<HomeVisitAttributes[] | null> {
     const results = await HomeVisit.findAll({
       where: {
-        id,
+         homeVisitConfigID: id,
       },
-      include: [
-        {
-          model: User,
-          attributes: ["firstName", "middleName", "lastName"],
-        },
-        {
-          model: ART,
-          attributes: ["artName"],
-        },
-        {
-          model: HomeVisitReason,
-          attributes: ["id", "homeVisitReasonDescription"],
-        },
-        {
-          model: HomeVisitFrequency,
-          attributes: ["id", "homeVisitFrequencyDescription"],
-        },
-      ],
+      // include: [
+      //   {
+      //     model: HomeVisitReason,
+      //     attributes: ["id", "homeVisitReasonDescription"],
+      //   },
+
+      // ],
     });
     return results;
   }
