@@ -16,9 +16,8 @@ export class HomeVisitConfigInteractor implements IHomeVisitConfigInteractor {
 
   async createHomeVisitConfig (
     data: HomeVisitConfigAttributes,
-    appointmentInput: AppointmentAttributes
   ): Promise<HomeVisitConfigAttributes | null> {
-    return await this.repository.create(data, appointmentInput)
+    return await this.repository.create(data)
   }
 
   async getAllHomeVisitConfig (): Promise<HomeVisitConfigAttributes[]> {

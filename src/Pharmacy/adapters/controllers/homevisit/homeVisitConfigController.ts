@@ -20,10 +20,10 @@ export class HomeVisitConfigController {
         frequency,
         // frequency,
 
-        appointmentAgendaID,
-        appointmentStatusID,
         patientVisitID,
         homeVisitReasonID,
+        patient,
+        user,
         // nextRefillDate,
       } = req.body;
 
@@ -33,13 +33,14 @@ export class HomeVisitConfigController {
         userID,
         patientID,
         patientVisitID,
-        appointmentAgendaID,
-        appointmentStatusID,
+  
         frequency,
         appointmentDate: dateRequested as unknown as string,
       };
 
       const homeVisitInput: HomeVisitConfigAttributes = {
+        patient,
+        user,
         homeVisitReasonID,
         dateRequested,
         frequency,
@@ -49,7 +50,6 @@ export class HomeVisitConfigController {
 
       const newProfile = await this.interactor.createHomeVisitConfig(
         homeVisitInput,
-        appointmentInput
       );
       res.json(newProfile);
       next();

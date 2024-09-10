@@ -11,6 +11,14 @@ export interface HomeVisitConfigAttributes {
   patientID?: string;
   homeVisitReasonID?: string;
   userID?: string;
+  user: { name: string };
+  patient: {
+    firstName: string;
+    middleName: string;
+    sex: string;
+    phoneNo: string;
+    cccNo: string;
+  };
   dateRequested?: string;
   frequency?: FrequencyAttributes;
 }
@@ -23,7 +31,10 @@ export enum MedicineStatusAttributes {
 export interface HomeVisitAttributes {
   id?: string;
   homeVisitConfigID?: string;
-  artPrescription?: string;
+  artPrescription?: {
+    currentRegimen: string
+    currentRegimenBegan: Date | string
+  };
   tbPrescription?: string;
   noOfPills?: number;
   medicineStatus?: MedicineStatusAttributes;

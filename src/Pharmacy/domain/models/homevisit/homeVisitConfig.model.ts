@@ -1,9 +1,8 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect';
-import { Patient } from '../patients.models';
 import { HomeVisitConfigAttributes } from 'otz-types';
 import { HomeVisitReason } from './homeVisitReason.model';
-import { HomeVisitFrequency } from './homeVisitFrequency.model';
+import { Patient } from '../patients.models';
 
 export enum FrequencyAttributes {
   Bimonthly = "Bimonthly",
@@ -35,8 +34,18 @@ HomeVisitConfig.init(
         model: "patients",
         key: "id",
       },
-      onDelete: 'CASCADE',
-      allowNull: false
+      onDelete: "CASCADE",
+      allowNull: false,
+    },
+    patient: {
+      type: DataTypes.JSONB,
+      // onDelete: 'CASCADE',
+      allowNull: false,
+    },
+    user: {
+      type: DataTypes.JSONB,
+      // onDelete: 'CASCADE',
+      allowNull: false,
     },
     homeVisitReasonID: {
       type: DataTypes.UUID,
@@ -45,7 +54,7 @@ HomeVisitConfig.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false
+      allowNull: false,
     },
     userID: {
       type: DataTypes.UUID,
@@ -54,7 +63,7 @@ HomeVisitConfig.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false
+      allowNull: false,
     },
     dateRequested: {
       type: DataTypes.DATE,
@@ -68,20 +77,22 @@ HomeVisitConfig.init(
   {
     sequelize: connect,
     tableName: "homeVisitConfig",
-    // postgresql: {
-    //   fillFactor: 70
-    // },
+    postgresql: {
+      fillFactor: 70
+    },
     timestamps: true,
   }
 );
 
+// HomeVisitConfig.ass
+
+HomeVisitConfig.belongsTo(HomeVisitReason, { foreignKey: "homeVisitReasonID" });
 HomeVisitConfig.belongsTo(Patient, { foreignKey: "patientID" });
 HomeVisitConfig.belongsTo(Patient, { foreignKey: "userID" });
-HomeVisitConfig.belongsTo(HomeVisitReason, { foreignKey: "homeVisitReasonID" });
 
 // Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
 // (async () => {
-connect.sync()
+// connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

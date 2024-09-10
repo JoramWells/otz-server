@@ -3,12 +3,10 @@ import { IHomeVisitRepository } from "../../../application/interfaces/homevisit/
 import { KafkaAdapter } from "../../kafka/producer/kafka.producer";
 import { connect } from "../../../domain/db/connect";
 import { HomeVisit } from "../../../domain/models/homevisit/homeVisit.model";
-import { col, fn } from "sequelize";
+import { HomeVisitConfig } from "../../../domain/models/homevisit/homeVisitConfig.model";
 import { Patient } from "../../../domain/models/patients.models";
-import { User } from "../../../domain/models/user.model";
 import { HomeVisitReason } from "../../../domain/models/homevisit/homeVisitReason.model";
-import { HomeVisitFrequency } from "../../../domain/models/homevisit/homeVisitFrequency.model";
-import { ART } from "../../../domain/models/art/art.model";
+
 
 export class HomeVisitRepository implements IHomeVisitRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -40,34 +38,58 @@ export class HomeVisitRepository implements IHomeVisitRepository {
   async find(): Promise<HomeVisitAttributes[]> {
     const results = await HomeVisit.findAll({
       // include: [
-        // {
-        //   model: Patient,
-        //   attributes: ["firstName", "middleName", "lastName"],
-        // },
+      //   {
+      //     model: HomeVisitConfig,
+      //     attributes: ["frequency"],
+      //     include: [
+      //       {
+      //         model: Patient,
+      //         attributes: ['id',"firstName", "middleName"],
+      //       },
+      //     ],
+      //   },
         // {
         //   model: User,
         //   attributes: ["firstName", "middleName", "lastName"],
         // },
-      //   {
-      //     model: HomeVisitReason,
-      //     attributes: ["homeVisitReasonDescription"],
-      //   },
-      //   {
-      //     model: HomeVisitFrequency,
-      //     attributes: ["homeVisitFrequencyDescription"],
-      //   },
+        //   {
+        //     model: HomeVisitReason,
+        //     attributes: ["homeVisitReasonDescription"],
+        //   },
+        //   {
+        //     model: HomeVisitFrequency,
+        //     attributes: ["homeVisitFrequencyDescription"],
+        //   },
       // ],
     });
     return results;
   }
 
   async findById(id: string): Promise<HomeVisitAttributes | null> {
+    // const results2 = await HomeVisit.findByPk(id)
     const results = await HomeVisit.findOne({
       order: [["createdAt", "DESC"]],
       where: {
-        homeVisitConfigID: id,
+        id,
       },
+      include: [
+        {
+          model: HomeVisitConfig,
+          attributes: ["frequency"],
+          include: [
+            {
+              model: Patient,
+              attributes: ["id", "firstName", "middleName"],
+            },
+            {
+              model: HomeVisitReason,
+              attributes:['homeVisitReasonDescription']
+            }
+          ],
+        },
+      ],
     });
+    // console.log(results2?.getPatient())
 
     return results;
   }

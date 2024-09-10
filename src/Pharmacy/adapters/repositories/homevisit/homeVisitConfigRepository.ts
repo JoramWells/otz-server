@@ -12,15 +12,15 @@ import { HomeVisitConfig } from "../../../domain/models/homevisit/homeVisitConfi
 export class HomeVisitConfigRepository implements IHomeVisitRepository {
   private readonly kafkaProducer = new KafkaAdapter();
 
-  async create(data: HomeVisitConfigAttributes, appointmentInput: AppointmentAttributes): Promise<HomeVisitConfigAttributes> {
+  async create(data: HomeVisitConfigAttributes): Promise<HomeVisitConfigAttributes> {
     //
 
     return await connect.transaction(async (t) => {
-      await this.kafkaProducer.sendMessage("create", [
-        { value: JSON.stringify({...appointmentInput, agenda:'Home Visit'}) },
-      ]);
+      // await this.kafkaProducer.sendMessage("create", [
+      //   { value: JSON.stringify({...appointmentInput, agenda:'Home Visit'}) },
+      // ]);
 
-      console.log('Calling create***')
+      // console.log('Calling create***')
 
       return await HomeVisitConfig.create(data, { transaction: t });
       // if (data.appointmentAgendaID) {
@@ -68,6 +68,14 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
         // },
       ],
     });
+
+    // await Promise.all(
+    //   results.map(async(config)=>{
+    //     const user = await config.getUser()
+    //     console.log(user)
+    //   })
+    // )
+
     return results;
   }
 
