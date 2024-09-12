@@ -8,6 +8,7 @@ export enum PatientVisitType {
 export interface PatientVisitsInterface {
   id?: string;
   patientID?: string;
+  userID?: string
   type?: PatientVisitType
 }
 

@@ -4,6 +4,7 @@
 
 import { Model } from 'sequelize'
 import { connect } from '../db/connect'
+import bcrypt from "bcrypt";
 
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize')
@@ -69,6 +70,18 @@ User.init(
     tableName: 'users'
   }
 )
+
+async function generateDefaultHashedPassword() {
+  const password = "12345678";
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+  console.log(passwordHash, "as");
+  return passwordHash;
+}
+
+User.beforeCreate(async (patient) => {
+  patient.password = await generateDefaultHashedPassword();
+});
 
 // User.belongsTo(County, { foreignKey: 'countyID' })
 

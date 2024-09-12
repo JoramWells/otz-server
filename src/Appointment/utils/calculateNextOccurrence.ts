@@ -28,7 +28,8 @@ function calculateNextOccurrence(appointmentDate: string | Date, frequency: stri
         break;
 
       default:
-        console.log('Invalid Frequency')
+         nextRefillDate = new Date(appointmentDate);
+
     }
 
     return nextRefillDate

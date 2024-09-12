@@ -44,7 +44,7 @@ Appointment.init(
     userID: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "users",
         key: "id",
       },
       onDelete: "CASCADE",
@@ -88,11 +88,12 @@ Appointment.init(
     },
     appointmentDate: {
       type: DataTypes.DATEONLY,
+      allowNull: false
     },
     frequency: {
       type: DataTypes.ENUM(...Object.values(AppointmentFrequency)),
       // unique: true,
-      allowNull: true,
+      allowNull: false,
       defaultValue: AppointmentFrequency.Once,
     },
     isStarred: {
@@ -160,7 +161,8 @@ Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
 
 // (async () => {
-void connect.sync()
 
-console.log('Patient Table synced successfully')
+// connect.sync()
+
+// console.log('Patient Table synced successfully')
 // })()

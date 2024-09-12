@@ -11,8 +11,14 @@ export interface HomeVisitConfigAttributes {
   patientID?: string;
   homeVisitReasonID?: string;
   userID?: string;
-  user: { name: string };
-  patient: {
+  user?: {
+    firstName: string;
+    middleName: string;
+    sex: string;
+    phoneNo: string;
+    cccNo: string;
+  };
+  patient?: {
     firstName: string;
     middleName: string;
     sex: string;
@@ -21,6 +27,8 @@ export interface HomeVisitConfigAttributes {
   };
   dateRequested?: string;
   frequency?: FrequencyAttributes;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }
 
 export enum MedicineStatusAttributes {
@@ -47,6 +55,8 @@ export interface HomeVisitAttributes {
   isGuardianSupport?: boolean;
   isSupportGroupAttendance?: boolean;
   isHouseholdTested?: boolean;
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export interface HomeVisitFrequencyAttributes {
