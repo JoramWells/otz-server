@@ -33,7 +33,7 @@ EnhancedAdherence.init(
     prescriptionID: {
       type: DataTypes.UUID,
       references: {
-        model: "prescription",
+        model: "prescriptions",
         key: "id",
       },
       allowNull: false,
@@ -46,11 +46,11 @@ EnhancedAdherence.init(
       type: DataTypes.DATE,
     },
     adherencePercentage: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       defaultValue: 0,
     },
     mmas8Score: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       defaultValue: 0,
     },
     barriersToAdherence: {

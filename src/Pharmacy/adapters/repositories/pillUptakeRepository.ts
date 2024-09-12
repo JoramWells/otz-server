@@ -85,7 +85,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     }
 
     await this.redisClient.del(pillUptakeCache)
-    await this,this.redisClient.del(todaysPillCount)
+    await this.redisClient.del(todaysPillCount)
 
     
 

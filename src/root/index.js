@@ -15,10 +15,6 @@ require('dotenv').config();
 
 const sequelize = require('./db/connect');
 
-const homeVisitReasonRoute = require('./HomeVisit/routes/reasonDetails.routes');
-const homeVisitFrequencyRoutes = require('./HomeVisit/routes/homeVisitFrequency.routes');
-const homeVisitRoutes = require('./HomeVisit/routes/homeVisit.routes');
-
 const locationRoutes = require('./Location/routes/location.routes');
 const countyRoutes = require('./Location/routes/county.routes');
 const subCountyRoutes = require('./Location/routes/subCounty.routes');
@@ -126,12 +122,7 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 5000;
 
 
-// app.use('/art-regimen', artRegimeRoutes);
-// app.use('/art-regimen-phase', artRegimePhaseRoutes);
-// app.use('/art-regimen-category', artRegimenCategoryRoutes);
-app.use('/home-visit-reason', homeVisitReasonRoute);
-app.use('/home-visit-frequency', homeVisitFrequencyRoutes);
-app.use('/home-visit', homeVisitRoutes);
+
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/hospital', hospitalRoutes);

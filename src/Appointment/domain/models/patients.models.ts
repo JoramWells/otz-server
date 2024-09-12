@@ -1,9 +1,12 @@
-import { DataTypes, Model, UUIDV4 } from 'sequelize'
+import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { School } from './school/school.model'
 import { Hospital } from './hospital/hospital.model'
-import { connect } from '../../db/connect'
+// import { connect } from '../db/connect'
 import { createClient } from 'redis'
 import { LocationProps, PatientAttributes } from 'otz-types'
+import { connect } from '../../db/connect'
+// import bcrypt from 'bcrypt'
+
 // import { type PatientEntity } from '../entities/PatientEntity'
 export enum UserRoles {
   Admin = "admin",
@@ -14,32 +17,32 @@ export enum UserRoles {
   patient = "patient",
 }
 
-
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
-  password?: string | undefined
-  entryPoint?: string | undefined
-  subCountyName?: string | undefined
-  maritalStatus!: string
-  role!: UserRoles
-  location?: LocationProps | undefined
-  createdAt?: Date | undefined
-  updatedAt?: Date | undefined
-  id?: string | undefined
-  firstName?: string | undefined
-  middleName: string | undefined
-  lastName?: string | undefined
-  sex?: string | undefined
-  dob?: string | undefined
-  phoneNo?: string | undefined
-  idNo?: string | undefined
-  occupationID?: string | undefined
-  cccNo?: string | undefined
-  ageAtReporting?: string | undefined
-  dateConfirmedPositive?: string | undefined
-  initialRegimen?: string | undefined
-  populationType?: string | undefined
-  schoolID?: string | undefined
-  hospitalID?: string | undefined
+  role!: UserRoles;
+  entryPoint?: string | undefined;
+  maritalStatus!: string;
+  id?: string | undefined;
+  firstName?: string | undefined;
+  middleName: string | undefined;
+  lastName?: string | undefined;
+  password?: string | undefined;
+  sex?: string | undefined;
+  dob?: Date | string | undefined;
+  phoneNo?: string | undefined;
+  idNo?: string | undefined;
+  occupationID?: string | undefined;
+  cccNo?: string | undefined;
+  ageAtReporting?: string | undefined;
+  dateConfirmedPositive?: string | undefined;
+  initialRegimen?: string | undefined;
+  isImportant?: boolean | undefined;
+  populationType?: string | undefined;
+  schoolID?: string | undefined;
+  hospitalID?: string | undefined;
+  subCountyName?: string | undefined;
+  location: LocationProps | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 
 Patient.init(
@@ -63,7 +66,7 @@ Patient.init(
       type: DataTypes.STRING,
     },
     dob: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
     },
     phoneNo: {
       type: DataTypes.STRING,
@@ -83,16 +86,12 @@ Patient.init(
     entryPoint: {
       type: DataTypes.STRING,
     },
-    maritalStatus: {
+    subCountyName: {
       type: DataTypes.STRING,
     },
-    role: {
-      type: DataTypes.ENUM(...Object.values(UserRoles)),
-      allowNull: false,
-      defaultValue: UserRoles.patient
-    },
+
     ageAtReporting: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
     dateConfirmedPositive: {
       type: DataTypes.DATE,
@@ -103,6 +102,11 @@ Patient.init(
     },
     populationType: {
       type: DataTypes.STRING,
+      defaultValue: "General Population",
+    },
+    maritalStatus: {
+      type: DataTypes.STRING,
+      defaultValue: "N/A",
     },
     schoolID: {
       type: DataTypes.INTEGER,
@@ -110,12 +114,34 @@ Patient.init(
     hospitalID: {
       type: DataTypes.INTEGER,
     },
-    // notifications: {
-    //   type: DataTypes.JSONB,
-    //   allowNull: true,
-    //   defaultValue: {}
-    // }
+    isImportant: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    location: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.ENUM(...Object.values(UserRoles)),
+      defaultValue: UserRoles.patient,
+      allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    password: {
+      type: DataTypes.TEXT,
+      defaultValue: "N/A",
+    },
   },
+
   {
     sequelize: connect,
     tableName: "patients",
@@ -126,22 +152,44 @@ Patient.init(
   }
 );
 
-Patient.afterUpdate(async (instance, options) => {
-  const redisClient = createClient({ url: 'redis://redis:6379' })
-  await redisClient.connect()
-  await redisClient.del('patientData')
-})
+// async function generateDefaultHashedPassword() {
+//   const password = "12345678";
+//   const saltRounds = 10;
+//   const passwordHash = await bcrypt.hash(password, saltRounds);
+//   console.log(passwordHash, "as");
+//   return passwordHash;
+// }
 
-Patient.afterCreate(async () => {
-  const redisClient = createClient({ url: 'redis://redis:6379' })
-  await redisClient.connect()
-  await redisClient.del('patientData')
-})
+// Patient.beforeCreate(async(patient)=>{
+//   patient.password = await generateDefaultHashedPassword()
+// })
+
+// Patient.afterUpdate(async (instance, options) => {
+//   const redisClient = createClient({ url: 'redis://redis:6379' })
+//   await redisClient.connect()
+//   await redisClient.del('patientData')
+// })
+
+// Patient.afterCreate(async () => {
+//   const redisClient = createClient({ url: 'redis://redis:6379' })
+//   await redisClient.connect()
+//   await redisClient.del('patientData')
+// })
 
 Patient.belongsTo(School, { foreignKey: 'schoolID' })
-Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
+Patient.belongsTo(Hospital, { foreignKey: 'hospitalID', constraints: false })
+
+// const syncDB = async () => {
+//   try {
+//     // await disableForeignKeyChecks(connect)
+//     return await connect.sync({ alter: { exclude: ['createdAt', 'updatedAt'] } })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// void syncDB()
 
 // (async () => {
-// connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

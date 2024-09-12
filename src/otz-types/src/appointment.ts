@@ -1,3 +1,10 @@
+export enum AppointmentFrequency {
+  Bimonthly = "Bimonthly",
+  Daily = "Daily",
+  Weekly = "Weekly",
+  Monthly = "Monthly",
+  Once = 'Once'
+}
 export interface AppointmentAttributes {
   id?: string;
   userID?: string;
@@ -10,25 +17,26 @@ export interface AppointmentAttributes {
   rescheduledDate?: string;
   rescheduledReason?: string;
   isStarred?: boolean;
-  text?: string
+  frequency?: AppointmentFrequency;
+  text?: string;
   isRead?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface AppointmentMessageAttributes{
-  id?: string
-  appointmentID?:string
-  senderID?:string
-  text?:string
+export interface AppointmentMessageAttributes {
+  id?: string;
+  appointmentID?: string;
+  senderID?: string;
+  text?: string;
 }
 
-export enum AppointmentStatusDescription{
-  Upcoming = 'upcoming',
-  Pending = 'pending',
-  Missed= 'missed',
-  Rescheduled = 'rescheduled',
-  Cancelled = 'cancelled'
+export enum AppointmentStatusDescription {
+  Upcoming = "upcoming",
+  Pending = "pending",
+  Missed = "missed",
+  Rescheduled = "rescheduled",
+  Cancelled = "cancelled",
 }
 
 export interface AppointmentAgendaAttributes {

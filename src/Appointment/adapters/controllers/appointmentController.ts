@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IAppointmentInteractor } from "../../application/interfaces/appointment/IAppointementInteractor";
+import { logger } from "../../utils/logger";
+import { validate as isUUID } from "uuid";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class AppointmentController {
@@ -10,7 +12,7 @@ export class AppointmentController {
   constructor(interactor: IAppointmentInteractor) {
     this.interactor = interactor;
   }
-
+  
   async onCreateAppointment(req: Request, res: Response, next: NextFunction) {
     try {
       const newProfile = await this.interactor.createAppointment(req.body);
@@ -25,18 +27,17 @@ export class AppointmentController {
       next(error);
     }
   }
+  
 
   async onGetAllAppointments(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const {mode} = req.query
+      const { mode } = req.query;
 
       const results = await this.interactor.getAllAppointments(mode as string);
       res.status(200).json(results);
       res.flush();
-
-
 
       next();
     } catch (error) {
@@ -54,6 +55,11 @@ export class AppointmentController {
         res
           .status(500)
           .json({ message: "Please provide a valid appointment id." });
+      }
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
       }
       const result = await this.interactor.getAppointmentById(id);
       res.status(200).json(result);
@@ -107,10 +113,18 @@ export class AppointmentController {
     res: Response,
     next: NextFunction
   ) {
-    const {id} = req.params
-    const {agenda} = req.query
+    const { id } = req.params;
+    const { agenda } = req.query;
     try {
-      const result = await this.interactor.getRecentAppointmentByPatientID(id, agenda as string);
+      const result = await this.interactor.getRecentAppointmentByPatientID(
+        id,
+        agenda as string
+      );
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -125,6 +139,11 @@ export class AppointmentController {
     const { id } = req.params;
     try {
       if (id === "undefined") return;
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
       const patient = await this.interactor.getAppointmentDetail(id);
       res.status(200).json(patient);
       next();
@@ -142,6 +161,11 @@ export class AppointmentController {
     const { isStarred, patientID } = req.body;
     try {
       if (id === "undefined") return;
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
       const patient = await this.interactor.starAppointment(
         id,
         patientID,
@@ -159,6 +183,11 @@ export class AppointmentController {
   async onMarkAsRead(req: Request, res: Response) {
     try {
       const { id } = req.params;
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
       const results = await this.interactor.markAsRead(id);
       res.status(200).json(results);
     } catch (error) {
@@ -168,8 +197,14 @@ export class AppointmentController {
 
   //
   async onReschedule(req: Request, res: Response) {
+    const { id } = req.params;
+
     try {
-      const { id } = req.params;
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
       const { reason, rescheduledDate } = req.body;
       const results = await this.interactor.rescheduleAppointment(
         id,

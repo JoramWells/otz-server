@@ -248,4 +248,22 @@ export class PatientRepository implements IPatientRepository {
       throw new Error("Error logging in user");
     }
   }
+
+  // 
+    async delete(id: string): Promise<number | null> {
+        await this.redisClient.del(patientCache);
+        await this.redisClient.del(id as string);
+      const results: number | null = await Patient.destroy(
+        {
+          where: {
+            id,
+          },
+        }
+      );
+    console.log('deleted cache!!')
+
+
+      return results;
+}
+
 }

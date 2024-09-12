@@ -34,6 +34,7 @@ ChildCaregiverReadiness.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -41,6 +42,7 @@ ChildCaregiverReadiness.init(
         model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
 
     isChildKnowsMedicineAndIllness: {
@@ -86,6 +88,6 @@ ChildCaregiverReadiness.belongsTo(Patient, { foreignKey: "patientID" });
 ChildCaregiverReadiness.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // (async () => {
-// connect.sync()
+// await connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

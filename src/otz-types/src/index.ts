@@ -7,5 +7,5 @@ export * from "./school";
 export * from './treatmentplan'
 export * from './pharmacy'
 export * from './weekdays'
-
+export * from './homevisit'
 export * from './etl'

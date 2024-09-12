@@ -107,6 +107,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     return null;
   }
 
+
   //
   async reschedule(
     id: string,

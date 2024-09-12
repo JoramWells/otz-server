@@ -13,7 +13,6 @@ export class UserController {
 
   async onCreateUser (req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body)
       const newProfile = await this.interactor.createUser(req.body)
       res.json(newProfile)
       next()
@@ -49,8 +48,9 @@ export class UserController {
 
   async login (req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, password } = req.params
-      const results = await this.interactor.login(email, password)
+
+      const { firstName, password } = req.body
+      const results = await this.interactor.login(firstName, password)
       res.status(200).json(results)
       next()
     } catch (error) {
