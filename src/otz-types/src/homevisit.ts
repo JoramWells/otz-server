@@ -8,23 +8,8 @@ export enum FrequencyAttributes {
 
 export interface HomeVisitConfigAttributes {
   id?: string;
-  patientID?: string;
+  patientVisitID?: string;
   homeVisitReasonID?: string;
-  userID?: string;
-  user?: {
-    firstName: string;
-    middleName: string;
-    sex: string;
-    phoneNo: string;
-    cccNo: string;
-  };
-  patient?: {
-    firstName: string;
-    middleName: string;
-    sex: string;
-    phoneNo: string;
-    cccNo: string;
-  };
   dateRequested?: string;
   frequency?: FrequencyAttributes;
   createdAt?: Date | string;

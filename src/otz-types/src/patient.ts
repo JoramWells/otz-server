@@ -78,9 +78,13 @@ export interface UserInterface {
 export interface UserAvailabilityAttributes {
   id?: string;
   userID: string;
-  daysAvailable: WeekDays;
-  startTime: Date;
-  endTime: Date;
+  availability?: {
+    available: boolean
+    day: string;
+    startTime: Date;
+    endTime: Date;
+  }[];
+
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -1,6 +1,7 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect'
 import { User } from './user.model'
+import { UserAvailabilityAttributes } from 'otz-types';
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface WeekDays {
@@ -14,15 +15,7 @@ export interface WeekDays {
   Sunday: boolean;
 }
 
-export interface UserAvailabilityAttributes {
-  id?: string
-  userID: string
-  daysAvailable: WeekDays
-  startTime: Date
-  endTime: Date
-  createdAt?: Date
-  updatedAt?: Date
-}
+
 
 export class UserAvailability
   extends Model<UserAvailabilityAttributes>
@@ -41,44 +34,43 @@ UserAvailability.init(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     userID: {
       type: DataTypes.UUID,
       references: {
-        model: 'users',
-        key: 'id'
+        model: "users",
+        key: "id",
       },
-      onDelete: 'CASCADE'
+      onDelete: "CASCADE",
+      allowNull: false,
     },
-    daysAvailable: {
-      type: DataTypes.JSONB
+    availability: {
+      type: DataTypes.JSONB,
     },
-    startTime: {
-      type: DataTypes.TIME
-    },
-    endTime: {
-      type: DataTypes.TIME,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    },
+
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
   },
   {
     sequelize: connect,
-    tableName: 'userAvailability',
+    tableName: "userAvailability",
     // postgresql: {
     //   fillFactor: 70
     // },
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 UserAvailability.belongsTo(User, { foreignKey: 'userID' })
 
 // (async () => {
-// void connect.sync({ alter: true })
+// connect.sync()
 // console.log('User Availability Table synced successfully')
 // })()

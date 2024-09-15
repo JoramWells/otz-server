@@ -13,43 +13,13 @@ export class HomeVisitConfigController {
 
   async onCreateAHomeVisitConfig(req: Request, res: Response, next: NextFunction) {
     try {
-      const {
-        userID,
-        patientID,
-        dateRequested,
-        frequency,
-        // frequency,
 
-        patientVisitID,
-        homeVisitReasonID,
-        patient,
-        user,
-        // nextRefillDate,
-      } = req.body;
 
-      // console.log(req.body)
 
-      const appointmentInput: AppointmentAttributes = {
-        userID,
-        patientID,
-        patientVisitID,
-  
-        frequency,
-        appointmentDate: dateRequested as unknown as string,
-      };
 
-      const homeVisitInput: HomeVisitConfigAttributes = {
-        patient,
-        user,
-        homeVisitReasonID,
-        dateRequested,
-        frequency,
-        patientID,
-        userID,
-      };
 
       const newProfile = await this.interactor.createHomeVisitConfig(
-        homeVisitInput,
+        req.body
       );
       res.json(newProfile);
       next();

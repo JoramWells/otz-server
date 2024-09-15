@@ -16,45 +16,44 @@ export class UserAvailability
   updatedAt: Date | undefined
 }
 
+
 UserAvailability.init(
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     userID: {
       type: DataTypes.UUID,
       references: {
-        model: 'users',
-        key: 'id'
+        model: "users",
+        key: "id",
       },
-      onDelete: 'CASCADE'
+      onDelete: "CASCADE",
+      allowNull: false
     },
-    daysAvailable: {
-      type: DataTypes.JSONB
-    },
-    startTime: {
-      type: DataTypes.TIME
-    },
-    endTime: {
-      type: DataTypes.TIME,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    availability: {
+      type: DataTypes.JSONB,
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
   },
   {
     sequelize: connect,
-    tableName: 'userAvailability',
+    tableName: "userAvailability",
     // postgresql: {
     //   fillFactor: 70
     // },
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 UserAvailability.belongsTo(User, { foreignKey: 'userID' })
 
