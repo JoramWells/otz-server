@@ -13,7 +13,7 @@ const controller = new UserAvailabilityController(interactor)
 router.post('/add', controller.onCreateUserAvailability.bind(controller))
 router.get('/fetchAll', controller.onGetAllUserAvailabilities.bind(controller))
 router.get('/detail/:id', controller.onGetUserAvailabilityById.bind(controller))
-// router.put('/edit/:id', editUser)
+router.put('/edit/:id', controller.onEditUserAvailability.bind(controller))
 // router.delete('/delete/:id', deleteUser)
 
 export { router as userAvailabilityRoutes }

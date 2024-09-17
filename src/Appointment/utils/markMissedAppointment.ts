@@ -17,7 +17,6 @@ interface WeekDays {
   Sunday: boolean;
 }
 
-function getDayName(dateStr: string) {
   const daysOfWeek = [
     "Monday",
     "Tuesday",
@@ -27,22 +26,17 @@ function getDayName(dateStr: string) {
     "Saturday",
     "Sunday",
   ];
+
+function getDayName(dateStr: string) {
 
   const date = new Date(dateStr);
   const dayName = daysOfWeek[date.getDay()];
   return dayName;
 }
 
+
+
 function findNextAvailableDate(currentDate: string, availableDays: string[]) {
-  const daysOfWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
 
   const availableDaysIndex = availableDays.map((day) =>
     daysOfWeek.indexOf(day)
@@ -54,6 +48,40 @@ function findNextAvailableDate(currentDate: string, availableDays: string[]) {
   }
 
   return nextDate;
+}
+
+function getDayNumber(dayName: string){
+  return daysOfWeek.indexOf(dayName)
+}
+
+const findNextAvailableDateWithTime = (currentDate: Date, availability:Array<{day: string, startTime: string, endTime:string}>) =>{
+  const now = new Date(currentDate)
+  const currentDay = now.getDay()
+  const currentTime = now.getHours() * 60 + now.getMinutes()
+
+  // 
+  for(let i =0; i < 7; i++){
+    const dayIndex = (currentDay + i) % 7
+    const dayAvailability = availability.find(day=>dayIndex === getDayNumber(day.day))
+
+    // 
+    if(dayAvailability){
+      const [startHours, startMinutes] = dayAvailability.startTime.split(':').map(Number)
+      const [endHours, endMinutes] = dayAvailability.endTime.split(':').map(Number)
+      const startTimeInMinutes = startHours * 60 + startMinutes
+
+      // 
+      if(i === 0 && currentTime < startTimeInMinutes){
+        return new Date(now.setHours(startHours, startMinutes, 0, 0))
+      } else if (i !== 0){
+        const nextAvailableDate = new Date(now)
+        nextAvailableDate.setDate(now.getDate() + i)
+        nextAvailableDate.setHours(startHours, startMinutes, 0, 0)
+        return nextAvailableDate
+      }
+    }
+  }
+  return null
 }
 
 export const rescheduleOnUnavailable = async () => {

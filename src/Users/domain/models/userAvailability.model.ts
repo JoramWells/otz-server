@@ -1,19 +1,23 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 import { User } from './user.model'
-import { UserAvailabilityAttributes, WeekDays } from 'otz-types'
+import { UserAvailabilityAttributes } from 'otz-types'
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export class UserAvailability
   extends Model<UserAvailabilityAttributes>
-  implements UserAvailabilityAttributes {
-  id: string | undefined
-  userID!: string
-  daysAvailable!: WeekDays
-  startTime!: Date
-  endTime!: Date
-  createdAt: Date | undefined
-  updatedAt: Date | undefined
+  implements UserAvailabilityAttributes
+{
+  id: string | undefined;
+  userID!: string;
+  availability?: {
+    available: boolean;
+    day: string;
+    startTime: Date;
+    endTime: Date;
+  }[];
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
 }
 
 

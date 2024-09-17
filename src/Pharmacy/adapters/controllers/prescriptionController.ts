@@ -26,6 +26,8 @@ export class PrescriptionController {
       appointmentStatusID,
     } = req.body;
 
+    console.log(req.body)
+
     const nextRefillDate = new Date(refillDate);
     const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
     nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd);
