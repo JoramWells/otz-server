@@ -431,10 +431,10 @@ services:
       resources:
         limits:
           cpus: '0.25'
-          memory: 500M
+      #     memory: 800M
         reservations:
           cpus: '0.20'
-          memory: 450M
+      #     memory: 600M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s

@@ -11,3 +11,5 @@ etl_webapp/linelist_api/llm
 env
 .env
 logs
+.pnpm-store
+pnpm-store

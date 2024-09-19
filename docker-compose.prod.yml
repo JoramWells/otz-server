@@ -438,7 +438,7 @@ services:
       resources:
         limits:
           cpus: '0.40'
-          memory: 700M
+          memory: 800M
         reservations:
           cpus: '0.40'
           memory: 700M
