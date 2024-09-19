@@ -13,6 +13,7 @@ env
 logs
 .pnpm-store
 pnpm-store
+./src/Appointment/.env
 ./src/Appointment/.env.dev
 ./src/Appointment/.env.development
 ./src/Appointment/.env.production
