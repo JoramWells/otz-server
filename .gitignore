@@ -17,3 +17,8 @@ pnpm-store
 ./src/Appointment/.env.dev
 ./src/Appointment/.env.development
 ./src/Appointment/.env.production
+
+src/Appointment/.env
+src/Appointment/.env.dev
+src/Appointment/.env.development
+src/Appointment/.env.production
