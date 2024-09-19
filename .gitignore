@@ -13,3 +13,4 @@ env
 logs
 .pnpm-store
 pnpm-store
+.env-dev
