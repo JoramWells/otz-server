@@ -8,14 +8,14 @@ export class EventType
   extends Model<EventTypeAttributes>
   implements EventTypeAttributes
 {
-  id!: string;
-  title!: string;
-  description!: string;
-  duration!: number;
-  eventDate!: Date;
-  startTime!: string;
-  createdAt!: string;
-  updateAt!: number;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  duration?: number | undefined;
+  eventDate?: Date | undefined;
+  startTime?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 
 EventType.init(

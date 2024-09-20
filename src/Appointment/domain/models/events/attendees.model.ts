@@ -10,11 +10,11 @@ export class Attendee
   extends Model<AttendeesAttributes>
   implements AttendeesAttributes
 {
-  id!: string;
-  eventTypeID!: string;
-  patientID!: string;
-  createdAt!: string;
-  updateAt!: number;
+  id?: string | undefined;
+  eventTypeID?: string | undefined;
+  patientID?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 
 Attendee.init(

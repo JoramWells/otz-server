@@ -148,8 +148,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.5
       otz-types:
-        specifier: ^1.1.40
-        version: 1.1.40
+        specifier: ^1.1.41
+        version: 1.1.41
       supertest:
         specifier: ^6.3.4
         version: 6.3.4
@@ -1964,8 +1964,8 @@ packages:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
 
-  otz-types@1.1.40:
-    resolution: {integrity: sha512-m6rfKYTjL+zQ9T/N083uNZk2EJHxAQT8vj8ZKZ8ewQn6KARPwTOcAk30qOqKO5VnGvXWKLl0hHcdNgZpBTas4g==}
+  otz-types@1.1.41:
+    resolution: {integrity: sha512-0X1AQ8XFcXXajL/y+JajykBj4M7nw2FrojflmZSiuafJGlBMw/3aH86RZguc/ReQ+Flinoz/WrSDV/khy/KWCQ==}
 
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
@@ -4833,7 +4833,7 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
-  otz-types@1.1.40: {}
+  otz-types@1.1.41: {}
 
   p-limit@3.1.0:
     dependencies:
