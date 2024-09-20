@@ -213,15 +213,17 @@ app.get("/", (req, res) => {
   res.redirect(url);
 });
 
+
+
 app.get("/google/redirect", async (req, res) => {
   const { code } = req.query;
   try {
-    const { tokens }:any = oauth2Client.getToken(code as string);
+    const { tokens } = await oauth2Client.getToken(code as string);
     oauth2Client.setCredentials(tokens);
     res.cookie('tokens', tokens)
     res.redirect('/events')
-    console.log(tokens);
-    res.send("its working!!");
+    console.log(tokens, 'tokens');
+    // res.send("its working!!");
   } catch (error) {
     console.error(error);
     res.status(500).send('Google Authentication failed!!')
@@ -229,8 +231,9 @@ app.get("/google/redirect", async (req, res) => {
 });
 
 app.get('/events', async(req,res)=>{
-  const tokens = req.cookies.tokens
-  oauth2Client.setCredentials(tokens)
+  // const tokens = req.cookies.tokens
+  // oauth2Client.setCredentials(tokens)
+  console.log(oauth2Client.credentials.access_token)
 
   try {
     const calendar = google.calendar({
@@ -245,6 +248,7 @@ app.get('/events', async(req,res)=>{
       singleEvents: true,
       orderBy:'startTime'
     })
+    // res.send('events')
 
     res.json(events.data.items)
     
