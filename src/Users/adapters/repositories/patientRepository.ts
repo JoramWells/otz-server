@@ -37,7 +37,6 @@ export class PatientRepository implements IPatientRepository {
     nextOfKinData: NextOfKinInterface
   ): Promise<string | null> {
     // const { firstName, middleName, lastName, dob, phoneNo, cccNo, occupationID, sex, hospitalID, schoolID, idNo } = data
-    console.log(nextOfKinData);
     let results = "";
     await connect
       .transaction(async (t) => {
@@ -46,6 +45,7 @@ export class PatientRepository implements IPatientRepository {
         //
         if (results) {
           const patientID = results.id;
+          const {userID} = data
           await NextOfKin.create(
             {
               patientID,
@@ -55,7 +55,7 @@ export class PatientRepository implements IPatientRepository {
           );
 
           // create new visit
-          await PatientVisits.create({ patientID }, { transaction: t });
+          await PatientVisits.create({ patientID, userID }, { transaction: t });
         }
       })
       .then(() => {
