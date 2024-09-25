@@ -67,7 +67,7 @@ services:
       # - postgres_data:/var/lib/postgresql/data
       # - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
 
-      - ./users3.sql:/docker-entrypoint-initdb.d/users3.sql
+      - ./users_backup.sql:/docker-entrypoint-initdb.d/users_backup.sql
 
     # entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
 
@@ -141,7 +141,7 @@ services:
   #   - 5437:5432
   #   volumes:
   #   # - postgres_data:/var/lib/postgresql/data
-  #   - ./users3.sql:/docker-entrypoint-initdb.d/users3.sql
+  #   - ./users_backup.sql:/docker-entrypoint-initdb.d/users_backup.sql
 
 
   #   deploy:
@@ -438,7 +438,7 @@ services:
       resources:
         limits:
           cpus: '0.40'
-          memory: 700M
+          memory: 800M
         reservations:
           cpus: '0.40'
           memory: 700M

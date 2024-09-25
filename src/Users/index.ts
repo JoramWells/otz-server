@@ -24,6 +24,7 @@ const PORT = process.env.PORT || 5001
 //   origin: ['*']
 // }
 
+
 app.set('trust proxy', true)
 
 const whitelist = ['http://localhost:3000', 'https://otzplus.xyz']
@@ -56,7 +57,6 @@ app.use(express.urlencoded({
 //     }
 //   }
 // }
-
 // enable cors
 app.use(cors())
 app.use(limiter)

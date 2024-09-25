@@ -8,6 +8,7 @@ import { HomeVisitReason } from "../../../domain/models/homevisit/homeVisitReaso
 import { HomeVisitFrequency } from "../../../domain/models/homevisit/homeVisitFrequency.model";
 import { ART } from "../../../domain/models/art/art.model";
 import { HomeVisitConfig } from "../../../domain/models/homevisit/homeVisitConfig.model";
+import { PatientVisits } from "../../../domain/models/patientVisits.model";
 
 export class HomeVisitConfigRepository implements IHomeVisitRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -51,21 +52,29 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
     const results = await HomeVisitConfig.findAll({
       include: [
         {
-          model: Patient,
-          attributes: ["firstName", "middleName", "lastName"],
+          model: PatientVisits,
+          attributes:['id'],
+          include: [
+            {
+              model: Patient,
+              attributes: [
+                'id',
+                "firstName",
+                "middleName",
+                "lastName",
+                "isImportant",
+              ],
+            },
+            {
+              model: User,
+              attributes: ["firstName", "middleName", "lastName"],
+            },
+          ],
         },
-        // {
-        //   model: User,
-        //   attributes: ["firstName", "middleName", "lastName"],
-        // },
         {
           model: HomeVisitReason,
           attributes: ["homeVisitReasonDescription"],
         },
-        // {
-        //   model: HomeVisitFrequency,
-        //   attributes: ["homeVisitFrequencyDescription"],
-        // },
       ],
     });
 

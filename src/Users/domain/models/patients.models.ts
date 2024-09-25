@@ -1,10 +1,10 @@
-import { DataTypes, Model, Sequelize, UUIDV4 } from 'sequelize'
-import { School } from './school/school.model'
-import { Hospital } from './hospital/hospital.model'
-import { connect } from '../db/connect'
-import { createClient } from 'redis'
-import { LocationProps, PatientAttributes } from 'otz-types'
-import bcrypt from 'bcrypt'
+import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
+import { School } from "./school/school.model";
+import { Hospital } from "./hospital/hospital.model";
+import { connect } from "../db/connect";
+import { createClient } from "redis";
+import { LocationProps, PatientAttributes } from "otz-types";
+import bcrypt from "bcrypt";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 export enum UserRoles {
@@ -16,7 +16,10 @@ export enum UserRoles {
   patient = "patient",
 }
 
-export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+export class Patient
+  extends Model<PatientAttributes>
+  implements PatientAttributes
+{
   role!: UserRoles;
   entryPoint?: string | undefined;
   maritalStatus!: string;
@@ -27,6 +30,7 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   password?: string | undefined;
   sex?: string | undefined;
   dob?: Date | string | undefined;
+  avatar?: string | undefined;
   phoneNo?: string | undefined;
   idNo?: string | undefined;
   occupationID?: string | undefined;
@@ -62,6 +66,9 @@ Patient.init(
       type: DataTypes.STRING,
     },
     sex: {
+      type: DataTypes.STRING,
+    },
+    avatar: {
       type: DataTypes.STRING,
     },
     dob: {
@@ -116,7 +123,7 @@ Patient.init(
     isImportant: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     location: {
       type: DataTypes.JSONB,
@@ -159,24 +166,24 @@ async function generateDefaultHashedPassword() {
   return passwordHash;
 }
 
-Patient.beforeCreate(async(patient)=>{
-  patient.password = await generateDefaultHashedPassword()
-})
+Patient.beforeCreate(async (patient) => {
+  patient.password = await generateDefaultHashedPassword();
+});
 
 Patient.afterUpdate(async (instance, options) => {
-  const redisClient = createClient({ url: 'redis://redis:6379' })
-  await redisClient.connect()
-  await redisClient.del('patientData')
-})
+  const redisClient = createClient({ url: "redis://redis:6379" });
+  await redisClient.connect();
+  await redisClient.del("patientData");
+});
 
 Patient.afterCreate(async () => {
-  const redisClient = createClient({ url: 'redis://redis:6379' })
-  await redisClient.connect()
-  await redisClient.del('patientData')
-})
+  const redisClient = createClient({ url: "redis://redis:6379" });
+  await redisClient.connect();
+  await redisClient.del("patientData");
+});
 
-Patient.belongsTo(School, { foreignKey: 'schoolID' })
-Patient.belongsTo(Hospital, { foreignKey: 'hospitalID', constraints: false })
+Patient.belongsTo(School, { foreignKey: "schoolID" });
+Patient.belongsTo(Hospital, { foreignKey: "hospitalID", constraints: false });
 
 // const syncDB = async () => {
 //   try {

@@ -26,4 +26,23 @@ export class UserAvailabilityRepository implements IUserAvailabilityRepository {
 
     return results
   }
+
+    async edit(data: UserAvailabilityAttributes): Promise<UserAvailabilityAttributes | null> {
+    const { id, availability } = data;
+
+
+    const results = await UserAvailability.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.availability = availability as any;
+
+      await results.save();
+    }
+    return results;
+  }
+
 }

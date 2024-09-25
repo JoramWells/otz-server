@@ -197,6 +197,21 @@ export class PatientController {
   }
 
   //
+  async onUpdatePatientProfileAvatar(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (id === "undefined") return null;
+      const avatar = req.file?.filename;
+ 
+
+      const results = await this.interactor.updateAvatar(id, avatar);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { firstName, password } = req.body;
@@ -241,11 +256,7 @@ export class PatientController {
 
   //
   //
-  async onDeletePatient(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  async onDeletePatient(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const result = await this.interactor.deletePatient(id);

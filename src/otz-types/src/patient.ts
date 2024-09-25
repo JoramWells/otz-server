@@ -38,6 +38,7 @@ export interface PatientAttributes {
   lastName?: string;
   sex?: string;
   dob?: Date | string;
+  avatar?: string;
   phoneNo?: string;
   idNo?: string;
   password?: string;
@@ -78,9 +79,13 @@ export interface UserInterface {
 export interface UserAvailabilityAttributes {
   id?: string;
   userID: string;
-  daysAvailable: WeekDays;
-  startTime: Date;
-  endTime: Date;
+  availability?: {
+    available: boolean
+    day: string;
+    startTime: Date;
+    endTime: Date;
+  }[];
+
   createdAt?: Date;
   updatedAt?: Date;
 }

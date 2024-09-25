@@ -2,8 +2,7 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../db/connect';
 import { HomeVisitConfigAttributes } from 'otz-types';
 import { HomeVisitReason } from './homeVisitReason.model';
-import { Patient } from '../patients.models';
-import { User } from '../user.model';
+import { PatientVisits } from '../patientVisits.model';
 
 export enum FrequencyAttributes {
   Bimonthly = "Bimonthly",
@@ -17,20 +16,6 @@ export class HomeVisitConfig
   extends Model<HomeVisitConfigAttributes>
   implements HomeVisitConfigAttributes
 {
-  user?: {
-    firstName: string;
-    middleName: string;
-    sex: string;
-    phoneNo: string;
-    cccNo: string;
-  };
-  patient?: {
-    firstName: string;
-    middleName: string;
-    sex: string;
-    phoneNo: string;
-    cccNo: string;
-  };
   createdAt?: string | Date | undefined;
   updatedAt?: string | Date | undefined;
   id?: string | undefined;
@@ -41,6 +26,8 @@ export class HomeVisitConfig
   dateRequested?: string | undefined;
 }
 
+
+
 HomeVisitConfig.init(
   {
     id: {
@@ -48,25 +35,17 @@ HomeVisitConfig.init(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    patientID: {
+    patientVisitID: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "patientVisits",
         key: "id",
       },
       onDelete: "CASCADE",
       allowNull: false,
+      unique: true
     },
-    patient: {
-      type: DataTypes.JSONB,
-      // onDelete: 'CASCADE',
-      allowNull: false,
-    },
-    user: {
-      type: DataTypes.JSONB,
-      // onDelete: 'CASCADE',
-      allowNull: false,
-    },
+
     homeVisitReasonID: {
       type: DataTypes.UUID,
       references: {
@@ -76,15 +55,15 @@ HomeVisitConfig.init(
       onDelete: "CASCADE",
       allowNull: false,
     },
-    userID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "users",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-      allowNull: false,
-    },
+    // userID: {
+    //   type: DataTypes.UUID,
+    //   references: {
+    //     model: "users",
+    //     key: "id",
+    //   },
+    //   onDelete: "CASCADE",
+    //   allowNull: false,
+    // },
     dateRequested: {
       type: DataTypes.DATE,
     },
@@ -107,12 +86,11 @@ HomeVisitConfig.init(
 // HomeVisitConfig.ass
 
 HomeVisitConfig.belongsTo(HomeVisitReason, { foreignKey: "homeVisitReasonID" });
-HomeVisitConfig.belongsTo(Patient, { foreignKey: "patientID" });
-HomeVisitConfig.belongsTo(User, { foreignKey: "userID" });
+HomeVisitConfig.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
 // (async () => {
-// connect.sync()
+connect.sync()
 // console.log('Patient Table synced successfully')
 // })()
