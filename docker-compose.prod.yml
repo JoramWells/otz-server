@@ -189,10 +189,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
     ports:
       - 5001:5001
@@ -224,10 +224,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
     ports:
       - 5002:5002
@@ -259,10 +259,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M   
     ports:
       - 5003:5003
@@ -294,10 +294,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M   
     ports:
       - 5006:5006
@@ -327,10 +327,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M   
     ports:
       - 5007:5007
@@ -360,10 +360,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 700M  
     ports:
       - 5000:5000
@@ -480,10 +480,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 750M
         reservations:
-          cpus: '0.40'
+          cpus: '0.30'
           memory: 750M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
