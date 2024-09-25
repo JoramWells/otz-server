@@ -31,7 +31,7 @@ EventType.init(
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     duration: {
       type: DataTypes.INTEGER,
@@ -47,7 +47,7 @@ EventType.init(
       allowNull: false,
     },
     timeZone: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

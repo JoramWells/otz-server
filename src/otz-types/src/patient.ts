@@ -38,6 +38,7 @@ export interface PatientAttributes {
   lastName?: string;
   sex?: string;
   dob?: Date | string;
+  avatar?: string;
   phoneNo?: string;
   idNo?: string;
   password?: string;

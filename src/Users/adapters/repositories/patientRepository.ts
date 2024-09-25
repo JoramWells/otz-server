@@ -87,20 +87,20 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async findImportant(limit:number): Promise<PatientAttributes[]> {
-    if(limit){
-        return await Patient.findAll({
-          limit,
-          where: {
-            isImportant: true,
-          },
-        });
+  async findImportant(limit: number): Promise<PatientAttributes[]> {
+    if (limit) {
+      return await Patient.findAll({
+        limit,
+        where: {
+          isImportant: true,
+        },
+      });
     }
     return await Patient.findAll({
-      where:{
-        isImportant: true
-      }
-    })
+      where: {
+        isImportant: true,
+      },
+    });
   }
 
   async findOTZ(): Promise<PatientAttributes[]> {
@@ -199,6 +199,25 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
+  async editAvatar(id: string, avatar: string): Promise<PatientAttributes | null> {
+
+    // delete cache
+    await this.redisClient.del(patientCache);
+    await this.redisClient.del(id as string);
+
+    const results = await Patient.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.avatar = avatar;
+      await results.save();
+    }
+    return results;
+  }
+
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
     const { id, firstName, middleName, lastName, phoneNo, role } = data;
 
@@ -249,21 +268,17 @@ export class PatientRepository implements IPatientRepository {
     }
   }
 
-  // 
-    async delete(id: string): Promise<number | null> {
-        await this.redisClient.del(patientCache);
-        await this.redisClient.del(id as string);
-      const results: number | null = await Patient.destroy(
-        {
-          where: {
-            id,
-          },
-        }
-      );
-    console.log('deleted cache!!')
+  //
+  async delete(id: string): Promise<number | null> {
+    await this.redisClient.del(patientCache);
+    await this.redisClient.del(id as string);
+    const results: number | null = await Patient.destroy({
+      where: {
+        id,
+      },
+    });
+    console.log("deleted cache!!");
 
-
-      return results;
-}
-
+    return results;
+  }
 }

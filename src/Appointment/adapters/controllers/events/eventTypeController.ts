@@ -17,6 +17,7 @@ export class EventTypeController {
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
       //   });
+      console.log(req.body , 'event type')
       next();
     } catch (error) {
       // console.log(error)

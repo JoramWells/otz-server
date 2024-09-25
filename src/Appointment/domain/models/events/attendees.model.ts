@@ -32,6 +32,7 @@ Attendee.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false,
     },
     patientID: {
       type: DataTypes.UUID,
@@ -40,6 +41,7 @@ Attendee.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false,
     },
   },
   {
@@ -56,5 +58,5 @@ Attendee.belongsTo(Patient, { foreignKey: "patientID" });
 Attendee.belongsTo(EventType, { foreignKey: "eventTypeID" });
 
 
-// void connect.sync({alter:true})
+connect.sync()
 // console.log('Patient Table synced successfully')

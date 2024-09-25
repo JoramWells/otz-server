@@ -52,7 +52,7 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
     "globals": "^15.0.0",
-    "otz-types": "^1.1.37",
+    "otz-types": "^1.1.42",
     "sequelize-cli": "^6.6.2",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.2",

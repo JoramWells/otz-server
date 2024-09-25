@@ -2479,3 +2479,6 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-09-17T11:17:31.605Z"}
 {"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-09-18T03:52:25.519Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-09-18T03:52:25.824Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-09-23T19:12:15.281Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-09-23T19:12:26.595Z"}
+{"level":"error","message":"This id is undefined","service":"user microservice api","timestamp":"2024-09-24T09:47:46.174Z"}

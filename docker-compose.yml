@@ -71,7 +71,7 @@ services:
       - 5432:5432
     volumes:
       # - postgres_data:/var/lib/postgresql/data
-      - ./users3.sql:/docker-entrypoint-initdb.d/users3.sql
+      - ./users_backup.sql:/docker-entrypoint-initdb.d/users_backup.sql
 
 
     deploy:
@@ -112,7 +112,7 @@ services:
   #   - 5437:5432
   #   volumes:
   #   # - postgres_data:/var/lib/postgresql/data
-  #   - ./users3.sql:/docker-entrypoint-initdb.d/users3.sql
+  #   - ./users_backup.sql:/docker-entrypoint-initdb.d/users_backup.sql
 
 
   #   deploy:

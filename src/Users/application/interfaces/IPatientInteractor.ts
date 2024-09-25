@@ -8,6 +8,7 @@ export interface IPatientInteractor {
   markAsImportant: (id: string, isImportant: boolean) => Promise<string | null>
   findAllPMTCTPatients: () => Promise <PatientAttributes[]>
   findAllOTZPatients: () => Promise <PatientAttributes[]>
+  updateAvatar: (id: string, avatar: string) => Promise<PatientAttributes | null>
   editPatient: (data: PatientAttributes) => Promise<PatientAttributes | null>
   login: (firstName: string, password: string) => Promise<PatientAttributes | null>
   deletePatient: (id: string) => Promise<number | null>;

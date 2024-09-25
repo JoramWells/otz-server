@@ -3,6 +3,7 @@ import { PatientController } from '../adapters/controllers/patientController'
 import { PatientRepository } from '../adapters/repositories/patientRepository'
 import { createPatientValidator } from '../adapters/validators/PatientValidator'
 import { PatientInteractor } from '../application/interactors/patientInteractor'
+import { upload } from '../middleware/uploadImage';
 
 import express from 'express'
 
@@ -21,6 +22,7 @@ router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientCon
 router.get('/important-patients', patientController.onGetImportantPatient.bind(patientController))
 router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientController))
 router.post("/login", patientController.login.bind(patientController));
+router.put("/update-avatar", upload.single('file') , patientController.onUpdatePatientProfileAvatar.bind(patientController));
 router.put("/mark-important/:id", patientController.onMarkAsImportant.bind(patientController));
 
 router.delete('/delete/:id', patientController.onDeletePatient.bind(patientController));
