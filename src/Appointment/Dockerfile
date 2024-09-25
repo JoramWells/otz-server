@@ -1,15 +1,15 @@
 FROM node:22-alpine
 
-RUN npm install pnpm -g
-
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 
-RUN pnpm install 
+
+RUN yarn install
 
 COPY . .
 
-EXPOSE 5005
+EXPOSE 5003
 
-CMD [ "pnpm", "run", "dev"]
+CMD [ "yarn","run" ,"dev"]
