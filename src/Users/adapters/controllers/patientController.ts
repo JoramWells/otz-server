@@ -196,6 +196,7 @@ export class PatientController {
     }
   }
 
+  
   //
   async onUpdatePatientProfileAvatar(req: Request, res: Response, next: NextFunction) {
     try {
@@ -203,6 +204,7 @@ export class PatientController {
       if (id === "undefined") return null;
       const avatar = req.file?.filename;
  
+      console.log(req.file)
 
       const results = await this.interactor.updateAvatar(id, avatar);
       res.status(200).json(results);

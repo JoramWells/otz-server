@@ -53,6 +53,7 @@ export interface PatientAttributes {
   entryPoint?: string;
   subCountyName?: string;
   maritalStatus: string;
+  email?: string;
   isImportant?: boolean;
   role:UserRoles;
   location?: LocationProps;
