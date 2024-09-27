@@ -430,11 +430,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.25'
-      #     memory: 800M
+          cpus: '0.20'
+          # memory: 950M
         reservations:
           cpus: '0.20'
-      #     memory: 600M
+          # memory: 600M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -475,11 +475,11 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.25'
+          cpus: '0.20'
           memory: 750M
         reservations:
-          cpus: '0.25'
-          memory: 750M
+          cpus: '0.20'
+          memory: 450M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
