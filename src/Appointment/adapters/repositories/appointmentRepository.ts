@@ -1,44 +1,44 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op } from 'sequelize'
-import { IAppointmentRepository } from '../../application/interfaces/appointment/IAppointmentRepository'
-import { appointmentCache } from '../../constants/appointmentCache'
-import { Appointment } from '../../domain/models/appointment/appointment.model'
-import { AppointmentAgenda } from '../../domain/models/appointment/appointmentAgenda.model'
-import { AppointmentStatus } from '../../domain/models/appointment/appointmentStatus.model'
-import { Patient } from '../../domain/models/patients.models'
-import { User } from '../../domain/models/user.model'
+import { Op } from "sequelize";
+import { IAppointmentRepository } from "../../application/interfaces/appointment/IAppointmentRepository";
+import { appointmentCache } from "../../constants/appointmentCache";
+import { Appointment } from "../../domain/models/appointment/appointment.model";
+import { AppointmentAgenda } from "../../domain/models/appointment/appointmentAgenda.model";
+import { AppointmentStatus } from "../../domain/models/appointment/appointmentStatus.model";
+import { Patient } from "../../domain/models/patients.models";
+import { User } from "../../domain/models/user.model";
 // import { logger } from '../../utils/logger'
-import { RedisAdapter } from './redisAdapter'
-import { connect } from '../../db/connect'
-import { PatientVisits } from '../../domain/models/patientVisits.model'
-import { AppointmentAttributes } from 'otz-types'
+import { RedisAdapter } from "./redisAdapter";
+import { connect } from "../../db/connect";
+import { PatientVisits } from "../../domain/models/patientVisits.model";
+import { AppointmentAttributes } from "otz-types";
 // import { createClient } from 'redis'
 
-const getWeekRange = (date: Date) =>{
-  const startOfWeek = new Date(date)
-  const endOfWeek = new Date(date)
+const getWeekRange = (date: Date) => {
+  const startOfWeek = new Date(date);
+  const endOfWeek = new Date(date);
 
-  startOfWeek.setDate(date.getDate()-date.getDay())
-  endOfWeek.setDate(date.getDate() + (6 -date.getDay()))
+  startOfWeek.setDate(date.getDate() - date.getDay());
+  endOfWeek.setDate(date.getDate() + (6 - date.getDay()));
 
   return {
-    start: startOfWeek.toISOString().split('T')[0],
-    end: endOfWeek.toISOString().split('T')[0]
-  }
-}
+    start: startOfWeek.toISOString().split("T")[0],
+    end: endOfWeek.toISOString().split("T")[0],
+  };
+};
 
-// 
-const getMonthRange = (date:Date) =>{
-  const startOfMonth = new Date(date.getFullYear(), date.getMonth(),1)
-  const endOfMonth = new Date(date.getFullYear(), date.getMonth()+1,0)
+//
+const getMonthRange = (date: Date) => {
+  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   return {
     start: startOfMonth.toISOString().split("T")[0],
     end: endOfMonth.toISOString().split("T")[0],
   };
-}
+};
 
-// 
+//
 export class AppointmentRepository implements IAppointmentRepository {
   private readonly redisClient = new RedisAdapter();
 
@@ -94,10 +94,10 @@ export class AppointmentRepository implements IAppointmentRepository {
     const result = await Appointment.findByPk(id);
     const appointmentDetailID = `appointment_detail_${id}`;
 
-    await this.redisClient.connect()
-    await this.redisClient.del(appointmentCache)
-    await this.redisClient.del(id)
-    await this.redisClient.del(appointmentDetailID)
+    await this.redisClient.connect();
+    await this.redisClient.del(appointmentCache);
+    await this.redisClient.del(id);
+    await this.redisClient.del(appointmentDetailID);
 
     if (result) {
       result.isRead = true;
@@ -106,7 +106,6 @@ export class AppointmentRepository implements IAppointmentRepository {
     }
     return null;
   }
-
 
   //
   async reschedule(
@@ -163,7 +162,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       let results: AppointmentAttributes = await Appointment.create(data, {
         transaction: t,
       });
-      
+
       console.log("Running transaction data...!!!", results);
 
       // if (results) {
@@ -171,7 +170,7 @@ export class AppointmentRepository implements IAppointmentRepository {
       // }
 
       const { patientID } = data;
-      
+
       if ((await this.redisClient.get(patientID.toString())) !== null) {
         // delete individual patientCache in the db!!
         await this.redisClient.del(patientID);
@@ -192,49 +191,55 @@ export class AppointmentRepository implements IAppointmentRepository {
     // await this.redisClient.connect();
     // check if patient
 
-    const currentDate = new Date()
+    const currentDate = new Date();
 
-    if(dateQuery === 'weekly'){
-         const { start, end } = getWeekRange(currentDate);
+    if (dateQuery === "weekly") {
+      const { start, end } = getWeekRange(currentDate);
 
-         // if ((await this.redisClient.get(appointmentCache)) === null) {
-         const results: AppointmentAttributes[] = await Appointment.findAll({
-           order: [["appointmentDate", "ASC"]],
-           where: {
-             createdAt: {
-               [Op.not]: null,
-             } as any,
-             appointmentDate: {
-               [Op.between]: [start, end],
-             },
-           },
-           include: [
-             {
-               model: Patient,
-               attributes: ["firstName", "middleName", "dob", "sex", 'isImportant'],
-             },
-             {
-               model: User,
-               attributes: ["id", "firstName", "middleName"],
-             },
-             {
-               model: AppointmentAgenda,
-               attributes: ["id", "agendaDescription"],
-             },
-             {
-               model: AppointmentStatus,
-               attributes: ["id", "statusDescription"],
-             },
-           ],
-         });
-         // logger.info({ message: "Fetched from db!" });
-         // console.log("fetched from db!");
-         // set to cace
-         // await this.redisClient.set(appointmentCache, JSON.stringify(results));
+      // if ((await this.redisClient.get(appointmentCache)) === null) {
+      const results: AppointmentAttributes[] = await Appointment.findAll({
+        order: [["appointmentDate", "ASC"]],
+        where: {
+          createdAt: {
+            [Op.not]: null,
+          } as any,
+          appointmentDate: {
+            [Op.between]: [start, end],
+          },
+        },
+        include: [
+          {
+            model: Patient,
+            attributes: [
+              "firstName",
+              "middleName",
+              "dob",
+              "sex",
+              "isImportant",
+            ],
+          },
+          {
+            model: User,
+            attributes: ["id", "firstName", "middleName"],
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: ["id", "agendaDescription"],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ["id", "statusDescription"],
+          },
+        ],
+      });
+      // logger.info({ message: "Fetched from db!" });
+      // console.log("fetched from db!");
+      // set to cace
+      // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-         return results; 
-    }    else if (dateQuery === "monthly") {
-          const { start, end } = getMonthRange(currentDate);
+      return results;
+    } else if (dateQuery === "monthly") {
+      const { start, end } = getMonthRange(currentDate);
 
       // if ((await this.redisClient.get(appointmentCache)) === null) {
       const results: AppointmentAttributes[] = await Appointment.findAll({
@@ -280,46 +285,39 @@ export class AppointmentRepository implements IAppointmentRepository {
       return results;
     }
 
-
     // if ((await this.redisClient.get(appointmentCache)) === null) {
-      const results: AppointmentAttributes[] = await Appointment.findAll({
-        order: [["appointmentDate", "ASC"]],
-        where: {
-          createdAt: {
-            [Op.not]: null,
-          } as any,
+    const results: AppointmentAttributes[] = await Appointment.findAll({
+      order: [["appointmentDate", "ASC"]],
+      where: {
+        createdAt: {
+          [Op.not]: null,
+        } as any,
+      },
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "dob", "sex", "isImportant"],
         },
-        include: [
-          {
-            model: Patient,
-            attributes: [
-              "firstName",
-              "middleName",
-              "dob",
-              "sex",
-              "isImportant",
-            ],
-          },
-          {
-            model: User,
-            attributes: ["id", "firstName", "middleName"],
-          },
-          {
-            model: AppointmentAgenda,
-            attributes: ["id", "agendaDescription"],
-          },
-          {
-            model: AppointmentStatus,
-            attributes: ["id", "statusDescription"],
-          },
-        ],
-      });
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      // await this.redisClient.set(appointmentCache, JSON.stringify(results));
+        {
+          model: User,
+          attributes: ["id", "firstName", "middleName"],
+        },
+        {
+          model: AppointmentAgenda,
+          attributes: ["id", "agendaDescription"],
+        },
+        {
+          model: AppointmentStatus,
+          attributes: ["id", "statusDescription"],
+        },
+      ],
+    });
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
+    // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-      return results;
+    return results;
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   appointmentCache
@@ -342,7 +340,7 @@ export class AppointmentRepository implements IAppointmentRepository {
   ): Promise<AppointmentAttributes | null> {
     // if ((await this.redisClient.get(id)) === null) {
 
-    const currentDate = new  Date()
+    const currentDate = new Date();
 
     const appointmentStatus = await AppointmentStatus.findOne({
       where: {
@@ -362,9 +360,9 @@ export class AppointmentRepository implements IAppointmentRepository {
         where: {
           patientID: id,
           appointmentAgendaID: appointmentAgenda.id,
-          createdAt:{
-            [Op.not]: currentDate
-          }
+          createdAt: {
+            [Op.not]: currentDate,
+          },
         } as any,
       });
 
@@ -413,6 +411,10 @@ export class AppointmentRepository implements IAppointmentRepository {
           model: User,
           attributes: ["firstName", "middleName"],
         },
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName"],
+        },
       ],
     });
 
@@ -451,13 +453,17 @@ export class AppointmentRepository implements IAppointmentRepository {
           model: User,
           attributes: ["firstName", "middleName"],
         },
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName"],
+        },
       ],
     });
     return results;
   }
 
   async findById(id: string): Promise<AppointmentAttributes | null> {
-    const appointmentDetailID = `appointment_detail_${id}`
+    const appointmentDetailID = `appointment_detail_${id}`;
     // await this.redisClient.connect();
     if ((await this.redisClient.get(appointmentDetailID)) === null) {
       const results: AppointmentAttributes | null = await Appointment.findOne({
@@ -465,19 +471,23 @@ export class AppointmentRepository implements IAppointmentRepository {
           id,
         },
         include: [
-        {
-          model: AppointmentAgenda,
-          attributes: ["agendaDescription"],
-        },
-        {
-          model: AppointmentStatus,
-          attributes: ["statusDescription"],
-        },
-        {
-          model: User,
-          attributes: ["firstName", "middleName"],
-        },
-      ],
+          {
+            model: AppointmentAgenda,
+            attributes: ["agendaDescription"],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ["statusDescription"],
+          },
+          {
+            model: User,
+            attributes: ["firstName", "middleName"],
+          },
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+          },
+        ],
       });
 
       await this.redisClient.set(appointmentDetailID, JSON.stringify(results));
@@ -485,7 +495,9 @@ export class AppointmentRepository implements IAppointmentRepository {
       return results;
     }
 
-    const cachedData: string | null = await this.redisClient.get(appointmentDetailID);
+    const cachedData: string | null = await this.redisClient.get(
+      appointmentDetailID
+    );
     if (cachedData === null) {
       return null;
     }
