@@ -31,9 +31,11 @@ ARTPrescription.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false,
     },
     regimen: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     startDate: {
       type: DataTypes.DATE,
@@ -44,10 +46,11 @@ ARTPrescription.init(
     isSwitched: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     line: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     changeReason: {
       type: DataTypes.STRING,

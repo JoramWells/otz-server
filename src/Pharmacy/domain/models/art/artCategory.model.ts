@@ -20,29 +20,30 @@ ArtCategory.init(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     artCategoryDescription: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     ageLine: {
-      type: DataTypes.ENUM('pediatric', 'Adults'),
-      defaultValue: 'pediatric'
+      type: DataTypes.ENUM("pediatric", "Adults"),
+      defaultValue: "pediatric",
 
       // allowNull: false
     },
     artPhase: {
-      type: DataTypes.ENUM('first line', 'second line', 'third line'),
-      defaultValue: 'first line'
+      type: DataTypes.ENUM("first line", "second line", "third line"),
+      defaultValue: "first line",
       // allowNull: false
-    }
+    },
   },
   {
     sequelize: connect,
 
-    tableName: 'artCategories'
+    tableName: "artCategories",
   }
-)
+);
 
 // void connect.sync({ alter: true }).then(async () => {
 //   console.log('Art table synced successfully!!')

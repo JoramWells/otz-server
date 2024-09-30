@@ -11,6 +11,7 @@ import { calculatePills2 } from "../../utils/calculatePills";
 import { KafkaAdapter } from "../kafka/producer/kafka.producer";
 import { col, fn, Op, Sequelize } from "sequelize";
 import { Patient } from "../../domain/models/patients.models";
+import { ARTPrescription } from "../../domain/models/art/artPrescription.model";
 
 export class PrescriptionRepository implements IPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -49,12 +50,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         [fn("MAX", col("createdAt")), "latestCreatedAt"],
         "patientID",
       ],
-      where: {
-        patientVisitID: {
-          [Op.not]: null,
-        },
-      } as any,
-
       group: [
         // "expectedNoOfPills",
         // 'computedNoOfPills',
@@ -62,6 +57,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         // 'refillDate',
         // 'nextRefillDate',
         "patientID",
+        'artPrescriptionID'
         // 'Patient.id',
         // "noOfPills",
         // "Patient.id",
@@ -96,15 +92,11 @@ export class PrescriptionRepository implements IPrescriptionRepository {
           attributes: ["id", "firstName", "middleName", "isImportant"],
         },
 
-        // {
-        //   model: ART,
-        //   attributes: ['artName']
-        // where: {
-        //   artName: {
-        //     [Op.not]: null
-        //   }
-        // }
-        // }
+        {
+          model: ARTPrescription,
+          attributes: ['regimen']
+    
+        }
       ],
       attributes: [
         "expectedNoOfPills",
@@ -113,6 +105,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "refillDate",
         "nextRefillDate",
         "patientID",
+        "artPrescriptionID",
         // 'Patient.id',
         "noOfPills",
         // "Patient.id",
@@ -120,10 +113,11 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         // "Patient.middleName",
       ],
     });
-
+    
     return results;
   }
-
+  
+  
   async findAllAdherence(): Promise<PrescriptionInterface[]> {
     const results = await calculatePills2();
     return results;

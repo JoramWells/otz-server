@@ -39,6 +39,7 @@ Prescription.init(
         key: "id",
       },
       allowNull: false,
+      onDelete: "CASCADE",
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -48,6 +49,7 @@ Prescription.init(
       },
       allowNull: false,
       unique: true,
+      onDelete: "CASCADE",
     },
     artPrescriptionID: {
       type: DataTypes.UUID,
@@ -56,6 +58,7 @@ Prescription.init(
         key: "id",
       },
       allowNull: false,
+      onDelete: "CASCADE",
     },
     noOfPills: {
       type: DataTypes.STRING,
@@ -69,6 +72,7 @@ Prescription.init(
     },
     refillDate: {
       type: DataTypes.DATE,
+      allowNull: false,
     },
     nextRefillDate: {
       type: DataTypes.DATE,

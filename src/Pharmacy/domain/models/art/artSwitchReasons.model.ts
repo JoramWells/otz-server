@@ -18,18 +18,19 @@ ARTSwitchReason.init(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     reason: {
-      type: DataTypes.STRING
-    }
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize: connect,
 
-    tableName: 'artSwitchReasons'
+    tableName: "artSwitchReasons",
   }
-)
+);
 
 // sequelize.sync()
 // console.log('User Table synced successfully')
