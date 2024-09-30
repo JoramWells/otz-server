@@ -2,7 +2,7 @@ import multer from 'multer'
 import path from 'path';
 import fs from 'fs'
 
-const dir = '../uploads'
+const dir = '../..uploads'
 
 // CECK IF DIR EXISTS
 

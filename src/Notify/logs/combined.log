@@ -1300,3 +1300,4 @@
 {"level":"info","message":"Morning Notification created for patient:, 3025777e-a5e0-480c-a772-08187913ac22","service":"pharmacy-service","timestamp":"2024-09-28T21:40:00.052Z"}
 {"level":"info","message":"Morning Notification created for patient:, 6f5ce5e6-ad54-4a11-b207-162d8a447950","service":"pharmacy-service","timestamp":"2024-09-28T22:05:00.046Z"}
 {"level":"info","message":"Morning Notification created for patient:, 6f5ce5e6-ad54-4a11-b207-162d8a447950","service":"pharmacy-service","timestamp":"2024-09-28T22:05:00.047Z"}
+{"level":"info","message":"Morning Notification created for patient:, 240a8369-9323-49bb-b079-b1fd96f9ec3b","service":"pharmacy-service","timestamp":"2024-09-30T08:15:02.219Z"}

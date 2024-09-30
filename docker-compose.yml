@@ -178,10 +178,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.20'
+          cpus: '0.15'
           memory: 450M
         reservations:
-          cpus: '0.20'
+          cpus: '0.15'
           memory: 450M
     ports:
       - 5001:5001
@@ -215,10 +215,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.20'
+          cpus: '0.15'
           memory: 450M
         reservations:
-          cpus: '0.20'
+          cpus: '0.15'
           memory: 450M
     ports:
       - 5002:5002
@@ -250,10 +250,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.20'
+          cpus: '0.15'
           memory: 450M
         reservations:
-          cpus: '0.20'
+          cpus: '0.15'
           memory: 450M
     environment:
       KAFKA_BROKER: kafka:29092
