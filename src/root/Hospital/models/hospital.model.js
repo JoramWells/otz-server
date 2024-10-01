@@ -6,26 +6,29 @@ const Hospital = sequelize.define(
   'hospitals',
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
-      // defaultValue: UUIDV4,
-      autoIncrement: true,
-      unique: true,
+      defaultValue: UUIDV4,
     },
-    subCountyID: {
-      type: DataTypes.STRING,
+    location: {
+      type: DataTypes.JSONB,
+      allowNull: true
     },
     mflCode: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true
     },
     hospitalName: {
       type: DataTypes.STRING,
+      allowNull: false
     },
   },
   {
     timestamps: true,
   },
 );
+
 
 // (async () => {
 //   await sequelize.sync();
