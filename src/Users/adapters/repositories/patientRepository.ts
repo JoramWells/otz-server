@@ -56,7 +56,7 @@ export class PatientRepository implements IPatientRepository {
           );
 
           // create new visit
-          await PatientVisits.create({ patientID, userID }, { transaction: t });
+          // await PatientVisits.create({ patientID, userID }, { transaction: t });
         }
       })
       .then(() => {

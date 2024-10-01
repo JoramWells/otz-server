@@ -4,6 +4,7 @@ import fs from 'fs'
 
 const dir = '../../uploads'
 
+
 // CECK IF DIR EXISTS
 
 if(!fs.existsSync(dir)){

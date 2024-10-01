@@ -49,6 +49,7 @@ export interface AppointmentAgendaAttributes {
 export interface AppointmentStatusAttributes {
   id: string;
   statusDescription: string;
+  color?: string
   status: AppointmentStatusDescription;
   createdAt?: Date;
   updatedAt?: Date;

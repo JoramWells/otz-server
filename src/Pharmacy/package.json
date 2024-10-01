@@ -8,6 +8,8 @@
     "start": "node ./dist/index.js",
     "build": "npx tsc",
     "dev": "npx tsc-watch & nodemon ./dist/index.js"
+
+
   },
   "keywords": [],
   "author": "",
@@ -46,6 +48,7 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
     "globals": "^15.0.0",
+    "npm-run-all": "^4.1.5",
     "otz-types": "^1.1.36",
     "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
