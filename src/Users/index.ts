@@ -48,6 +48,9 @@ app.use(express.urlencoded({
   extended: true
 }))
 
+app.use(express.static('uploads'))
+
+
 // const corsOption = {
 //   origin: (origin: string, callback: (err: Error | null, origin: boolean) => void) => {
 //     if (whitelist.includes(origin)) {

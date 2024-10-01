@@ -7,6 +7,7 @@ import { upload } from '../middleware/uploadImage';
 
 import express from 'express'
 
+
 const repository = new PatientRepository()
 const interactor = new PatientInteractor(repository)
 
