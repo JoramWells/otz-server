@@ -54,6 +54,8 @@ const getAllUserLocations = async (req, res, next) => {
 
 const getUserLocation = async (req, res, next) => {
     const { id } = req.params;
+    if (id === "undefined") return null;
+
     try {
         const results = await UserLocation.findOne({
             where: {
@@ -78,6 +80,7 @@ const getUserLocation = async (req, res, next) => {
 //
 const getByPatientIDUserLocation = async (req, res, next) => {
     const { id } = req.params;
+    if (id === "undefined") return null;
     try {
         const results = await UserLocation.findOne({
             where: {

@@ -54,6 +54,8 @@ const getAllInternalLabRequests = async (req, res, next) => {
 
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
+  if (id === "undefined") return null;
+
   try {
     const results = await InternalLabRequest.findOne({
       where: {

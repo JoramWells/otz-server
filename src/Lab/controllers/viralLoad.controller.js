@@ -191,6 +191,8 @@ const calculateNextAppointmentDate = (appointmentDate, frequency) => {
 
 const getViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
+  if (id === "undefined") return null;
+
   console.log(id);
   try {
     const patient = await ViralLoad.findOne({
@@ -210,6 +212,8 @@ const getViralLoadTest = async (req, res, next) => {
 //
 const getAllViralLoadByPatientID = async (req, res, next) => {
   const { id } = req.params;
+  if (id === "undefined") return null;
+
   console.log(id);
   try {
     const patient = await ViralLoad.findAll({
