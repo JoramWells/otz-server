@@ -113,7 +113,7 @@ Patient.init(
       type: DataTypes.INTEGER,
     },
     hospitalID: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
     },
     location: {
       type: DataTypes.JSONB,

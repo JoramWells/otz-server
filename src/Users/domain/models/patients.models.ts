@@ -118,7 +118,7 @@ Patient.init(
       type: DataTypes.INTEGER,
     },
     hospitalID: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
     },
     isImportant: {
       type: DataTypes.BOOLEAN,
