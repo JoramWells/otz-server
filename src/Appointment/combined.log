@@ -1599,3 +1599,4 @@
 {"level":"info","message":"Appointments modified for 807fbcd0-1ead-4dfc-8ea7-b17d9f83c214 ","service":"appointment-service","timestamp":"2024-09-30T15:52:34.192Z"}
 {"level":"info","message":"Appointments modified for 662b16e7-c893-4bac-9eff-1e8fd6a73ca5 ","service":"appointment-service","timestamp":"2024-09-30T15:52:34.993Z"}
 
+{"level":"info","message":"Changed 4e78a564-c579-4cf0-afc5-627d341dee60 to pending...","service":"appointment-service","timestamp":"2024-10-03T03:59:00.516Z"}
