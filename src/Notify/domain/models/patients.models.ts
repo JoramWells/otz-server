@@ -93,7 +93,7 @@ Patient.init(
       type: DataTypes.INTEGER
     },
     hospitalID: {
-      type: DataTypes.INTEGER
+      type: DataTypes.UUID
     }
     // notifications: {
     //   type: DataTypes.JSONB,
