@@ -133,6 +133,88 @@ const editVitalSign = async (req, res, next) => {
   }
 };
 
+const updateHeight = async (req, res, next) => {
+  const { id } = req.params;
+  const {
+    height, patientID,
+  } = req.body;
+  try {
+    //
+    return await connect.transaction(async (t) => {
+      const selfCareVisit = await PatientVisits.create({
+        patientID,
+        type: 'self care',
+      }, { transaction: t });
+
+      const results = await VitalSign.create({
+        patientID: id,
+        patientVisitID: selfCareVisit.id,
+        height,
+
+      }, { transaction: t });
+      return results;
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error);
+  }
+};
+
+// 
+const updateWeight = async (req, res, next) => {
+  const { id } = req.params;
+  const currentDate = new Date()
+  const typeOfVisit = 'self care'
+  const {
+    weight, patientID,
+  } = req.body;
+    try {
+
+    //
+    return await connect.transaction(async (t) => {
+
+      // confirm if the patient has a visit today
+      const isSelfCaredToday = await PatientVisits.findOne({
+        patientID,
+        type: typeOfVisit,
+        createdAt: currentDate
+      }, {transaction: t})
+
+      if (isSelfCaredToday) {
+        const todaysVitals = await VitalSign.findOne({
+          patientVisitID: isSelfCaredToday.id
+        })
+
+        todaysVitals.weight = weight
+        todaysVitals.save()
+        return todaysVitals;
+
+      } else {
+        const selfCareVisit = await PatientVisits.create({
+          patientID,
+          type: 'self care',
+        }, { transaction: t });
+
+        const results = await VitalSign.create({
+          patientID: id,
+          patientVisitID: selfCareVisit.id,
+          weight,
+
+        }, { transaction: t });
+        return results;
+      }
+
+
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+    next(error);
+  }
+};
+
+
 // edit patient
 const updateBMI = async (req, res, next) => {
   const { id } = req.params;
@@ -194,4 +276,6 @@ module.exports = {
   getAllVitalSignDetail,
   getAllVitalSignByPatientID,
   updateBMI,
+  updateHeight,
+  updateWeight
 };
