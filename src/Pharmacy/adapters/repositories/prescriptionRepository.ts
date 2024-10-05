@@ -57,7 +57,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         // 'refillDate',
         // 'nextRefillDate',
         "patientID",
-        'artPrescriptionID'
+        "artPrescriptionID",
         // 'Patient.id',
         // "noOfPills",
         // "Patient.id",
@@ -94,9 +94,8 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
         {
           model: ARTPrescription,
-          attributes: ['regimen']
-    
-        }
+          attributes: ["regimen"],
+        },
       ],
       attributes: [
         "expectedNoOfPills",
@@ -106,6 +105,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "nextRefillDate",
         "patientID",
         "artPrescriptionID",
+        "patientVisitID",
         // 'Patient.id',
         "noOfPills",
         // "Patient.id",
@@ -113,11 +113,10 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         // "Patient.middleName",
       ],
     });
-    
+
     return results;
   }
-  
-  
+
   async findAllAdherence(): Promise<PrescriptionInterface[]> {
     const results = await calculatePills2();
     return results;
@@ -194,6 +193,32 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       // ],
     });
 
+    //
+
+    return results;
+  }
+
+  async edit(data: PrescriptionInterface): Promise<PrescriptionInterface | null> {
+    const { id, frequency } = data;
+
+    // delete cache
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+
+    const results = await Prescription.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.frequency = frequency;
+      // results.middleName = middleName;
+      // results.lastName = lastName;
+      // results.phoneNo = phoneNo;
+      // results.role = role;
+      await results.save();
+    }
     return results;
   }
 }

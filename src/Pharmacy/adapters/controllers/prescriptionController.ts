@@ -26,7 +26,7 @@ export class PrescriptionController {
       appointmentStatusID,
     } = req.body;
 
-    console.log(req.body)
+    console.log(req.body);
 
     const nextRefillDate = new Date(refillDate);
     const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
@@ -40,7 +40,6 @@ export class PrescriptionController {
       appointmentStatusID,
       appointmentDate: nextRefillDate as unknown as string,
     };
-
 
     const prescriptionInput: PrescriptionInterface = {
       patientVisitID,
@@ -62,7 +61,7 @@ export class PrescriptionController {
       next();
     } catch (error) {
       console.log(error);
-      logger.error(error)
+      logger.error(error);
       next(error);
     }
   }
@@ -93,7 +92,11 @@ export class PrescriptionController {
   }
 
   //
-  async onGetPrescriptionByPatientId(req: Request, res: Response, next: NextFunction) {
+  async onGetPrescriptionByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllPrescriptionByPatientId(id);
@@ -125,6 +128,26 @@ export class PrescriptionController {
   }
 
   //
+  async onEditPrescription(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (id === "undefined") return null;
+      const {
+        frequency
+      }: PrescriptionInterface = req.body;
+      const values: PrescriptionInterface = {
+        id,
+        frequency
+      };
+
+      const results = await this.interactor.editPrescription(values);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async onGetPrescriptionDetails(
     req: Request,
     res: Response,
@@ -132,7 +155,7 @@ export class PrescriptionController {
   ) {
     try {
       const { id } = req.params;
-      if(id==='undefined') return;
+      if (id === "undefined") return;
       const result = await this.interactor.getPrescriptionDetails(id);
       res.status(200).json(result);
       next();

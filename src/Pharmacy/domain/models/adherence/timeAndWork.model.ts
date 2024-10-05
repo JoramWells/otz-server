@@ -86,6 +86,7 @@ TimeAndWork.init(
     },
     eveningMedicineTime: {
       type: DataTypes.TIME,
+      allowNull: true
     },
     medicineStorage: {
       type: DataTypes.STRING,

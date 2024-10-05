@@ -16,7 +16,7 @@ router.get('/facility-adherence', controller.onGetFacilityAdherence.bind(control
 router.get('/detail/:id', controller.onGetPrescriptionById.bind(controller))
 router.get('/details/:id', controller.onGetPrescriptionDetails.bind(controller))
 router.get('/prescription-details/:id', controller.onGetPrescriptionByPatientId.bind(controller))
-// router.put('/edit/:id', editUser)
+router.put('/edit/:id', controller.onEditPrescription.bind(controller))
 // router.delete('/delete/:id', deleteUser)
 
 export { router as prescriptionRouter }
