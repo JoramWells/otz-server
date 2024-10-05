@@ -41,11 +41,13 @@ const PORT = process.env.PORT || 5003
 
 const server = createServer(app)
 
+
 const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
+  path: '/socket.io'
 });
 // const corsOption = {
 //   origin: ['*']
