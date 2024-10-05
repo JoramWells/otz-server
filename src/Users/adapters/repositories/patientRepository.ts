@@ -45,8 +45,6 @@ export class PatientRepository implements IPatientRepository {
         //
         if (results) {
           const patientID = results.id;
-          const {userID} = data
-          console.log(userID, 'userID')
           await NextOfKin.create(
             {
               patientID,

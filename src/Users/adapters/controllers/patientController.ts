@@ -206,7 +206,7 @@ export class PatientController {
  
       console.log(req.file)
 
-      const results = await this.interactor.updateAvatar(id, avatar);
+      const results = await this.interactor.updateAvatar(id, avatar as string);
       res.status(200).json(results);
     } catch (error) {
       console.log(error);

@@ -8,7 +8,7 @@ export interface PrescriptionInterface {
   frequency: number;
   refillDate: Date;
   nextRefillDate: Date;
-  isCompleted: boolean;
+  isCompleted?: boolean;
 
   //
   expectedNoOfPills?: number;

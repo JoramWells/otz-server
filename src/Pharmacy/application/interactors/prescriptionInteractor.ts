@@ -9,7 +9,6 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     this.repository = repository;
   }
 
-
   async getFacilityAdherence(): Promise<string | number> {
     return await this.repository.findFacilityAdherence();
   }
@@ -35,6 +34,12 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     appointmentInput: AppointmentAttributes
   ): Promise<PrescriptionInterface | null> {
     return await this.repository.create(data, appointmentInput);
+  }
+
+  async editPrescription(
+    data: PrescriptionInterface
+  ): Promise<PrescriptionInterface | null> {
+    return await this.repository.edit(data);
   }
 
   async getAllPrescriptions(): Promise<PrescriptionInterface[]> {
