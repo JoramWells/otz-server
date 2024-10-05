@@ -106,6 +106,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "nextRefillDate",
         "patientID",
         "artPrescriptionID",
+        "patientVisitID",
         // 'Patient.id',
         "noOfPills",
         // "Patient.id",

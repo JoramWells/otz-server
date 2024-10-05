@@ -7,7 +7,6 @@ import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
 import { ARTPrescription } from "./artPrescription.model";
 import { PrescriptionInterface } from "otz-types";
-import { adherenceMonitor2 } from "../../../utils/adherence2";
 
 export class Prescription extends Model<PrescriptionInterface> {
   id: string | undefined;
@@ -16,6 +15,7 @@ export class Prescription extends Model<PrescriptionInterface> {
   artPrescriptionID!: string;
   noOfPills!: number;
   frequency!: number;
+  isCompleted: boolean | undefined
   refillDate!: Date;
   nextRefillDate!: Date;
   expectedNoOfPills!: number;
@@ -86,6 +86,11 @@ Prescription.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
+    },
+    isCompleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     },
     updatedAtExpectedNoOfPills: {
       type: DataTypes.DATE,

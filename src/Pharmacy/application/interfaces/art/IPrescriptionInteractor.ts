@@ -8,5 +8,6 @@ export interface IPrescriptionInteractor {
   getPrescriptionDetails: (id: string) => Promise<PrescriptionInterface | null>
   getAllAdherence: () => Promise<PrescriptionInterface[] >
   getFacilityAdherence: () => Promise<string | number >
+  editPrescription: (id: string) => Promise<PrescriptionInterface | number>
 
 }

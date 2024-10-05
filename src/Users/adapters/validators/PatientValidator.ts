@@ -18,3 +18,18 @@ export const createPatientValidator = [
   // body("occupation").isString().withMessage("Occupation must be a string"),
   // body("occupation").notEmpty().trim(),
 ];
+
+export const createLoginValidator = [
+  body("firstName")
+    .isString()
+    .notEmpty()
+    .withMessage("First Name cannot be empty"),
+  body("firstName").trim(),
+
+  //
+  body("password")
+    .isString()
+    .notEmpty()
+    .withMessage("First Name cannot be empty"),
+  body("password").trim(),
+];
