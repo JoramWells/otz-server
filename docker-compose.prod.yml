@@ -361,10 +361,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          # memory: 900M
         reservations:
           cpus: '0.30'
-          memory: 700M  
+          # memory: 900M  
     ports:
       - 5000:5000
     depends_on:
@@ -481,10 +481,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 750M
+          # memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 750M
+          # memory: 750M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
