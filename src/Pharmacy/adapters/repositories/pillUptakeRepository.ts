@@ -180,7 +180,6 @@ export class PillUptakeRepository implements IPillUptakeRepository {
           },
         ],
       });
-      console.log(currentUptake, "uptake!!");
 
       // await this.redisClient.set(`pill_uptake_${id}`, JSON.stringify(currentUptake));
 
