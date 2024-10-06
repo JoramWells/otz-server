@@ -26,7 +26,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       agenda,
     };
 
-    console.log(data, "pData");
 
     return await connect.transaction(async (t) => {
       const results: PrescriptionInterface = await Prescription.create(data, {
@@ -35,7 +34,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
       await this.kafkaProducer.sendMessage("create", [
         { value: JSON.stringify({ ...appointmentInput, agenda: "Refill" }) },
-      ]);
+      ]) 
       // await this.kafkaProducer.sendMessage('complete',[{value:JSON.stringify(completeInputs)}])
 
       return results;
@@ -43,7 +42,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   }
 
   async find(): Promise<PrescriptionInterface[]> {
-    console.log("finding...");
     const latestPrescription = await Prescription.findAll({
       attributes: [
         //   'noOfPills',
@@ -201,23 +199,41 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   async edit(data: PrescriptionInterface): Promise<PrescriptionInterface | null> {
     const { id, frequency } = data;
 
+    // et patientVisitID
+
     // delete cache
     // await this.redisClient.del(patientCache);
     // await this.redisClient.del(id as string);
 
-    const results = await Prescription.findOne({
-      where: {
-        id,
-      },
-    });
+    const results = await Prescription.findByPk(id);
+
+
 
     if (results) {
+
+      const nextRefillDate = new Date(results.refillDate)
+      const daysToAdd = parseInt(results.noOfPills, 10) / parseInt(frequency, 10);
+      nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd)
+
+      const currentAppointment = {
+        patientVisitID: results.patientVisitID,
+        appointmentDate: nextRefillDate as unknown as string,
+        agenda: 'Refill',
+      }; 
+
+ 
+      await this.kafkaProducer.sendMessage("frequency", [
+        {value: JSON.stringify(currentAppointment)}
+      ]) 
+
+      // console.log('kafkaing!!..')
+
       results.frequency = frequency;
       // results.middleName = middleName;
       // results.lastName = lastName;
       // results.phoneNo = phoneNo;
       // results.role = role;
-      await results.save();
+      // await results.save();
     }
     return results;
   }

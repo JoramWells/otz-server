@@ -1,13 +1,17 @@
-import { Message } from "kafkajs";
+import { Message, Partitioners } from "kafkajs";
 import { kafka } from "../../../config/kafka.config";
 
 export class KafkaAdapter {
     private readonly kafkaProducer: any
     constructor(){
-        this.kafkaProducer = kafka.producer();
+        this.kafkaProducer = kafka.producer({
+            createPartitioner: Partitioners.LegacyPartitioner,
+            retry:{
+                retries: 5
+            }
+        });
     }
-    
-    async connect (){
+        async connect (){
         try {
             await this.kafkaProducer.connect();
         } catch (error) {
@@ -20,12 +24,18 @@ export class KafkaAdapter {
     }
 
     async sendMessage(topic: string, messages: Message[]){
-        await this.connect()
-        if(!Array.isArray(messages)){
-            console.log('Expected array messages')
-        }
-        await this.kafkaProducer.send({ topic, messages });
-        await this.disconnect();
+     try {
+           await this.connect();
+           if (!Array.isArray(messages)) {
+             console.log("Expected array messages");
+           }
+           await this.kafkaProducer.send({ topic, messages });
+     } catch (error) {
+        console.error(error, 'Error sending kafka messages!!')
+     } finally{
+           await this.disconnect();
+
+     }
     }
 
 }

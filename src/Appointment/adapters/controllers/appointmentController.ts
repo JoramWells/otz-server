@@ -114,6 +114,8 @@ export class AppointmentController {
     next: NextFunction
   ) {
     const { id } = req.params;
+      if(id==='undefined') return null;
+
     const { agenda } = req.query;
     try {
       const result = await this.interactor.getRecentAppointmentByPatientID(

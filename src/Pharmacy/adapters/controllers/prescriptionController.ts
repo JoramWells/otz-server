@@ -81,6 +81,7 @@ export class PrescriptionController {
   async onGetPrescriptionById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      if(id==='undefined') return null;
       const result = await this.interactor.getPrescriptionById(id);
       res.status(200).json(result);
       next();
@@ -99,6 +100,8 @@ export class PrescriptionController {
   ) {
     try {
       const { id } = req.params;
+      if (id === "undefined") return null;
+
       const result = await this.interactor.getAllPrescriptionByPatientId(id);
       res.status(200).json(result);
       next();
