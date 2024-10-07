@@ -57,7 +57,11 @@ export class PillUptakeController {
     }
   }
 
-  async onGetCurrentPillUptake(req: Request, res: Response, next: NextFunction) {
+  async onGetCurrentPillUptake(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       if (id === "undefined") return null;
@@ -71,16 +75,18 @@ export class PillUptakeController {
     }
   }
 
-  async onGetPillUptakeByPatientID(req: Request, res: Response, next: NextFunction){
-    const {id} = req.params
+  async onGetPillUptakeByPatientID(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { id } = req.params;
     try {
-      if(id==='undefined') return null;
-      const results = await this.interactor.getPillUptakeByPatientID(id)
+      if (id === "undefined") return null;
+      const results = await this.interactor.getPillUptakeByPatientID(id);
       res.status(200).json(results);
-
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -122,6 +128,21 @@ export class PillUptakeController {
   ) {
     try {
       const result = await this.interactor.getDailyPillUptakeCount();
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  //
+  async onDeleteUptake(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.deleteUptake(id);
       res.status(200).json(result);
       next();
     } catch (error) {

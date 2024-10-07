@@ -14,11 +14,11 @@ import { AdherenceAttributes } from "otz-types";
 import { RedisAdapter } from './redisAdapter'
 import { pillUptakeCache, todaysPillCount } from '../../constants/cache'
 export class PillUptakeRepository implements IPillUptakeRepository {
-  private readonly redisClient = new RedisAdapter()
+  private readonly redisClient = new RedisAdapter();
   async count() {
     const currentDate = moment().format("YYYY-MM-DD");
 
-    if(await this.redisClient.get(todaysPillCount) === null){
+    if ((await this.redisClient.get(todaysPillCount)) === null) {
       //
       const results = await Adherence.findOne({
         attributes: [
@@ -55,19 +55,18 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       return results;
     }
 
-      const cachedPatients: string | null = await this.redisClient.get(
-        todaysPillCount
-      );
-      if (cachedPatients === null) {
-        return [];
-      }
-      await this.redisClient.disconnect();
-      // logger.info({ message: "Fetched from cache!" });
-      console.log("fetched from cache!");
+    const cachedPatients: string | null = await this.redisClient.get(
+      todaysPillCount
+    );
+    if (cachedPatients === null) {
+      return [];
+    }
+    await this.redisClient.disconnect();
+    // logger.info({ message: "Fetched from cache!" });
+    console.log("fetched from cache!");
 
-      const results = JSON.parse(cachedPatients);
-      return results;
-
+    const results = JSON.parse(cachedPatients);
+    return results;
   }
 
   // private readonly redisClient = new RedisAdapter()
@@ -76,18 +75,19 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   // }
 
   async create(data: AdherenceAttributes): Promise<AdherenceAttributes> {
-    const {prescriptionID, timeAndWorkID} = data
-    if(prescriptionID  || timeAndWorkID){
-    if (await this.redisClient.get(prescriptionID?.toString() as string)  || await this.redisClient.get(timeAndWorkID?.toString() as string)) {
-      await this.redisClient.del(prescriptionID as string)
-      await this.redisClient.del(timeAndWorkID as string);
-    }
+    const { prescriptionID, timeAndWorkID } = data;
+    if (prescriptionID || timeAndWorkID) {
+      if (
+        (await this.redisClient.get(prescriptionID?.toString() as string)) ||
+        (await this.redisClient.get(timeAndWorkID?.toString() as string))
+      ) {
+        await this.redisClient.del(prescriptionID as string);
+        await this.redisClient.del(timeAndWorkID as string);
+      }
     }
 
-    await this.redisClient.del(pillUptakeCache)
-    await this.redisClient.del(todaysPillCount)
-
-    
+    await this.redisClient.del(pillUptakeCache);
+    await this.redisClient.del(todaysPillCount);
 
     const results: AdherenceAttributes = await Adherence.create(data);
 
@@ -114,6 +114,8 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       },
     });
 
+    console.log(results, "resultx!!");
+
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // // set to cace
@@ -137,7 +139,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
     const currentDate = moment().format("YYYY-MM-DD");
-// if(await this.redisClient.get(`pill_uptake_${id}`) === null){
+    // if(await this.redisClient.get(`pill_uptake_${id}`) === null){
     // const recentPrescription = await Prescription.findOne({
     //   attributes: [
     //     [fn("MAX", col("createdAt")), "createdAt"],
@@ -150,18 +152,18 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     //   },
     // });
 
-        const recentPrescription = await Prescription.findOne({
-          // attributes: [
-          //   [fn("MAX", col("createdAt")), "createdAt"],
-          //   "patientID",
-          //   "id",
-          // ],
-          // group: ["patientID", "id"],
-          order:[['createdAt', 'DESC']],
-          where: {
-            patientID: id,
-          },
-        });
+    const recentPrescription = await Prescription.findOne({
+      // attributes: [
+      //   [fn("MAX", col("createdAt")), "createdAt"],
+      //   "patientID",
+      //   "id",
+      // ],
+      // group: ["patientID", "id"],
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: id,
+      },
+    });
 
     // console.log(recentPrescription?.id, 'pID');
 
@@ -183,22 +185,20 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
       // await this.redisClient.set(`pill_uptake_${id}`, JSON.stringify(currentUptake));
 
-
       // ?index to find the first element
       return currentUptake[0];
     }
     return null;
-// }
+    // }
 
-//     const cachedData: string | null = await this.redisClient.get(id);
-//     if (cachedData === null) {
-//       return null;
-//     }
-//     const results: AdherenceAttributes = JSON.parse(cachedData);
-//     console.log("fetched appointment from cace!");
+    //     const cachedData: string | null = await this.redisClient.get(id);
+    //     if (cachedData === null) {
+    //       return null;
+    //     }
+    //     const results: AdherenceAttributes = JSON.parse(cachedData);
+    //     console.log("fetched appointment from cace!");
 
-//     return results;
-
+    //     return results;
   }
 
   async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
@@ -217,12 +217,16 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         include: [
           {
             model: TimeAndWork,
-            attributes: ["eveningMedicineTime", "morningMedicineTime", 'createdAt'],
+            attributes: [
+              "eveningMedicineTime",
+              "morningMedicineTime",
+              "createdAt",
+            ],
           },
           {
             model: Prescription,
-            attributes:['refillDate', 'nextRefillDate']
-          }
+            attributes: ["refillDate", "nextRefillDate"],
+          },
         ],
       });
       return currentUptake;
@@ -233,21 +237,21 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   async findById(id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
     if ((await this.redisClient.get(id)) === null) {
-    const results: AdherenceAttributes | null = await Adherence.findOne({
-      where: {
-        id,
-      },
-    });
+      const results: AdherenceAttributes | null = await Adherence.findOne({
+        where: {
+          id,
+        },
+      });
 
-      return results
+      return results;
     }
 
-    const cachedData: string | null = await this.redisClient.get(id)
+    const cachedData: string | null = await this.redisClient.get(id);
     if (cachedData === null) {
-      return null
+      return null;
     }
-    const results: AdherenceAttributes = JSON.parse(cachedData)
-    console.log('fetched from cace!')
+    const results: AdherenceAttributes = JSON.parse(cachedData);
+    console.log("fetched from cace!");
 
     return results;
   }
@@ -257,9 +261,9 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     status: boolean,
     query: string
   ): Promise<AdherenceAttributes | null> {
-      await this.redisClient.del(pillUptakeCache);
-      await this.redisClient.del(todaysPillCount)
-      await this.redisClient.del(id);
+    await this.redisClient.del(pillUptakeCache);
+    await this.redisClient.del(todaysPillCount);
+    await this.redisClient.del(id);
     if (query === "morning") {
       const results = await Adherence.findOne({
         where: {
@@ -318,5 +322,19 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       return results;
     }
     return null;
+  }
+
+  //
+  async delete(id: string): Promise<number | null> {
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+    const results: number | null = await Adherence.destroy({
+      where: {
+        id,
+      },
+    });
+    // console.log("deleted cache!!");
+
+    return results;
   }
 }

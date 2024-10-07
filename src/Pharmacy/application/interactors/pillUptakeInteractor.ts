@@ -8,7 +8,6 @@ export class PillUptakeInteractor implements IPillUptakeInteractor {
     this.repository = repository;
   }
 
-
   async getDailyPillUptakeCount(): Promise<AdherenceAttributes | null> {
     return await this.repository.count();
   }
@@ -43,5 +42,10 @@ export class PillUptakeInteractor implements IPillUptakeInteractor {
 
   async getAllPillUptakes(): Promise<AdherenceAttributes[]> {
     return await this.repository.find();
+  }
+
+  //
+  async deleteUptake(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
   }
 }
