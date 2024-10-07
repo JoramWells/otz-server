@@ -7,6 +7,8 @@ const socketIO = require('socket.io');
 
 const Patient = require('../models/patient/patients.models');
 const UserLocation = require('../models/location/userLocation.model');
+const { Op } = require('sequelize');
+const sequelize = require('sequelize');
 
 // setup server
 const app = express();
@@ -21,11 +23,36 @@ const io = socketIO(server);
 // })
 // using *Patients model
 const addUserLocations = async (req, res, next) => {
+    const currentDate = new Date()
+    currentDate.setHours(0, 0, 0, 0)
     try {
-        const newProfile = await UserLocation.create(req.body);
 
-        res.json(newProfile);
-        next();
+        const { patientID } = req.body
+
+        const isToday = await UserLocation.findOne({
+            where: {
+                [Op.and]:[
+                    sequelize.where(
+                        sequelize.fn('DATE', sequelize.col('createdAt')),
+                        currentDate
+                    )
+                ],
+                patientID,
+    
+            }
+        })
+
+        if (isToday) {
+            return res.status(200).json({ message: 'User location already registered!!' })
+            next()
+        } else {
+            const newProfile = await UserLocation.create(req.body);
+
+            res.json(newProfile);
+            next();
+        }
+
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Internal Server Error' });
