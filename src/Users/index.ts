@@ -7,6 +7,8 @@
 /* eslint-disable linebreak-style */
 import express, { type Application } from 'express'
 import morgan from 'morgan'
+import {Server} from 'socket.io'
+import {createServer} 'http'
 import { rateLimit } from 'express-rate-limit'
 import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
@@ -16,8 +18,21 @@ import { nextOfKinRouter } from './routes/nextOfKin.routes'
 import { patientVisitRouter } from './routes/patientVisits.routes'
 import { userAvailabilityRoutes } from './routes/userAvailability.routes'
 import { patientRouter } from './routes/patient.routes'
+import { PatientSessionLog } from './domain/models/patientSessionLog.model'
+import { PatientAttributes } from 'otz-types'
 const cors = require('cors')
 const app: Application = express()
+
+const server = createServer(app)
+
+// create server
+const io = new Server(server,{
+  cors:{
+    origin:'*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  },
+  path: '/socket.io'
+})
 
 const PORT = process.env.PORT || 5001
 // const corsOption = {
@@ -64,6 +79,58 @@ app.use(express.static('uploads'))
 app.use(cors())
 app.use(limiter)
 
+let onlineUsers: any[] = []
+
+io.on('connection', socket=>{
+  console.log('New client to Users microservice!!')
+
+  const connectedAt = new Date()
+  const socketPatientID = socket.handshake.query.patientID
+  console.log(socketPatientID, 'sockep!!')
+
+
+  // 
+  socket.on('addNewUser', async (user:PatientAttributes)=>{
+    !onlineUsers.some(user=>user.id === user.id) && onlineUsers.push({
+      id:user.id,
+      clientId: socket.id
+    })
+
+
+
+    io.emit('getOnlineUsers', onlineUsers)
+
+  })
+
+  socket.on('disconnect', async()=>{
+    const userDisconnect = onlineUsers.filter(user=>user.clientId)
+    onlineUsers = onlineUsers.filter(user=> user.clientId !== socket.id)
+    io.emit('getOnlineUsers', onlineUsers)
+
+        // 
+    console.log(onlineUsers, 'online users ID!!')
+
+    // 
+    const disconnectedAt = new Date()
+    const duration = Math.floor((disconnectedAt-connectedAt)/1000)
+
+    // 
+    if(socketPatientID){
+        await PatientSessionLog.create({
+        patientID: socketPatientID,
+        connectedAt,
+        disconnectedAt,
+        duration
+      })
+    }
+    
+
+    // 
+    console.log('A user disconnected from Users microservice!!')
+  })
+
+})
+
 // confirm cors
 app.use('/patients', patientRouter)
 app.use('/patient-visits', patientVisitRouter)
@@ -79,6 +146,6 @@ connect.authenticate().then(() => {
   console.error('Unable to connect to database: ', error)
 })
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`App running on http://localhost:${PORT}`)
 })
