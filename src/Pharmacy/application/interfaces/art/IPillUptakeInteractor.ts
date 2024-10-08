@@ -8,4 +8,5 @@ export interface IPillUptakeInteractor {
   getCurrentPillUptake: (id: string) => Promise<AdherenceAttributes | null>
   editPillUptake: (id: string, status: boolean, queryString: string) => Promise<AdherenceAttributes | null>
   getDailyPillUptakeCount: () => Promise<AdherenceAttributes | null>
+  deleteUptake:(id: string)=>Promise<number | null>
 }
