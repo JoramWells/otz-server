@@ -4,6 +4,7 @@ import { type NextFunction, type Request, type Response } from 'express'
 import { type IPrescriptionInteractor } from '../../application/interfaces/art/IPrescriptionInteractor'
 import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
 import { logger } from '../../utils/logger';
+import {validate as isUUID} from 'uuid'
 // import { Patient } from '../../domain/entities/Patient'
 
 export class PrescriptionController {
@@ -26,7 +27,6 @@ export class PrescriptionController {
       appointmentStatusID,
     } = req.body;
 
-    console.log(req.body);
 
     const nextRefillDate = new Date(refillDate);
     const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
@@ -57,6 +57,12 @@ export class PrescriptionController {
         prescriptionInput,
         appointmentInput
       );
+
+      if(patientID){
+        console.log("Marking patient as completed!!");
+        await this.interactor.findRecentRecentByPatientID(patientID)
+      }
+
       res.status(200).json(newProfile);
       next();
     } catch (error) {
@@ -81,7 +87,7 @@ export class PrescriptionController {
   async onGetPrescriptionById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id==='undefined') return null;
+      if (id === "undefined") return null;
       const result = await this.interactor.getPrescriptionById(id);
       res.status(200).json(result);
       next();
@@ -135,18 +141,43 @@ export class PrescriptionController {
     try {
       const { id } = req.params;
       if (id === "undefined") return null;
-      const {
-        frequency
-      }: PrescriptionInterface = req.body;
+      const { frequency }: PrescriptionInterface = req.body;
       const values: PrescriptionInterface = {
         id,
-        frequency
+        frequency,
       };
 
       const results = await this.interactor.editPrescription(values);
       res.status(200).json(results);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  //
+  async onFindRecentPrescriptionByPatientID(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { id } = req.params;
+    if (id === "undefined") return null;
+
+    try {
+      const result = await this.interactor.findRecentRecentByPatientID(
+        id
+      );
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 

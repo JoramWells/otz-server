@@ -12,4 +12,8 @@ export interface IPrescriptionRepository {
   findAllAdherence: () => Promise<PrescriptionInterface[]>;
   findFacilityAdherence: () => Promise<string | number>;
   edit: (data: PrescriptionInterface) => Promise<PrescriptionInterface | null>;
+  getRecentPrescriptionByPatientID: (
+    id: string,
+    // agenda: string
+  ) => Promise<PrescriptionInterface | null>;
 }
