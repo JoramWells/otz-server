@@ -32,6 +32,7 @@ import { homeVisitReasonRouter } from './routes/homevisit/homeVisitReason.routes
 import { homeVisitFrequencyRouter } from './routes/homevisit/homeVisitFrequency.routes'
 import { homeVisitRouter } from './routes/homevisit/homeVisit.routes'
 import { homeVisitConfigRouter } from './routes/homevisit/homeVisitConfig.routes'
+import { pharmacySocketController } from './adapters/controllers/socketio/pharmacySocketController'
 const cors = require('cors')
 
 
@@ -84,11 +85,13 @@ io.on('connection', socket=>{
   // 
 
   // 
-    socket.on("getPharmacyNotifications", (pharmacySocket) => {
-      console.log(pharmacySocket, "pharmacy-data");
+    // socket.on("getPharmacyNotifications", (pharmacySocket) => {
+    //   console.log(pharmacySocket, "pharmacy-data");
 
-      io.emit('newPharmacyNotifications', pharmacySocket)
-    });
+    //   io.emit('newPharmacyNotifications', pharmacySocket)
+    // });
+
+    pharmacySocketController(io, socket)
 
     socket.on("addNewUser", (patientID) => {
       !onlineUsers.some((user) => user.patientID === patientID) &&

@@ -32,6 +32,9 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         transaction: t,
       });
 
+      // find last prescription
+      
+
       await this.kafkaProducer.sendMessage("create", [
         { value: JSON.stringify({ ...appointmentInput, agenda: "Refill" }) },
       ]) 
@@ -237,4 +240,26 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     }
     return results;
   }
+
+  // 
+  async getRecentPrescriptionByPatientID(id: string):Promise<PrescriptionInterface | null>{
+    const currentDate = new Date()  
+    const results = await Prescription.findOne({
+      order:[['createdAt', 'DESC']],
+      where:{
+        patientID: id,
+        createdAt: {
+          [Op.not]: currentDate
+        }
+      }
+    })
+
+    // 
+    if(results){
+      results.isCompleted = true
+      results.save()
+    }
+    return results
+  }
+
 }

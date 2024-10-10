@@ -2,7 +2,6 @@ import { AppointmentAttributes } from "otz-types";
 import { AppointmentRepository } from "../../adapters/repositories/appointmentRepository";
 import { AppointmentInteractor } from "../interactors/appointment/appointmentInteractor";
 import { Appointment } from "../../domain/models/appointment/appointment.model";
-import { AppointmentAgenda } from "../../domain/models/appointment/appointmentAgenda.model";
 
 async function createAppointment(data: AppointmentAttributes) {
   const { patientID, agenda } = data as any;
