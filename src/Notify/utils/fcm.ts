@@ -8,7 +8,7 @@ async function sendPushNotification(pushTokens: string[], body: string){
     // ]
     const expo = new Expo({
       // accessToken: process.env.EXPO_ACCESS_TOKEN,
-      useFcmV1: false,
+      useFcmV1: true,
     });
 
     const messages: ExpoPushMessage[] = []
