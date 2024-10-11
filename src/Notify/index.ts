@@ -96,6 +96,7 @@ const io = new Server(server, {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
+  path: '/socket.io'
 });
 // set up socket.io instance
 app.locals.io = io;
@@ -137,18 +138,20 @@ socket.on('sendMessage', message=>{
 
   }
   console.log(message.recipientID, receiver);
-  console.log(onlineUsers)
 })
+
 
 // 
 socket.on('getNotifications', async (socket)=>{
   console.log('Checking user notifications...')
-  const receiver = onlineUsers.find(user=>user.patientID === socket.patientID)
+  const receiver = socket.onlineUsers.find(user=>user.id === socket.id)
+  console.log(receiver, socket, "receiver online users!!");
+
   if(receiver){
     // 
     const notificationStatus = await PatientNotification.findAll({
       where:{
-        patientID:receiver.patientID,
+        patientID:receiver.id,
         isSent:false
       }
     })
@@ -158,6 +161,8 @@ socket.on('getNotifications', async (socket)=>{
           await sendPushNotification([socket.expoPushToken], notification.message)
         
       })
+
+      console.log([socket.expoPushToken, 'expo token'])
 
       notificationStatus.forEach(async(notification)=>{
         await notification.update({

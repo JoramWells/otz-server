@@ -97,7 +97,6 @@ io.on('connection', socket=>{
     })
 
 
-
     io.emit('getOnlineUsers', onlineUsers)
 
   })
@@ -108,7 +107,6 @@ io.on('connection', socket=>{
     io.emit('getOnlineUsers', onlineUsers)
 
         // 
-    console.log(onlineUsers, 'online users ID!!')
 
     // 
     const disconnectedAt = new Date()
