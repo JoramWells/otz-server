@@ -79,7 +79,8 @@ export class AppointmentController {
   ) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return;
+     if (!id || id === "undefined")
+       return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getPriorityAppointmentDetail(id);
       res.status(200).json(result);
       next();
@@ -114,7 +115,8 @@ export class AppointmentController {
     next: NextFunction
   ) {
     const { id } = req.params;
-      if(id==='undefined') return null;
+       if (!id || id === "undefined")
+         return res.status(400).json({ message: "Invalid ID parameter" });
 
     const { agenda } = req.query;
     try {
@@ -140,7 +142,8 @@ export class AppointmentController {
   async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
-      if (id === "undefined") return;
+            if (!id || id === "undefined")
+              return res.status(400).json({ message: "Invalid ID parameter" });
       if (!isUUID(id)) {
         const errMessage = `${id} is not a valid UUID `;
         logger.error(errMessage);
@@ -162,7 +165,8 @@ export class AppointmentController {
     const { id } = req.params;
     const { isStarred, patientID } = req.body;
     try {
-      if (id === "undefined") return;
+       if (!id || id === "undefined")
+         return res.status(400).json({ message: "Invalid ID parameter" });
       if (!isUUID(id)) {
         const errMessage = `${id} is not a valid UUID `;
         logger.error(errMessage);
