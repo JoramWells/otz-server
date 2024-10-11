@@ -148,10 +148,9 @@ export class PatientController {
   async onGetPatientById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if (id === "undefined") {
-        logger.error("This id is undefined");
-        return null;
-      }
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
       if (!isUUID(id)) {
         const errMessage = `${id} is not a valid UUID `;
         logger.error(errMessage);
@@ -170,7 +169,11 @@ export class PatientController {
   async onEditPatientProfile(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return null;
+      if (!id || id === "undefined")
+        return res
+          .status(400)
+          .json({ message: "Invalid ID parameter" });
+
       const {
         firstName,
         middleName,
@@ -201,7 +204,11 @@ export class PatientController {
   async onUpdatePatientProfileAvatar(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return null;
+      if (!id || id === "undefined")
+        return res
+          .status(400)
+          .json({ message: "Invalid ID parameter" });
+
       const avatar = req.file?.filename;
  
       console.log(req.file)

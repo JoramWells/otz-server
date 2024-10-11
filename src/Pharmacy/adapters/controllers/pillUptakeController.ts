@@ -46,7 +46,9 @@ export class PillUptakeController {
   async onGetPillUptakeById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return;
+            if (!id || id === "undefined")
+              return res.status(400).json({ message: "Invalid ID parameter" });
+
       const result = await this.interactor.getPillUptakeById(id);
       res.status(200).json(result);
       next();
@@ -64,7 +66,9 @@ export class PillUptakeController {
   ) {
     try {
       const { id } = req.params;
-      if (id === "undefined") return null;
+           if (!id || id === "undefined")
+             return res.status(400).json({ message: "Invalid ID parameter" });
+
       const result = await this.interactor.getCurrentPillUptake(id);
       res.status(200).json(result);
       next();
@@ -82,7 +86,7 @@ export class PillUptakeController {
   ) {
     const { id } = req.params;
     try {
-      if (id === "undefined") return null;
+      if (!id || id === "undefined") return res.status(400).json({message:'Invalid ID parameter'});
       const results = await this.interactor.getPillUptakeByPatientID(id);
       res.status(200).json(results);
     } catch (error) {
