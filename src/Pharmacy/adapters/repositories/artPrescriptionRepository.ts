@@ -17,26 +17,27 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   ): Promise<ARTPrescriptionInterface> {
     //
 
+    const {patientID, regimen} = data
+    const results = await ARTPrescription.findOne({
+      where: {
+        patientID,
+        regimen,
+        [Op.and]:{
+          isStopped: false
+        }
+      },
+    }); 
+
+    if(results){
+      // patient already exists!!
+      return results
+    }
 
     return await connect.transaction(async(t)=>{
     return await ARTPrescription.create(
       data,{transaction:t}
     );
-    // if (data.appointmentAgendaID) {
-      // await this.kafkaProducer.sendMessage("appointment", [
-      //   { value: JSON.stringify(appointmentInput2) },
-      // ]);
-      // await Appointment.create(appointmentInput2, { transaction: t });
 
-      //
-      // await this.kafkaProducer.sendMessage("complete", [
-      //   { value: JSON.stringify(completeInputs) },
-      // ]);
-      // console.log("Prescribing...!!");
-    // }
-
-
-    // return results;
     })
 
 

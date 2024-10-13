@@ -114,7 +114,6 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       },
     });
 
-    console.log(results, "resultx!!");
 
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");

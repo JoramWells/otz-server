@@ -40,6 +40,7 @@ export interface ARTPrescriptionInterface {
   stopDate: Date;
   isStandard: boolean;
   isSwitched: boolean;
+  isStopped: boolean;
   line: string;
   createdAt?: Date;
   updatedAt?: Date;

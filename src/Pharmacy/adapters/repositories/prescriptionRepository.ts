@@ -155,18 +155,23 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       where: {
         patientVisitID: id,
       },
-      // include: [
-      //   {
-      //     model: ART,
-      //     attributes: ["artName"],
-      //     include: [
-      //       {
-      //         model: ArtCategory,
-      //         attributes: ["artPhase"],
-      //       },
-      //     ],
-      //   },
-      // ],
+      include: [
+        {
+          model: ARTPrescription,
+          attributes: ["regimen"],
+          // include: [
+          //   {
+          //     model: ArtCategory,
+          //     attributes: ["artPhase"],
+          //   },
+          // ],
+
+        },
+        {
+          model: Patient,
+          attributes: ['firstName', 'middleName']
+        }
+      ],
     });
 
     return results;
