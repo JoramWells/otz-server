@@ -235,22 +235,32 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async findById(id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
-    if ((await this.redisClient.get(id)) === null) {
+    // if ((await this.redisClient.get(id)) === null) {
       const results: AdherenceAttributes | null = await Adherence.findOne({
         where: {
           id,
         },
+        include: {
+          model: TimeAndWork,
+          attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
+          include: [
+            {
+              model: Patient,
+              attributes: ["id", "firstName", "middleName"],
+            },
+          ],
+        },
       });
 
-      return results;
-    }
+    //   return results;
+    // }
 
-    const cachedData: string | null = await this.redisClient.get(id);
-    if (cachedData === null) {
-      return null;
-    }
-    const results: AdherenceAttributes = JSON.parse(cachedData);
-    console.log("fetched from cace!");
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: AdherenceAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
 
     return results;
   }

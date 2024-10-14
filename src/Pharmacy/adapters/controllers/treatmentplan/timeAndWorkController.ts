@@ -43,7 +43,11 @@ export class TimeAndWorkController {
     }
   }
 
-  async onGetTimeAndWorkByPatientId(req: Request, res: Response, next: NextFunction) {
+  async onGetTimeAndWorkByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getTimeAndWorkByPatientId(id);
@@ -81,6 +85,20 @@ export class TimeAndWorkController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  async onEditSchedule(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.updateSchedule(id, req.body);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async updateEveningSchedule(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
