@@ -42,6 +42,7 @@ export interface PatientAttributes {
   phoneNo?: string;
   idNo?: string;
   password?: string;
+  username?: string;
   occupationID?: string;
   cccNo?: string;
   ageAtReporting?: string;
@@ -55,7 +56,7 @@ export interface PatientAttributes {
   maritalStatus: string;
   email?: string;
   isImportant?: boolean;
-  role:UserRoles;
+  role: UserRoles;
   location?: LocationProps;
   createdAt?: Date;
   updatedAt?: Date;

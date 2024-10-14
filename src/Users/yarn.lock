@@ -3599,10 +3599,10 @@ optionator@^0.9.3:
     type-check "^0.4.0"
     word-wrap "^1.2.5"
 
-otz-types@^1.1.47:
-  version "1.1.47"
-  resolved "https://registry.yarnpkg.com/otz-types/-/otz-types-1.1.47.tgz#4e19af679aeaef3536a7a8ea3111af41be85947a"
-  integrity sha512-goVDY5YY51zYSNeNkuyJegGOPbn1h2thaCIV4hjRCZhh72OSLyi5UnCewZLSKA9tUqP2u8/aBe6nZqjXrCG3FQ==
+otz-types@^1.1.49:
+  version "1.1.49"
+  resolved "https://registry.yarnpkg.com/otz-types/-/otz-types-1.1.49.tgz#814a6f66534577a41c0b815757b9620672465198"
+  integrity sha512-Ydf3fiW2iNXKbuTSKzLfUuCdZTKrjhfiDT8UmyfK1c64ITlaKUav2+MbKjOPTybXjonK2cra+KKe4tHIr9iQjw==
 
 p-limit@^3.0.2:
   version "3.1.0"

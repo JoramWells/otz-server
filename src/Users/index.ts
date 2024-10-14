@@ -20,6 +20,7 @@ import { userAvailabilityRoutes } from './routes/userAvailability.routes'
 import { patientRouter } from './routes/patient.routes'
 import { PatientSessionLog } from './domain/models/patientSessionLog.model'
 import { PatientAttributes } from 'otz-types'
+import { patientSessionLogRouter } from './routes/patientSessionLog.routes'
 const cors = require('cors')
 const app: Application = express()
 
@@ -137,6 +138,7 @@ app.use('/casemanager', caseManagerRoutes)
 app.use('/users', userRoutes)
 app.use('/user-availability', userAvailabilityRoutes)
 app.use('/next-of-kin', nextOfKinRouter)
+app.use('/patient-session-logs', patientSessionLogRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')

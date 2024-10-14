@@ -99,6 +99,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         },
       ],
       attributes: [
+        'id',
         "expectedNoOfPills",
         "computedNoOfPills",
         "frequency",

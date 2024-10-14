@@ -170,9 +170,7 @@ export class PatientController {
     try {
       const { id } = req.params;
       if (!id || id === "undefined")
-        return res
-          .status(400)
-          .json({ message: "Invalid ID parameter" });
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
       const {
         firstName,
@@ -199,19 +197,20 @@ export class PatientController {
     }
   }
 
-  
   //
-  async onUpdatePatientProfileAvatar(req: Request, res: Response, next: NextFunction) {
+  async onUpdatePatientProfileAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       if (!id || id === "undefined")
-        return res
-          .status(400)
-          .json({ message: "Invalid ID parameter" });
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
       const avatar = req.file?.filename;
- 
-      console.log(req.file)
+
+      console.log(req.file);
 
       const results = await this.interactor.updateAvatar(id, avatar as string);
       res.status(200).json(results);
@@ -221,7 +220,53 @@ export class PatientController {
   }
 
   //
+  async onUpdatePatientPassword(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      const {password} = req.body
+
+      const results = await this.interactor.updatePatientPassword(id, password as string);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async onUpdatePatientUsername(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      const {username} = req.body
+
+      const results = await this.interactor.updatePatientUsername(id, username as string);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async login(req: Request, res: Response, next: NextFunction) {
+    const errors = validationResult(req);
+
+    //
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
       const { firstName, password } = req.body;
       const results = await this.interactor.login(firstName, password);
