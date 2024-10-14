@@ -17,7 +17,7 @@ export class PatientSessionLogInteractor implements IPatientSessionInteractor {
 
 
 
-  async getPatientSessionById(id: string): Promise<PatientSessionLogInterface | null> {
+  async getPatientSessionById(id: string): Promise<PatientSessionLogInterface[] | null> {
     return await this.repository.findById(id);
   }
 

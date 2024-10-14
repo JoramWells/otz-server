@@ -54,7 +54,8 @@ const getAllInternalLabRequests = async (req, res, next) => {
 
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
-  if (id === "undefined") return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
 
   try {
     const results = await InternalLabRequest.findOne({
@@ -80,6 +81,8 @@ const getInternalLabRequest = async (req, res, next) => {
 //
 const getByPatientIDInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const results = await InternalLabRequest.findAll({
       where: {

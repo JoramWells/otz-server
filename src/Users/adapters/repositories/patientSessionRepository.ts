@@ -89,7 +89,7 @@ export class PatientSessionLogRepository implements IPatientSessionRepository {
     // return results;
   }
 
-  async findById(id: string): Promise<PatientSessionLogInterface | null> {
+  async findById(id: string): Promise<PatientSessionLogInterface[] | null> {
     // await this.redisClient.connect()
     // if (await this.redisClient.get(id) === null) {
     //   const results: Patient | null = await Patient.findOne({
@@ -117,9 +117,9 @@ export class PatientSessionLogRepository implements IPatientSessionRepository {
     // }
     // const results: PatientSessionLogInterface = JSON.parse(cachedData)
     // console.log('fetched patient from cace!')
-    const results: PatientSessionLogInterface | null = await PatientSessionLog.findOne({
+    const results: PatientSessionLogInterface | null = await PatientSessionLog.findAll({
       where: {
-        id,
+        patientID:id,
       },
     });
     if (results === null) {
