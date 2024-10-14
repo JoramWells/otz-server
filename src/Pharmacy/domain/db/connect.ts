@@ -6,6 +6,7 @@ const DB = 'otz'
 const USERNAME = 'postgres'
 const PASSWORD = 'postgres'
 
+
 const connect = new Sequelize(DB, USERNAME, PASSWORD, {
   host: "database",
   dialect: "postgres",

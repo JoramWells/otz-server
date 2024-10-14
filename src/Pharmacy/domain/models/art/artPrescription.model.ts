@@ -13,6 +13,7 @@ export class ARTPrescription extends Model<ARTPrescriptionInterface> {
   stopDate!: Date;
   changeDate!: Date;
   isStandard!: boolean;
+  isStopped!: boolean;
   isSwitched!: boolean;
   line!: string;
 }
@@ -41,6 +42,9 @@ ARTPrescription.init(
       type: DataTypes.DATE,
     },
     isStandard: {
+      type: DataTypes.BOOLEAN,
+    },
+    isStopped: {
       type: DataTypes.BOOLEAN,
     },
     isSwitched: {
