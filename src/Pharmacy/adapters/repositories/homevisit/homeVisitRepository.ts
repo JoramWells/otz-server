@@ -6,6 +6,7 @@ import { HomeVisit } from "../../../domain/models/homevisit/homeVisit.model";
 import { HomeVisitConfig } from "../../../domain/models/homevisit/homeVisitConfig.model";
 import { Patient } from "../../../domain/models/patients.models";
 import { HomeVisitReason } from "../../../domain/models/homevisit/homeVisitReason.model";
+import { PatientVisits } from "../../../domain/models/patientVisits.model";
 
 
 export class HomeVisitRepository implements IHomeVisitRepository {
@@ -78,13 +79,19 @@ export class HomeVisitRepository implements IHomeVisitRepository {
           attributes: ["frequency"],
           include: [
             {
-              model: Patient,
-              attributes: ["id", "firstName", "middleName"],
+              model: PatientVisits,
+              // attributes: ["id", "firstName", "middleName"],
+              include: [
+                {
+                  model: Patient,
+                  attributes: ["id", "firstName", "middleName"],
+                },
+              ],
+          //   },
+          //   {
+          //     model: HomeVisitReason,
+          //     attributes: ["homeVisitReasonDescription"],
             },
-            {
-              model: HomeVisitReason,
-              attributes:['homeVisitReasonDescription']
-            }
           ],
         },
       ],
