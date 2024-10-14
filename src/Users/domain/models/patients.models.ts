@@ -16,10 +16,7 @@ export enum UserRoles {
   patient = "patient",
 }
 
-export class Patient
-  extends Model<PatientAttributes>
-  implements PatientAttributes
-{
+export class Patient extends Model<PatientAttributes> implements PatientAttributes {
   role!: UserRoles;
   entryPoint?: string | undefined;
   maritalStatus!: string;
@@ -28,6 +25,7 @@ export class Patient
   middleName: string | undefined;
   lastName?: string | undefined;
   password?: string | undefined;
+  username?: string | undefined;
   sex?: string | undefined;
   dob?: Date | string | undefined;
   avatar?: string | undefined;
@@ -69,6 +67,9 @@ Patient.init(
       type: DataTypes.STRING,
     },
     avatar: {
+      type: DataTypes.STRING,
+    },
+    username: {
       type: DataTypes.STRING,
     },
     dob: {

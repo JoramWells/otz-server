@@ -198,8 +198,10 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async editAvatar(id: string, avatar: string): Promise<PatientAttributes | null> {
-
+  async editAvatar(
+    id: string,
+    avatar: string
+  ): Promise<PatientAttributes | null> {
     // delete cache
     await this.redisClient.del(patientCache);
     await this.redisClient.del(id as string);
@@ -212,6 +214,50 @@ export class PatientRepository implements IPatientRepository {
 
     if (results) {
       results.avatar = avatar;
+      await results.save();
+    }
+    return results;
+  }
+
+  //
+  async editPassword(
+    id: string,
+    password: string
+  ): Promise<PatientAttributes | null> {
+    // delete cache
+    await this.redisClient.del(patientCache);
+    await this.redisClient.del(id as string);
+
+    const results = await Patient.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.password = password;
+      await results.save();
+    }
+    return results;
+  }
+
+  //
+  async editUsername(
+    id: string,
+    username: string
+  ): Promise<PatientAttributes | null> {
+    // delete cache
+    await this.redisClient.del(patientCache);
+    await this.redisClient.del(id as string);
+
+    const results = await Patient.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.username = username;
       await results.save();
     }
     return results;
