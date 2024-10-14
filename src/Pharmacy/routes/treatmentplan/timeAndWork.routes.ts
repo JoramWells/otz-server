@@ -21,7 +21,7 @@ router.get("/patient-detail/:id", controllers.onGetTimeAndWorkByPatientId.bind(c
 router.put('/update-morning-schedule/:id', controllers.updateMorningSchedule.bind(controllers));
 router.put('/update-evening-schedule/:id', controllers.updateEveningSchedule.bind(controllers));
 router.put('/update-schedule/:id', controllers.onEditSchedule.bind(controllers));
-router.get('/detail/:id', controllers.onDeleteSchedule.bind(controllers))
+router.delete('/delete/:id', controllers.onDeleteSchedule.bind(controllers))
 
 
 export {router as timeAndWorkRouter}
