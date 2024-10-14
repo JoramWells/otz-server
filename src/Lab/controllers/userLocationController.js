@@ -81,7 +81,8 @@ const getAllUserLocations = async (req, res, next) => {
 
 const getUserLocation = async (req, res, next) => {
     const { id } = req.params;
-    if (id === "undefined") return null;
+    if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
     try {
         const results = await UserLocation.findOne({
@@ -107,7 +108,8 @@ const getUserLocation = async (req, res, next) => {
 //
 const getByPatientIDUserLocation = async (req, res, next) => {
     const { id } = req.params;
-    if (id === "undefined") return null;
+    if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
     try {
         const results = await UserLocation.findOne({
             where: {
