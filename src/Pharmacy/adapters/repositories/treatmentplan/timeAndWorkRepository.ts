@@ -46,6 +46,35 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     }
     return results;
   }
+
+  //
+  async editSchedule(
+    id: string,
+    data: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes | null> {
+    const {
+      morningMedicineTime,
+      eveningMedicineTime,
+    } = data;
+
+    console.log(data, 'datam')
+
+    const results = await TimeAndWork.findOne({
+      where: {
+        id,
+      },
+    });
+    if (results !== null) {
+      results.morningMedicineTime = morningMedicineTime;
+      results.eveningMedicineTime = eveningMedicineTime;
+
+      // save()
+      results.save();
+    }
+    return results;
+  }
+
+  // 
   async updateEveningSchedule(
     id: string,
     data: TimeAndWorkAttributes
@@ -77,45 +106,42 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   }
 
   async create(data: TimeAndWorkAttributes): Promise<TimeAndWorkAttributes> {
-    const currentDate = moment().format('YYYY-MM-DD')
-    const {patientID} = data
-    return await connect.transaction(async(t)=>{
+    const currentDate = moment().format("YYYY-MM-DD");
+    const { patientID } = data;
+    return await connect.transaction(async (t) => {
+      const results = await TimeAndWork.create(data, { transaction: t });
+      const latestPrescriptions: Prescription | null =
+        await Prescription.findOne({
+          attributes: [
+            [fn("MAX", col("createdAt")), "createdAt"],
+            "patientID",
+            "id",
+          ],
+          group: ["patientID", "id"],
+          where: {
+            // patientVisitID: {
+            //   [Op.not]: null,
+            // },
+            patientID,
+            createdAt: {
+              [Op.not]: null,
+            } as any,
+          },
+        });
 
-      const results  = await TimeAndWork.create(data, {transaction:t});
-          const latestPrescriptions: Prescription | null = await Prescription.findOne({
-            attributes: [
-              [fn("MAX", col("createdAt")), "createdAt"],
-              "patientID",
-              'id'
-            ],
-            group: ["patientID", 'id'],
-            where: {
-              // patientVisitID: {
-              //   [Op.not]: null,
-              // },
-              patientID,
-              createdAt: {
-                [Op.not]: null,
-              } as any,
-            },
-          });
+      await Uptake.create(
+        {
+          currentDate,
+          prescriptionID: latestPrescriptions?.dataValues.id,
+          eveningStatus: false,
+          morningStatus: false,
+          timeAndWorkID: results.id,
+        },
+        { transaction: t }
+      );
 
-          await Uptake.create({
-            currentDate,
-            prescriptionID:latestPrescriptions?.dataValues.id,
-            eveningStatus: false,
-            morningStatus: false,
-            timeAndWorkID: results.id,
-          }, {transaction:t});
-
-    return results;
-
-    
-
-    })
-
-    
-
+      return results;
+    });
   }
 
   async find(): Promise<TimeAndWorkAttributes[]> {
@@ -147,24 +173,23 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   async findById(id: string): Promise<TimeAndWorkAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
-        order:[['createdAt','DESC']],
-        where: {
-          patientVisitID:id,
-        },
-      });
+    const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientVisitID: id,
+      },
+    });
 
-      console.log(results, 'resultX')
-      
+    console.log(results, "resultX");
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;
@@ -179,27 +204,26 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
 
     return results;
   }
-    async findByPatientId(id: string): Promise<TimeAndWorkAttributes | null> {
+  async findByPatientId(id: string): Promise<TimeAndWorkAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
-        order:[['createdAt','DESC']],
-        where: {
-          patientID:id,
-        },
-      });
+    const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: id,
+      },
+    });
 
-      console.log(results, 'resultX')
-      
+    console.log(results, "resultX");
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;
@@ -213,5 +237,5 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     // console.log("fetched from cace!");
 
     return results;
-}
+  }
 }

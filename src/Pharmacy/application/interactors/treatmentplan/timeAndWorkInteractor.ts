@@ -14,16 +14,32 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     return await this.repository.findById(id);
   }
 
-   async getTimeAndWorkByPatientId(id: string): Promise<TimeAndWorkAttributes | null> {
+  async getTimeAndWorkByPatientId(
+    id: string
+  ): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.findByPatientId(id);
   }
 
-  async updateMorningSchedule(id: string, data: TimeAndWorkAttributes): Promise<TimeAndWorkAttributes | null> {
+  async updateMorningSchedule(
+    id: string,
+    data: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.updateMorningSchedule(id, data);
   }
 
-  async updateEveningSchedule(id: string, data:TimeAndWorkAttributes): Promise<TimeAndWorkAttributes | null> {
+  async updateEveningSchedule(
+    id: string,
+    data: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.updateEveningSchedule(id, data);
+  }
+
+  //
+  async updateSchedule(
+    id: string,
+    data: TimeAndWorkAttributes
+  ): Promise<TimeAndWorkAttributes | null> {
+    return await this.repository.editSchedule(id, data);
   }
 
   async createTimeAndWork(
