@@ -52,12 +52,9 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     id: string,
     data: TimeAndWorkAttributes
   ): Promise<TimeAndWorkAttributes | null> {
-    const {
-      morningMedicineTime,
-      eveningMedicineTime,
-    } = data;
+    const { morningMedicineTime, eveningMedicineTime } = data;
 
-    console.log(data, 'datam')
+    console.log(data, "datam");
 
     const results = await TimeAndWork.findOne({
       where: {
@@ -74,7 +71,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     return results;
   }
 
-  // 
+  //
   async updateEveningSchedule(
     id: string,
     data: TimeAndWorkAttributes
@@ -235,6 +232,18 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     // }
     // const results: TimeAndWorkAttributes = JSON.parse(cachedData);
     // console.log("fetched from cace!");
+
+    return results;
+  }
+  async delete(id: string): Promise<number | null> {
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+    const results: number | null = await TimeAndWork.destroy({
+      where: {
+        id,
+      },
+    });
+    console.log("deleted cache!!");
 
     return results;
   }

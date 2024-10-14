@@ -48,6 +48,10 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     return await this.repository.create(patientData);
   }
 
+  async deleteTimeAndWork(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
+  }
+
   async getAllTimeAndWork(): Promise<TimeAndWorkAttributes[]> {
     return await this.repository.find();
   }
