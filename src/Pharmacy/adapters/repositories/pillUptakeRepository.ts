@@ -202,7 +202,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
     const recentPrescription = await Prescription.findOne({
-      order: [["createdAt", "DESC"]],
+      order: [["updatedAt", "DESC"]],
       where: {
         patientID: id,
       },
@@ -219,7 +219,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
             attributes: [
               "eveningMedicineTime",
               "morningMedicineTime",
-              "createdAt",
+              "updatedAt",
             ],
           },
           {
@@ -237,6 +237,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     // await this.redisClient.connect()
     // if ((await this.redisClient.get(id)) === null) {
       const results: AdherenceAttributes | null = await Adherence.findOne({
+        order: [["updatedAt", "DESC"]],
         where: {
           id,
         },

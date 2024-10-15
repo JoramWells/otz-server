@@ -65,6 +65,10 @@ export class PatientInteractor implements IPatientInteractor {
     return await this.repository.find();
   }
 
+  async getAllPatientUsers(): Promise<PatientAttributes[]> {
+    return await this.repository.findUsers();
+  }
+
   async getAllPMTCTPatients(): Promise<PatientAttributes[]> {
     return await this.repository.findAllPMTCTPatients();
   }

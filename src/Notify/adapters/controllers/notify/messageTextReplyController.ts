@@ -11,7 +11,11 @@ export class MessageTextReplyController {
     this.interactor = interactor;
   }
 
-  async onCreateMessageTextReply(req: Request, res: Response, next: NextFunction) {
+  async onCreateMessageTextReply(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     const data = { ...req.body, image: req.file?.filename };
 
     try {
@@ -23,13 +27,17 @@ export class MessageTextReplyController {
       //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
   }
 
-  async onGetAllMessageTextReplies(req: Request, res: Response, next: NextFunction) {
+  async onGetAllMessageTextReplies(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -45,9 +53,16 @@ export class MessageTextReplyController {
     }
   }
 
-  async onGetMessageTextReplyById(req: Request, res: Response, next: NextFunction) {
+  async onGetMessageTextReplyById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
       const result = await this.interactor.getMessageTextReplyById(id);
       res.status(200).json(result);
       next();

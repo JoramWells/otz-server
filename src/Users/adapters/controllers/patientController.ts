@@ -107,6 +107,24 @@ export class PatientController {
     }
   }
 
+  async onGetAllUserPatients(req: Request, res: Response, next: NextFunction) {
+    try {
+      // const redisClient = createClient({ url: 'redis://redis:6379' })
+      // await redisClient.connect()
+
+      const results = await this.interactor.getAllPatientUsers();
+      res.status(200).json(results);
+      logger.info({ message: "Fetched all Patients Successfully!" });
+
+      next();
+    } catch (error) {
+      next(error);
+      logger.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
+    }
+  }
+
   async onGetAllPMTCTPatients(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
@@ -230,9 +248,12 @@ export class PatientController {
       if (!id || id === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
 
-      const {password} = req.body
+      const { password } = req.body;
 
-      const results = await this.interactor.updatePatientPassword(id, password as string);
+      const results = await this.interactor.updatePatientPassword(
+        id,
+        password as string
+      );
       res.status(200).json(results);
     } catch (error) {
       console.log(error);
@@ -250,9 +271,12 @@ export class PatientController {
       if (!id || id === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
 
-      const {username} = req.body
+      const { username } = req.body;
 
-      const results = await this.interactor.updatePatientUsername(id, username as string);
+      const results = await this.interactor.updatePatientUsername(
+        id,
+        username as string
+      );
       res.status(200).json(results);
     } catch (error) {
       console.log(error);
