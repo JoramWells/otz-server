@@ -50,7 +50,8 @@ export class ChatController {
   async onGetChatById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id === 'undefined'   ) return;
+        if (!id || id === "undefined")
+          return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getChatById(id);
       res.status(200).json(result);
       next();

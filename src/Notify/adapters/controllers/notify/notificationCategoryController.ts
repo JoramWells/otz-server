@@ -11,10 +11,16 @@ export class NotificationCategoryController {
     this.interactor = interactor;
   }
 
-  async onCreateNotificationCategory(req: Request, res: Response, next: NextFunction) {
+  async onCreateNotificationCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       console.log(req.body);
-      const newProfile = await this.interactor.createNotificationCategory(req.body);
+      const newProfile = await this.interactor.createNotificationCategory(
+        req.body
+      );
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -27,7 +33,11 @@ export class NotificationCategoryController {
     }
   }
 
-  async onGetAllNotificationCategory(req: Request, res: Response, next: NextFunction) {
+  async onGetAllNotificationCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -43,9 +53,15 @@ export class NotificationCategoryController {
     }
   }
 
-  async onGetNotificationCategoryById(req: Request, res: Response, next: NextFunction) {
+  async onGetNotificationCategoryById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getNotificationCategoryById(id);
       res.status(200).json(result);
       next();

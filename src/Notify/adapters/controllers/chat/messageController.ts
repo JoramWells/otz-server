@@ -13,18 +13,17 @@ export class MessagesController {
 
   async onCreateMessage(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id1, id2} = req.body
+      const { id1, id2 } = req.body;
       const newProfile = await this.interactor.createMessages(req.body);
-      
-      
-      console.log(req.body)
+
+      console.log(req.body);
       res.json(newProfile);
-    //   logger.info({
-    //     message: "Created New Message Successfully! ~" + req.body.firstName,
-    //   });
+      //   logger.info({
+      //     message: "Created New Message Successfully! ~" + req.body.firstName,
+      //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
@@ -49,7 +48,8 @@ export class MessagesController {
   async onGetMessageById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      if(id === 'undefined' ) return;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getMessagesById(id);
       res.status(200).json(result);
       next();

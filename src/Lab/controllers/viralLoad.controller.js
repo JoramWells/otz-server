@@ -191,7 +191,8 @@ const calculateNextAppointmentDate = (appointmentDate, frequency) => {
 
 const getViralLoadTest = async (req, res, next) => {
   const { id } = req.params;
-  if (id === "undefined") return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
 
   console.log(id);
   try {
@@ -212,9 +213,9 @@ const getViralLoadTest = async (req, res, next) => {
 //
 const getAllViralLoadByPatientID = async (req, res, next) => {
   const { id } = req.params;
-  if (id === "undefined") return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
 
-  console.log(id);
   try {
     const patient = await ViralLoad.findAll({
       order: [['createdAt', 'DESC']],

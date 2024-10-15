@@ -157,6 +157,41 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
+  async findUsers(): Promise<PatientAttributes[]> {
+    // await this.redisClient.connect();
+    // check if patient
+    // if ((await this.redisClient.get(patientCache)) === null) {
+      const results = await Patient.findAll({
+        include: [
+          { model: School, attributes: ["schoolName"] },
+          {
+            model: Hospital,
+            attributes: ["hospitalName"],
+          },
+          //   {
+          //     model: ViralLoad,
+          //     attributes: [
+          //       'id',
+          //       'dateOfNextVL',
+          //       'vlResults',
+          //       'isValid',
+          //       'dateOfCurrentVL'
+          //     ]
+          //   }
+        ],
+        where: {
+          role: "clinician",
+        },
+      });
+      logger.info({ message: "Fetched from db!" });
+      console.log("fetched from db!");
+      // set to cace
+      // await this.redisClient.set(patientCache, JSON.stringify(results));
+
+      return results;
+
+  }
+
   async findById(id: string): Promise<PatientAttributes | null> {
     // await this.redisClient.connect()
     // if (await this.redisClient.get(id) === null) {

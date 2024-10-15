@@ -34,7 +34,8 @@ const getAllVitalSigns = async (req, res, next) => {
 
 const getVitalSignByPatientID = async (req, res, next) => {
   const { id } = req.params;
-  if (id === 'undefined') return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const patient = await VitalSign.findOne({
       order: [['updatedAt', 'DESC']],
@@ -53,7 +54,8 @@ const getVitalSignByPatientID = async (req, res, next) => {
 
 const getAllVitalSignByPatientID = async (req, res, next) => {
   const { id } = req.params;
-  if (id === 'undefined') return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const patient = await VitalSign.findAll({
       order: [['updatedAt', 'DESC']],
@@ -72,7 +74,8 @@ const getAllVitalSignByPatientID = async (req, res, next) => {
 
 const getVitalSignDetail = async (req, res, next) => {
   const { id } = req.params;
-  if (id === 'undefined') return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const patient = await VitalSign.findOne({
       where: {
@@ -90,7 +93,8 @@ const getVitalSignDetail = async (req, res, next) => {
 //
 const getAllVitalSignDetail = async (req, res, next) => {
   const { id } = req.params;
-  if (id === 'undefined') return null;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const patient = await VitalSign.findAll({
       where: {

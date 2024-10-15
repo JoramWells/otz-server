@@ -3,6 +3,7 @@ import { NextOfKinInterface, PatientAttributes } from "otz-types"
 export interface IPatientInteractor {
   createPatient: (patientData: PatientAttributes, nextOfKinData: NextOfKinInterface) => Promise<string | null>
   getAllPatients: () => Promise<PatientAttributes[]>
+  getAllPatientUsers: () => Promise<PatientAttributes[]>
   getPatientById: (id: string) => Promise<PatientAttributes | null>
   getImportantPatient: (limit: number) => Promise<PatientAttributes[]>
   markAsImportant: (id: string, isImportant: boolean) => Promise<string | null>
