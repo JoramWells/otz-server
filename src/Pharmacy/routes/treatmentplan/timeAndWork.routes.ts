@@ -4,7 +4,6 @@ import { TimeAndWorkInteractor } from "../../application/interactors/treatmentpl
 
 const express = require('express');
 
-
 const router = express.Router();
 
 const repository = new TimeAndWorkRepository();
