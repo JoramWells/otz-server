@@ -62,7 +62,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       },
     });
     if (results !== null) {
-      if(morningMedicineTime.length < 0 || eveningMedicineTime.length < 0){
+      if(!morningMedicineTime || !eveningMedicineTime){
       results.morningMedicineTime = null;
       results.eveningMedicineTime = null;
       }
