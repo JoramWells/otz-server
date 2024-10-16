@@ -19,6 +19,7 @@ router.post('/add', createPatientValidator,patientController.onCreatePatient.bin
 router.get('/fetchAll', patientController.onGetAllPatients.bind(patientController))
 router.get('/fetch-users', patientController.onGetAllUserPatients.bind(patientController))
 router.get('/detail/:id', patientController.onGetPatientById.bind(patientController))
+router.get('/user-patient-detail/:id', patientController.onGetPatientByUserId.bind(patientController))
 router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))
 router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
 router.get('/important-patients', patientController.onGetImportantPatient.bind(patientController))

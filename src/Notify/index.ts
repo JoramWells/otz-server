@@ -126,6 +126,7 @@ io.on('connection', (socket) => {
 
   socket.on('newChat', (chats)=>{
     // const user = onlineUsers.find(user=> user.patientID)
+    console.log('emitting new chat')
     io.emit('getNewChats', chats)
   })
 

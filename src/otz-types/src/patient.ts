@@ -43,6 +43,7 @@ export interface PatientAttributes {
   idNo?: string;
   password?: string;
   username?: string;
+  userID?: string;
   occupationID?: string;
   cccNo?: string;
   ageAtReporting?: string;

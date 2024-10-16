@@ -44,6 +44,7 @@ export class PatientController {
       nextOfKinPhoneNo,
       relationship,
       role,
+      userID,
     } = req.body;
 
     const patientData: PatientAttributes = {
@@ -60,6 +61,7 @@ export class PatientController {
       location,
       maritalStatus,
       entryPoint,
+      userID,
     };
 
     const nextOfKinData: NextOfKinInterface = {
@@ -175,6 +177,27 @@ export class PatientController {
         return res.status(404).json({ error: errMessage });
       }
       const result = await this.interactor.getPatientById(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  async onGetPatientByUserId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      const result = await this.interactor.getPatientByUserId(id);
       res.status(200).json(result);
       next();
     } catch (error) {

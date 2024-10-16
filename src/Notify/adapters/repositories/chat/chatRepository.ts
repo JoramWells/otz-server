@@ -125,7 +125,7 @@ export class ChatRepository implements IChatRepository {
           }
         });
       }
-      console.log(recentChats);
+      console.log('finding recent... ');
 
       // const patientResults: AppointmentEntity = {
       //   firstName: results?.firstName,
