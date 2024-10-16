@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { IMessageInteractor } from "../../../application/interfaces/chats/IMessageInteractor";
+import { validationResult } from "express-validator";
 // import { createClient } from 'redis'
 // import { Chat } from '../../domain/entities/Chat'
 export class MessagesController {
@@ -13,7 +14,12 @@ export class MessagesController {
 
   async onCreateMessage(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id1, id2 } = req.body;
+      // const { id1, id2 } = req.body;
+          const errors = validationResult(req);
+
+          if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+          }
       const newProfile = await this.interactor.createMessages(req.body);
 
       console.log(req.body);
