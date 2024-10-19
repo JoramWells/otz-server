@@ -44,6 +44,8 @@ TimeAndWork.init(
         model: "patients",
         key: "id",
       },
+      allowNull: false,
+      onDelete: 'CASCADE'
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -51,6 +53,8 @@ TimeAndWork.init(
         model: "patientVisits",
         key: "id",
       },
+      allowNull: false,
+      onDelete: 'CASCADE'
     },
     wakeUpTime: {
       type: DataTypes.TIME,
