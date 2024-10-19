@@ -24,11 +24,11 @@ export class ChatRepository implements IChatRepository {
 
     if (chatExists) {
       console.log("Chat exists");
-      await Messages.create({
-        chatID: chatExists.id,
-        senderID:id2,
-        text:text
-      })
+      // await Messages.create({
+      //   chatID: chatExists.id,
+      //   senderID:id2,
+      //   text:text
+      // })
       return chatExists;
     } else {
 
@@ -37,12 +37,12 @@ export class ChatRepository implements IChatRepository {
           members: [id1, id2],
           },{transaction:t});
 
-          await Messages.create({
-            chatID: newChat.id,
-            text,
-            senderID: id2,
-          }, {transaction:t});
-    console.log("created ne cat");
+          // await Messages.create({
+          //   chatID: newChat.id,
+          //   text,
+          //   senderID: id2,
+          // }, {transaction:t});
+    // console.log("created ne cat");
 
           return newChat
       })

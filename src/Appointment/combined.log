@@ -1629,3 +1629,4 @@
 {"level":"info","message":"Appointments modified for 807fbcd0-1ead-4dfc-8ea7-b17d9f83c214 ","service":"appointment-service","timestamp":"2024-10-11T07:19:57.416Z"}
 {"level":"info","message":"Appointments modified for 4e78a564-c579-4cf0-afc5-627d341dee60 ","service":"appointment-service","timestamp":"2024-10-11T07:19:57.807Z"}
 {"level":"info","message":"Appointments modified for 55e9608e-e618-411c-ba0f-d732b345992e ","service":"appointment-service","timestamp":"2024-10-13T02:29:45.112Z"}
+{"level":"error","message":"voice-call is not a valid UUID ","service":"appointment-service","timestamp":"2024-10-18T17:31:40.172Z"}

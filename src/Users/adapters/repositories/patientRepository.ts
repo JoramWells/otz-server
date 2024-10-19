@@ -241,6 +241,7 @@ export class PatientRepository implements IPatientRepository {
     //     }
     //   })
 
+    
     //   const patientResults: PatientAttributes = {
     //     firstName: results?.firstName,
     //     middleName: results?.middleName,
@@ -264,7 +265,7 @@ export class PatientRepository implements IPatientRepository {
       where: {
         userID: id,
       },
-      attributes:['id']
+      attributes:['id', 'avatar']
     });
     if (results === null) {
       console.log(results, "resultx");

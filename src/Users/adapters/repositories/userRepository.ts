@@ -47,12 +47,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async find (): Promise<UserInterface[]> {
-    const results = await User.findAll({
-      include:[{
-        model:Patient,
-        attributes:['id']
-      }]
-    })
+    const results = await User.findAll({})
     return results
   }
 
