@@ -4,6 +4,7 @@ import { UserInterface } from 'otz-types'
 import { type IUserRepository } from '../../application/interfaces/IUserRepository'
 import { User } from '../../domain/models/user.model'
 import bcrypt from "bcrypt";
+import { Patient } from '../../domain/models/patients.models';
 
 export class UserRepository implements IUserRepository {
   async create (data: UserInterface): Promise<UserInterface> {

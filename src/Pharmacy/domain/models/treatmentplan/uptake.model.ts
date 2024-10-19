@@ -33,6 +33,8 @@ Uptake.init(
         model: "timeAndWork",
         key: "id",
       },
+      onDelete: 'CASCADE',
+      allowNull: false
     },
     prescriptionID: {
       type: DataTypes.UUID,
@@ -40,6 +42,8 @@ Uptake.init(
         model: "prescriptions",
         key: "id",
       },
+      onDelete: 'CASCADE',
+      allowNull: false
     },
     currentDate: {
       type: DataTypes.DATE,

@@ -9,6 +9,7 @@ export interface IPatientRepository {
   findUsers: () => Promise<PatientAttributes[]>;
   findImportant: (limit: number) => Promise<PatientAttributes[]>;
   findById: (id: string) => Promise<PatientAttributes | null>;
+  findPatientByUserId: (id: string) => Promise<PatientAttributes | null>;
   important: (id: string, isImportant: boolean) => Promise<string | null>;
   edit: (data: PatientAttributes) => Promise<PatientAttributes | null>;
   findAllPMTCTPatients: () => Promise<PatientAttributes[]>;

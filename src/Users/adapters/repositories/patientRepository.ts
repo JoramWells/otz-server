@@ -161,35 +161,34 @@ export class PatientRepository implements IPatientRepository {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(patientCache)) === null) {
-      const results = await Patient.findAll({
-        include: [
-          { model: School, attributes: ["schoolName"] },
-          {
-            model: Hospital,
-            attributes: ["hospitalName"],
-          },
-          //   {
-          //     model: ViralLoad,
-          //     attributes: [
-          //       'id',
-          //       'dateOfNextVL',
-          //       'vlResults',
-          //       'isValid',
-          //       'dateOfCurrentVL'
-          //     ]
-          //   }
-        ],
-        where: {
-          role: "clinician",
+    const results = await Patient.findAll({
+      include: [
+        { model: School, attributes: ["schoolName"] },
+        {
+          model: Hospital,
+          attributes: ["hospitalName"],
         },
-      });
-      logger.info({ message: "Fetched from db!" });
-      console.log("fetched from db!");
-      // set to cace
-      // await this.redisClient.set(patientCache, JSON.stringify(results));
+        //   {
+        //     model: ViralLoad,
+        //     attributes: [
+        //       'id',
+        //       'dateOfNextVL',
+        //       'vlResults',
+        //       'isValid',
+        //       'dateOfCurrentVL'
+        //     ]
+        //   }
+      ],
+      where: {
+        role: "clinician",
+      },
+    });
+    logger.info({ message: "Fetched from db!" });
+    console.log("fetched from db!");
+    // set to cace
+    // await this.redisClient.set(patientCache, JSON.stringify(results));
 
-      return results;
-
+    return results;
   }
 
   async findById(id: string): Promise<PatientAttributes | null> {
@@ -224,6 +223,49 @@ export class PatientRepository implements IPatientRepository {
       where: {
         id,
       },
+    });
+    if (results === null) {
+      console.log(results, "resultx");
+    }
+    console.log(results, "founde");
+
+    return results;
+  }
+
+  async findPatientByUserId(id: string): Promise<PatientAttributes | null> {
+    // await this.redisClient.connect()
+    // if (await this.redisClient.get(id) === null) {
+    //   const results: Patient | null = await Patient.findOne({
+    //     where: {
+    //       id
+    //     }
+    //   })
+
+    
+    //   const patientResults: PatientAttributes = {
+    //     firstName: results?.firstName,
+    //     middleName: results?.middleName,
+    //     sex: results?.sex,
+    //     phoneNo: results?.phoneNo,
+    //     idNo: results?.idNo,
+    //     occupationID: results?.occupationID
+    //   }
+    //   await this.redisClient.set(id, JSON.stringify(patientResults))
+
+    //   return patientResults
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id)
+    // if (cachedData === null) {
+    //   return null
+    // }
+    // const results: PatientAttributes = JSON.parse(cachedData)
+    // console.log('fetched patient from cace!')
+    const results: Patient | null = await Patient.findOne({
+      where: {
+        userID: id,
+      },
+      attributes:['id', 'avatar']
     });
     if (results === null) {
       console.log(results, "resultx");

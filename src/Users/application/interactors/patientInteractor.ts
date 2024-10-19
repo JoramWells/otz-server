@@ -33,6 +33,10 @@ export class PatientInteractor implements IPatientInteractor {
     return await this.repository.findById(id);
   }
 
+  async getPatientByUserId(id: string): Promise<PatientAttributes | null> {
+    return await this.repository.findPatientByUserId(id);
+  }
+
   async updateAvatar(
     id: string,
     avatar: string

@@ -15,5 +15,7 @@ export interface IPatientInteractor {
   editPatient: (data: PatientAttributes) => Promise<PatientAttributes | null>
   login: (firstName: string, password: string) => Promise<PatientAttributes | null>
   deletePatient: (id: string) => Promise<number | null>;
+  getPatientByUserId: (id: string) => Promise<PatientAttributes | null>;
+
 
 }

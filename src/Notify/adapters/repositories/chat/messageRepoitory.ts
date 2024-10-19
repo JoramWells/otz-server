@@ -52,6 +52,7 @@ export class MessagesRepository implements IMessageRepository {
     return results;
   }
 
+  
   async findById(id: string): Promise<MessagesAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {

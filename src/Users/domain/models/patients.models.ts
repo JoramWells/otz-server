@@ -5,6 +5,7 @@ import { connect } from "../db/connect";
 import { createClient } from "redis";
 import { LocationProps, PatientAttributes } from "otz-types";
 import bcrypt from "bcrypt";
+import { User } from "./user.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 export enum UserRoles {
@@ -26,6 +27,7 @@ export class Patient extends Model<PatientAttributes> implements PatientAttribut
   lastName?: string | undefined;
   password?: string | undefined;
   username?: string | undefined;
+  userID?: string | undefined;
   sex?: string | undefined;
   dob?: Date | string | undefined;
   avatar?: string | undefined;
@@ -130,6 +132,17 @@ Patient.init(
       type: DataTypes.JSONB,
       allowNull: true,
     },
+    userID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onDelete: "SET NULL",
+      onUpdate: "CASCADE",
+      allowNull: true,
+      unique: true
+    },
     role: {
       type: DataTypes.ENUM(...Object.values(UserRoles)),
       defaultValue: UserRoles.patient,
@@ -184,6 +197,7 @@ Patient.afterCreate(async () => {
 });
 
 Patient.belongsTo(School, { foreignKey: "schoolID" });
+Patient.belongsTo(User, { foreignKey: "userID" });
 Patient.belongsTo(Hospital, { foreignKey: "hospitalID", constraints: false });
 
 // const syncDB = async () => {
