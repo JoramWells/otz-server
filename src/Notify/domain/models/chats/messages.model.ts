@@ -6,14 +6,24 @@ import { Patient } from "../patients.models";
 import { MessagesAttributes } from "otz-types";
 
 
+export enum MessageTypes {
+  text = "text",
+  doc = "doc",
+  image = "image",
+  video = "video",
+  link = "link",
+}
+
 export class Messages
   extends Model<MessagesAttributes>
   implements MessagesAttributes
 {
+  filePath!: string;
   id: string | undefined;
   chatID: string | undefined;
   text: string | undefined;
   senderID: string | undefined;
+  type?: MessageTypes | undefined;
 }
 
 
@@ -42,6 +52,15 @@ Messages.init(
     },
     text: {
       type: DataTypes.STRING,
+    },
+    type: {
+      type: DataTypes.ENUM(...Object.values(MessageTypes)),
+      allowNull: false,
+      defaultValue: MessageTypes.text,
+    },
+    filePath: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

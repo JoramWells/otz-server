@@ -108,6 +108,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
 
   async create(data: TimeAndWorkAttributes): Promise<TimeAndWorkAttributes> {
     const currentDate = moment().format("YYYY-MM-DD");
+    console.log(data, 'datas')
     const { patientID } = data;
     return await connect.transaction(async (t) => {
       const results = await TimeAndWork.create(data, { transaction: t });

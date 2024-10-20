@@ -13,7 +13,7 @@ export const createMessageValidator = [
   // body("maritalStatus").notEmpty().trim(),
 
   // body("sex").isString().withMessage("Sex must be a string"),
-  body("text").notEmpty().trim(),
+  body("text").trim(),
 
   // body("occupation").isString().withMessage("Occupation must be a string"),
   // body("occupation").notEmpty().trim(),

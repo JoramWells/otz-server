@@ -2741,3 +2741,14 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-18T18:10:12.915Z"}
 {"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-10-19T01:23:23.404Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-19T01:23:24.206Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-10-19T04:42:42.419Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-19T04:42:43.820Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-10-19T04:59:53.189Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-19T04:59:53.894Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-10-19T15:50:39.824Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-19T15:50:40.436Z"}
+{"level":"info","message":"Created New Patient Successfully! ~Manyasi","service":"user microservice api","timestamp":"2024-10-19T15:55:39.393Z"}
+{"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-10-19T15:56:38.289Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-19T15:56:38.325Z"}
+{"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-10-20T12:00:45.463Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-20T12:00:52.985Z"}

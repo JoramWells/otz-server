@@ -15,12 +15,16 @@ export class MessagesController {
   async onCreateMessage(req: Request, res: Response, next: NextFunction) {
     try {
       // const { id1, id2 } = req.body;
-          const errors = validationResult(req);
 
-          if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-          }
-      const newProfile = await this.interactor.createMessages(req.body);
+          // const errors = validationResult(req);
+
+          // if (!errors.isEmpty()) {
+          //   return res.status(400).json({ errors: errors.array() });
+          // }
+          const data = {...req.body, filePath: req.file?.filename}
+      const newProfile = await this.interactor.createMessages(data);
+
+      // req.app.get('io').emit('', newProfile)
 
       console.log(req.body);
       res.json(newProfile);

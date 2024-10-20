@@ -6,6 +6,7 @@ import { MessagesRepository } from "../../adapters/repositories/chat/messageRepo
 import { MessageInteractor } from "../../application/interactors/chat/messageInteractor";
 import { MessagesController } from "../../adapters/controllers/chat/messageController";
 import { createMessageValidator } from "../../adapters/validators/MessageValidator";
+import { upload } from "../../middleware/uploadImage";
 
 const repository = new MessagesRepository();
 const interactor = new MessageInteractor(repository);
@@ -14,7 +15,7 @@ const controllers = new MessagesController(interactor);
 
 const router = express.Router();
 
-router.post("/add", createMessageValidator,controllers.onCreateMessage.bind(controllers));
+router.post("/add", createMessageValidator,upload.single('image'),controllers.onCreateMessage.bind(controllers));
 router.get(
   "/fetchAll",
   controllers.onGetAllMessages.bind(controllers)
