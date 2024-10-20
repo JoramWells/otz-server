@@ -54,10 +54,20 @@ export interface ChatAttributes {
   members?: string[];
 }
 
+export enum MessageTypes{
+  text ='text',
+  doc='doc',
+  image = 'image',
+  video = 'video',
+  link = 'link'
+}
+
 export interface MessagesAttributes {
   id?: string;
   chatID?: string;
   text?: string;
+  type?: MessageTypes;
+  filePath?: string;
   senderID?: string;
 }
 

@@ -87,7 +87,7 @@ export class ChatRepository implements IChatRepository {
         include: [
           {
             model: Messages,
-            attributes: ["text", "createdAt"],
+            attributes: ['type',"text", "createdAt"],
             limit: 1,
             order: [["createdAt", "DESC"]],
           },

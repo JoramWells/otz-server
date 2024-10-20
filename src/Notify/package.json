@@ -26,6 +26,7 @@
     "moment": "^2.30.0",
     "moment-timezone": "^0.5.45",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.5",
     "node-schedule": "^2.1.1",
     "pg": "^8.11.5",
@@ -59,7 +60,7 @@
     "globals": "^15.1.0",
     "mocha": "^10.4.0",
     "nodemon": "^3.1.0",
-    "otz-types": "^1.1.1",
+    "otz-types": "^1.1.52",
     "supertest": "^6.3.4",
     "ts-node-dev": "^2.0.0",
     "typescript-eslint": "^7.8.0"
