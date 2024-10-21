@@ -63,7 +63,7 @@ const editHospital = async (req, res, next) => {
     res.status(200).json(editPAtient)
     next();
 
-    // return editPAtient.save();
+    return editPAtient.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
