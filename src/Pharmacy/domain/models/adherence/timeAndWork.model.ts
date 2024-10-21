@@ -23,6 +23,7 @@ export class TimeAndWork
   eveningMedicineTime!: Date
   medicineStorage!: string
   toolsAndCues!: string
+  
   goal!: string
   morningWeekendPlace!: string
   eveningWeekendPlace!: string

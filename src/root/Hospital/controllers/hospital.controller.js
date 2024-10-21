@@ -50,23 +50,20 @@ const getHospitalDetail = async (req, res, next) => {
 const editHospital = async (req, res, next) => {
   const { id } = req.params;
   const {
-    first_name, middle_name, last_name, id_number, cell_phone,
+    hospitalName,
   } = req.body;
   try {
     const editPAtient = await Hospital.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
 
-    editPAtient.first_name = first_name;
-    editPAtient.middle_name = middle_name;
-    editPAtient.last_name = last_name;
-    editPAtient.id_number = id_number;
-    editPAtient.cell_phone = cell_phone;
+    editPAtient.hospitalName = hospitalName;
+    res.status(200).json(editPAtient)
     next();
 
-    return editPAtient.save();
+    // return editPAtient.save();
   } catch (error) {
     console.log(error);
     res.sendStatus(500).json({ message: 'Internal Server' });
