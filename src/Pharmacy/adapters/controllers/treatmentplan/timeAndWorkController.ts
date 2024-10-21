@@ -50,6 +50,8 @@ export class TimeAndWorkController {
   ) {
     try {
       const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getTimeAndWorkByPatientId(id);
       res.status(200).json(result);
       next();
@@ -63,6 +65,8 @@ export class TimeAndWorkController {
   async onGetTimeAndWorkById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getTimeAndWorkById(id);
       res.status(200).json(result);
       next();
@@ -112,6 +116,7 @@ export class TimeAndWorkController {
     }
   }
 
+  
   //
   async onDeleteSchedule(req: Request, res: Response, next: NextFunction) {
     try {
@@ -126,4 +131,3 @@ export class TimeAndWorkController {
     }
   }
 }
-

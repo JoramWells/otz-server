@@ -4,7 +4,7 @@
 import moment from 'moment'
 // import { pillUptakeCache } from '../../../constants/appointmentCache'
 // import { RedisAdapter } from '../redisAdapter'
-import { Sequelize, col, fn } from 'sequelize'
+import { Op, Sequelize, col, fn } from 'sequelize'
 import { type IPillUptakeRepository } from '../../application/interfaces/art/IPillUptakeRepository'
 import { Adherence } from '../../domain/models/adherence/adherence.model'
 import { TimeAndWork } from '../../domain/models/adherence/timeAndWork.model'
@@ -138,56 +138,59 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
   async findCurrentPillUptake(id: string): Promise<AdherenceAttributes | null> {
     const currentDate = moment().format("YYYY-MM-DD");
+    const startOfDay = moment().startOf("day").toDate();
+    const endOfDay = moment().endOf("day").toDate();
     // if(await this.redisClient.get(`pill_uptake_${id}`) === null){
-    // const recentPrescription = await Prescription.findOne({
-    //   attributes: [
-    //     [fn("MAX", col("createdAt")), "createdAt"],
-    //     "patientID",
-    //     "id",
-    //   ],
-    //   group: ["patientID", "id"],
-    //   where: {
-    //     patientID: id,
-    //   },
-    // });
-
-    const recentPrescription = await Prescription.findOne({
-      // attributes: [
-      //   [fn("MAX", col("createdAt")), "createdAt"],
-      //   "patientID",
-      //   "id",
-      // ],
-      // group: ["patientID", "id"],
-      order: [["createdAt", "DESC"]],
+    const latestPrescription = await Prescription.findAll({
+      attributes: [
+        [fn("MAX", col("createdAt")), "createdAt"],
+        "patientID",
+        // "id",
+      ],
+      group: ["patientID", "artPrescriptionID"],
       where: {
         patientID: id,
       },
     });
 
-    // console.log(recentPrescription?.id, 'pID');
 
-    if (recentPrescription) {
-      const currentUptake = await Adherence.findAll({
-        limit: 1,
-        order: [["createdAt", "DESC"]],
-        where: {
-          prescriptionID: recentPrescription.id,
-          currentDate,
+
+  // if (latestPrescription.length > 0) {
+    const prescriptionIds = latestPrescription.map(
+      (prescription) => prescription.id
+    );
+
+    const currentUptake = await Adherence.findOne({
+      where: {
+        // [Op.and]: [
+        //   {
+        //     prescriptionID: {
+        //       [Op.in]: prescriptionIds,
+        //     },
+        //   },
+               createdAt: {
+      [Op.between]: [startOfDay, endOfDay],
+               }
+        // ],
+      },
+      include: [
+        {
+          model: TimeAndWork,
+          attributes: ["eveningMedicineTime", "morningMedicineTime"],
+          where:{
+            patientID: id
+          }
         },
-        include: [
-          {
-            model: TimeAndWork,
-            attributes: ["eveningMedicineTime", "morningMedicineTime"],
-          },
-        ],
-      });
+      ],
+    });
+    console.log(currentUptake, "pID");
 
-      // await this.redisClient.set(`pill_uptake_${id}`, JSON.stringify(currentUptake));
+    // await this.redisClient.set(`pill_uptake_${id}`, JSON.stringify(currentUptake));
 
-      // ?index to find the first element
-      return currentUptake[0];
-    }
-    return null;
+    // ?index to find the first element
+    return currentUptake;
+  // }
+    // return null;
     // }
 
     //     const cachedData: string | null = await this.redisClient.get(id);
@@ -200,9 +203,9 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     //     return results;
   }
 
-  async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
+    async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
     const recentPrescription = await Prescription.findOne({
-      order: [["updatedAt", "DESC"]],
+      order: [["createdAt", "DESC"]],
       where: {
         patientID: id,
       },
