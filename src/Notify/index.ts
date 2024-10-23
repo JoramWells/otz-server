@@ -149,7 +149,7 @@ io.on('connection', (socket) => {
 //   console.log(socket, socket.clientID, 'Sendin..');
 // })
 
-socket.on('getPendingMessages', async (socket)=>{
+socket.on('getPendingMessage', async (socket)=>{
   // console.log("Checking user pending messages...", socket.onlineUsers);
 
   // const receiver = socket.onlineUsers.find((user: PatientAttributes) => user.id === socket.id);
