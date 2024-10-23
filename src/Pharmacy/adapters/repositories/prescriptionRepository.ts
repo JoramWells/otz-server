@@ -44,7 +44,28 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     });
   }
 
-  async find(): Promise<PrescriptionInterface[]> {
+  async find(dateQuery: string): Promise<PrescriptionInterface[]> {
+
+    if(dateQuery === 'all'){
+
+    const results = await Prescription.findAll({
+
+      include: [
+        {
+          model: Patient,
+          attributes: ["id", "firstName", "middleName", "isImportant"],
+        },
+
+        {
+          model: ARTPrescription,
+          attributes: ["regimen"],
+        },
+      ]
+    });
+
+    return results;
+    }
+
     const latestPrescription = await Prescription.findAll({
       attributes: [
         //   'noOfPills',
@@ -69,6 +90,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     });
 
     const results = await Prescription.findAll({
+      order:[['updatedAt', 'ASC']],
       where: {
         [Op.and]: [
           {

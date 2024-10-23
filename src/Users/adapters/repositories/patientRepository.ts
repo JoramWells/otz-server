@@ -227,7 +227,6 @@ export class PatientRepository implements IPatientRepository {
     if (results === null) {
       console.log(results, "resultx");
     }
-    console.log(results, "founde");
 
     return results;
   }
@@ -341,7 +340,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
-    const { id, firstName, middleName, lastName, phoneNo, role } = data;
+    const { id, firstName, middleName, lastName, phoneNo, role, populationType } = data;
 
     // delete cache
     await this.redisClient.del(patientCache);
@@ -358,6 +357,7 @@ export class PatientRepository implements IPatientRepository {
       results.middleName = middleName;
       results.lastName = lastName;
       results.phoneNo = phoneNo;
+      results.populationType = populationType;
       results.role = role;
       await results.save();
     }

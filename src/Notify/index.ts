@@ -28,6 +28,8 @@ import { friendRequestRouter } from './routes/chat/request.routes';
 // import { sendPushNotification } from './utils/fcm';
 import { initSentry } from "./config/sentryInit";
 import { startRefillConsumer } from './adapters/consumer/notify.consumer';
+import { Messages } from './domain/models/chats/messages.model';
+import { PatientAttributes } from 'otz-types';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -108,7 +110,7 @@ io.on('connection', (socket) => {
   console.log('Connected to IO sever', socket.id);
 
   // 
-  socket.on('addNewUser', connect=>{
+  socket.on('addNewUsers', connect=>{
     const {patientID, expoPushToken} = connect
     !onlineUsers.some(user=>user.patientID === patientID) &&
     onlineUsers.push({
@@ -126,27 +128,66 @@ io.on('connection', (socket) => {
 
   socket.on('newChat', (chats)=>{
     // const user = onlineUsers.find(user=> user.patientID)
-    console.log('emitting new chat')
-    io.emit('getNewChats', chats)
+    console.log('emitting new chat', chats.clientID)
+    io.to(chats.clientID).emit('getNewChats', chats)
   })
 
 // 
-socket.on('sendMessage', message=>{
-  const receiver = onlineUsers.find(user=> user.patientID === message.recipientID)
-  if(receiver){
-    io.to(receiver.clientId).emit('getMessage', message)
-    console.log('Message sent!!', receiver.clientId)
 
-  }
-  console.log(message.recipientID, receiver);
+
+// socket.on('sendMessage', socket=>{
+  // const receiver = onlineUsers.find(user=> user.patientID === message.recipientID)
+  // const receiver = socket.onlineUsers?.find(user=> user.id === socket.message.id)
+  // if(receiver){
+  //   io.to(receiver.clientId).emit('getMessage', socket.message)
+  //   console.log('Message sent!!', receiver.clientId)
+
+  // }
+//     io.emit("getMessage", socket);
+
+
+//   console.log(socket, socket.clientID, 'Sendin..');
+// })
+
+socket.on('getPendingMessages', async (socket)=>{
+  // console.log("Checking user pending messages...", socket.onlineUsers);
+
+  // const receiver = socket.onlineUsers.find((user: PatientAttributes) => user.id === socket.id);
+  // if(receiver){
+    const messageStatus = await Messages.findAll({
+      where:{
+        senderID: socket.id,
+        isSent: false
+      }
+    })
+
+    // 
+    if(messageStatus){
+      console.log(messageStatus)
+      messageStatus.forEach(async(message)=>{
+        await Promise.all([
+          sendPushNotification([socket.expoPushToken], {
+            body: message.text as string,
+            id: message.chatID,
+          }),
+          // message.update({
+          //   isSent: true
+          // })
+        ]);
+      })
+
+      // 
+
+    }
+  // }
+
 })
 
 
 // 
 socket.on('getNotifications', async (socket)=>{
-  console.log('Checking user notifications...')
   const receiver = socket.onlineUsers.find(user=>user.id === socket.id)
-  console.log(receiver, socket, "receiver online users!!");
+  console.log(socket, "receiver online users!!");
 
   if(receiver){
     // 

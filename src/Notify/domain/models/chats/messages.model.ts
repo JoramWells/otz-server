@@ -23,6 +23,8 @@ export class Messages
   chatID: string | undefined;
   text: string | undefined;
   senderID: string | undefined;
+  isRead?: boolean | undefined;
+  isSent: boolean | undefined
   type?: MessageTypes | undefined;
 }
 
@@ -52,6 +54,16 @@ Messages.init(
     },
     text: {
       type: DataTypes.STRING,
+    },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    isSent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     },
     type: {
       type: DataTypes.ENUM(...Object.values(MessageTypes)),

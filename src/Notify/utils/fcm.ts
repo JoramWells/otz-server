@@ -2,7 +2,7 @@
 
 import  {Expo, ExpoPushMessage, ExpoPushTicket} from 'expo-server-sdk'
 
-async function sendPushNotification(pushTokens: string[], body: string){
+async function sendPushNotification(pushTokens: string[], message:{body: string, id: string}){
 
     // const pusTokens = [
     // ]
@@ -18,13 +18,12 @@ async function sendPushNotification(pushTokens: string[], body: string){
             console.error(`Invalid token`)
             continue;
         }
-            messages.push(
-              {
-                to: pusToken,
-                sound: "default",
-                body: body,
-                data: { withSome: "ello!!" },
-              })
+            messages.push({
+              to: pusToken,
+              sound: "default",
+              body: message.body,
+              data: { chatID: message.id },
+            });
 
             }
 

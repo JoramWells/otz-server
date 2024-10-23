@@ -69,6 +69,8 @@ export interface MessagesAttributes {
   type?: MessageTypes;
   filePath?: string;
   senderID?: string;
+  isSent?: boolean
+  isRead?: boolean
 }
 
 export enum FriendRequestStatus{

@@ -5,7 +5,7 @@ export interface IPrescriptionInteractor {
     data: PrescriptionInterface,
     appointmentInput: AppointmentAttributes
   ) => Promise<PrescriptionInterface | null>;
-  getAllPrescriptions: () => Promise<PrescriptionInterface[]>;
+  getAllPrescriptions: (dateQuery: string) => Promise<PrescriptionInterface[]>;
   getPrescriptionById: (id: string) => Promise<PrescriptionInterface | null>;
   getAllPrescriptionByPatientId: (
     id: string
