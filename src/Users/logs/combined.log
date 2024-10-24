@@ -2778,3 +2778,9 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-21T08:54:51.338Z"}
 {"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-10-21T13:46:02.364Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-21T13:46:02.419Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-10-22T16:42:55.511Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-22T16:42:55.997Z"}
+{"level":"info","message":"Fetched from cache!","service":"user microservice api","timestamp":"2024-10-22T16:50:40.597Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-22T16:50:41.309Z"}
+{"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-10-23T13:36:36.046Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-23T13:36:36.438Z"}

@@ -91,17 +91,18 @@ io.on('connection', socket=>{
 
 
   // 
-  socket.on('addNewUser', async (user:PatientAttributes)=>{
-    !onlineUsers.some(user=>user.id === user.id) && onlineUsers.push({
-      id:user.id,
+  socket.on('addNewUser', async (userSocket:string)=>{
+    !onlineUsers.some(user=>user.id === userSocket.id) && onlineUsers.push({
+      id:userSocket.id,
       clientId: socket.id
     })
 
 
     io.emit('getOnlineUsers', onlineUsers)
+    console.log(onlineUsers, 'userp')
 
   })
-
+  
   socket.on('disconnect', async()=>{
     const userDisconnect = onlineUsers.filter(user=>user.clientId)
     onlineUsers = onlineUsers.filter(user=> user.clientId !== socket.id)
@@ -114,7 +115,7 @@ io.on('connection', socket=>{
     const duration = Math.floor((disconnectedAt-connectedAt)/1000)
 
     // 
-    if(socketPatientID){
+    if(socketPatientID !== 'undefined'){
         await PatientSessionLog.create({
         patientID: socketPatientID,
         connectedAt,

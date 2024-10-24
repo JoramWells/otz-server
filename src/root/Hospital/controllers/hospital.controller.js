@@ -50,7 +50,7 @@ const getHospitalDetail = async (req, res, next) => {
 const editHospital = async (req, res, next) => {
   const { id } = req.params;
   const {
-    hospitalName,
+    hospitalName, mflCode
   } = req.body;
   try {
     const editPAtient = await Hospital.findOne({
@@ -60,6 +60,7 @@ const editHospital = async (req, res, next) => {
     });
 
     editPAtient.hospitalName = hospitalName;
+    editPAtient.mflCode = mflCode;
     res.status(200).json(editPAtient)
     next();
 

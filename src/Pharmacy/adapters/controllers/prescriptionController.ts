@@ -74,7 +74,8 @@ export class PrescriptionController {
 
   async onGetAllPrescriptions(req: Request, res: Response, next: NextFunction) {
     try {
-      const results = await this.interactor.getAllPrescriptions();
+      const {mode} = req.query
+      const results = await this.interactor.getAllPrescriptions(mode as string);
       res.status(200).json(results);
       next();
     } catch (error) {
