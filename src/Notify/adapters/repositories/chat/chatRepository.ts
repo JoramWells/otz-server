@@ -106,7 +106,7 @@ export class ChatRepository implements IChatRepository {
               (memberID) => memberID !== id
             );
             const receivers = await Patient.findOne({
-              attributes: ["id", "firstName", "middleName"],
+              attributes: ["id", "firstName", "middleName", "avatar"],
               where: {
                 id: otherMemberID,
               },
