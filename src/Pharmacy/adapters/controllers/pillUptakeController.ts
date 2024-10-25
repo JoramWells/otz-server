@@ -31,8 +31,9 @@ export class PillUptakeController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      const {date} = req.query
 
-      const results = await this.interactor.getAllPillUptakes();
+      const results = await this.interactor.getAllPillUptakes(date as unknown as Date);
       res.status(200).json(results);
 
       next();
