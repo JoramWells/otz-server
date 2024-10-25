@@ -40,8 +40,8 @@ export class PillUptakeInteractor implements IPillUptakeInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllPillUptakes(): Promise<AdherenceAttributes[]> {
-    return await this.repository.find();
+  async getAllPillUptakes(date: Date): Promise<AdherenceAttributes[]> {
+    return await this.repository.find(date);
   }
 
   //

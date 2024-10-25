@@ -2,7 +2,7 @@ import { AdherenceAttributes } from "otz-types";
 
 export interface IPillUptakeRepository {
   create: (data: AdherenceAttributes) => Promise<AdherenceAttributes>;
-  find: () => Promise<AdherenceAttributes[]>;
+  find: (date: Date) => Promise<AdherenceAttributes[]>;
   findById: (id: string) => Promise<AdherenceAttributes | null>;
   findByPatientID: (id: string) => Promise<AdherenceAttributes[] | null>;
   findCurrentPillUptake: (id: string) => Promise<AdherenceAttributes | null>;

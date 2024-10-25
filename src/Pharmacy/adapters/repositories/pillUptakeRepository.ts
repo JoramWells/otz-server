@@ -94,13 +94,12 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     return results;
   }
 
-  async find(): Promise<AdherenceAttributes[]> {
-    const currentDate = moment().format("YYYY-MM-DD");
+  async find(date: Date): Promise<AdherenceAttributes[]> {
     // check if patient
     // if ((await this.redisClient.get(pillUptakeCache)) === null) {
     const results = await Adherence.findAll({
       where: {
-        currentDate,
+        currentDate: date,
       },
       include: {
         model: TimeAndWork,

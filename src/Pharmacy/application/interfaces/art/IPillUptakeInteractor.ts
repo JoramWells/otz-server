@@ -2,7 +2,7 @@ import { AdherenceAttributes } from "otz-types";
 
 export interface IPillUptakeInteractor {
   createPillUptake: (data: AdherenceAttributes) => Promise<AdherenceAttributes>
-  getAllPillUptakes: () => Promise<AdherenceAttributes[]>
+  getAllPillUptakes: (date: Date) => Promise<AdherenceAttributes[]>
   getPillUptakeById: (id: string) => Promise<AdherenceAttributes | null>
   getPillUptakeByPatientID: (id: string) => Promise<AdherenceAttributes[] | null>
   getCurrentPillUptake: (id: string) => Promise<AdherenceAttributes | null>
