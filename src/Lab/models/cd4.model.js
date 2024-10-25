@@ -17,6 +17,10 @@ const CD4 = sequelize.define('cd4', {
       model: 'patients',
       key: 'id',
     },
+    onDelete: 'CASCADE',
+    allowNull: false
+
+
   },
   hospitalID: {
     type: DataTypes.UUID,
@@ -24,6 +28,8 @@ const CD4 = sequelize.define('cd4', {
       model: 'hospitals',
       key: 'id',
     },
+    onDelete: 'CASCADE'
+
   },
 
   // CD4

@@ -28,6 +28,8 @@ PartialDisclosure.init(
         model: "childDisclosureEligibility",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     childCaregiverReadinessID: {
       type: DataTypes.UUID,
@@ -35,6 +37,8 @@ PartialDisclosure.init(
         model: "childCaregiverReadiness",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
   },
   {

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../patient/patients.models');
 const PatientVisits = require('../patient/patientVisits.model');
@@ -27,6 +27,8 @@ const ViralLoad = sequelize.define('viralLoads', {
     },
     onDelete: 'CASCADE',
     unique: true,
+    allowNull: false
+
   },
   patientID: {
     type: DataTypes.UUID,
@@ -34,6 +36,10 @@ const ViralLoad = sequelize.define('viralLoads', {
       model: 'patients',
       key: 'id',
     },
+    onDelete: 'CASCADE',
+    allowNull: false
+
+
   },
   userID: {
     type: DataTypes.UUID,
@@ -41,6 +47,10 @@ const ViralLoad = sequelize.define('viralLoads', {
       model: 'users',
       key: 'id',
     },
+    onDelete: 'CASCADE',
+    allowNull: false
+
+
   },
   vlJustification: {
     type: DataTypes.STRING,

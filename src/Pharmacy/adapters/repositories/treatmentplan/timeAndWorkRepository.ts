@@ -27,6 +27,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       departureHomeTime,
       morningMedicineTime,
       morningPlace,
+      eveningMedicineTime
     } = data;
 
     const results = await TimeAndWork.findOne({
@@ -40,6 +41,8 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       results.departureHomeTime = departureHomeTime;
       results.morningMedicineTime = morningMedicineTime;
       results.morningPlace = morningPlace;
+      results.eveningMedicineTime = eveningMedicineTime;
+
 
       // save()
       results.save();
@@ -85,6 +88,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       arrivalHomeTime,
       eveningMedicineTime,
       eveningPlace,
+      morningMedicineTime
     } = data;
 
     const results = await TimeAndWork.findOne({
@@ -97,6 +101,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       results.departureWorkTime = departureWorkTime;
       results.arrivalHomeTime = arrivalHomeTime;
       results.eveningMedicineTime = eveningMedicineTime;
+      results.morningMedicineTime = morningMedicineTime;
       results.eveningPlace = eveningPlace;
 
       // save()

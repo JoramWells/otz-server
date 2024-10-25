@@ -57,6 +57,8 @@ DisclosureChecklist.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -64,6 +66,8 @@ DisclosureChecklist.init(
         model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     disclosureDate: {
       type: DataTypes.DATE,

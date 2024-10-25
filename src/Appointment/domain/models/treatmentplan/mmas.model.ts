@@ -22,49 +22,51 @@ export class MMAS extends Model<MMASAttributes> implements MMASAttributes {
 
 MMAS.init(
   {
-id: {
-    type: DataTypes.UUID,
-    primaryKey: true,
-    defaultValue: UUIDV4,
-  },
-  patientID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'patients',
-      key: 'id',
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: UUIDV4,
     },
-  },
-  patientVisitID: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'patientVisits',
-      key: 'id',
+    patientID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patients",
+        key: "id",
+      },
+      onDelete: "CASCADE",
     },
-  },
-  isForget: {
-    type: DataTypes.BOOLEAN,
-  },
-  isCareless: {
-    type: DataTypes.BOOLEAN,
-  },
-  isQuitFeelWorse: {
-    type: DataTypes.BOOLEAN,
-  },
-  isQuitFeelBetter: {
-    type: DataTypes.BOOLEAN,
-  },
-  isTookMedYesterday: {
-    type: DataTypes.BOOLEAN,
-  },
-  isQuitOutControl: {
-    type: DataTypes.BOOLEAN,
-  },
-  isUnderPressure: {
-    type: DataTypes.BOOLEAN,
-  },
-  difficultyRemembering: {
-    type: DataTypes.STRING,
-  },
+    patientVisitID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patientVisits",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
+    isForget: {
+      type: DataTypes.BOOLEAN,
+    },
+    isCareless: {
+      type: DataTypes.BOOLEAN,
+    },
+    isQuitFeelWorse: {
+      type: DataTypes.BOOLEAN,
+    },
+    isQuitFeelBetter: {
+      type: DataTypes.BOOLEAN,
+    },
+    isTookMedYesterday: {
+      type: DataTypes.BOOLEAN,
+    },
+    isQuitOutControl: {
+      type: DataTypes.BOOLEAN,
+    },
+    isUnderPressure: {
+      type: DataTypes.BOOLEAN,
+    },
+    difficultyRemembering: {
+      type: DataTypes.STRING,
+    },
   },
   {
     sequelize: connect,

@@ -2,6 +2,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
 import { ITimeAndWorkInteractor } from "../../../application/interfaces/treatmentplan/ITimeAndWorkInteractor";
+import { logger } from "../../../utils/logger";
+import { validate as isUUID } from "uuid";
+
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class TimeAndWorkController {
@@ -10,6 +13,7 @@ export class TimeAndWorkController {
   constructor(interactor: ITimeAndWorkInteractor) {
     this.interactor = interactor;
   }
+
 
   async onCreateTimeAndWork(req: Request, res: Response, next: NextFunction) {
     try {
@@ -25,6 +29,7 @@ export class TimeAndWorkController {
 
       next(error);
     }
+
   }
 
   async onGetAllTimeAndWork(req: Request, res: Response, next: NextFunction) {
@@ -50,6 +55,11 @@ export class TimeAndWorkController {
   ) {
     try {
       const { id } = req.params;
+            if (!isUUID(id)) {
+              const errMessage = `${id} is not a valid UUID `;
+              logger.error(errMessage);
+              return res.status(404).json({ error: errMessage });
+            }
       if (!id || id === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getTimeAndWorkByPatientId(id);
@@ -80,6 +90,7 @@ export class TimeAndWorkController {
   async updateMorningSchedule(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      console.log(req.body)
       const result = await this.interactor.updateMorningSchedule(id, req.body);
       res.status(200).json(result);
       next();
@@ -89,6 +100,7 @@ export class TimeAndWorkController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
 
   async onEditSchedule(req: Request, res: Response, next: NextFunction) {
     try {
@@ -106,6 +118,8 @@ export class TimeAndWorkController {
   async updateEveningSchedule(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      console.log(req.body);
+
       const result = await this.interactor.updateEveningSchedule(id, req.body);
       res.status(200).json(result);
       next();

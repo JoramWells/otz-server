@@ -34,6 +34,8 @@ ChildDisclosureEligibility.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -41,6 +43,8 @@ ChildDisclosureEligibility.init(
         model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     isCorrectAge: {
       type: DataTypes.BOOLEAN,
@@ -54,7 +58,6 @@ ChildDisclosureEligibility.init(
     taskOneComments: {
       type: DataTypes.STRING,
     },
-
   },
   {
     sequelize: connect,

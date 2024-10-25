@@ -18,6 +18,9 @@ const InternalLabRequest = sequelize.define(
         model: 'patients',
         key: 'id',
       },
+      onDelete: 'CASCADE',
+      allowNull: false
+
     },
     specimenType: {
       type: DataTypes.STRING,
