@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { UUIDV4 } = require('sequelize');
+const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../patient/patients.models');
 const PatientVisits = require('../patient/patientVisits.model');
