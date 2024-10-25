@@ -41,6 +41,8 @@ ExecuteDisclosure.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -48,6 +50,8 @@ ExecuteDisclosure.init(
         model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
 
     isAssessedChildCaregiverComfort: {

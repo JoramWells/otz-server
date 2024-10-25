@@ -25,9 +25,11 @@ FullDisclosure.init(
     executeDisclosureID: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "executeDisclosure",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     postDisclosureID: {
       type: DataTypes.UUID,
@@ -35,6 +37,8 @@ FullDisclosure.init(
         model: "postDisclosure",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
   },
   {

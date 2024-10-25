@@ -15,6 +15,9 @@ const LabTest = sequelize.define('labTests', {
       model: 'labSpecimens',
       key: 'id',
     },
+    onDelete: 'CASCADE',
+    allowNull: false
+
   },
 
   reasons: {

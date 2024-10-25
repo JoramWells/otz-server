@@ -42,6 +42,8 @@ PostDisclosure.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
@@ -49,6 +51,8 @@ PostDisclosure.init(
         model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
 
     isAddressedNegativeSelfImage: {
@@ -83,7 +87,6 @@ PostDisclosure.init(
     finalComments: {
       type: DataTypes.STRING,
     },
-
   },
   {
     sequelize: connect,

@@ -46,13 +46,17 @@ FollowUpChecklist.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     patientVisitID: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "patientVisits",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     followUpDate: {
       type: DataTypes.STRING,

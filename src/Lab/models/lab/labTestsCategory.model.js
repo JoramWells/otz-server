@@ -15,6 +15,10 @@ const LabTestCategory = sequelize.define('labTestCategories', {
       model: 'labSpecimens',
       key: 'id',
     },
+    onDelete: 'CASCADE',
+    allowNull: false
+
+
   },
 
   categoryName: {
