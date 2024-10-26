@@ -7,7 +7,6 @@ import { patientCache } from '../../constants'
 import { connect } from '../../domain/db/connect'
 import { Hospital } from '../../domain/models/hospital/hospital.model'
 import { NextOfKin } from '../../domain/models/nextOfKin.model'
-import { PatientVisits } from '../../domain/models/patientVisits.model'
 import { Patient } from '../../domain/models/patients.models'
 import { School } from '../../domain/models/school/school.model'
 import { logger } from '../../utils/logger'
@@ -340,7 +339,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
-    const { id, firstName, middleName, lastName, phoneNo, role, populationType } = data;
+    const { id, firstName, middleName, lastName, phoneNo, role, populationType, dob, dateConfirmedPositive, hospitalID } = data;
 
     // delete cache
     await this.redisClient.del(patientCache);
@@ -359,6 +358,9 @@ export class PatientRepository implements IPatientRepository {
       results.phoneNo = phoneNo;
       results.populationType = populationType;
       results.role = role;
+      results.dob = dob;
+      results.hospitalID = hospitalID;
+      results.dateConfirmedPositive = dateConfirmedPositive;
       await results.save();
     }
     return results;

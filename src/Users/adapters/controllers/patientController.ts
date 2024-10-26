@@ -219,7 +219,10 @@ export class PatientController {
         lastName,
         phoneNo,
         role,
-        populationType
+        populationType,
+        dateConfirmedPositive,
+        dob,
+        hospitalID,
       }: PatientAttributes = req.body;
       const values: PatientAttributes = {
         id,
@@ -229,6 +232,9 @@ export class PatientController {
         phoneNo,
         role,
         populationType,
+        dateConfirmedPositive,
+        dob,
+        hospitalID,
         //
         maritalStatus: "",
       };

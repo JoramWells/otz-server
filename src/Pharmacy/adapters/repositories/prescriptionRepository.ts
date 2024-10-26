@@ -228,7 +228,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   }
 
   async edit(data: PrescriptionInterface): Promise<PrescriptionInterface | null> {
-    const { id, frequency } = data;
+    const { id, frequency, noOfPills, expectedNoOfPills, nextRefillDate, refillDate } = data;
 
     // et patientVisitID
 
@@ -242,9 +242,9 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
     if (results) {
 
-      const nextRefillDate = new Date(results.refillDate)
-      const daysToAdd = parseInt(results.noOfPills, 10) / parseInt(frequency, 10);
-      nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd)
+      // const nextRefillDate = new Date(results.refillDate)
+      // const daysToAdd = parseInt(results.noOfPills, 10) / parseInt(frequency, 10);
+      // nextRefillDate.setDate(nextRefillDate.getDate() + daysToAdd)
 
       const currentAppointment = {
         patientVisitID: results.patientVisitID,
@@ -260,11 +260,11 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       // console.log('kafkaing!!..')
 
       results.frequency = frequency;
-      // results.middleName = middleName;
-      // results.lastName = lastName;
-      // results.phoneNo = phoneNo;
-      // results.role = role;
-      // await results.save();
+      results.noOfPills = noOfPills;
+      results.expectedNoOfPills = expectedNoOfPills;
+      results.nextRefillDate = nextRefillDate;
+      results.refillDate = refillDate;
+      await results.save();
     }
     return results;
   }

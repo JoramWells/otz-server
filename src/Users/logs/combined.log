@@ -2784,3 +2784,5 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-22T16:50:41.309Z"}
 {"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-10-23T13:36:36.046Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-23T13:36:36.438Z"}
+{"level":"info","message":"Fetched from db!","service":"user microservice api","timestamp":"2024-10-26T17:24:32.632Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-10-26T17:24:42.425Z"}

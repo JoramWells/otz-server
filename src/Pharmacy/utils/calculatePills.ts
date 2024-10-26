@@ -4,6 +4,7 @@ import { Op, Sequelize, col, fn } from 'sequelize'
 import { Patient } from '../domain/models/patients.models'
 import { ART } from '../domain/models/art/art.model'
 import { PrescriptionInterface } from 'otz-types'
+import { Uptake } from '../domain/models/treatmentplan/uptake.model'
 
 const calculatePills = async () => {
   const currentDate = moment().format('YYYY-MM-DD')
@@ -154,11 +155,6 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
     // if(art.noOfPills)
     const remainingPills = art.noOfPills - pillsTaken
     if (art.expectedNoOfPills === remainingPills) {
-      console.log(
-        remainingPills,
-        "Expected no of pills",
-        art.expectedNoOfPills
-      );
       
       arr.push({ ...art.dataValues, message: 'Patient Adhered', remainingPills } as any)
     } else {
@@ -173,4 +169,41 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
   return arr
 }
 
-export { calculatePills, calculatePills2 }
+const calculateAdherenceRates = async () =>{
+      const latestPrescription = await Prescription.findAll({
+        attributes: [
+          [fn("MAX", col("createdAt")), "createdAt"],
+          "patientID",
+          // "id",
+        ],
+        group: ["patientID", "artPrescriptionID"],
+        // where: {
+        //   patientID: id,
+        // },
+      });
+
+      const adherenceRates  ={}
+
+      for(const prescription of latestPrescription){
+        const {noOfPills, patientID, expectedNoOfPills, id} = prescription
+        const uptakes = await Uptake.findAll({
+          where :{
+            prescriptionID: prescription.id
+          }
+        })
+
+        const pillsTaken = uptakes.reduce((count, uptake)=>{
+          return count + (uptake.morningStatus ? 1 : 0) + (uptake.eveningStatus ? 1: 0)
+        }, 0)
+
+        const denominator = noOfPills-expectedNoOfPills
+        const adherenceRate = denominator > 0 ? (pillsTaken/denominator) * 100 : 0
+        adherenceRates[patientID] = adherenceRate
+      }
+
+      return adherenceRates
+
+}
+
+
+export { calculatePills, calculatePills2, calculateAdherenceRates }

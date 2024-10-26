@@ -142,10 +142,15 @@ export class PrescriptionController {
     try {
       const { id } = req.params;
       if (id === "undefined") return null;
-      const { frequency }: PrescriptionInterface = req.body;
+      const { frequency, noOfPills, expectedNoOfPills, refillDate, nextRefillDate }: PrescriptionInterface = req.body;
+      console.log(req.body)
       const values: PrescriptionInterface = {
         id,
         frequency,
+        noOfPills,
+        expectedNoOfPills,
+        refillDate,
+        nextRefillDate
       };
 
       const results = await this.interactor.editPrescription(values);
