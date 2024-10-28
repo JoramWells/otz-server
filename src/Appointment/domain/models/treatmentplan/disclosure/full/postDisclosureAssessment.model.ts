@@ -65,7 +65,7 @@ PostDisclosure.init(
       type: DataTypes.BOOLEAN,
     },
 
-    isAssessedPeerRelationshipAssessed: {
+    isPeerRelationshipAssessed: {
       type: DataTypes.BOOLEAN,
     },
 

@@ -1,7 +1,7 @@
 import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
 
 export interface IPostDisclosureInteractor {
-  createPostDisclosure: (data: PostDisclosureAttributes, disclose: ExecuteDisclosureAttributes  ) => Promise<PostDisclosureAttributes>;
+  createPostDisclosure: (data: PostDisclosureAttributes) => Promise<PostDisclosureAttributes>;
   getAllPostDisclosure: () => Promise<PostDisclosureAttributes[]>;
   getPostDisclosureById: (
     id: string

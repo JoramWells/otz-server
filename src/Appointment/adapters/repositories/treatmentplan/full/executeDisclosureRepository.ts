@@ -56,7 +56,7 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
     const results: ExecuteDisclosure | null =
       await ExecuteDisclosure.findOne({
         where: {
-          patientVisitID: id,
+          patientID: id,
         },
       });
 

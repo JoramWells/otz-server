@@ -129,7 +129,7 @@ export interface PostDisclosureAttributes {
   patientVisitID: string;
 
   isAssessedFunctionalSchoolEngagement: boolean;
-  isAssessedPeerRelationshipAssessed: boolean;
+  isPeerRelationshipAssessed: boolean;
   isAssessedChildEngagement: boolean;
   isChildQuestionsAllowed: boolean;
   isAddressedNegativeSelfImage: boolean;

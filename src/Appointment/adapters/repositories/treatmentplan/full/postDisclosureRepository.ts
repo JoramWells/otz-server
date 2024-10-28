@@ -2,21 +2,21 @@
 // import { logger } from '../../utils/logger'
 // import { mmasCache } from '../../../constants/appointmentCache';
 
-import { ExecuteDisclosureAttributes, PostDisclosureAttributes } from "otz-types";
+import { PostDisclosureAttributes } from "otz-types";
 import { IPostDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IPostDisclosureRepository";
 import { PostDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
 
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class DisclosureEligibilityRepository implements IPostDisclosureRepository {
+export class PostDisclosureRepository implements IPostDisclosureRepository {
   // private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(
-    data: PostDisclosureAttributes, readiness: ExecuteDisclosureAttributes
+    data: PostDisclosureAttributes 
   ): Promise<PostDisclosureAttributes> {
 
        return await PostDisclosure.create(data);
@@ -56,8 +56,9 @@ export class DisclosureEligibilityRepository implements IPostDisclosureRepositor
     // if ((await this.redisClient.get(id)) === null) {
     const results: PostDisclosure | null =
       await PostDisclosure.findOne({
+        order:[['createdAt', 'DESC']],
         where: {
-          patientVisitID: id,
+          patientID: id,
         },
       });
 
