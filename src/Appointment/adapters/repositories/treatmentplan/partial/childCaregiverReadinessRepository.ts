@@ -53,10 +53,13 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildCaregiverReadiness | null =
       await ChildCaregiverReadiness.findOne({
+              order:[['createdAt', 'DESC']],
         where: {
-          patientVisitID: id,
+          patientID:id,
         },
       });
+
+      console.log(results, 'resultx')
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,

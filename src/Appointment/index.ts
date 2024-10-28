@@ -35,6 +35,7 @@ import { appointmentMessageRouter } from "./routes/appointments/messages.routes"
 import { google } from "googleapis";
 import { attendeeRouter } from "./routes/events/attendee.routes";
 import { eventTypeRouter } from "./routes/events/eventType.routes";
+import { executeDisclosureRouter } from "./routes/treatmentplan/partial/full/executeDisclosure.routes";
 
 require("dotenv").config();
 
@@ -273,6 +274,7 @@ app.use("/follow-checklist", followUpChecklistRouter);
 app.use("/partial-disclosure", partialDisclosureRouter);
 app.use("/disclosure-eligibility", disclosureEligibilityRouter);
 app.use("/child-readiness", childCaregiverReadinessRouter);
+app.use("/execute-disclosure", executeDisclosureRouter);
 app.use("/appointment-messages", appointmentMessageRouter);
 app.use("/attendee", attendeeRouter);
 app.use("/event-type", eventTypeRouter);

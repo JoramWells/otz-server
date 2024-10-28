@@ -69,8 +69,9 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildDisclosureEligibility | null =
       await ChildDisclosureEligibility.findOne({
+        order:[['createdAt', 'DESC']],
         where: {
-          patientVisitID: id,
+          patientID: id,
         },
       });
 
