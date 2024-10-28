@@ -63,7 +63,7 @@ export class PostDisclosureController {
           };
 
       console.log(req.body);
-      const newProfile = await this.interactor.createPostDisclosure(disclosureData,readinessData);
+      const newProfile = await this.interactor.createPostDisclosure(req.body);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,

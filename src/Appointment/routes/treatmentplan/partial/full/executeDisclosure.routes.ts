@@ -7,7 +7,6 @@ const express = require("express");
 const router = express.Router();
 
 const repository = new ExecuteDisclosureRepository()
-();
 const interactor = new ExecuteDisclosureInteractor(repository);
 
 const controllers = new ExecuteDisclosureController(interactor);

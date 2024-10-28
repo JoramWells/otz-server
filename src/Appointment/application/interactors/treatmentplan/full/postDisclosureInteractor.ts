@@ -21,8 +21,8 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
     return await this.repository.findById(id);
   }
 
-  async createPostDisclosure(patientData: PostDisclosureAttributes, readiness: ExecuteDisclosureAttributes): Promise<PostDisclosureAttributes> {
-    return await this.repository.create(patientData, readiness);
+  async createPostDisclosure(data: PostDisclosureAttributes): Promise<PostDisclosureAttributes> {
+    return await this.repository.create(data);
   }
 
   async getAllPostDisclosureByVisitId(): Promise<PostDisclosureAttributes[]> {
