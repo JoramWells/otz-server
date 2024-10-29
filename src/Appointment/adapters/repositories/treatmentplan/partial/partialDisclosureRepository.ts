@@ -53,8 +53,9 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
     // if ((await this.redisClient.get(id)) === null) {
     const results: PartialDisclosure | null =
       await PartialDisclosure.findOne({
+        order:[['createdAt', 'DESC']],
         where: {
-           id,
+           patientID: id,
         },
       });
 

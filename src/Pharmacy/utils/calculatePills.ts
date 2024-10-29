@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { Prescription } from '../domain/models/art/prescription.model'
-import { Op, Sequelize, col, fn } from 'sequelize'
+import { Op, Sequelize, col, fn, literal } from 'sequelize'
 import { Patient } from '../domain/models/patients.models'
 import { ART } from '../domain/models/art/art.model'
 import { PrescriptionInterface } from 'otz-types'
@@ -168,42 +168,95 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
   }
   return arr
 }
+async function calculateAdherenceRateTimeSeries() {
+  // Fetch all prescriptions along with their related data
+  const prescriptions = await Prescription.findAll({
+    attributes: ["id", "noOfPills", "expectedNoOfPills"],
+    raw: true,
+  });
 
-const calculateAdherenceRates = async () =>{
-      const latestPrescription = await Prescription.findAll({
-        attributes: [
-          [fn("MAX", col("createdAt")), "createdAt"],
-          "patientID",
-          // "id",
-        ],
-        group: ["patientID", "artPrescriptionID"],
-        // where: {
-        //   patientID: id,
-        // },
-      });
+  // Create a map of prescription data for quick lookup
+  const prescriptionMap = prescriptions.reduce((map, prescription) => {
+    map[prescription.id] = prescription;
+    return map;
+  }, {});
 
-      const adherenceRates  ={}
+  // Fetch all Uptake records grouped by currentDate and prescriptionID
+  const uptakes = await Uptake.findAll({
+    attributes: [
+      "currentDate",
+      "prescriptionID",
+      [
+        fn(
+          "SUM",
+          literal('CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END')
+        ),
+        "morningCount",
+      ],
+      [
+        fn(
+          "SUM",
+          literal('CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END')
+        ),
+        "eveningCount",
+      ],
+    ],
+    group: ["currentDate", "prescriptionID"],
+    raw: true,
+  });
 
-      for(const prescription of latestPrescription){
-        const {noOfPills, patientID, expectedNoOfPills, id} = prescription
-        const uptakes = await Uptake.findAll({
-          where :{
-            prescriptionID: prescription.id
-          }
-        })
+  // Prepare a time series map to calculate total pills taken and expected per day
+  const timeSeries = {};
 
-        const pillsTaken = uptakes.reduce((count, uptake)=>{
-          return count + (uptake.morningStatus ? 1 : 0) + (uptake.eveningStatus ? 1: 0)
-        }, 0)
+  for (const uptake of uptakes) {
+    const { currentDate, prescriptionID, morningCount, eveningCount } = uptake;
 
-        const denominator = noOfPills-expectedNoOfPills
-        const adherenceRate = denominator > 0 ? (pillsTaken/denominator) * 100 : 0
-        adherenceRates[patientID] = adherenceRate
-      }
+    // Get the prescription details from the map
+    const prescription = prescriptionMap[prescriptionID];
+    if (!prescription) continue;
 
-      return adherenceRates
+    const { noOfPills, expectedNoOfPills } = prescription;
 
+    // Initialize the date entry if not present
+    if (!timeSeries[currentDate]) {
+      timeSeries[currentDate] = {
+        totalPillsTaken: 0,
+        totalNoOfPills: 0,
+        totalExpectedNoOfPills: 0,
+      };
+    }
+
+    // Update the totals for the current date
+    const dailyEntry = timeSeries[currentDate];
+    dailyEntry.totalPillsTaken +=
+      parseInt(morningCount, 10) + parseInt(eveningCount, 10);
+    dailyEntry.totalNoOfPills += noOfPills;
+    dailyEntry.totalExpectedNoOfPills += expectedNoOfPills;
+  }
+
+  // Calculate adherence rate for each day
+  const adherenceRateTimeSeries = Object.keys(timeSeries).map((date) => {
+    const { totalPillsTaken, totalNoOfPills, totalExpectedNoOfPills } =
+      timeSeries[date];
+    const denominator = totalNoOfPills - totalExpectedNoOfPills;
+    const adherenceRate =
+      denominator > 0 ? (totalPillsTaken / denominator) * 100 : 0;
+
+    return {
+      date,
+      adherenceRate,
+    };
+  });
+
+  return adherenceRateTimeSeries;
 }
 
+calculateAdherenceRateTimeSeries()
+  .then((timeSeries) => {
+    console.log("Adherence Rate Time Series:", timeSeries);
+  })
+  .catch((err) => {
+    console.error("Error calculating adherence rate time series:", err);
+  });
 
-export { calculatePills, calculatePills2, calculateAdherenceRates }
+export { calculatePills, calculatePills2, calculateAdherenceRateTimeSeries };
