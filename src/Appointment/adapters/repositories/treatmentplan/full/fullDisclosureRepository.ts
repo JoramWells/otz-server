@@ -52,12 +52,12 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
   async findById(id: string): Promise<FullDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: FullDisclosure | null =
-      await FullDisclosure.findOne({
-        where: {
-           id,
-        },
-      });
+    const results: FullDisclosure | null = await FullDisclosure.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        id,
+      },
+    });
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,

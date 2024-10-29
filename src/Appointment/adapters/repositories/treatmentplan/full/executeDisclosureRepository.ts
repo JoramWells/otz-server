@@ -53,12 +53,12 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
   async findById(id: string): Promise<ExecuteDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: ExecuteDisclosure | null =
-      await ExecuteDisclosure.findOne({
-        where: {
-          patientID: id,
-        },
-      });
+    const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: id,
+      },
+    });
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,
