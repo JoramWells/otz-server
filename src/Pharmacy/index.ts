@@ -25,7 +25,7 @@ import { initSentry } from './config/sentryInit'
 import { sendRefillNotification } from './utils/sendRefillNotification'
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes'
 import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes'
-import { calculateAdherenceRateTimeSeries, calculatePills2 } from './utils/calculatePills'
+import { calculatePills2 } from './utils/calculatePills'
 import { adherenceMonitor2 } from './utils/adherence2'
 import { scheduleJob } from 'node-schedule'
 import { homeVisitReasonRouter } from './routes/homevisit/homeVisitReason.routes'
@@ -130,7 +130,7 @@ io.on('connection', socket=>{
 })
 
 
-// calculateAdherenceRateTimeSeries()
+
 
 // confirm cors
 app.use('/art-regimen', artRouter)
