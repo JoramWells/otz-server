@@ -7,7 +7,7 @@ import { connect } from "../../domain/db/connect";
 
 import { Prescription } from "../../domain/models/art/prescription.model";
 import { calculateFacilityAdherence } from "../../utils/adherence";
-import { calculatePills2 } from "../../utils/calculatePills";
+import { calculateAdherenceRateTimeSeries, calculatePills2 } from "../../utils/calculatePills";
 import { KafkaAdapter } from "../kafka/producer/kafka.producer";
 import { col, fn, Op, Sequelize } from "sequelize";
 import { Patient } from "../../domain/models/patients.models";
@@ -147,7 +147,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
   }
 
   async findFacilityAdherence(): Promise<string | number> {
-    const facilityAdherence = await calculateFacilityAdherence();
+    const facilityAdherence = await calculateAdherenceRateTimeSeries();
     return facilityAdherence;
   }
 

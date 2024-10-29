@@ -5,6 +5,7 @@ import { Patient } from '../domain/models/patients.models'
 import { ART } from '../domain/models/art/art.model'
 import { PrescriptionInterface } from 'otz-types'
 import { Uptake } from '../domain/models/treatmentplan/uptake.model'
+import { Adherence } from '../domain/models/adherence/adherence.model'
 
 const calculatePills = async () => {
   const currentDate = moment().format('YYYY-MM-DD')
@@ -181,29 +182,42 @@ async function calculateAdherenceRateTimeSeries() {
     return map;
   }, {});
 
+  
   // Fetch all Uptake records grouped by currentDate and prescriptionID
-  const uptakes = await Uptake.findAll({
+  const uptakes = await Adherence.findAll({
     attributes: [
-      "currentDate",
-      "prescriptionID",
+      'currentDate',
+      'prescriptionID',
       [
-        fn(
-          "SUM",
-          literal('CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END')
+        Sequelize.literal(
+          'SUM(CASE WHEN "morningStatus" = true THEN 1 ELSE 0 END)'
         ),
         "morningCount",
       ],
       [
-        fn(
-          "SUM",
-          literal('CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END')
+        Sequelize.literal(
+          'SUM(CASE WHEN "morningStatus" = false THEN 1 ELSE 0 END)'
+        ),
+        "morningFalseCount",
+      ],
+      [
+        Sequelize.literal(
+          'SUM(CASE WHEN "eveningStatus" = true THEN 1 ELSE 0 END)'
         ),
         "eveningCount",
+      ],
+      [
+        Sequelize.literal(
+          'SUM(CASE WHEN "eveningStatus" = false THEN 1 ELSE 0 END)'
+        ),
+        "eveningFalseCount",
       ],
     ],
     group: ["currentDate", "prescriptionID"],
     raw: true,
   });
+
+  console.log(uptakes, 'uptakes')
 
   // Prepare a time series map to calculate total pills taken and expected per day
   const timeSeries = {};
