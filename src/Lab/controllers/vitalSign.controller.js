@@ -5,6 +5,7 @@ const { Sequelize } = require('sequelize');
 const PatientVisits = require('../models/patient/patientVisits.model');
 const VitalSign = require('../models/vitalSigns.model');
 const connect = require('../db/connect');
+const Patient = require('../models/patient/patients.models');
 
 // using *Patients model
 const addVitalSign = async (req, res, next) => {
@@ -22,7 +23,15 @@ const addVitalSign = async (req, res, next) => {
 // get all priceListItems
 const getAllVitalSigns = async (req, res, next) => {
   try {
-    const patients = await VitalSign.findAll();
+    const patients = await VitalSign.findAll({
+      include:[
+        {
+          model: Patient,
+          attributes:['firstName', 'middleName', 'avatar']
+        }
+      ],
+      // raw: true
+    });
     res.json(patients);
     next();
   } catch (error) {
