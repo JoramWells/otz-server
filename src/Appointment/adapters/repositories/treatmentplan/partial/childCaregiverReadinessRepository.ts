@@ -3,6 +3,7 @@
 import { ChildCaregiverReadinessAttributes } from 'otz-types';
 import { IChildCaregiverRepository } from '../../../../application/interfaces/disclosure/partial/IChildCaregiverRepository';
 import { ChildCaregiverReadiness } from '../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model';
+import { Patient } from '../../../../domain/models/patients.models';
 // import { mmasCache } from '../../../constants/appointmentCache';
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -26,7 +27,14 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await ChildCaregiverReadiness.findAll({});
+    const results = await ChildCaregiverReadiness.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "avatar"],
+        },
+      ],
+    });
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace
@@ -59,7 +67,6 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
         },
       });
 
-      console.log(results, 'resultx')
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,
