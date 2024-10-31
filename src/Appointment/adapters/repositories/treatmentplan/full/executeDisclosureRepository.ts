@@ -4,6 +4,7 @@
 import { ExecuteDisclosureAttributes } from "otz-types";
 import { IExecuteDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IExecuteDisclosureRepository";
 import { ExecuteDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
+import { Patient } from "../../../../domain/models/patients.models";
 
 // import { mmasCache } from '../../../constants/appointmentCache';
 // import { RedisAdapter } from '../redisAdapter'
@@ -28,7 +29,14 @@ export class ExecuteDisclosureRepository implements IExecuteDisclosureRepository
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await ExecuteDisclosure.findAll({});
+    const results = await ExecuteDisclosure.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "avatar"],
+        },
+      ],
+    });
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace
