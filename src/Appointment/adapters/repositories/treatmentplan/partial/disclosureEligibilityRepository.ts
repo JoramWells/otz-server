@@ -7,6 +7,7 @@ import { connect } from '../../../../db/connect';
 import { ChildCaregiverReadiness } from '../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model';
 import { ChildDisclosureEligibility } from '../../../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model';
 import { PartialDisclosure } from '../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model';
+import { Patient } from '../../../../domain/models/patients.models';
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
@@ -37,12 +38,20 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
 
   }
 
+  
   async find(): Promise<ChildDisclosureEligibilityAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await ChildDisclosureEligibility.findAll({});
+    const results = await ChildDisclosureEligibility.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "avatar"],
+        },
+      ],
+    });
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace

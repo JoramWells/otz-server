@@ -5,6 +5,7 @@
 import { PostDisclosureAttributes } from "otz-types";
 import { IPostDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IPostDisclosureRepository";
 import { PostDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
+import { Patient } from "../../../../domain/models/patients.models";
 
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -29,7 +30,14 @@ export class PostDisclosureRepository implements IPostDisclosureRepository {
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await PostDisclosure.findAll({});
+    const results = await PostDisclosure.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "avatar"],
+        },
+      ],
+    });
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace
