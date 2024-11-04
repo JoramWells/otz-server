@@ -34,13 +34,13 @@ class FacilityMapsAdmin(admin.ModelAdmin):
 
 
 
-class CSVFileAdmin(admin.ModelAdmin):
-    list_display = ('file',)
+class LineListAdmin(admin.ModelAdmin):
+    list_display = ('file','userID',)
 
 admin.site.register(Patients, PatientsAdmin)
 admin.site.register(ArtPrescription, ArtAdmin)
 admin.site.register(VitalSigns, VSAdmin)
 admin.site.register(Prescription, PrescriptionAdmin)
 admin.site.register(ViralLoad, ViralLoadAdmin)
-admin.site.register(CSVFile, CSVFileAdmin)
+admin.site.register(CSVFile, LineListAdmin)
 admin.site.register(FacilityMAPS, FacilityMapsAdmin)

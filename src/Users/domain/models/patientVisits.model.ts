@@ -44,7 +44,7 @@ PatientVisits.init(
     },
     type: {
       type: DataTypes.ENUM(...Object.values(PatientVisitType)),
-      defaultValue: PatientVisitType.SelfCare,
+      defaultValue: PatientVisitType.ClinicalEncounter,
       allowNull: false,
     },
   },

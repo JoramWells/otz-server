@@ -78,6 +78,6 @@ ARTPrescription.init(
 ARTPrescription.belongsTo(Patient, { foreignKey: 'patientID' })
 
 // (async () => {
-// connect.sync()
+connect.sync()
 // console.log('ART Categorygt Table synced Successfully')
 // })();

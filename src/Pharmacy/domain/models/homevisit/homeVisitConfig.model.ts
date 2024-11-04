@@ -90,6 +90,7 @@ HomeVisitConfig.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
 // Patient.belongsTo(Hospital, { foreignKey: 'hospitalID' })
 
+
 // (async () => {
 connect.sync()
 // console.log('Patient Table synced successfully')

@@ -1,6 +1,8 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { LineListCSVInterface } from "otz-types";
+import { User } from "../user.model";
+import { Hospital } from "../hospital/hospital.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
@@ -21,11 +23,29 @@ LineListCSV.init(
       defaultValue: UUIDV4,
     },
 
-
     file: {
       type: DataTypes.STRING,
-      allowNull:false
-
+      allowNull: false,
+    },
+    userID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      // onDelete: "SET NULL",
+      onDelete: "CASCADE",
+      allowNull: true,
+      // unique: true,
+    },
+    hospitalID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "hospitals",
+        key: "id",
+      },
+      // allowNull: false,`
+      onDelete: "CASCADE",
     },
   },
   {
@@ -39,7 +59,10 @@ LineListCSV.init(
 );
 
 
+
+LineListCSV.belongsTo(User, { foreignKey: "userID" });
+LineListCSV.belongsTo(Hospital, { foreignKey: "hospitalID" });
 // (async () => {
-// void connect.sync({alter:true})
-// console.log('Patient Table synced successfully')
+void connect.sync()
+console.log('Patient Table synced successfully')
 // })()

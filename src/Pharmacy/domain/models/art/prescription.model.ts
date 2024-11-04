@@ -47,10 +47,12 @@ Prescription.init(
         model: "patientVisits",
         key: "id",
       },
-      allowNull: false,
+      // allowNull: false,
       unique: true,
       onDelete: "CASCADE",
     },
+
+    
     artPrescriptionID: {
       type: DataTypes.UUID,
       references: {
@@ -61,14 +63,12 @@ Prescription.init(
       onDelete: "CASCADE",
     },
     noOfPills: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
     },
     frequency: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 1,
     },
     refillDate: {
       type: DataTypes.DATE,
@@ -79,13 +79,11 @@ Prescription.init(
     },
     expectedNoOfPills: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
     },
     computedNoOfPills: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
+      // allowNull: false,
+      // defaultValue: 0,
     },
     isCompleted: {
       type: DataTypes.BOOLEAN,
@@ -126,15 +124,14 @@ Prescription.belongsTo(ARTPrescription, {
   foreignKey: "artPrescriptionID",
   constraints: false,
 });
-
 // Prescription.afterCreate(async () => {
 //   await adherenceMonitor2();
 // });
 
-// void connect
-//   .sync({alter: true })
-//   .then(async () => {
-//     console.log('Prescription table created successfully!!')
-//   })
+void connect
+  .sync()
+  .then(async () => {
+    console.log('Prescription table created successfully!!')
+  })
 
 // export { Caregiver }

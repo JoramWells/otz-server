@@ -7,11 +7,13 @@ class PatientsSerializer(serializers.ModelSerializer):
         fields = ['vlJustification']
 
 class LineListSerializer(serializers.ModelSerializer):
-    # file = serializers.FileField()
+    file = serializers.FileField()
+    userID = serializers.CharField()
+    hospitalID = serializers.CharField()
 
     class Meta:
         model = CSVFile
-        fields = ('file',)
+        fields = ('file','userID', 'hospitalID',)
 
 
 class CSVFileSerializer(serializers.ModelSerializer):

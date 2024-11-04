@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 import { Patient } from '../../domain/models/patients.models';
 
 export class UserRepository implements IUserRepository {
-  async create (data: UserInterface): Promise<UserInterface> {
+  async create(data: UserInterface): Promise<UserInterface> {
     const {
       firstName,
       middleName,
@@ -15,8 +15,11 @@ export class UserRepository implements IUserRepository {
       dob,
       phoneNo,
       sex,
-      idNo, email, countyID, password
-    } = data
+      idNo,
+      email,
+      countyID,
+      password,
+    } = data;
 
     const results = await User.create({
       firstName,
@@ -28,8 +31,8 @@ export class UserRepository implements IUserRepository {
       countyID,
       sex,
       password,
-      idNo
-    })
+      idNo,
+    });
     const user: UserInterface = {
       id: results.id,
       firstName: results.firstName,
@@ -38,31 +41,68 @@ export class UserRepository implements IUserRepository {
       countyID,
       phoneNo,
       idNo,
-      lastName: '',
-      dob: '',
-      email: '',
-      password: ''
-    }
-    return user
+      lastName: "",
+      dob: "",
+      email: "",
+      password: "",
+    };
+    return user;
   }
 
-  async find (): Promise<UserInterface[]> {
-    const results = await User.findAll({})
-    return results
+  async find(): Promise<UserInterface[]> {
+    const results = await User.findAll({});
+    return results;
   }
 
-  async findById (id: string): Promise<UserInterface | null> {
+  async findById(id: string): Promise<UserInterface | null> {
     const results = await User.findOne({
       where: {
-        id
-      }
-    }
-    )
+        id,
+      },
+    });
 
-    return results
+    return results;
   }
 
-  async login (firstName: string, password: string): Promise<UserInterface | null> {
+  async edit(data: UserInterface): Promise<UserInterface | null> {
+    const {
+      id,
+      firstName,
+      middleName,
+      lastName,
+      phoneNo,
+
+      dob,
+      hospitalID,
+    } = data;
+
+    // delete cache
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+
+    const results = await User.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results) {
+      results.firstName = firstName;
+      results.middleName = middleName;
+      results.lastName = lastName;
+      results.phoneNo = phoneNo;
+
+      results.dob = dob;
+      results.hospitalID = hospitalID;
+      await results.save();
+    }
+    return results;
+  }
+
+  async login(
+    firstName: string,
+    password: string
+  ): Promise<UserInterface | null> {
     try {
       const user: User | null = await User.findOne({
         where: { firstName: firstName },
@@ -82,5 +122,19 @@ export class UserRepository implements IUserRepository {
       console.log("Error comparing password!!", error);
       throw new Error("Error logging in user");
     }
+  }
+
+  //
+  async delete(id: string): Promise<number | null> {
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+    const results: number | null = await User.destroy({
+      where: {
+        id,
+      },
+    });
+    console.log("deleted cache!!");
+
+    return results;
   }
 }
