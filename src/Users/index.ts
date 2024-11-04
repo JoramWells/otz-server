@@ -21,6 +21,7 @@ import { patientRouter } from './routes/patient.routes'
 import { PatientSessionLog } from './domain/models/patientSessionLog.model'
 import { PatientAttributes } from 'otz-types'
 import { patientSessionLogRouter } from './routes/patientSessionLog.routes'
+import { Patient } from './domain/models/patients.models'
 const cors = require('cors')
 const app: Application = express()
 
@@ -108,20 +109,23 @@ io.on('connection', socket=>{
     onlineUsers = onlineUsers.filter(user=> user.clientId !== socket.id)
     io.emit('getOnlineUsers', onlineUsers)
 
-        // 
 
     // 
     const disconnectedAt = new Date()
     const duration = Math.floor((disconnectedAt-connectedAt)/1000)
 
-    // 
+    // check if the user is present in the db
     if(socketPatientID !== 'undefined'){
-        await PatientSessionLog.create({
+    const isPresent = await Patient.findByPk(socketPatientID)
+    if(isPresent){
+       await PatientSessionLog.create({
         patientID: socketPatientID,
         connectedAt,
         disconnectedAt,
         duration
       })
+    }
+ 
     }
     
 

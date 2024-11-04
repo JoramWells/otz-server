@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize')
 import { UserInterface } from "otz-types";
+import { Hospital } from './hospital/hospital.model';
 // const County = require('./location/county.model')
 
 
@@ -63,13 +64,23 @@ User.init(
     },
     password: {
       type: DataTypes.STRING
-    }
+    },
+   hospitalID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "hospitals",
+        key: "id",
+      },
+      // allowNull: false,
+      onDelete: "CASCADE",
+    },
   },
   {
     sequelize: connect,
     tableName: 'users'
   }
 )
+
 
 async function generateDefaultHashedPassword() {
   const password = "12345678";
@@ -83,9 +94,12 @@ User.beforeCreate(async (patient) => {
   patient.password = await generateDefaultHashedPassword();
 });
 
+User.belongsTo(Hospital, { foreignKey: "hospitalID" });
+
+
 // User.belongsTo(County, { foreignKey: 'countyID' })
 
 // (async () => {
-//   await sequelize.sync();
-//   console.log('User Table synced successfully');
+  void connect.sync();
+  console.log('User Table synced successfully');
 // })();

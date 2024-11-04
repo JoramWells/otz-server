@@ -17,6 +17,7 @@ export enum UserRoles {
   patient = "patient",
 }
 
+
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
   role!: UserRoles;
   entryPoint?: string | undefined;
@@ -53,7 +54,6 @@ Patient.init(
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
       defaultValue: UUIDV4,
     },
     firstName: {
@@ -100,7 +100,7 @@ Patient.init(
     },
 
     ageAtReporting: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     dateConfirmedPositive: {
       type: DataTypes.DATE,
@@ -108,6 +108,13 @@ Patient.init(
     initialRegimen: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    NUPI: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    enrollmentDate: {
+      type: DataTypes.DATE,
     },
     populationType: {
       type: DataTypes.STRING,
@@ -122,6 +129,12 @@ Patient.init(
     },
     hospitalID: {
       type: DataTypes.UUID,
+      references: {
+        model: "hospitals",
+        key: "id",
+      },
+      // allowNull: false,`
+      onDelete: "CASCADE",
     },
     isImportant: {
       type: DataTypes.BOOLEAN,
@@ -138,10 +151,10 @@ Patient.init(
         model: "users",
         key: "id",
       },
-      onDelete: "SET NULL",
-      onUpdate: "CASCADE",
+      // onDelete: "SET NULL",
+      onDelete: "CASCADE",
       allowNull: true,
-      unique: true
+      unique: true,
     },
     role: {
       type: DataTypes.ENUM(...Object.values(UserRoles)),
@@ -198,7 +211,7 @@ Patient.afterCreate(async () => {
 
 Patient.belongsTo(School, { foreignKey: "schoolID" });
 Patient.belongsTo(User, { foreignKey: "userID" });
-Patient.belongsTo(Hospital, { foreignKey: "hospitalID", constraints: false });
+Patient.belongsTo(Hospital, { foreignKey: "hospitalID" });
 
 // const syncDB = async () => {
 //   try {
@@ -210,7 +223,6 @@ Patient.belongsTo(Hospital, { foreignKey: "hospitalID", constraints: false });
 // }
 
 // void syncDB()
-
-// (async () => {
-// console.log('Patient Table synced successfully')
-// })()
+// void connect.sync().then(async () => {
+//   console.log("Patient table created successfully!!");
+// });
