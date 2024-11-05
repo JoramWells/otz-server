@@ -31,7 +31,7 @@ export class UserInteractor implements IUserInteractor {
     return await this.repository.edit(data);
   }
 
-  async login(email: string, password: string): Promise<UserInterface | null> {
-    return await this.repository.login(email, password);
+  async login(email: string, password: string, hospitalID: string): Promise<UserInterface | null> {
+    return await this.repository.login(email, password, hospitalID);
   }
 }

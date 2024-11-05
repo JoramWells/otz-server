@@ -81,9 +81,13 @@ export class UserController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { firstName, password } = req.body;
-      const results = await this.interactor.login(firstName, password);
+      const { firstName, password, hospitalID } = req.body;
+      const results = await this.interactor.login(firstName, password, hospitalID);
+      if(results !== null){
       res.status(200).json(results);
+
+      }
+      else{res.status(400).json({message: 'Invalid user credentials!!'})}
       next();
     } catch (error) {
       next(error);

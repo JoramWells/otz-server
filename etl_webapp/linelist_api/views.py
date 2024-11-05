@@ -235,10 +235,21 @@ class LineListView(generics.CreateAPIView):
         userID = request.data.get("userID")
         hospitalID = request.data.get("hospitalID")
         
-        user = User.objects.get(id=userID)
-        hospital = Hospital.objects.get(id=hospitalID)
+
         
-        print(request.data, 'request-data')
+        if not userID or not hospitalID:
+            return Response({"error":'userID or hospitalID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.get(id=userID)
+            hospital = Hospital.objects.get(id=hospitalID)
+        except User.DoesNotExist:
+            return Response({"error": f"User with ID {userID} doe not exist"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            hospital = Hospital.objects.get(id=hospitalID)
+        except Hospital.DoesNotExist:
+            return Response({"error": f"Hospital with ID {hospitalID} doe not exist"}, status=status.HTTP_400_BAD_REQUEST)    
 
         if file_serializer.is_valid():
             file_serializer.validated_data['userID'] = user

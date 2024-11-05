@@ -101,11 +101,12 @@ export class UserRepository implements IUserRepository {
 
   async login(
     firstName: string,
-    password: string
+    password: string,
+    hospitalID: string
   ): Promise<UserInterface | null> {
     try {
       const user: User | null = await User.findOne({
-        where: { firstName: firstName },
+        where: { firstName: firstName, hospitalID: hospitalID },
       });
 
       if (user !== null && user.password) {

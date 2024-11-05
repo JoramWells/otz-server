@@ -67,29 +67,37 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
     });
 
     // 
-        const results = await ARTPrescription.findAll({
-          where: {
-            [Op.or]: latestArtPrescription.map((date) => ({
-              patientID: date.patientID,
-              createdAt: date.get("latestCreatedAt"),
-            })),
-          } as any,
+        // const results = await ARTPrescription.findAll({
+        //   where: {
+        //     [Op.or]: latestArtPrescription.map((date) => ({
+        //       patientID: date.patientID,
+        //       createdAt: date.get("latestCreatedAt"),
+        //     })),
+        //   } as any,
 
-          attributes: [
-            "patientID",
-            "regimen",
-            "changeReason",
-            "stopReason",
-            "startDate",
-            "stopDate",
-            "changeDate",
-            // 'Patient.id',
-            "line",
-            // "Patient.id",
-            // "Patient.firstName",
-            // "Patient.middleName",
-          ],
-        });
+        //   attributes: [
+        //     "patientID",
+        //     "regimen",
+        //     "changeReason",
+        //     "stopReason",
+        //     "startDate",
+        //     "stopDate",
+        //     "changeDate",
+        //     // 'Patient.id',
+        //     "line",
+        //     // "Patient.id",
+        //     // "Patient.firstName",
+        //     // "Patient.middleName",
+        //   ],
+        // });
+
+        const results  = ARTPrescription.findAll({
+          order:[['createdAt', 'DESC']],
+          where:{
+            isSwitched: false
+          }
+          // limit: 1
+        })
     return results;
   }
 

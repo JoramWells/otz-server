@@ -93,15 +93,15 @@ class VitalSigns(models.Model):
 class ArtPrescription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
-    startDate = models.DateTimeField(auto_now_add=True)
+    startDate = models.DateTimeField()
     regimen = models.CharField(max_length=100)
     isStandard = models.BooleanField()
     isSwitched = models.BooleanField()
     line = models.CharField(max_length=100)
     changeReason = models.CharField(max_length=100)
     stopReason = models.CharField(max_length=100)
-    changeDate = models.DateTimeField(auto_now_add=True)
-    stopDate = models.DateTimeField(auto_now_add=True)
+    changeDate = models.DateTimeField()
+    stopDate = models.DateTimeField()
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now_add=True)
 
