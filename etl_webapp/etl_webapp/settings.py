@@ -126,13 +126,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # DOC_ROOT = os.path(BASE_DIR, 'docs')
 # DOC_URL = '/docs/'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://192.168.100.124:3000",
-    'https://otzplus.xyz'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://192.168.100.124:3000",
+#     'https://otzplus.xyz'
+# ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = [
     'content-type',
