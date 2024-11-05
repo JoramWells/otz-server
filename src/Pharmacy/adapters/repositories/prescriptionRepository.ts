@@ -57,11 +57,11 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         {
           model: Patient,
           attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
-          where:{
-            dob:{
-              [Op.gte]: maxDate
-            }
-          }
+          // where:{
+          //   dob:{
+          //     [Op.lte]: maxDate
+          //   }
+          // }
         },
 
         {

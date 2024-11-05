@@ -221,11 +221,11 @@ export class AppointmentRepository implements IAppointmentRepository {
               "isImportant",
               "dob",
             ],
-            where: {
-              dob: {
-                [Op.gte]: maxDate,
-              },
-            },
+            // where: {
+            //   dob: {
+            //     [Op.gte]: maxDate,
+            //   },
+            // },
           },
           {
             model: User,

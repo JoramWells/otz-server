@@ -140,11 +140,11 @@ export class PatientRepository implements IPatientRepository {
           //     ]
           //   }
         ],
-        where: {
-          dob: {
-            [Op.gte]: maxDate,
-          },
-        },
+        // where: {
+        //   dob: {
+        //     [Op.gte]: maxDate,
+        //   },
+        // },
       });
       logger.info({ message: "Fetched from db!" });
       console.log("fetched from db!");
