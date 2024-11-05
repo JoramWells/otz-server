@@ -113,6 +113,11 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async find(): Promise<PatientAttributes[]> {
+        const currentDate = new Date();
+    const maxDate = new Date(
+      currentDate.setFullYear(currentDate.getFullYear()) - 25
+    );
+
     // await this.redisClient.connect();
     // check if patient
     if ((await this.redisClient.get(patientCache)) === null) {
@@ -123,6 +128,7 @@ export class PatientRepository implements IPatientRepository {
             model: Hospital,
             attributes: ["hospitalName"],
           },
+
           //   {
           //     model: ViralLoad,
           //     attributes: [
@@ -134,6 +140,11 @@ export class PatientRepository implements IPatientRepository {
           //     ]
           //   }
         ],
+        where: {
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        },
       });
       logger.info({ message: "Fetched from db!" });
       console.log("fetched from db!");
