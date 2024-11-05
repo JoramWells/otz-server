@@ -192,6 +192,9 @@ export class AppointmentRepository implements IAppointmentRepository {
     // check if patient
 
     const currentDate = new Date();
+        const maxDate = new Date(
+          currentDate.setFullYear(currentDate.getFullYear()) - 25
+        );
 
     if (dateQuery === "weekly") {
       const { start, end } = getWeekRange(currentDate);
@@ -216,7 +219,13 @@ export class AppointmentRepository implements IAppointmentRepository {
               "dob",
               "sex",
               "isImportant",
+              "dob",
             ],
+            where: {
+              dob: {
+                [Op.gte]: maxDate,
+              },
+            },
           },
           {
             model: User,

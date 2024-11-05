@@ -46,6 +46,9 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
   async find(dateQuery: string): Promise<PrescriptionInterface[]> {
 
+    const currentDate = new Date()
+    const maxDate = new Date(currentDate.setFullYear(currentDate.getFullYear())-25)
+
     if(dateQuery === 'all'){
 
     const results = await Prescription.findAll({
@@ -53,7 +56,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       include: [
         {
           model: Patient,
-          attributes: ["id", "firstName", "middleName", "isImportant"],
+          attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
+          where:{
+            dob:{
+              [Op.gte]: maxDate
+            }
+          }
         },
 
         {
@@ -90,7 +98,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     });
 
     const results = await Prescription.findAll({
-      order:[['updatedAt', 'ASC']],
+      order: [["updatedAt", "ASC"]],
       where: {
         [Op.and]: [
           {
@@ -112,7 +120,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       include: [
         {
           model: Patient,
-          attributes: ["id", "firstName", "middleName", "isImportant"],
+          attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
+          where: {
+            dob: {
+              [Op.gte]: maxDate,
+            },
+          },
         },
 
         {
@@ -121,7 +134,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         },
       ],
       attributes: [
-        'id',
+        "id",
         "expectedNoOfPills",
         "computedNoOfPills",
         "frequency",
