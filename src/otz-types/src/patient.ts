@@ -44,6 +44,7 @@ export interface PatientAttributes {
   password?: string;
   username?: string;
   userID?: string;
+  NUPI?: string;
   occupationID?: string;
   cccNo?: string;
   ageAtReporting?: string;
@@ -85,6 +86,7 @@ export interface UserInterface {
   password?: string;
   dob: string;
   idNo: string;
+  hospitalID?: string;
 }
 
 
