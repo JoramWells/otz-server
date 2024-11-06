@@ -128,6 +128,7 @@ export class PatientRepository implements IPatientRepository {
             model: Hospital,
             attributes: ["hospitalName"],
           },
+          
 
           //   {
           //     model: ViralLoad,

@@ -53,6 +53,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
     const results = await Prescription.findAll({
 
+
       include: [
         {
           model: Patient,
@@ -121,11 +122,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         {
           model: Patient,
           attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
-          where: {
-            dob: {
-              [Op.gte]: maxDate,
-            },
-          },
         },
 
         {
