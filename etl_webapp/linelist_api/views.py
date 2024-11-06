@@ -409,78 +409,78 @@ class LineListView(generics.CreateAPIView):
 
                     )
 
-                    appointment = get_or_create_appointment(
-                        patientID = new_patients,
-                        patientVisitID=patientVisit,
-                        userID=user,
-                        appointmentStatusID = upcomingAppointmentStatus,
-                        appointmentAgendaID = clinicVisitAgenda,
-                        appointmentDate = clinicVisitDate
-                    )
+                    # appointment = get_or_create_appointment(
+                    #     patientID = new_patients,
+                    #     patientVisitID=patientVisit,
+                    #     userID=user,
+                    #     appointmentStatusID = upcomingAppointmentStatus,
+                    #     appointmentAgendaID = clinicVisitAgenda,
+                    #     appointmentDate = clinicVisitDate
+                    # )
 
                     # 
-                    appointmentRefill= get_or_create_appointment(
-                        patientID = new_patients,
-                        patientVisitID=patientVisit,
-                        userID=user,
-                        appointmentStatusID = upcomingAppointmentStatus,
-                        appointmentAgendaID = refillAgenda,
-                        appointmentDate = nextRefillDate
-                    )
+                    # appointmentRefill= get_or_create_appointment(
+                    #     patientID = new_patients,
+                    #     patientVisitID=patientVisit,
+                    #     userID=user,
+                    #     appointmentStatusID = upcomingAppointmentStatus,
+                    #     appointmentAgendaID = refillAgenda,
+                    #     appointmentDate = nextRefillDate
+                    # )
 
                     # 
-                    appointmentViralLoad= get_or_create_appointment(
-                        userID=user,
-                        patientID = new_patients,
-                        patientVisitID=patientVisit,
-                        appointmentStatusID = upcomingAppointmentStatus,
-                        appointmentAgendaID = vlAgenda,
-                        appointmentDate = nextVLAppointmentDate
-                    )
+                    # appointmentViralLoad= get_or_create_appointment(
+                    #     userID=user,
+                    #     patientID = new_patients,
+                    #     patientVisitID=patientVisit,
+                    #     appointmentStatusID = upcomingAppointmentStatus,
+                    #     appointmentAgendaID = vlAgenda,
+                    #     appointmentDate = nextVLAppointmentDate
+                    # )
 
-                    firstRegimen = get_or_create_art_prescription(
-                        patientID = new_patients,
-                        startDate=artStartDate,
-                        isStandard=True,
-                        regimen=row['First Regimen'],
-                        line='First line',
-                        isSwitched = True
+                    # firstRegimen = get_or_create_art_prescription(
+                    #     patientID = new_patients,
+                    #     startDate=artStartDate,
+                    #     isStandard=True,
+                    #     regimen=row['First Regimen'],
+                    #     line='First line',
+                    #     isSwitched = True
 
-                    )
+                    # )
 
-                    currentRegimen = get_or_create_art_prescription(
-                        patientID = new_patients,
-                        startDate=artStartDate,
-                        isStandard=True,
-                        regimen=row['Current Regimen'],
-                        line=row['Current Regimen Line'],
-                        isSwitched = False
-                    )
+                    # currentRegimen = get_or_create_art_prescription(
+                    #     patientID = new_patients,
+                    #     startDate=artStartDate,
+                    #     isStandard=True,
+                    #     regimen=row['Current Regimen'],
+                    #     line=row['Current Regimen Line'],
+                    #     isSwitched = False
+                    # )
 
-                    prescription = get_or_create_prescription(
-                        patientID = new_patients,
-                        artPrescriptionID= currentRegimen,
-                        patientVisitID=patientVisit,
-                        # frequency=1,
-                        noOfPills=int(noOfPills),
-                        # expectedNoOfPills=30,
-                        # computedNoOfPills=1,
-                        refillDate=refillDate,
-                        nextRefillDate=nextRefillDate,
+                    # prescription = get_or_create_prescription(
+                    #     patientID = new_patients,
+                    #     artPrescriptionID= currentRegimen,
+                    #     patientVisitID=patientVisit,
+                    #     # frequency=1,
+                    #     noOfPills=int(noOfPills),
+                    #     # expectedNoOfPills=30,
+                    #     # computedNoOfPills=1,
+                    #     refillDate=refillDate,
+                    #     nextRefillDate=nextRefillDate,
 
-                    )
+                    # )
 
-                    vl = get_or_create_vl(
-                        patientID = new_patients,
-                        # isStandard=True,
-                        isVLValid = isVLValid,
-                        patientVisitID=patientVisit,
-                        vlResults=vlResults,
-                        vlJustification=row['Last VL Justification'],
-                        dateOfVL=dateOfVL,
-                        dateOfNextVL = nextVLAppointmentDate
+                    # vl = get_or_create_vl(
+                    #     patientID = new_patients,
+                    #     # isStandard=True,
+                    #     isVLValid = isVLValid,
+                    #     patientVisitID=patientVisit,
+                    #     vlResults=vlResults,
+                    #     vlJustification=row['Last VL Justification'],
+                    #     dateOfVL=dateOfVL,
+                    #     dateOfNextVL = nextVLAppointmentDate
 
-                    )
+                    # )
                     # appointment.save()
                     # appointmentRefill.save()
                     # new_patients.save()
