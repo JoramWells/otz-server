@@ -4,10 +4,10 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4, Sequelize } from 'sequelize'
 import { connect } from '../db/connect'
-import { Patient } from './patients.models'
-import { PatientSessionLogInterface } from 'otz-types'
+import { User } from './user.model';
+import { UserSessionLogInterface } from 'otz-types';
 
-export class PatientSessionLog extends Model<PatientSessionLogInterface> {
+export class UserSessionLog extends Model<UserSessionLogInterface> {
   patientID: string | undefined;
   id: string | undefined;
   connectedAt: Date | undefined;
@@ -15,17 +15,17 @@ export class PatientSessionLog extends Model<PatientSessionLogInterface> {
   duration: number | undefined;
 }
 
-PatientSessionLog.init(
+UserSessionLog.init(
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    patientID: {
+    userID: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "users",
         key: "id",
       },
       onDelete: "CASCADE",
@@ -52,11 +52,11 @@ PatientSessionLog.init(
   {
     sequelize: connect,
 
-    tableName: "patientSessionLogs",
+    tableName: "userSessionLogs",
   }
 );
 
-PatientSessionLog.belongsTo(Patient, { foreignKey: 'patientID' })
+UserSessionLog.belongsTo(User, { foreignKey: 'userID' })
 
 // connect.sync()
 // console.log('User Table synced successfully')

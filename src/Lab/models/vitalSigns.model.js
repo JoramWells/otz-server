@@ -37,19 +37,19 @@ const VitalSign = sequelize.define('vitalSigns', {
     type: DataTypes.STRING,
   },
   temperature: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   weight: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   height: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   systolic: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   diastolic: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
 
   muac: {

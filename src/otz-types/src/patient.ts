@@ -74,6 +74,25 @@ export interface PatientSessionLogInterface {
   updatedAt?: Date;
 }
 
+export interface UserSessionLogInterface {
+  id?: string;
+  userID?: string;
+  connectedAt?: Date;
+  disconnectedAt?: Date;
+  duration?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ImportantPatientsInterface {
+  id?: string;
+  patientID?: string;
+  userID?: string;
+  isImportant?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export interface UserInterface {
   id?: string;
   firstName: string;

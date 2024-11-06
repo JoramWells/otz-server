@@ -22,6 +22,9 @@ import { PatientSessionLog } from './domain/models/patientSessionLog.model'
 import { PatientAttributes } from 'otz-types'
 import { patientSessionLogRouter } from './routes/patientSessionLog.routes'
 import { Patient } from './domain/models/patients.models'
+import { importantPatientRouter } from './routes/importantPatient.routes'
+import { userSessionLogRouter } from './routes/userSession.routes'
+import { UserSessionLog } from './domain/models/userSession'
 const cors = require('cors')
 const app: Application = express()
 
@@ -88,6 +91,7 @@ io.on('connection', socket=>{
 
   const connectedAt = new Date()
   const socketPatientID = socket.handshake.query.patientID
+  const socketUserID = socket.handshake.query.userID
   console.log(socketPatientID, 'sockep!!')
 
 
@@ -113,6 +117,19 @@ io.on('connection', socket=>{
     // 
     const disconnectedAt = new Date()
     const duration = Math.floor((disconnectedAt-connectedAt)/1000)
+
+      if(socketUserID !== 'undefined'){
+    const isUserPresent = await Patient.findByPk(socketUserID)
+    if(isUserPresent){
+       await UserSessionLog.create({
+        userID: socketUserID,
+        connectedAt,
+        disconnectedAt,
+        duration
+      })
+    }
+ 
+    }
 
     // check if the user is present in the db
     if(socketPatientID !== 'undefined'){
@@ -144,6 +161,8 @@ app.use('/users', userRoutes)
 app.use('/user-availability', userAvailabilityRoutes)
 app.use('/next-of-kin', nextOfKinRouter)
 app.use('/patient-session-logs', patientSessionLogRouter)
+app.use('/important-patients', importantPatientRouter)
+app.use('/user-session-logs', userSessionLogRouter)
 
 connect.authenticate().then(() => {
   console.log('Connected to database successfully')
