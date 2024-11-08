@@ -2,11 +2,10 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const Patient = sequelize.define('patients', {
+const User = sequelize.define('users', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
-    // autoIncrement: true,
     defaultValue: UUIDV4,
   },
   firstName: {
@@ -18,33 +17,39 @@ const Patient = sequelize.define('patients', {
   lastName: {
     type: DataTypes.STRING,
   },
-  gender: {
-    type: DataTypes.ENUM('MALE', 'FEMALE'),
-  },
-  dob: {
-    type: DataTypes.DATEONLY,
-  },
-  phoneNo: {
+  email: {
     type: DataTypes.STRING,
   },
   idNo: {
     type: DataTypes.STRING,
   },
-  nupi: {
+  sex: {
     type: DataTypes.STRING,
   },
-  residence: {
+  phoneNo: {
     type: DataTypes.STRING,
   },
-  mflCode: {
+  countyID: {
+    type: DataTypes.INTEGER,
+  },
+  dob: {
+    type: DataTypes.DATE,
+  },
+  password: {
     type: DataTypes.STRING,
   },
-  cccNo: {
-    type: DataTypes.STRING,
+  hospitalID: {
+    type: DataTypes.UUID,
+    references: {
+      model: 'hospitals',
+      key: 'id',
+    },
+    // allowNull: false,
+    onDelete: 'CASCADE',
   },
 }, { timestamps: false });
 // (async () => {
 //   await sequelize.sync();
 //   console.log('Patient Table synced successfully');
 // })();
-module.exports = Patient;
+module.exports = User;

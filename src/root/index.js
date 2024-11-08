@@ -23,6 +23,7 @@ const occupationRoutes = require('./Location/routes/occupation.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const schoolRoutes = require('./Location/routes/school.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
+const appModulesRouter = require('./routes/appModules.routes') 
 
 
 const app = express();
@@ -94,6 +95,7 @@ app.use(helmet())
 // setup server
 const server = http.createServer(app);
 
+app.use(express.static('uploads'));
 // use morgan
 app.use(morgan('dev'));
 
@@ -104,7 +106,6 @@ const io = new Server(server, {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });
-
 
 // set up socket.io instance
 app.locals.io = io;
@@ -121,8 +122,6 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 5000;
 
-
-
 app.use('/location', locationRoutes);
 app.use('/user-location', userLocationRoutes);
 app.use('/hospital', hospitalRoutes);
@@ -131,6 +130,7 @@ app.use('/counties', countyRoutes);
 app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
+app.use('/app-modules', appModulesRouter);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

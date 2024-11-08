@@ -19,7 +19,7 @@ export interface IPatientRepository {
   editPassword: (id: string, password: string) => Promise<PatientAttributes | null>;
   delete: (id: string) => Promise<number | null>;
   login: (
-    firstName: string,
+    cccNo: string,
     password: string
   ) => Promise<PatientAttributes | null>;
 }
