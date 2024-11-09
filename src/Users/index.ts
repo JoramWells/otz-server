@@ -134,12 +134,11 @@ console.log(socketModuleID, 'socketModuleID!!')
     io.emit('getOnlineUsers', onlineUsers)
 
 
-
     // 
     const disconnectedAt = new Date()
     const duration = Math.floor((disconnectedAt-connectedAt)/1000)
 
-    if(socketModuleID && socketUserID){
+    if(socketModuleID && socketUserID && socketModuleID !== 'undefined'){
     //   const disconnectedAt = new Date()
     // const duration = Math.floor((disconnectedAt-connectedAt)/1000)
     // console.log(data, 'appModuleSession')
