@@ -37,6 +37,8 @@ import { attendeeRouter } from "./routes/events/attendee.routes";
 import { eventTypeRouter } from "./routes/events/eventType.routes";
 import { executeDisclosureRouter } from "./routes/treatmentplan/partial/full/executeDisclosure.routes";
 import { postDisclosureRouter } from "./routes/treatmentplan/partial/full/postDisclosure.routes";
+import { AppModuleSession } from "./domain/models/appModules/appModuleSession.model";
+import { AppModule } from "./domain/models/appModules/appModules";
 
 require("dotenv").config();
 
@@ -175,11 +177,31 @@ app.locals.io = io;
 
 // check connection
 io.on("connection", (client) => {
-  console.log("Connected to IO sever", client.id);
+  const socketUserID = client.handshake.query.userID
+  const socketModuleID = client.handshake.query.moduleID;
+
+  console.log("Connected to Appointment IO sever", client.id);
+
+
+  // 
+  const connectedAt = new Date();
 
   //
-  client.on("disconnect", () => {
+  client.on("disconnect", async () => {
     console.log("A user disconnected");
+  const disconnectedAt = new Date();
+    const duration = Math.floor((disconnectedAt - connectedAt) / 1000);
+    const isModulePresent = await AppModule.findByPk(socketModuleID);
+    if(isModulePresent){
+      await AppModuleSession.create({
+        userID: socketUserID,
+        appModuleID: isModulePresent.id,
+        disconnectedAt: disconnectedAt,
+        connectedAt: connectedAt,
+        duration: duration
+      })
+    }
+    
   });
 });
 

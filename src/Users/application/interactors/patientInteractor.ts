@@ -88,9 +88,9 @@ export class PatientInteractor implements IPatientInteractor {
 
   //
   async login(
-    firstName: string,
+    cccNo: string,
     password: string
   ): Promise<PatientAttributes | null> {
-    return await this.repository.login(firstName, password);
+    return await this.repository.login(cccNo, password);
   }
 }

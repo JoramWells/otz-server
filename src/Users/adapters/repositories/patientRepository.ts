@@ -7,7 +7,7 @@ import { patientCache } from '../../constants'
 import { connect } from '../../domain/db/connect'
 import { Hospital } from '../../domain/models/hospital/hospital.model'
 import { NextOfKin } from '../../domain/models/nextOfKin.model'
-import { Patient } from '../../domain/models/patients.models'
+import { generateDefaultHashedPassword, Patient } from '../../domain/models/patients.models'
 import { School } from '../../domain/models/school/school.model'
 import { logger } from '../../utils/logger'
 import bcrypt from 'bcrypt'
@@ -351,7 +351,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
-    const { id, firstName, middleName, lastName, phoneNo, role, populationType, dob, dateConfirmedPositive, hospitalID } = data;
+    const { id, firstName, middleName, lastName, phoneNo, role, populationType, dob, dateConfirmedPositive, hospitalID, password } = data;
 
     // delete cache
     await this.redisClient.del(patientCache);
@@ -372,7 +372,15 @@ export class PatientRepository implements IPatientRepository {
       results.role = role;
       results.dob = dob;
       results.hospitalID = hospitalID;
-      results.dateConfirmedPositive = dateConfirmedPositive;
+
+      if(dateConfirmedPositive && dateConfirmedPositive?.length > 0){
+        results.dateConfirmedPositive = dateConfirmedPositive;
+      }
+
+      if(password && password?.length > 0){
+        const hashPassword = await generateDefaultHashedPassword(password);
+        results.password = hashPassword;
+      }
       await results.save();
     }
     return results;
@@ -380,12 +388,12 @@ export class PatientRepository implements IPatientRepository {
 
   //
   async login(
-    firstName: string,
+    cccNo: string,
     password: string
   ): Promise<PatientAttributes | null> {
     try {
       const user: Patient | null = await Patient.findOne({
-        where: { firstName: firstName },
+        where: { cccNo: cccNo },
       });
 
       if (user !== null && user.password) {

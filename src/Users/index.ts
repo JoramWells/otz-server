@@ -25,6 +25,8 @@ import { Patient } from './domain/models/patients.models'
 import { importantPatientRouter } from './routes/importantPatient.routes'
 import { userSessionLogRouter } from './routes/userSession.routes'
 import { UserSessionLog } from './domain/models/userSession'
+import { AppModule } from './domain/models/appModules/appModules'
+import { AppModuleSession } from './domain/models/appModules/appModuleSession.model'
 const cors = require('cors')
 const app: Application = express()
 
@@ -92,8 +94,9 @@ io.on('connection', socket=>{
   const connectedAt = new Date()
   const socketPatientID = socket.handshake.query.patientID
   const socketUserID = socket.handshake.query.userID
-  console.log(socketPatientID, 'sockep!!')
+  const socketModuleID = socket.handshake.query.moduleID;
 
+console.log(socketModuleID, 'socketModuleID!!')
 
   // 
   socket.on('addNewUser', async (userSocket:string)=>{
@@ -107,6 +110,23 @@ io.on('connection', socket=>{
     console.log(onlineUsers, 'userp')
 
   })
+
+//  socket.on('appModuleSession', async (data)=>{
+      // 
+
+  // })
+
+  // socket.on('disconnectedAppModuleSession', async(data)=>{
+  //   console.log('Disconnected from user module')
+  //   const appSession = await AppModuleSession.findByPk(data.id)
+  //   console.log(appSession, 'apx')
+  //   const disconnectedAt = new Date()
+  //   if(appSession){
+  //     const duration = Math.floor((appSession.connectedAt - disconnectedAt)/1000)
+  //       appSession.disconnectedAt = disconnectedAt
+  //       appSession.duration = duration
+  //   }
+  // })
   
   socket.on('disconnect', async()=>{
     const userDisconnect = onlineUsers.filter(user=>user.clientId)
@@ -114,12 +134,33 @@ io.on('connection', socket=>{
     io.emit('getOnlineUsers', onlineUsers)
 
 
+
     // 
     const disconnectedAt = new Date()
     const duration = Math.floor((disconnectedAt-connectedAt)/1000)
 
+    if(socketModuleID && socketUserID){
+    //   const disconnectedAt = new Date()
+    // const duration = Math.floor((disconnectedAt-connectedAt)/1000)
+    // console.log(data, 'appModuleSession')
+        const isModulePresent = await AppModule.findByPk(socketModuleID as string);
+
+        if(isModulePresent && socketUserID?.length > 0){
+      await AppModuleSession.create({
+        // id: data.id,
+        userID: socketUserID,
+        appModuleID: isModulePresent.id,
+        disconnectedAt: disconnectedAt,
+        connectedAt: connectedAt,
+        duration: duration
+      })
+    }
+}
+
       if(socketUserID !== 'undefined'){
-    const isUserPresent = await Patient.findByPk(socketUserID)
+    const isUserPresent = await Patient.findByPk(socketUserID as string)
+
+
     if(isUserPresent){
        await UserSessionLog.create({
         userID: socketUserID,

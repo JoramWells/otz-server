@@ -223,6 +223,7 @@ export class PatientController {
         dateConfirmedPositive,
         dob,
         hospitalID,
+        password
       }: PatientAttributes = req.body;
       const values: PatientAttributes = {
         id,
@@ -235,6 +236,7 @@ export class PatientController {
         dateConfirmedPositive,
         dob,
         hospitalID,
+        password,
         //
         maritalStatus: "",
       };
@@ -323,8 +325,8 @@ export class PatientController {
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const { firstName, password } = req.body;
-      const results = await this.interactor.login(firstName, password);
+      const { cccNo, password } = req.body;
+      const results = await this.interactor.login(cccNo, password);
       res.status(200).json(results);
       next();
     } catch (error) {

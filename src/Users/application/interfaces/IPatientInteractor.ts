@@ -13,7 +13,7 @@ export interface IPatientInteractor {
   updatePatientUsername: (id: string, username: string) => Promise<PatientAttributes | null>
   updatePatientPassword: (id: string, password: string) => Promise<PatientAttributes | null>
   editPatient: (data: PatientAttributes) => Promise<PatientAttributes | null>
-  login: (firstName: string, password: string) => Promise<PatientAttributes | null>
+  login: (cccNo: string, password: string) => Promise<PatientAttributes | null>
   deletePatient: (id: string) => Promise<number | null>;
   getPatientByUserId: (id: string) => Promise<PatientAttributes | null>;
 

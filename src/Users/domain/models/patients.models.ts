@@ -185,16 +185,15 @@ Patient.init(
   }
 );
 
-async function generateDefaultHashedPassword() {
-  const password = "12345678";
+export async function generateDefaultHashedPassword(password: string) {
+  // const password = "12345678";
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
-  console.log(passwordHash, "as");
   return passwordHash;
 }
 
 Patient.beforeCreate(async (patient) => {
-  patient.password = await generateDefaultHashedPassword();
+  patient.password = await generateDefaultHashedPassword("12345678");
 });
 
 Patient.afterUpdate(async (instance, options) => {

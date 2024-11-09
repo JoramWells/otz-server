@@ -54,3 +54,23 @@ export interface AppointmentStatusAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface AppModuleInterface {
+  id?: string;
+  title?: string;
+  description?: string;
+  link?: string;
+  img?: string;
+  isActive?: boolean;
+}
+
+export interface AppModuleSessionInterface {
+  id?: string;
+  userID?: string;
+  appModuleID?: string;
+  connectedAt?: Date;
+  disconnectedAt?: Date;
+  duration?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
