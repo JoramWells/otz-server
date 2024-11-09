@@ -5,7 +5,7 @@ const sequelize = require('../../db/connect');
 const AppModules = require('./appModules');
 const User = require('../patient/user.model');
 
-const AppModuleSession = sequelize.define('appModuleSession', {
+const AppModuleSession = sequelize.define('appModuleSessions', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,

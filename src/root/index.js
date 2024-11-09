@@ -23,8 +23,8 @@ const occupationRoutes = require('./Location/routes/occupation.routes');
 const userLocationRoutes = require('./Location/routes/userLocation.routes');
 const schoolRoutes = require('./Location/routes/school.routes');
 const hospitalRoutes = require('./Hospital/routes/hospital.routes');
-const appModulesRouter = require('./routes/appModules.routes') 
-
+const appModulesRouter = require('./routes/appModules.routes');
+const appModuleSessionRouter = require('./routes/appModuleSession.routes');
 
 const app = express();
 
@@ -42,7 +42,7 @@ app.use(express.urlencoded({
 
 // enable cors
 app.use(cors());
-app.use(helmet())
+app.use(helmet());
 
 // job
 // schedule.scheduleJob('* * * * * *', async (fireDate) => {
@@ -131,6 +131,7 @@ app.use('/sub-counties', subCountyRoutes);
 app.use('/wards', wardRoutes);
 app.use('/schools', schoolRoutes);
 app.use('/app-modules', appModulesRouter);
+app.use('/app-module-session', appModuleSessionRouter);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
