@@ -66,6 +66,7 @@ export interface AppModuleInterface {
 
 export interface AppModuleSessionInterface {
   id?: string;
+  userID?: string;
   appModuleID?: string;
   connectedAt?: Date;
   disconnectedAt?: Date;

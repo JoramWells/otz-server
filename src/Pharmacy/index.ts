@@ -90,6 +90,7 @@ io.on('connection', socket=>{
     //   io.emit('newPharmacyNotifications', pharmacySocket)
     // });
 
+    
     pharmacySocketController(io, socket)
 
     socket.on("addNewUser", (patientID) => {
