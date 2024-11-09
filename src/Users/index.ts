@@ -138,7 +138,7 @@ console.log(socketModuleID, 'socketModuleID!!')
     const disconnectedAt = new Date()
     const duration = Math.floor((disconnectedAt-connectedAt)/1000)
 
-    if(socketModuleID && socketUserID && socketModuleID !== 'undefined'){
+    if(socketModuleID && socketUserID && socketModuleID !== 'undefined' && socketModuleID !== "null" && socketModuleID !== null){
     //   const disconnectedAt = new Date()
     // const duration = Math.floor((disconnectedAt-connectedAt)/1000)
     // console.log(data, 'appModuleSession')
