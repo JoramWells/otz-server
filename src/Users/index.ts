@@ -27,6 +27,7 @@ import { userSessionLogRouter } from './routes/userSession.routes'
 import { UserSessionLog } from './domain/models/userSession'
 import { AppModule } from './domain/models/appModules/appModules'
 import { AppModuleSession } from './domain/models/appModules/appModuleSession.model'
+import { User } from './domain/models/user.model'
 const cors = require('cors')
 const app: Application = express()
 
@@ -157,7 +158,7 @@ console.log(socketModuleID, 'socketModuleID!!')
 }
 
       if(socketUserID !== 'undefined'){
-    const isUserPresent = await Patient.findByPk(socketUserID as string)
+    const isUserPresent = await User.findByPk(socketUserID as string)
 
 
     if(isUserPresent){

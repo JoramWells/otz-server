@@ -23,6 +23,7 @@ router.get(
 )
 
 router.get('/patient-history/:id', controller.onGetAllPatientHistoryVisitById.bind(controller))
+router.get('/users/:id', controller.onGetAllPatientVisitByUserId.bind(controller))
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

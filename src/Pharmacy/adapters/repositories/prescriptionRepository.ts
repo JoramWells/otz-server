@@ -12,6 +12,7 @@ import { KafkaAdapter } from "../kafka/producer/kafka.producer";
 import { col, fn, Op, Sequelize } from "sequelize";
 import { Patient } from "../../domain/models/patients.models";
 import { ARTPrescription } from "../../domain/models/art/artPrescription.model";
+import { ImportantPatient } from "../../domain/models/importantPatients";
 
 export class PrescriptionRepository implements IPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -122,6 +123,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         {
           model: Patient,
           attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
+          include: [
+            {
+              model: ImportantPatient,
+              attributes: ["userID"],
+            },
+          ],
         },
 
         {

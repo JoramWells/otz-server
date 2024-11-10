@@ -11,7 +11,9 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
   private readonly kafkaProducer = new KafkaAdapter();
   async create(data: PatientVisitsInterface): Promise<PatientVisitsInterface> {
     const results: PatientVisitsInterface = await PatientVisits.create(data);
-    await this.kafkaProducer.sendMessage('lab',[{value:JSON.stringify(data)}])
+    await this.kafkaProducer.sendMessage("lab", [
+      { value: JSON.stringify(data) },
+    ]);
     return results;
   }
 
@@ -38,6 +40,17 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
   }
 
   async findHistoryById(id: string): Promise<PatientVisitsInterface[] | null> {
+    const results = await PatientVisits.findAll({
+      where: {
+        patientID: id,
+      },
+    });
+
+    return results;
+  }
+
+  //
+  async findPatientVisitByUserId(id: string): Promise<PatientVisitsInterface[] | null> {
     const results = await PatientVisits.findAll({
       where: {
         patientID: id,
