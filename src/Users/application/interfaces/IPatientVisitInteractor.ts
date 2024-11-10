@@ -5,4 +5,5 @@ export interface IPatientVisitInteractor {
   getAllPatientVisits: () => Promise<PatientVisitsInterface[]>
   getPatientVisitById: (id: string) => Promise<PatientVisitsInterface | null>
   getHistoryPatientVisitById: (id: string) => Promise<PatientVisitsInterface[] | null>
+  getPatientVisitByUserId: (userID: string) => Promise<PatientVisitsInterface[] | null>
 }
