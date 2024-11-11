@@ -8,4 +8,5 @@ export interface IPatientVisitsRepository {
   findById: (id: string) => Promise<PatientVisitsInterface | null>;
   findHistoryById: (id: string) => Promise<PatientVisitsInterface[] | null>;
   findPatientVisitByUserId: (userID: string) => Promise<PatientVisitsInterface[] | null>;
+  findUserPatientCount: (id: string) => Promise<PatientVisitsInterface[] | null>;
 }
