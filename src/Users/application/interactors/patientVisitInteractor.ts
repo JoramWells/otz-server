@@ -17,6 +17,11 @@ export class PatientVisitInteractor implements IPatientVisitInteractor {
   async getPatientVisitById (id: string): Promise<PatientVisitsInterface | null> {
     return await this.repository.findById(id)
   }  
+
+    async getUserActivitiesCount (id: string): Promise<PatientVisitsInterface[] | null> {
+    return await this.repository.findUserActivitiesCount(id)
+  }
+
   async getUserPatientCount (id: string): Promise<PatientVisitsInterface[] | null> {
     return await this.repository.findUserPatientCount(id)
   }

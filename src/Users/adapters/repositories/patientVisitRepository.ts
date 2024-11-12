@@ -7,6 +7,7 @@ import { PatientVisits } from '../../domain/models/patientVisits.model'
 import { Patient } from '../../domain/models/patients.models'
 import { KafkaAdapter } from '../kafka/kafka.producer'
 import { col, fn } from 'sequelize'
+import { User } from '../../domain/models/user.model'
 
 export class PatientVisitRepository implements IPatientVisitsRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -41,7 +42,31 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
   }
 
   //
-  async findUserPatientCount(id: string): Promise<PatientVisitsInterface[] | null> {
+  async findUserActivitiesCount(
+    id: string
+  ): Promise<PatientVisitsInterface[] | null> {
+    const results = await PatientVisits.findAll({
+      // where: {
+      //   patientID: id,
+      // },
+      attributes: [[fn("COUNT", col("userID")), "count"]],
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "middleName"],
+        },
+      ],
+      group: ["PatientVisits.userID", "User.firstName","User.middleName"],
+      raw: true,
+    });
+
+    return results;
+  }
+
+  //
+  async findUserPatientCount(
+    id: string
+  ): Promise<PatientVisitsInterface[] | null> {
     const results = await PatientVisits.findAll({
       // where: {
       //   patientID: id,
@@ -52,7 +77,7 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       ],
       group: [fn("DATE", col("createdAt"))],
       order: [[fn("DATE", col("createdAt")), "ASC"]],
-      raw: true
+      raw: true,
     });
 
     return results;
