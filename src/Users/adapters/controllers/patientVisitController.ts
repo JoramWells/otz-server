@@ -91,18 +91,36 @@ export class PatientVisitController {
   //
   async onGetAllUserPatientCount(
     req: Request,
-    res: Response,            
-    next: NextFunction    
+    res: Response,
+    next: NextFunction
   ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getUserPatientCount(id);
-      res.status(200).json(result);                               
+      res.status(200).json(result);
       next();
     } catch (error) {
       next(error);
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
-  }     
+  }
+
+  //
+  async onGetAllUserActivitiesCount(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getUserActivitiesCount(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }
