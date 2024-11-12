@@ -120,14 +120,14 @@ export class PatientRepository implements IPatientRepository {
 
     // await this.redisClient.connect();
     // check if patient
-    if ((await this.redisClient.get(patientCache)) === null) {
-      const results = await Patient.findAll({
-        include: [
-          { model: School, attributes: ["schoolName"] },
-          {
-            model: Hospital,
-            attributes: ["hospitalName"],
-          },
+    // if ((await this.redisClient.get(patientCache)) === null) {
+      // const results = await Patient.findAll({
+      //   include: [
+      //     { model: School, attributes: ["schoolName"] },
+      //     {
+      //       model: Hospital,
+      //       attributes: ["hospitalName"],
+      //     },
           
 
           //   {
@@ -140,31 +140,56 @@ export class PatientRepository implements IPatientRepository {
           //       'dateOfCurrentVL'
           //     ]
           //   }
-        ],
+        // ],
         // where: {
         //   dob: {
         //     [Op.gte]: maxDate,
         //   },
         // },
-      });
-      logger.info({ message: "Fetched from db!" });
-      console.log("fetched from db!");
+      // });
+      // logger.info({ message: "Fetched from db!" });
+      // console.log("fetched from db!");
       // set to cace
-      await this.redisClient.set(patientCache, JSON.stringify(results));
+      // await this.redisClient.set(patientCache, JSON.stringify(results));
 
-      return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      patientCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
+      // return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   patientCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
     // await this.redisClient.disconnect()
-    logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    // logger.info({ message: "Fetched from cache!" });
+    // console.log("fetched from cache!");
 
-    const results: PatientAttributes[] = JSON.parse(cachedPatients);
+    // const results: PatientAttributes[] = JSON.parse(cachedPatients);
+          const results = await Patient.findAll({
+            include: [
+              { model: School, attributes: ["schoolName"] },
+              {
+                model: Hospital,
+                attributes: ["hospitalName"],
+              },
+
+              //   {
+              //     model: ViralLoad,
+              //     attributes: [
+              //       'id',
+              //       'dateOfNextVL',
+              //       'vlResults',
+              //       'isValid',
+              //       'dateOfCurrentVL'
+              //     ]
+              //   }
+            ],
+            // where: {
+            //   dob: {
+            //     [Op.gte]: maxDate,
+            //   },
+            // },
+          });
     return results;
   }
 
