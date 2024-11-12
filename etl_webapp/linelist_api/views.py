@@ -481,18 +481,18 @@ class LineListView(generics.CreateAPIView):
                         dateOfVL=dateOfVL,
                         dateOfNextVL = nextVLAppointmentDate
 
-                    )
-                    # appointment.save()
-                    # appointmentRefill.save()
-                    # new_patients.save()
-                    # new_patients.save()
-                    # appointmentViralLoad.save()
-                    # vsData.save()
-                    # firstRegimen.save()
-                    # currentRegimen.save()
-                    # prescription.save()
-                    # vl.save()
-                    # patientVisit.save()
+                    )                    
+                    appointment.save()
+                    appointmentRefill.save()
+                    new_patients.save()
+                    new_patients.save()
+                    appointmentViralLoad.save()
+                    vsData.save()
+                    firstRegimen.save()
+                    currentRegimen.save()
+                    prescription.save()
+                    vl.save()
+                    patientVisit.save()
 
 
                
