@@ -50,7 +50,7 @@ const getAppModulesDetail = async (req, res, next) => {
 // edit patient
 const editAppModules = async (req, res, next) => {
   const { id } = req.params;
-  const img = req.file.filename;
+  const img = req.file?.filename;
   const {
     title, description, link,
   } = req.body;
@@ -65,7 +65,9 @@ const editAppModules = async (req, res, next) => {
     results.title = title;
     results.description = description;
     results.link = link;
-    results.img = img;
+    if (img) {
+      results.img = img;
+    }
     res.status(200).json(results);
     next();
 
