@@ -36,7 +36,7 @@ const getAppModulesDetail = async (req, res, next) => {
   try {
     const results = await AppModules.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
     res.json(results);
@@ -48,29 +48,33 @@ const getAppModulesDetail = async (req, res, next) => {
 };
 
 // edit patient
-// const editAppModules = async (req, res, next) => {
-//   const { id } = req.params;
-//   const {
-//     AppModulesName, mflCode
-//   } = req.body;
-//   try {
-//     const editPAtient = await AppModules.findOne({
-//       where: {
-//         id,
-//       },
-//     });
+const editAppModules = async (req, res, next) => {
+  const { id } = req.params;
+  const img = req.file.filename;
+  const {
+    title, description, link,
+  } = req.body;
 
-//     editPAtient.AppModulesName = AppModulesName;
-//     editPAtient.mflCode = mflCode;
-//     res.status(200).json(editPAtient)
-//     next();
+  try {
+    const results = await AppModules.findOne({
+      where: {
+        id,
+      },
+    });
 
-//     return editPAtient.save();
-//   } catch (error) {
-//     console.log(error);
-//     res.sendStatus(500).json({ message: 'Internal Server' });
-//   }
-// };
+    results.title = title;
+    results.description = description;
+    results.link = link;
+    results.img = img;
+    res.status(200).json(results);
+    next();
+
+    return results.save();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+  }
+};
 
 const deleteAppModules = async (req, res, next) => {
   const { id } = req.params;
@@ -91,5 +95,5 @@ const deleteAppModules = async (req, res, next) => {
 };
 
 module.exports = {
-  addAppModules, getAllAppModules, getAppModulesDetail, deleteAppModules,
+  addAppModules, getAllAppModules, getAppModulesDetail, deleteAppModules, editAppModules,
 };

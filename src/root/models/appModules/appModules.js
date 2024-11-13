@@ -32,6 +32,6 @@ const AppModules = sequelize.define('appModules', {
   // end
 });
 
-sequelize.sync();
+// sequelize.sync();
 
 module.exports = AppModules;
