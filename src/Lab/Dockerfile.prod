@@ -6,15 +6,14 @@ WORKDIR /usr/src/app
 COPY package.json ./
 
 
-RUN yarn install
 
-RUN yarn run build
+RUN yarn install --production
 
 COPY . .
 
 # RUN yarn run build
 
-EXPOSE 5001
+EXPOSE 5002
 
 
 CMD [ "yarn","start"]

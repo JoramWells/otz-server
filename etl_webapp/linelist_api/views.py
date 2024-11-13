@@ -180,8 +180,11 @@ def get_or_create_prescription(patientID, artPrescriptionID, patientVisitID, noO
 def get_or_create_patient(cccNo, firstName, lastName, dob, sex, populationType,middleName, dateConfirmedPositive, enrollmentDate, ageAtReporting, NUPI, hospitalID):
     try:
         patient = Patients.objects.get(cccNo=cccNo)
+        print("Patient found!!")
         return patient, False
     except Patients.DoesNotExist:
+        print("Patient not found!!")
+
         patient = Patients.objects.create(
             firstName=firstName,
             lastName=lastName,
@@ -484,8 +487,8 @@ class LineListView(generics.CreateAPIView):
                     )                    
                     appointment.save()
                     appointmentRefill.save()
-                    new_patients.save()
-                    new_patients.save()
+                    if created is True:
+                        new_patients.save()
                     appointmentViralLoad.save()
                     vsData.save()
                     firstRegimen.save()

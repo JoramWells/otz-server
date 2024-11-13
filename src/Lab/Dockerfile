@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 5002
 
-CMD [ "yarn", "start"]
+CMD [ "npm","run", "dev"]
