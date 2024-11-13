@@ -172,7 +172,7 @@ services:
   users:
     build:
       context: ./src/Users
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/users:latest
     volumes:
       - ./src/Users/:/usr/src/app
@@ -207,7 +207,7 @@ services:
   lab:
     build:
       context: ./src/Lab
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/lab:latest
     volumes:
       - ./src/Lab/:/usr/src/app
@@ -242,7 +242,7 @@ services:
   pharmacy:
     build:
       context: ./src/Pharmacy
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/pharmacy:latest
     volumes:
       - ./src/Pharmacy/:/usr/src/app
@@ -277,7 +277,7 @@ services:
   medicalfile:
     build:
       context: ./src/MedicalFile
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/medicalfile:latest
     volumes:
       - ./src/MedicalFile/:/usr/src/app
@@ -310,7 +310,7 @@ services:
   enrollments:
     build:
       context: ./src/Enrollments
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: enrollment-image
     volumes:
       - ./src/Enrollments/:/usr/src/app
@@ -420,7 +420,7 @@ services:
   appointment:
     build:
       context: ./src/Appointment
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/appointment:latest
     volumes:
       - ./src/Appointment:/usr/src/app
@@ -463,7 +463,7 @@ services:
   notify:
     build:
       context: ./src/Notify
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/notify:latest
     volumes:
       - ./src/Notify:/usr/src/app
@@ -543,7 +543,7 @@ services:
   articles:
     build:
       context: ./src/Articles
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     image: blackwell18/articles:latest
     volumes:
       - ./src/Articles:/usr/src/app
