@@ -6,8 +6,10 @@ WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 
 RUN yarn cache clean --force
+RUN yarn cache clear --force
 
-RUN yarn install 
+RUN yarn install --timeout=600000
+
 
 COPY . .
 
