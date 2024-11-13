@@ -35,8 +35,8 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsDoc = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerJsDoc = require('swagger-jsdoc');
 const cors = require('cors');
 const sequelize = require('./db/connect');
 
@@ -70,19 +70,19 @@ schedulePatientNotifications();
 
 
 // Swagger configuration options
-const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      title: 'Publication API',
-      description: 'CRUD API for managing publications',
-      version: '1.0.0',
-    },
-  },
-  apis: ['./routes/*.js'], // Path to the API routes folder
-};
+// const swaggerOptions = {
+//   swaggerDefinition: {
+//     info: {
+//       title: 'Publication API',
+//       description: 'CRUD API for managing publications',
+//       version: '1.0.0',
+//     },
+//   },
+//   apis: ['./routes/*.js'], // Path to the API routes folder
+// };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// const swaggerDocs = swaggerJsDoc(swaggerOptions);
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // init sentry
 initSentry((app))
