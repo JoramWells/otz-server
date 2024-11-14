@@ -1,16 +1,19 @@
 FROM node:22-alpine
 
 RUN mkdir -p /usr/src/app
+
 WORKDIR /usr/src/app
 
-COPY package.json ./
+RUN npm install -g pnpm
 
-RUN yarn cache clean --force
+COPY package.json pnpm-lock.yaml ./
 
-RUN yarn install --timeout=600000
+RUN npm cache clean --force
+
+RUN pnpm install
 
 COPY . .
 
 EXPOSE 5003
 
-CMD [ "yarn","run" ,"dev"]
+CMD [ "pnpm","run" ,"dev"]
