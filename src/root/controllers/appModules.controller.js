@@ -52,7 +52,7 @@ const editAppModules = async (req, res, next) => {
   const { id } = req.params;
   const img = req.file?.filename;
   const {
-    title, description, link,
+    title, description, link, isActive
   } = req.body;
 
   try {
@@ -65,6 +65,7 @@ const editAppModules = async (req, res, next) => {
     results.title = title;
     results.description = description;
     results.link = link;
+    results.isActive = isActive;
     if (img) {
       results.img = img;
     }

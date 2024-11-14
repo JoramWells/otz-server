@@ -12,6 +12,13 @@ import { UserInterface } from "otz-types";
 import { Hospital } from './hospital/hospital.model';
 // const County = require('./location/county.model')
 
+export enum UserRoles {
+  Admin = "admin",
+  Clinician = "clinician",
+  MentorMother = "mentor mother",
+  Advocate = "advocate",
+  Nurse = "nurse",
+}
 
 
 export class User extends Model<UserInterface> {
@@ -74,6 +81,11 @@ User.init(
       // allowNull: false,
       onDelete: "CASCADE",
     },
+   role: {
+      type: DataTypes.ENUM(...Object.values(UserRoles)),
+      defaultValue: UserRoles.Advocate,
+      allowNull: true,
+    },
   },
   {
     sequelize: connect,
@@ -86,7 +98,6 @@ async function generateDefaultHashedPassword() {
   const password = "12345678";
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
-  console.log(passwordHash, "as");
   return passwordHash;
 }
 
