@@ -98,7 +98,18 @@ export class PatientController {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllPatients();
+      const {hospitalID} = req.params
+
+            if (!hospitalID || hospitalID === "undefined")
+              return res.status(400).json({ message: "Invalid ID parameter" });
+
+            if (!isUUID(hospitalID)) {
+              const errMessage = `${hospitalID} is not a valid UUID `;
+              logger.error(errMessage);
+              return res.status(404).json({ error: errMessage });
+            }
+
+      const results = await this.interactor.getAllPatients(hospitalID as string);
       res.status(200).json(results);
       logger.info({ message: "Fetched all Patients Successfully!" });
 
