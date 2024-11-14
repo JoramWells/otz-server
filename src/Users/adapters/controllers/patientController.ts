@@ -45,6 +45,7 @@ export class PatientController {
       relationship,
       role,
       userID,
+      hospitalID
     } = req.body;
 
     const patientData: PatientAttributes = {
@@ -62,6 +63,7 @@ export class PatientController {
       maritalStatus,
       entryPoint,
       userID,
+      hospitalID
     };
 
     const nextOfKinData: NextOfKinInterface = {
