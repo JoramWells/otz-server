@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op } from 'sequelize'
+import { Op, where } from 'sequelize'
 import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
 import { patientCache } from '../../constants'
 import { connect } from '../../domain/db/connect'
@@ -112,7 +112,7 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async find(): Promise<PatientAttributes[]> {
+  async find(hospitalID: string): Promise<PatientAttributes[] | null> {
         const currentDate = new Date();
     const maxDate = new Date(
       currentDate.setFullYear(currentDate.getFullYear()) - 25
@@ -166,7 +166,11 @@ export class PatientRepository implements IPatientRepository {
 
     // const results: PatientAttributes[] = JSON.parse(cachedPatients);
           const results = await Patient.findAll({
+                 where:{
+                hospitalID: hospitalID
+              },
             include: [
+         
               { model: School, attributes: ["schoolName"] },
               {
                 model: Hospital,

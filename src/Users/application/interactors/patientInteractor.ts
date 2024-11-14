@@ -65,8 +65,8 @@ export class PatientInteractor implements IPatientInteractor {
     return await this.repository.create(patientData, nextOfKinData);
   }
 
-  async getAllPatients(): Promise<PatientAttributes[]> {
-    return await this.repository.find();
+  async getAllPatients(hospitalID: string): Promise<PatientAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 
   async getAllPatientUsers(): Promise<PatientAttributes[]> {

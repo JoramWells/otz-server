@@ -19,6 +19,7 @@ export class UserRepository implements IUserRepository {
       email,
       countyID,
       password,
+      hospitalID,
     } = data;
 
     const results = await User.create({
@@ -32,6 +33,7 @@ export class UserRepository implements IUserRepository {
       sex,
       password,
       idNo,
+      hospitalID,
     });
     const user: UserInterface = {
       id: results.id,
