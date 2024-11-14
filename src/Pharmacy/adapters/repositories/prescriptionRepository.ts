@@ -119,16 +119,17 @@ export class PrescriptionRepository implements IPrescriptionRepository {
           ),
         ],
       },
+      
       include: [
         {
           model: Patient,
           attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
-          include: [
-            {
-              model: ImportantPatient,
-              attributes: ["userID"],
-            },
-          ],
+          // include: [
+          //   {
+          //     model: ImportantPatient,
+          //     attributes: ["userID"],
+          //   },
+          // ],
         },
 
         {
