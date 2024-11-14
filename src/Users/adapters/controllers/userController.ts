@@ -59,6 +59,7 @@ export class UserController {
         phoneNo,
         dob,
         hospitalID,
+        role,
       }: UserInterface = req.body;
       const values: UserInterface = {
         id,
@@ -67,6 +68,7 @@ export class UserController {
         lastName,
         phoneNo,
         dob,
+        role,
         hospitalID,
         //
         maritalStatus: "",
