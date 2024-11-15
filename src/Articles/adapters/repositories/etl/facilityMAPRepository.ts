@@ -2,6 +2,8 @@ import { FacilityMAPSInterface } from "otz-types";
 import { IFacilityMAPRepository } from "../../../application/interfaces/etl/IFacilityMAPRepository";
 import { RedisAdapter } from "../redisAdapter";
 import { FacilityMAPS } from "../../../domain/models/etl/facilityMAPS.model";
+import { LineListCSV } from "../../../domain/models/etl/linelistCSV.model";
+import { User } from "../../../domain/models/user.model";
 
 
 
@@ -23,10 +25,24 @@ export class FacilityMAPSRepository implements IFacilityMAPRepository {
     return results;
   }
 
-  async find(): Promise<FacilityMAPSInterface[]> {
+  async find(hospitalID: string): Promise<FacilityMAPSInterface[]> {
     await this.redisClient.connect();
     // check if patient
-    const results = await FacilityMAPS.findAll({});
+    const results = await FacilityMAPS.findAll({
+      include: [
+        {
+          model: LineListCSV,
+          include: [
+            {
+              model: User,
+              where: {
+                hospitalID
+              },
+            },
+          ],
+        },
+      ],
+    });
     // if ((await this.redisClient.get(coursesCache)) === null) {
     //   const results = await Chapter.findAll({
     //     include:[
@@ -54,7 +70,6 @@ export class FacilityMAPSRepository implements IFacilityMAPRepository {
     // console.log("fetched from cache!");
 
     // const results: FacilityMAPSInterface[] = JSON.parse(cachedPatients);
-    console.log(results, "rt");
 
     return results;
   }

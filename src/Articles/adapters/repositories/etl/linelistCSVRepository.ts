@@ -1,8 +1,8 @@
-import { RedisAdapter } from "../../redisAdapter";
-import { ILineListRepository } from "../../../../application/interfaces/articles/ILineListRepository";
+import { RedisAdapter } from "../redisAdapter";
+import { ILineListRepository } from "../../../application/interfaces/etl/ILineListRepository";
 import { LineListCSVInterface } from "otz-types";
-import { LineListCSV } from "../../../../domain/models/articles/linelistCSV.model";
-
+import { LineListCSV } from "../../../domain/models/etl/linelistCSV.model";
+import { User } from "../../../domain/models/user.model";
 
 export class LineListCSVRepository implements ILineListRepository {
   // findAllBooksById: (id: string) => Promise<LineListCSVInterface[] | null>;
@@ -13,19 +13,26 @@ export class LineListCSVRepository implements ILineListRepository {
 
   async create(data: LineListCSVInterface): Promise<LineListCSVInterface> {
     await this.redisClient.connect();
-    const results: LineListCSVInterface = await LineListCSV.create(
-      data
-    );
+    const results: LineListCSVInterface = await LineListCSV.create(data);
     // await this.redisClient.del(coursesCache);
     await this.redisClient.disconnect();
 
     return results;
   }
 
-  async find(): Promise<LineListCSVInterface[]> {
+  async find(hospitalID: string): Promise<LineListCSVInterface[]> {
     await this.redisClient.connect();
     // check if patient
-    const results = await LineListCSV.findAll({});
+    const results = await LineListCSV.findAll({
+      include: [
+        {
+          model: User,
+          where: {
+            hospitalID,
+          },
+        },
+      ],
+    });
     // if ((await this.redisClient.get(coursesCache)) === null) {
     //   const results = await Chapter.findAll({
     //     include:[
@@ -53,7 +60,6 @@ export class LineListCSVRepository implements ILineListRepository {
     // console.log("fetched from cache!");
 
     // const results: LineListCSVInterface[] = JSON.parse(cachedPatients);
-    console.log(results, "rt");
 
     return results;
   }
@@ -61,12 +67,11 @@ export class LineListCSVRepository implements ILineListRepository {
   async findById(id: string): Promise<LineListCSVInterface | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: LineListCSVInterface | null =
-      await LineListCSV.findOne({
-        where: {
-          id,
-        },
-      });
+    const results: LineListCSVInterface | null = await LineListCSV.findOne({
+      where: {
+        id,
+      },
+    });
     // console.log(results, 'results')
 
     // const patientResults: AppointmentEntity = {
@@ -91,7 +96,6 @@ export class LineListCSVRepository implements ILineListRepository {
 
     return results;
   }
-
 
   //
   async delete(id: string): Promise<number | null> {

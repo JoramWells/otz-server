@@ -23,9 +23,18 @@ export enum UserRoles{
   Admin = 'admin',
   Clinician= 'clinician',
   MentorMother = 'mentor mother',
-  AYPAdvocate = 'ayp advocate',
+  Advocate = 'advocate',
   Nurse = 'nurse',
   patient='patient'
+}
+
+export enum PatientRoles {
+  Admin = "admin",
+  Clinician = "clinician",
+  MentorMother = "mentor mother",
+  AYPAdvocate = "ayp advocate",
+  Nurse = "nurse",
+  patient = "patient",
 }
 
 export interface LocationProps {
@@ -60,7 +69,7 @@ export interface PatientAttributes {
   maritalStatus: string;
   email?: string;
   isImportant?: boolean;
-  role: UserRoles;
+  role: PatientRoles;
   location?: LocationProps;
   createdAt?: Date;
   updatedAt?: Date;
@@ -108,6 +117,7 @@ export interface UserInterface {
   dob: string;
   idNo: string;
   hospitalID?: string;
+  role: UserRoles
 }
 
 

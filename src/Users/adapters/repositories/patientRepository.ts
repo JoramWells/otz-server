@@ -1,19 +1,22 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op, where } from 'sequelize'
-import { type IPatientRepository } from '../../application/interfaces/IPatientRepository'
-import { patientCache } from '../../constants'
-import { connect } from '../../domain/db/connect'
-import { Hospital } from '../../domain/models/hospital/hospital.model'
-import { NextOfKin } from '../../domain/models/nextOfKin.model'
-import { generateDefaultHashedPassword, Patient } from '../../domain/models/patients.models'
-import { School } from '../../domain/models/school/school.model'
-import { logger } from '../../utils/logger'
-import bcrypt from 'bcrypt'
+import { Op, where } from "sequelize";
+import { type IPatientRepository } from "../../application/interfaces/IPatientRepository";
+import { patientCache } from "../../constants";
+import { connect } from "../../domain/db/connect";
+import { Hospital } from "../../domain/models/hospital/hospital.model";
+import { NextOfKin } from "../../domain/models/nextOfKin.model";
+import {
+  generateDefaultHashedPassword,
+  Patient,
+} from "../../domain/models/patients.models";
+import { School } from "../../domain/models/school/school.model";
+import { logger } from "../../utils/logger";
+import bcrypt from "bcrypt";
 // import { createClient } from 'redis'
-import { RedisAdapter } from './redisAdapter'
-import { NextOfKinInterface, PatientAttributes } from 'otz-types'
+import { RedisAdapter } from "./redisAdapter";
+import { NextOfKinInterface, PatientAttributes } from "otz-types";
 
 export class PatientRepository implements IPatientRepository {
   private readonly redisClient = new RedisAdapter();
@@ -113,7 +116,7 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async find(hospitalID: string): Promise<PatientAttributes[] | null> {
-        const currentDate = new Date();
+    const currentDate = new Date();
     const maxDate = new Date(
       currentDate.setFullYear(currentDate.getFullYear()) - 25
     );
@@ -121,38 +124,37 @@ export class PatientRepository implements IPatientRepository {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(patientCache)) === null) {
-      // const results = await Patient.findAll({
-      //   include: [
-      //     { model: School, attributes: ["schoolName"] },
-      //     {
-      //       model: Hospital,
-      //       attributes: ["hospitalName"],
-      //     },
-          
+    // const results = await Patient.findAll({
+    //   include: [
+    //     { model: School, attributes: ["schoolName"] },
+    //     {
+    //       model: Hospital,
+    //       attributes: ["hospitalName"],
+    //     },
 
-          //   {
-          //     model: ViralLoad,
-          //     attributes: [
-          //       'id',
-          //       'dateOfNextVL',
-          //       'vlResults',
-          //       'isValid',
-          //       'dateOfCurrentVL'
-          //     ]
-          //   }
-        // ],
-        // where: {
-        //   dob: {
-        //     [Op.gte]: maxDate,
-        //   },
-        // },
-      // });
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      // await this.redisClient.set(patientCache, JSON.stringify(results));
+    //   {
+    //     model: ViralLoad,
+    //     attributes: [
+    //       'id',
+    //       'dateOfNextVL',
+    //       'vlResults',
+    //       'isValid',
+    //       'dateOfCurrentVL'
+    //     ]
+    //   }
+    // ],
+    // where: {
+    //   dob: {
+    //     [Op.gte]: maxDate,
+    //   },
+    // },
+    // });
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
+    // await this.redisClient.set(patientCache, JSON.stringify(results));
 
-      // return results;
+    // return results;
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   patientCache
@@ -165,35 +167,34 @@ export class PatientRepository implements IPatientRepository {
     // console.log("fetched from cache!");
 
     // const results: PatientAttributes[] = JSON.parse(cachedPatients);
-          const results = await Patient.findAll({
-                 where:{
-                hospitalID: hospitalID
-              },
-            include: [
-         
-              { model: School, attributes: ["schoolName"] },
-              {
-                model: Hospital,
-                attributes: ["hospitalName"],
-              },
+    const results = await Patient.findAll({
+      where: {
+        hospitalID: hospitalID,
+      },
+      include: [
+        { model: School, attributes: ["schoolName"] },
+        {
+          model: Hospital,
+          attributes: ["hospitalName"],
+        },
 
-              //   {
-              //     model: ViralLoad,
-              //     attributes: [
-              //       'id',
-              //       'dateOfNextVL',
-              //       'vlResults',
-              //       'isValid',
-              //       'dateOfCurrentVL'
-              //     ]
-              //   }
-            ],
-            // where: {
-            //   dob: {
-            //     [Op.gte]: maxDate,
-            //   },
-            // },
-          });
+        //   {
+        //     model: ViralLoad,
+        //     attributes: [
+        //       'id',
+        //       'dateOfNextVL',
+        //       'vlResults',
+        //       'isValid',
+        //       'dateOfCurrentVL'
+        //     ]
+        //   }
+      ],
+      // where: {
+      //   dob: {
+      //     [Op.gte]: maxDate,
+      //   },
+      // },
+    });
     return results;
   }
 
@@ -280,7 +281,6 @@ export class PatientRepository implements IPatientRepository {
     //     }
     //   })
 
-    
     //   const patientResults: PatientAttributes = {
     //     firstName: results?.firstName,
     //     middleName: results?.middleName,
@@ -304,7 +304,7 @@ export class PatientRepository implements IPatientRepository {
       where: {
         userID: id,
       },
-      attributes:['id', 'avatar']
+      attributes: ["id", "avatar"],
     });
     if (results === null) {
       console.log(results, "resultx");
@@ -380,7 +380,19 @@ export class PatientRepository implements IPatientRepository {
   }
 
   async edit(data: PatientAttributes): Promise<PatientAttributes | null> {
-    const { id, firstName, middleName, lastName, phoneNo, role, populationType, dob, dateConfirmedPositive, hospitalID, password } = data;
+    const {
+      id,
+      firstName,
+      middleName,
+      lastName,
+      phoneNo,
+      role,
+      populationType,
+      dob,
+      dateConfirmedPositive,
+      hospitalID,
+      password,
+    } = data;
 
     // delete cache
     await this.redisClient.del(patientCache);
@@ -402,11 +414,11 @@ export class PatientRepository implements IPatientRepository {
       results.dob = dob;
       results.hospitalID = hospitalID;
 
-      if(dateConfirmedPositive && dateConfirmedPositive?.length > 0){
+      if (dateConfirmedPositive && dateConfirmedPositive?.length > 0) {
         results.dateConfirmedPositive = dateConfirmedPositive;
       }
 
-      if(password && password?.length > 0){
+      if (password && password?.length > 0) {
         const hashPassword = await generateDefaultHashedPassword(password);
         results.password = hashPassword;
       }

@@ -1,7 +1,7 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
 import { LineListCSVInterface } from 'otz-types';
-import { ILineListCSVInteractor } from '../../interfaces/articles/ILineListInteractor';
-import { ILineListRepository } from '../../interfaces/articles/ILineListRepository';
+import { ILineListRepository } from '../../interfaces/etl/ILineListRepository';
+import { ILineListCSVInteractor } from '../../interfaces/etl/ILineListInteractor';
 
 
 export class LineListCSVInteractor implements ILineListCSVInteractor {
@@ -17,8 +17,8 @@ export class LineListCSVInteractor implements ILineListCSVInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllLineLists(): Promise<LineListCSVInterface[]> {
-    return await this.repository.find();
+  async getAllLineLists(hospitalID: string): Promise<LineListCSVInterface[] | null> {
+    return await this.repository.find(hospitalID);
   }
 
   async getLineListById(id: string): Promise<LineListCSVInterface | null> {
