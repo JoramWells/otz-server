@@ -1,7 +1,7 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import {  FacilityMAPSInterface } from "otz-types";
-import { LineListCSV } from "../articles/linelistCSV.model";
+import { LineListCSV } from "./linelistCSV.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 

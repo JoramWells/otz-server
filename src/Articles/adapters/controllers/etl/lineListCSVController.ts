@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { ILineListCSVInteractor } from "../../../application/interfaces/articles/ILineListInteractor";
+import { ILineListCSVInteractor } from "../../../application/interfaces/etl/ILineListInteractor";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class LineListController {
@@ -38,11 +38,16 @@ export class LineListController {
   }
 
   async onGetAllLineListCSVs(req: Request, res: Response, next: NextFunction) {
+      const { hospitalID } = req.query;
+      if (!hospitalID || hospitalID === "undefined" || hospitalID === undefined)
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+    
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllLineLists();
+      const results = await this.interactor.getAllLineLists(hospitalID);
       res.status(200).json(results);
 
       next();

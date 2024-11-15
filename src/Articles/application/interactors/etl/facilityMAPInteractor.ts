@@ -17,8 +17,8 @@ export class FacilityMAPCSVInteractor implements IFacilityMAPCSVInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllFacilityMAPs(): Promise<FacilityMAPSInterface[]> {
-    return await this.repository.find();
+  async getAllFacilityMAPs(hospitalID: string): Promise<FacilityMAPSInterface[]> {
+    return await this.repository.find(hospitalID);
   }
 
   async getFacilityMAPById(id: string): Promise<FacilityMAPSInterface | null> {

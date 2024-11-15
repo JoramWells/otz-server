@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
-import { type IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { logger } from '../../utils/logger'
-import { NextOfKinInterface, PatientAttributes } from 'otz-types';
-import { validationResult } from 'express-validator';
-import {validate as isUUID} from 'uuid'
+import { type NextFunction, type Request, type Response } from "express";
+import { type IPatientInteractor } from "../../application/interfaces/IPatientInteractor";
+import { logger } from "../../utils/logger";
+import { NextOfKinInterface, PatientAttributes } from "otz-types";
+import { validationResult } from "express-validator";
+import { validate as isUUID } from "uuid";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PatientController {
@@ -45,7 +45,7 @@ export class PatientController {
       relationship,
       role,
       userID,
-      hospitalID
+      hospitalID,
     } = req.body;
 
     const patientData: PatientAttributes = {
@@ -63,7 +63,7 @@ export class PatientController {
       maritalStatus,
       entryPoint,
       userID,
-      hospitalID
+      hospitalID,
     };
 
     const nextOfKinData: NextOfKinInterface = {
@@ -98,18 +98,20 @@ export class PatientController {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const {hospitalID} = req.params
+      const { hospitalID } = req.query;
 
-            if (!hospitalID || hospitalID === "undefined")
-              return res.status(400).json({ message: "Invalid ID parameter" });
+      if (!hospitalID || hospitalID === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
-            if (!isUUID(hospitalID)) {
-              const errMessage = `${hospitalID} is not a valid UUID `;
-              logger.error(errMessage);
-              return res.status(404).json({ error: errMessage });
-            }
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
 
-      const results = await this.interactor.getAllPatients(hospitalID as string);
+      const results = await this.interactor.getAllPatients(
+        hospitalID as string
+      );
       res.status(200).json(results);
       logger.info({ message: "Fetched all Patients Successfully!" });
 
@@ -236,7 +238,7 @@ export class PatientController {
         dateConfirmedPositive,
         dob,
         hospitalID,
-        password
+        password,
       }: PatientAttributes = req.body;
       const values: PatientAttributes = {
         id,

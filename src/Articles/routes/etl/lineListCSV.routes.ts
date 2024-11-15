@@ -2,9 +2,9 @@
 
 import express from "express";
 import { upload } from "../../middleware/uploadImage";
-import { LineListCSVRepository } from "../../adapters/repositories/articles/progress/linelistCSVRepository";
-import { LineListCSVInteractor } from "../../application/interactors/articles/linelistCSVInteractor";
-import { LineListController } from "../../adapters/controllers/articles/lineListCSVController";
+import { LineListCSVRepository } from "../../adapters/repositories/etl/linelistCSVRepository";
+import { LineListCSVInteractor } from "../../application/interactors/etl/linelistCSVInteractor";
+import { LineListController } from "../../adapters/controllers/etl/lineListCSVController";
 
 const repository = new LineListCSVRepository();
 const interactor = new LineListCSVInteractor(repository);

@@ -41,8 +41,11 @@ export class FacilityMAPController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      const { hospitalID } = req.params;
+      if (!hospitalID || hospitalID === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
-      const results = await this.interactor.getAllFacilityMAPs();
+      const results = await this.interactor.getAllFacilityMAPs(hospitalID);
       res.status(200).json(results);
 
       next();
