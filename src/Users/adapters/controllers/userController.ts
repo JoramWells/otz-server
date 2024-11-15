@@ -74,6 +74,7 @@ export class UserController {
         maritalStatus: "",
       };
 
+      
       const results = await this.interactor.editUser(values);
       res.status(200).json(results);
     } catch (error) {

@@ -42,8 +42,8 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     return await this.repository.edit(data);
   }
 
-  async getAllPrescriptions(dateQuery: string): Promise<PrescriptionInterface[]> {
-    return await this.repository.find(dateQuery);
+  async getAllPrescriptions(dateQuery: string, hospitalID: string): Promise<PrescriptionInterface[]> {
+    return await this.repository.find(dateQuery, hospitalID);
   }
 
   async getAllAdherence(): Promise<PrescriptionInterface[]> {

@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import moment from 'moment'
+import moment from "moment";
 // import { pillUptakeCache } from '../../../constants/appointmentCache'
 // import { RedisAdapter } from '../redisAdapter'
-import { Op, Sequelize, col, fn } from 'sequelize'
-import { type IPillUptakeRepository } from '../../application/interfaces/art/IPillUptakeRepository'
-import { Adherence } from '../../domain/models/adherence/adherence.model'
-import { TimeAndWork } from '../../domain/models/adherence/timeAndWork.model'
-import { Patient } from '../../domain/models/patients.models'
-import { Prescription } from '../../domain/models/art/prescription.model'
+import { Op, Sequelize, col, fn } from "sequelize";
+import { type IPillUptakeRepository } from "../../application/interfaces/art/IPillUptakeRepository";
+import { Adherence } from "../../domain/models/adherence/adherence.model";
+import { TimeAndWork } from "../../domain/models/adherence/timeAndWork.model";
+import { Patient } from "../../domain/models/patients.models";
+import { Prescription } from "../../domain/models/art/prescription.model";
 import { AdherenceAttributes } from "otz-types";
-import { RedisAdapter } from './redisAdapter'
-import { pillUptakeCache, todaysPillCount } from '../../constants/cache'
+import { RedisAdapter } from "./redisAdapter";
+import { pillUptakeCache, todaysPillCount } from "../../constants/cache";
+import { PatientVisits } from "../../domain/models/patientVisits.model";
+import { User } from "../../domain/models/user.model";
 export class PillUptakeRepository implements IPillUptakeRepository {
   private readonly redisClient = new RedisAdapter();
   async count() {
@@ -94,25 +96,42 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     return results;
   }
 
-  async find(date: Date): Promise<AdherenceAttributes[]> {
+  async find(date: Date, hospitalID: string): Promise<AdherenceAttributes[] | null> {
     // check if patient
     // if ((await this.redisClient.get(pillUptakeCache)) === null) {
     const results = await Adherence.findAll({
       where: {
         currentDate: date,
       },
-      include: {
-        model: TimeAndWork,
-        attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
-        include: [
-          {
-            model: Patient,
-            attributes: ["id", "firstName", "middleName"],
-          },
-        ],
-      },
+      include: [
+        {
+          model: TimeAndWork,
+          attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
+          include: [
+            {
+              model: Patient,
+              attributes: ["id", "firstName", "middleName"],
+            },
+          ],
+        },
+        {
+          model: Prescription,
+          include: [
+            {
+              model: PatientVisits,
+              include: [
+                {
+                  model: User,
+                  where: {
+                    hospitalID,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
-
 
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
@@ -152,9 +171,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
       },
     });
 
-
-
-  // if (latestPrescription.length > 0) {
+    // if (latestPrescription.length > 0) {
     const prescriptionIds = latestPrescription.map(
       (prescription) => prescription.id
     );
@@ -167,18 +184,18 @@ export class PillUptakeRepository implements IPillUptakeRepository {
         //       [Op.in]: prescriptionIds,
         //     },
         //   },
-               createdAt: {
-      [Op.between]: [startOfDay, endOfDay],
-               }
+        createdAt: {
+          [Op.between]: [startOfDay, endOfDay],
+        },
         // ],
       },
       include: [
         {
           model: TimeAndWork,
           attributes: ["eveningMedicineTime", "morningMedicineTime"],
-          where:{
-            patientID: id
-          }
+          where: {
+            patientID: id,
+          },
         },
       ],
     });
@@ -188,7 +205,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
 
     // ?index to find the first element
     return currentUptake;
-  // }
+    // }
     // return null;
     // }
 
@@ -202,7 +219,7 @@ export class PillUptakeRepository implements IPillUptakeRepository {
     //     return results;
   }
 
-    async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
+  async findByPatientID(id: string): Promise<AdherenceAttributes[] | null> {
     const recentPrescription = await Prescription.findOne({
       order: [["createdAt", "DESC"]],
       where: {
@@ -238,22 +255,22 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   async findById(id: string): Promise<AdherenceAttributes | null> {
     // await this.redisClient.connect()
     // if ((await this.redisClient.get(id)) === null) {
-      const results: AdherenceAttributes | null = await Adherence.findOne({
-        order: [["updatedAt", "DESC"]],
-        where: {
-          id,
-        },
-        include: {
-          model: TimeAndWork,
-          attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
-          include: [
-            {
-              model: Patient,
-              attributes: ["id", "firstName", "middleName"],
-            },
-          ],
-        },
-      });
+    const results: AdherenceAttributes | null = await Adherence.findOne({
+      order: [["updatedAt", "DESC"]],
+      where: {
+        id,
+      },
+      include: {
+        model: TimeAndWork,
+        attributes: ["id", "morningMedicineTime", "eveningMedicineTime"],
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName"],
+          },
+        ],
+      },
+    });
 
     //   return results;
     // }

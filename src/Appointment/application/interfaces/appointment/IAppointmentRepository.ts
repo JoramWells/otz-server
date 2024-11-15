@@ -2,7 +2,7 @@ import { AppointmentAttributes } from "otz-types";
 
 export interface IAppointmentRepository {
   create: (data: AppointmentAttributes) => Promise<AppointmentAttributes>;
-  find: (dateQuery:string) => Promise<AppointmentAttributes[]>;
+  find: (dateQuery:string, hospitalID: string) => Promise<AppointmentAttributes[]>;
   findById: (id: string) => Promise<AppointmentAttributes | null>;
   findAllAppointmentById: (
     id: string
