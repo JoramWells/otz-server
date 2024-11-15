@@ -33,9 +33,20 @@ export class AppointmentController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const { mode } = req.query;
+      const { mode, hospitalID } = req.query;
 
-      const results = await this.interactor.getAllAppointments(mode as string);
+      if (!hospitalID || hospitalID === "undefined")
+        return res
+          .status(400)
+          .json({ message: "Invalid ID parameter" });
+
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+
+      const results = await this.interactor.getAllAppointments(mode as string, hospitalID as string);
       res.status(200).json(results);
       res.flush();
 

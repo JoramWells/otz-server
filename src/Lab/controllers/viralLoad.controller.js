@@ -69,6 +69,9 @@ const addViralLoadTest = async (req, res, next) => {
 
 // get all priceListItems
 const getAllViralLoad = async (req, res, next) => {
+  const {hospitalID} = req.params
+  if (!hospitalID || hospitalID === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const results = await ViralLoad.findAll({
       include: [
@@ -76,6 +79,12 @@ const getAllViralLoad = async (req, res, next) => {
           model: Patient,
           attributes: ['firstName', 'middleName', 'dob', 'sex'],
         },
+        {
+          model: User,
+          where: {
+            hospitalID
+          }
+        }
       ],
     });
     res.json(results);

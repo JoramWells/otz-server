@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from 'express'
 import { type IPillUptakeInteractor } from '../../application/interfaces/art/IPillUptakeInteractor'
+import { validate as isUUID } from "uuid";
+
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class PillUptakeController {
@@ -13,7 +15,6 @@ export class PillUptakeController {
 
   async onCreatePillUptake(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createPillUptake(req.body);
       res.json(newProfile);
       //   logger.info({
@@ -31,9 +32,16 @@ export class PillUptakeController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const {date} = req.query
+      const {date, hospitalID} = req.query
+      if (!hospitalID || hospitalID === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
-      const results = await this.interactor.getAllPillUptakes(date as unknown as Date);
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      const results = await this.interactor.getAllPillUptakes(date as unknown as Date, hospitalID as string);
       res.status(200).json(results);
 
       next();

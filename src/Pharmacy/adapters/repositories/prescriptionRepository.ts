@@ -13,6 +13,7 @@ import { col, fn, Op, Sequelize } from "sequelize";
 import { Patient } from "../../domain/models/patients.models";
 import { ARTPrescription } from "../../domain/models/art/artPrescription.model";
 import { ImportantPatient } from "../../domain/models/importantPatients";
+import { PatientVisits } from "../../domain/models/patientVisits.model";
 
 export class PrescriptionRepository implements IPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -45,7 +46,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     });
   }
 
-  async find(dateQuery: string): Promise<PrescriptionInterface[]> {
+  async find(dateQuery: string, hospitalID: string): Promise<PrescriptionInterface[]> {
 
     const currentDate = new Date()
     const maxDate = new Date(currentDate.setFullYear(currentDate.getFullYear())-25)
@@ -55,6 +56,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     const results = await Prescription.findAll({
 
 
+      
       include: [
         {
           model: Patient,
@@ -64,6 +66,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
           //     [Op.lte]: maxDate
           //   }
           // }
+        },
+        {
+          model: PatientVisits,
+          where:{
+            hospitalID
+          }
         },
 
         {

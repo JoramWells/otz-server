@@ -74,8 +74,17 @@ export class PrescriptionController {
 
   async onGetAllPrescriptions(req: Request, res: Response, next: NextFunction) {
     try {
-      const {mode} = req.query
-      const results = await this.interactor.getAllPrescriptions(mode as string);
+      const {mode, hospitalID} = req.query
+
+      if (!hospitalID || hospitalID === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      const results = await this.interactor.getAllPrescriptions(mode as string, hospitalID as string);
       res.status(200).json(results);
       next();
     } catch (error) {

@@ -187,7 +187,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     // return results;
   }
 
-  async find(dateQuery: string): Promise<AppointmentAttributes[]> {
+  async find(dateQuery: string, hospitalID: string): Promise<AppointmentAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
 
@@ -230,6 +230,9 @@ export class AppointmentRepository implements IAppointmentRepository {
           {
             model: User,
             attributes: ["id", "firstName", "middleName"],
+            where:{
+              hospitalID
+            }
           },
           {
             model: AppointmentAgenda,

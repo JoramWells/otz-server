@@ -27,6 +27,7 @@ export class ARTPrescriptionController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      // const {hospi}  =req.body
 
       const results = await this.interactor.getAllARTPrescriptions()
       res.status(200).json(results)
