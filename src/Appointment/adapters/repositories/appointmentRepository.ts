@@ -187,14 +187,21 @@ export class AppointmentRepository implements IAppointmentRepository {
     // return results;
   }
 
-  async find(dateQuery: string, hospitalID: string): Promise<AppointmentAttributes[]> {
+  async find(
+    dateQuery: string,
+    hospitalID: string
+  ): Promise<AppointmentAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
 
-    const currentDate = new Date();
-        const maxDate = new Date(
-          currentDate.setFullYear(currentDate.getFullYear()) - 25
-        );
+    const currentDate = new Date(); // Ensure currentDate is not mutated
+    const maxDate = new Date(
+      currentDate.getFullYear() - 25,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    console.log(maxDate, "MAXdATE!!");
 
     if (dateQuery === "weekly") {
       const { start, end } = getWeekRange(currentDate);
@@ -221,18 +228,18 @@ export class AppointmentRepository implements IAppointmentRepository {
               "isImportant",
               "dob",
             ],
-            // where: {
-            //   dob: {
-            //     [Op.gte]: maxDate,
-            //   },
-            // },
+            where: {
+              dob: {
+                [Op.gte]: maxDate,
+              },
+            },
           },
           {
             model: User,
             attributes: ["id", "firstName", "middleName"],
-            where:{
-              hospitalID
-            }
+            where: {
+              hospitalID,
+            },
           },
           {
             model: AppointmentAgenda,
@@ -274,6 +281,11 @@ export class AppointmentRepository implements IAppointmentRepository {
               "sex",
               "isImportant",
             ],
+            where: {
+              dob: {
+                [Op.gte]: maxDate,
+              },
+            },
           },
           {
             model: User,
@@ -309,6 +321,11 @@ export class AppointmentRepository implements IAppointmentRepository {
         {
           model: Patient,
           attributes: ["firstName", "middleName", "dob", "sex", "isImportant"],
+          where: {
+            dob: {
+              [Op.gte]: maxDate,
+            },
+          },
         },
         {
           model: User,

@@ -50,16 +50,19 @@ def validate_email(cccNo):
 
 def get_or_create_appointment(patientID, patientVisitID, userID, appointmentStatusID,appointmentAgendaID, appointmentDate ):
     try:
-        appointment = Appointments.objects.get(
+        appointment_list = Appointments.objects.filter(
             patientID=patientID,
-            patientVisitID=patientVisitID,
             userID=userID,
             appointmentStatusID = appointmentStatusID,
             appointmentAgendaID = appointmentAgendaID,
             appointmentDate = appointmentDate
         )
-        return appointment
-    except Appointments.DoesNotExist:
+        if appointment_list.exists():
+            # If multiple objects are returned, raise an exception or log a warning
+            if appointment_list.count() > 1:
+                print(f"Warning: Multiple VitalSigns records found for patientID {patientID} with these parameters.")
+            return appointment_list.first(), False  # Return the first matching object
+
         appointment = Appointments.objects.create(
             patientID=patientID,
             patientVisitID=patientVisitID,
@@ -68,23 +71,31 @@ def get_or_create_appointment(patientID, patientVisitID, userID, appointmentStat
             appointmentAgendaID = appointmentAgendaID,
             appointmentDate = appointmentDate
         )
-        return appointment
+        return appointment, True
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
 
 def get_or_create_vl(patientID, patientVisitID, vlResults, vlJustification, dateOfVL, dateOfNextVL, isVLValid):
     try:
-        vl = ViralLoad.objects.get(
+        vl = ViralLoad.objects.filter(
             patientID = patientID,
             # isStandard=True,
-            patientVisitID=patientVisitID,
-            vlResults=vlResults,
+            # vlResults=vlResults,
             vlJustification=vlJustification,
             dateOfVL=dateOfVL,
-            isVLValid = isVLValid,
-            dateOfNextVL = dateOfNextVL
+            # isVLValid = isVLValid,
+            # dateOfNextVL = dateOfNextVL
 
         )
-        return vl
-    except ViralLoad.DoesNotExist:
+        if vl.exists():
+            # If multiple objects are returned, raise an exception or log a warning
+            if vl.count() > 1:
+                print(f"Warning: Multiple VitalSigns records found for patientID {patientID} with these parameters.")
+            return vl.first(), False  # Return the first matching object
+
+         
         vl = ViralLoad.objects.create(
             patientID = patientID,
             # isStandard=True,
@@ -97,35 +108,49 @@ def get_or_create_vl(patientID, patientVisitID, vlResults, vlJustification, date
 
 
         )
-        return vl
+        return vl, True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
 
 def get_or_create_vs(patientID, patientVisitID, weight, height, systolic, diastolic):
     try:
-        vs = VitalSigns.objects.get(
-            patientID = patientID,
+        # Use filter to find all matching records
+        vs_list = VitalSigns.objects.filter(
+            patientID=patientID,
             weight=weight,
-            patientVisitID=patientVisitID,
             height=height,
             systolic=systolic,
             diastolic=diastolic,
-
         )
-        return vs
-    except VitalSigns.DoesNotExist:
+
+        if vs_list.exists():
+            # If multiple objects are returned, raise an exception or log a warning
+            if vs_list.count() > 1:
+                print(f"Warning: Multiple VitalSigns records found for patientID {patientID} with these parameters.")
+            return vs_list.first(), False  # Return the first matching object
+
+        # If no matching objects, create a new one
         vs = VitalSigns.objects.create(
-            patientID = patientID,
+            patientID=patientID,
             weight=weight,
             patientVisitID=patientVisitID,
             height=height,
             systolic=systolic,
             diastolic=diastolic,
-
         )
-        return vs
+        return vs, True
 
-def get_or_create_art_prescription(patientID, regimen, line, isSwitched, isStandard, startDate):
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
+
+
+
+def get_or_create_art_prescription(patientID, regimen, patientVisitID,line, isSwitched, isStandard, startDate):
     try:
-        art = ArtPrescription.objects.get(
+        art = ArtPrescription.objects.filter(
             patientID = patientID,
             startDate=startDate,
             isStandard=isStandard,
@@ -133,35 +158,49 @@ def get_or_create_art_prescription(patientID, regimen, line, isSwitched, isStand
             line=line,
             isSwitched = isSwitched
         )
-        return art
-    except ArtPrescription.DoesNotExist:
-        art  = ArtPrescription.objects.create(
-            patientID = patientID,
-            startDate=startDate,
-            isStandard=isStandard,
-            regimen=regimen,
-            line=line,
-            isSwitched = isSwitched
-        )
-        return art
 
+        if art.exists():
+            # If multiple objects are returned, raise an exception or log a warning
+            if art.count() > 1:
+                print(f"Warning: Multiple VitalSigns records found for patientID {patientID} with these parameters.")
+            return art.first(), False  # Return the first matching object
+
+         
+        vs_data  = ArtPrescription.objects.create(
+            patientID = patientID,
+            startDate=startDate,
+            isStandard=isStandard,
+            patientVisitID=patientVisitID,
+            regimen=regimen,
+            line=line,
+            isSwitched = isSwitched
+        )
+        return vs_data, True
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
 
 def get_or_create_prescription(patientID, artPrescriptionID, patientVisitID, noOfPills, refillDate, nextRefillDate):
     try:
-        prescription = Prescription.objects.get(
+        prescription = Prescription.objects.filter(
             patientID = patientID,
             artPrescriptionID= artPrescriptionID,
-            patientVisitID=patientVisitID,
+            # patientVisitID=patientVisitID,
             frequency=1,
             noOfPills=noOfPills,
             # expectedNoOfPills=30,
             # computedNoOfPills=1,
             refillDate=refillDate,
-            nextRefillDate=nextRefillDate,
+            # nextRefillDate=nextRefillDate,
 
         )
-        return prescription
-    except Prescription.DoesNotExist:
+
+        if prescription.exists():
+            # If multiple objects are returned, raise an exception or log a warning
+            if prescription.count() > 1:
+                print(f"Warning: Multiple VitalSigns records found for patientID {patientID} with these parameters.")
+            return prescription.first(), False  # Return the first matching object
+
         prescription = Prescription.objects.create(
             patientID = patientID,
             artPrescriptionID= artPrescriptionID,
@@ -174,7 +213,10 @@ def get_or_create_prescription(patientID, artPrescriptionID, patientVisitID, noO
             nextRefillDate=nextRefillDate,
 
         )
-        return prescription
+        return prescription, True
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
         
 
 def get_or_create_patient(cccNo, firstName, lastName, dob, sex, populationType,middleName, dateConfirmedPositive, enrollmentDate, ageAtReporting, NUPI, hospitalID):
@@ -403,7 +445,7 @@ class LineListView(generics.CreateAPIView):
                     else:
                         print('Blood Pressure empty, skipping')  
 
-                    vsData = get_or_create_vs(
+                    vsData, createdVs = get_or_create_vs(
                         patientID = new_patients,
                         weight=row['Weight'],
                         patientVisitID=patientVisit,
@@ -413,7 +455,7 @@ class LineListView(generics.CreateAPIView):
 
                     )
 
-                    appointment = get_or_create_appointment(
+                    appointment, _ = get_or_create_appointment(
                         patientID = new_patients,
                         patientVisitID=patientVisit,
                         userID=user,
@@ -423,7 +465,7 @@ class LineListView(generics.CreateAPIView):
                     )
 
                     # 
-                    appointmentRefill= get_or_create_appointment(
+                    appointmentRefill, _= get_or_create_appointment(
                         patientID = new_patients,
                         patientVisitID=patientVisit,
                         userID=user,
@@ -433,7 +475,7 @@ class LineListView(generics.CreateAPIView):
                     )
 
                     # 
-                    appointmentViralLoad= get_or_create_appointment(
+                    appointmentViralLoad, _= get_or_create_appointment(
                         userID=user,
                         patientID = new_patients,
                         patientVisitID=patientVisit,
@@ -442,9 +484,10 @@ class LineListView(generics.CreateAPIView):
                         appointmentDate = nextVLAppointmentDate
                     )
 
-                    firstRegimen = get_or_create_art_prescription(
+                    firstRegimen , _= get_or_create_art_prescription(
                         patientID = new_patients,
                         startDate=artStartDate,
+                        patientVisitID=patientVisit,
                         isStandard=True,
                         regimen=row['First Regimen'],
                         line='First line',
@@ -452,9 +495,10 @@ class LineListView(generics.CreateAPIView):
 
                     )
 
-                    currentRegimen = get_or_create_art_prescription(
+                    currentRegimen, _ = get_or_create_art_prescription(
                         patientID = new_patients,
                         startDate=artStartDate,
+                        patientVisitID=patientVisit,
                         isStandard=True,
                         regimen=row['Current Regimen'],
                         line=row['Current Regimen Line'],
@@ -474,7 +518,7 @@ class LineListView(generics.CreateAPIView):
 
                     )
 
-                    vl = get_or_create_vl(
+                    vl, _ = get_or_create_vl(
                         patientID = new_patients,
                         # isStandard=True,
                         isVLValid = isVLValid,
@@ -493,7 +537,7 @@ class LineListView(generics.CreateAPIView):
                     vsData.save()
                     firstRegimen.save()
                     currentRegimen.save()
-                    prescription.save()
+                    # prescription.save()
                     vl.save()
                     patientVisit.save()
 

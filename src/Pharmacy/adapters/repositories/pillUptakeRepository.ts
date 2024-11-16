@@ -99,6 +99,14 @@ export class PillUptakeRepository implements IPillUptakeRepository {
   async find(date: Date, hospitalID: string): Promise<AdherenceAttributes[] | null> {
     // check if patient
     // if ((await this.redisClient.get(pillUptakeCache)) === null) {
+    const currentDate = new Date();
+    
+        const maxDate = new Date(
+          currentDate.getFullYear() - 26,
+          currentDate.getMonth(),
+          currentDate.getDate()
+        );
+    
     const results = await Adherence.findAll({
       where: {
         currentDate: date,
@@ -111,6 +119,15 @@ export class PillUptakeRepository implements IPillUptakeRepository {
             {
               model: Patient,
               attributes: ["id", "firstName", "middleName"],
+              where:{
+                dob:{
+                  [Op.gte]: maxDate
+                }
+              }
+              // where: {
+              //   dob: {
+              //     [Op.gte]: maxDate,
+              //   },
             },
           ],
         },

@@ -2,6 +2,7 @@ import { Model, UUIDV4, DataTypes } from 'sequelize'
 import { connect } from '../../db/connect'
 import { Patient } from '../patients.models'
 import { ARTPrescriptionInterface } from 'otz-types'
+import { PatientVisits } from '../patientVisits.model';
 
 export class ARTPrescription extends Model<ARTPrescriptionInterface> {
   id!: string;
@@ -33,6 +34,15 @@ ARTPrescription.init(
       },
       onDelete: "CASCADE",
       allowNull: false,
+    },
+    artPrescriptionID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "artPrescriptions",
+        key: "id",
+      },
+      allowNull: false,
+      onDelete: "CASCADE",
     },
     regimen: {
       type: DataTypes.STRING,
@@ -76,6 +86,10 @@ ARTPrescription.init(
 );
 
 ARTPrescription.belongsTo(Patient, { foreignKey: 'patientID' })
+ARTPrescription.belongsTo(PatientVisits, {
+  foreignKey: "patientVisitID",
+  constraints: false,
+});
 
 // (async () => {
 connect.sync()

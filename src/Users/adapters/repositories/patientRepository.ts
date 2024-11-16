@@ -117,9 +117,6 @@ export class PatientRepository implements IPatientRepository {
 
   async find(hospitalID: string): Promise<PatientAttributes[] | null> {
     const currentDate = new Date();
-    const maxDate = new Date(
-      currentDate.setFullYear(currentDate.getFullYear()) - 25
-    );
 
     // await this.redisClient.connect();
     // check if patient
@@ -167,9 +164,17 @@ export class PatientRepository implements IPatientRepository {
     // console.log("fetched from cache!");
 
     // const results: PatientAttributes[] = JSON.parse(cachedPatients);
+    const maxDate = new Date(
+      currentDate.getFullYear() - 26,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
     const results = await Patient.findAll({
       where: {
         hospitalID: hospitalID,
+        dob: {
+          [Op.gte]: maxDate,
+        },
       },
       include: [
         { model: School, attributes: ["schoolName"] },

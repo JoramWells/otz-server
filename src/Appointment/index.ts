@@ -177,31 +177,37 @@ app.locals.io = io;
 
 // check connection
 io.on("connection", (client) => {
-  const socketUserID = client.handshake.query.userID
+  const socketUserID = client.handshake.query.userID;
   const socketModuleID = client.handshake.query.moduleID;
 
   console.log("Connected to Appointment IO sever", client.id);
 
-
-  // 
+  //
   const connectedAt = new Date();
 
   //
   client.on("disconnect", async () => {
     console.log("A user disconnected");
-  const disconnectedAt = new Date();
+    const disconnectedAt = new Date();
     const duration = Math.floor((disconnectedAt - connectedAt) / 1000);
-    const isModulePresent = await AppModule.findByPk(socketModuleID);
-    if(isModulePresent){
-      await AppModuleSession.create({
-        userID: socketUserID,
-        appModuleID: isModulePresent.id,
-        disconnectedAt: disconnectedAt,
-        connectedAt: connectedAt,
-        duration: duration
-      })
+    if (
+      socketModuleID &&
+      socketUserID &&
+      socketModuleID !== "undefined" &&
+      socketModuleID !== "null" &&
+      socketModuleID !== null
+    ) {
+      const isModulePresent = await AppModule.findByPk(socketModuleID);
+      if (isModulePresent) {
+        await AppModuleSession.create({
+          userID: socketUserID,
+          appModuleID: isModulePresent.id,
+          disconnectedAt: disconnectedAt,
+          connectedAt: connectedAt,
+          duration: duration,
+        });
+      }
     }
-    
   });
 });
 
@@ -239,51 +245,47 @@ app.get("/", (req, res) => {
   res.redirect(url);
 });
 
-
-
 app.get("/google/redirect", async (req, res) => {
   const { code } = req.query;
   try {
     const { tokens } = await oauth2Client.getToken(code as string);
     oauth2Client.setCredentials(tokens);
-    res.cookie('tokens', tokens)
-    res.redirect('/events')
-    console.log(tokens, 'tokens');
+    res.cookie("tokens", tokens);
+    res.redirect("/events");
+    console.log(tokens, "tokens");
     // res.send("its working!!");
   } catch (error) {
     console.error(error);
-    res.status(500).send('Google Authentication failed!!')
+    res.status(500).send("Google Authentication failed!!");
   }
 });
 
-app.get('/events', async(req,res)=>{
+app.get("/events", async (req, res) => {
   // const tokens = req.cookies.tokens
   // oauth2Client.setCredentials(tokens)
-  console.log(oauth2Client.credentials.access_token)
+  console.log(oauth2Client.credentials.access_token);
 
   try {
     const calendar = google.calendar({
-      version: 'v3',
-      auth: oauth2Client
-    })
+      version: "v3",
+      auth: oauth2Client,
+    });
 
     const events = await calendar.events.list({
-      calendarId:'primary',
-      timeMin:(new Date()).toISOString(),
-      maxResults:10,
+      calendarId: "primary",
+      timeMin: new Date().toISOString(),
+      maxResults: 10,
       singleEvents: true,
-      orderBy:'startTime'
-    })
+      orderBy: "startTime",
+    });
     // res.send('events')
 
-    res.json(events.data.items)
-    
+    res.json(events.data.items);
   } catch (error) {
-    console.error(error)
-    res.status(500).send('Error Fetching calendar events')
+    console.error(error);
+    res.status(500).send("Error Fetching calendar events");
   }
-
-})
+});
 
 app.use("/appointments", appointmentRouter);
 app.use("/appointment-agenda", appointmentAgendaRouter);
