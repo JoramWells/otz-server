@@ -290,6 +290,9 @@ export class AppointmentRepository implements IAppointmentRepository {
           {
             model: User,
             attributes: ["id", "firstName", "middleName"],
+            where: {
+              hospitalID,
+            },
           },
           {
             model: AppointmentAgenda,
@@ -330,6 +333,9 @@ export class AppointmentRepository implements IAppointmentRepository {
         {
           model: User,
           attributes: ["id", "firstName", "middleName"],
+          where: {
+            hospitalID,
+          },
         },
         {
           model: AppointmentAgenda,
