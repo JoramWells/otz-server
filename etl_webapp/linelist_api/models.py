@@ -94,6 +94,7 @@ class ArtPrescription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
     startDate = models.DateTimeField()
+    patientVisitID = models.ForeignKey('PatientVisit', on_delete=models.CASCADE, db_column='patientVisitID')
     regimen = models.CharField(max_length=100)
     isStandard = models.BooleanField()
     isSwitched = models.BooleanField()

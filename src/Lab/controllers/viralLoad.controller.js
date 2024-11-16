@@ -73,11 +73,22 @@ const getAllViralLoad = async (req, res, next) => {
   if (!hospitalID || hospitalID === "undefined")
     return res.status(400).json({ message: "Invalid ID parameter" });
   try {
+    const currentDate = new Date()
+    const maxDate = new Date(
+      currentDate.getFullYear() - 26,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
     const results = await ViralLoad.findAll({
       include: [
         {
           model: Patient,
           attributes: ['firstName', 'middleName', 'dob', 'sex'],
+          where: {
+            dob: {
+              [Op.gte]: maxDate
+            }
+          }
         },
         {
           model: User,
