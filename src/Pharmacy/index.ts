@@ -20,7 +20,7 @@ import { artPrescriptionRouter } from './routes/artPrescription.routes'
 // import { adherenceMonitor } from './utils/adherence'
 import { pillUptakeRouter } from './routes/pillUptake.routes'
 import { createServer } from 'http'
-import { initSentry } from './config/sentryInit'
+// import { initSentry } from './config/sentryInit'
 import { sendRefillNotification } from './utils/sendRefillNotification'
 import { timeAndWorkRouter } from './routes/treatmentplan/timeAndWork.routes'
 import { enhancedAdherenceRouter } from './routes/treatmentplan/enhancedAdherence.routes'
@@ -150,7 +150,7 @@ app.use('/home-visit-config', homeVisitConfigRouter);
 app.use("/otz-enrollment", otzRouter);
 
 // init sentry
-initSentry((app))
+// initSentry((app))
 // sendRefillNotification()
 
 connect.authenticate().then(() => {
