@@ -7,4 +7,5 @@ export interface IUserInteractor {
   editUser: (data: UserInterface) => Promise<UserInterface | null>;
   login: (email: string, password: string, hospitalID: string) => Promise<UserInterface | null>;
   deleteUser: (id: string) => Promise<number | null>;
+  updateUserPassword: (data: UserInterface) => Promise<UserInterface | null>;
 }

@@ -87,4 +87,14 @@ export interface FriendRequestsAttributes {
   status: FriendRequestStatus;
 }
 
+export interface PhoneNumberVerificationInterface {
+  id?: string;
+  patientID?: string;
+  userID?: string;
+  phoneNo: string;
+  isVerified: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 

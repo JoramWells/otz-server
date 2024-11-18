@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, status
-from .models import Patients,ArtPrescription,VitalSigns, ViralLoad, PatientVisit,Hospital,User, Prescription, FacilityMAPS, CSVFile, AppointmentAgenda, AppointmentStatus, Appointments
+from .models import Patients,ArtPrescription,VitalSigns, ViralLoad, PatientVisit,Hospital,User, Prescription, FacilityMAPS, CSVFile,OTZEnrollments, AppointmentAgenda, AppointmentStatus, Appointments, CaseManager
 from .serializers import PatientsSerializer, LineListSerializer, CSVFileSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -16,7 +16,7 @@ import calendar
 from datetime import datetime, timedelta
 import os
 from dateutil.relativedelta import relativedelta
-
+# from c
 # create TCA appointment
 upcomingAppointmentStatus = AppointmentStatus.objects.filter(statusDescription='Upcoming').first()
 
@@ -47,6 +47,18 @@ def calculate_total_pills(refillDate, noOfMonths):
 def validate_email(cccNo):
     if(Patients.objects.filter(cccNo=cccNo).exists()):
         raise ValidationError('Email Exists')
+
+def check_user(firstName, middleName):
+    try:
+     user = User.objects.get(
+        firstName=firstName,
+        middleName=middleName
+    )
+     return user
+    except User.DoesNotExist:
+        return None
+    # if(Patients.objects.get(cccNo=cccNo).exists()):
+    #     raise ValidationError('Email Exists')
 
 def get_or_create_appointment(patientID, patientVisitID, userID, appointmentStatusID,appointmentAgendaID, appointmentDate ):
     try:
@@ -153,7 +165,6 @@ def get_or_create_art_prescription(patientID, regimen, patientVisitID,line, isSw
         art = ArtPrescription.objects.filter(
             patientID = patientID,
             startDate=startDate,
-            isStandard=isStandard,
             regimen=regimen,
             line=line,
             isSwitched = isSwitched
@@ -243,22 +254,102 @@ def get_or_create_patient(cccNo, firstName, lastName, dob, sex, populationType,m
         )
         return patient, True
 
+def get_or_create_case_manager(patientID, userID):
+    try:
+        case_manager = CaseManager.objects.filter(
+            patientID=patientID,
+            userID=userID,
+                                             )
+        if case_manager.exists():
+            # If multiple objects are returned, raise an exception or log a warning
+            if case_manager.count() > 1:
+                print(f"Warning: Multiple VitalSigns records found for patientID {patientID} with these parameters.")
+            return case_manager.first(), False  # Return the first matching object
+
+
+        case_manager = CaseManager.objects.create(
+            patientID=patientID,
+            userID=userID,
+        )
+        return case_manager, True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
+
+# def get_or_create_otz_enrollment(dateOfEnrollmentToOTZ,patientID, enrolledBy, currentArtPrescriptionID, currentViralLoadID):
+#     try:
+#         otz_list = OTZEnrollments.objects.filter(
+#             # dateOfEnrollmentToOTZ=dateOfEnrollmentToOTZ,
+#             enrolledBy=enrolledBy,
+#             patientID=patientID,
+#             currentArtPrescriptionID=currentArtPrescriptionID,
+#             currentViralLoadID = currentViralLoadID
+
+
+#         )
+#         if otz_list.exists():
+#             # If multiple objects are returned, raise an exception or log a warning
+#             if otz_list.count() > 1:
+#                 print(f"Warning: Multiple Enrollment records found for patientID {patientID} with these parameters.")
+#             return otz_list.first(), False  # Return the first matching object
+
+#         otz = OTZEnrollments.objects.create(
+#             dateOfEnrollmentToOTZ=dateOfEnrollmentToOTZ,
+#             enrolledBy=enrolledBy,
+#             currentArtPrescriptionID=currentArtPrescriptionID,
+#             currentViralLoadID = currentViralLoadID,
+#             patientID=patientID,
+
+#         )
+#         return otz, True
+
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#         raise
+
+def get_or_create_otz_enrollment(dateOfEnrollmentToOTZ,patientID, enrolledBy, currentArtPrescriptionID, currentViralLoadID):
+    try:
+        otz = OTZEnrollments.objects.create(
+            dateOfEnrollmentToOTZ=dateOfEnrollmentToOTZ,
+            enrolledBy=enrolledBy,
+            currentArtPrescriptionID=currentArtPrescriptionID,
+            currentViralLoadID = currentViralLoadID,
+            patientID=patientID,
+
+        )
+        return otz, False
+    except OTZEnrollments.DoesNotExist:
+        print("Enrolled Patient not found!!")
+
+        otz = OTZEnrollments.objects.create(
+            dateOfEnrollmentToOTZ=dateOfEnrollmentToOTZ,
+            enrolledBy=enrolledBy,
+            currentArtPrescriptionID=currentArtPrescriptionID,
+            currentViralLoadID = currentViralLoadID,
+            patientID=patientID,
+
+        )
+        return otz, True
+
+
 def parse_and_convert_date(date_str):
     try:
         if isinstance(date_str, str):
-
             parsed_dated = datetime.strptime(date_str, '%d/%m/%Y')
-        # iso_date_str = parsed_dated.strftime('%Y/%m/%d')
+        # else:
+        #     return None  # Return None if the input is not a string
         return parsed_dated
-    except ValueError: 
-        # raise ValidationError('Invalid date format')\
+    except ValueError:
+        # Handle invalid date format gracefully
         return None
+
+    
 
 # Create your views here.
 class PatientCreate(generics.ListCreateAPIView):
     queryset = ViralLoad.objects.all()
     serializer_class = PatientsSerializer
-
 
 class UploadCSV(APIView):
     def post(self, request, format=None):
@@ -301,9 +392,13 @@ class LineListView(generics.CreateAPIView):
             file_serializer.validated_data['hospitalID'] = hospital
             file_instance = file_serializer.save()
             file_path = file_instance.file.path
+            file_size = os.path.getsize(file_path)
+            file_instance.size = file_size
+            file_instance = file_serializer.save()
+
             if (os.path.exists(file_path) and os.path.getsize(file_path)>0):
                 try:
-                    lineListID = CSVFile.objects.latest('id').id
+
                     
                     reader = pd.read_csv(file_path)
                     df=preprocessCSV(reader)
@@ -361,7 +456,9 @@ class LineListView(generics.CreateAPIView):
                     continue
                 dateConfirmedPositive = parse_and_convert_date(dateConfirmedPositive)
 
-                enrollmentDate = parse_and_convert_date(row['Enrollment Date'])
+
+
+                enrollmentDate = row['Enrollment Date']
                 monthsOfPrescription = row['Months of Prescription']
                 refillDate = row['Refill Date']
                 nextAppointmentDate = row['Next Appointment Date']
@@ -387,6 +484,11 @@ class LineListView(generics.CreateAPIView):
 
                 if(pd.isna(artStartDate)):
                     continue
+
+                if(pd.isna(enrollmentDate)):
+                    continue
+
+                enrollmentDate = parse_and_convert_date(enrollmentDate)
                 refillDate = parse_and_convert_date(refillDate)
                 artStartDate = parse_and_convert_date(artStartDate)
                 nextRefillDate = refillDate + relativedelta(months=int(monthsOfPrescription))
@@ -400,6 +502,21 @@ class LineListView(generics.CreateAPIView):
                 firstName = parts[0] if len(parts) > 0 else ""
                 middleName = parts[1] if len(parts) > 1 else ""
                 lastName = parts[2] if len(parts) > 2 else ""
+
+                isOtz = row['Active in OTZ']
+
+                # cae manager name
+                case_manager_parts = row.get('Case Manager',"")
+                if(pd.isna(case_manager_parts)):
+                    # reader.at[index, 'Refill Date'] = pd.Timestamp.now().normalize()
+                    case_manager_parts=""
+                case_manager_parts = case_manager_parts.split(' ')
+                
+                case_manager_first_name = case_manager_parts[0] if len(case_manager_parts) > 0 else ""
+                case_manager_middle_name = case_manager_parts[1] if len(case_manager_parts) > 1 else ""
+                # case_manager_last_name = parts[2] if len(case_manager_parts) > 2 else ""
+
+
                 with transaction.atomic():
 
 
@@ -445,6 +562,19 @@ class LineListView(generics.CreateAPIView):
                     else:
                         print('Blood Pressure empty, skipping')  
 
+                    
+
+             
+                    isPresent = check_user(firstName=case_manager_first_name,middleName=case_manager_middle_name)
+                    # print(isPresent, 'user')
+                    if isPresent is not None:
+                        
+                        case_manager, _ = get_or_create_case_manager(
+                            patientID=new_patients,
+                            userID=isPresent
+                        )
+                        case_manager.save()
+                    
                     vsData, createdVs = get_or_create_vs(
                         patientID = new_patients,
                         weight=row['Weight'],
@@ -528,11 +658,22 @@ class LineListView(generics.CreateAPIView):
                         dateOfVL=dateOfVL,
                         dateOfNextVL = nextVLAppointmentDate
 
-                    )                    
+                    )       
+
+                    if isOtz.strip().lower() == 'yes': 
+                        new_enrollment, _ = get_or_create_otz_enrollment(
+                                dateOfEnrollmentToOTZ=enrollmentDate,
+                                enrolledBy=user,
+                                currentArtPrescriptionID=currentRegimen,
+                                currentViralLoadID = vl,
+                                patientID=new_patients,
+                        )
+                        new_enrollment.save()
+
                     appointment.save()
                     appointmentRefill.save()
-                    if created is True:
-                        new_patients.save()
+                    # if created is True:
+                    #     new_patients.save()
                     appointmentViralLoad.save()
                     vsData.save()
                     firstRegimen.save()
@@ -540,6 +681,7 @@ class LineListView(generics.CreateAPIView):
                     # prescription.save()
                     vl.save()
                     patientVisit.save()
+                    # case_manager.save()
 
 
                

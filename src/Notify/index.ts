@@ -29,7 +29,7 @@ import { friendRequestRouter } from './routes/chat/request.routes';
 import { initSentry } from "./config/sentryInit";
 import { startRefillConsumer } from './adapters/consumer/notify.consumer';
 import { Messages } from './domain/models/chats/messages.model';
-import { PatientAttributes } from 'otz-types';
+import { phoneNumberVerificationRouter } from './routes/contacts/phoneNumberVerification.routes';
 
 const morgan = require('morgan');
 require('dotenv').config();
@@ -250,6 +250,7 @@ app.use("/messages-text-replies", messageTextReplyRouter);
 app.use("/chats", chatRouter);
 app.use("/messages", messageRouter);
 app.use("/friend-requests", friendRequestRouter);
+app.use("/phone-number-verification", phoneNumberVerificationRouter);
 
 
 

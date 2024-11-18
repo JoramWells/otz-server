@@ -35,10 +35,10 @@ ARTPrescription.init(
       onDelete: "CASCADE",
       allowNull: false,
     },
-    artPrescriptionID: {
+    patientVisitID: {
       type: DataTypes.UUID,
       references: {
-        model: "artPrescriptions",
+        model: "patientVisits",
         key: "id",
       },
       allowNull: false,

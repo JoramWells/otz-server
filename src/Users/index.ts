@@ -6,7 +6,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 import express, { type Application } from 'express'
-import morgan from 'morgan'
 import {Server} from 'socket.io'
 import {createServer} 'http'
 import { rateLimit } from 'express-rate-limit'
@@ -19,7 +18,6 @@ import { patientVisitRouter } from './routes/patientVisits.routes'
 import { userAvailabilityRoutes } from './routes/userAvailability.routes'
 import { patientRouter } from './routes/patient.routes'
 import { PatientSessionLog } from './domain/models/patientSessionLog.model'
-import { PatientAttributes } from 'otz-types'
 import { patientSessionLogRouter } from './routes/patientSessionLog.routes'
 import { Patient } from './domain/models/patients.models'
 import { importantPatientRouter } from './routes/importantPatient.routes'
@@ -64,7 +62,7 @@ const corsOption = {
   optionSuccessStatus: 200
 }
 
-app.use(morgan('dev'))
+// app.use(morgan('dev'))
 
 app.use(express.json())
 app.use(express.urlencoded({

@@ -32,6 +32,7 @@ export interface ARTSwitchReasonInterface {
 export interface ARTPrescriptionInterface {
   id: string;
   patientID: string;
+  patientVisitID?: string;
   regimen: string;
   changeReason: string;
   stopReason: string;
@@ -115,6 +116,31 @@ export interface TimeAndWorkAttributes {
   goal: string;
   morningWeekendPlace: string;
   eveningWeekendPlace: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ViralLoadInterface {
+  id: string;
+  patientID: string;
+  userID: string;
+  patientVisitID: string;
+  vlResults: number;
+  isValid: boolean;
+  vlJustification: string;
+  dateOfVL?: Date | string;
+  dateOfNextVL?: Date | string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface OTZEnrollmentsInterface {
+  id: string;
+  patientID: string;
+  enrolledBy: string;
+  dateOfEnrollmentToOTZ?: Date | string;
+  currentArtPrescriptionID: string;
+  currentViralLoadID: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

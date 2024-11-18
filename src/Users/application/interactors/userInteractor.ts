@@ -1,7 +1,7 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { UserInterface } from 'otz-types'
-import { type IUserInteractor } from '../interfaces/IUserInteractor'
-import { type IUserRepository } from '../interfaces/IUserRepository'
+import { UserInterface } from "otz-types";
+import { type IUserInteractor } from "../interfaces/IUserInteractor";
+import { type IUserRepository } from "../interfaces/IUserRepository";
 
 export class UserInteractor implements IUserInteractor {
   private readonly repository: IUserRepository;
@@ -31,7 +31,15 @@ export class UserInteractor implements IUserInteractor {
     return await this.repository.edit(data);
   }
 
-  async login(email: string, password: string, hospitalID: string): Promise<UserInterface | null> {
+  async updateUserPassword(data: UserInterface): Promise<UserInterface | null> {
+    return await this.repository.editPassword(data);
+  }
+
+  async login(
+    email: string,
+    password: string,
+    hospitalID: string
+  ): Promise<UserInterface | null> {
     return await this.repository.login(email, password, hospitalID);
   }
 }

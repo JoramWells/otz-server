@@ -5,6 +5,7 @@ import { type IUserRepository } from '../../application/interfaces/IUserReposito
 import { User } from '../../domain/models/user.model'
 import bcrypt from "bcrypt";
 import { Patient } from '../../domain/models/patients.models';
+import { generateDefaultHashedPassword } from '../../utils/generateDefaultHashedPassword';
 
 export class UserRepository implements IUserRepository {
   async create(data: UserInterface): Promise<UserInterface> {
@@ -20,7 +21,7 @@ export class UserRepository implements IUserRepository {
       countyID,
       password,
       hospitalID,
-      role
+      role,
     } = data;
 
     const results = await User.create({
@@ -35,7 +36,7 @@ export class UserRepository implements IUserRepository {
       password,
       idNo,
       hospitalID,
-      role
+      role,
     });
     const user: UserInterface = {
       id: results.id,
@@ -100,6 +101,30 @@ export class UserRepository implements IUserRepository {
       results.dob = dob;
       results.role = role;
       results.hospitalID = hospitalID;
+      await results.save();
+    }
+    return results;
+  }
+
+  async editPassword(data: UserInterface): Promise<UserInterface | null> {
+    const {
+      id,
+      password
+    } = data;
+
+    // delete cache
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+
+    const results = await User.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (results && password) {
+      const passwordHash = await generateDefaultHashedPassword(password)
+      results.password = passwordHash
       await results.save();
     }
     return results;

@@ -23,6 +23,27 @@ const Hospital = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false
     },
+    longitude: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    latitude: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    locationUpdatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    locationUpdatedBy: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      allowNull: true,
+      onDelete: 'SET NULL',
+    },
   },
   {
     timestamps: true,

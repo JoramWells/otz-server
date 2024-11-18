@@ -57,7 +57,19 @@ class PatientVisit(models.Model):
 
     class Meta:
         db_table = 'patientVisits'        
-    
+
+class CaseManager(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    userID = models.ForeignKey('User', on_delete=models.CASCADE, db_column='userID')
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
+    isNotification = models.BooleanField()
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'caseManagers'   
+
+
 class Appointments(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
@@ -153,11 +165,27 @@ class ViralLoad(models.Model):
 
 class User(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    firstName = models.CharField(max_length=100)
+    middleName = models.CharField(max_length=100)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'users'
+
+
+class OTZEnrollments(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    dateOfEnrollmentToOTZ = models.DateTimeField()
+    enrolledBy = models.ForeignKey('User', on_delete=models.CASCADE, db_column='enrolledBy')
+    patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')
+    currentArtPrescriptionID = models.ForeignKey(ArtPrescription, on_delete=models.CASCADE,  db_column='currentArtPrescriptionID')
+    currentViralLoadID = models.ForeignKey(ViralLoad, on_delete=models.CASCADE,  db_column='currentViralLoadID')
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'otzEnrollments'   
 
 class Hospital(models.Model):    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -172,6 +200,7 @@ class CSVFile(models.Model):
     file = models.FileField(upload_to='csvs/')
     userID = models.ForeignKey('User', on_delete=models.CASCADE, db_column='userID')
     hospitalID = models.ForeignKey('Hospital', on_delete=models.CASCADE, db_column='hospitalID')
+    size = models.BigIntegerField(null=True, blank=True)  # For file size
 
     # uploaded_at = models.DateTimeField(auto_now_add=True)
     createdAt = models.DateTimeField(auto_now_add=True)
