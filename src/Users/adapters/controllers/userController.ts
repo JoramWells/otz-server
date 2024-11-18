@@ -74,8 +74,28 @@ export class UserController {
         maritalStatus: "",
       };
 
-      
       const results = await this.interactor.editUser(values);
+      res.status(200).json(results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async onEditUserPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      const {
+        password
+      }: UserInterface = req.body;
+      const values: UserInterface = {
+        id,
+        password
+      };
+
+      const results = await this.interactor.updateUserPassword(values);
       res.status(200).json(results);
     } catch (error) {
       console.log(error);
@@ -85,12 +105,16 @@ export class UserController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { firstName, password, hospitalID } = req.body;
-      const results = await this.interactor.login(firstName, password, hospitalID);
-      if(results !== null){
-      res.status(200).json(results);
-
+      const results = await this.interactor.login(
+        firstName,
+        password,
+        hospitalID
+      );
+      if (results !== null) {
+        res.status(200).json(results);
+      } else {
+        res.status(400).json({ message: "Invalid user credentials!!" });
       }
-      else{res.status(400).json({message: 'Invalid user credentials!!'})}
       next();
     } catch (error) {
       next(error);

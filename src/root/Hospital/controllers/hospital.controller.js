@@ -32,10 +32,13 @@ const getAllHospitals = async (req, res, next) => {
 
 const getHospitalDetail = async (req, res, next) => {
   const { id } = req.params;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
+
   try {
     const results = await Hospital.findOne({
       where: {
-        patient_id: id,
+        id,
       },
     });
     res.json(results);
@@ -71,6 +74,37 @@ const editHospital = async (req, res, next) => {
   }
 };
 
+
+
+// edit patient
+const updateHospitalLocation = async (req, res, next) => {
+  const { id } = req.params;
+  const {
+    longitude, latitude, locationUpdatedAt, locationUpdatedBy
+  } = req.body;
+  console.log(req.body)
+  try {
+    const editHospitalLocation = await Hospital.findOne({
+      where: {
+        id,
+      },
+    });
+
+
+    editHospitalLocation.longitude = longitude;
+    editHospitalLocation.latitude = latitude;
+    editHospitalLocation.locationUpdatedAt = locationUpdatedAt;
+    editHospitalLocation.locationUpdatedBy = locationUpdatedBy;
+    res.status(200).json(editHospitalLocation)
+    next();
+
+    return editHospitalLocation.save();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server' });
+  }
+};
+
 const deleteHospital = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -90,5 +124,5 @@ const deleteHospital = async (req, res, next) => {
 };
 
 module.exports = {
-  addHospital, getAllHospitals, getHospitalDetail, editHospital, deleteHospital,
+  addHospital, getAllHospitals, getHospitalDetail, editHospital, deleteHospital, updateHospitalLocation
 };

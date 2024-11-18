@@ -117,7 +117,7 @@ export interface UserInterface {
   dob: string;
   idNo: string;
   hospitalID?: string;
-  role: UserRoles
+  role?: UserRoles
 }
 
 

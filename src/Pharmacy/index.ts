@@ -6,7 +6,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable linebreak-style */
 import express, { type Application } from 'express'
-import morgan from 'morgan'
 
 import { connect } from './domain/db/connect'
 import {Server} from 'socket.io'
@@ -33,6 +32,7 @@ import { homeVisitFrequencyRouter } from './routes/homevisit/homeVisitFrequency.
 import { homeVisitRouter } from './routes/homevisit/homeVisit.routes'
 import { homeVisitConfigRouter } from './routes/homevisit/homeVisitConfig.routes'
 import { pharmacySocketController } from './adapters/controllers/socketio/pharmacySocketController'
+import { otzRouter } from './routes/enrollment/otz.routes'
 const cors = require('cors')
 
 
@@ -57,7 +57,6 @@ const io = new Server(server, {
 // enable cors *
 app.use(cors())
 
-app.use(morgan('dev'))
 
 app.use(express.json())
 app.use(express.urlencoded({
@@ -148,6 +147,7 @@ app.use('/home-visit-reason', homeVisitReasonRouter);
 app.use('/home-visit-frequency', homeVisitFrequencyRouter);
 app.use('/home-visit', homeVisitRouter);
 app.use('/home-visit-config', homeVisitConfigRouter);
+app.use("/otz-enrollment", otzRouter);
 
 // init sentry
 initSentry((app))
