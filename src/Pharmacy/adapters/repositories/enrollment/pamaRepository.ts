@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { type IPAMARepository } from '../../application/interfaces/IPAMARepository'
-import { type PAMAProfileEntity } from '../../domain/entities/PAMAProfileEntity'
-import { PAMAProfile } from '../../domain/models/pama/pamaProfile.models'
-import { Patient } from '../../domain/models/patients.models'
+
+import { IPAMARepository } from "../../../application/interfaces/enrollment/IPAMARepository"
+import { PAMAInterface } from "otz-types";
+import { PAMAProfile } from "../../../domain/models/enrollment/pama/pamaProfile.models";
+import { Patient } from "../../../domain/models/patients.models";
 
 export class PAMARepository implements IPAMARepository {
-  async create (data: PAMAProfileEntity): Promise<PAMAProfileEntity> {
-    const results: PAMAProfileEntity = await PAMAProfile.create(data)
+  async create (data: PAMAInterface): Promise<PAMAInterface> {
+    const results: PAMAInterface = await PAMAProfile.create(data)
     return results
   }
 
-  async find (): Promise<PAMAProfileEntity[]> {
+  async find (): Promise<PAMAInterface[]> {
     const results = await PAMAProfile.findAll({
       include: [
         {
@@ -23,7 +24,7 @@ export class PAMARepository implements IPAMARepository {
     return results
   }
 
-  async findById (id: string): Promise<PAMAProfileEntity | null> {
+  async findById (id: string): Promise<PAMAInterface | null> {
     const results = await PAMAProfile.findOne({
       where: {
         id
