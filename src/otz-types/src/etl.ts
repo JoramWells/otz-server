@@ -20,6 +20,7 @@ export interface FacilityMAPSInterface {
 export interface LineListCSVInterface {
   id: string;
   file: string;
+  size: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -33,7 +33,10 @@ import { homeVisitRouter } from './routes/homevisit/homeVisit.routes'
 import { homeVisitConfigRouter } from './routes/homevisit/homeVisitConfig.routes'
 import { pharmacySocketController } from './adapters/controllers/socketio/pharmacySocketController'
 import { otzRouter } from './routes/enrollment/otz.routes'
+import { pamaRouter } from './routes/enrollment/pama.routes'
+import { pmtctProfileRouter } from './routes/enrollment/pmtctProfile.routes'
 const cors = require('cors')
+
 
 
 const app: Application = express()
@@ -148,6 +151,8 @@ app.use('/home-visit-frequency', homeVisitFrequencyRouter);
 app.use('/home-visit', homeVisitRouter);
 app.use('/home-visit-config', homeVisitConfigRouter);
 app.use("/otz-enrollment", otzRouter);
+app.use("/pama-enrollment", pamaRouter);
+app.use("/pmtct-enrollment", pmtctProfileRouter);
 
 // init sentry
 // initSentry((app))

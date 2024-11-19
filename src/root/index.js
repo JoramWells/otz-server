@@ -28,7 +28,6 @@ const appModuleSessionRouter = require('./routes/appModuleSession.routes');
 
 const app = express();
 
-
 // create redis clietn
 // let redisClient;
 
