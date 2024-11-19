@@ -2,22 +2,18 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../../../db/connect'
 import { Patient } from '../../patients.models'
+import { PMTCTProfileInterface } from "otz-types";
 
 
-export interface PMTCTProfileAttributes {
-  id?: string
-  patientID: string
-  kmhflCode: string
-  anc: string
-  pncNo: string
-}
-
-export class PMTCTProfile extends Model<PMTCTProfileAttributes> implements PMTCTProfileAttributes {
-  id?: string | undefined
-  patientID!: string
-  kmhflCode!: string
-  anc!: string
-  pncNo!: string
+export class PMTCTProfile
+  extends Model<PMTCTProfileInterface>
+  implements PMTCTProfileInterface
+{
+  id?: string | undefined;
+  patientID!: string;
+  kmhflCode!: string;
+  anc!: string;
+  pncNo!: string;
 }
 
 PMTCTProfile.init(

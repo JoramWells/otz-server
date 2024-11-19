@@ -63,3 +63,16 @@ export interface MedicalSurgicalHistoryInterface {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface PAMAInterface {
+  id?: string;
+  childID?: string;
+  childVLID?: string;
+  childPrescriptionID?: string;
+  // primaryCaregiverVLStatus: VLDataProps;
+  // primaryCaregiverPrescriptionStatus: PrescriptionProps;
+  primaryCaregiverID?: string;
+  dateOfEnrollment: Date;
+  isPaired: boolean;
+  noOfCaregivers: number;
+}

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import express from 'express'
-import { PMTCTProfileRepository } from '../adapters/repositories/pmtctProfileRepository'
-import { PMTCTInteractor } from '../application/interactors/PMTCTProfileInteractor'
-import { PMTCTProfileController } from '../adapters/controllers/pmtctProfileController'
+import { PMTCTProfileRepository } from '../../adapters/repositories/enrollment/pmtctProfileRepository'
+import { PMTCTInteractor } from '../../application/interactors/enrollment/PMTCTProfileInteractor'
+import { PMTCTProfileController } from '../../adapters/controllers/enrollment/pmtctProfileController'
 
 const repository = new PMTCTProfileRepository()
 const interactor = new PMTCTInteractor(repository)
