@@ -307,39 +307,6 @@ services:
     networks:
       - otz  
 
-  enrollments:
-    build:
-      context: ./src/Enrollments
-      dockerfile: Dockerfile
-    image: enrollment-image
-    volumes:
-      - ./src/Enrollments/:/usr/src/app
-      - /usr/src/app/node_modules
-    deploy:
-      # mode: replicated
-      # replicas: 2
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      # restart_policy:
-      #   condition: on-failure    
-      resources:
-        limits:
-          cpus: '0.30'
-          memory: 700M
-        reservations:
-          cpus: '0.30'
-          memory: 700M   
-    ports:
-      - 5007:5007
-    depends_on:
-      database:
-        condition: service_healthy
-    networks:
-      - otz  
-
   root:
     build:
       context: ./src/root
@@ -615,7 +582,6 @@ services:
     depends_on:
       - articles
       - users
-      - enrollments
       - root
       # - school
       - lab

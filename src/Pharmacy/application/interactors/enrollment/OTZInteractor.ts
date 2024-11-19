@@ -21,7 +21,7 @@ export class OTZInteractor implements IOTZInteractor {
     return await this.repository.create(patientData)
   }
 
-  async getAllOTZs (): Promise<OTZEnrollmentsInterface[]> {
-    return await this.repository.find()
+  async getAllOTZs (hospitalID: string): Promise<OTZEnrollmentsInterface[] | null> {
+    return await this.repository.find(hospitalID)
   }
 }

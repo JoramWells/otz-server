@@ -14,7 +14,12 @@ export class OTZ
   extends Model<OTZEnrollmentsInterface>
   implements OTZEnrollmentsInterface
 {
-  id?: string | undefined;
+  id!: string;
+  enrolledBy!: string;
+  patientID!: string;
+  dateOfEnrollmentToOTZ?: string | Date | undefined;
+  currentArtPrescriptionID!: string;
+  currentViralLoadID!: string;
 }
 OTZ.init(
   {

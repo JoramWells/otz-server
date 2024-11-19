@@ -1,22 +1,8 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
-import { connect } from '../../db/connect'
-import { Patient } from '../patients.models'
+import { connect } from '../../../db/connect'
+import { Patient } from '../../patients.models'
 
-export interface LocationProps {
-  id: string
-  countyName: string
-  subCountyName: string
-  ward: string
-  town: string
-}
-
-export interface FacilityProps {
-  id: string
-  name: string
-  mflCode: string
-  location: LocationProps
-}
 
 export interface PMTCTProfileAttributes {
   id?: string
