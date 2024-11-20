@@ -67,14 +67,15 @@ export class PrescriptionRepository implements IPrescriptionRepository {
               dob: {
                 [Op.gte]: maxDate,
               },
-            },
-          },
-          {
-            model: PatientVisits,
-            where: {
               hospitalID,
             },
           },
+          // {
+          //   model: PatientVisits,
+          //   where: {
+          //     hospitalID,
+          //   },
+          // },
 
           {
             model: ARTPrescription,

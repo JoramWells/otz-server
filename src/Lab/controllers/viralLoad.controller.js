@@ -5,7 +5,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 // const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
 const Patient = require('../models/patient/patients.models');
 const ViralLoad = require('../models/lab/viralLoad.model');
@@ -69,7 +69,7 @@ const addViralLoadTest = async (req, res, next) => {
 
 // get all priceListItems
 const getAllViralLoad = async (req, res, next) => {
-  const {hospitalID} = req.params
+  const {hospitalID} = req.query
   if (!hospitalID || hospitalID === "undefined")
     return res.status(400).json({ message: "Invalid ID parameter" });
   try {
@@ -87,15 +87,17 @@ const getAllViralLoad = async (req, res, next) => {
           where: {
             dob: {
               [Op.gte]: maxDate
-            }
+            },
+            hospitalID
+
           }
         },
-        {
-          model: User,
-          where: {
-            hospitalID
-          }
-        }
+        // {
+        //   model: User,
+        //   where: {
+        //     hospitalID
+        //   }
+        // }
       ],
     });
     res.json(results);
@@ -108,8 +110,20 @@ const getAllViralLoad = async (req, res, next) => {
 };
 
 const getAllVlCategories = async (req, res, next) => {
+  const { hospitalID } = req.query
+  if (!hospitalID || hospitalID === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const results = await ViralLoad.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: [],
+          where: {
+            hospitalID: id,
+          },
+        },
+      ],
       attributes: [
         [Sequelize.literal(`CASE
       WHEN "vlResults"::numeric < 50 THEN 'LDL'

@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 
-import { ViralLoadInterface } from "otz-types";
+import { InternalLabRequestInterface } from "otz-types";
 import { connect } from "../../db/connect";
 import { User } from "../user.model";
 import { Patient } from "../patients.models";
@@ -8,9 +8,9 @@ import { Patient } from "../patients.models";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
-export class ViralLoad
-  extends Model<ViralLoadInterface>
-  implements ViralLoadInterface
+export class InternalLabRequest
+  extends Model<InternalLabRequestInterface>
+  implements InternalLabRequestInterface
 {
   id!: string;
   isVLValid!: boolean;
@@ -23,30 +23,12 @@ export class ViralLoad
   dateOfNextVL?: string | Date | undefined;
 }
 
-ViralLoad.init(
+InternalLabRequest.init(
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: UUIDV4,
-    },
-    vlResults: {
-      type: DataTypes.INTEGER,
-    },
-    isVLValid: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-
-    patientVisitID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "patientVisits",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-      unique: true,
-      allowNull: false,
     },
     patientID: {
       type: DataTypes.UUID,
@@ -57,29 +39,36 @@ ViralLoad.init(
       onDelete: "CASCADE",
       allowNull: false,
     },
-    userID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "users",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-      allowNull: false,
-    },
-    vlJustification: {
+    specimenType: {
       type: DataTypes.STRING,
     },
-    dateOfVL: {
+    testName: {
+      type: DataTypes.STRING,
+    },
+    urgency: {
+      type: DataTypes.STRING,
+    },
+    normalValues: {
+      type: DataTypes.STRING,
+    },
+    dateRequested: {
       type: DataTypes.DATE,
     },
-    dateOfNextVL: {
+    reason: {
+      type: DataTypes.STRING,
+    },
+    results: {
+      type: DataTypes.STRING,
+    },
+    resultDate: {
       type: DataTypes.DATE,
+      defaultValue: new Date(),
     },
   },
 
   {
     sequelize: connect,
-    tableName: "viralLoads",
+    tableName: "internalLabRequests",
     // postgresql: {
     //   fillFactor: 70
     // },
@@ -88,8 +77,8 @@ ViralLoad.init(
 );
 
 
-ViralLoad.belongsTo(User, { foreignKey: "userID" });
-ViralLoad.belongsTo(Patient, { foreignKey: "patientID" });
+InternalLabRequest.belongsTo(User, { foreignKey: "userID" });
+InternalLabRequest.belongsTo(Patient, { foreignKey: "patientID" });
 
 // const syncDB = async () => {
 //   try {

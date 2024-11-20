@@ -124,10 +124,10 @@ export interface ViralLoadInterface {
   id: string;
   patientID: string;
   userID: string;
-  patientVisitID: string;
+  patientVisitID?: string;
   vlResults: number;
-  isValid: boolean;
-  vlJustification: string;
+  isVLValid?: boolean;
+  vlJustification?: string;
   dateOfVL?: Date | string;
   dateOfNextVL?: Date | string;
   createdAt?: Date;
@@ -144,3 +144,71 @@ export interface OTZEnrollmentsInterface {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface VitalSignsInterface {
+  id?: string;
+  patientID?: string;
+  bmi?: string;
+  temperature?: string;
+  weight?: string;
+  height?: string;
+  systolic?: string;
+  diastolic?: string;
+  muac?: string;
+  nutritionalStatus: string;
+  oxygenSAturation: string;
+  respiratoryRate?: string;
+  pulseRate?: string;
+  lmp?: string;
+  gravida?: string;
+  parity?: string;
+  edd?: string;
+  patientVisitID?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface CD4Interface {
+  id?: string;
+  patientID?: string;
+  patientVisitID?: string;
+  hospitalID?: string;
+  baselineCD4?: string;
+  CD4Count?: string;
+  currentCD4Date?: string | Date;
+  lastCD4Date?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface LabTestCategoryInterface {
+  id?: string;
+  specimenID?: string;
+  categoryName?: string;
+  normalValues?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface LabSpecimenInterface {
+  id?: string;
+  specimenDescription?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+} 
+
+export interface InternalLabRequestInterface {
+  id?: string;
+  patientID?: string;
+  patientVisitID?: string;
+  specimenType?: string;
+  testName?: string;
+  urgency?: string;
+  normalValues?: string;
+  reason?: string;
+  results?: string;
+  resultDate?: Date;
+  dateRequested?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+}     

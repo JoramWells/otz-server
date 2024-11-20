@@ -119,11 +119,12 @@ export class PillUptakeRepository implements IPillUptakeRepository {
             {
               model: Patient,
               attributes: ["id", "firstName", "middleName"],
-              where:{
-                dob:{
-                  [Op.gte]: maxDate
-                }
-              }
+              where: {
+                dob: {
+                  [Op.gte]: maxDate,
+                },
+                hospitalID,
+              },
               // where: {
               //   dob: {
               //     [Op.gte]: maxDate,
@@ -131,22 +132,22 @@ export class PillUptakeRepository implements IPillUptakeRepository {
             },
           ],
         },
-        {
-          model: Prescription,
-          include: [
-            {
-              model: PatientVisits,
-              include: [
-                {
-                  model: User,
-                  where: {
-                    hospitalID,
-                  },
-                },
-              ],
-            },
-          ],
-        },
+        // {
+        //   model: Prescription,
+        //   include: [
+        //     {
+        //       model: PatientVisits,
+        //       include: [
+        //         {
+        //           model: User,
+        //           where: {
+        //             hospitalID,
+        //           },
+        //         },
+        //       ],
+        //     },
+        //   ],
+        // },
       ],
     });
 

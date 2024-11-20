@@ -17,7 +17,7 @@ export class ArtPrescriptionInteractor implements IARTPrescriptionInteractor {
     return await this.repository.create(data)
   }
 
-  async getAllARTPrescriptions (): Promise<ARTPrescriptionInterface[]> {
-    return await this.repository.find()
+  async getAllARTPrescriptions (hospitalID: string): Promise<ARTPrescriptionInterface[] | null> {
+    return await this.repository.find(hospitalID);
   }
 }
