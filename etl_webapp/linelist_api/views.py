@@ -333,18 +333,27 @@ def get_or_create_otz_enrollment(dateOfEnrollmentToOTZ,patientID, enrolledBy, cu
         return otz, True
 
 
+from datetime import datetime
+import pandas as pd
+
 def parse_and_convert_date(date_str):
     try:
-        if isinstance(date_str, str):
-            parsed_dated = datetime.strptime(date_str, '%d/%m/%Y')
-        # else:
-        #     return None  # Return None if the input is not a string
-        return parsed_dated
-    except ValueError:
-        # Handle invalid date format gracefully
+        if isinstance(date_str, datetime):
+            # Return directly if it's already a datetime object
+            return date_str
+        elif isinstance(date_str, pd.Timestamp):
+            # Convert pandas.Timestamp to datetime
+            return date_str.to_pydatetime()
+        elif isinstance(date_str, str):
+            # Attempt to parse string with the specified format
+            return datetime.strptime(date_str, '%d/%m/%Y')
+        else:
+            # Handle other invalid types
+            return None
+    except (ValueError, TypeError) as e:
+        print(f"Error parsing date '{date_str}': {e}")
         return None
 
-    
 
 # Create your views here.
 class PatientCreate(generics.ListCreateAPIView):
@@ -398,7 +407,7 @@ class LineListView(generics.CreateAPIView):
 
             if (os.path.exists(file_path) and os.path.getsize(file_path)>0):
                 try:
-
+                    chunk_size = 1000
                     
                     reader = pd.read_csv(file_path)
                     df=preprocessCSV(reader)
@@ -421,266 +430,277 @@ class LineListView(generics.CreateAPIView):
 
                 except pd.errors.EmptyDataError:
                     print('This file is empty or has no columns')
-            reader['Last VL Result'] = reader['Last VL Result'].apply(lambda x: random.randint(0,50) if x == 'LDL' else x)
-            # reader['Last VL Result'] = reader['Last VL Result'].replace('LDL', random.randint(0,50)).astype(int)
-            reader['Last VL Result'] = reader['Last VL Result'].fillna(0).astype(int)
 
+            for chunk in pd.read_csv(file_path, chunksize=chunk_size):    
+                chunk['Last VL Result'] = chunk['Last VL Result'].apply(lambda x: random.randint(0,50) if x == 'LDL' else x)
+                # chunk['Last VL Result'] = chunk['Last VL Result'].replace('LDL', random.randint(0,50)).astype(int)
+                chunk['Last VL Result'] = chunk['Last VL Result'].fillna(0).astype(int)
 
-            for _, row in reader.iterrows():
-                # validate_email(row['CCC NO'])
-                # converted_date = parse_and_convert_date(row['Last Visit Date'])
-                dateConfirmedPositive = row['Date confirmed positive']
+                for _, row in chunk.iterrows():
+                    # validate_email(row['CCC NO'])
+                    # converted_date = parse_and_convert_date(row['Last Visit Date'])
+                    dateConfirmedPositive = row['Date confirmed positive']
 
-                vlValidity = row['VL Validility']
-                isVLValid = False
-
-                if(vlValidity == 'Valid'):
-                    isVLValid = True
-                elif (vlValidity == 'Invalid'):
+                    vlValidity = row['VL Validility']
                     isVLValid = False
 
-                if(row['Last VL Result'] == 'LDL' or isinstance(row['Last VL Result'], (int, float)) and row['Last VL Result'] < 200):
-                    duration_months = 3
-                else:
-                    duration_months = 6
+                    if(vlValidity == 'Valid'):
+                        isVLValid = True
+                    elif (vlValidity == 'Invalid'):
+                        isVLValid = False
 
-                nextVLAppointmentDate = row['Last VL Date']
-
-                if(pd.isna(nextVLAppointmentDate)):
-                    continue
-
-                if nextVLAppointmentDate is not None:    
-                    nextVLAppointmentDate = parse_and_convert_date(nextVLAppointmentDate)+relativedelta(months=duration_months)        
-
-                if(pd.isna(dateConfirmedPositive)):
-                    continue
-                dateConfirmedPositive = parse_and_convert_date(dateConfirmedPositive)
-
-
-
-                enrollmentDate = row['Enrollment Date']
-                monthsOfPrescription = row['Months of Prescription']
-                refillDate = row['Refill Date']
-                nextAppointmentDate = row['Next Appointment Date']
-                artStartDate = row['Art Start Date']
-                clinicVisitDate = row['Next Appointment Date']
-
-                # VL results
-                vlResults = row['Last VL Result']
-                dateOfVL = row['Last VL Date']
-                # if(vlResults == 'LDL'):
-                    
-                if(pd.isna(dateOfVL)):
-                    # reader.at[index, 'Refill Date'] = pd.Timestamp.now().normalize()
-                    continue
-
-                if(pd.isna(refillDate)):
-                    # reader.at[index, 'Refill Date'] = pd.Timestamp.now().normalize()
-                    continue
-                if(pd.isna(nextAppointmentDate)):
-                    continue
-                if(pd.isna(clinicVisitDate)):
-                    continue
-
-                if(pd.isna(artStartDate)):
-                    continue
-
-                if(pd.isna(enrollmentDate)):
-                    continue
-
-                enrollmentDate = parse_and_convert_date(enrollmentDate)
-                refillDate = parse_and_convert_date(refillDate)
-                artStartDate = parse_and_convert_date(artStartDate)
-                nextRefillDate = refillDate + relativedelta(months=int(monthsOfPrescription))
-                noOfPills = nextRefillDate-refillDate
-                noOfPills = noOfPills.days
-                dob = parse_and_convert_date(row['DOB'])
-                nextAppointmentDate = parse_and_convert_date(nextAppointmentDate)
-                clinicVisitDate = parse_and_convert_date(clinicVisitDate)
-                dateOfVL = parse_and_convert_date(dateOfVL)
-                parts= row['Name'].split(',')
-                firstName = parts[0] if len(parts) > 0 else ""
-                middleName = parts[1] if len(parts) > 1 else ""
-                lastName = parts[2] if len(parts) > 2 else ""
-
-                isOtz = row['Active in OTZ']
-
-                # cae manager name
-                case_manager_parts = row.get('Case Manager',"")
-                if(pd.isna(case_manager_parts)):
-                    # reader.at[index, 'Refill Date'] = pd.Timestamp.now().normalize()
-                    case_manager_parts=""
-                case_manager_parts = case_manager_parts.split(' ')
-                
-                case_manager_first_name = case_manager_parts[0] if len(case_manager_parts) > 0 else ""
-                case_manager_middle_name = case_manager_parts[1] if len(case_manager_parts) > 1 else ""
-                # case_manager_last_name = parts[2] if len(case_manager_parts) > 2 else ""
-
-
-                with transaction.atomic():
-
-
-
-                    new_patients, created = get_or_create_patient(
-                        firstName=firstName,
-                        middleName=middleName,
-                        lastName=lastName,
-                        sex=row['Sex'],
-                        NUPI=row['NUPI'],
-                        dob=dob,
-                        enrollmentDate=enrollmentDate,
-                        cccNo=row['CCC No'],
-                        ageAtReporting=row['Age at reporting'],
-                        populationType=row['Population Type'],
-                        hospitalID=hospital,
-                        # initialRegimen=row['firstRegimen']
-                        dateConfirmedPositive=dateConfirmedPositive,
-
-                    )
-
-                    patientVisit = PatientVisit.objects.create(
-                        userID=user,
-                        patientID=new_patients
-                    )
-
-            #         print(type(row['Next Appointment Date']), row['Next Appointment Date'])
-            #         print(row['Blood Pressure'])
-
-                    blood_pressure = row['Blood Pressure']
-                    # vlResults = row['Last VL Result']
-
-                    # if(vlResults is not None and math.isnan(vlResults)):
-                    #     vlResults = 0
-
-                    if(isinstance(blood_pressure, str) and blood_pressure):
-                        try:
-                            bp = row['Blood Pressure']
-                            if(pd.notnull(bp)):
-                                systolic, diastolic = bp.split('/')
-                        except ValueError:
-                            print(f'Invalid blood pressure value{blood_pressure}')    
+                    if(row['Last VL Result'] == 'LDL' or isinstance(row['Last VL Result'], (int, float)) and row['Last VL Result'] < 200):
+                        duration_months = 3
                     else:
-                        print('Blood Pressure empty, skipping')  
+                        duration_months = 6
 
-                    
+                    dateOfVL = row['Last VL Date']
 
-             
-                    isPresent = check_user(firstName=case_manager_first_name,middleName=case_manager_middle_name)
-                    # print(isPresent, 'user')
-                    if isPresent is not None:
+
+                    # if(pd.isna(dateOfVL)):
+                        # continue
+                        # dateOfVL = pd.Timestamp.now().normalize()
+
+                    dateOfVL = parse_and_convert_date(dateOfVL)
+
+                    if dateOfVL is not None:    
+                        nextVLAppointmentDate = parse_and_convert_date(dateOfVL)+relativedelta(months=duration_months)        
+
+                    # if(pd.isna(dateConfirmedPositive)):
+                        # continue
+                        # dateConfirmedPositive = pd.Timestamp.now().normalize()
+                    dateConfirmedPositive = parse_and_convert_date(dateConfirmedPositive)
+
+
+                    enrollmentDate = row['Enrollment Date']
+                    monthsOfPrescription = row['Months of Prescription']
+                    refillDate = row['Refill Date']
+                    nextAppointmentDate = row['Next Appointment Date']
+                    artStartDate = row['Art Start Date']
+                    clinicVisitDate = row['Next Appointment Date']
+
+                    # VL results
+                    vlResults = row['Last VL Result']
+                    # if(vlResults == 'LDL'):
                         
-                        case_manager, _ = get_or_create_case_manager(
-                            patientID=new_patients,
-                            userID=isPresent
-                        )
-                        case_manager.save()
+
+                    # if(pd.isna(refillDate)):
+                        # reader.at[index, 'Refill Date'] = pd.Timestamp.now().normalize()
+                        # continue
+                        # refillDate = pd.Timestamp.now()
+                        
+                    # if(pd.isna(nextAppointmentDate)):
+                        # continue
+                        # nextAppointmentDate = pd.Timestamp.now().normalize()
+
+                    # if(pd.isna(clinicVisitDate)):
+                        # continue
+                        # clinicVisitDate = pd.Timestamp.now().normalize()
+                        
+
+                    # if(pd.isna(artStartDate)):
+                        # continue
+                        # artStartDate = pd.Timestamp.now().normalize()
+
+
+                    # if(pd.isna(enrollmentDate)):
+                        # continue
+                        # enrollmentDate = pd.Timestamp.now().normalize()
+
+
+                    enrollmentDate = parse_and_convert_date(enrollmentDate)
+                    refillDate = parse_and_convert_date(refillDate)
+                    artStartDate = parse_and_convert_date(artStartDate)
+                    if refillDate is not None:
+                        nextRefillDate = refillDate + relativedelta(months=int(monthsOfPrescription))
+                        noOfPills = nextRefillDate-refillDate
+                        noOfPills = noOfPills.days
+                    dob = parse_and_convert_date(row['DOB'])
+                    nextAppointmentDate = parse_and_convert_date(nextAppointmentDate)
+                    clinicVisitDate = parse_and_convert_date(clinicVisitDate)
+                    parts= row['Name'].split(',')
+                    firstName = parts[0] if len(parts) > 0 else ""
+                    middleName = parts[1] if len(parts) > 1 else ""
+                    lastName = parts[2] if len(parts) > 2 else ""
+
+                    isOtz = row['Active in OTZ']
+
+                    # cae manager name
+                    case_manager_parts = row.get('Case Manager',"")
+                    if(pd.isna(case_manager_parts)):
+                        # reader.at[index, 'Refill Date'] = pd.Timestamp.now().normalize()
+                        case_manager_parts=""
+                    case_manager_parts = case_manager_parts.split(' ')
                     
-                    vsData, createdVs = get_or_create_vs(
-                        patientID = new_patients,
-                        weight=row['Weight'],
-                        patientVisitID=patientVisit,
-                        height=row['Height'],
-                        systolic=int(systolic),
-                        diastolic=int(diastolic),
+                    case_manager_first_name = case_manager_parts[0] if len(case_manager_parts) > 0 else ""
+                    case_manager_middle_name = case_manager_parts[1] if len(case_manager_parts) > 1 else ""
+                    # case_manager_last_name = parts[2] if len(case_manager_parts) > 2 else ""
 
-                    )
 
-                    appointment, _ = get_or_create_appointment(
-                        patientID = new_patients,
-                        patientVisitID=patientVisit,
-                        userID=user,
-                        appointmentStatusID = upcomingAppointmentStatus,
-                        appointmentAgendaID = clinicVisitAgenda,
-                        appointmentDate = clinicVisitDate
-                    )
+                    with transaction.atomic():
 
-                    # 
-                    appointmentRefill, _= get_or_create_appointment(
-                        patientID = new_patients,
-                        patientVisitID=patientVisit,
-                        userID=user,
-                        appointmentStatusID = upcomingAppointmentStatus,
-                        appointmentAgendaID = refillAgenda,
-                        appointmentDate = nextRefillDate
-                    )
 
-                    # 
-                    appointmentViralLoad, _= get_or_create_appointment(
-                        userID=user,
-                        patientID = new_patients,
-                        patientVisitID=patientVisit,
-                        appointmentStatusID = upcomingAppointmentStatus,
-                        appointmentAgendaID = vlAgenda,
-                        appointmentDate = nextVLAppointmentDate
-                    )
 
-                    firstRegimen , _= get_or_create_art_prescription(
-                        patientID = new_patients,
-                        startDate=artStartDate,
-                        patientVisitID=patientVisit,
-                        isStandard=True,
-                        regimen=row['First Regimen'],
-                        line='First line',
-                        isSwitched = True
+                        new_patients, created = get_or_create_patient(
+                            firstName=firstName,
+                            middleName=middleName,
+                            lastName=lastName,
+                            sex=row['Sex'],
+                            NUPI=row['NUPI'],
+                            dob=dob,
+                            enrollmentDate=enrollmentDate,
+                            cccNo=row['CCC No'],
+                            ageAtReporting=row['Age at reporting'],
+                            populationType=row['Population Type'],
+                            hospitalID=hospital,
+                            # initialRegimen=row['firstRegimen']
+                            dateConfirmedPositive=dateConfirmedPositive,
 
-                    )
-
-                    currentRegimen, _ = get_or_create_art_prescription(
-                        patientID = new_patients,
-                        startDate=artStartDate,
-                        patientVisitID=patientVisit,
-                        isStandard=True,
-                        regimen=row['Current Regimen'],
-                        line=row['Current Regimen Line'],
-                        isSwitched = False
-                    )
-
-                    prescription = get_or_create_prescription(
-                        patientID = new_patients,
-                        artPrescriptionID= currentRegimen,
-                        patientVisitID=patientVisit,
-                        # frequency=1,
-                        noOfPills=int(noOfPills),
-                        # expectedNoOfPills=30,
-                        # computedNoOfPills=1,
-                        refillDate=refillDate,
-                        nextRefillDate=nextRefillDate,
-
-                    )
-
-                    vl, _ = get_or_create_vl(
-                        patientID = new_patients,
-                        # isStandard=True,
-                        isVLValid = isVLValid,
-                        patientVisitID=patientVisit,
-                        vlResults=vlResults,
-                        vlJustification=row['Last VL Justification'],
-                        dateOfVL=dateOfVL,
-                        dateOfNextVL = nextVLAppointmentDate
-
-                    )       
-
-                    if isOtz.strip().lower() == 'yes': 
-                        new_enrollment, _ = get_or_create_otz_enrollment(
-                                dateOfEnrollmentToOTZ=enrollmentDate,
-                                enrolledBy=user,
-                                currentArtPrescriptionID=currentRegimen,
-                                currentViralLoadID = vl,
-                                patientID=new_patients,
                         )
-                        new_enrollment.save()
 
-                    appointment.save()
-                    appointmentRefill.save()
-                    # if created is True:
-                    #     new_patients.save()
-                    appointmentViralLoad.save()
-                    vsData.save()
-                    firstRegimen.save()
-                    currentRegimen.save()
-                    # prescription.save()
-                    vl.save()
-                    patientVisit.save()
+                        patientVisit = PatientVisit.objects.create(
+                            userID=user,
+                            patientID=new_patients
+                        )
+
+                #         print(type(row['Next Appointment Date']), row['Next Appointment Date'])
+                #         print(row['Blood Pressure'])
+
+                        blood_pressure = row['Blood Pressure']
+                        # vlResults = row['Last VL Result']
+
+                        # if(vlResults is not None and math.isnan(vlResults)):
+                        #     vlResults = 0
+
+                        if(isinstance(blood_pressure, str) and blood_pressure):
+                            try:
+                                bp = row['Blood Pressure']
+                                if(pd.notnull(bp)):
+                                    systolic, diastolic = bp.split('/')
+                            except ValueError:
+                                print(f'Invalid blood pressure value{blood_pressure}')    
+                        else:
+                            print('Blood Pressure empty, skipping')  
+
+                        
+
+                
+                        isPresent = check_user(firstName=case_manager_first_name,middleName=case_manager_middle_name)
+                        # print(isPresent, 'user')
+                        if isPresent is not None:
+                            
+                            case_manager, _ = get_or_create_case_manager(
+                                patientID=new_patients,
+                                userID=isPresent
+                            )
+                            case_manager.save()
+                        
+                        vsData, createdVs = get_or_create_vs(
+                            patientID = new_patients,
+                            weight=row['Weight'],
+                            patientVisitID=patientVisit,
+                            height=row['Height'],
+                            systolic=int(systolic),
+                            diastolic=int(diastolic),
+
+                        )
+
+                        appointment, _ = get_or_create_appointment(
+                            patientID = new_patients,
+                            patientVisitID=patientVisit,
+                            userID=user,
+                            appointmentStatusID = upcomingAppointmentStatus,
+                            appointmentAgendaID = clinicVisitAgenda,
+                            appointmentDate = clinicVisitDate
+                        )
+
+                        # 
+                        appointmentRefill, _= get_or_create_appointment(
+                            patientID = new_patients,
+                            patientVisitID=patientVisit,
+                            userID=user,
+                            appointmentStatusID = upcomingAppointmentStatus,
+                            appointmentAgendaID = refillAgenda,
+                            appointmentDate = nextRefillDate
+                        )
+
+                        # 
+                        appointmentViralLoad, _= get_or_create_appointment(
+                            userID=user,
+                            patientID = new_patients,
+                            patientVisitID=patientVisit,
+                            appointmentStatusID = upcomingAppointmentStatus,
+                            appointmentAgendaID = vlAgenda,
+                            appointmentDate = nextVLAppointmentDate
+                        )
+
+                        firstRegimen , _= get_or_create_art_prescription(
+                            patientID = new_patients,
+                            startDate=artStartDate,
+                            patientVisitID=patientVisit,
+                            isStandard=True,
+                            regimen=row['First Regimen'],
+                            line='First line',
+                            isSwitched = True
+
+                        )
+
+                        currentRegimen, _ = get_or_create_art_prescription(
+                            patientID = new_patients,
+                            startDate=artStartDate,
+                            patientVisitID=patientVisit,
+                            isStandard=True,
+                            regimen=row['Current Regimen'],
+                            line=row['Current Regimen Line'],
+                            isSwitched = False
+                        )
+
+                        prescription = get_or_create_prescription(
+                            patientID = new_patients,
+                            artPrescriptionID= currentRegimen,
+                            patientVisitID=patientVisit,
+                            # frequency=1,
+                            noOfPills=int(noOfPills),
+                            # expectedNoOfPills=30,
+                            # computedNoOfPills=1,
+                            refillDate=refillDate,
+                            nextRefillDate=nextRefillDate,
+
+                        )
+
+                        vl, _ = get_or_create_vl(
+                            patientID = new_patients,
+                            # isStandard=True,
+                            isVLValid = isVLValid,
+                            patientVisitID=patientVisit,
+                            vlResults=vlResults,
+                            vlJustification=row['Last VL Justification'],
+                            dateOfVL=dateOfVL,
+                            dateOfNextVL = nextVLAppointmentDate
+
+                        )       
+
+                        if isOtz.strip().lower() == 'yes': 
+                            new_enrollment, _ = get_or_create_otz_enrollment(
+                                    dateOfEnrollmentToOTZ=enrollmentDate,
+                                    enrolledBy=user,
+                                    currentArtPrescriptionID=currentRegimen,
+                                    currentViralLoadID = vl,
+                                    patientID=new_patients,
+                            )
+                            new_enrollment.save()
+
+                        appointment.save()
+                        appointmentRefill.save()
+                        # if created is True:
+                        #     new_patients.save()
+                        appointmentViralLoad.save()
+                        vsData.save()
+                        firstRegimen.save()
+                        currentRegimen.save()
+                        # prescription.save()
+                        vl.save()
+                        patientVisit.save()
                     # case_manager.save()
 
 

@@ -34,6 +34,7 @@ OTZ.init(
         model: "patients",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     enrolledBy: {
       type: DataTypes.UUID,
@@ -41,6 +42,7 @@ OTZ.init(
         model: "users",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
 
     dateOfEnrollmentToOTZ: {
