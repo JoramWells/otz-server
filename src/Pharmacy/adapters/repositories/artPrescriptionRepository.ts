@@ -8,6 +8,7 @@ import { ARTPrescription } from '../../domain/models/art/artPrescription.model'
 import { KafkaAdapter } from '../kafka/producer/kafka.producer';
 import { connect } from '../../domain/db/connect';
 import { col, fn, Op, Sequelize } from 'sequelize';
+import { Patient } from '../../domain/models/patients.models';
 
 export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -43,7 +44,7 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
 
   }
 
-  async find(): Promise<ARTPrescriptionInterface[]> {
+  async find(hospitalID: string): Promise<ARTPrescriptionInterface[] | null> {
     const latestArtPrescription = await ARTPrescription.findAll({
       attributes: [
         //   'noOfPills',
@@ -91,13 +92,21 @@ export class ARTPrescriptionRepository implements IARTPrescriptionRepository {
         //   ],
         // });
 
-        const results  = ARTPrescription.findAll({
-          order:[['createdAt', 'DESC']],
-          where:{
-            isSwitched: false
-          }
+        const results = ARTPrescription.findAll({
+          order: [["createdAt", "DESC"]],
+          include: [
+            {
+              model: Patient,
+              where: {
+                hospitalID,
+              },
+            },
+          ],
+          where: {
+            isSwitched: false,
+          },
           // limit: 1
-        })
+        });
     return results;
   }
 

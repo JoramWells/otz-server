@@ -124,7 +124,6 @@ class ArtPrescription(models.Model):
     def __str__(self):
         return self.regimen
 
-
 class Prescription(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     patientID = models.ForeignKey('patients', on_delete=models.CASCADE, db_column='patientID')

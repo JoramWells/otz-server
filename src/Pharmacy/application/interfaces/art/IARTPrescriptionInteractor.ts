@@ -2,6 +2,6 @@ import { ARTPrescriptionInterface } from "otz-types"
 
 export interface IARTPrescriptionInteractor {
   createARTPrescription: (data: ARTPrescriptionInterface) => Promise<ARTPrescriptionInterface | null>
-  getAllARTPrescriptions: () => Promise<ARTPrescriptionInterface[]>
+  getAllARTPrescriptions: (hospitalID: string) => Promise<ARTPrescriptionInterface[] | null>
   getARTPrescriptionById: (id: string) => Promise<ARTPrescriptionInterface | null>
 }

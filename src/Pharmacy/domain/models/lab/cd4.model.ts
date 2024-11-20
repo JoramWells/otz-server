@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 
-import { ViralLoadInterface } from "otz-types";
+import { CD4Interface } from "otz-types";
 import { connect } from "../../db/connect";
 import { User } from "../user.model";
 import { Patient } from "../patients.models";
@@ -8,48 +8,29 @@ import { Patient } from "../patients.models";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
-export class ViralLoad
-  extends Model<ViralLoadInterface>
-  implements ViralLoadInterface
+export class CD4
+  extends Model<CD4Interface>
+  implements CD4Interface
 {
   id!: string;
-  isVLValid!: boolean;
-  vlResults!: number;
-  patientID!: string;
-  patientVisitID!: string;
-  userID!: string;
-  vlJustification!: string;
-  dateOfVL?: string | Date | undefined;
-  dateOfNextVL?: string | Date | undefined;
+patientID?: string | undefined;
+patientVisitID?: string | undefined;
+hospitalID?: string | undefined;
+baselineCD4?: string | undefined;
+CD4Count?: string | undefined;
+lastCD4Date?: string | undefined;
+currentCD4Date?: string | Date | undefined;
 }
 
-ViralLoad.init(
+CD4.init(
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    vlResults: {
-      type: DataTypes.INTEGER,
-    },
-    isVLValid: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-
-    patientVisitID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "patientVisits",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-      unique: true,
-      allowNull: false,
-    },
     patientID: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: "patients",
         key: "id",
@@ -57,29 +38,33 @@ ViralLoad.init(
       onDelete: "CASCADE",
       allowNull: false,
     },
-    userID: {
+    hospitalID: {
       type: DataTypes.UUID,
       references: {
-        model: "users",
+        model: "hospitals",
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false,
     },
-    vlJustification: {
+
+    // CD4
+    baselineCD4: {
       type: DataTypes.STRING,
     },
-    dateOfVL: {
-      type: DataTypes.DATE,
+    CD4Count: {
+      type: DataTypes.STRING,
     },
-    dateOfNextVL: {
-      type: DataTypes.DATE,
+    currentCD4Date: {
+      type: DataTypes.DATEONLY,
+    },
+    lastCD4Date: {
+      type: DataTypes.DATEONLY,
     },
   },
 
   {
     sequelize: connect,
-    tableName: "viralLoads",
+    tableName: "cd4",
     // postgresql: {
     //   fillFactor: 70
     // },
@@ -88,8 +73,8 @@ ViralLoad.init(
 );
 
 
-ViralLoad.belongsTo(User, { foreignKey: "userID" });
-ViralLoad.belongsTo(Patient, { foreignKey: "patientID" });
+CD4.belongsTo(User, { foreignKey: "userID" });
+CD4.belongsTo(Patient, { foreignKey: "patientID" });
 
 // const syncDB = async () => {
 //   try {

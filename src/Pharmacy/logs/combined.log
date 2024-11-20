@@ -19,3 +19,13 @@
 {"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:00:01.691Z"}
 {"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:00:01.695Z"}
 {"level":"info","message":"Created new uptake for [object SequelizeInstance:Prescription] prescription!!","service":"pharmacy microservice","timestamp":"2024-08-27T07:30:00.250Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T17:44:06.243Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T17:44:06.641Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:08:50.329Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:08:50.370Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:15:27.665Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:15:28.174Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:22:57.862Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:22:58.166Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:26:44.571Z"}
+{"level":"error","message":"undefined is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-11-19T18:27:33.748Z"}

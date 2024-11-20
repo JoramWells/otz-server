@@ -35,6 +35,7 @@ import { pharmacySocketController } from './adapters/controllers/socketio/pharma
 import { otzRouter } from './routes/enrollment/otz.routes'
 import { pamaRouter } from './routes/enrollment/pama.routes'
 import { pmtctProfileRouter } from './routes/enrollment/pmtctProfile.routes'
+import { viralLoadRouter } from './routes/lab/viralLoad.routes'
 const cors = require('cors')
 
 
@@ -153,7 +154,10 @@ app.use('/home-visit-config', homeVisitConfigRouter);
 app.use("/otz-enrollment", otzRouter);
 app.use("/pama-enrollment", pamaRouter);
 app.use("/pmtct-enrollment", pmtctProfileRouter);
-
+// app.use("/vital-sign", vitalSignRoutes);
+// app.use("/internal-lab-request", internalLabRequestRoutes);
+app.use("/viral-load-tests", viralLoadRouter);
+// app.use("/user-location", userLocationRoutes);
 // init sentry
 // initSentry((app))
 // sendRefillNotification()
