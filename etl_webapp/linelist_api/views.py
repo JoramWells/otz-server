@@ -317,10 +317,10 @@ def get_or_create_case_manager(patientID, userID):
 def get_or_create_otz_enrollment(dateOfEnrollmentToOTZ,patientID, enrolledBy, currentArtPrescriptionID, currentViralLoadID):
     try:
         otz = OTZEnrollments.objects.create(
-            dateOfEnrollmentToOTZ=dateOfEnrollmentToOTZ,
+            # dateOfEnrollmentToOTZ=dateOfEnrollmentToOTZ,
             enrolledBy=enrolledBy,
-            currentArtPrescriptionID=currentArtPrescriptionID,
-            currentViralLoadID = currentViralLoadID,
+            # currentArtPrescriptionID=currentArtPrescriptionID,
+            # currentViralLoadID = currentViralLoadID,
             patientID=patientID,
 
         )
