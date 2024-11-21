@@ -22,7 +22,7 @@ application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter([
-            path("ws/progress/<str:task_id>/", ProgressConsumer.as_asgi()),
+            path("ws/progress", ProgressConsumer.as_asgi()),
         ])
     ),
 })
