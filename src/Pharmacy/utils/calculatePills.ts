@@ -44,7 +44,7 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[] | undefined> =
         "patientID",
       ],
       where: {
-        patientVisitID: {
+        expectedNoOfPills: {
           [Op.not]: null,
         },
       } as any,

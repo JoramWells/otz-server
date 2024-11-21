@@ -10,45 +10,56 @@ export async function addPhoneNumber() {
   try {
     const currentDate = moment().format("YYYY-MM-DD");
 
-    const isSet = await Notification.findOne({
+    const nullPhones = await User.findAll({
       where: {
-        currentDate,
+        phoneNo: {
+          [Op.is]: null,
+        },
+      } as any,
+    });
+
+    console.log("findin");
+
+    //   find notificationcateory
+    const communication = await NotificationSubCategory.findOne({
+      where: {
+        notificationSubCategoryName: "Contacts",
       },
     });
 
-    if (isSet === null) {
-      const nullPhones = await User.findAll({
-        where: {
-          phoneNo: {
-            [Op.is]: null,
-          },
-        } as any,
-      });
+    const appModule = await AppModule.findOne({
+      where: {
+        title: "Users",
+      },
+    });
 
-      console.log("findin");
-
-      //   find notificationcateory
-      const communication = await NotificationSubCategory.findOne({
+    
+     const notifications = await Promise.all(
+      nullPhones.map(async (user) => {
+      const isSet = await Notification.findOne({
         where: {
-          notificationSubCategoryName: "Contacts",
+          userID: user.id,
+          currentDate,
         },
       });
 
-      const appModule = await AppModule.findOne({
-        where: {
-          title: "Users",
-        },
-      });
+      if (!isSet) {
+        return {
+          notificationSubCategoryID: communication?.id,
+          notificationDescription: `Kindly add ${user.firstName} ${user.middleName} number for easier communication`,
+          moduleID: appModule?.id,
+          userID: user.id,
+          currentDate,
+        };
+      }
+      return null
+    }))
 
-      const notifications = nullPhones.map((user) => ({
-        notificationSubCategoryID: communication?.id,
-        notificationDescription: `Kindly add ${user.firstName} ${user.middleName} number for easier communication`,
-        moduleID: appModule?.id,
-        userID: user.id,
-        currentDate,
-      }));
+    const validNotification = notifications.filter(Boolean)
 
-      const isToday = await Notification.bulkCreate(notifications);
+    if (validNotification?.length > 0) {
+      console.log(validNotification, 'notifications')
+      const isToday = await Notification.bulkCreate(validNotification);
     }
   } catch (error) {
     console.log(error);
