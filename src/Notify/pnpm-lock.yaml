@@ -85,8 +85,8 @@ importers:
         specifier: ^3.1.7
         version: 3.1.7
       otz-types:
-        specifier: ^1.1.63
-        version: 1.1.63
+        specifier: ^1.1.71
+        version: 1.1.71
 
 packages:
 
@@ -1048,8 +1048,8 @@ packages:
   one-time@1.0.0:
     resolution: {integrity: sha512-5DXOiRKwuSEcQ/l0kGCF6Q3jcADFv5tSmRaJck/OqkVFcOzutB134KRSfF0xDrL39MNnqxbHBbUUcjZIhTgb2g==}
 
-  otz-types@1.1.63:
-    resolution: {integrity: sha512-ik2RJ0ybQawSwjbvGVcPaRioJSO4D4DN0WivXlFGLHpOQrWGlp0RwmgRhQcXaGc0t0WrTif+tWGaqXYQ/Oyfng==}
+  otz-types@1.1.71:
+    resolution: {integrity: sha512-lpn8UV1hEVjZK2iMISBfr1ZoJyr980z0k5UCmNAff9tY6Dw8pmT+jw62GHZ2hvu7qxeNvY+Mty23fFwllFwDWQ==}
 
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
@@ -2533,7 +2533,7 @@ snapshots:
     dependencies:
       fn.name: 1.1.0
 
-  otz-types@1.1.63: {}
+  otz-types@1.1.71: {}
 
   parseurl@1.3.3: {}
 

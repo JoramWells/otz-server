@@ -38,9 +38,13 @@ export interface NotificationCategoryAttributes {
 }
 
 export interface NotificationAttributes {
-  id: string;
-  notificationSubCategoryID: string;
-  notificationDescription: string;
+  id?: string;
+  notificationSubCategoryID?: string;
+  notificationDescription?: string;
+  moduleID?: string;
+  hospitalID?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface MessageTextReplyAttributes {

@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'linelist_api',
-    'rest_framework'
+    'rest_framework',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -143,8 +144,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER='json'
 CELERY_RESULT_SERIALIZER='json'
@@ -152,3 +153,13 @@ CELERY_TIMEZONE = 'UTC'
 
 # DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 
+ASGI_APPLICATION = 'etl_webapp.wsgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}

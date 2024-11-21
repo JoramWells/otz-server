@@ -2,6 +2,8 @@ import { DataTypes, Model,  UUIDV4 } from "sequelize";
 import { connect } from "../../../db/connect";
 import { NotificationSubCategory } from "./notificationSubCategory.model";
 import { NotificationAttributes } from "otz-types";
+import { AppModule } from "../appModules/appModules";
+import { Hospital } from "../hospital/hospital.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
@@ -32,6 +34,20 @@ Notification.init(
     notificationDescription: {
       type: DataTypes.STRING,
     },
+    moduleID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "appModules",
+        key: "id",
+      },
+    },
+    hospitalID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "hospitals",
+        key: "id",
+      },
+    },
   },
   {
     sequelize: connect,
@@ -44,8 +60,10 @@ Notification.init(
 );
 
 Notification.belongsTo(NotificationSubCategory,{foreignKey:'notificationSubCategoryID'})
+Notification.belongsTo(AppModule, { foreignKey: "moduleID" });
+Notification.belongsTo(Hospital, { foreignKey: "hospitalID" });
 
 // (async () => {
-// connect.sync()
+connect.sync()
 // console.log('Patient Table synced successfully')
 // })()
