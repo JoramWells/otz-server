@@ -1,8 +1,9 @@
-from django.urls import re_path
-from linelist_api.consumers import ProgressConsumer  # Replace `your_app`
+from channels.routing import ProtocolTypeRouter
 
-from . import consumers
+from channels.routing import URLRouter
+import apps.tasks.api.routing
 
-websocket_urlpatterns = [
-    re_path(r'ws/progress/$', ProgressConsumer.as_asgi()),
-]
+application = ProtocolTypeRouter({
+    # Empty for now (http->django views is added by default)
+    'websocket': URLRouter(etl_webapp.routing.websocket_urlpatterns),
+})
