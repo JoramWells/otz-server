@@ -31,6 +31,7 @@ Notification.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false,
     },
     notificationDescription: {
       type: DataTypes.STRING,
@@ -53,6 +54,7 @@ Notification.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false
     },
     userID: {
       type: DataTypes.UUID,
@@ -61,6 +63,7 @@ Notification.init(
         key: "id",
       },
       onDelete: "CASCADE",
+      allowNull: false
     },
     currentDate: {
       type: DataTypes.DATE,

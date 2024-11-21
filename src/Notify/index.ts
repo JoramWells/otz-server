@@ -89,9 +89,11 @@ schedulePatientNotifications();
 
 // setup server
 const server = createServer(app);
-(async () => {
-  await addPhoneNumber();
-})();
+scheduleJob(('*/1 * * *'), async function(){ await addPhoneNumber();})
+
+// (async () => {
+//   await addPhoneNumber();
+// })();
 
 // use morgan
 
