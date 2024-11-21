@@ -3,10 +3,11 @@
 
 // import { mmasCache } from '../../../constants/appointmentCache';
 
-import { NotificationAttributes } from 'otz-types';
-import { INotificationRepository } from '../../../application/interfaces/notify/INotificationRepository';
-import { Notification } from '../../../domain/models/notify/notification.model';
-import { RedisAdapter } from '../redisAdapter'
+import { NotificationAttributes } from "otz-types";
+import { INotificationRepository } from "../../../application/interfaces/notify/INotificationRepository";
+import { Notification } from "../../../domain/models/notify/notification.model";
+import { RedisAdapter } from "../redisAdapter";
+import { User } from "../../../domain/models/user.model";
 // import { createClient } from 'redis'
 
 export class NotificationRepository implements INotificationRepository {
@@ -15,22 +16,32 @@ export class NotificationRepository implements INotificationRepository {
   //   this.redisClient = createClient({})
   // }
 
-  async create(
-    data: NotificationAttributes
-  ): Promise<NotificationAttributes> {
+  async create(data: NotificationAttributes): Promise<NotificationAttributes> {
     const results = await Notification.create(data);
 
     return results;
   }
 
-  async find(): Promise<NotificationAttributes[]> {
+  async find(hospitalID: string): Promise<NotificationAttributes[]> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-      const results = await Notification.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
+    const results = await Notification.findAll({
+      where: {
+        isRead: false,
+      },
+      include: [
+        {
+          model: User,
+          where: {
+            hospitalID,
+          },
+        },
+      ],
+    });
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
     //   await this.redisClient.set(mmasCache, JSON.stringify(results));
 
     //   return results;
@@ -52,20 +63,20 @@ export class NotificationRepository implements INotificationRepository {
   async findById(id: string): Promise<NotificationAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-      const results: Notification | null = await Notification.findOne({
-        where: {
-           id,
-        },
-      });
+    const results: Notification | null = await Notification.findOne({
+      where: {
+        id,
+      },
+    });
 
-      // const patientResults: AppointmentEntity = {
-      //   firstName: results?.firstName,
-      //   middleName: results?.middleName,
-      //   sex: results?.sex,
-      //   phoneNo: results?.phoneNo,
-      //   idNo: results?.idNo,
-      //   occupationID: results?.occupationID,
-      // };
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;

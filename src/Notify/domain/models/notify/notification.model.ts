@@ -3,7 +3,7 @@ import { connect } from "../../../db/connect";
 import { NotificationSubCategory } from "./notificationSubCategory.model";
 import { NotificationAttributes } from "otz-types";
 import { AppModule } from "../appModules/appModules";
-import { Hospital } from "../hospital/hospital.model";
+import { User } from "../user.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 
@@ -30,8 +30,21 @@ Notification.init(
         model: "notificationSubCategories",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false,
     },
     notificationDescription: {
+      type: DataTypes.STRING,
+    },
+    isSent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    isRead: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    isReadBy: {
       type: DataTypes.STRING,
     },
     moduleID: {
@@ -40,13 +53,20 @@ Notification.init(
         model: "appModules",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false
     },
-    hospitalID: {
+    userID: {
       type: DataTypes.UUID,
       references: {
-        model: "hospitals",
+        model: "users",
         key: "id",
       },
+      onDelete: "CASCADE",
+      allowNull: false
+    },
+    currentDate: {
+      type: DataTypes.DATE,
     },
   },
   {
@@ -61,7 +81,7 @@ Notification.init(
 
 Notification.belongsTo(NotificationSubCategory,{foreignKey:'notificationSubCategoryID'})
 Notification.belongsTo(AppModule, { foreignKey: "moduleID" });
-Notification.belongsTo(Hospital, { foreignKey: "hospitalID" });
+Notification.belongsTo(User, { foreignKey: "userID" });
 
 // (async () => {
 connect.sync()
