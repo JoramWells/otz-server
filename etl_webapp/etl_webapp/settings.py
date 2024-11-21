@@ -153,7 +153,9 @@ CELERY_TIMEZONE = 'UTC'
 
 # DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 
-ASGI_APPLICATION = 'etl_webapp.wsgi.application'
+# ASGI_APPLICATION = 'etl_webapp.wsgi.application'
+ASGI_APPLICATION = 'etl_webapp.routing.application'
+
 
 CHANNEL_LAYERS = {
     "default": {

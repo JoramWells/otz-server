@@ -379,7 +379,7 @@ class LineListView(generics.CreateAPIView):
     serializer_class = LineListSerializer
     # parser_classes = (MultiPartParser, FormParser)
 
-    @shared_task(bind=True)
+    # @shared_task(bind=True)
     def post(self, request, *args, **kwargs):
         file_serializer = self.get_serializer(data=request.data)
         # file_serializer = CSVFileSerializer(data=request.data)
