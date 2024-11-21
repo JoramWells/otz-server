@@ -532,8 +532,14 @@ class LineListView(generics.CreateAPIView):
                     enrollmentDate = parse_and_convert_date(enrollmentDate)
                     refillDate = parse_and_convert_date(refillDate)
                     artStartDate = parse_and_convert_date(artStartDate)
-                    if refillDate is not None:
+                    if refillDate is  None:
+                        nextRefillDate = None
+                    else:
                         nextRefillDate = refillDate + relativedelta(months=int(monthsOfPrescription))
+                    
+                    if nextRefillDate is None:
+                        noOfPills = 0
+                    else:
                         noOfPills = nextRefillDate-refillDate
                         noOfPills = noOfPills.days
                     dob = parse_and_convert_date(row['DOB'])
