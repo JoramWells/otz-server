@@ -16,8 +16,13 @@ import calendar
 from datetime import datetime, timedelta
 import os
 from dateutil.relativedelta import relativedelta
+from channels.layers import get_channel_layer
 # from c
 # create TCA appointment
+
+channel_layer = get_channel_layer()
+
+
 upcomingAppointmentStatus = AppointmentStatus.objects.filter(statusDescription='Upcoming').first()
 
 clinicVisitAgenda = AppointmentAgenda.objects.filter(agendaDescription='Clinic visit').first()
@@ -430,6 +435,7 @@ class LineListView(generics.CreateAPIView):
 
                 except pd.errors.EmptyDataError:
                     print('This file is empty or has no columns')
+                    
 
             for chunk in pd.read_csv(file_path, chunksize=chunk_size):    
                 chunk['Last VL Result'] = chunk['Last VL Result'].apply(lambda x: random.randint(0,50) if x == 'LDL' else x)
@@ -439,6 +445,15 @@ class LineListView(generics.CreateAPIView):
                 for _, row in chunk.iterrows():
                     # validate_email(row['CCC NO'])
                     # converted_date = parse_and_convert_date(row['Last Visit Date'])
+                    
+                    channel_layer.group_send(
+                        f"user_{user.id}_progress",
+                        {
+                            "type": "progress.update",
+                            # "progress": progress,
+                        }
+                    )
+
                     dateConfirmedPositive = row['Date confirmed positive']
 
                     vlValidity = row['VL Validility']
@@ -456,15 +471,19 @@ class LineListView(generics.CreateAPIView):
 
                     dateOfVL = row['Last VL Date']
 
-
                     # if(pd.isna(dateOfVL)):
                         # continue
                         # dateOfVL = pd.Timestamp.now().normalize()
 
                     dateOfVL = parse_and_convert_date(dateOfVL)
 
-                    if dateOfVL is not None:    
+
+                    if(pd.isna(dateOfVL)):
+                        nextVLAppointmentDate = None
+
+                    if dateOfVL is not None:
                         nextVLAppointmentDate = parse_and_convert_date(dateOfVL)+relativedelta(months=duration_months)        
+
 
                     # if(pd.isna(dateConfirmedPositive)):
                         # continue
