@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 import os
 from dateutil.relativedelta import relativedelta
 from channels.layers import get_channel_layer
+from celery import shared_task
 # from c
 # create TCA appointment
 
@@ -378,6 +379,7 @@ class LineListView(generics.CreateAPIView):
     serializer_class = LineListSerializer
     # parser_classes = (MultiPartParser, FormParser)
 
+    @shared_task(bind=True)
     def post(self, request, *args, **kwargs):
         file_serializer = self.get_serializer(data=request.data)
         # file_serializer = CSVFileSerializer(data=request.data)
