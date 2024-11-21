@@ -23,7 +23,7 @@ export class OTZRepository implements IOTZRepository {
       include: [
         {
           model: Patient,
-          attributes: ["firstName", "middleName","dob", "sex"],
+          attributes: ["firstName", "middleName", "dob", "sex"],
         },
         {
           model: User,
@@ -69,6 +69,18 @@ export class OTZRepository implements IOTZRepository {
         id,
       },
     });
+
+    return results;
+  }
+  async delete(id: string): Promise<number | null> {
+    // await this.redisClient.del(patientCache);
+    // await this.redisClient.del(id as string);
+    const results: number | null = await OTZ.destroy({
+      where: {
+        id,
+      },
+    });
+    console.log("deleted cache!!");
 
     return results;
   }

@@ -24,4 +24,7 @@ export class OTZInteractor implements IOTZInteractor {
   async getAllOTZs (hospitalID: string): Promise<OTZEnrollmentsInterface[] | null> {
     return await this.repository.find(hospitalID)
   }
+    async deleteOTZ(id: string): Promise<number | null> {
+    return await this.repository.delete(id);
+  }
 }

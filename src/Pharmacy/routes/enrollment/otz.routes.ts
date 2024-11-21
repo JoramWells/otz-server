@@ -22,6 +22,7 @@ router.get(
   controller.onGetOTZById.bind(controller)
 )
 // router.put('/edit/:id', editPatient);
-// router.delete('/delete/:id', deletePatient);
+router.delete('/delete/:id', controller.onDeleteOTZ.bind(controller));
+
 
 export { router as otzRouter }

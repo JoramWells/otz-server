@@ -8,25 +8,25 @@ import { logger } from '../../../utils/logger';
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class OTZController {
-  private readonly interactor: IOTZInteractor
+  private readonly interactor: IOTZInteractor;
 
-  constructor (interactor: IOTZInteractor) {
-    this.interactor = interactor
+  constructor(interactor: IOTZInteractor) {
+    this.interactor = interactor;
   }
 
-  async onCreateOTZ (req: Request, res: Response, next: NextFunction) {
+  async onCreateOTZ(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body)
-      const newProfile = await this.interactor.createOTZ(req.body)
-      res.json(newProfile)
-      next()
+      console.log(req.body);
+      const newProfile = await this.interactor.createOTZ(req.body);
+      res.json(newProfile);
+      next();
     } catch (error) {
-      console.log(error)
-      next(error)
+      console.log(error);
+      next(error);
     }
   }
 
-  async onGetAllOTZs (req: Request, res: Response, next: NextFunction) {
+  async onGetAllOTZs(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -41,26 +41,40 @@ export class OTZController {
         return res.status(404).json({ error: errMessage });
       }
 
-      const results = await this.interactor.getAllOTZs(hospitalID as string)
-      res.status(200).json(results)
-      next()
+      const results = await this.interactor.getAllOTZs(hospitalID as string);
+      res.status(200).json(results);
+      next();
     } catch (error) {
-      next(error)
-      res.status(500).json({ message: 'Internal Server Error' })
-      console.log(error)
+      next(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
     }
   }
 
-  async onGetOTZById (req: Request, res: Response, next: NextFunction) {
+  async onGetOTZById(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params
-      const result = await this.interactor.getOTZById(id)
-      res.status(200).json(result)
-      next()
+      const { id } = req.params;
+      const result = await this.interactor.getOTZById(id);
+      res.status(200).json(result);
+      next();
     } catch (error) {
-      next(error)
-      console.log(error)
-      res.status(500).json({ message: 'Internal Server Error' })
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onDeleteOTZ(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.deleteOTZ(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
