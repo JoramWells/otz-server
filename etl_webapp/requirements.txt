@@ -8,6 +8,7 @@ billiard==4.2.0
 celery==5.4.0
 certifi==2024.6.2
 channels==4.2.0
+channels_redis==4.2.1
 charset-normalizer==3.3.2
 click==8.1.7
 click-didyoumean==0.3.1
@@ -16,6 +17,7 @@ click-repl==0.3.0
 dataclasses-json==0.6.6
 diskcache==5.6.3
 Django==5.0.6
+django-celery-results==2.5.1
 django-cors-headers==4.3.1
 djangorestframework==3.15.1
 frozenlist==1.4.1
@@ -32,6 +34,7 @@ langchain-text-splitters==0.2.1
 langsmith==0.1.75
 MarkupSafe==2.1.5
 marshmallow==3.21.3
+msgpack==1.1.0
 multidict==6.0.5
 mypy-extensions==1.0.0
 numpy==1.26.4
