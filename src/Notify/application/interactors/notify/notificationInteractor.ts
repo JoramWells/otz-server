@@ -20,7 +20,7 @@ export class NotificationInteractor implements INotificationInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllNotifications(): Promise<NotificationAttributes[]> {
-    return await this.repository.find();
+  async getAllNotifications(hospitalID: string): Promise<NotificationAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 }

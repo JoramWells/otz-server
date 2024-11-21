@@ -69,15 +69,15 @@ app.use(express.urlencoded({
 
 // calculatePills()
 
-// scheduleJob(('*/1 * * *'), function(){adherenceMonitor2()})
-// adherenceMonitor2()
+scheduleJob(('*/1 * * *'), function(){adherenceMonitor2()})
+adherenceMonitor2()
 
-// scheduleJob("*/15 * * *", function () {
-//   calculatePills2();
-// });
+scheduleJob("*/15 * * *", function () {
+  calculatePills2();
+});
 
 
-// calculatePills2()
+calculatePills2()
 
 let onlineUsers: any[] = [];
 

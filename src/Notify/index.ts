@@ -2,44 +2,43 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-len */
 /* eslint-disable linebreak-style */
-import express from 'express';
-import { connect } from './db/connect';
-import {scheduleJob} from 'node-schedule';
-import {createServer} from 'http';
+import express from "express";
+import { connect } from "./db/connect";
+import { scheduleJob } from "node-schedule";
+import { createServer } from "http";
 // const Sentry = require('@sentry/node');
 // const { nodeProfilingIntegration } = require('@sentry/profiling-node');
-import { Server } from 'socket.io';
-import helmet from 'helmet'
+import { Server } from "socket.io";
+import helmet from "helmet";
 // import { dailyPillUpdate } from './utils/dailyPillUpdate';
 
-import { notificationTypeRouter } from './routes/notify/notificationType.routes';
-import { notificationRouter } from './routes/notify/notification.routes';
-import { notificationCategoryRouter } from './routes/notify/notificationCategory.routes';
-import { notificationSubCategoryRouter } from './routes/notify/notificationSubCategory.routes';
-import { userNotificationRouter } from './routes/notify/userNotification.routes';
-import { patientNotificationRouter } from './routes/notify/patientNotification.routes';
-import { messageTextReplyRouter } from './routes/notify/messageTextReply.routes';
-import { schedulePatientNotifications } from './utils/scheduleMessages';
-import { chatRouter } from './routes/chat/chat.routes';
-import { messageRouter } from './routes/chat/messages.routes';
-import { PatientNotification } from './domain/models/notify/patientNotifications.model';
-import { sendPushNotification } from './utils/fcm';
-import { friendRequestRouter } from './routes/chat/request.routes';
+import { notificationTypeRouter } from "./routes/notify/notificationType.routes";
+import { notificationRouter } from "./routes/notify/notification.routes";
+import { notificationCategoryRouter } from "./routes/notify/notificationCategory.routes";
+import { notificationSubCategoryRouter } from "./routes/notify/notificationSubCategory.routes";
+import { userNotificationRouter } from "./routes/notify/userNotification.routes";
+import { patientNotificationRouter } from "./routes/notify/patientNotification.routes";
+import { messageTextReplyRouter } from "./routes/notify/messageTextReply.routes";
+import { schedulePatientNotifications } from "./utils/scheduleMessages";
+import { chatRouter } from "./routes/chat/chat.routes";
+import { messageRouter } from "./routes/chat/messages.routes";
+import { PatientNotification } from "./domain/models/notify/patientNotifications.model";
+import { sendPushNotification } from "./utils/fcm";
+import { friendRequestRouter } from "./routes/chat/request.routes";
 // import { sendPushNotification } from './utils/fcm';
-import { initSentry } from "./config/sentryInit";
-import { startRefillConsumer } from './adapters/consumer/notify.consumer';
-import { Messages } from './domain/models/chats/messages.model';
-import { phoneNumberVerificationRouter } from './routes/contacts/phoneNumberVerification.routes';
+// import { initSentry } from "./config/sentryInit";
+import { startRefillConsumer } from "./adapters/consumer/notify.consumer";
+import { Messages } from "./domain/models/chats/messages.model";
+import { phoneNumberVerificationRouter } from "./routes/contacts/phoneNumberVerification.routes";
+import { addPhoneNumber } from "./utils/addPhoneNumber";
 
-const morgan = require('morgan');
-require('dotenv').config();
-
+const morgan = require("morgan");
+require("dotenv").config();
 
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerJsDoc = require('swagger-jsdoc');
-const cors = require('cors');
-const sequelize = require('./db/connect');
-
+const cors = require("cors");
+const sequelize = require("./db/connect");
 
 // const { schedulePatientNotifications, notificationEmitter } = require('./utils/scheduleMessages');
 
@@ -49,14 +48,16 @@ app.use(cors());
 // app.use(helmet())
 //
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: true,
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-app.use(express.static('uploads'))
+app.use(express.static("uploads"));
 
 // morgan
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 // scheduleJob({ hour: 0, minute: 0 }, () => { dailyPillUpdate(); });
 // scheduleJob('0 0 * *',)
@@ -67,7 +68,6 @@ schedulePatientNotifications();
 // realtime
 
 // setInterval(schedulePatientNotifications, 3600000); // 3600000 milliseconds = 1 hour
-
 
 // Swagger configuration options
 // const swaggerOptions = {
@@ -85,57 +85,60 @@ schedulePatientNotifications();
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // init sentry
-initSentry((app))
+// initSentry((app))
 
 // setup server
 const server = createServer(app);
+(async () => {
+  await addPhoneNumber();
+})();
 
 // use morgan
 
 // setup io
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
-  path: '/socket.io'
+  path: "/socket.io",
 });
 // set up socket.io instance
 app.locals.io = io;
 
-let onlineUsers: any[]=[]
+let onlineUsers: any[] = [];
 
 // check connection
-io.on('connection', (socket) => {
-  console.log('Connected to IO sever', socket.id);
+io.on("connection", (socket) => {
+  console.log("Connected to IO sever", socket.id);
 
-  // 
-  socket.on('addNewUsers', connect=>{
-    const {patientID, expoPushToken} = connect
-    !onlineUsers.some(user=>user.patientID === patientID) &&
-    onlineUsers.push({
-      patientID,
-      expoPushToken,
-      clientId: socket.id
-    })
+  //
+  socket.on("addNewUsers", (connect) => {
+    const { patientID, expoPushToken } = connect;
+    !onlineUsers.some((user) => user.patientID === patientID) &&
+      onlineUsers.push({
+        patientID,
+        expoPushToken,
+        clientId: socket.id,
+      });
 
-    // 
-      console.log(onlineUsers, "online");
+    //
+    console.log(onlineUsers, "online");
 
-      io.emit("getOnlineUsers", onlineUsers);
+    io.emit("getOnlineUsers", onlineUsers);
+  });
 
-  })
-
-  socket.on('newChat', (chats)=>{
+  socket.on("newChat", (chats) => {
     // const user = onlineUsers.find(user=> user.patientID)
-    console.log('emitting new chat', chats.clientID)
-    io.to(chats.clientID).emit('getNewChats', chats)
-  })
+    console.log("emitting new chat", chats.clientID);
+    io.to(chats.clientID).emit("getNewChats", chats);
+  });
 
-// 
+  // add number
 
+  //
 
-// socket.on('sendMessage', socket=>{
+  // socket.on('sendMessage', socket=>{
   // const receiver = onlineUsers.find(user=> user.patientID === message.recipientID)
   // const receiver = socket.onlineUsers?.find(user=> user.id === socket.message.id)
   // if(receiver){
@@ -143,28 +146,27 @@ io.on('connection', (socket) => {
   //   console.log('Message sent!!', receiver.clientId)
 
   // }
-//     io.emit("getMessage", socket);
+  //     io.emit("getMessage", socket);
 
+  //   console.log(socket, socket.clientID, 'Sendin..');
+  // })
 
-//   console.log(socket, socket.clientID, 'Sendin..');
-// })
+  socket.on("getPendingMessage", async (socket) => {
+    // console.log("Checking user pending messages...", socket.onlineUsers);
 
-socket.on('getPendingMessage', async (socket)=>{
-  // console.log("Checking user pending messages...", socket.onlineUsers);
-
-  // const receiver = socket.onlineUsers.find((user: PatientAttributes) => user.id === socket.id);
-  // if(receiver){
+    // const receiver = socket.onlineUsers.find((user: PatientAttributes) => user.id === socket.id);
+    // if(receiver){
     const messageStatus = await Messages.findAll({
-      where:{
+      where: {
         senderID: socket.id,
-        isSent: false
-      }
-    })
+        isSent: false,
+      },
+    });
 
-    // 
-    if(messageStatus){
-      console.log(messageStatus)
-      messageStatus.forEach(async(message)=>{
+    //
+    if (messageStatus) {
+      console.log(messageStatus);
+      messageStatus.forEach(async (message) => {
         await Promise.all([
           sendPushNotification([socket.expoPushToken], {
             body: message.text as string,
@@ -174,55 +176,52 @@ socket.on('getPendingMessage', async (socket)=>{
           //   isSent: true
           // })
         ]);
-      })
+      });
 
-      // 
-
+      //
     }
-  // }
-
-})
-
-
-// 
-socket.on('getNotifications', async (socket)=>{
-  const receiver = socket.onlineUsers.find(user=>user.id === socket.id)
-  console.log(socket, "receiver online users!!");
-
-  if(receiver){
-    // 
-    const notificationStatus = await PatientNotification.findAll({
-      where:{
-        patientID:receiver.id,
-        isSent:false
-      }
-    })
-
-    if(notificationStatus){
-      notificationStatus.forEach(async(notification)=>{
-          await sendPushNotification([socket.expoPushToken], notification.message)
-        
-      })
-
-      console.log([socket.expoPushToken, 'expo token'])
-
-      notificationStatus.forEach(async(notification)=>{
-        await notification.update({
-          isSent: true,
-          isSentDate: new Date()
-        })
-      })
-    }
-
-
-  }
-} )
+    // }
+  });
 
   //
-  socket.on('disconnect', () => {
-    onlineUsers = onlineUsers.filter(user => user.clientId !== socket.id)
+  socket.on("getNotifications", async (socket) => {
+    const receiver = socket.onlineUsers.find((user) => user.id === socket.id);
+    console.log(socket, "receiver online users!!");
+
+    if (receiver) {
+      //
+      const notificationStatus = await PatientNotification.findAll({
+        where: {
+          patientID: receiver.id,
+          isSent: false,
+        },
+      });
+
+      if (notificationStatus) {
+        notificationStatus.forEach(async (notification) => {
+          await sendPushNotification(
+            [socket.expoPushToken],
+            notification.message
+          );
+        });
+
+        console.log([socket.expoPushToken, "expo token"]);
+
+        notificationStatus.forEach(async (notification) => {
+          await notification.update({
+            isSent: true,
+            isSentDate: new Date(),
+          });
+        });
+      }
+    }
+  });
+
+  //
+  socket.on("disconnect", () => {
+    onlineUsers = onlineUsers.filter((user) => user.clientId !== socket.id);
     io.emit("getOnlineUsers", onlineUsers);
-    console.log('A user disconnected');
+    console.log("A user disconnected");
   });
 });
 
@@ -238,8 +237,6 @@ socket.on('getNotifications', async (socket)=>{
 
 const PORT = process.env.PORT || 5008;
 
-
-
 app.use("/notification-types", notificationTypeRouter);
 app.use("/notifications", notificationRouter);
 app.use("/notification-categories", notificationCategoryRouter);
@@ -252,13 +249,14 @@ app.use("/messages", messageRouter);
 app.use("/friend-requests", friendRequestRouter);
 app.use("/phone-number-verification", phoneNumberVerificationRouter);
 
-
-
-connect.authenticate().then(() => {
-  console.log('Connected to database Successfully!');
-}).catch((error) => {
-  console.error('Unable to connect to database: ', error);
-});
+connect
+  .authenticate()
+  .then(() => {
+    console.log("Connected to database Successfully!");
+  })
+  .catch((error) => {
+    console.error("Unable to connect to database: ", error);
+  });
 
 server.listen(PORT, async () => {
   console.log(`App running on http://localhost:${PORT}`);

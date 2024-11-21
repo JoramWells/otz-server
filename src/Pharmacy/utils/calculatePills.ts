@@ -1,41 +1,41 @@
-import moment from 'moment'
-import { Prescription } from '../domain/models/art/prescription.model'
-import { Op, Sequelize, col, fn, literal } from 'sequelize'
-import { Patient } from '../domain/models/patients.models'
-import { ART } from '../domain/models/art/art.model'
-import { PrescriptionInterface } from 'otz-types'
-import { Uptake } from '../domain/models/treatmentplan/uptake.model'
-import { Adherence } from '../domain/models/adherence/adherence.model'
+import moment from "moment";
+import { Prescription } from "../domain/models/art/prescription.model";
+import { Op, Sequelize, col, fn, literal } from "sequelize";
+import { Patient } from "../domain/models/patients.models";
+import { ART } from "../domain/models/art/art.model";
+import { PrescriptionInterface } from "otz-types";
+import { Uptake } from "../domain/models/treatmentplan/uptake.model";
+import { Adherence } from "../domain/models/adherence/adherence.model";
 
 const calculatePills = async () => {
-  const currentDate = moment().format('YYYY-MM-DD')
+  const currentDate = moment().format("YYYY-MM-DD");
   const arts = await Prescription.findAll({
     where: {
-      updatedAtExpectedNoOfPills: currentDate
-    }
-  })
+      updatedAtExpectedNoOfPills: currentDate,
+    },
+  });
   if (arts.length !== 0) {
-    console.log('Pills Update Today')
+    console.log("Pills Update Today");
   } else {
-    const results = await Prescription.findAll({})
+    const results = await Prescription.findAll({});
 
     for (const art of results) {
       if (art.expectedNoOfPills > art.frequency) {
-        art.expectedNoOfPills -= art.frequency
+        art.expectedNoOfPills -= art.frequency;
         await art.update({
           expectedNoOfPills: art.expectedNoOfPills,
-          updatedAtExpectedNoOfPills: currentDate as unknown as Date
-        })
-
+          updatedAtExpectedNoOfPills: currentDate as unknown as Date,
+        });
       } else {
-        console.log('No enough medicines')
+        console.log("No enough medicines");
       }
     }
   }
-}
+};
 
-const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
-  const currentDate = moment().format('YYYY-MM-DD')
+const calculatePills2 = async (): Promise<PrescriptionInterface[] | undefined> => {
+  try {
+    const currentDate = moment().format("YYYY-MM-DD");
 
     const latestPrescription = await Prescription.findAll({
       attributes: [
@@ -65,110 +65,116 @@ const calculatePills2 = async (): Promise<PrescriptionInterface[]> => {
       raw: true,
     });
 
-  // const prescriptions = await Prescription.findAll({
-  //   where: {
-  //     [Op.or]: latestUpdates.map(({ patientID, createdAt }) => ({
-  //       patientID,
-  //       createdAt
-  //     }))
-  //   },
-  //   include: [
-  //     {
-  //       model: Patient,
-  //       attributes: ['id', 'firstName', 'middleName']
-  //     },
-  //     // {
-  //     //   model: ART,
-  //     //   attributes: ['artName']
-  //       // where: {
-  //       //   artName: {
-  //       //     [Op.not]: null
-  //       //   }
-  //       // }
-  //     // }
-  //   ]
-  // })
+    // const prescriptions = await Prescription.findAll({
+    //   where: {
+    //     [Op.or]: latestUpdates.map(({ patientID, createdAt }) => ({
+    //       patientID,
+    //       createdAt
+    //     }))
+    //   },
+    //   include: [
+    //     {
+    //       model: Patient,
+    //       attributes: ['id', 'firstName', 'middleName']
+    //     },
+    //     // {
+    //     //   model: ART,
+    //     //   attributes: ['artName']
+    //       // where: {
+    //       //   artName: {
+    //       //     [Op.not]: null
+    //       //   }
+    //       // }
+    //     // }
+    //   ]
+    // })
 
-  // 
-      const prescriptions = await Prescription.findAll({
-        where: {
-          [Op.and]: [
-            {
-              patientID: {
-                [Op.in]: latestPrescription.map(
-                  (prescription) => prescription.patientID
-                ),
-              },
-            },
-            Sequelize.where(
-              col("Prescription.createdAt"),
-              Op.eq,
-              Sequelize.literal(
-                `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
-              )
-            ),
-          ],
-        },
-        include: [
+    //
+    const prescriptions = await Prescription.findAll({
+      where: {
+        [Op.and]: [
           {
-            model: Patient,
-            attributes: ["id", "firstName", "middleName", "isImportant"],
+            patientID: {
+              [Op.in]: latestPrescription.map(
+                (prescription) => prescription.patientID
+              ),
+            },
           },
+          Sequelize.where(
+            col("Prescription.createdAt"),
+            Op.eq,
+            Sequelize.literal(
+              `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
+            )
+          ),
+        ],
+      },
+      include: [
+        {
+          model: Patient,
+          attributes: ["id", "firstName", "middleName", "isImportant"],
+        },
 
-          // {
-          //   model: ART,
-          //   attributes: ['artName']
-          // where: {
-          //   artName: {
-          //     [Op.not]: null
-          //   }
-          // }
-          // }
-        ],
-        attributes: [
-          'id',
-          "expectedNoOfPills",
-          "computedNoOfPills",
-          "frequency",
-          "refillDate",
-          "nextRefillDate",
-          "patientID",
-          // 'Patient.id',
-          "noOfPills",
-          // "Patient.id",
-          // "Patient.firstName",
-          // "Patient.middleName",
-        ],
-      });
+        // {
+        //   model: ART,
+        //   attributes: ['artName']
+        // where: {
+        //   artName: {
+        //     [Op.not]: null
+        //   }
+        // }
+        // }
+      ],
+      attributes: [
+        "id",
+        "expectedNoOfPills",
+        "computedNoOfPills",
+        "frequency",
+        "refillDate",
+        "nextRefillDate",
+        "patientID",
+        // 'Patient.id',
+        "noOfPills",
+        // "Patient.id",
+        // "Patient.firstName",
+        // "Patient.middleName",
+      ],
+    });
 
     // console.log(prescriptions)
 
-  const arr: PrescriptionInterface[] = []
+    const arr: PrescriptionInterface[] = [];
 
-  for (const art of prescriptions) {
-    const refillDate = art.refillDate
+    for (const art of prescriptions) {
+      const refillDate = art.refillDate;
 
-    const expectedValue = moment(currentDate).diff(refillDate, 'days')
+      const expectedValue = moment(currentDate).diff(refillDate, "days");
 
-    const pillsTaken = art.frequency * expectedValue
-  // console.log(expectedValue, pillsTaken,"Calcx");
+      const pillsTaken = art.frequency * expectedValue;
+      // console.log(expectedValue, pillsTaken,"Calcx");
 
-    // if(art.noOfPills)
-    const remainingPills = art.noOfPills - pillsTaken
-    if (art.expectedNoOfPills === remainingPills) {
-      
-      arr.push({ ...art.dataValues, message: 'Patient Adhered', remainingPills } as any)
-    } else {
-      // console.log(art)
-      await art.update({
-        id: art.dataValues.id,
-        expectedNoOfPills: remainingPills,
-        updatedAtExpectedNoOfPills: currentDate as unknown as Date
-      })
+      // if(art.noOfPills)
+      const remainingPills = art.noOfPills - pillsTaken;
+      if (art.expectedNoOfPills === remainingPills) {
+        arr.push({
+          ...art.dataValues,
+          message: "Patient Adhered",
+          remainingPills,
+        } as any);
+      } else {
+        // console.log(art)
+        await art.update({
+          id: art.dataValues.id,
+          expectedNoOfPills: remainingPills,
+          updatedAtExpectedNoOfPills: currentDate as unknown as Date,
+        });
+      }
     }
+    return arr;
+  } catch (error) {
+    console.log(error);
   }
-  return arr
-}
+};
 
 async function calculateAdherenceRateTimeSeries() {
   // Fetch all prescriptions along with their related data
@@ -272,6 +278,5 @@ calculateAdherenceRateTimeSeries()
   .catch((err) => {
     console.error("Error calculating adherence rate time series:", err);
   });
-
 
 export { calculatePills, calculatePills2, calculateAdherenceRateTimeSeries };
