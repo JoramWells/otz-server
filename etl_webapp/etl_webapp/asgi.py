@@ -13,6 +13,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
 from linelist_api.consumers import ProgressConsumer  # Replace `your_app`
+from linelist_api.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'etl_webapp.settings')
 
@@ -22,7 +23,7 @@ application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter([
-            path("ws/progress", ProgressConsumer.as_asgi()),
+            websocket_urlpatterns
         ])
     ),
 })

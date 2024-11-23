@@ -18,9 +18,10 @@ export interface FacilityMAPSInterface {
 
 
 export interface LineListCSVInterface {
-  id: string;
-  file: string;
-  size: string;
+  id?: string;
+  file?: string;
+  size?: string;
+  taskID?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

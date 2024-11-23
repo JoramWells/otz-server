@@ -200,6 +200,7 @@ class CSVFile(models.Model):
     userID = models.ForeignKey('User', on_delete=models.CASCADE, db_column='userID')
     hospitalID = models.ForeignKey('Hospital', on_delete=models.CASCADE, db_column='hospitalID')
     size = models.BigIntegerField(null=True, blank=True)  # For file size
+    taskID = models.CharField(max_length=100)
 
     # uploaded_at = models.DateTimeField(auto_now_add=True)
     createdAt = models.DateTimeField(auto_now_add=True)

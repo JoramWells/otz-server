@@ -21,6 +21,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes', 
@@ -30,7 +31,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'linelist_api',
     'rest_framework',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -154,14 +154,14 @@ CELERY_TIMEZONE = 'UTC'
 # DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 
 # ASGI_APPLICATION = 'etl_webapp.wsgi.application'
-ASGI_APPLICATION = 'etl_webapp.routing.application'
+ASGI_APPLICATION = 'etl_webapp.asgi.application'
 
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }

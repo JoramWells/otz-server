@@ -42,7 +42,11 @@ export interface NotificationAttributes {
   notificationSubCategoryID?: string;
   notificationDescription?: string;
   moduleID?: string;
-  hospitalID?: string;
+  userID?: string;
+  isReadBy?: string;
+  isRead?: boolean;
+  isSent?: boolean;
+  currentDate?: string | Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
