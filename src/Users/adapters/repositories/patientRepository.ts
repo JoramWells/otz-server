@@ -115,7 +115,12 @@ export class PatientRepository implements IPatientRepository {
     return results;
   }
 
-  async find(hospitalID: string): Promise<PatientAttributes[] | null> {
+  async find(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<PatientAttributes[] | null> {
     const currentDate = new Date();
 
     // await this.redisClient.connect();
@@ -169,13 +174,33 @@ export class PatientRepository implements IPatientRepository {
       currentDate.getMonth(),
       currentDate.getDate()
     );
-    const results = await Patient.findAll({
-      where: {
-        hospitalID: hospitalID,
-        dob: {
-          [Op.gte]: maxDate,
-        },
-      },
+
+    //
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%{search}%` } },
+            { middleName: { [Op.iLike]: `%{search}%` } },
+          ],
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        }
+      : {
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        };
+
+    const offset = (page - 1) * pageSize;
+    const limit = parseInt(offset, 10);
+
+    const { rows, count } = await Patient.findAndCountAll({
+      where,
+      limit: 10,
+      offset,
       include: [
         { model: School, attributes: ["schoolName"] },
         {
@@ -200,7 +225,7 @@ export class PatientRepository implements IPatientRepository {
       //   },
       // },
     });
-    return results;
+    return rows;
   }
 
   async findUsers(): Promise<PatientAttributes[]> {
