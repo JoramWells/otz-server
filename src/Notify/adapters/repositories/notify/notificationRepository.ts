@@ -8,6 +8,8 @@ import { INotificationRepository } from "../../../application/interfaces/notify/
 import { Notification } from "../../../domain/models/notify/notification.model";
 import { RedisAdapter } from "../redisAdapter";
 import { User } from "../../../domain/models/user.model";
+import moment from "moment";
+
 // import { createClient } from 'redis'
 
 export class NotificationRepository implements INotificationRepository {
@@ -26,9 +28,11 @@ export class NotificationRepository implements INotificationRepository {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
+    const currentDate = moment().format('YYYY-MM-DD')
     const results = await Notification.findAll({
       where: {
         isRead: false,
+        currentDate
       },
       include: [
         {

@@ -5,5 +5,7 @@ urlpatterns=[
     path("patients/", views.PatientCreate.as_view(), name='patient-create'),
     path('upload/', views.LineListView.as_view(), name='upload-file'),
     path('upload-csv/', views.UploadCSV.as_view(), name='upload-csv'),
+    path('task-status/<str:task_id>/', views.check_task_status, name='task-status'),
+    
 
 ]

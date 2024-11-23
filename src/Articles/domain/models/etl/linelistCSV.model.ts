@@ -49,6 +49,10 @@ LineListCSV.init(
       // allowNull: false,`
       onDelete: "CASCADE",
     },
+    taskID: {
+      type: DataTypes.STRING,
+      // allowNull: false,
+    },
   },
   {
     sequelize: connect,
