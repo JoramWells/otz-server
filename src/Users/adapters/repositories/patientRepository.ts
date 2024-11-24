@@ -179,8 +179,8 @@ export class PatientRepository implements IPatientRepository {
     const where = searchQuery
       ? {
           [Op.or]: [
-            { firstName: { [Op.iLike]: `%{search}%` } },
-            { middleName: { [Op.iLike]: `%{search}%` } },
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
           ],
           hospitalID,
           dob: {

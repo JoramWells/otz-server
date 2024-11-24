@@ -63,13 +63,13 @@ def process_csv(self, file_path, hospitalID,userID, chunk_size=1000 ):
             # validate_email(row['CCC NO'])
             # converted_date = parse_and_convert_date(row['Last Visit Date'])
             progress = (index + 1) /total_rows*100
-            async_to_sync(channel_layer.group_send)(
-                f"user_{user}_progress",
-                {
-                    "type": "progress.update",
-                    "progress": progress,
-                }
-            )
+            # async_to_sync(channel_layer.group_send)(
+            #     "task_progress",
+            #     {
+            #         "type": "progress.update",
+            #         "progress": progress,
+            #     }
+            # )
             
             self.update_state(
                 state="PROGRESS",

@@ -68,12 +68,25 @@ from django.http import JsonResponse
 
 def check_task_status(request, task_id):
     task_result = AsyncResult(task_id)
+    
+    progress=None
+    result = None
+    
+    if task_result.info:
+        if(isinstance(task_result.info, dict)):
+            progress = task_result.info.get('progress')
+        elif isinstance(task_result.info, Exception):
+            progress = f"Task encountered an error: {str(task_result.info)}"
+    
+    if task_result.result:
+        result = str(task_result.result)        
+    
     print ('Findin....')
     return JsonResponse({
         "task_id": task_id,
         "status":task_result.status,
-        "progress": task_result.info.get('progress') if task_result.info  else None,
-        "result": str(task_result.result) if task_result.result else None
+        "progress": progress,
+        "result": result
     })
 
 # Create your views here.
