@@ -98,7 +98,8 @@ export class PatientController {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const { hospitalID, page=1, pageSize, searchQuery='' } = req.query;
+      const { hospitalID, page, pageSize, searchQuery } = req.query;
+      console.log(req.query.hospitalID, "query");
 
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });

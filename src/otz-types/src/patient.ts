@@ -49,6 +49,7 @@ export interface PatientAttributes {
   lastName?: string;
   sex?: string;
   dob?: Date | string;
+  enrollmentDate?: Date | string;
   avatar?: string;
   phoneNo?: string;
   idNo?: string;
@@ -69,7 +70,7 @@ export interface PatientAttributes {
   maritalStatus: string;
   email?: string;
   isImportant?: boolean;
-  role: PatientRoles;
+  role?: PatientRoles;
   location?: LocationProps;
   createdAt?: Date;
   updatedAt?: Date;

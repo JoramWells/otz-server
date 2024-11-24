@@ -194,12 +194,14 @@ export class PatientRepository implements IPatientRepository {
           },
         };
 
-    const offset = (page - 1) * pageSize;
-    const limit = parseInt(offset, 10);
+    const offset = (parseInt(page, 10) - 1) * parseInt(pageSize, 10);
+    const limit = parseInt(pageSize, 10);
+
+    console.log(page, pageSize, "params");
 
     const { rows, count } = await Patient.findAndCountAll({
       where,
-      limit: 10,
+      limit,
       offset,
       include: [
         { model: School, attributes: ["schoolName"] },
@@ -224,8 +226,10 @@ export class PatientRepository implements IPatientRepository {
       //     [Op.gte]: maxDate,
       //   },
       // },
-    });
-    return rows;
+      
+
+          });
+    return { data: rows, total: count, page: parseInt(page, 10), pageSize: limit };
   }
 
   async findUsers(): Promise<PatientAttributes[]> {
