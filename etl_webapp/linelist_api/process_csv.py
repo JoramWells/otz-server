@@ -64,7 +64,7 @@ def process_csv(self, file_path, hospitalID,userID, chunk_size=1000 ):
             # converted_date = parse_and_convert_date(row['Last Visit Date'])
             progress = (index + 1) /total_rows*100
             async_to_sync(channel_layer.group_send)(
-                # f"user_{user}_progress",
+                f"user_{user}_progress",
                 {
                     "type": "progress.update",
                     "progress": progress,

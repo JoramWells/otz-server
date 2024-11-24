@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import { User } from "./user.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
-export enum UserRoles {
+export enum PatientRoles {
   Admin = "admin",
   Clinician = "clinician",
   MentorMother = "mentor mother",
@@ -17,9 +17,8 @@ export enum UserRoles {
   patient = "patient",
 }
 
-
 export class Patient extends Model<PatientAttributes> implements PatientAttributes {
-  role!: UserRoles;
+  role!: PatientRoles;
   entryPoint?: string | undefined;
   maritalStatus!: string;
   id?: string | undefined;
@@ -157,8 +156,8 @@ Patient.init(
       unique: true,
     },
     role: {
-      type: DataTypes.ENUM(...Object.values(UserRoles)),
-      defaultValue: UserRoles.patient,
+      type: DataTypes.ENUM(...Object.values(PatientRoles)),
+      defaultValue: PatientRoles.patient,
       allowNull: true,
     },
     createdAt: {

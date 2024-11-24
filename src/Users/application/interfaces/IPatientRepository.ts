@@ -5,7 +5,7 @@ export interface IPatientRepository {
     data: PatientAttributes,
     nextOfKinData: NextOfKinInterface
   ) => Promise<string | null>;
-  find: (hospitalID: string) => Promise<PatientAttributes[] | null>;
+  find: (hospitalID: string, page: number, pageSize: number, searchQuery: string) => Promise<PatientAttributes[] | null>;
   findUsers: () => Promise<PatientAttributes[]>;
   findImportant: (limit: number) => Promise<PatientAttributes[]>;
   findById: (id: string) => Promise<PatientAttributes | null>;
