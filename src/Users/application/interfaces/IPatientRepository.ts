@@ -1,11 +1,12 @@
 import { NextOfKinInterface, PatientAttributes } from "otz-types"
+import { PatientResponseInterface } from "../../domain/models/patients.models";
 
 export interface IPatientRepository {
   create: (
     data: PatientAttributes,
     nextOfKinData: NextOfKinInterface
   ) => Promise<string | null>;
-  find: (hospitalID: string, page: number, pageSize: number, searchQuery: string) => Promise<PatientAttributes[] | null>;
+  find: (hospitalID: string, page: number, pageSize: number, searchQuery: string) => Promise<PatientResponseInterface | null>;
   findUsers: () => Promise<PatientAttributes[]>;
   findImportant: (limit: number) => Promise<PatientAttributes[]>;
   findById: (id: string) => Promise<PatientAttributes | null>;

@@ -7,6 +7,13 @@ import { connect } from "../../../db/connect";
 import { AppointmentAttributes } from "otz-types";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
+export interface AppointmentResponseInterface {
+  data: AppointmentAttributes[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
 export enum AppointmentFrequency {
   Bimonthly = "Bimonthly",
   Daily = "Daily",

@@ -2,6 +2,7 @@
 import { AppointmentAttributes } from 'otz-types';
 import { IAppointmentInteractor } from '../../interfaces/appointment/IAppointementInteractor';
 import { IAppointmentRepository } from '../../interfaces/appointment/IAppointmentRepository';
+import { AppointmentResponseInterface } from '../../../domain/models/appointment/appointment.model';
 
 
 export class AppointmentInteractor implements IAppointmentInteractor {
@@ -22,11 +23,18 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.markAsRead(id);
   }
 
-    async getRecentAppointmentByPatientID(id: string, agenda: string): Promise<AppointmentAttributes | null> {
+  async getRecentAppointmentByPatientID(
+    id: string,
+    agenda: string
+  ): Promise<AppointmentAttributes | null> {
     return await this.repository.findRecentAppointmentByPatientID(id, agenda);
   }
 
-  async rescheduleAppointment(id: string, reason: string, rescheduleDate: string): Promise<boolean | null> {
+  async rescheduleAppointment(
+    id: string,
+    reason: string,
+    rescheduleDate: string
+  ): Promise<boolean | null> {
     return await this.repository.reschedule(id, reason, rescheduleDate);
   }
 
@@ -50,8 +58,14 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllAppointments(dateQuery: string, hospitalID: string): Promise<AppointmentAttributes[]> {
-    return await this.repository.find(dateQuery, hospitalID);
+  async getAllAppointments(
+    dateQuery: string,
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<AppointmentResponseInterface | null> {
+    return await this.repository.find(dateQuery, hospitalID,page, pageSize, searchQuery);
   }
   async getAppointmentDetail(
     id: string

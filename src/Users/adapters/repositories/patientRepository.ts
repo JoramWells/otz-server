@@ -10,6 +10,7 @@ import { NextOfKin } from "../../domain/models/nextOfKin.model";
 import {
   generateDefaultHashedPassword,
   Patient,
+  PatientResponseInterface,
 } from "../../domain/models/patients.models";
 import { School } from "../../domain/models/school/school.model";
 import { logger } from "../../utils/logger";
@@ -120,7 +121,7 @@ export class PatientRepository implements IPatientRepository {
     page: number,
     pageSize: number,
     searchQuery: string
-  ): Promise<PatientAttributes[] | null> {
+  ): Promise<PatientResponseInterface | null> {
     const currentDate = new Date();
 
     // await this.redisClient.connect();
@@ -181,6 +182,7 @@ export class PatientRepository implements IPatientRepository {
           [Op.or]: [
             { firstName: { [Op.iLike]: `%${searchQuery}%` } },
             { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
           ],
           hospitalID,
           dob: {
@@ -194,15 +196,14 @@ export class PatientRepository implements IPatientRepository {
           },
         };
 
-    const offset = (parseInt(page, 10) - 1) * parseInt(pageSize, 10);
-    const limit = parseInt(pageSize, 10);
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize
 
-    console.log(page, pageSize, "params");
 
     const { rows, count } = await Patient.findAndCountAll({
       where,
-      limit,
-      offset,
+      limit: limit ? limit : 10,
+      offset: offset ? offset : 0,
       include: [
         { model: School, attributes: ["schoolName"] },
         {
@@ -226,10 +227,13 @@ export class PatientRepository implements IPatientRepository {
       //     [Op.gte]: maxDate,
       //   },
       // },
-      
-
-          });
-    return { data: rows, total: count, page: parseInt(page, 10), pageSize: limit };
+    });
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
   }
 
   async findUsers(): Promise<PatientAttributes[]> {

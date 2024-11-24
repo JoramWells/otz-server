@@ -3,7 +3,7 @@
 import { Op } from "sequelize";
 import { IAppointmentRepository } from "../../application/interfaces/appointment/IAppointmentRepository";
 import { appointmentCache } from "../../constants/appointmentCache";
-import { Appointment } from "../../domain/models/appointment/appointment.model";
+import { Appointment, AppointmentResponseInterface } from "../../domain/models/appointment/appointment.model";
 import { AppointmentAgenda } from "../../domain/models/appointment/appointmentAgenda.model";
 import { AppointmentStatus } from "../../domain/models/appointment/appointmentStatus.model";
 import { Patient } from "../../domain/models/patients.models";
@@ -189,8 +189,11 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   async find(
     dateQuery: string,
-    hospitalID: string
-  ): Promise<AppointmentAttributes[]> {
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<AppointmentResponseInterface | null> {
     // await this.redisClient.connect();
     // check if patient
 
@@ -201,18 +204,37 @@ export class AppointmentRepository implements IAppointmentRepository {
       currentDate.getDate()
     );
 
-    console.log(maxDate, "MAXdATE!!");
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        }
+      : {
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        };
+
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
 
     if (dateQuery === "weekly") {
       const { start, end } = getWeekRange(currentDate);
 
       // if ((await this.redisClient.get(appointmentCache)) === null) {
-      const results: AppointmentAttributes[] = await Appointment.findAll({
+      const {rows, count}= await Appointment.findAndCountAll({
         order: [["appointmentDate", "ASC"]],
+        limit: limit ? limit:10,
+        offset: offset? offset: 1,
         where: {
-          createdAt: {
-            [Op.not]: null,
-          } as any,
           appointmentDate: {
             [Op.between]: [start, end],
           },
@@ -228,11 +250,7 @@ export class AppointmentRepository implements IAppointmentRepository {
               "isImportant",
               "dob",
             ],
-            where: {
-              dob: {
-                [Op.gte]: maxDate,
-              },
-            },
+            where,
           },
           {
             model: User,
@@ -256,13 +274,20 @@ export class AppointmentRepository implements IAppointmentRepository {
       // set to cace
       // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-      return results;
+          return {
+            data: rows,
+            total: count,
+            page: page,
+            pageSize: limit,
+          };
     } else if (dateQuery === "monthly") {
       const { start, end } = getMonthRange(currentDate);
 
       // if ((await this.redisClient.get(appointmentCache)) === null) {
-      const results: AppointmentAttributes[] = await Appointment.findAll({
+      const { rows, count } = await Appointment.findAndCountAll({
         order: [["appointmentDate", "ASC"]],
+        limit: limit ? limit : 10,
+        offset: offset ? offset : 1,
         where: {
           createdAt: {
             [Op.not]: null,
@@ -281,11 +306,7 @@ export class AppointmentRepository implements IAppointmentRepository {
               "sex",
               "isImportant",
             ],
-            where: {
-              dob: {
-                [Op.gte]: maxDate,
-              },
-            },
+            where,
           },
           {
             model: User,
@@ -309,12 +330,19 @@ export class AppointmentRepository implements IAppointmentRepository {
       // set to cace
       // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-      return results;
+          return {
+            data: rows,
+            total: count,
+            page: page,
+            pageSize: limit,
+          };
     }
 
     // if ((await this.redisClient.get(appointmentCache)) === null) {
-    const results: AppointmentAttributes[] = await Appointment.findAll({
+    const { rows, count } = await Appointment.findAndCountAll({
       order: [["appointmentDate", "ASC"]],
+      limit: limit ? limit : 10,
+      offset: offset ? offset : 1,
       where: {
         createdAt: {
           [Op.not]: null,
@@ -323,12 +351,8 @@ export class AppointmentRepository implements IAppointmentRepository {
       include: [
         {
           model: Patient,
-          attributes: ["firstName", "middleName", "dob", "sex", "isImportant"],
-          where: {
-            dob: {
-              [Op.gte]: maxDate,
-            },
-          },
+          attributes: ["firstName", "middleName", "dob", "sex"],
+          where,
         },
         {
           model: User,
@@ -352,7 +376,12 @@ export class AppointmentRepository implements IAppointmentRepository {
     // set to cace
     // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-    return results;
+        return {
+          data: rows,
+          total: count,
+          page: page,
+          pageSize: limit,
+        };
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   appointmentCache

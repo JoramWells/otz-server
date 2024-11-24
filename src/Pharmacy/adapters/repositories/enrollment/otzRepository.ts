@@ -4,11 +4,15 @@
 import { OTZEnrollmentsInterface } from "otz-types";
 
 import { IOTZRepository } from "../../../application/interfaces/enrollment/IOTZRepository";
-import { OTZ } from "../../../domain/models/enrollment/otz.model";
+import {
+  OTZ,
+  OTZResponseInterface,
+} from "../../../domain/models/enrollment/otz.model";
 import { Patient } from "../../../domain/models/patients.models";
 import { User } from "../../../domain/models/user.model";
 import { ARTPrescription } from "../../../domain/models/art/artPrescription.model";
 import { ViralLoad } from "../../../domain/models/lab/viralLoad.model";
+import { Op } from "sequelize";
 
 export class OTZRepository implements IOTZRepository {
   async create(
@@ -18,19 +22,42 @@ export class OTZRepository implements IOTZRepository {
     return results;
   }
 
-  async find(hospitalID: string): Promise<OTZEnrollmentsInterface[]> {
-    const results = await OTZ.findAll({
+  async find(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<OTZResponseInterface> {
+    //
+    //
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+          hospitalID,
+        }
+      : {
+          hospitalID,
+        };
+
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    const { rows, count } = await OTZ.findAndCountAll({
+      limit: limit ? limit : 10,
+      offset: offset ? offset : 0,
       include: [
         {
           model: Patient,
           attributes: ["firstName", "middleName", "dob", "sex"],
+          where,
         },
         {
           model: User,
           attributes: ["firstName", "middleName"],
-          where: {
-            hospitalID,
-          },
         },
         // {
         //   model: ARTPrescription,
@@ -42,7 +69,12 @@ export class OTZRepository implements IOTZRepository {
         // }
       ],
     });
-    return results;
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
   }
 
   async findById(id: string): Promise<OTZEnrollmentsInterface | null> {
