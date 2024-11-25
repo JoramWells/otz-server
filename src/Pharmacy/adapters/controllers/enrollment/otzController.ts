@@ -39,6 +39,11 @@ export class OTZController {
         page = parseInt(page, 10);
         pageSize = Number(pageSize);
       }
+
+      if (page <= 0) {
+        page = 1;
+      }
+
       if (!isUUID(hospitalID)) {
         const errMessage = `${hospitalID} is not a valid UUID `;
         logger.error(errMessage);
