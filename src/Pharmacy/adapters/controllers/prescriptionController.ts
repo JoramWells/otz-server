@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
-import { type IPrescriptionInteractor } from '../../application/interfaces/art/IPrescriptionInteractor'
-import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
-import { logger } from '../../utils/logger';
-import {validate as isUUID} from 'uuid'
+import { type NextFunction, type Request, type Response } from "express";
+import { type IPrescriptionInteractor } from "../../application/interfaces/art/IPrescriptionInteractor";
+import { AppointmentAttributes, PrescriptionInterface } from "otz-types";
+import { logger } from "../../utils/logger";
+import { validate as isUUID } from "uuid";
 // import { Patient } from '../../domain/entities/Patient'
 
 export class PrescriptionController {
@@ -26,7 +26,6 @@ export class PrescriptionController {
       appointmentAgendaID,
       appointmentStatusID,
     } = req.body;
-
 
     const nextRefillDate = new Date(refillDate);
     const daysToAdd = parseInt(noOfPill, 10) / parseInt(frequency, 10);
@@ -58,9 +57,9 @@ export class PrescriptionController {
         appointmentInput
       );
 
-      if(patientID){
+      if (patientID) {
         console.log("Marking patient as completed!!");
-        await this.interactor.findRecentRecentByPatientID(patientID)
+        await this.interactor.findRecentRecentByPatientID(patientID);
       }
 
       res.status(200).json(newProfile);
@@ -74,7 +73,7 @@ export class PrescriptionController {
 
   async onGetAllPrescriptions(req: Request, res: Response, next: NextFunction) {
     try {
-      const {mode, hospitalID} = req.query
+      let { mode, hospitalID, page, pageSize, searchQuery } = req.query;
 
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
@@ -84,7 +83,24 @@ export class PrescriptionController {
         logger.error(errMessage);
         return res.status(404).json({ error: errMessage });
       }
-      const results = await this.interactor.getAllPrescriptions(mode as string, hospitalID as string);
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
+
+      //
+      if (page <= 0) {
+        page = 1;
+      }
+
+      //
+      const results = await this.interactor.getAllPrescriptions(
+        mode as string,
+        hospitalID as string,
+        page as unknown as number,
+        pageSize as unknown as number,
+        searchQuery as string
+      );
       res.status(200).json(results);
       next();
     } catch (error) {
@@ -151,15 +167,21 @@ export class PrescriptionController {
     try {
       const { id } = req.params;
       if (id === "undefined") return null;
-      const { frequency, noOfPills, expectedNoOfPills, refillDate, nextRefillDate }: PrescriptionInterface = req.body;
-      console.log(req.body)
+      const {
+        frequency,
+        noOfPills,
+        expectedNoOfPills,
+        refillDate,
+        nextRefillDate,
+      }: PrescriptionInterface = req.body;
+      console.log(req.body);
       const values: PrescriptionInterface = {
         id,
         frequency,
         noOfPills,
         expectedNoOfPills,
         refillDate,
-        nextRefillDate
+        nextRefillDate,
       };
 
       const results = await this.interactor.editPrescription(values);
@@ -179,9 +201,7 @@ export class PrescriptionController {
     if (id === "undefined") return null;
 
     try {
-      const result = await this.interactor.findRecentRecentByPatientID(
-        id
-      );
+      const result = await this.interactor.findRecentRecentByPatientID(id);
       if (!isUUID(id)) {
         const errMessage = `${id} is not a valid UUID `;
         logger.error(errMessage);

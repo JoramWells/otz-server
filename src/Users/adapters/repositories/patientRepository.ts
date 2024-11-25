@@ -202,8 +202,8 @@ export class PatientRepository implements IPatientRepository {
 
     const { rows, count } = await Patient.findAndCountAll({
       where,
-      limit: limit ? limit : 10,
-      offset: offset ? offset : 0,
+      limit,
+      offset,
       include: [
         { model: School, attributes: ["schoolName"] },
         {

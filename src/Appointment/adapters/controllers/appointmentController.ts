@@ -46,8 +46,8 @@ export class AppointmentController {
 
       //
       if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = "1";
-        pageSize = "10";
+        page = Number(page)
+        pageSize = Number(pageSize)
       }
 
       const results = await this.interactor.getAllAppointments(

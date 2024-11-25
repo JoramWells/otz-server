@@ -8,6 +8,14 @@ import { PatientVisits } from "../patientVisits.model";
 import { ARTPrescription } from "./artPrescription.model";
 import { PrescriptionInterface } from "otz-types";
 
+
+export interface PrescriptionResponseInterface {
+  data: PrescriptionInterface[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
 export class Prescription extends Model<PrescriptionInterface> {
   id: string | undefined;
   patientID!: string;

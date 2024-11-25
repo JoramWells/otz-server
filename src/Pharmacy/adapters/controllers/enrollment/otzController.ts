@@ -36,8 +36,8 @@ export class OTZController {
         return res.status(400).json({ message: "Invalid ID parameter" });
 
       if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = "1";
-        pageSize = "10";
+        page = parseInt(page, 10);
+        pageSize = Number(pageSize);
       }
       if (!isUUID(hospitalID)) {
         const errMessage = `${hospitalID} is not a valid UUID `;
