@@ -120,39 +120,48 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     }
 
     const latestPrescription = await Prescription.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes:[],
+          where: {
+            hospitalID,
+          },
+        },
+      ],
       attributes: [
         //   'noOfPills',
-        [fn("MAX", col("createdAt")), "latestCreatedAt"],
+        [fn("MAX", col("Prescription.createdAt")), "latestCreatedAt"],
         "patientID",
       ],
       group: [
-        // "expectedNoOfPills",
-        // 'computedNoOfPills',
-        // "frequency",
-        // 'refillDate',
-        // 'nextRefillDate',
+      //   // "expectedNoOfPills",
+      //   // 'computedNoOfPills',
+      //   // "frequency",
+      //   // 'refillDate',
+      //   // 'nextRefillDate',
         "patientID",
-        "artPrescriptionID",
-        // 'Patient.id',
-        // "noOfPills",
-        // "Patient.id",
-        // "Patient.firstName",
-        // "Patient.middleName",
+      //   "artPrescriptionID",
+      //   // 'Patient.id',
+      //   // "noOfPills",
+        "Patient.id",
+      //   // "Patient.firstName",
+      //   // "Patient.middleName",
       ],
       raw: true,
     });
 
-    const { rows, count } = await Prescription.findAndCountAll({
-      limit: limit ? limit : 10,
-      offset: offset ? offset : 0,
+    const latestPrescriptionIDs = latestPrescription.map(prescription=>prescription.patientID)
+
+    const {rows, count} = await Prescription.findAndCountAll({
+      limit,
+      offset,
       order: [["updatedAt", "ASC"]],
       where: {
         [Op.and]: [
           {
             patientID: {
-              [Op.in]: latestPrescription.map(
-                (prescription) => prescription.patientID
-              ),
+              [Op.in]: latestPrescriptionIDs
             },
           },
           Sequelize.where(
@@ -187,8 +196,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "patientID",
         "artPrescriptionID",
         "patientVisitID",
-        // 'Patient.id',
-        "noOfPills",
+        'Prescription.patientID',
         // "Patient.id",
         // "Patient.firstName",
         // "Patient.middleName",
