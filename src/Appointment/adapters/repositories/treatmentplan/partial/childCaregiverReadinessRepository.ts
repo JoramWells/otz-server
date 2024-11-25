@@ -22,7 +22,7 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
     return results;
   }
 
-  async find(): Promise<ChildCaregiverReadinessAttributes[]> {
+  async find(hospitalID: string): Promise<ChildCaregiverReadinessAttributes[]> {
     // await this.redisClient.connect();
 
     // check if patient
@@ -56,17 +56,18 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
     return results;
   }
 
-  async findById(id: string): Promise<ChildCaregiverReadinessAttributes | null> {
+  async findById(
+    id: string
+  ): Promise<ChildCaregiverReadinessAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildCaregiverReadiness | null =
       await ChildCaregiverReadiness.findOne({
-              order:[['createdAt', 'DESC']],
+        order: [["createdAt", "DESC"]],
         where: {
-          patientID:id,
+          patientID: id,
         },
       });
-
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,

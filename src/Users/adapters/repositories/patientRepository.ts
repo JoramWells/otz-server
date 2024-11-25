@@ -197,43 +197,46 @@ export class PatientRepository implements IPatientRepository {
         };
 
     const offset = (page - 1) * pageSize;
-    const limit = pageSize
+    const limit = pageSize;
 
+    try {
+      const { rows, count } = await Patient.findAndCountAll({
+        where,
+        limit,
+        offset,
+        include: [
+          { model: School, attributes: ["schoolName"] },
+          {
+            model: Hospital,
+            attributes: ["hospitalName"],
+          },
 
-    const { rows, count } = await Patient.findAndCountAll({
-      where,
-      limit,
-      offset,
-      include: [
-        { model: School, attributes: ["schoolName"] },
-        {
-          model: Hospital,
-          attributes: ["hospitalName"],
-        },
-
-        //   {
-        //     model: ViralLoad,
-        //     attributes: [
-        //       'id',
-        //       'dateOfNextVL',
-        //       'vlResults',
-        //       'isValid',
-        //       'dateOfCurrentVL'
-        //     ]
-        //   }
-      ],
-      // where: {
-      //   dob: {
-      //     [Op.gte]: maxDate,
-      //   },
-      // },
-    });
-    return {
-      data: rows,
-      total: count,
-      page: page,
-      pageSize: limit,
-    };
+          //   {
+          //     model: ViralLoad,
+          //     attributes: [
+          //       'id',
+          //       'dateOfNextVL',
+          //       'vlResults',
+          //       'isValid',
+          //       'dateOfCurrentVL'
+          //     ]
+          //   }
+        ],
+        // where: {
+        //   dob: {
+        //     [Op.gte]: maxDate,
+        //   },
+        // },
+      });
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findUsers(): Promise<PatientAttributes[]> {

@@ -27,7 +27,6 @@ export class AppointmentController {
       next(error);
     }
   }
-  
 
   async onGetAllAppointments(req: Request, res: Response, next: NextFunction) {
     try {
@@ -38,17 +37,20 @@ export class AppointmentController {
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
 
-      if (!isUUID(hospitalID)) {
-        const errMessage = `${hospitalID} is not a valid UUID `;
-        logger.error(errMessage);
-        return res.status(404).json({ error: errMessage });
-      }
+      // if (!isUUID(hospitalID)) {
+      //   const errMessage = `${hospitalID} is not a valid UUID `;
+      //   logger.error(errMessage);
+      //   return res.status(404).json({ error: errMessage });
+      // }
 
       //
-      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = Number(page)
-        pageSize = Number(pageSize)
-      }
+      // if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+      //   page = Number(page);
+      //   pageSize = Number(pageSize);
+      // }
+      // if (page <= 0) {
+      //   page = 1;
+      // }
 
       const results = await this.interactor.getAllAppointments(
         mode as string,

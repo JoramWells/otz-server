@@ -14,19 +14,27 @@ export class DisclosureChecklistInteractor implements IDisclosureChecklistIntera
   //   return await this.repository.count()
   // };
 
-  async getAllDisclosureChecklistByVisitId(id: string): Promise<DisclosureChecklistAttributes[] | null> {
+  async getAllDisclosureChecklistByVisitId(
+    id: string
+  ): Promise<DisclosureChecklistAttributes[] | null> {
     return await this.repository.findAllByVisitId(id);
   }
 
-  async getDisclosureChecklistById(id: string): Promise<DisclosureChecklistAttributes | null> {
+  async getDisclosureChecklistById(
+    id: string
+  ): Promise<DisclosureChecklistAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createDisclosureChecklist(patientData: DisclosureChecklistAttributes): Promise<DisclosureChecklistAttributes> {
+  async createDisclosureChecklist(
+    patientData: DisclosureChecklistAttributes
+  ): Promise<DisclosureChecklistAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllDisclosureChecklist(): Promise<DisclosureChecklistAttributes[]> {
-    return await this.repository.find();
+  async getAllDisclosureChecklist(
+    hospitalID: string
+  ): Promise<DisclosureChecklistAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 }

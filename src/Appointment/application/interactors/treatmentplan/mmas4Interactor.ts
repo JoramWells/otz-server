@@ -27,7 +27,7 @@ export class MMASFourInteractor implements IMMASFourInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllMMASFour(): Promise<MMASFourAttributes[]> {
-    return await this.repository.find();
+  async getAllMMASFour(hospitalID: string): Promise<MMASFourAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 }

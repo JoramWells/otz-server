@@ -203,7 +203,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     };
   }
 
-  async findAllAdherence(): Promise<PrescriptionInterface[]> {
+  async findAllAdherence(): Promise<PrescriptionInterface[] | undefined> {
     const results = await calculatePills2();
     return results;
   }

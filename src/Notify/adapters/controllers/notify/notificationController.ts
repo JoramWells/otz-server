@@ -32,7 +32,7 @@ export class NotificationController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const { mode, hospitalID } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
@@ -43,7 +43,22 @@ export class NotificationController {
       //   return res.status(404).json({ error: errMessage });
       // }
 
-      const results = await this.interactor.getAllNotifications(hospitalID as string);
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
+
+      //
+      if (page <= 0) {
+        page = 1;
+      }
+
+      const results = await this.interactor.getAllNotifications(
+        hospitalID as string,
+        page as unknown as number,
+        pageSize as unknown as number,
+        searchQuery as string
+      );
       res.status(200).json(results);
 
       next();

@@ -4,7 +4,9 @@ export interface IPartialDisclosureInteractor {
   createPartialDisclosure: (
     data: PartialDisclosureAttributes
   ) => Promise<PartialDisclosureAttributes>;
-  getAllPartialDisclosure: () => Promise<PartialDisclosureAttributes[]>;
+  getAllPartialDisclosure: (
+    hospitalID: string
+  ) => Promise<PartialDisclosureAttributes[] | null>;
   getPartialDisclosureById: (
     id: string
   ) => Promise<PartialDisclosureAttributes | null>;

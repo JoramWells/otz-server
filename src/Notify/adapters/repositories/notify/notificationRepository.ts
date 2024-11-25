@@ -9,6 +9,8 @@ import { Notification } from "../../../domain/models/notify/notification.model";
 import { RedisAdapter } from "../redisAdapter";
 import { User } from "../../../domain/models/user.model";
 import moment from "moment";
+import { NotificationResponseInterface } from "../../../entitties/notify/NotificationResponseInterface";
+import { Op } from "sequelize";
 
 // import { createClient } from 'redis'
 
@@ -24,22 +26,46 @@ export class NotificationRepository implements INotificationRepository {
     return results;
   }
 
-  async find(hospitalID: string): Promise<NotificationAttributes[]> {
+  async find(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<NotificationResponseInterface | null> {
     // await this.redisClient.connect();
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const currentDate = moment().format('YYYY-MM-DD')
-    const results = await Notification.findAll({
+    const currentDate = moment().format("YYYY-MM-DD");
+
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { email: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+          hospitalID,
+        }
+      : {
+          hospitalID,
+        };
+
+    //
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    const { rows, count } = await Notification.findAndCountAll({
+      order: [["createdAt", "DESC"]],
+      limit,
+      offset,
       where: {
         isRead: false,
-        currentDate
+        currentDate,
       },
       include: [
         {
           model: User,
-          where: {
-            hospitalID,
-          },
+          where,
         },
       ],
     });
@@ -61,7 +87,12 @@ export class NotificationRepository implements INotificationRepository {
     // console.log("fetched from cache!");
 
     // const results: NotificationAttributes[] = JSON.parse(cachedPatients);
-    return results;
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
   }
 
   async findById(id: string): Promise<NotificationAttributes | null> {

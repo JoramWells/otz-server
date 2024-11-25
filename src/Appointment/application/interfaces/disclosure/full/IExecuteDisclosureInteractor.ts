@@ -4,7 +4,9 @@ export interface IExecuteDisclosureInteractor {
   createExecuteDisclosure: (
     data: ExecuteDisclosureAttributes
   ) => Promise<ExecuteDisclosureAttributes>;
-  getAllExecuteDisclosure: () => Promise<ExecuteDisclosureAttributes[]>;
+  getAllExecuteDisclosure: (
+    hospitalID: string
+  ) => Promise<ExecuteDisclosureAttributes[] | null>;
   getExecuteDisclosureById: (
     id: string
   ) => Promise<ExecuteDisclosureAttributes | null>;

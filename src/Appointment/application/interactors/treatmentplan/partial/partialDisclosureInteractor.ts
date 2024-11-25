@@ -14,19 +14,27 @@ export class PartialDisclosureInteractor implements IPartialDisclosureInteractor
   //   return await this.repository.count()
   // };
 
-  async getAllPartialDisclosure(): Promise<PartialDisclosureAttributes[]> {
-    return await this.repository.find()
+  async getAllPartialDisclosure(
+    hospitalID: string
+  ): Promise<PartialDisclosureAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 
-  async getPartialDisclosureById(id: string): Promise<PartialDisclosureAttributes | null> {
+  async getPartialDisclosureById(
+    id: string
+  ): Promise<PartialDisclosureAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createPartialDisclosure(patientData: PartialDisclosureAttributes): Promise<PartialDisclosureAttributes> {
+  async createPartialDisclosure(
+    patientData: PartialDisclosureAttributes
+  ): Promise<PartialDisclosureAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllPartialDisclosureByVisitId(): Promise<PartialDisclosureAttributes[]> {
+  async getAllPartialDisclosureByVisitId(): Promise<
+    PartialDisclosureAttributes[]
+  > {
     return await this.repository.find();
   }
 }

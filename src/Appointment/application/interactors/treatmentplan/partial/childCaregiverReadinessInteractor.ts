@@ -4,7 +4,9 @@ import { IChildCaregiverReadinessInteractor } from '../../../interfaces/disclosu
 import { IChildCaregiverRepository } from '../../../interfaces/disclosure/partial/IChildCaregiverRepository';
 
 
-export class ChildCaregiverReadinessInteractor implements IChildCaregiverReadinessInteractor {
+export class ChildCaregiverReadinessInteractor
+  implements IChildCaregiverReadinessInteractor
+{
   private readonly repository: IChildCaregiverRepository;
 
   constructor(repository: IChildCaregiverRepository) {
@@ -14,19 +16,27 @@ export class ChildCaregiverReadinessInteractor implements IChildCaregiverReadine
   //   return await this.repository.count()
   // };
 
-  async getAllChildCaregiverReadiness(): Promise<ChildCaregiverReadinessAttributes[]> {
-    return await this.repository.find()
+  async getAllChildCaregiverReadiness(
+    hospitalID: string
+  ): Promise<ChildCaregiverReadinessAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 
-  async getChildCaregiverReadinessById(id: string): Promise<ChildCaregiverReadinessAttributes | null> {
+  async getChildCaregiverReadinessById(
+    id: string
+  ): Promise<ChildCaregiverReadinessAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createChildCaregiverReadiness(patientData: ChildCaregiverReadinessAttributes): Promise<ChildCaregiverReadinessAttributes> {
+  async createChildCaregiverReadiness(
+    patientData: ChildCaregiverReadinessAttributes
+  ): Promise<ChildCaregiverReadinessAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllChildCaregiverReadinessByVisitId(): Promise<ChildCaregiverReadinessAttributes[]> {
+  async getAllChildCaregiverReadinessByVisitId(): Promise<
+    ChildCaregiverReadinessAttributes[]
+  > {
     return await this.repository.find();
   }
 }

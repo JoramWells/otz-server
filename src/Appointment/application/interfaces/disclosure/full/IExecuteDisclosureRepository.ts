@@ -1,9 +1,13 @@
 import { ExecuteDisclosureAttributes } from "otz-types";
 
 export interface IExecuteDisclosureRepository {
-  create: (data: ExecuteDisclosureAttributes) => Promise<ExecuteDisclosureAttributes>;
-  find: () => Promise<ExecuteDisclosureAttributes[]>;
+  create: (
+    data: ExecuteDisclosureAttributes
+  ) => Promise<ExecuteDisclosureAttributes>;
+  find: (hospitalID: string) => Promise<ExecuteDisclosureAttributes[] | null>;
   findById: (id: string) => Promise<ExecuteDisclosureAttributes | null>;
-  findAllByVisitId: (id: string) => Promise<ExecuteDisclosureAttributes[] | null>;
+  findAllByVisitId: (
+    id: string
+  ) => Promise<ExecuteDisclosureAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

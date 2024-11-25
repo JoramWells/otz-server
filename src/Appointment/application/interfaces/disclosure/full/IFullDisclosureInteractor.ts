@@ -4,7 +4,9 @@ export interface IFullDisclosureInteractor {
   createFullDisclosure: (
     data: FullDisclosureAttributes
   ) => Promise<FullDisclosureAttributes>;
-  getAllFullDisclosure: () => Promise<FullDisclosureAttributes[]>;
+  getAllFullDisclosure: (
+    hospitalID: string
+  ) => Promise<FullDisclosureAttributes[] | null>;
   getFullDisclosureById: (
     id: string
   ) => Promise<FullDisclosureAttributes | null>;

@@ -210,14 +210,14 @@ export class AppointmentRepository implements IAppointmentRepository {
             { firstName: { [Op.iLike]: `%${searchQuery}%` } },
             { middleName: { [Op.iLike]: `%${searchQuery}%` } },
             { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+            { lastName: { [Op.iLike]: `%${searchQuery}%` } },
           ],
-          hospitalID,
+          // hospitalID,
           dob: {
             [Op.gte]: maxDate,
           },
         }
       : {
-          hospitalID,
           dob: {
             [Op.gte]: maxDate,
           },
@@ -258,6 +258,7 @@ export class AppointmentRepository implements IAppointmentRepository {
             where: {
               hospitalID,
             },
+            required: true
           },
           {
             model: AppointmentAgenda,
@@ -311,9 +312,9 @@ export class AppointmentRepository implements IAppointmentRepository {
           {
             model: User,
             attributes: ["id", "firstName", "middleName"],
-            where: {
-              hospitalID,
-            },
+            // where: {
+            //   hospitalID,
+            // },
           },
           {
             model: AppointmentAgenda,
@@ -343,11 +344,6 @@ export class AppointmentRepository implements IAppointmentRepository {
       order: [["appointmentDate", "ASC"]],
       limit: limit ? limit : 10,
       offset: offset ? offset : 1,
-      where: {
-        createdAt: {
-          [Op.not]: null,
-        } as any,
-      },
       include: [
         {
           model: Patient,
