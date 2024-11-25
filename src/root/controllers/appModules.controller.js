@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const AppModules = require('../models/appModules/appModules');
 
 // using *Patients model
@@ -20,9 +21,48 @@ const addAppModules = async (req, res, next) => {
 
 // get all priceListItems
 const getAllAppModules = async (req, res, next) => {
+  let { page, pageSize, searchQuery } = req.query;
+
   try {
-    const results = await AppModules.findAll({ });
-    res.json(results);
+    if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+      page = Number(page);
+      pageSize = Number(pageSize);
+    }
+    if (page <= 0) {
+      page = 1;
+    }
+
+
+
+    // 
+    const where = searchQuery
+      ? {
+        [Op.or]: [
+          { title: { [Op.iLike]: `%${searchQuery}%` } },
+          { description: { [Op.iLike]: `%${searchQuery}%` } },
+          { link: { [Op.iLike]: `%${searchQuery}%` } },
+        ]
+
+      }
+      : {
+
+      };
+
+    //
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+    // 
+    const { rows, count } = await AppModules.findAndCountAll({
+      where,
+      offset,
+      limit
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit
+    });
     next();
   } catch (error) {
     console.log(error);

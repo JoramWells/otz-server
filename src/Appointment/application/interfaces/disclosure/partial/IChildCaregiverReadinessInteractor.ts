@@ -4,7 +4,9 @@ export interface IChildCaregiverReadinessInteractor {
   createChildCaregiverReadiness: (
     data: ChildCaregiverReadinessAttributes
   ) => Promise<ChildCaregiverReadinessAttributes>;
-  getAllChildCaregiverReadiness: () => Promise<ChildCaregiverReadinessAttributes[]>;
+  getAllChildCaregiverReadiness: (
+    hospitalID: string
+  ) => Promise<ChildCaregiverReadinessAttributes[] | null>;
   getChildCaregiverReadinessById: (
     id: string
   ) => Promise<ChildCaregiverReadinessAttributes | null>;

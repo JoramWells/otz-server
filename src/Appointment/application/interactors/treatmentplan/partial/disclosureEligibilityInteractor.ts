@@ -3,7 +3,9 @@ import { IDisclosureEligibilityInteractor } from "../../../interfaces/disclosure
 import { IDisclosureEligibilityRepository } from "../../../interfaces/disclosure/partial/IDisclosureEligibilityRepository";
 
 
-export class DisclosureEligibilityInteractor implements IDisclosureEligibilityInteractor {
+export class DisclosureEligibilityInteractor
+  implements IDisclosureEligibilityInteractor
+{
   private readonly repository: IDisclosureEligibilityRepository;
 
   constructor(repository: IDisclosureEligibilityRepository) {
@@ -13,19 +15,28 @@ export class DisclosureEligibilityInteractor implements IDisclosureEligibilityIn
   //   return await this.repository.count()
   // };
 
-  async getAllDisclosureEligibility(): Promise<ChildDisclosureEligibilityAttributes[]> {
-    return await this.repository.find()
+  async getAllDisclosureEligibility(
+    hospitalID: string
+  ): Promise<ChildDisclosureEligibilityAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 
-  async getDisclosureEligibilityById(id: string): Promise<ChildDisclosureEligibilityAttributes | null> {
+  async getDisclosureEligibilityById(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createDisclosureEligibility(patientData: ChildDisclosureEligibilityAttributes, readiness: ChildCaregiverReadinessAttributes): Promise<ChildDisclosureEligibilityAttributes> {
+  async createDisclosureEligibility(
+    patientData: ChildDisclosureEligibilityAttributes,
+    readiness: ChildCaregiverReadinessAttributes
+  ): Promise<ChildDisclosureEligibilityAttributes> {
     return await this.repository.create(patientData, readiness);
   }
 
-  async getAllDisclosureEligibilityByVisitId(): Promise<ChildDisclosureEligibilityAttributes[]> {
+  async getAllDisclosureEligibilityByVisitId(): Promise<
+    ChildDisclosureEligibilityAttributes[]
+  > {
     return await this.repository.find();
   }
 }

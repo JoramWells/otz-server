@@ -10,16 +10,22 @@ export class FollowUpChecklistInteractor implements IFollowUpChecklistInteractor
   constructor(repository: IFollowUpChecklistRepository) {
     this.repository = repository;
   }
-  
-  async getFollowUpChecklistById(id: string): Promise<FollowUpChecklistAttributes | null> {
+
+  async getFollowUpChecklistById(
+    id: string
+  ): Promise<FollowUpChecklistAttributes | null> {
     return await this.repository.findById(id);
   }
 
-  async createFollowUpChecklist(patientData: FollowUpChecklistAttributes): Promise<FollowUpChecklistAttributes> {
+  async createFollowUpChecklist(
+    patientData: FollowUpChecklistAttributes
+  ): Promise<FollowUpChecklistAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllFollowUpChecklist(): Promise<FollowUpChecklistAttributes[]> {
-    return await this.repository.find();
+  async getAllFollowUpChecklist(
+    hospitalID: string
+  ): Promise<FollowUpChecklistAttributes[] | null> {
+    return await this.repository.find(hospitalID);
   }
 }

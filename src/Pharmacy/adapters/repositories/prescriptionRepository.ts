@@ -5,7 +5,10 @@ import { AppointmentAttributes, PrescriptionInterface } from "otz-types";
 import { type IPrescriptionRepository } from "../../application/interfaces/art/IPrescriptionRepository";
 import { connect } from "../../domain/db/connect";
 
-import { Prescription } from "../../domain/models/art/prescription.model";
+import {
+  Prescription,
+  PrescriptionResponseInterface,
+} from "../../domain/models/art/prescription.model";
 import { calculateFacilityAdherence } from "../../utils/adherence";
 import {
   calculateAdherenceRateTimeSeries,
@@ -49,26 +52,50 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
   async find(
     dateQuery: string,
-    hospitalID: string
-  ): Promise<PrescriptionInterface[]> {
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<PrescriptionResponseInterface | null> {
     const currentDate = new Date();
     const maxDate = new Date(
       currentDate.getFullYear() - 26,
       currentDate.getMonth(),
       currentDate.getDate()
     );
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        }
+      : {
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+        };
+
+    //
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    //
     if (dateQuery === "all") {
-      const results = await Prescription.findAll({
+      const { rows, count } = await Prescription.findAndCountAll({
+        limit: limit ? limit : 10,
+        offset: offset ? offset : 0,
         include: [
           {
             model: Patient,
             attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
-            where: {
-              dob: {
-                [Op.gte]: maxDate,
-              },
-              hospitalID,
-            },
+            where,
           },
           // {
           //   model: PatientVisits,
@@ -84,7 +111,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         ],
       });
 
-      return results;
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
     }
 
     const latestPrescription = await Prescription.findAll({
@@ -110,7 +142,9 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       raw: true,
     });
 
-    const results = await Prescription.findAll({
+    const { rows, count } = await Prescription.findAndCountAll({
+      limit: limit ? limit : 10,
+      offset: offset ? offset : 0,
       order: [["updatedAt", "ASC"]],
       where: {
         [Op.and]: [
@@ -135,12 +169,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         {
           model: Patient,
           attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
-          // include: [
-          //   {
-          //     model: ImportantPatient,
-          //     attributes: ["userID"],
-          //   },
-          // ],
+          where,
         },
 
         {
@@ -166,10 +195,15 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       ],
     });
 
-    return results;
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
   }
 
-  async findAllAdherence(): Promise<PrescriptionInterface[]> {
+  async findAllAdherence(): Promise<PrescriptionInterface[] | undefined> {
     const results = await calculatePills2();
     return results;
   }

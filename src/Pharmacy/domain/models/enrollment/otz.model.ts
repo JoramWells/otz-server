@@ -10,6 +10,13 @@ import { ARTPrescription } from "../art/artPrescription.model";
 import { OTZEnrollmentsInterface } from "otz-types";
 import { ViralLoad } from "../lab/viralLoad.model";
 
+
+export interface OTZResponseInterface {
+  data: OTZEnrollmentsInterface[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
 export class OTZ
   extends Model<OTZEnrollmentsInterface>
   implements OTZEnrollmentsInterface

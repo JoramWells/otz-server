@@ -1,6 +1,7 @@
 import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
 import { type IPrescriptionInteractor } from '../interfaces/art/IPrescriptionInteractor'
 import { type IPrescriptionRepository } from '../interfaces/art/IPrescriptionRepository'
+import { PrescriptionResponseInterface } from '../../domain/models/art/prescription.model';
 
 export class PrescriptionInteractor implements IPrescriptionInteractor {
   private readonly repository: IPrescriptionRepository;
@@ -42,8 +43,14 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     return await this.repository.edit(data);
   }
 
-  async getAllPrescriptions(dateQuery: string, hospitalID: string): Promise<PrescriptionInterface[]> {
-    return await this.repository.find(dateQuery, hospitalID);
+  async getAllPrescriptions(
+    dateQuery: string,
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<PrescriptionResponseInterface | null> {
+    return await this.repository.find(dateQuery, hospitalID, page, pageSize, searchQuery);
   }
 
   async getAllAdherence(): Promise<PrescriptionInterface[]> {
@@ -51,6 +58,6 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
   }
 
   async findRecentRecentByPatientID(id: string) {
-    return await this.repository.getRecentPrescriptionByPatientID(id)
+    return await this.repository.getRecentPrescriptionByPatientID(id);
   }
 }

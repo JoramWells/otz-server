@@ -17,7 +17,17 @@ export enum PatientRoles {
   patient = "patient",
 }
 
-export class Patient extends Model<PatientAttributes> implements PatientAttributes {
+export interface PatientResponseInterface {
+  data: PatientAttributes[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export class Patient
+  extends Model<PatientAttributes>
+  implements PatientAttributes
+{
   role!: PatientRoles;
   entryPoint?: string | undefined;
   maritalStatus!: string;

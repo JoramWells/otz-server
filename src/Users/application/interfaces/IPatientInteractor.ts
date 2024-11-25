@@ -1,8 +1,9 @@
 import { NextOfKinInterface, PatientAttributes } from "otz-types"
+import { PatientResponseInterface } from "../../domain/models/patients.models"
 
 export interface IPatientInteractor {
   createPatient: (patientData: PatientAttributes, nextOfKinData: NextOfKinInterface) => Promise<string | null>
-  getAllPatients: (hospitalID: string, page: number, pageSize: number, searchQuery: string) => Promise<PatientAttributes[] | null>
+  getAllPatients: (hospitalID: string, page: number, pageSize: number, searchQuery: string) => Promise<PatientResponseInterface | null>
   getAllPatientUsers: () => Promise<PatientAttributes[]>
   getPatientById: (id: string) => Promise<PatientAttributes | null>
   getImportantPatient: (limit: number) => Promise<PatientAttributes[]>

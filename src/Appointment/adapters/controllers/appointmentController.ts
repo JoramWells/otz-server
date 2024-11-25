@@ -12,7 +12,7 @@ export class AppointmentController {
   constructor(interactor: IAppointmentInteractor) {
     this.interactor = interactor;
   }
-  
+
   async onCreateAppointment(req: Request, res: Response, next: NextFunction) {
     try {
       const newProfile = await this.interactor.createAppointment(req.body);
@@ -27,26 +27,38 @@ export class AppointmentController {
       next(error);
     }
   }
-  
 
   async onGetAllAppointments(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const { mode, hospitalID } = req.query;
+      let { mode, hospitalID, page, pageSize, searchQuery } = req.query;
 
       if (!hospitalID || hospitalID === "undefined")
-        return res
-          .status(400)
-          .json({ message: "Invalid ID parameter" });
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
-      if (!isUUID(hospitalID)) {
-        const errMessage = `${hospitalID} is not a valid UUID `;
-        logger.error(errMessage);
-        return res.status(404).json({ error: errMessage });
-      }
+      // if (!isUUID(hospitalID)) {
+      //   const errMessage = `${hospitalID} is not a valid UUID `;
+      //   logger.error(errMessage);
+      //   return res.status(404).json({ error: errMessage });
+      // }
 
-      const results = await this.interactor.getAllAppointments(mode as string, hospitalID as string);
+      //
+      // if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+      //   page = Number(page);
+      //   pageSize = Number(pageSize);
+      // }
+      // if (page <= 0) {
+      //   page = 1;
+      // }
+
+      const results = await this.interactor.getAllAppointments(
+        mode as string,
+        hospitalID as string,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(results);
       res.flush();
 
@@ -90,8 +102,8 @@ export class AppointmentController {
   ) {
     try {
       const { id } = req.params;
-     if (!id || id === "undefined")
-       return res.status(400).json({ message: "Invalid ID parameter" });
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getPriorityAppointmentDetail(id);
       res.status(200).json(result);
       next();
@@ -126,8 +138,8 @@ export class AppointmentController {
     next: NextFunction
   ) {
     const { id } = req.params;
-       if (!id || id === "undefined")
-         return res.status(400).json({ message: "Invalid ID parameter" });
+    if (!id || id === "undefined")
+      return res.status(400).json({ message: "Invalid ID parameter" });
 
     const { agenda } = req.query;
     try {
@@ -153,8 +165,8 @@ export class AppointmentController {
   async getAppointmentDetail(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
-            if (!id || id === "undefined")
-              return res.status(400).json({ message: "Invalid ID parameter" });
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       if (!isUUID(id)) {
         const errMessage = `${id} is not a valid UUID `;
         logger.error(errMessage);
@@ -176,8 +188,8 @@ export class AppointmentController {
     const { id } = req.params;
     const { isStarred, patientID } = req.body;
     try {
-       if (!id || id === "undefined")
-         return res.status(400).json({ message: "Invalid ID parameter" });
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
       if (!isUUID(id)) {
         const errMessage = `${id} is not a valid UUID `;
         logger.error(errMessage);
