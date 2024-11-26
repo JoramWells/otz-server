@@ -11,6 +11,7 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   constructor(repository: IAppointmentRepository) {
     this.repository = repository;
   }
+
   async starAppointment(
     id: string,
     patientID: string,
@@ -30,6 +31,14 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.findRecentAppointmentByPatientID(id, agenda);
   }
 
+  //
+  async getUniqueAppointmentAgenda(
+    hospitalID: string,
+    dateQuery: string
+  ): Promise<AppointmentAttributes | null | undefined> {
+    return await this.repository.findUniqueAppointmentAgenda(hospitalID, dateQuery);
+  }
+
   async rescheduleAppointment(
     id: string,
     reason: string,
@@ -44,8 +53,8 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.findPriorityAppointmentDetail(id);
   }
 
-  async getAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
-    return await this.repository.findAllPriorityAppointments();
+  async getAllPriorityAppointments(hospitalID: string): Promise<AppointmentAttributes[] | null | undefined> {
+    return await this.repository.findAllPriorityAppointments(hospitalID);
   }
 
   async getAppointmentById(id: string): Promise<AppointmentAttributes | null> {
@@ -65,7 +74,13 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     pageSize: number,
     searchQuery: string
   ): Promise<AppointmentResponseInterface | null> {
-    return await this.repository.find(dateQuery, hospitalID,page, pageSize, searchQuery);
+    return await this.repository.find(
+      dateQuery,
+      hospitalID,
+      page,
+      pageSize,
+      searchQuery
+    );
   }
   async getAppointmentDetail(
     id: string

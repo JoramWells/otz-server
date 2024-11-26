@@ -28,6 +28,9 @@ const addViralLoadTest = async (req, res, next) => {
     vlJustification,
   } = req.body;
 
+  console.log(req.body)
+  
+
   try {
     const kafkaProducer = new KafkaAdapter();
      await connect.transaction(async (t) => {

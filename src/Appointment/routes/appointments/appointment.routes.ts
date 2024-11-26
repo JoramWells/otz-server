@@ -23,7 +23,14 @@ router.get(
 );
 router.get("/appointmentDetail/:id", controllers.getAppointmentDetail.bind(controllers));
 router.get("/priorityAppointmentDetail/:id", controllers.onGetPriorityAppointmentById.bind(controllers));
-router.get("/priorityAppointments", controllers.onGetAllPriorityAppointments.bind(controllers));
+router.get(
+  "/recent-appointments",
+  controllers.onGetAllPriorityAppointments.bind(controllers)
+);
+router.get(
+  "/appointment-agenda-count",
+  controllers.onGetUniqueAppointmentAgenda.bind(controllers)
+);
 
 router.put('/star/:id', controllers.onStar.bind(controllers));
 router.put("/markAsRead/:id", controllers.onMarkAsRead.bind(controllers));

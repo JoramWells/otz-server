@@ -24,6 +24,7 @@ app.use(express.urlencoded({
   extended: true,
 }));
 
+
 // enable cors
 app.use(cors());
 
