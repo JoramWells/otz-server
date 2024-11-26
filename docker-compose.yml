@@ -267,38 +267,38 @@ services:
     networks:
       - otz  
 
-  medicalfile:
-    build:
-      context: ./src/MedicalFile
-      dockerfile: Dockerfile
-    image: blackwell18/medicalfile:latest
-    volumes:
-      - ./src/MedicalFile/:/usr/src/app
-      - /usr/src/app/node_modules
-    deploy:
-      # mode: replicated
-      # replicas: 2
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      # restart_policy:
-      #   condition: on-failure    
-      resources:
-        limits:
-          cpus: '0.20'
-          memory: 450M
-        reservations:
-          cpus: '0.20'
-          memory: 450M   
-    ports:
-      - 5006:5006
-    depends_on:
-      database:
-        condition: service_healthy
-    networks:
-      - otz  
+  # medicalfile:
+  #   build:
+  #     context: ./src/MedicalFile
+  #     dockerfile: Dockerfile
+  #   image: blackwell18/medicalfile:latest
+  #   volumes:
+  #     - ./src/MedicalFile/:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   deploy:
+  #     # mode: replicated
+  #     # replicas: 2
+  #     # placement:
+  #     #   max_replicas_per_node: 1
+  #     # update_config:
+  #     #   parallelism: 2
+  #     #   delay: 10s
+  #     # restart_policy:
+  #     #   condition: on-failure    
+  #     resources:
+  #       limits:
+  #         cpus: '0.20'
+  #         memory: 450M
+  #       reservations:
+  #         cpus: '0.20'
+  #         memory: 450M   
+  #   ports:
+  #     - 5006:5006
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy
+  #   networks:
+  #     - otz  
 
 
 
@@ -579,7 +579,7 @@ services:
       # - school
       - lab
       - appointment 
-      - medicalfile   
+      # - medicalfile   
       - notify
       - pharmacy  
       - etl
