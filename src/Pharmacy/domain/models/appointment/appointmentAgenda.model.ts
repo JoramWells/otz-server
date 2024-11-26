@@ -32,14 +32,14 @@ AppointmentAgenda.init(
     //   fillFactor: 70
     // },
     timestamps: true,
-    indexes:[
-      {
-        fields:['id']
-      },
-      {
-        fields:['agendaDescription']
-      }
-    ]
+    // indexes:[
+    //   {
+    //     fields:['id']
+    //   },
+    //   {
+    //     fields:['agendaDescription']
+    //   }
+    // ]
   }
 );
 

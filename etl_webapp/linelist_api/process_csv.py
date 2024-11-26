@@ -394,8 +394,8 @@ def process_csv(self, file_path, hospitalID,userID, chunk_size=1000 ):
                     'nextRefillDate':nextRefillDate,    
                 }
                 
-                prescription, created = get_or_create_model_instance(Prescription, 
-                create_defaults=prescription_attr_default, **prescription_attr)
+                # prescription, created = get_or_create_model_instance(Prescription, 
+                # create_defaults=prescription_attr_default, **prescription_attr)
 
 
                

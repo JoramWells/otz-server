@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op } from "sequelize";
+import { col, fn, Op } from "sequelize";
 import { IAppointmentRepository } from "../../application/interfaces/appointment/IAppointmentRepository";
 import { appointmentCache } from "../../constants/appointmentCache";
-import { Appointment, AppointmentResponseInterface } from "../../domain/models/appointment/appointment.model";
+import {
+  Appointment,
+  AppointmentResponseInterface,
+} from "../../domain/models/appointment/appointment.model";
 import { AppointmentAgenda } from "../../domain/models/appointment/appointmentAgenda.model";
 import { AppointmentStatus } from "../../domain/models/appointment/appointmentStatus.model";
 import { Patient } from "../../domain/models/patients.models";
@@ -42,28 +45,37 @@ const getMonthRange = (date: Date) => {
 export class AppointmentRepository implements IAppointmentRepository {
   private readonly redisClient = new RedisAdapter();
 
-  async findAllPriorityAppointments(): Promise<AppointmentAttributes[] | null> {
-    return await Appointment.findAll({
-      order: [["updatedAt", "DESC"]],
-      limit: 5,
-      include: [
-        {
-          model: Patient,
-          attributes: ["id", "firstName", "middleName", "isImportant"],
-        },
-        {
-          model: AppointmentStatus,
-          attributes: ["id", "statusDescription"],
-          where: {
-            statusDescription: "Upcoming",
+  async findAllPriorityAppointments(
+    hospitalID: string
+  ): Promise<AppointmentAttributes[] | null | undefined> {
+    try {
+      return await Appointment.findAll({
+        order: [["updatedAt", "DESC"]],
+        limit: 5,
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName", "isImportant"],
+            where: {
+              hospitalID,
+            },
           },
-        },
-        {
-          model: AppointmentAgenda,
-          attributes: ["id", "agendaDescription"],
-        },
-      ],
-    });
+          {
+            model: AppointmentStatus,
+            attributes: ["id", "statusDescription"],
+            where: {
+              statusDescription: "Upcoming",
+            },
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: ["id", "agendaDescription"],
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //
@@ -157,6 +169,86 @@ export class AppointmentRepository implements IAppointmentRepository {
     });
   }
 
+  //
+  async findUniqueAppointmentAgenda(
+    hospitalID: string,
+    dateQuery: string
+  ): Promise<AppointmentAttributes[] | null | undefined> {
+    try {
+      const currentDate = new Date();
+      let where = {};
+
+      if (dateQuery === "weekly") {
+        const { start, end } = getWeekRange(currentDate);
+
+        where = {
+          appointmentDate: {
+            [Op.between]: [start, end],
+          },
+        };
+      } else if (dateQuery === "monthly") {
+        const { start, end } = getMonthRange(currentDate);
+        where = {
+          appointmentDate: {
+            [Op.between]: [start, end],
+          },
+        };
+      }
+
+      const results = await Appointment.findAll({
+        where,
+        attributes: [
+          [col("AppointmentAgenda.agendaDescription"), "agendaDescription"],
+          "appointmentDate",
+          [col("AppointmentStatus.statusDescription"), "statusDescription"],
+          [fn("COUNT", col("agendaDescription")), "count"],
+        ],
+        group: [
+          "AppointmentAgenda.agendaDescription",
+          "AppointmentStatus.statusDescription",
+          "appointmentDate",
+        ],
+        include: [
+          {
+            model: Patient,
+            where: {
+              hospitalID,
+            },
+            attributes: [],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: [],
+          },
+          {
+            model: AppointmentAgenda,
+            attributes: [],
+          },
+        ],
+      });
+
+      return results.map((result) => {
+        const value = {};
+        const agenda = result.dataValues.agendaDescription;
+        const count = result.dataValues.count;
+        (value[agenda] = count),
+          (value.appointmentDate = result.dataValues.appointmentDate);
+        value.agendaDescription = agenda;
+        value.status = result.dataValues.statusDescription;
+        value.count = count;
+
+        return value;
+        // return {
+        // appointmentDate: result.dataValues.appointmentDate,
+        // statusDescription: result.dataValues.statusDescription,
+        // count: result.dataValues.count,
+        // }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async create(data: AppointmentAttributes): Promise<AppointmentAttributes> {
     return await connect.transaction(async (t) => {
       let results: AppointmentAttributes = await Appointment.create(data, {
@@ -230,10 +322,10 @@ export class AppointmentRepository implements IAppointmentRepository {
       const { start, end } = getWeekRange(currentDate);
 
       // if ((await this.redisClient.get(appointmentCache)) === null) {
-      const {rows, count}= await Appointment.findAndCountAll({
+      const { rows, count } = await Appointment.findAndCountAll({
         order: [["appointmentDate", "ASC"]],
-        limit: limit ? limit:10,
-        offset: offset? offset: 1,
+        limit: limit ? limit : 10,
+        offset: offset ? offset : 1,
         where: {
           appointmentDate: {
             [Op.between]: [start, end],
@@ -258,7 +350,7 @@ export class AppointmentRepository implements IAppointmentRepository {
             where: {
               hospitalID,
             },
-            required: true
+            required: true,
           },
           {
             model: AppointmentAgenda,
@@ -275,12 +367,12 @@ export class AppointmentRepository implements IAppointmentRepository {
       // set to cace
       // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-          return {
-            data: rows,
-            total: count,
-            page: page,
-            pageSize: limit,
-          };
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
     } else if (dateQuery === "monthly") {
       const { start, end } = getMonthRange(currentDate);
 
@@ -331,12 +423,12 @@ export class AppointmentRepository implements IAppointmentRepository {
       // set to cace
       // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-          return {
-            data: rows,
-            total: count,
-            page: page,
-            pageSize: limit,
-          };
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
     }
 
     // if ((await this.redisClient.get(appointmentCache)) === null) {
@@ -372,12 +464,12 @@ export class AppointmentRepository implements IAppointmentRepository {
     // set to cace
     // await this.redisClient.set(appointmentCache, JSON.stringify(results));
 
-        return {
-          data: rows,
-          total: count,
-          page: page,
-          pageSize: limit,
-        };
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   appointmentCache

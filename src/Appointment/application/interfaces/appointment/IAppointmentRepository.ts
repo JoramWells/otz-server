@@ -20,7 +20,7 @@ export interface IAppointmentRepository {
   findPriorityAppointmentDetail: (
     id: string
   ) => Promise<AppointmentAttributes[] | null>;
-  findAllPriorityAppointments: () => Promise<AppointmentAttributes[] | null>;
+  findAllPriorityAppointments: (hospitalID: string) => Promise<AppointmentAttributes[] | null | undefined>;
   markAsStarred: (
     id: string,
     patientID: string,
@@ -38,4 +38,13 @@ export interface IAppointmentRepository {
     id: string,
     agenda: string
   ) => Promise<AppointmentAttributes | null>;
+
+  //
+  //
+  findUniqueAppointmentAgenda: (
+    hospitalID: string,
+    dateQuery: string
+  ) => Promise<AppointmentAttributes | null | undefined>;
 }
+
+

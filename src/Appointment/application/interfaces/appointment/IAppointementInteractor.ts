@@ -22,7 +22,7 @@ export interface IAppointmentInteractor {
     patientID: string,
     status: boolean
   ) => Promise<string | null>;
-  getAllPriorityAppointments: () => Promise<AppointmentAttributes[] | null>;
+  getAllPriorityAppointments: (hospitalID: string) => Promise<AppointmentAttributes[] | null | undefined>;
   markAsRead: (id: string) => Promise<boolean | null>;
   rescheduleAppointment: (
     id: string,
@@ -35,4 +35,10 @@ export interface IAppointmentInteractor {
     id: string,
     agenda: string
   ) => Promise<AppointmentAttributes | null>;
+
+  //
+  getUniqueAppointmentAgenda: (
+    hospitalID: string,
+    dateQuery: string
+  ) => Promise<AppointmentAttributes | null | undefined>;
 }

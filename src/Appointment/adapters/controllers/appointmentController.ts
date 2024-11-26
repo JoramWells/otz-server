@@ -44,13 +44,13 @@ export class AppointmentController {
       // }
 
       //
-      // if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-      //   page = Number(page);
-      //   pageSize = Number(pageSize);
-      // }
-      // if (page <= 0) {
-      //   page = 1;
-      // }
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
+      if (page <= 0) {
+        page = 1;
+      }
 
       const results = await this.interactor.getAllAppointments(
         mode as string,
@@ -120,8 +120,19 @@ export class AppointmentController {
     res: Response,
     next: NextFunction
   ) {
+    const { hospitalID } = req.query;
+    if (!hospitalID || hospitalID === "undefined")
+      return res.status(400).json({ message: "Invalid ID parameter" });
+
+    if (!isUUID(hospitalID)) {
+      const errMessage = `${hospitalID} is not a valid UUID `;
+      logger.error(errMessage);
+      return res.status(404).json({ error: errMessage });
+    }
     try {
-      const result = await this.interactor.getAllPriorityAppointments();
+      const result = await this.interactor.getAllPriorityAppointments(
+        hospitalID
+      );
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -243,6 +254,38 @@ export class AppointmentController {
       res.status(200).json(results);
     } catch (error) {
       console.log(error);
+    }
+  }
+  //
+  async onGetUniqueAppointmentAgenda(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID, date } = req.query;
+      console.log(req.query);
+      if (hospitalID === "undefined") {
+        res
+          .status(500)
+          .json({ message: "Please provide a valid appointment id." });
+      }
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      const result = await this.interactor.getUniqueAppointmentAgenda(
+        hospitalID,
+        date
+      );
+      res.status(200).json(result);
+
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }
