@@ -157,10 +157,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 700M
   #   networks:
   #   - otz
   #   healthcheck:
@@ -190,10 +190,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 800M
+          memory: 700M
     ports:
       - 5001:5001
     depends_on:
@@ -225,10 +225,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 800M
+          memory: 700M
     ports:
       - 5002:5002
     depends_on:
@@ -260,10 +260,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 900M   
+          memory: 700M   
     ports:
       - 5003:5003
     depends_on:
@@ -328,10 +328,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 750M  
+          memory: 700M  
     ports:
       - 5000:5000
     depends_on:
@@ -405,10 +405,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 800M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 700M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -448,10 +448,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 800M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 600M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
