@@ -9,9 +9,6 @@ services:
       retries: 3
       start_period: 10s
     restart: on-failure
-    depends_on:
-      database:
-        condition: service_healthy
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
