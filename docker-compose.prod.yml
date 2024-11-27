@@ -67,7 +67,7 @@ services:
       # - postgres_data:/var/lib/postgresql/data
       # - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
 
-      - ./otz_prod.sql.sql:/docker-entrypoint-initdb.d/otz_prod.sql.sql
+      - ./otz_prod.sql:/docker-entrypoint-initdb.d/otz_prod.sql
 
     # entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
 
@@ -260,10 +260,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 750M
+          # memory: 750M
         reservations:
           cpus: '0.30'
-          memory: 700M   
+          # memory: 700M   
     ports:
       - 5003:5003
     depends_on:
@@ -405,10 +405,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 800M
+          # memory: 800M
         reservations:
           cpus: '0.30'
-          memory: 700M
+          # memory: 700M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
