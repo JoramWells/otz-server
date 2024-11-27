@@ -86,10 +86,10 @@ services:
       # resources:
       #   limits:
       #     cpus: '0.10'
-      #     memory: 600M
+      #     memory: 700M
       #   reservations:
       #     cpus: '0.10'
-      #     memory: 600M
+      #     memory: 700M
     networks:
       - otz
     healthcheck:
@@ -157,7 +157,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
           memory: 900M
@@ -190,10 +190,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 700M
+          memory: 800M
     ports:
       - 5001:5001
     depends_on:
@@ -225,10 +225,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 700M
+          memory: 800M
     ports:
       - 5002:5002
     depends_on:
@@ -260,7 +260,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
           memory: 900M   
@@ -328,7 +328,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
           memory: 700M  
@@ -405,7 +405,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
           memory: 900M
@@ -448,7 +448,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 600M
+          memory: 700M
         reservations:
           cpus: '0.30'
           memory: 900M
@@ -528,10 +528,10 @@ services:
   #     resources:
   #       limits:
   #         cpus: '0.35'
-  #         memory: 600M
+  #         memory: 700M
   #       reservations:
   #         cpus: '0.35'
-  #         memory: 600M
+  #         memory: 700M
   #   healthcheck:
   #     test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
   #     interval: 1m30s
