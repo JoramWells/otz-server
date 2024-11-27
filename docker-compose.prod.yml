@@ -157,7 +157,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 900M
+          memory: 400M
         reservations:
           cpus: '0.30'
           memory: 900M
@@ -190,7 +190,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 400M
         reservations:
           cpus: '0.30'
           memory: 700M
@@ -225,7 +225,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 700M
+          memory: 400M
         reservations:
           cpus: '0.30'
           memory: 700M
@@ -260,7 +260,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 900M
+          memory: 400M
         reservations:
           cpus: '0.30'
           memory: 900M   
@@ -328,10 +328,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 900M
+          memory: 300M
         reservations:
           cpus: '0.30'
-          memory: 900M  
+          memory: 700M  
     ports:
       - 5000:5000
     depends_on:
@@ -405,7 +405,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 900M
+          memory: 400M
         reservations:
           cpus: '0.30'
           memory: 900M
@@ -448,7 +448,7 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 900M
+          memory: 400M
         reservations:
           cpus: '0.30'
           memory: 900M
