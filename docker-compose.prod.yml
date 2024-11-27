@@ -331,7 +331,7 @@ services:
           memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 700M  
+          memory: 750M  
     ports:
       - 5000:5000
     depends_on:
