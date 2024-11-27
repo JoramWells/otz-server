@@ -328,10 +328,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 800M
+          # memory: 800M
         reservations:
           cpus: '0.30'
-          memory: 800M  
+          # memory: 800M  
     ports:
       - 5000:5000
     depends_on:
