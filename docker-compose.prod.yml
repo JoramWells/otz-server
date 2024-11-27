@@ -144,7 +144,7 @@ services:
   #   - ./users_backup.sql:/docker-entrypoint-initdb.d/users_backup.sql
 
 
-  #   deploy:
+    deploy:
   #   #   mode: replicated
   #   #   replicas: 2
   #   #   placement:
@@ -154,13 +154,13 @@ services:
   #   #     delay: 10s
   #   # restart_policy:
   #   #   condition: on-failure    
-  #   #   resources:
-  #   #     limits:
-  #   #       cpus: '0.20'
-  #   #       memory: 450M
-  #   #     reservations:
-  #   #       cpus: '0.20'
-  #   #       memory: 450M
+      resources:
+        limits:
+          cpus: '0.30'
+          memory: 900M
+        reservations:
+          cpus: '0.30'
+          memory: 900M
   #   networks:
   #   - otz
   #   healthcheck:
