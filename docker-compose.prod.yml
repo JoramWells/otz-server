@@ -580,7 +580,7 @@ services:
     #       # memory: 700M 
 
     depends_on:
-      - articles
+      # - articles
       - users
       - root
       # - school
