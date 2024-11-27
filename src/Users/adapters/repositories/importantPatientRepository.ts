@@ -86,7 +86,7 @@ export class ImportantPatientRepository implements IImportantPatientRepository {
     // return results;
   }
 
-  async findById(id: string): Promise<ImportantPatientsInterface[] | null> {
+  async findById(id: string): Promise<ImportantPatientsInterface | null> {
     // await this.redisClient.connect()
     // if (await this.redisClient.get(id) === null) {
     //   const results: Patient | null = await Patient.findOne({
@@ -114,19 +114,42 @@ export class ImportantPatientRepository implements IImportantPatientRepository {
     // }
     // const results: ImportantPatientsInterface = JSON.parse(cachedData)
     // console.log('fetched patient from cace!')
+    const results =
+      await ImportantPatient.findOne({
+        where: {
+          patientID: id,
+        },
+        attributes:['patientID']
+        // include: [
+        //   {
+        //     model: Patient,
+        //     attributes: ["firstName", "middleName", "dob", "phoneNo"],
+        //   },
+        // ],
+      });
+    if (results === null) {
+      console.log(results, "resultx");
+    }
+
+    return results;
+  }
+
+  //
+  async findByUserId(id: string): Promise<ImportantPatientsInterface[] | null> {
+
     const results: ImportantPatientsInterface[] | null =
       await ImportantPatient.findAll({
-        order:[['createdAt', 'DESC']],
-        limit:5,
+        order: [["createdAt", "DESC"]],
+        limit: 5,
         where: {
           userID: id,
         },
-        include:[
+        include: [
           {
             model: Patient,
-            attributes:['firstName', 'middleName', 'dob', 'phoneNo']
-          }
-        ]
+            attributes: ["firstName", "middleName", "dob", "phoneNo"],
+          },
+        ],
       });
     if (results === null) {
       console.log(results, "resultx");

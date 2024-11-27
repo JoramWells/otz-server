@@ -92,6 +92,23 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
     return results;
   }
 
+  //
+  async findByPatientId(
+    id: string
+  ): Promise<ChildCaregiverReadinessAttributes | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    const results: ChildCaregiverReadiness | null =
+      await ChildCaregiverReadiness.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
+
+    return results;
+  }
+
   async findAllByVisitId(
     id: string
   ): Promise<ChildCaregiverReadinessAttributes[] | null> {

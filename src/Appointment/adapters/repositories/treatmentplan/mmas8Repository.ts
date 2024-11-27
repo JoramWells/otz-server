@@ -1,13 +1,13 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { MMASEightAttributes, MMASFourAttributes } from 'otz-types';
-import { IMMASEightRepository } from '../../../application/interfaces/treatmentplan/IMMAS8Repository';
-import { connect } from '../../../db/connect';
-import { MMASFour } from '../../../domain/models/treatmentplan/mmas4.model';
-import { MMASEight } from '../../../domain/models/treatmentplan/mmas8.model';
-import { RedisAdapter } from '../redisAdapter'
-import { mmas8Cache } from '../../../constants/appointmentCache';
-import { Patient } from '../../../domain/models/patients.models';
+import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
+import { IMMASEightRepository } from "../../../application/interfaces/treatmentplan/IMMAS8Repository";
+import { connect } from "../../../db/connect";
+import { MMASFour } from "../../../domain/models/treatmentplan/mmas4.model";
+import { MMASEight } from "../../../domain/models/treatmentplan/mmas8.model";
+import { RedisAdapter } from "../redisAdapter";
+import { mmas8Cache } from "../../../constants/appointmentCache";
+import { Patient } from "../../../domain/models/patients.models";
 // import { createClient } from 'redis'
 
 export class MMASEightRepository implements IMMASEightRepository {
@@ -20,14 +20,14 @@ export class MMASEightRepository implements IMMASEightRepository {
     data4: MMASFourAttributes,
     data: MMASEightAttributes
   ): Promise<MMASEightAttributes> {
-        const { patientID, patientVisitID } = data;
+    const { patientID, patientVisitID } = data;
 
-        if (await this.redisClient.get(patientID)) {
-          await this.redisClient.del(patientID);
-        }
-        if (await this.redisClient.get(patientVisitID)) {
-          await this.redisClient.del(patientVisitID);
-        }
+    if (await this.redisClient.get(patientID)) {
+      await this.redisClient.del(patientID);
+    }
+    if (await this.redisClient.get(patientVisitID)) {
+      await this.redisClient.del(patientVisitID);
+    }
     return await connect.transaction(async (t) => {
       const mmas4Results = await MMASFour.create(data4, { transaction: t });
       const mmasFourID = mmas4Results.id;
@@ -41,8 +41,7 @@ export class MMASEightRepository implements IMMASEightRepository {
 
       return results;
     });
-    // 
-
+    //
   }
 
   async find(): Promise<MMASEightAttributes[]> {
@@ -89,7 +88,6 @@ export class MMASEightRepository implements IMMASEightRepository {
     //   },
     // });
 
-
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;
@@ -103,16 +101,16 @@ export class MMASEightRepository implements IMMASEightRepository {
     // console.log("fetched from cace!");
 
     // return results;
-       const results: MMASEight | null = await MMASEight.findOne({
-        order:[['createdAt', 'DESC']],
-         where: {
-           patientVisitID: id,
-         },
-       });
+    const results: MMASEight | null = await MMASEight.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientVisitID: id,
+      },
+    });
 
-      //  await this.redisClient.set(id, JSON.stringify(results));
+    //  await this.redisClient.set(id, JSON.stringify(results));
 
-       return results;
+    return results;
   }
 
   //
@@ -120,16 +118,15 @@ export class MMASEightRepository implements IMMASEightRepository {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: MMASEight | null = await MMASEight.findOne({
-      order:[['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
       where: {
-         patientID:id,
+        patientID: id,
       },
     });
 
+    await this.redisClient.set(id, JSON.stringify(results));
 
-      await this.redisClient.set(id, JSON.stringify(results));
-
-      return results;
+    return results;
     // }
 
     // const cachedData: string | null = await this.redisClient.get(id);

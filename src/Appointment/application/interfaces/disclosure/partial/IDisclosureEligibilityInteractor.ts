@@ -11,6 +11,9 @@ export interface IDisclosureEligibilityInteractor {
   getDisclosureEligibilityById: (
     id: string
   ) => Promise<ChildDisclosureEligibilityAttributes | null>;
+  getDisclosureEligibilityByPatientId: (
+    patientID: string
+  ) => Promise<ChildDisclosureEligibilityAttributes | null>;
   getAllDisclosureEligibilityByVisitId: (
     id: string
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;

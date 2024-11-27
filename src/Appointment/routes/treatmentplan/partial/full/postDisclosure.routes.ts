@@ -23,6 +23,12 @@ router.get(
   "/detail/:id",
   controllers.onGetPostDisclosureById.bind(controllers)
 );
+
+// 
+router.get(
+  "/by-patient-id/:id",
+  controllers.onGetPostDisclosureByPatientId.bind(controllers)
+);
 router.get(
   "/details/:id",
   controllers.onGetAllPostDisclosureByVisitId.bind(controllers)

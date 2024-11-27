@@ -11,34 +11,41 @@ import { Patient } from '../../../../domain/models/patients.models';
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class DisclosureEligibilityRepository implements IDisclosureEligibilityRepository {
+export class DisclosureEligibilityRepository
+  implements IDisclosureEligibilityRepository
+{
   // private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
   // }
 
   async create(
-    data: ChildDisclosureEligibilityAttributes, readiness: ChildCaregiverReadinessAttributes
+    data: ChildDisclosureEligibilityAttributes,
+    readiness: ChildCaregiverReadinessAttributes
   ): Promise<ChildDisclosureEligibilityAttributes> {
-
-    return await connect.transaction(async(t)=>{
-    const results = await ChildDisclosureEligibility.create(data, {transaction: t});
-    if(results){
-      const readinessResults = await ChildCaregiverReadiness.create(readiness, {transaction: t})
-      // if(readinessResults){
-        await PartialDisclosure.create({
-          childCaregiverReadinessID: readinessResults.id,
-          childDisclosureEligibilityID: results.id,
-        },{transaction:t});
-      // }
-    }
-    return results
-
-    })
-
+    return await connect.transaction(async (t) => {
+      const results = await ChildDisclosureEligibility.create(data, {
+        transaction: t,
+      });
+      if (results) {
+        const readinessResults = await ChildCaregiverReadiness.create(
+          readiness,
+          { transaction: t }
+        );
+        // if(readinessResults){
+        await PartialDisclosure.create(
+          {
+            childCaregiverReadinessID: readinessResults.id,
+            childDisclosureEligibilityID: results.id,
+          },
+          { transaction: t }
+        );
+        // }
+      }
+      return results;
+    });
   }
 
-  
   async find(): Promise<ChildDisclosureEligibilityAttributes[]> {
     // await this.redisClient.connect();
 
@@ -73,12 +80,14 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
     return results;
   }
 
-  async findById(id: string): Promise<ChildDisclosureEligibilityAttributes | null> {
+  async findById(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildDisclosureEligibility | null =
       await ChildDisclosureEligibility.findOne({
-        order:[['createdAt', 'DESC']],
+        order: [["createdAt", "DESC"]],
         where: {
           patientID: id,
         },
@@ -107,7 +116,45 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<ChildDisclosureEligibilityAttributes[] | null> {
+  async findByPatientId(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes | null> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    const results: ChildDisclosureEligibility | null =
+      await ChildDisclosureEligibility.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
+
+    // const patientResults: AppointmentEntity = {
+    //   firstName: results?.firstName,
+    //   middleName: results?.middleName,
+    //   sex: results?.sex,
+    //   phoneNo: results?.phoneNo,
+    //   idNo: results?.idNo,
+    //   occupationID: results?.occupationID,
+    // };
+    //   await this.redisClient.set(id, JSON.stringify(results));
+
+    //   return results;
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: ChildDisclosureEligibilityAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+
+    return results;
+  }
+
+  async findAllByVisitId(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     const results: ChildDisclosureEligibility[] | null =
@@ -116,8 +163,6 @@ export class DisclosureEligibilityRepository implements IDisclosureEligibilityRe
           patientVisitID: id,
         },
       });
-
- 
 
     return results;
   }

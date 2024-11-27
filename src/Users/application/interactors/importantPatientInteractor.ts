@@ -17,8 +17,14 @@ export class ImportantPatientInteractor implements IImportantPatientInteractor {
 
   async getImportantPatientById(
     id: string
-  ): Promise<ImportantPatientsInterface[] | null> {
+  ): Promise<ImportantPatientsInterface | null> {
     return await this.repository.findById(id);
+  }
+
+  async getImportantPatientByUserId(
+    id: string
+  ): Promise<ImportantPatientsInterface[] | null> {
+    return await this.repository.findByUserId(id);
   }
 
   async createImportantPatient(

@@ -24,6 +24,10 @@ router.get(
   controllers.onGetExecuteDisclosureById.bind(controllers)
 );
 router.get(
+  "/by-patient-id/:id",
+  controllers.onGetExecuteDisclosureByPatientId.bind(controllers)
+);
+router.get(
   "/details/:id",
   controllers.onGetAllExecuteDisclosureByVisitId.bind(controllers)
 );

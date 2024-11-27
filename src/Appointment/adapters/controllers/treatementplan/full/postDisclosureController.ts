@@ -11,56 +11,60 @@ export class PostDisclosureController {
     this.interactor = interactor;
   }
 
-  async onCreatePostDisclosure(req: Request, res: Response, next: NextFunction) {
+  async onCreatePostDisclosure(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-          const {
-            isAssessedChildCaregiverComfort,
-            isAssessedDepthOfChildKnowledge,
-            isAssessedEnvironmentAndTiming,
-            isConcludedSessionReassured,
-            isExplainedCareOptions,
-            isInvitedChildQuestions,
-            isObservedImmediateReactions,
-            isReassuredCaregiver,
-            finalComments,
-            isAddressedNegativeSelfImage,
-            isAssessedChildEngagement,
-            isAssessedFunctionalSchoolEngagement,
-            isAssessedMoodiness,
-            isAssessedPeerRelationshipAssessed,
-            isChildQuestionsAllowed,
-            isGivenAppropriateInfo,
-            isReferredForPsychiatric,
-            patientID,
-            patientVisitID,
-            taskFourComments,
-          } = req.body;
+      const {
+        isAssessedChildCaregiverComfort,
+        isAssessedDepthOfChildKnowledge,
+        isAssessedEnvironmentAndTiming,
+        isConcludedSessionReassured,
+        isExplainedCareOptions,
+        isInvitedChildQuestions,
+        isObservedImmediateReactions,
+        isReassuredCaregiver,
+        finalComments,
+        isAddressedNegativeSelfImage,
+        isAssessedChildEngagement,
+        isAssessedFunctionalSchoolEngagement,
+        isAssessedMoodiness,
+        isAssessedPeerRelationshipAssessed,
+        isChildQuestionsAllowed,
+        isGivenAppropriateInfo,
+        isReferredForPsychiatric,
+        patientID,
+        patientVisitID,
+        taskFourComments,
+      } = req.body;
 
-          const readinessData: ExecuteDisclosureAttributes = {
-            isAssessedChildCaregiverComfort,
-            isAssessedDepthOfChildKnowledge,
-            isAssessedEnvironmentAndTiming,
-            isConcludedSessionReassured,
-            isExplainedCareOptions,
-            isInvitedChildQuestions,
-            isObservedImmediateReactions,
-            isReassuredCaregiver,
-          };
+      const readinessData: ExecuteDisclosureAttributes = {
+        isAssessedChildCaregiverComfort,
+        isAssessedDepthOfChildKnowledge,
+        isAssessedEnvironmentAndTiming,
+        isConcludedSessionReassured,
+        isExplainedCareOptions,
+        isInvitedChildQuestions,
+        isObservedImmediateReactions,
+        isReassuredCaregiver,
+      };
 
-          const disclosureData: PostDisclosureAttributes = {
-          finalComments,
-          isAddressedNegativeSelfImage,
-          isAssessedChildEngagement,
-          isAssessedFunctionalSchoolEngagement,
-          isAssessedMoodiness,
-          isAssessedPeerRelationshipAssessed,
-          isChildQuestionsAllowed,
-          isGivenAppropriateInfo,
-          isReferredForPsychiatric,
-          patientID,
-          patientVisitID,
-          taskFourComments
-          };
+      const disclosureData: PostDisclosureAttributes = {
+        finalComments,
+        isAddressedNegativeSelfImage,
+        isAssessedChildEngagement,
+        isAssessedFunctionalSchoolEngagement,
+        isAssessedMoodiness,
+        isAssessedPeerRelationshipAssessed,
+        isChildQuestionsAllowed,
+        isGivenAppropriateInfo,
+        isReferredForPsychiatric,
+        patientID,
+        patientVisitID,
+        taskFourComments,
+      };
 
       console.log(req.body);
       const newProfile = await this.interactor.createPostDisclosure(req.body);
@@ -70,13 +74,17 @@ export class PostDisclosureController {
       //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
   }
 
-  async onGetAllPostDisclosure(req: Request, res: Response, next: NextFunction) {
+  async onGetAllPostDisclosure(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -92,7 +100,11 @@ export class PostDisclosureController {
     }
   }
 
-  async onGetPostDisclosureById(req: Request, res: Response, next: NextFunction) {
+  async onGetPostDisclosureById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getPostDisclosureById(id);
@@ -101,13 +113,34 @@ export class PostDisclosureController {
     } catch (error) {
       next(error);
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" }); 
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  // 
+  async onGetPostDisclosureByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getPostDisclosureByPatientId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 
-  async onGetAllPostDisclosureByVisitId(req: Request, res: Response, next: NextFunction) {
+  //
+
+  async onGetAllPostDisclosureByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllPostDisclosureByVisitId(id);

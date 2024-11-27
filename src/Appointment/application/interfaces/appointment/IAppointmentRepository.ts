@@ -1,5 +1,6 @@
 import { AppointmentAttributes } from "otz-types";
 import { AppointmentResponseInterface } from "../../../domain/models/appointment/appointment.model";
+import { UniqueAppointmentInterface } from "../../../entities/UniqueAppointmentAgendaEntity";
 
 export interface IAppointmentRepository {
   create: (data: AppointmentAttributes) => Promise<AppointmentAttributes>;
@@ -20,7 +21,9 @@ export interface IAppointmentRepository {
   findPriorityAppointmentDetail: (
     id: string
   ) => Promise<AppointmentAttributes[] | null>;
-  findAllPriorityAppointments: (hospitalID: string) => Promise<AppointmentAttributes[] | null | undefined>;
+  findAllPriorityAppointments: (
+    hospitalID: string
+  ) => Promise<AppointmentAttributes[] | null | undefined>;
   markAsStarred: (
     id: string,
     patientID: string,
@@ -44,7 +47,14 @@ export interface IAppointmentRepository {
   findUniqueAppointmentAgenda: (
     hospitalID: string,
     dateQuery: string
-  ) => Promise<AppointmentAttributes | null | undefined>;
+  ) => Promise<UniqueAppointmentInterface[] | null | undefined>;
+
+  findStarredPatientAppointments: (
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ) => Promise<AppointmentResponseInterface | null | undefined>;
 }
 
 

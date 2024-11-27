@@ -15,7 +15,7 @@ const controllers = new MMASFourController(interactor);
 router.post('/add', controllers.onCreateMMASFour.bind(controllers));
 router.get('/fetchAll', controllers.onGetAllMMASFour.bind(controllers));
 router.get('/detail/:id', controllers.onGetMMASFourById.bind(controllers));
-router.get("/details/:id", controllers.onGetMMASFourByPatientId.bind(controllers));
+router.get("/by-patient-id/:id", controllers.onGetMMASFourByPatientId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 
 export { router as mmasFourRouter }

@@ -3752,3 +3752,77 @@
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T09:45:02.191Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T10:14:31.089Z"}
 {"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T10:14:31.485Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T16:34:05.392Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T16:34:06.104Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T16:34:10.348Z"}
+{"errors":[{"instance":{"createdAt":{"val":"CURRENT_TIMESTAMP"},"id":"5f00ca00-870a-4fba-9496-b143bc8142f7","patientID":"e684203a-2116-4d6c-8471-e2441b481ba6","updatedAt":{"val":"CURRENT_TIMESTAMP"},"userID":"48b9934c-fa7d-42e0-a399-63fcd6a55cdf"},"message":"userID must be unique","origin":"DB","path":"userID","type":"unique violation","validatorArgs":[],"validatorKey":"not_unique","validatorName":null,"value":"48b9934c-fa7d-42e0-a399-63fcd6a55cdf"}],"fields":{"userID":"48b9934c-fa7d-42e0-a399-63fcd6a55cdf"},"level":"error","name":"SequelizeUniqueConstraintError","original":{"code":"23505","constraint":"importantPatients_userID_key","detail":"Key (\"userID\")=(48b9934c-fa7d-42e0-a399-63fcd6a55cdf) already exists.","file":"nbtinsert.c","length":269,"line":"666","name":"error","parameters":["5f00ca00-870a-4fba-9496-b143bc8142f7","e684203a-2116-4d6c-8471-e2441b481ba6","48b9934c-fa7d-42e0-a399-63fcd6a55cdf"],"routine":"_bt_check_unique","schema":"public","severity":"ERROR","sql":"INSERT INTO \"importantPatients\" (\"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING \"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\";","table":"importantPatients"},"parent":{"code":"23505","constraint":"importantPatients_userID_key","detail":"Key (\"userID\")=(48b9934c-fa7d-42e0-a399-63fcd6a55cdf) already exists.","file":"nbtinsert.c","length":269,"line":"666","name":"error","parameters":["5f00ca00-870a-4fba-9496-b143bc8142f7","e684203a-2116-4d6c-8471-e2441b481ba6","48b9934c-fa7d-42e0-a399-63fcd6a55cdf"],"routine":"_bt_check_unique","schema":"public","severity":"ERROR","sql":"INSERT INTO \"importantPatients\" (\"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING \"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\";","table":"importantPatients"},"service":"user microservice api","sql":"INSERT INTO \"importantPatients\" (\"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING \"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\";","timestamp":"2024-11-26T16:34:18.416Z"}
+{"errors":[{"instance":{"createdAt":{"val":"CURRENT_TIMESTAMP"},"id":"7046e688-7ef7-49a9-ae7b-5e596a56918d","patientID":"d80893ce-b0ea-4e67-8ec0-53f0b679e0f2","updatedAt":{"val":"CURRENT_TIMESTAMP"},"userID":"48b9934c-fa7d-42e0-a399-63fcd6a55cdf"},"message":"userID must be unique","origin":"DB","path":"userID","type":"unique violation","validatorArgs":[],"validatorKey":"not_unique","validatorName":null,"value":"48b9934c-fa7d-42e0-a399-63fcd6a55cdf"}],"fields":{"userID":"48b9934c-fa7d-42e0-a399-63fcd6a55cdf"},"level":"error","name":"SequelizeUniqueConstraintError","original":{"code":"23505","constraint":"importantPatients_userID_key","detail":"Key (\"userID\")=(48b9934c-fa7d-42e0-a399-63fcd6a55cdf) already exists.","file":"nbtinsert.c","length":269,"line":"666","name":"error","parameters":["7046e688-7ef7-49a9-ae7b-5e596a56918d","d80893ce-b0ea-4e67-8ec0-53f0b679e0f2","48b9934c-fa7d-42e0-a399-63fcd6a55cdf"],"routine":"_bt_check_unique","schema":"public","severity":"ERROR","sql":"INSERT INTO \"importantPatients\" (\"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING \"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\";","table":"importantPatients"},"parent":{"code":"23505","constraint":"importantPatients_userID_key","detail":"Key (\"userID\")=(48b9934c-fa7d-42e0-a399-63fcd6a55cdf) already exists.","file":"nbtinsert.c","length":269,"line":"666","name":"error","parameters":["7046e688-7ef7-49a9-ae7b-5e596a56918d","d80893ce-b0ea-4e67-8ec0-53f0b679e0f2","48b9934c-fa7d-42e0-a399-63fcd6a55cdf"],"routine":"_bt_check_unique","schema":"public","severity":"ERROR","sql":"INSERT INTO \"importantPatients\" (\"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING \"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\";","table":"importantPatients"},"service":"user microservice api","sql":"INSERT INTO \"importantPatients\" (\"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\") VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING \"id\",\"patientID\",\"userID\",\"createdAt\",\"updatedAt\";","timestamp":"2024-11-26T16:34:44.700Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T16:46:33.003Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T16:46:33.400Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T16:46:40.710Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T16:46:45.259Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T16:46:49.509Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:49:11.944Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:49:14.356Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:49:38.876Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:49:39.514Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:49:39.671Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:49:44.760Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:53:14.180Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:53:14.750Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:53:18.918Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:53:47.096Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:53:47.577Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:53:52.016Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:53:59.628Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:54:02.449Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:04.776Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:05.276Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:25.478Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:25.776Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:26.280Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:26.474Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T18:57:26.480Z"}
+{"level":"info","message":"Created New Patient  Log Successfully! ~undefined","service":"user microservice api","timestamp":"2024-11-26T18:57:32.550Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:13:05.078Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:13:05.780Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:28:28.589Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:30:14.781Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:33:28.081Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:38:21.879Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:43:25.977Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:52:29.381Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:59:43.579Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T19:59:45.205Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:02:02.179Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:04:34.876Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:08:16.003Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:13:13.300Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:13:57.478Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:13:57.679Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:14:02.593Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:14:02.649Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-26T20:15:57.779Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:33:46.197Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:33:46.602Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:34:52.803Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:36:41.196Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:36:41.998Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:37:20.800Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:37:22.306Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:38:27.734Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:38:28.099Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T02:49:44.598Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:00:19.780Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:07:57.834Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:07:57.997Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:09:42.480Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:18:41.483Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:21:38.180Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:22:47.383Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T03:47:41.673Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T04:19:44.399Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T04:20:49.472Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T04:20:49.978Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T04:23:17.074Z"}
+{"level":"info","message":"Fetched all Patients Successfully!","service":"user microservice api","timestamp":"2024-11-27T04:35:22.374Z"}

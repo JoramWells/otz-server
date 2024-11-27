@@ -60,7 +60,7 @@ export class AppointmentController {
         searchQuery
       );
       res.status(200).json(results);
-      res.flush();
+      // res.flush();
 
       next();
     } catch (error) {
@@ -286,6 +286,39 @@ export class AppointmentController {
       next(error);
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  // use patient ID
+  async onGetStarredPatientAppointments(req: Request, res: Response, next: NextFunction) {
+        let { hospitalID, page, pageSize, searchQuery } = req.query;
+
+        if (!hospitalID || hospitalID === "undefined")
+          return res.status(400).json({ message: "Invalid ID parameter" });
+
+        if (!isUUID(hospitalID)) {
+          const errMessage = `${hospitalID} is not a valid UUID `;
+          logger.error(errMessage);
+          return res.status(404).json({ error: errMessage });
+        }
+
+        //
+        if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+          page = Number(page);
+          pageSize = Number(pageSize);
+        }
+        if (page <= 0) {
+          page = 1;
+        }
+    try {
+
+      const patient = await this.interactor.getStarredPatientAppointments(hospitalID as string, page, pageSize, searchQuery);
+      res.status(200).json(patient);
+      next();
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
 }

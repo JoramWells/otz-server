@@ -16,7 +16,8 @@ const router = express.Router()
 
 router.post('/add', controller.onCreateImportantPatient.bind(controller))
 router.get('/fetchAll', controller.onGetAllImportantPatients.bind(controller))
-router.get('/detail/:id', controller.onGetImportantPatientById.bind(controller))
+router.get('/detail/:id', controller.onGetImportantPatientByUserId.bind(controller))
+router.get('/important-by-patient-id/:id', controller.onGetImportantPatientById.bind(controller))
 router.put('/edit/:id', controller.onEditImportantPatient.bind(controller))
 
 router.delete('/delete/:id', controller.onDeleteImportantPatient.bind(controller));

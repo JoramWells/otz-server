@@ -17,6 +17,7 @@ const controllers = new DisclosureEligibilityController(interactor);
 router.post('/add', controllers.onCreateDisclosureEligibility.bind(controllers));
 router.get('/fetchAll', controllers.onGetAllDisclosureEligibility.bind(controllers));
 router.get('/detail/:id', controllers.onGetDisclosureEligibilityById.bind(controllers));
+router.get('/by-patient-id/:id', controllers.onGetDisclosureEligibilityByPatientId.bind(controllers));
 router.get('/details/:id', controllers.onGetAllDisclosureEligibilityByVisitId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 
