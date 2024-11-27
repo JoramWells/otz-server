@@ -10,6 +10,9 @@ export interface IExecuteDisclosureInteractor {
   getExecuteDisclosureById: (
     id: string
   ) => Promise<ExecuteDisclosureAttributes | null>;
+  getExecuteDisclosureByPatientId: (
+    patientID: string
+  ) => Promise<ExecuteDisclosureAttributes | null>;
   getAllExecuteDisclosureByVisitId: (
     id: string
   ) => Promise<ExecuteDisclosureAttributes[] | null>;

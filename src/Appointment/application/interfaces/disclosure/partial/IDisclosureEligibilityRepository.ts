@@ -5,9 +5,14 @@ export interface IDisclosureEligibilityRepository {
     data: ChildDisclosureEligibilityAttributes,
     readiness: ChildCaregiverReadinessAttributes
   ) => Promise<ChildDisclosureEligibilityAttributes>;
-  find: (hospitalID: string) => Promise<ChildDisclosureEligibilityAttributes[] | null>;
+  find: (
+    hospitalID: string
+  ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;
   findById: (
     id: string
+  ) => Promise<ChildDisclosureEligibilityAttributes | null>;
+  findByPatientId: (
+    patientID: string
   ) => Promise<ChildDisclosureEligibilityAttributes | null>;
   findAllByVisitId: (
     id: string

@@ -13,7 +13,9 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
   //   return await this.repository.count()
   // };
 
-  async getAllPostDisclosure(hospitalID: string): Promise<PostDisclosureAttributes[] | null> {
+  async getAllPostDisclosure(
+    hospitalID: string
+  ): Promise<PostDisclosureAttributes[] | null> {
     return await this.repository.find(hospitalID);
   }
 
@@ -21,6 +23,13 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
     id: string
   ): Promise<PostDisclosureAttributes | null> {
     return await this.repository.findById(id);
+  }
+
+  //
+  async getPostDisclosureByPatientId(
+    patientID: string
+  ): Promise<PostDisclosureAttributes | null> {
+    return await this.repository.findByPatientId(patientID);
   }
 
   async createPostDisclosure(

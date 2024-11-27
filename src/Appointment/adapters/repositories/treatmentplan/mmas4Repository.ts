@@ -1,11 +1,11 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { MMASFourAttributes } from 'otz-types';
-import { IMMASFourRepository } from '../../../application/interfaces/treatmentplan/IMMAS4Repository';
-import { MMASFour } from '../../../domain/models/treatmentplan/mmas4.model';
-import { RedisAdapter } from '../redisAdapter'
-import { mmas4Cache } from '../../../constants/appointmentCache';
-import { Patient } from '../../../domain/models/patients.models';
+import { MMASFourAttributes } from "otz-types";
+import { IMMASFourRepository } from "../../../application/interfaces/treatmentplan/IMMAS4Repository";
+import { MMASFour } from "../../../domain/models/treatmentplan/mmas4.model";
+import { RedisAdapter } from "../redisAdapter";
+import { mmas4Cache } from "../../../constants/appointmentCache";
+import { Patient } from "../../../domain/models/patients.models";
 // import { createClient } from 'redis'
 
 export class MMASFourRepository implements IMMASFourRepository {
@@ -15,14 +15,14 @@ export class MMASFourRepository implements IMMASFourRepository {
   // }
 
   async create(data: MMASFourAttributes): Promise<MMASFourAttributes> {
-    const {patientID, patientVisitID} = data
+    const { patientID, patientVisitID } = data;
     const results = await MMASFour.create(data);
     // if(await this.redisClient.get(patientID)){
     //   await this.redisClient.del(patientID)
     // }
-      //  if (await this.redisClient.get(patientVisitID)) {
-      //    await this.redisClient.del(patientVisitID);
-      //  }
+    //  if (await this.redisClient.get(patientVisitID)) {
+    //    await this.redisClient.del(patientVisitID);
+    //  }
     // await this.redisClient.del(mmas4Cache);
 
     return results;
@@ -50,11 +50,11 @@ export class MMASFourRepository implements IMMASFourRepository {
 
     // const results: MMASFourAttributes[] = JSON.parse(cachedPatients);
     const results = await MMASFour.findAll({
-      include:[
+      include: [
         {
           model: Patient,
-          attributes:['firstName', 'middleName', 'avatar']
-        }
+          attributes: ["firstName", "middleName", "avatar"],
+        },
       ],
     });
 
@@ -70,7 +70,6 @@ export class MMASFourRepository implements IMMASFourRepository {
     //   },
     // });
 
-  
     //   await this.redisClient.set(id, JSON.stringify(results));
 
     //   return results;
@@ -84,29 +83,28 @@ export class MMASFourRepository implements IMMASFourRepository {
     // console.log("fetched from cace!");
 
     // return results;
-        const results: MMASFour | null = await MMASFour.findOne({
-          where: {
-            patientVisitID: id,
-          },
-        });
+    const results: MMASFour | null = await MMASFour.findOne({
+      where: {
+        patientVisitID: id,
+      },
+    });
 
-        await this.redisClient.set(id, JSON.stringify(results));
+    await this.redisClient.set(id, JSON.stringify(results));
 
-        return results;
+    return results;
   }
 
   //
   async findByPatientId(id: string): Promise<MMASFourAttributes | null> {
     // await this.redisClient.connect();
     if ((await this.redisClient.get(id)) === null) {
-    const results: MMASFour | null = await MMASFour.findOne({
-      order:[['createdAt', 'DESC']],
-      where: {
-         patientID:id,
-      },
-    });
+      const results: MMASFour | null = await MMASFour.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
 
- 
       await this.redisClient.set(id, JSON.stringify(results));
 
       return results;

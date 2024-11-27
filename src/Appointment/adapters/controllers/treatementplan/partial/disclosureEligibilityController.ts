@@ -11,64 +11,75 @@ export class DisclosureEligibilityController {
     this.interactor = interactor;
   }
 
-  async onCreateDisclosureEligibility(req: Request, res: Response, next: NextFunction) {
+  async onCreateDisclosureEligibility(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-          const {
-            isAssessedCaregiverReadinessToDisclose,
-            isCaregiverCommunicatedToChild,
-            isChildKnowsMedicineAndIllness,
-            isChildSchoolEngagement,
-            isConsistentSocialSupport,
-            isFreeChildCaregiverFromSevereIllness,
-            isInterestInEnvironmentAndPlaying,
-            isSecuredPatientInfo,
-            patientID,
-            patientVisitID,
-            taskTwoComments,
-            isCorrectAge,
-            isKnowledgeable,
-            isWillingToDisclose,
-            taskOneComments,
-          } = req.body;
+      const {
+        isAssessedCaregiverReadinessToDisclose,
+        isCaregiverCommunicatedToChild,
+        isChildKnowsMedicineAndIllness,
+        isChildSchoolEngagement,
+        isConsistentSocialSupport,
+        isFreeChildCaregiverFromSevereIllness,
+        isInterestInEnvironmentAndPlaying,
+        isSecuredPatientInfo,
+        patientID,
+        patientVisitID,
+        taskTwoComments,
+        isCorrectAge,
+        isKnowledgeable,
+        isWillingToDisclose,
+        taskOneComments,
+      } = req.body;
 
-          const readinessData: ChildCaregiverReadinessAttributes = {
-            isAssessedCaregiverReadinessToDisclose,
-            isCaregiverCommunicatedToChild,
-            isChildKnowsMedicineAndIllness,
-            isChildSchoolEngagement,
-            isConsistentSocialSupport,
-            isFreeChildCaregiverFromSevereIllness,
-            isInterestInEnvironmentAndPlaying,
-            isSecuredPatientInfo,
-            patientID,
-            patientVisitID,
-            taskTwoComments,
-          };
+      const readinessData: ChildCaregiverReadinessAttributes = {
+        isAssessedCaregiverReadinessToDisclose,
+        isCaregiverCommunicatedToChild,
+        isChildKnowsMedicineAndIllness,
+        isChildSchoolEngagement,
+        isConsistentSocialSupport,
+        isFreeChildCaregiverFromSevereIllness,
+        isInterestInEnvironmentAndPlaying,
+        isSecuredPatientInfo,
+        patientID,
+        patientVisitID,
+        taskTwoComments,
+      };
 
-          const disclosureData: ChildDisclosureEligibilityAttributes = {
-            isCorrectAge,
-            isKnowledgeable,
-            isWillingToDisclose,
-            patientID,
-            patientVisitID,
-            taskOneComments,
-          };
+      const disclosureData: ChildDisclosureEligibilityAttributes = {
+        isCorrectAge,
+        isKnowledgeable,
+        isWillingToDisclose,
+        patientID,
+        patientVisitID,
+        taskOneComments,
+      };
 
       console.log(req.body);
-      const newProfile = await this.interactor.createDisclosureEligibility(disclosureData,readinessData);
+      const newProfile = await this.interactor.createDisclosureEligibility(
+        disclosureData,
+        readinessData
+      );
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
       //   });
       next();
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       next(error);
     }
   }
 
-  async onGetAllDisclosureEligibility(req: Request, res: Response, next: NextFunction) {
+  async onGetAllDisclosureEligibility(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -84,7 +95,11 @@ export class DisclosureEligibilityController {
     }
   }
 
-  async onGetDisclosureEligibilityById(req: Request, res: Response, next: NextFunction) {
+  async onGetDisclosureEligibilityById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getDisclosureEligibilityById(id);
@@ -93,16 +108,40 @@ export class DisclosureEligibilityController {
     } catch (error) {
       next(error);
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" }); 
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  // 
-
-  async onGetAllDisclosureEligibilityByVisitId(req: Request, res: Response, next: NextFunction) {
+  //
+  async onGetDisclosureEligibilityByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getAllDisclosureEligibilityByVisitId(id);
+      const result = await this.interactor.getDisclosureEligibilityByPatientId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+
+  async onGetAllDisclosureEligibilityByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getAllDisclosureEligibilityByVisitId(
+        id
+      );
       res.status(200).json(result);
       next();
     } catch (error) {

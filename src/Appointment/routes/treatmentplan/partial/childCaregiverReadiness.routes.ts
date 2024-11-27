@@ -18,6 +18,7 @@ router.post('/add', controllers.onCreateChildCaregiverReadiness.bind(controllers
 router.get('/fetchAll', controllers.onGetAllChildCaregiverReadiness.bind(controllers));
 router.get('/detail/:id', controllers.onGetChildCaregiverReadinessById.bind(controllers));
 router.get('/details/:id', controllers.onGetAllChildCaregiverReadinessByVisitId.bind(controllers));
+router.get('/by-patient-id/:id', controllers.onGetChildCaregiverReadinessByPatientId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 
 export { router as childCaregiverReadinessRouter };

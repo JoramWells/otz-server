@@ -28,6 +28,12 @@ export class ChildCaregiverReadinessInteractor
     return await this.repository.findById(id);
   }
 
+  async getChildCaregiverReadinessByPatientId(
+    patientID: string
+  ): Promise<ChildCaregiverReadinessAttributes | null> {
+    return await this.repository.findByPatientId(patientID);
+  }
+
   async createChildCaregiverReadiness(
     patientData: ChildCaregiverReadinessAttributes
   ): Promise<ChildCaregiverReadinessAttributes> {

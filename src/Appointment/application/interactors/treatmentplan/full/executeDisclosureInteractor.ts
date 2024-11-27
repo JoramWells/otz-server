@@ -2,9 +2,7 @@ import { ExecuteDisclosureAttributes } from "otz-types";
 import { IExecuteDisclosureInteractor } from "../../../interfaces/disclosure/full/IExecuteDisclosureInteractor";
 import { IExecuteDisclosureRepository } from "../../../interfaces/disclosure/full/IExecuteDisclosureRepository";
 
-export class ExecuteDisclosureInteractor
-  implements IExecuteDisclosureInteractor
-{
+export class ExecuteDisclosureInteractor implements IExecuteDisclosureInteractor {
   private readonly repository: IExecuteDisclosureRepository;
 
   constructor(repository: IExecuteDisclosureRepository) {
@@ -24,6 +22,12 @@ export class ExecuteDisclosureInteractor
     id: string
   ): Promise<ExecuteDisclosureAttributes | null> {
     return await this.repository.findById(id);
+  }
+
+  async getExecuteDisclosureByPatientId(
+    patientID: string
+  ): Promise<ExecuteDisclosureAttributes | null> {
+    return await this.repository.findByPatientId(patientID);
   }
 
   async createExecuteDisclosure(

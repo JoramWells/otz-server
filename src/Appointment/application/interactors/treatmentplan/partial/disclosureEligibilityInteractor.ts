@@ -27,6 +27,12 @@ export class DisclosureEligibilityInteractor
     return await this.repository.findById(id);
   }
 
+  async getDisclosureEligibilityByPatientId(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes | null> {
+    return await this.repository.findByPatientId(id);
+  }
+
   async createDisclosureEligibility(
     patientData: ChildDisclosureEligibilityAttributes,
     readiness: ChildCaregiverReadinessAttributes
