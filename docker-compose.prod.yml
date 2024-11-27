@@ -160,7 +160,7 @@ services:
           memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 800M
   #   networks:
   #   - otz
   #   healthcheck:
@@ -263,7 +263,7 @@ services:
           memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 900M   
+          memory: 800M   
     ports:
       - 5003:5003
     depends_on:
@@ -408,7 +408,7 @@ services:
           memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 800M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
@@ -451,7 +451,7 @@ services:
           memory: 700M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 800M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
