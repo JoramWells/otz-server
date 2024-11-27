@@ -160,7 +160,7 @@ services:
           memory: 400M
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 750M
   #   networks:
   #   - otz
   #   healthcheck:
@@ -225,10 +225,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 400M
+          memory: 300M
         reservations:
           cpus: '0.30'
-          memory: 700M
+          memory: 600M
     ports:
       - 5002:5002
     depends_on:
@@ -260,10 +260,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 400M
+          memory: 300M
         reservations:
           cpus: '0.30'
-          memory: 900M   
+          memory: 700M   
     ports:
       - 5003:5003
     depends_on:
@@ -331,7 +331,7 @@ services:
           memory: 300M
         reservations:
           cpus: '0.30'
-          memory: 700M  
+          memory: 600M  
     ports:
       - 5000:5000
     depends_on:
@@ -405,10 +405,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          memory: 400M
+          memory: 300m
         reservations:
           cpus: '0.30'
-          memory: 900M
+          memory: 700m
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
       interval: 1m30s
