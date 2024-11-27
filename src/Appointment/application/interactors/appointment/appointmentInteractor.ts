@@ -3,6 +3,7 @@ import { AppointmentAttributes } from 'otz-types';
 import { IAppointmentInteractor } from '../../interfaces/appointment/IAppointementInteractor';
 import { IAppointmentRepository } from '../../interfaces/appointment/IAppointmentRepository';
 import { AppointmentResponseInterface } from '../../../domain/models/appointment/appointment.model';
+import { UniqueAppointmentInterface } from '../../../entities/UniqueAppointmentAgendaEntity';
 
 
 export class AppointmentInteractor implements IAppointmentInteractor {
@@ -35,8 +36,11 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   async getUniqueAppointmentAgenda(
     hospitalID: string,
     dateQuery: string
-  ): Promise<AppointmentAttributes | null | undefined> {
-    return await this.repository.findUniqueAppointmentAgenda(hospitalID, dateQuery);
+  ): Promise<UniqueAppointmentInterface[] | null | undefined> {
+    return await this.repository.findUniqueAppointmentAgenda(
+      hospitalID,
+      dateQuery
+    );
   }
 
   async rescheduleAppointment(
@@ -53,7 +57,9 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     return await this.repository.findPriorityAppointmentDetail(id);
   }
 
-  async getAllPriorityAppointments(hospitalID: string): Promise<AppointmentAttributes[] | null | undefined> {
+  async getAllPriorityAppointments(
+    hospitalID: string
+  ): Promise<AppointmentAttributes[] | null | undefined> {
     return await this.repository.findAllPriorityAppointments(hospitalID);
   }
 
@@ -86,5 +92,15 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     id: string
   ): Promise<AppointmentAttributes[] | null> {
     return await this.repository.findPatientAppointmentByID(id);
+  }
+
+  //
+  async getStarredPatientAppointments(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<AppointmentResponseInterface | null | undefined> {
+    return await this.repository.findStarredPatientAppointments(hospitalID, page, pageSize, searchQuery);
   }
 }

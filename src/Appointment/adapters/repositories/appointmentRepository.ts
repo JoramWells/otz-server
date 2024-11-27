@@ -16,6 +16,8 @@ import { RedisAdapter } from "./redisAdapter";
 import { connect } from "../../db/connect";
 import { PatientVisits } from "../../domain/models/patientVisits.model";
 import { AppointmentAttributes } from "otz-types";
+import { UniqueAppointmentInterface } from "../../entities/UniqueAppointmentAgendaEntity";
+import { ImportantPatient } from "../../domain/models/importantPatients";
 // import { createClient } from 'redis'
 
 const getWeekRange = (date: Date) => {
@@ -173,9 +175,14 @@ export class AppointmentRepository implements IAppointmentRepository {
   async findUniqueAppointmentAgenda(
     hospitalID: string,
     dateQuery: string
-  ): Promise<AppointmentAttributes[] | null | undefined> {
+  ): Promise<UniqueAppointmentInterface[] | null | undefined> {
+    const currentDate = new Date(); // Ensure currentDate is not mutated
+    const maxDate = new Date(
+      currentDate.getFullYear() - 25,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
     try {
-      const currentDate = new Date();
       let where = {};
 
       if (dateQuery === "weekly") {
@@ -213,6 +220,9 @@ export class AppointmentRepository implements IAppointmentRepository {
             model: Patient,
             where: {
               hospitalID,
+              dob: {
+                [Op.gte]: maxDate,
+              },
             },
             attributes: [],
           },
@@ -227,11 +237,20 @@ export class AppointmentRepository implements IAppointmentRepository {
         ],
       });
 
-      return results.map((result) => {
-        const value = {};
+      interface DynamicResult {
+        dataValues: {
+          agendaDescription?: string;
+          count?: number;
+          statusDescription?: string;
+          appointmentDate?: string;
+        };
+      }
+
+      return results.map((result: DynamicResult) => {
+        const value: Partial<UniqueAppointmentInterface> = {};
         const agenda = result.dataValues.agendaDescription;
         const count = result.dataValues.count;
-        (value[agenda] = count),
+        (value[agenda!] = count),
           (value.appointmentDate = result.dataValues.appointmentDate);
         value.agendaDescription = agenda;
         value.status = result.dataValues.statusDescription;
@@ -323,7 +342,7 @@ export class AppointmentRepository implements IAppointmentRepository {
 
       // if ((await this.redisClient.get(appointmentCache)) === null) {
       const { rows, count } = await Appointment.findAndCountAll({
-        order: [["appointmentDate", "ASC"]],
+        order: [["createdAt", "DESC"]],
         limit: limit ? limit : 10,
         offset: offset ? offset : 1,
         where: {
@@ -657,5 +676,108 @@ export class AppointmentRepository implements IAppointmentRepository {
     console.log("fetched from cace!");
 
     return results;
+  }
+
+  //
+  async findStarredPatientAppointments(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<AppointmentResponseInterface | null | undefined> {
+    // await this.redisClient.connect();
+    const currentDate = new Date(); // Ensure currentDate is not mutated
+
+    const maxDate = new Date(
+      currentDate.getFullYear() - 25,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    const importantPatient = await ImportantPatient.findAll({
+      include: [
+        {
+          model: Patient,
+          where: {
+            hospitalID,
+          },
+          attributes:[]
+        },
+      ],
+      attributes: ["patientID"],
+    });
+
+    const importantPatientIDs = importantPatient.map(
+      (patient) => patient.patientID
+    );
+
+    console.log(importantPatient, 'ips')
+
+        const where = searchQuery
+          ? {
+              [Op.or]: [
+                { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+                { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+                { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+                { lastName: { [Op.iLike]: `%${searchQuery}%` } },
+              ],
+              hospitalID,
+              dob: {
+                [Op.gte]: maxDate,
+              },
+              id: {
+                [Op.in]: importantPatientIDs,
+              },
+            }
+          : {
+              hospitalID,
+              dob: {
+                [Op.gte]: maxDate,
+              },
+              id: {
+                [Op.in]: importantPatientIDs,
+              },
+            };
+
+    try {
+      const { rows, count } = await Appointment.findAndCountAll({
+        order: [["createdAt", "DESC"]],
+        limit,
+        offset,
+        include: [
+          {
+            model: AppointmentAgenda,
+            attributes: ["agendaDescription"],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ["statusDescription"],
+          },
+          {
+            model: User,
+            attributes: ["firstName", "middleName"],
+          },
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+            where,
+            // return: true,
+          },
+        ],
+      });
+
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

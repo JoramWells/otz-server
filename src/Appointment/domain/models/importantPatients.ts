@@ -3,6 +3,7 @@ import { ImportantPatientsInterface } from "otz-types";
 import { User } from "./user.model";
 import { Patient } from "./patients.models";
 import { connect } from "../../db/connect";
+import { Appointment } from "./appointment/appointment.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 
@@ -39,7 +40,7 @@ ImportantPatient.init(
       },
       // onDelete: "SET NULL",
       onDelete: "CASCADE",
-      unique: true,
+      // unique: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -62,8 +63,14 @@ ImportantPatient.init(
 );
 
 
+
 ImportantPatient.belongsTo(User, { foreignKey: "userID" });
 ImportantPatient.belongsTo(Patient, { foreignKey: "patientID" });
+
+// ImportantPatient.hasMany(Appointment, {
+//   foreignKey: "patientID",
+//   sourceKey: "patientID",
+// });
 
 // const syncDB = async () => {
 //   try {
@@ -73,6 +80,8 @@ ImportantPatient.belongsTo(Patient, { foreignKey: "patientID" });
 //     console.log(error)
 //   }
 // }
+
+connect.sync()
 
 // void syncDB()
 // void connect.sync().then(async () => {

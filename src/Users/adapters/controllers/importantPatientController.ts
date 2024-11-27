@@ -72,6 +72,27 @@ export class ImportantPatientController {
     }
   }
 
+    async onGetImportantPatientByUserId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      const result = await this.interactor.getImportantPatientByUserId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async onEditImportantPatient(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;

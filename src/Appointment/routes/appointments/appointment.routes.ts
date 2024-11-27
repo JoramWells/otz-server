@@ -32,6 +32,12 @@ router.get(
   controllers.onGetUniqueAppointmentAgenda.bind(controllers)
 );
 
+// 
+router.get(
+  "/starred-patient-appointments",
+  controllers.onGetStarredPatientAppointments.bind(controllers)
+);
+
 router.put('/star/:id', controllers.onStar.bind(controllers));
 router.put("/markAsRead/:id", controllers.onMarkAsRead.bind(controllers));
 router.put("/rescheduleAppointment/:id", controllers.onReschedule.bind(controllers));
