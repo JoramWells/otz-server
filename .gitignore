@@ -26,3 +26,6 @@ src/Appointment/.env.development
 src/Appointment/.env.production
 
 src/Appointment/.env/*
+
+src/MedicalFile
+./src/MedicalFile
