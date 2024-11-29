@@ -274,7 +274,6 @@ export class PatientRepository implements IPatientRepository {
         //   },
         // },
       });
-      console.log(rows?.length, 'rowsx')
       return {
         data: rows,
         total: count,
