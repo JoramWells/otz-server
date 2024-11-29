@@ -2,6 +2,7 @@
 import { UserInterface } from "otz-types";
 import { type IUserInteractor } from "../interfaces/IUserInteractor";
 import { type IUserRepository } from "../interfaces/IUserRepository";
+import { UserResponseInterface } from "../../entities/UserResponseInterface";
 
 export class UserInteractor implements IUserInteractor {
   private readonly repository: IUserRepository;
@@ -18,8 +19,16 @@ export class UserInteractor implements IUserInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllUsers(): Promise<UserInterface[]> {
-    return await this.repository.find();
+  async getAllUsers(
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<UserResponseInterface | undefined | null> {
+    return await this.repository.find(
+      page,
+      pageSize,
+      searchQuery
+    );
   }
 
   //

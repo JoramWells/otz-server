@@ -3,6 +3,8 @@ import { ILineListRepository } from "../../../application/interfaces/etl/ILineLi
 import { LineListCSVInterface } from "otz-types";
 import { LineListCSV } from "../../../domain/models/etl/linelistCSV.model";
 import { User } from "../../../domain/models/user.model";
+import { Op } from "sequelize";
+import { LineListResponseInterface } from "../../../entities/LineListResponseInterface";
 
 export class LineListCSVRepository implements ILineListRepository {
   // findAllBooksById: (id: string) => Promise<LineListCSVInterface[] | null>;
@@ -20,48 +22,86 @@ export class LineListCSVRepository implements ILineListRepository {
     return results;
   }
 
-  async find(hospitalID: string): Promise<LineListCSVInterface[]> {
-    await this.redisClient.connect();
-    // check if patient
-    const results = await LineListCSV.findAll({
-      include: [
-        {
-          model: User,
-          where: {
-            hospitalID,
+  async find(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<LineListResponseInterface | null | undefined> {
+    try {
+      await this.redisClient.connect();
+      // check if patient
+
+      let where = {};
+
+      if (searchQuery) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+            { lastName: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+        };
+      }
+
+      console.log(where, 'were!!')
+
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+
+      const { rows, count } = await LineListCSV.findAndCountAll({
+        where,
+        limit,
+        offset,
+        include: [
+          {
+            model: User,
+            attributes:[],
+            where: {
+              hospitalID,
+            },
           },
-        },
-      ],
-    });
-    // if ((await this.redisClient.get(coursesCache)) === null) {
-    //   const results = await Chapter.findAll({
-    //     include:[
-    //       {
-    //         model: ArticleCategory,
-    //         attributes:['id','description']
-    //       }
-    //     ]
-    //   });
-    //   // logger.info({ message: "Fetched from db!" });
-    //   // console.log("fetched from db!");
-    //   // set to cace
-    //   await this.redisClient.set(coursesCache, JSON.stringify(results));
+        ],
+      });
+      // if ((await this.redisClient.get(coursesCache)) === null) {
+      //   const results = await Chapter.findAll({
+      //     include:[
+      //       {
+      //         model: ArticleCategory,
+      //         attributes:['id','description']
+      //       }
+      //     ]
+      //   });
+      //   // logger.info({ message: "Fetched from db!" });
+      //   // console.log("fetched from db!");
+      //   // set to cace
+      //   await this.redisClient.set(coursesCache, JSON.stringify(results));
 
-    //   return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   coursesCache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
-    // await this.redisClient.disconnect();
-    // // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+      //   return results;
+      // }
+      // const cachedPatients: string | null = await this.redisClient.get(
+      //   coursesCache
+      // );
+      // if (cachedPatients === null) {
+      //   return [];
+      // }
+      // await this.redisClient.disconnect();
+      // // logger.info({ message: "Fetched from cache!" });
+      // console.log("fetched from cache!");
 
-    // const results: LineListCSVInterface[] = JSON.parse(cachedPatients);
+      // const results: LineListCSVInterface[] = JSON.parse(cachedPatients);
 
-    return results;
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<LineListCSVInterface | null> {

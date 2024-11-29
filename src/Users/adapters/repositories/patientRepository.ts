@@ -193,7 +193,6 @@ export class PatientRepository implements IPatientRepository {
       };
     }
 
-    console.log(calHIVQuery, "XXXX");
 
     // Add age range filter based on `calHIVQuery`
     switch (calHIVQuery) {

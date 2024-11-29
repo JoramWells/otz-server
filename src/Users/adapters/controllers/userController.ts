@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
-import { type IUserInteractor } from '../../application/interfaces/IUserInteractor'
-import { UserInterface } from 'otz-types'
+import { type NextFunction, type Request, type Response } from "express";
+import { type IUserInteractor } from "../../application/interfaces/IUserInteractor";
+import { UserInterface } from "otz-types";
+import { validate as isUUID } from "uuid";
+import { logger } from "../../utils/logger";
+
 // import { Patient } from '../../domain/entities/Patient'
 
 export class UserController {
@@ -25,7 +28,33 @@ export class UserController {
 
   async onGetAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      const results = await this.interactor.getAllUsers();
+      let {  page, pageSize, searchQuery  } = req.query;
+
+      console.log(req.query);
+
+      // if (!hospitalID || hospitalID === "undefined")
+      //   return res.status(400).json({ message: "Invalid ID parameter" });
+
+      // if (!isUUID(hospitalID)) {
+      //   const errMessage = `${hospitalID} is not a valid UUID `;
+      //   logger.error(errMessage);
+      //   return res.status(404).json({ error: errMessage });
+      // }
+
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
+
+      //
+      if (page <= 0) {
+        page = 1;
+      }
+      const results = await this.interactor.getAllUsers(
+        page as unknown as number,
+        pageSize as unknown as number,
+        searchQuery as string
+      );
       res.status(200).json(results);
       next();
     } catch (error) {
@@ -87,12 +116,10 @@ export class UserController {
       if (!id || id === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
 
-      const {
-        password
-      }: UserInterface = req.body;
+      const { password }: UserInterface = req.body;
       const values: UserInterface = {
         id,
-        password
+        password,
       };
 
       const results = await this.interactor.updateUserPassword(values);
