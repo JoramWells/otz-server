@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { UserInterface } from 'otz-types'
-import { type IUserRepository } from '../../application/interfaces/IUserRepository'
-import { User } from '../../domain/models/user.model'
+import { UserInterface } from "otz-types";
+import { type IUserRepository } from "../../application/interfaces/IUserRepository";
+import { User } from "../../domain/models/user.model";
 import bcrypt from "bcrypt";
-import { Patient } from '../../domain/models/patients.models';
-import { generateDefaultHashedPassword } from '../../utils/generateDefaultHashedPassword';
+import { Patient } from "../../domain/models/patients.models";
+import { generateDefaultHashedPassword } from "../../utils/generateDefaultHashedPassword";
+import { Op } from "sequelize";
+import { Hospital } from "../../domain/models/hospital/hospital.model";
+import { UserResponseInterface } from "../../entities/UserResponseInterface";
 
 export class UserRepository implements IUserRepository {
   async create(data: UserInterface): Promise<UserInterface> {
@@ -55,9 +58,48 @@ export class UserRepository implements IUserRepository {
     return user;
   }
 
-  async find(): Promise<UserInterface[]> {
-    const results = await User.findAll({});
-    return results;
+  async find(
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<UserResponseInterface | null | undefined> {
+    let where = {};
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+          { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+    try {
+      const { rows, count } = await User.findAndCountAll({
+        where,
+        offset,
+        limit,
+        include: [
+          {
+            model: Hospital,
+            attributes: ["hospitalName"],
+            where: {
+              [Op.or]: [{ hospitalName: { [Op.iLike]: `${searchQuery}%` } }, ,],
+            },
+          },
+        ],
+      });
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<UserInterface | null> {
@@ -107,10 +149,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async editPassword(data: UserInterface): Promise<UserInterface | null> {
-    const {
-      id,
-      password
-    } = data;
+    const { id, password } = data;
 
     // delete cache
     // await this.redisClient.del(patientCache);
@@ -123,8 +162,8 @@ export class UserRepository implements IUserRepository {
     });
 
     if (results && password) {
-      const passwordHash = await generateDefaultHashedPassword(password)
-      results.password = passwordHash
+      const passwordHash = await generateDefaultHashedPassword(password);
+      results.password = passwordHash;
       await results.save();
     }
     return results;

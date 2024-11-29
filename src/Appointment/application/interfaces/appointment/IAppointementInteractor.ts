@@ -11,8 +11,9 @@ export interface IAppointmentInteractor {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ) => Promise<AppointmentResponseInterface | null>;
+    searchQuery: string,
+    status: string
+  ) => Promise<AppointmentResponseInterface | null | undefined>;
   getAppointmentById: (id: string) => Promise<AppointmentAttributes | null>;
   getAppointmentDetail: (id: string) => Promise<AppointmentAttributes[] | null>;
   getPriorityAppointmentDetail: (

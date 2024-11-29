@@ -120,8 +120,9 @@ export class PatientRepository implements IPatientRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ): Promise<PatientResponseInterface | null> {
+    searchQuery: string,
+    calHIVQuery: string
+  ): Promise<PatientResponseInterface | null | undefined> {
     const currentDate = new Date();
 
     // await this.redisClient.connect();
@@ -170,31 +171,76 @@ export class PatientRepository implements IPatientRepository {
     // console.log("fetched from cache!");
 
     // const results: PatientAttributes[] = JSON.parse(cachedPatients);
-    const maxDate = new Date(
-      currentDate.getFullYear() - 26,
+    let maxDate = new Date(
+      currentDate.getFullYear() - 25,
       currentDate.getMonth(),
       currentDate.getDate()
     );
+    let where = {
+      hospitalID,
+      dob: { [Op.lte]: maxDate }, // Default filter
+    };
 
-    //
-    const where = searchQuery
-      ? {
-          [Op.or]: [
-            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
-            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
-            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
-          ],
-          hospitalID,
+    // Add search query filter if provided
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+          { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+          { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+
+    // Add age range filter based on `calHIVQuery`
+    switch (calHIVQuery) {
+      case "0-9 years":
+        where = {
+          ...where,
           dob: {
-            [Op.gte]: maxDate,
-          },
-        }
-      : {
-          hospitalID,
-          dob: {
-            [Op.gte]: maxDate,
+            [Op.between]: [
+              new Date().setFullYear(new Date().getFullYear() - 10),
+              maxDate,
+            ],
           },
         };
+        break;
+      case "10-14 years":
+        where = {
+          ...where,
+          dob: {
+            [Op.between]: [
+              new Date().setFullYear(new Date().getFullYear() - 14),
+              new Date().setFullYear(new Date().getFullYear() - 10),
+            ],
+          },
+        };
+        break;
+      case "15-20 years":
+        where = {
+          ...where,
+          dob: {
+            [Op.between]: [
+              new Date().setFullYear(new Date().getFullYear() - 20),
+              new Date().setFullYear(new Date().getFullYear() - 15),
+            ],
+          },
+        };
+        break;
+      case "20 years":
+        where = {
+          ...where,
+          dob: {
+            [Op.lte]: new Date().setFullYear(new Date().getFullYear() - 20),
+          },
+        };
+
+        break;
+    }
+
+    //
 
     const offset = (page - 1) * pageSize;
     const limit = pageSize;
@@ -228,6 +274,7 @@ export class PatientRepository implements IPatientRepository {
         //   },
         // },
       });
+      console.log(rows?.length, 'rowsx')
       return {
         data: rows,
         total: count,

@@ -38,16 +38,30 @@ export class LineListController {
   }
 
   async onGetAllLineListCSVs(req: Request, res: Response, next: NextFunction) {
-      const { hospitalID } = req.query;
-      if (!hospitalID || hospitalID === "undefined" || hospitalID === undefined)
-        return res.status(400).json({ message: "Invalid ID parameter" });
+    let { mode, hospitalID, page, pageSize, searchQuery } = req.query;
 
-    
+    if (!hospitalID || hospitalID === "undefined" || hospitalID === undefined)
+      return res.status(400).json({ message: "Invalid ID parameter" });
+
+    //
+    if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+      page = Number(page);
+      pageSize = Number(pageSize);
+    }
+    if (page <= 0) {
+      page = 1;
+    }
+    //
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllLineLists(hospitalID);
+      const results = await this.interactor.getAllLineLists(
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(results);
 
       next();
@@ -58,10 +72,9 @@ export class LineListController {
     }
   }
 
-  
   //
   async onGetLineListCSVByIds(req: Request, res: Response, next: NextFunction) {
-    const {id} = req.params
+    const { id } = req.params;
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()

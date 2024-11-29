@@ -303,64 +303,94 @@ export class AppointmentRepository implements IAppointmentRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ): Promise<AppointmentResponseInterface | null> {
+    searchQuery: string,
+    status: string
+  ): Promise<AppointmentResponseInterface | null | undefined> {
     // await this.redisClient.connect();
     // check if patient
 
-    const currentDate = new Date(); // Ensure currentDate is not mutated
-    const maxDate = new Date(
-      currentDate.getFullYear() - 25,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
+    let statusFound = false
+    let appointmentStatus;
 
-    const where = searchQuery
-      ? {
+    if (status) {
+      appointmentStatus = await AppointmentStatus.findOne({
+        where: {
+          statusDescription: {[Op.iLike]: status.toLowerCase()},
+        },
+      });
+      if(appointmentStatus){
+        statusFound = true
+      }
+    }
+
+    try {
+      const currentDate = new Date(); // Ensure currentDate is not mutated
+      const maxDate = new Date(
+        currentDate.getFullYear() - 25,
+        currentDate.getMonth(),
+        currentDate.getDate()
+      );
+
+      let where = {
+        // hospitalID,
+        dob: {
+          [Op.gte]: maxDate,
+        },
+      };
+
+      let appointmentWhere={}
+
+      // searc strin
+      if (searchQuery) {
+        where = {
+          ...where,
           [Op.or]: [
             { firstName: { [Op.iLike]: `%${searchQuery}%` } },
             { middleName: { [Op.iLike]: `%${searchQuery}%` } },
             { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
             { lastName: { [Op.iLike]: `%${searchQuery}%` } },
           ],
-          // hospitalID,
-          dob: {
-            [Op.gte]: maxDate,
-          },
-        }
-      : {
-          dob: {
-            [Op.gte]: maxDate,
-          },
         };
+      }
 
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+      if(statusFound && appointmentStatus){
+        appointmentWhere = {
+          ...appointmentWhere,
+          appointmentStatusID: appointmentStatus.id,
+        };
+      }
 
-    if (dateQuery === "weekly") {
-      const { start, end } = getWeekRange(currentDate);
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
 
-      // if ((await this.redisClient.get(appointmentCache)) === null) {
-      const { rows, count } = await Appointment.findAndCountAll({
-        order: [["createdAt", "DESC"]],
-        limit: limit ? limit : 10,
-        offset: offset ? offset : 1,
-        where: {
+      if (dateQuery === "weekly") {
+        const { start, end } = getWeekRange(currentDate);
+        where = {
+          ...where,
           appointmentDate: {
             [Op.between]: [start, end],
           },
-        },
+        };
+      } else if (dateQuery === "monthly") {
+        const { start, end } = getMonthRange(currentDate);
+        where = {
+          ...where,
+          appointmentDate: {
+            [Op.between]: [start, end],
+          },
+        };
+      }
+
+      // if ((await this.redisClient.get(appointmentCache)) === null) {
+      const { rows, count } = await Appointment.findAndCountAll({
+        where:appointmentWhere,
+        order: [["createdAt", "DESC"]],
+        limit: limit ? limit : 10,
+        offset: offset ? offset : 1,
         include: [
           {
             model: Patient,
-            attributes: [
-              "firstName",
-              "middleName",
-              "dob",
-              "sex",
-              "isImportant",
-              "dob",
-            ],
+            attributes: ["firstName", "middleName", "dob", "sex"],
             where,
           },
           {
@@ -369,7 +399,6 @@ export class AppointmentRepository implements IAppointmentRepository {
             where: {
               hospitalID,
             },
-            required: true,
           },
           {
             model: AppointmentAgenda,
@@ -392,103 +421,9 @@ export class AppointmentRepository implements IAppointmentRepository {
         page: page,
         pageSize: limit,
       };
-    } else if (dateQuery === "monthly") {
-      const { start, end } = getMonthRange(currentDate);
-
-      // if ((await this.redisClient.get(appointmentCache)) === null) {
-      const { rows, count } = await Appointment.findAndCountAll({
-        order: [["appointmentDate", "ASC"]],
-        limit: limit ? limit : 10,
-        offset: offset ? offset : 1,
-        where: {
-          createdAt: {
-            [Op.not]: null,
-          } as any,
-          appointmentDate: {
-            [Op.between]: [start, end],
-          },
-        },
-        include: [
-          {
-            model: Patient,
-            attributes: [
-              "firstName",
-              "middleName",
-              "dob",
-              "sex",
-              "isImportant",
-            ],
-            where,
-          },
-          {
-            model: User,
-            attributes: ["id", "firstName", "middleName"],
-            // where: {
-            //   hospitalID,
-            // },
-          },
-          {
-            model: AppointmentAgenda,
-            attributes: ["id", "agendaDescription"],
-          },
-          {
-            model: AppointmentStatus,
-            attributes: ["id", "statusDescription"],
-          },
-        ],
-      });
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      // await this.redisClient.set(appointmentCache, JSON.stringify(results));
-
-      return {
-        data: rows,
-        total: count,
-        page: page,
-        pageSize: limit,
-      };
+    } catch (error) {
+      console.log(error);
     }
-
-    // if ((await this.redisClient.get(appointmentCache)) === null) {
-    const { rows, count } = await Appointment.findAndCountAll({
-      order: [["appointmentDate", "ASC"]],
-      limit: limit ? limit : 10,
-      offset: offset ? offset : 1,
-      include: [
-        {
-          model: Patient,
-          attributes: ["firstName", "middleName", "dob", "sex"],
-          where,
-        },
-        {
-          model: User,
-          attributes: ["id", "firstName", "middleName"],
-          where: {
-            hospitalID,
-          },
-        },
-        {
-          model: AppointmentAgenda,
-          attributes: ["id", "agendaDescription"],
-        },
-        {
-          model: AppointmentStatus,
-          attributes: ["id", "statusDescription"],
-        },
-      ],
-    });
-    // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
-    // set to cace
-    // await this.redisClient.set(appointmentCache, JSON.stringify(results));
-
-    return {
-      data: rows,
-      total: count,
-      page: page,
-      pageSize: limit,
-    };
     // }
     // const cachedPatients: string | null = await this.redisClient.get(
     //   appointmentCache
@@ -694,7 +629,6 @@ export class AppointmentRepository implements IAppointmentRepository {
       currentDate.getDate()
     );
 
-
     const offset = (page - 1) * pageSize;
     const limit = pageSize;
 
@@ -705,7 +639,7 @@ export class AppointmentRepository implements IAppointmentRepository {
           where: {
             hospitalID,
           },
-          attributes:[]
+          attributes: [],
         },
       ],
       attributes: ["patientID"],
@@ -715,33 +649,33 @@ export class AppointmentRepository implements IAppointmentRepository {
       (patient) => patient.patientID
     );
 
-    console.log(importantPatient, 'ips')
+    console.log(importantPatient, "ips");
 
-        const where = searchQuery
-          ? {
-              [Op.or]: [
-                { firstName: { [Op.iLike]: `%${searchQuery}%` } },
-                { middleName: { [Op.iLike]: `%${searchQuery}%` } },
-                { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
-                { lastName: { [Op.iLike]: `%${searchQuery}%` } },
-              ],
-              hospitalID,
-              dob: {
-                [Op.gte]: maxDate,
-              },
-              id: {
-                [Op.in]: importantPatientIDs,
-              },
-            }
-          : {
-              hospitalID,
-              dob: {
-                [Op.gte]: maxDate,
-              },
-              id: {
-                [Op.in]: importantPatientIDs,
-              },
-            };
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+            { lastName: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+          id: {
+            [Op.in]: importantPatientIDs,
+          },
+        }
+      : {
+          hospitalID,
+          dob: {
+            [Op.gte]: maxDate,
+          },
+          id: {
+            [Op.in]: importantPatientIDs,
+          },
+        };
 
     try {
       const { rows, count } = await Appointment.findAndCountAll({
