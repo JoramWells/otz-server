@@ -81,13 +81,11 @@ export class UserRepository implements IUserRepository {
         where,
         offset,
         limit,
+        order:[['createdAt', 'DESC']],
         include: [
           {
             model: Hospital,
             attributes: ["hospitalName"],
-            where: {
-              [Op.or]: [{ hospitalName: { [Op.iLike]: `${searchQuery}%` } }, ,],
-            },
           },
         ],
       });
