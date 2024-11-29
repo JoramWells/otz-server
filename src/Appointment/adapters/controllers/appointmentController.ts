@@ -32,7 +32,7 @@ export class AppointmentController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      let { mode, hospitalID, page, pageSize, searchQuery } = req.query;
+      let { mode, hospitalID, page, pageSize, searchQuery, status } = req.query;
 
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
@@ -57,7 +57,8 @@ export class AppointmentController {
         hospitalID as string,
         page,
         pageSize,
-        searchQuery
+        searchQuery,
+        status
       );
       res.status(200).json(results);
       // res.flush();

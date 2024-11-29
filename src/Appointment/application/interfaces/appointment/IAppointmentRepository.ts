@@ -9,8 +9,9 @@ export interface IAppointmentRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ) => Promise<AppointmentResponseInterface | null>;
+    searchQuery: string,
+    status: string
+  ) => Promise<AppointmentResponseInterface | undefined | null>;
   findById: (id: string) => Promise<AppointmentAttributes | null>;
   findAllAppointmentById: (
     id: string

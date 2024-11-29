@@ -1,14 +1,16 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { ChildCaregiverReadinessAttributes } from 'otz-types';
-import { IChildCaregiverRepository } from '../../../../application/interfaces/disclosure/partial/IChildCaregiverRepository';
-import { ChildCaregiverReadiness } from '../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model';
-import { Patient } from '../../../../domain/models/patients.models';
+import { ChildCaregiverReadinessAttributes } from "otz-types";
+import { IChildCaregiverRepository } from "../../../../application/interfaces/disclosure/partial/IChildCaregiverRepository";
+import { ChildCaregiverReadiness } from "../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
+import { Patient } from "../../../../domain/models/patients.models";
 // import { mmasCache } from '../../../constants/appointmentCache';
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class ChildCaregiverReadinessRepository implements IChildCaregiverRepository {
+export class ChildCaregiverReadinessRepository
+  implements IChildCaregiverRepository
+{
   // private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
@@ -32,6 +34,9 @@ export class ChildCaregiverReadinessRepository implements IChildCaregiverReposit
         {
           model: Patient,
           attributes: ["firstName", "middleName", "avatar"],
+          where: {
+            hospitalID,
+          },
         },
       ],
     });
