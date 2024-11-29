@@ -193,6 +193,10 @@ export class PatientRepository implements IPatientRepository {
       };
     }
 
+    const ageRangeStart = new Date()
+   const ageRangeEnd = new Date().setFullYear(new Date().getFullYear() - 10);,
+    
+
 
     // Add age range filter based on `calHIVQuery`
     switch (calHIVQuery) {
@@ -201,8 +205,8 @@ export class PatientRepository implements IPatientRepository {
           ...where,
           dob: {
             [Op.between]: [
-              new Date().setFullYear(new Date().getFullYear() - 10),
-              maxDate,
+              ageRangeEnd,
+              ageRangeStart,
             ],
           },
         };
@@ -233,8 +237,11 @@ export class PatientRepository implements IPatientRepository {
         where = {
           ...where,
           dob: {
-            [Op.lte]: new Date().setFullYear(new Date().getFullYear() - 20),
-          },
+            [Op.between]: [
+              new Date().setFullYear(new Date().getFullYear() - 25),
+              new Date().setFullYear(new Date().getFullYear() - 20),
+            ],
+          }
         };
 
         break;
