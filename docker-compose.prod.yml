@@ -260,10 +260,10 @@ services:
       resources:
         limits:
           cpus: '0.30'
-          # memory: 750M
+          memory: 750M
         reservations:
           cpus: '0.30'
-          # memory: 700M   
+          memory: 750M   
     ports:
       - 5003:5003
     depends_on:

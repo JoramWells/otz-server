@@ -89,7 +89,7 @@ schedulePatientNotifications();
 
 // setup server
 const server = createServer(app);
-scheduleJob(('*/1 * * *'), async function(){ await addPhoneNumber();})
+scheduleJob(('*/30 * * *'), async function(){ await addPhoneNumber();})
 
 // (async () => {
 //   await addPhoneNumber();

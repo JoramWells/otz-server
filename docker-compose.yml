@@ -251,10 +251,10 @@ services:
       resources:
         limits:
           cpus: '0.15'
-          memory: 450M
+          memory: 750M
         reservations:
           cpus: '0.15'
-          memory: 450M
+          memory: 750M
     environment:
       KAFKA_BROKER: kafka:29092
     ports:
