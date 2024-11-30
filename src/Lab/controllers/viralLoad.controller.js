@@ -5,7 +5,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const { Sequelize, Op } = require('sequelize');
+const { Sequelize, Op, fn, col, literal, where } = require('sequelize');
 // const SchoolTermHoliday = require('../../Enrollment/src/domain/models/school/schoolTermHolidays.model');
 const Patient = require('../models/patient/patients.models');
 const ViralLoad = require('../models/lab/viralLoad.model');
@@ -29,11 +29,11 @@ const addViralLoadTest = async (req, res, next) => {
   } = req.body;
 
   console.log(req.body)
-  
+
 
   try {
     const kafkaProducer = new KafkaAdapter();
-     await connect.transaction(async (t) => {
+    await connect.transaction(async (t) => {
       const results = await ViralLoad.create({
         userID,
         dateOfVL,
@@ -70,15 +70,16 @@ const addViralLoadTest = async (req, res, next) => {
   }
 };
 
+
 // get all priceListItems
 const getAllViralLoad = async (req, res, next) => {
-  const {hospitalID} = req.query
+  const { hospitalID } = req.query
   if (!hospitalID || hospitalID === "undefined")
     return res.status(400).json({ message: "Invalid ID parameter" });
   try {
     const currentDate = new Date()
     const maxDate = new Date(
-      currentDate.getFullYear() - 26,
+      currentDate.getFullYear() - 24,
       currentDate.getMonth(),
       currentDate.getDate()
     );
@@ -89,7 +90,7 @@ const getAllViralLoad = async (req, res, next) => {
           attributes: ['firstName', 'middleName', 'dob', 'sex'],
           where: {
             dob: {
-              [Op.gte]: maxDate
+              [Op.lte]: maxDate
             },
             hospitalID
 
@@ -123,7 +124,7 @@ const getAllVlCategories = async (req, res, next) => {
           model: Patient,
           attributes: [],
           where: {
-            hospitalID: id,
+            hospitalID: hospitalID,
           },
         },
       ],
@@ -139,6 +140,7 @@ const getAllVlCategories = async (req, res, next) => {
       group: 'category',
     });
     res.json(results);
+    next()
   } catch (error) {
     console.log(error);
   }
@@ -171,6 +173,102 @@ const calculateNextAppointmentDate = (appointmentDate, frequency) => {
 
   return new Date(nextAppointmentDate);
 };
+
+const calculateSuppression = async (req, res, next) => {
+  try {
+    const { hospitalID, startDate, endEndDate } = req.query
+    let where = {}
+    let patientWhere = {}
+    if (startDate && endEndDate) {
+      where = {
+        ...where,
+        createdAt: {
+          [Op.between]: { startDate, endEndDate }
+        }
+      }
+    }
+
+    if (hospitalID) {
+      patientWhere = {
+        ...patientWhere,
+        hospitalID
+      }
+    }
+
+
+
+    const results = await ViralLoad.findAll({
+      include: [
+        {
+          model: Patient,
+          where: patientWhere
+
+        }
+      ],
+      attributes: [
+        [fn('DATE_TRUNC', 'month', col('createdAt')), 'month'],
+        [
+          literal(`
+        CASE 
+          WHEN COUNT(*) = 0 THEN 0 
+          ELSE 
+            (SUM(CASE WHEN "vlResults" <= 50 AND "isVLValid" = true THEN 1 ELSE 0 END)::FLOAT 
+            / 
+            COUNT(*)) * 100
+        END
+      `),
+          "suppressionRate",
+        ],
+      ],
+      where,
+
+    })
+    res.json(results)
+    next()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+// 
+const vlCountTrend = async (req, res, next) => {
+  try {
+    const { hospitalID, startDate, endDate } = req.query
+    // const startDate = new Date('2024-01-01');
+    // const endDate = new Date('2024-12-31');
+
+    const results = await ViralLoad.findAll({
+      attributes: [
+        [Sequelize.fn("DATE_TRUNC", "month", Sequelize.col("dateOfVl")), "month"],
+        [Sequelize.literal(`SUM(CASE WHEN "isVLValid" = true THEN 1 ELSE 0 END)`), "validCount"],
+        [Sequelize.literal(`SUM(CASE WHEN "isVLValid" = true THEN 1 ELSE 0 END)`), "invalidCount"],
+      ],
+      where: {
+        dateOfVl: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+      group: [Sequelize.fn("DATE_TRUNC", "month", Sequelize.col("dateOfVl"))],
+      order: [[Sequelize.fn("DATE_TRUNC", "month", Sequelize.col("dateOfVl")), "ASC"]],
+      include: [
+        {
+          model: Patient,
+          attributes: [],
+          where: {
+            hospitalID
+          }
+        }
+      ]
+    });
+
+    res.json(results)
+    next()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 // ceck oliday
 // const checkSchoolHoliday = async (date) => {
@@ -321,4 +419,6 @@ module.exports = {
   deleteViralLoadTest,
   getAllVlCategories,
   getAllViralLoadByPatientID,
+  calculateSuppression,
+  vlCountTrend
 };

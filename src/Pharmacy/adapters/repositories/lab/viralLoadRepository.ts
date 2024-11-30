@@ -68,7 +68,9 @@ export class ViralLoadRepository implements IViralLoadRepository {
   }
 
   async find(hospitalID: string): Promise<ViralLoadInterface[]> {
-    const results = await ViralLoad.findAll({
+    const {rows, count} = await ViralLoad.findAndCountAll({
+      limit:10,
+      offset:5,
       include: [
         {
           model: Patient,
@@ -100,7 +102,61 @@ export class ViralLoadRepository implements IViralLoadRepository {
       ],
     });
     // console.log(results, 'resultx')
+    return rows;
+  }
+
+  async findSuppressionRate(hospitalID: string, startDate: string | Date, endDate: Date | string): Promise<ViralLoadInterface[]> {
+  try {
+    let where = {};
+    let patientWhere = {};
+    if (startDate && endDate) {
+      where = {
+        ...where,
+        createdAt: {
+          [Op.between]: { startDate, endDate },
+        },
+      };
+    }
+
+    if (hospitalID) {
+      patientWhere = {
+        ...patientWhere,
+        hospitalID,
+      };
+    }
+
+    const results = await ViralLoad.findAll({
+      limit: 10,
+      // include: [
+      //   {
+      //     model: Patient,
+      //     where: patientWhere,
+      //     attributes:[]
+      //   },
+      // ],
+      attributes: [
+        [fn("DATE_TRUNC", "month", col("ViralLoad.createdAt")), "month"],
+        [
+          literal(`
+        CASE 
+          WHEN COUNT(*) = 0 THEN 0 
+          ELSE 
+            (SUM(CASE WHEN "vlResults" <= 50 AND "isVLValid" = true THEN 1 ELSE 0 END)::FLOAT 
+            / 
+            COUNT(*)) * 100
+        END
+      `),
+          "suppressionRate",
+        ],
+      ],
+      group:['ViralLoad.id']
+      // where,
+    });
+    console.log(results, 'resultxs')
     return results;
+  } catch (error) {
+    console.log(error);
+  }
   }
 
   async findById(id: string): Promise<ViralLoadInterface | null> {

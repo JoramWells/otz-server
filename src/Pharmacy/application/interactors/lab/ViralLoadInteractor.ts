@@ -16,11 +16,15 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
     return await this.repository.findById(id);
   }
 
-  async getAllViralLoadByPatientID(id: string): Promise<ViralLoadInterface[] | null> {
+  async getAllViralLoadByPatientID(
+    id: string
+  ): Promise<ViralLoadInterface[] | null> {
     return await this.repository.findByPatientId(id);
   }
 
-  async getAllVlCategories(hospitalID: string): Promise<ViralLoadInterface | null> {
+  async getAllVlCategories(
+    hospitalID: string
+  ): Promise<ViralLoadInterface[] | null> {
     return await this.repository.findCategories(hospitalID);
   }
 
@@ -34,5 +38,14 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
     hospitalID: string
   ): Promise<ViralLoadInterface[] | null> {
     return await this.repository.find(hospitalID);
+  }
+
+  //
+  async getSuppressionRate(
+    hospitalID: string,
+    startDate: Date | string,
+    endDate: Date | string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    return await this.repository.findSuppressionRate(hospitalID, startDate, endDate);
   }
 }

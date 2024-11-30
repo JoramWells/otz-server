@@ -5,4 +5,9 @@ export interface IViralLoadRepository {
   findById: (id: string) => Promise<ViralLoadInterface | null>;
   findByPatientId: (id: string) => Promise<ViralLoadInterface[] | null>;
   findCategories: (id: string) => Promise<ViralLoadInterface[] | null>;
+  findSuppressionRate: (
+    hospitalID: string,
+    endDate: string | Date,
+    startDate: Date | string
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
 }
