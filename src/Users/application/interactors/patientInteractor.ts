@@ -1,8 +1,8 @@
 // import { type Patient } from '../../domain/entities/PatientAttributes'
-import { NextOfKinInterface, PatientAttributes } from 'otz-types';
-import { type IPatientInteractor } from '../interfaces/IPatientInteractor'
-import { type IPatientRepository } from '../interfaces/IPatientRepository'
-import { PatientResponseInterface } from '../../domain/models/patients.models';
+import { NextOfKinInterface, PatientAttributes } from "otz-types";
+import { type IPatientInteractor } from "../interfaces/IPatientInteractor";
+import { type IPatientRepository } from "../interfaces/IPatientRepository";
+import { PatientResponseInterface } from "../../domain/models/patients.models";
 
 export class PatientInteractor implements IPatientInteractor {
   private readonly repository: IPatientRepository;
@@ -73,7 +73,7 @@ export class PatientInteractor implements IPatientInteractor {
     searchQuery: string,
     calHIVQuery: string
   ): Promise<PatientResponseInterface | null | undefined> {
-    console.log(calHIVQuery, 'interactor')
+    console.log(calHIVQuery, "interactor");
     return await this.repository.find(
       hospitalID,
       page,
@@ -91,8 +91,18 @@ export class PatientInteractor implements IPatientInteractor {
     return await this.repository.findAllPMTCTPatients();
   }
 
-  async findAllOTZPatients(): Promise<PatientAttributes[]> {
-    return await this.repository.findOTZ();
+  async findAllOTZPatients(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<PatientResponseInterface | undefined | null> {
+    return await this.repository.findOTZ(
+      hospitalID,
+      page,
+      pageSize,
+      searchQuery
+    );
   }
 
   //

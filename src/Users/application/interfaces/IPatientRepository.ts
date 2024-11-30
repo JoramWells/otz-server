@@ -6,7 +6,13 @@ export interface IPatientRepository {
     data: PatientAttributes,
     nextOfKinData: NextOfKinInterface
   ) => Promise<string | null>;
-  find: (hospitalID: string, page: number, pageSize: number, searchQuery: string, calHIVQuery: string) => Promise<PatientResponseInterface | null | undefined>;
+  find: (
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string,
+    calHIVQuery: string
+  ) => Promise<PatientResponseInterface | null | undefined>;
   findUsers: () => Promise<PatientAttributes[]>;
   findImportant: (limit: number) => Promise<PatientAttributes[]>;
   findById: (id: string) => Promise<PatientAttributes | null>;
@@ -14,13 +20,21 @@ export interface IPatientRepository {
   important: (id: string, isImportant: boolean) => Promise<string | null>;
   edit: (data: PatientAttributes) => Promise<PatientAttributes | null>;
   findAllPMTCTPatients: () => Promise<PatientAttributes[]>;
-  findOTZ: () => Promise<PatientAttributes[]>;
+  findOTZ: (
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string,
+  ) => Promise<PatientResponseInterface | undefined | null>;
   editAvatar: (id: string, avatar: string) => Promise<PatientAttributes | null>;
-  editUsername: (id: string, username: string) => Promise<PatientAttributes | null>;
-  editPassword: (id: string, password: string) => Promise<PatientAttributes | null>;
-  delete: (id: string) => Promise<number | null>;
-  login: (
-    cccNo: string,
+  editUsername: (
+    id: string,
+    username: string
+  ) => Promise<PatientAttributes | null>;
+  editPassword: (
+    id: string,
     password: string
   ) => Promise<PatientAttributes | null>;
+  delete: (id: string) => Promise<number | null>;
+  login: (cccNo: string, password: string) => Promise<PatientAttributes | null>;
 }

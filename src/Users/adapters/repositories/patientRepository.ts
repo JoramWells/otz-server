@@ -105,15 +105,51 @@ export class PatientRepository implements IPatientRepository {
     });
   }
 
-  async findOTZ(): Promise<PatientAttributes[]> {
-    const results = await Patient.findAll({
-      where: {
-        dob: {
-          [Op.lte]: new Date().setFullYear(new Date().getFullYear() - 24),
-        },
-      },
+  async findOTZ(hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string,
+
+  ): Promise<PatientResponseInterface | undefined | null> {
+try {
+      let where = {
+      hospitalID,
+          dob: {
+            [Op.between]: [
+              new Date().setFullYear(new Date().getFullYear() - 14),
+              new Date().setFullYear(new Date().getFullYear() - 1),
+            ],
+          },
+    };
+
+    // Add search query filter if provided
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+          { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+          { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+      const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+      const {rows, count} = await Patient.findAndCountAll({
+      where,
+      offset,
+      limit,
+      
     });
-    return results;
+          return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+} catch (error) {
+  console.log(error)
+}
   }
 
   async find(

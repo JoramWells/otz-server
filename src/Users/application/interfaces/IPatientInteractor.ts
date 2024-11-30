@@ -12,13 +12,18 @@ export interface IPatientInteractor {
     pageSize: number,
     searchQuery: string,
     calHIVQuery: string
-   ) => Promise<PatientResponseInterface | null | undefined>;
+  ) => Promise<PatientResponseInterface | null | undefined>;
   getAllPatientUsers: () => Promise<PatientAttributes[]>;
   getPatientById: (id: string) => Promise<PatientAttributes | null>;
   getImportantPatient: (limit: number) => Promise<PatientAttributes[]>;
   markAsImportant: (id: string, isImportant: boolean) => Promise<string | null>;
   findAllPMTCTPatients: () => Promise<PatientAttributes[]>;
-  findAllOTZPatients: () => Promise<PatientAttributes[]>;
+  findAllOTZPatients: (
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ) => Promise<PatientResponseInterface | null | undefined>;
   updateAvatar: (
     id: string,
     avatar: string

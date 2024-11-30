@@ -15,6 +15,7 @@ const patientController = new PatientController(interactor)
 
 const router = express.Router()
 
+
 router.post('/add', createPatientValidator,patientController.onCreatePatient.bind(patientController))
 router.get('/fetchAll', patientController.onGetAllPatients.bind(patientController))
 router.get('/fetch-users', patientController.onGetAllUserPatients.bind(patientController))

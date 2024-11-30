@@ -22,6 +22,7 @@ router.get(
   '/detail/:id',  controller.onGetViralLoadById.bind(controller)
 )
 router.get("/fetchAllVLCategory", controller.onGetCategories.bind(controller));
+router.get("/suppression-rate", controller.onGetSuppressionRate.bind(controller));
 router.get("/details/:id", controller.onGetByPatientId.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
