@@ -117,6 +117,24 @@ export class PostDisclosureController {
     }
   }
 
+  //
+  async onGetPostDisclosureByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getPostDisclosureByVisitId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
   async onGetPostDisclosureByPatientId(
     req: Request,
     res: Response,

@@ -108,13 +108,32 @@ export class DisclosureEligibilityRepository
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
     try {
-      const results: ChildDisclosureEligibility | null =
-        await ChildDisclosureEligibility.findOne({
-          order: [["createdAt", "DESC"]],
-          where: {
-            patientID: id,
-          },
-        });
+      const results = await ChildDisclosureEligibility.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findByVisitId(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes | null | undefined> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    try {
+      const results = await ChildDisclosureEligibility.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientVisitID: id,
+        },
+      });
 
       return results;
     } catch (error) {

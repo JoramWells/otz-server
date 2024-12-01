@@ -40,9 +40,16 @@ export class DisclosureEligibilityInteractor
     return await this.repository.create(patientData, readiness);
   }
 
-  async getAllDisclosureEligibilityByVisitId(hospitalID: string): Promise<
-    ChildDisclosureEligibilityAttributes[]
-  > {
+  async getAllDisclosureEligibilityByVisitId(
+    hospitalID: string
+  ): Promise<ChildDisclosureEligibilityAttributes[]> {
     return await this.repository.find(hospitalID);
+  }
+
+  //
+  async getDisclosureEligibilityByVisitId(
+    id: string
+  ): Promise<ChildDisclosureEligibilityAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
   }
 }

@@ -10,6 +10,9 @@ export interface IChildCaregiverReadinessInteractor {
   getChildCaregiverReadinessById: (
     id: string
   ) => Promise<ChildCaregiverReadinessAttributes | null | undefined>;
+  getChildCaregiverReadinessByVisitId: (
+    id: string
+  ) => Promise<ChildCaregiverReadinessAttributes | null | undefined>;
   getChildCaregiverReadinessByPatientId: (
     patientID: string
   ) => Promise<ChildCaregiverReadinessAttributes | null | undefined>;

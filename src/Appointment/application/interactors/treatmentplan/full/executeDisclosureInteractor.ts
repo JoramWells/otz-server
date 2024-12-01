@@ -41,4 +41,11 @@ export class ExecuteDisclosureInteractor implements IExecuteDisclosureInteractor
   > {
     return await this.repository.find();
   }
+
+  //
+  async getExecuteDisclosureByVisitId(
+    id: string
+  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
+  }
 }

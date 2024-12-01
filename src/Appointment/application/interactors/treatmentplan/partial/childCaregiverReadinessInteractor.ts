@@ -45,4 +45,11 @@ export class ChildCaregiverReadinessInteractor
   > {
     return await this.repository.find();
   }
+
+  //
+  async getChildCaregiverReadinessByVisitId(
+    id: string
+  ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
+  }
 }

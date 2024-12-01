@@ -77,7 +77,27 @@ export class ChildCaregiverReadinessController {
   ) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getChildCaregiverReadinessByPatientId(id);
+      const result =
+        await this.interactor.getChildCaregiverReadinessByPatientId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetChildCaregiverReadinessByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result =
+        await this.interactor.getChildCaregiverReadinessByVisitId(id);
       res.status(200).json(result);
       next();
     } catch (error) {

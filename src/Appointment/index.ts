@@ -6,7 +6,7 @@ import express from "express";
 import { appointmentRouter } from "./routes/appointments/appointment.routes";
 import { connect } from "./db/connect";
 import { scheduleJob } from "node-schedule";
-import * as schedule from "node-schedule";
+// import * as schedule from "node-schedule";
 import { createServer } from "http";
 import helmet from "helmet";
 // const Sentry = require("@sentry/node");
@@ -22,7 +22,6 @@ import { mmasEightRouter } from "./routes/treatmentplan/mmasEight.routes";
 import { partialDisclosureRouter } from "./routes/treatmentplan/partial/partialDisclosure.routes";
 import { disclosureEligibilityRouter } from "./routes/treatmentplan/partial/disclosureEligibility.routes";
 import { childCaregiverReadinessRouter } from "./routes/treatmentplan/partial/childCaregiverReadiness.routes";
-import { logger } from "./utils/logger";
 import {
   markMissedAppointments,
   rescheduleOnUnavailable,
@@ -35,10 +34,10 @@ import { appointmentMessageRouter } from "./routes/appointments/messages.routes"
 import { google } from "googleapis";
 import { attendeeRouter } from "./routes/events/attendee.routes";
 import { eventTypeRouter } from "./routes/events/eventType.routes";
-import { executeDisclosureRouter } from "./routes/treatmentplan/partial/full/executeDisclosure.routes";
-import { postDisclosureRouter } from "./routes/treatmentplan/partial/full/postDisclosure.routes";
 import { AppModuleSession } from "./domain/models/appModules/appModuleSession.model";
 import { AppModule } from "./domain/models/appModules/appModules";
+import { executeDisclosureRouter } from "./routes/treatmentplan/full/executeDisclosure.routes";
+import { postDisclosureRouter } from "./routes/treatmentplan/full/postDisclosure.routes";
 
 require("dotenv").config();
 

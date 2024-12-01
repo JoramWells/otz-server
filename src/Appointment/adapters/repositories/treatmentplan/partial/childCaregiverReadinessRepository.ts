@@ -82,6 +82,31 @@ export class ChildCaregiverReadinessRepository
   }
 
   //
+  async findByVisitId(
+    id: string
+  ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      try {
+        const results: ChildCaregiverReadiness | null =
+          await ChildCaregiverReadiness.findOne({
+            order: [["createdAt", "DESC"]],
+            where: {
+              patientVisitID: id,
+            },
+          });
+
+        return results;
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async findByPatientId(
     id: string
   ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {

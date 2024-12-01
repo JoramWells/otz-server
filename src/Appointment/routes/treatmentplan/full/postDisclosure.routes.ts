@@ -1,6 +1,6 @@
-import { PostDisclosureController } from "../../../../adapters/controllers/treatementplan/full/postDisclosureController";
-import { PostDisclosureRepository } from "../../../../adapters/repositories/treatmentplan/full/postDisclosureRepository";
-import { PostDisclosureInteractor } from "../../../../application/interactors/treatmentplan/full/postDisclosureInteractor";
+import { PostDisclosureController } from "../../../adapters/controllers/treatementplan/full/postDisclosureController";
+import { PostDisclosureRepository } from "../../../adapters/repositories/treatmentplan/full/postDisclosureRepository";
+import { PostDisclosureInteractor } from "../../../application/interactors/treatmentplan/full/postDisclosureInteractor";
 
 const express = require("express");
 
@@ -28,6 +28,11 @@ router.get(
 router.get(
   "/by-patient-id/:id",
   controllers.onGetPostDisclosureByPatientId.bind(controllers)
+);
+// 
+router.get(
+  "/by-visit-id/:id",
+  controllers.onGetAllPostDisclosureByVisitId.bind(controllers)
 );
 router.get(
   "/details/:id",

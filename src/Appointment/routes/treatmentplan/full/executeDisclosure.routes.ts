@@ -1,6 +1,6 @@
-import { ExecuteDisclosureController } from "../../../../adapters/controllers/treatementplan/full/executeDiclosureController";
-import { ExecuteDisclosureRepository } from "../../../../adapters/repositories/treatmentplan/full/executeDisclosureRepository";
-import { ExecuteDisclosureInteractor } from "../../../../application/interactors/treatmentplan/full/executeDisclosureInteractor";
+import { ExecuteDisclosureController } from "../../../adapters/controllers/treatementplan/full/executeDiclosureController";
+import { ExecuteDisclosureRepository } from "../../../adapters/repositories/treatmentplan/full/executeDisclosureRepository";
+import { ExecuteDisclosureInteractor } from "../../../application/interactors/treatmentplan/full/executeDisclosureInteractor";
 
 const express = require("express");
 
@@ -26,6 +26,10 @@ router.get(
 router.get(
   "/by-patient-id/:id",
   controllers.onGetExecuteDisclosureByPatientId.bind(controllers)
+);
+router.get(
+  "/by-visit-id/:id",
+  controllers.onGetAllExecuteDisclosureByVisitId.bind(controllers)
 );
 router.get(
   "/details/:id",

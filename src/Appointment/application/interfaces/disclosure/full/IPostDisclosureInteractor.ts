@@ -9,9 +9,12 @@ export interface IPostDisclosureInteractor {
   ) => Promise<PostDisclosureAttributes[] | null>;
   getPostDisclosureById: (
     id: string
-  ) => Promise<PostDisclosureAttributes | null>;
+  ) => Promise<PostDisclosureAttributes | null | undefined>;
   getPostDisclosureByPatientId: (
     patientID: string
+  ) => Promise<PostDisclosureAttributes | null | undefined>;
+  getPostDisclosureByVisitId: (
+    patientVisitID: string
   ) => Promise<PostDisclosureAttributes | null | undefined>;
   getAllPostDisclosureByVisitId: (
     id: string

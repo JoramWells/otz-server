@@ -95,6 +95,24 @@ export class MMASFourRepository implements IMMASFourRepository {
   }
 
   //
+  async findByVisitId(id: string): Promise<MMASFourAttributes | null | undefined> {
+    try {
+      // return results;
+      const results: MMASFour | null = await MMASFour.findOne({
+        where: {
+          patientVisitID: id,
+        },
+      });
+
+      await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async findByPatientId(
     id: string
   ): Promise<MMASFourAttributes | null | undefined> {

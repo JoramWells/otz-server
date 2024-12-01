@@ -19,6 +19,7 @@ router.get('/fetchAll', controllers.onGetAllChildCaregiverReadiness.bind(control
 router.get('/detail/:id', controllers.onGetChildCaregiverReadinessById.bind(controllers));
 router.get('/details/:id', controllers.onGetAllChildCaregiverReadinessByVisitId.bind(controllers));
 router.get('/by-patient-id/:id', controllers.onGetChildCaregiverReadinessByPatientId.bind(controllers));
+router.get('/by-visit-id/:id', controllers.onGetChildCaregiverReadinessByVisitId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 
 export { router as childCaregiverReadinessRouter };

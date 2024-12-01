@@ -15,19 +15,33 @@ export class MMASFourInteractor implements IMMASFourInteractor {
   //   return await this.repository.count()
   // };
 
-  async getMMASFourById(id: string): Promise<MMASFourAttributes | null> {
+  async getMMASFourById(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 
-  async getMMASFourByPatientId(id: string): Promise<MMASFourAttributes | null> {
+  async getMMASFourByPatientId(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
     return await this.repository.findByPatientId(id);
   }
 
-  async createMMASFour(patientData: MMASFourAttributes): Promise<MMASFourAttributes> {
+  async createMMASFour(
+    patientData: MMASFourAttributes
+  ): Promise<MMASFourAttributes> {
     return await this.repository.create(patientData);
   }
 
-  async getAllMMASFour(hospitalID: string): Promise<MMASFourAttributes[] | null> {
+  async getAllMMASFour(
+    hospitalID: string
+  ): Promise<MMASFourAttributes[] | null> {
     return await this.repository.find(hospitalID);
+  }
+
+  async getMMASFourByVisitId(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
   }
 }

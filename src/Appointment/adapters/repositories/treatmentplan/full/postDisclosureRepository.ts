@@ -90,6 +90,24 @@ export class PostDisclosureRepository implements IPostDisclosureRepository {
   }
 
   //
+  async findByVisitId(id: string): Promise<PostDisclosureAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results = await PostDisclosure.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async findByPatientId(
     id: string
   ): Promise<PostDisclosureAttributes | null | undefined> {

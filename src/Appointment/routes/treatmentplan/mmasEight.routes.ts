@@ -17,6 +17,7 @@ router.post('/add', controllers.onCreateMMASEight.bind(controllers));
 router.get('/fetchAll', controllers.onGetAllMMASEight.bind(controllers));
 router.get('/detail/:id', controllers.onGetMMASEightById.bind(controllers));
 router.get("/by-patient-id/:id", controllers.onGetMMASEightByPatientId.bind(controllers));
+router.get("/by-visit-id/:id", controllers.onGetMMASEightByVisitId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 
 export { router as mmasEightRouter }

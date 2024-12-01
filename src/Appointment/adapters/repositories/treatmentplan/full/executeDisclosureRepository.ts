@@ -94,6 +94,26 @@ export class ExecuteDisclosureRepository
   }
 
   //
+  async findByVisitId(id: string): Promise<ExecuteDisclosureAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne(
+        {
+          order: [["createdAt", "DESC"]],
+          where: {
+            patientVisitID: id,
+          },
+        }
+      );
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
   async findByPatientId(
     id: string
   ): Promise<ExecuteDisclosureAttributes | null | undefined> {

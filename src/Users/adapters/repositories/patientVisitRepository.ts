@@ -26,55 +26,67 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     pageSize: number,
     searchQuery: string
   ): Promise<PatientVisitResponseInterface | null | undefined> {
-    let where = {};
-    let userWhere = {};
-
-    if (hospitalID) {
-      userWhere = {
-        ...userWhere,
-        hospitalID,
+    try {
+      const currentDate = new Date();
+      let maxDate = new Date(
+        currentDate.getFullYear() - 25,
+        currentDate.getMonth(),
+        currentDate.getDate()
+      );
+      let where = {
+        dob: { [Op.gte]: maxDate }, // Default filter
       };
-    }
+      let userWhere = {};
 
-    // Add search query filter if provided
-    if (searchQuery) {
-      where = {
-        ...where,
-        [Op.or]: [
-          { firstName: { [Op.iLike]: `%${searchQuery}%` } },
-          { middleName: { [Op.iLike]: `%${searchQuery}%` } },
-          { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+      if (hospitalID) {
+        userWhere = {
+          ...userWhere,
+          hospitalID,
+        };
+      }
+
+      // Add search query filter if provided
+      if (searchQuery) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+        };
+      }
+
+      //
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+
+      const { rows, count } = await PatientVisits.findAndCountAll({
+        order: [["createdAt", "DESC"]],
+        limit,
+        offset,
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName", "sex", "dob"],
+            where,
+          },
+          {
+            model: User,
+            where: userWhere,
+            attributes: ["id", "firstName", "middleName", "sex", "dob"],
+          },
         ],
+      });
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
       };
+    } catch (error) {
+      console.log(error);
     }
-
-    //
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
-
-    const { rows, count } = await PatientVisits.findAndCountAll({
-      order: [['createdAt','DESC']],
-      limit,
-      offset,
-      include: [
-        {
-          model: Patient,
-          attributes: ["id", "firstName", "middleName", "sex", "dob"],
-          where,
-        },
-        {
-          model: User,
-          where: userWhere,
-          attributes: ["id", "firstName", "middleName", "sex", "dob"],
-        },
-      ],
-    });
-    return {
-      data: rows,
-      total: count,
-      page: page,
-      pageSize: limit,
-    };
   }
 
   async findById(id: string): Promise<PatientVisitsInterface | null> {
