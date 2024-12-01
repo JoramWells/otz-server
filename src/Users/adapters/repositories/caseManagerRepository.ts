@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { CaseManagerInterface } from 'otz-types'
-import { type ICaseManagerRepository } from '../../application/interfaces/ICaseManagerRepository'
-import CaseManager from '../../domain/models/casemanager.model'
-import { Patient } from '../../domain/models/patients.models'
-import { User } from '../../domain/models/user.model'
+import { CaseManagerInterface } from "otz-types";
+import { type ICaseManagerRepository } from "../../application/interfaces/ICaseManagerRepository";
+import CaseManager from "../../domain/models/casemanager.model";
+import { Patient } from "../../domain/models/patients.models";
+import { User } from "../../domain/models/user.model";
 
 export class CaseManagerRepository implements ICaseManagerRepository {
   async create(data: CaseManagerInterface): Promise<CaseManagerInterface> {
@@ -39,20 +39,28 @@ export class CaseManagerRepository implements ICaseManagerRepository {
     return results;
   }
 
-  async find(): Promise<CaseManagerInterface[]> {
-    const results = await CaseManager.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ["firstName", "middleName"],
-        },
-        {
-          model: User,
-          attributes: ["firstName", "middleName", "phoneNo"],
-        },
-      ],
-    });
-    return results;
+  async find(hospitalID: string): Promise<CaseManagerInterface[] | undefined | null> {
+    try {
+      const results = await CaseManager.findAll({
+        attributes:[],
+        include: [
+          {
+            model: Patient,
+            attributes: ['id', "firstName", "middleName"],
+          },
+          {
+            model: User,
+            attributes: ['id',"firstName", "middleName", "phoneNo"],
+            where: {
+              hospitalID,
+            },
+          },
+        ],
+      });
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<CaseManagerInterface | null> {
@@ -66,13 +74,27 @@ export class CaseManagerRepository implements ICaseManagerRepository {
   }
 
   //
-  async findByPatientId(id: string): Promise<CaseManagerInterface | null | undefined> {
-    const results = await CaseManager.findOne({
-      where: {
-        patientID:id,
-      },
-    });
+  async findByPatientId(
+    id: string
+  ): Promise<CaseManagerInterface | null | undefined> {
+    try {
+      const results = await CaseManager.findOne({
+        order:[['createdAt', 'DESC']],
+        attributes:[],
+        where: {
+          patientID: id,
+        },
+        include: [
+          {
+            model: User,
+            attributes: ["firstName", "middleName", "phoneNo"],
+          },
+        ],
+      });
 
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

@@ -18,6 +18,8 @@ import bcrypt from "bcrypt";
 // import { createClient } from 'redis'
 import { RedisAdapter } from "./redisAdapter";
 import { NextOfKinInterface, PatientAttributes } from "otz-types";
+import CaseManager from "../../domain/models/casemanager.model";
+import { User } from "../../domain/models/user.model";
 
 export class PatientRepository implements IPatientRepository {
   private readonly redisClient = new RedisAdapter();
@@ -158,7 +160,9 @@ try {
     page: number,
     pageSize: number,
     searchQuery: string,
-    calHIVQuery: string
+    calHIVQuery: string,
+    casemanager: string,
+
   ): Promise<PatientResponseInterface | null | undefined> {
     const currentDate = new Date();
 
@@ -283,6 +287,32 @@ try {
 
         break;
     }
+    
+        if(casemanager && casemanager !== 'undefined' && casemanager !== 'null'){
+          const username = casemanager.split(" ")
+          const firstName = username[0] || ''
+          const middleName = username[1] || ''
+      const caseManagers = await CaseManager.findAll({
+        attributes:['patientID'],
+        include:[
+          {
+            model:User,
+            where:{
+              firstName,
+              middleName
+            }
+          }
+        ]
+      })
+    const patientIDs = caseManagers.map(item=>item.dataValues.patientID)
+    where={
+      ...where,
+      id:{
+        [Op.in]: patientIDs
+      }
+    }
+
+    }
 
     //
 
@@ -291,6 +321,8 @@ try {
 
     try {
       const { rows, count } = await Patient.findAndCountAll({
+        order:[['updatedAt', 'DESC']],
+        attributes:['id', 'firstName', 'middleName', 'lastName', 'sex', 'dob', 'avatar', 'username', 'phoneNo', 'cccNo'],
         where,
         limit,
         offset,

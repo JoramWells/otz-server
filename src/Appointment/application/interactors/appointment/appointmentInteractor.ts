@@ -79,7 +79,8 @@ export class AppointmentInteractor implements IAppointmentInteractor {
     page: number,
     pageSize: number,
     searchQuery: string,
-    status: string
+    status: string,
+    agenda: string
   ): Promise<AppointmentResponseInterface | null | undefined> {
     return await this.repository.find(
       dateQuery,
@@ -87,7 +88,8 @@ export class AppointmentInteractor implements IAppointmentInteractor {
       page,
       pageSize,
       searchQuery,
-      status
+      status,
+      agenda
     );
   }
   async getAppointmentDetail(

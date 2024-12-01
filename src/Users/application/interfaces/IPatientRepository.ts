@@ -11,7 +11,8 @@ export interface IPatientRepository {
     page: number,
     pageSize: number,
     searchQuery: string,
-    calHIVQuery: string
+    calHIVQuery: string,
+    casemanager: string
   ) => Promise<PatientResponseInterface | null | undefined>;
   findUsers: () => Promise<PatientAttributes[]>;
   findImportant: (limit: number) => Promise<PatientAttributes[]>;
@@ -24,7 +25,7 @@ export interface IPatientRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string,
+    searchQuery: string
   ) => Promise<PatientResponseInterface | undefined | null>;
   editAvatar: (id: string, avatar: string) => Promise<PatientAttributes | null>;
   editUsername: (

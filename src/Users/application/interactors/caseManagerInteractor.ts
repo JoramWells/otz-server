@@ -10,8 +10,9 @@ export class CaseManagerInteractor implements ICaseManagerInteractor {
     this.repository = repository;
   }
 
-
-  async getCaseManagerByPatientId(id: string): Promise<CaseManagerInterface[] | null> {
+  async getCaseManagerByPatientId(
+    id: string
+  ): Promise<CaseManagerInterface | null | undefined> {
     return await this.repository.findByPatientId(id);
   }
 
@@ -25,7 +26,7 @@ export class CaseManagerInteractor implements ICaseManagerInteractor {
     return await this.repository.create(patientData);
   }
 
-  async getAllCaseManagers(): Promise<CaseManagerInterface[]> {
-    return await this.repository.find();
+  async getAllCaseManagers(hospitalID: string): Promise<CaseManagerInterface[] | undefined | null> {
+    return await this.repository.find(hospitalID);
   }
 }

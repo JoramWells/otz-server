@@ -61,7 +61,7 @@ export class UserRepository implements IUserRepository {
   async find(
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
   ): Promise<UserResponseInterface | null | undefined> {
     let where = {};
     if (searchQuery) {
@@ -74,14 +74,21 @@ export class UserRepository implements IUserRepository {
       };
     }
 
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+    let offset;
+    let limit;
+    let nextPage;
+
+    if (page && pageSize) {
+      offset = (page - 1) * pageSize;
+      limit = pageSize;
+    }
+
     try {
       const { rows, count } = await User.findAndCountAll({
         where,
         offset,
         limit,
-        order:[['createdAt', 'DESC']],
+        order: [["createdAt", "DESC"]],
         include: [
           {
             model: Hospital,
@@ -89,10 +96,13 @@ export class UserRepository implements IUserRepository {
           },
         ],
       });
+      nextPage = offset && limit && offset + limit < count ? parseInt(page, 10) + 1 : null;
+
       return {
         data: rows,
         total: count,
         page: page,
+        nextPage,
         pageSize: limit,
       };
     } catch (error) {

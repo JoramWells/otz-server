@@ -304,13 +304,15 @@ export class AppointmentRepository implements IAppointmentRepository {
     page: number,
     pageSize: number,
     searchQuery: string,
-    status: string
+    status: string,
+    agenda: string
   ): Promise<AppointmentResponseInterface | null | undefined> {
     // await this.redisClient.connect();
     // check if patient
 
     let statusFound = false
     let appointmentStatus;
+    let appointmentAgenda;
 
     if (status) {
       appointmentStatus = await AppointmentStatus.findOne({
@@ -321,6 +323,14 @@ export class AppointmentRepository implements IAppointmentRepository {
       if(appointmentStatus){
         statusFound = true
       }
+    }
+
+    if(agenda){
+      appointmentAgenda = await AppointmentAgenda.findOne({
+        where: {
+          agendaDescription: { [Op.iLike]: agenda.toLowerCase() },
+        },
+      });
     }
 
     try {
@@ -360,21 +370,28 @@ export class AppointmentRepository implements IAppointmentRepository {
         };
       }
 
+      if(appointmentAgenda){
+        appointmentWhere = {
+          ...appointmentWhere,
+          appointmentAgendaID: appointmentAgenda.id
+        }
+      }
+
       const offset = (page - 1) * pageSize;
       const limit = pageSize;
 
       if (dateQuery === "weekly") {
         const { start, end } = getWeekRange(currentDate);
-        where = {
-          ...where,
+        appointmentWhere = {
+          ...appointmentWhere,
           appointmentDate: {
             [Op.between]: [start, end],
           },
         };
       } else if (dateQuery === "monthly") {
         const { start, end } = getMonthRange(currentDate);
-        where = {
-          ...where,
+        appointmentWhere = {
+          ...appointmentWhere,
           appointmentDate: {
             [Op.between]: [start, end],
           },
