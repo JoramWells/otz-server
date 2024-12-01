@@ -114,28 +114,43 @@ export class MMASEightRepository implements IMMASEightRepository {
   }
 
   //
-  async findByPatientId(id: string): Promise<MMASEightAttributes | null> {
+
+  async findByVisitId(id: string): Promise<MMASEightAttributes | null | undefined> {
+    try {
+      const results: MMASEight | null = await MMASEight.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientVisitID: id,
+        },
+      });
+
+      //  await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findByPatientId(
+    id: string
+  ): Promise<MMASEightAttributes | null | undefined> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: MMASEight | null = await MMASEight.findOne({
-      order: [["createdAt", "DESC"]],
-      where: {
-        patientID: id,
-      },
-    });
+    try {
+      const results: MMASEight | null = await MMASEight.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
 
-    await this.redisClient.set(id, JSON.stringify(results));
+      await this.redisClient.set(id, JSON.stringify(results));
 
-    return results;
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: MMASEightAttributes = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
-    // return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

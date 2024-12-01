@@ -71,15 +71,16 @@ export class PatientInteractor implements IPatientInteractor {
     page: number,
     pageSize: number,
     searchQuery: string,
-    calHIVQuery: string
+    calHIVQuery: string,
+    casemanager: string
   ): Promise<PatientResponseInterface | null | undefined> {
-    console.log(calHIVQuery, "interactor");
     return await this.repository.find(
       hospitalID,
       page,
       pageSize,
       searchQuery,
-      calHIVQuery
+      calHIVQuery,
+      casemanager
     );
   }
 

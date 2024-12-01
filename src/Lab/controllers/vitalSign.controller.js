@@ -99,6 +99,25 @@ const getVitalSignDetail = async (req, res, next) => {
   }
 };
 
+// 
+const getVitalSignByVisitID = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
+  try {
+    const patient = await VitalSign.findOne({
+      where: {
+        patientVisitID: id,
+      },
+    });
+    res.status(200).json(patient);
+    next();
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+    next(error);
+  }
+};
+
 //
 const getAllVitalSignDetail = async (req, res, next) => {
   const { id } = req.params;
@@ -290,5 +309,6 @@ module.exports = {
   getAllVitalSignByPatientID,
   updateBMI,
   updateHeight,
-  updateWeight
+  updateWeight,
+  getVitalSignByVisitID
 };

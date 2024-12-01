@@ -26,7 +26,7 @@ export class ExecuteDisclosureInteractor implements IExecuteDisclosureInteractor
 
   async getExecuteDisclosureByPatientId(
     patientID: string
-  ): Promise<ExecuteDisclosureAttributes | null> {
+  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
     return await this.repository.findByPatientId(patientID);
   }
 
@@ -40,5 +40,12 @@ export class ExecuteDisclosureInteractor implements IExecuteDisclosureInteractor
     ExecuteDisclosureAttributes[]
   > {
     return await this.repository.find();
+  }
+
+  //
+  async getExecuteDisclosureByVisitId(
+    id: string
+  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
   }
 }

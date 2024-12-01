@@ -22,7 +22,7 @@ router.get(
   controller.onGetCaseManagerById.bind(controller)
 )
 
-router.get("/patient-casemanager/:id", controller.onGetCaseManagerByPatientId.bind(controller));
+router.get("/casemanager-by-patient-id/:id", controller.onGetCaseManagerByPatientId.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

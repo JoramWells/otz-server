@@ -95,9 +95,30 @@ export class MMASFourRepository implements IMMASFourRepository {
   }
 
   //
-  async findByPatientId(id: string): Promise<MMASFourAttributes | null> {
+  async findByVisitId(id: string): Promise<MMASFourAttributes | null | undefined> {
+    try {
+      // return results;
+      const results: MMASFour | null = await MMASFour.findOne({
+        where: {
+          patientVisitID: id,
+        },
+      });
+
+      await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findByPatientId(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
     // await this.redisClient.connect();
-    if ((await this.redisClient.get(id)) === null) {
+    // if ((await this.redisClient.get(id)) === null) {
+    try {
       const results: MMASFour | null = await MMASFour.findOne({
         order: [["createdAt", "DESC"]],
         where: {
@@ -108,15 +129,18 @@ export class MMASFourRepository implements IMMASFourRepository {
       await this.redisClient.set(id, JSON.stringify(results));
 
       return results;
+    } catch (error) {
+      console.log(error);
     }
+    // }
 
-    const cachedData: string | null = await this.redisClient.get(id);
-    if (cachedData === null) {
-      return null;
-    }
-    const results: MMASFourAttributes = JSON.parse(cachedData);
-    console.log("fetched from cace!");
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: MMASFourAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
 
-    return results;
+    // return results;
   }
 }

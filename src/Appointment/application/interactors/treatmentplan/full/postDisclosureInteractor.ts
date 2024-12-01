@@ -21,14 +21,14 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
 
   async getPostDisclosureById(
     id: string
-  ): Promise<PostDisclosureAttributes | null> {
+  ): Promise<PostDisclosureAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 
   //
   async getPostDisclosureByPatientId(
     patientID: string
-  ): Promise<PostDisclosureAttributes | null> {
+  ): Promise<PostDisclosureAttributes | null | undefined> {
     return await this.repository.findByPatientId(patientID);
   }
 
@@ -40,5 +40,11 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
 
   async getAllPostDisclosureByVisitId(): Promise<PostDisclosureAttributes[]> {
     return await this.repository.find();
+  }
+
+  async getPostDisclosureByVisitId(
+    id: string
+  ): Promise<PostDisclosureAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
   }
 }

@@ -10,10 +10,13 @@ export interface IDisclosureEligibilityRepository {
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;
   findById: (
     id: string
-  ) => Promise<ChildDisclosureEligibilityAttributes | null>;
+  ) => Promise<ChildDisclosureEligibilityAttributes | null | undefined>;
   findByPatientId: (
     patientID: string
-  ) => Promise<ChildDisclosureEligibilityAttributes | null>;
+  ) => Promise<ChildDisclosureEligibilityAttributes | null | undefined>;
+  findByVisitId: (
+    patientVisitID: string
+  ) => Promise<ChildDisclosureEligibilityAttributes | null | undefined>;
   findAllByVisitId: (
     id: string
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;

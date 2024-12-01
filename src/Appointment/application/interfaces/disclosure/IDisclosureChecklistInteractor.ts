@@ -10,6 +10,9 @@ export interface IDisclosureChecklistInteractor {
   getDisclosureChecklistById: (
     id: string
   ) => Promise<DisclosureChecklistAttributes | null>;
+  getDisclosureChecklistByVisitId: (
+    id: string
+  ) => Promise<DisclosureChecklistAttributes | null | undefined>;
   getAllDisclosureChecklistByVisitId: (
     id: string
   ) => Promise<DisclosureChecklistAttributes[] | null>;

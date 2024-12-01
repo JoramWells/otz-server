@@ -12,12 +12,22 @@ export class MMASEightInteractor implements IMMASEightInteractor {
   //   return await this.repository.count()
   // };
 
-  async getMMASEightById(id: string): Promise<MMASEightAttributes | null> {
+  async getMMASEightById(
+    id: string
+  ): Promise<MMASEightAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 
-  async getMMASEightByPatientId(id: string): Promise<MMASEightAttributes | null> {
+  async getMMASEightByPatientId(
+    id: string
+  ): Promise<MMASEightAttributes | null | undefined> {
     return await this.repository.findByPatientId(id);
+  }
+
+  async getMMASEightByVisitId(
+    id: string
+  ): Promise<MMASEightAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
   }
 
   async createMMASEight(
@@ -27,7 +37,9 @@ export class MMASEightInteractor implements IMMASEightInteractor {
     return await this.repository.create(data4, patientData);
   }
 
-  async getAllMMASEight(hospitalID: string): Promise<MMASEightAttributes[] | null> {
+  async getAllMMASEight(
+    hospitalID: string
+  ): Promise<MMASEightAttributes[] | null> {
     return await this.repository.find(hospitalID);
   }
 }

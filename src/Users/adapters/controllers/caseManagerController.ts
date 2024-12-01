@@ -27,8 +27,9 @@ export class CaseManagerController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      const { hospitalID } = req.query;
 
-      const results = await this.interactor.getAllCaseManagers();
+      const results = await this.interactor.getAllCaseManagers(hospitalID);
       res.status(200).json(results);
       next();
     } catch (error) {

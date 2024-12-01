@@ -14,6 +14,7 @@ export interface IPrescriptionRepository {
     searchQuery: string
   ) => Promise<PrescriptionResponseInterface | null>;
   findById: (id: string) => Promise<PrescriptionInterface | null>;
+  findByVisitId: (visitID: string) => Promise<PrescriptionInterface | null | undefined>;
   findAllByPatientId: (id: string) => Promise<PrescriptionInterface[] | null>;
   findDetails: (id: string) => Promise<PrescriptionInterface | null>;
   findAllAdherence: () => Promise<PrescriptionInterface[]>;

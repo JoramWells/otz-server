@@ -11,6 +11,7 @@ export class PostDisclosure
   extends Model<PostDisclosureAttributes>
   implements PostDisclosureAttributes
 {
+  isPeerRelationshipAssessed: boolean = false;
   isGivenAppropriateInfo!: boolean;
   isAssessedFunctionalSchoolEngagement!: boolean;
   isAssessedPeerRelationshipAssessed!: boolean;

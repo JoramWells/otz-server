@@ -10,10 +10,13 @@ export interface IDisclosureEligibilityInteractor {
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;
   getDisclosureEligibilityById: (
     id: string
-  ) => Promise<ChildDisclosureEligibilityAttributes | null>;
+  ) => Promise<ChildDisclosureEligibilityAttributes | null | undefined>;
   getDisclosureEligibilityByPatientId: (
     patientID: string
-  ) => Promise<ChildDisclosureEligibilityAttributes | null>;
+  ) => Promise<ChildDisclosureEligibilityAttributes | null | undefined>;
+  getDisclosureEligibilityByVisitId: (
+    patientVisitID: string
+  ) => Promise<ChildDisclosureEligibilityAttributes | null | undefined>;
   getAllDisclosureEligibilityByVisitId: (
     id: string
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;
