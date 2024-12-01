@@ -66,8 +66,8 @@ export class CaseManagerRepository implements ICaseManagerRepository {
   }
 
   //
-  async findByPatientId(id: string): Promise<CaseManagerInterface[] | null> {
-    const results = await CaseManager.findAll({
+  async findByPatientId(id: string): Promise<CaseManagerInterface | null | undefined> {
+    const results = await CaseManager.findOne({
       where: {
         patientID:id,
       },

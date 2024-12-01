@@ -117,7 +117,7 @@ try {
           dob: {
             [Op.between]: [
               new Date().setFullYear(new Date().getFullYear() - 14),
-              new Date().setFullYear(new Date().getFullYear() - 1),
+              new Date().setFullYear(new Date().getFullYear() - 5),
             ],
           },
     };
@@ -139,6 +139,7 @@ try {
       where,
       offset,
       limit,
+      attributes:['id','firstName', 'middleName', 'lastName', 'dob', 'sex', 'phoneNo']
       
     });
           return {
@@ -214,7 +215,7 @@ try {
     );
     let where = {
       hospitalID,
-      dob: { [Op.lte]: maxDate }, // Default filter
+      dob: { [Op.gte]: maxDate }, // Default filter
     };
 
     // Add search query filter if provided

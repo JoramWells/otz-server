@@ -6,7 +6,7 @@ export interface IExecuteDisclosureRepository {
   ) => Promise<ExecuteDisclosureAttributes>;
   find: (hospitalID: string) => Promise<ExecuteDisclosureAttributes[] | null>;
   findById: (id: string) => Promise<ExecuteDisclosureAttributes | null>;
-  findByPatientId: (patientID: string) => Promise<ExecuteDisclosureAttributes | null>;
+  findByPatientId: (patientID: string) => Promise<ExecuteDisclosureAttributes | null | undefined>;
   findAllByVisitId: (
     id: string
   ) => Promise<ExecuteDisclosureAttributes[] | null>;

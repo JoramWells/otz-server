@@ -90,37 +90,23 @@ export class PostDisclosureRepository implements IPostDisclosureRepository {
   }
 
   //
-  async findByPatientId(id: string): Promise<PostDisclosureAttributes | null> {
+  async findByPatientId(
+    id: string
+  ): Promise<PostDisclosureAttributes | null | undefined> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results = await PostDisclosure.findOne({
-      order: [["createdAt", "DESC"]],
-      where: {
-        patientID: id,
-      },
-    });
+    try {
+      const results = await PostDisclosure.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+      });
 
-    // const patientResults: AppointmentEntity = {
-    //   firstName: results?.firstName,
-    //   middleName: results?.middleName,
-    //   sex: results?.sex,
-    //   phoneNo: results?.phoneNo,
-    //   idNo: results?.idNo,
-    //   occupationID: results?.occupationID,
-    // };
-    //   await this.redisClient.set(id, JSON.stringify(results));
-
-    //   return results;
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: PostDisclosureAttributes = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findAllByVisitId(

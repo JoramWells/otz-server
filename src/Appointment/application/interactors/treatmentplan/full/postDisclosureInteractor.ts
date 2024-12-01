@@ -21,7 +21,7 @@ export class PostDisclosureInteractor implements IPostDisclosureInteractor {
 
   async getPostDisclosureById(
     id: string
-  ): Promise<PostDisclosureAttributes | null> {
+  ): Promise<PostDisclosureAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 

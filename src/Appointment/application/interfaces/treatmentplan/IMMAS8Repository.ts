@@ -6,7 +6,7 @@ export interface IMMASEightRepository {
     data: MMASEightAttributes
   ) => Promise<MMASEightAttributes>;
   find: (hospitalID: string) => Promise<MMASEightAttributes[] | null>;
-  findById: (id: string) => Promise<MMASEightAttributes | null>;
-  findByPatientId: (id: string) => Promise<MMASEightAttributes | null>;
+  findById: (id: string) => Promise<MMASEightAttributes | null | undefined>;
+  findByPatientId: (id: string) => Promise<MMASEightAttributes | null | undefined>;
   // count: () => Promise<MMASEightAttributes | null>;
 }

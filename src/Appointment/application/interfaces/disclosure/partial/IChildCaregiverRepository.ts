@@ -5,8 +5,8 @@ export interface IChildCaregiverRepository {
     data: ChildCaregiverReadinessAttributes
   ) => Promise<ChildCaregiverReadinessAttributes>;
   find: (hospitalID: string) => Promise<ChildCaregiverReadinessAttributes[] | null>;
-  findById: (id: string) => Promise<ChildCaregiverReadinessAttributes | null>;
-  findByPatientId: (patientID: string) => Promise<ChildCaregiverReadinessAttributes | null>;
+  findById: (id: string) => Promise<ChildCaregiverReadinessAttributes | null | undefined>;
+  findByPatientId: (patientID: string) => Promise<ChildCaregiverReadinessAttributes | null | undefined>;
   findAllByVisitId: (
     id: string
   ) => Promise<ChildCaregiverReadinessAttributes[] | null>;

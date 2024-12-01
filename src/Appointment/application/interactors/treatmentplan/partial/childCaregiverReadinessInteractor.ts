@@ -24,13 +24,13 @@ export class ChildCaregiverReadinessInteractor
 
   async getChildCaregiverReadinessById(
     id: string
-  ): Promise<ChildCaregiverReadinessAttributes | null> {
+  ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 
   async getChildCaregiverReadinessByPatientId(
     patientID: string
-  ): Promise<ChildCaregiverReadinessAttributes | null> {
+  ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {
     return await this.repository.findByPatientId(patientID);
   }
 

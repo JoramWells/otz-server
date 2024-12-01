@@ -6,7 +6,7 @@ export interface IMMASEightInteractor {
     data: MMASEightAttributes
   ) => Promise<MMASEightAttributes>;
   getAllMMASEight: (hospitalID: string) => Promise<MMASEightAttributes[] | null>;
-  getMMASEightById: (id: string) => Promise<MMASEightAttributes | null>;
-  getMMASEightByPatientId: (id: string) => Promise<MMASEightAttributes | null>;
+  getMMASEightById: (id: string) => Promise<MMASEightAttributes | null | undefined>;
+  getMMASEightByPatientId: (id: string) => Promise<MMASEightAttributes | null | undefined>;
   // getDailyMMASCount: () => Promise<MMASEightAttributes | null>;
 }

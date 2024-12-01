@@ -63,55 +63,43 @@ export class ChildCaregiverReadinessRepository
 
   async findById(
     id: string
-  ): Promise<ChildCaregiverReadinessAttributes | null> {
+  ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: ChildCaregiverReadiness | null =
-      await ChildCaregiverReadiness.findOne({
-        order: [["createdAt", "DESC"]],
-        where: {
-          patientID: id,
-        },
-      });
+    try {
+      const results: ChildCaregiverReadiness | null =
+        await ChildCaregiverReadiness.findOne({
+          order: [["createdAt", "DESC"]],
+          where: {
+            patientID: id,
+          },
+        });
 
-    // const patientResults: AppointmentEntity = {
-    //   firstName: results?.firstName,
-    //   middleName: results?.middleName,
-    //   sex: results?.sex,
-    //   phoneNo: results?.phoneNo,
-    //   idNo: results?.idNo,
-    //   occupationID: results?.occupationID,
-    // };
-    //   await this.redisClient.set(id, JSON.stringify(results));
-
-    //   return results;
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: ChildCaregiverReadinessAttributes = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //
   async findByPatientId(
     id: string
-  ): Promise<ChildCaregiverReadinessAttributes | null> {
+  ): Promise<ChildCaregiverReadinessAttributes | null | undefined> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: ChildCaregiverReadiness | null =
-      await ChildCaregiverReadiness.findOne({
-        order: [["createdAt", "DESC"]],
-        where: {
-          patientID: id,
-        },
-      });
+    try {
+      const results: ChildCaregiverReadiness | null =
+        await ChildCaregiverReadiness.findOne({
+          order: [["createdAt", "DESC"]],
+          where: {
+            patientID: id,
+          },
+        });
 
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findAllByVisitId(
