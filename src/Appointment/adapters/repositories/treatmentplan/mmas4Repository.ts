@@ -61,41 +61,26 @@ export class MMASFourRepository implements IMMASFourRepository {
     return results;
   }
 
-  async findById(id: string): Promise<MMASFourAttributes | null> {
-    // await this.redisClient.connect();
-    // if ((await this.redisClient.get(id)) === null) {
-    // const results: MMASFour | null = await MMASFour.findOne({
-    //   where: {
-    //     patientVisitID: id,
-    //   },
-    // });
+  async findById(id: string): Promise<MMASFourAttributes | null | undefined> {
+    try {
+      const results: MMASFour | null = await MMASFour.findOne({
+        where: {
+          id,
+        },
+      });
 
-    //   await this.redisClient.set(id, JSON.stringify(results));
+      await this.redisClient.set(id, JSON.stringify(results));
 
-    //   return results;
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: MMASFourAttributes = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
-    // return results;
-    const results: MMASFour | null = await MMASFour.findOne({
-      where: {
-        patientVisitID: id,
-      },
-    });
-
-    await this.redisClient.set(id, JSON.stringify(results));
-
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //
-  async findByVisitId(id: string): Promise<MMASFourAttributes | null | undefined> {
+  async findByVisitId(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
     try {
       // return results;
       const results: MMASFour | null = await MMASFour.findOne({

@@ -9,7 +9,7 @@ export interface IExecuteDisclosureInteractor {
   ) => Promise<ExecuteDisclosureAttributes[] | null>;
   getExecuteDisclosureById: (
     id: string
-  ) => Promise<ExecuteDisclosureAttributes | null>;
+  ) => Promise<ExecuteDisclosureAttributes | null | undefined>;
   getExecuteDisclosureByPatientId: (
     patientID: string
   ) => Promise<ExecuteDisclosureAttributes | null | undefined>;

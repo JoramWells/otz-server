@@ -5,7 +5,7 @@ export interface ITimeAndWorkInteractor {
     data: TimeAndWorkAttributes
   ) => Promise<TimeAndWorkAttributes>;
   getAllTimeAndWork: () => Promise<TimeAndWorkAttributes[]>;
-  getTimeAndWorkById: (id: string) => Promise<TimeAndWorkAttributes | null>;
+  getTimeAndWorkById: (id: string) => Promise<TimeAndWorkAttributes | null | undefined>;
   getTimeAndWorkByPatientId: (
     id: string
   ) => Promise<TimeAndWorkAttributes | null>;

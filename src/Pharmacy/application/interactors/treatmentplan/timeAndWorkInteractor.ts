@@ -10,7 +10,7 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     this.repository = repository;
   }
 
-  async getTimeAndWorkById(id: string): Promise<TimeAndWorkAttributes | null> {
+  async getTimeAndWorkById(id: string): Promise<TimeAndWorkAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 

@@ -175,19 +175,26 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     return results;
   }
 
-  async findById(id: string): Promise<TimeAndWorkAttributes | null> {
-    // await this.redisClient.connect();
-    // if ((await this.redisClient.get(id)) === null) {
-    const results: TimeAndWorkAttributes | null = await TimeAndWork.findOne({
-      order: [["createdAt", "DESC"]],
-      where: {
-        patientVisitID: id,
-      },
-    });
-    return results;
+  async findById(
+    id: string
+  ): Promise<TimeAndWorkAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results = await TimeAndWork.findOne({
+        where: {
+          id,
+        },
+      });
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async findByVisitId(id: string): Promise<TimeAndWorkAttributes | null | undefined> {
+  async findByVisitId(
+    id: string
+  ): Promise<TimeAndWorkAttributes | null | undefined> {
     try {
       // await this.redisClient.connect();
       // if ((await this.redisClient.get(id)) === null) {

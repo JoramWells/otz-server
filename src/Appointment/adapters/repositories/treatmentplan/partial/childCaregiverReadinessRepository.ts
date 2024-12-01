@@ -69,9 +69,8 @@ export class ChildCaregiverReadinessRepository
     try {
       const results: ChildCaregiverReadiness | null =
         await ChildCaregiverReadiness.findOne({
-          order: [["createdAt", "DESC"]],
           where: {
-            patientID: id,
+            id,
           },
         });
 
