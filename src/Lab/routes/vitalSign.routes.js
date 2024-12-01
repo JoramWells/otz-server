@@ -10,6 +10,7 @@ const {
   updateBMI,
   updateWeight,
   updateHeight,
+  getVitalSignByVisitID,
 } = require('../controllers/vitalSign.controller');
 
 const router = express.Router();
@@ -17,7 +18,8 @@ const router = express.Router();
 router.post('/add', addVitalSign);
 router.get('/fetchAll', getAllVitalSigns);
 router.get('/detail/:id', getVitalSignDetail);
-router.get('/patient-detail/:id', getVitalSignByPatientID);
+router.get('/detail/:id', getVitalSignByVisitID);
+router.get('/by-visit-id/:id', getVitalSignByPatientID);
 router.get('/details/:id', getAllVitalSignDetail);
 router.get('/all-details/:id', getAllVitalSignByPatientID);
 router.put('/edit/:id', editVitalSign);

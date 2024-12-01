@@ -123,6 +123,20 @@ export class PrescriptionController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+  //
+  async onGetPrescriptionByVisitId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      if (id === "undefined") return null;
+      const result = await this.interactor.getPrescriptionByVisitId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 
   //
   async onGetPrescriptionByPatientId(

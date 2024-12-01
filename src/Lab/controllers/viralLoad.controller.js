@@ -345,6 +345,28 @@ const getViralLoadTest = async (req, res, next) => {
   }
 };
 
+// 
+const getViralLoadTestByVisitID = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id || id === "undefined")
+    return res.status(400).json({ message: "Invalid ID parameter" });
+
+  console.log(id);
+  try {
+    const patient = await ViralLoad.findOne({
+      order: [['createdAt', 'DESC']],
+      where: {
+        patientVisitID: id,
+      },
+    });
+    res.json(patient);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 //
 const getAllViralLoadByPatientID = async (req, res, next) => {
   const { id } = req.params;
@@ -420,5 +442,6 @@ module.exports = {
   getAllVlCategories,
   getAllViralLoadByPatientID,
   calculateSuppression,
-  vlCountTrend
+  vlCountTrend,
+  getViralLoadTestByVisitID
 };

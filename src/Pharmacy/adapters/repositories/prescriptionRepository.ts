@@ -123,7 +123,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       include: [
         {
           model: Patient,
-          attributes:[],
+          attributes: [],
           where: {
             hospitalID,
           },
@@ -135,25 +135,27 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "patientID",
       ],
       group: [
-      //   // "expectedNoOfPills",
-      //   // 'computedNoOfPills',
-      //   // "frequency",
-      //   // 'refillDate',
-      //   // 'nextRefillDate',
+        //   // "expectedNoOfPills",
+        //   // 'computedNoOfPills',
+        //   // "frequency",
+        //   // 'refillDate',
+        //   // 'nextRefillDate',
         "patientID",
-      //   "artPrescriptionID",
-      //   // 'Patient.id',
-      //   // "noOfPills",
+        //   "artPrescriptionID",
+        //   // 'Patient.id',
+        //   // "noOfPills",
         "Patient.id",
-      //   // "Patient.firstName",
-      //   // "Patient.middleName",
+        //   // "Patient.firstName",
+        //   // "Patient.middleName",
       ],
       raw: true,
     });
 
-    const latestPrescriptionIDs = latestPrescription.map(prescription=>prescription.patientID)
+    const latestPrescriptionIDs = latestPrescription.map(
+      (prescription) => prescription.patientID
+    );
 
-    const {rows, count} = await Prescription.findAndCountAll({
+    const { rows, count } = await Prescription.findAndCountAll({
       limit,
       offset,
       order: [["updatedAt", "ASC"]],
@@ -161,7 +163,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         [Op.and]: [
           {
             patientID: {
-              [Op.in]: latestPrescriptionIDs
+              [Op.in]: latestPrescriptionIDs,
             },
           },
           Sequelize.where(
@@ -196,7 +198,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         "patientID",
         "artPrescriptionID",
         "patientVisitID",
-        'Prescription.patientID',
+        "Prescription.patientID",
         // "Patient.id",
         // "Patient.firstName",
         // "Patient.middleName",
@@ -230,6 +232,23 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     });
 
     return results;
+  }
+
+  async findByVisitId(
+    id: string
+  ): Promise<PrescriptionInterface | null | undefined> {
+    try {
+      const results = await Prescription.findOne({
+        order: [["createdAt", "ASC"]],
+        where: {
+          patientVisitID: id,
+        },
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findAllPrescriptionByPatientID(

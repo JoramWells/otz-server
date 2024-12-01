@@ -14,6 +14,7 @@ export interface IPrescriptionInteractor {
     searchQuery: string
   ) => Promise<PrescriptionResponseInterface | null>;
   getPrescriptionById: (id: string) => Promise<PrescriptionInterface | null>;
+  getPrescriptionByVisitId: (visitID: string) => Promise<PrescriptionInterface | null | undefined>;
   getAllPrescriptionByPatientId: (
     id: string
   ) => Promise<PrescriptionInterface[] | null>;
