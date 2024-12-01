@@ -1,15 +1,14 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op, col, fn } from 'sequelize';
-import { TimeAndWork  } from '../../../domain/models/treatmentplan/timeAndWork.model'
-import { Uptake } from '../../../domain/models/treatmentplan/uptake.model';
-import moment from 'moment';
-import { TimeAndWorkAttributes } from 'otz-types';
-import { Prescription } from '../../../domain/models/art/prescription.model';
-import { connect } from '../../../domain/db/connect';
-import { RedisAdapter } from '../redisAdapter';
-import { ITimeAndWorkRepository } from '../../../application/interfaces/treatmentplan/ITimeAndWorkRepository';
-import { timeAndWorkCache } from '../../../constants/cache';
-
+import { Op, col, fn } from "sequelize";
+import { TimeAndWork } from "../../../domain/models/treatmentplan/timeAndWork.model";
+import { Uptake } from "../../../domain/models/treatmentplan/uptake.model";
+import moment from "moment";
+import { TimeAndWorkAttributes } from "otz-types";
+import { Prescription } from "../../../domain/models/art/prescription.model";
+import { connect } from "../../../domain/db/connect";
+import { RedisAdapter } from "../redisAdapter";
+import { ITimeAndWorkRepository } from "../../../application/interfaces/treatmentplan/ITimeAndWorkRepository";
+import { timeAndWorkCache } from "../../../constants/cache";
 
 export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   private readonly redisClient = new RedisAdapter();
@@ -27,7 +26,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       departureHomeTime,
       morningMedicineTime,
       morningPlace,
-      eveningMedicineTime
+      eveningMedicineTime,
     } = data;
 
     const results = await TimeAndWork.findOne({
@@ -42,7 +41,6 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       results.morningMedicineTime = morningMedicineTime;
       results.morningPlace = morningPlace;
       results.eveningMedicineTime = eveningMedicineTime;
-
 
       // save()
       results.save();
@@ -65,9 +63,9 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       },
     });
     if (results !== null) {
-      if(!morningMedicineTime || !eveningMedicineTime){
-      results.morningMedicineTime = null;
-      results.eveningMedicineTime = null;
+      if (!morningMedicineTime || !eveningMedicineTime) {
+        results.morningMedicineTime = null;
+        results.eveningMedicineTime = null;
       }
       results.morningMedicineTime = morningMedicineTime;
       results.eveningMedicineTime = eveningMedicineTime;
@@ -88,7 +86,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       arrivalHomeTime,
       eveningMedicineTime,
       eveningPlace,
-      morningMedicineTime
+      morningMedicineTime,
     } = data;
 
     const results = await TimeAndWork.findOne({
@@ -113,7 +111,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
 
   async create(data: TimeAndWorkAttributes): Promise<TimeAndWorkAttributes> {
     const currentDate = moment().format("YYYY-MM-DD");
-    console.log(data, 'datas')
+    console.log(data, "datas");
     const { patientID } = data;
     return await connect.transaction(async (t) => {
       const results = await TimeAndWork.create(data, { transaction: t });
@@ -186,31 +184,24 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
         patientVisitID: id,
       },
     });
-
-    console.log(results, "resultX");
-
-    // const patientResults: AppointmentEntity = {
-    //   firstName: results?.firstName,
-    //   middleName: results?.middleName,
-    //   sex: results?.sex,
-    //   phoneNo: results?.phoneNo,
-    //   idNo: results?.idNo,
-    //   occupationID: results?.occupationID,
-    // };
-    //   await this.redisClient.set(id, JSON.stringify(results));
-
-    //   return results;
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: TimeAndWorkAttributes = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
     return results;
   }
+
+  async findByVisitId(id: string): Promise<TimeAndWorkAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results = await TimeAndWork.findOne({
+        where: {
+          patientVisitID: id,
+        },
+      });
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async findByPatientId(id: string): Promise<TimeAndWorkAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {

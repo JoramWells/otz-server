@@ -9,12 +9,15 @@ export interface IPatientVisitInteractor {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string,
+    searchQuery: string
   ) => Promise<PatientVisitResponseInterface | undefined | null>;
   getPatientVisitById: (id: string) => Promise<PatientVisitsInterface | null>;
   getHistoryPatientVisitById: (
-    id: string
-  ) => Promise<PatientVisitsInterface[] | null>;
+    id: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ) => Promise<PatientVisitResponseInterface | null | undefined>;
   getPatientVisitByUserId: (
     userID: string
   ) => Promise<PatientVisitsInterface[] | null>;

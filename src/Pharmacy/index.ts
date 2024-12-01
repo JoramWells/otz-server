@@ -39,7 +39,6 @@ import { viralLoadRouter } from './routes/lab/viralLoad.routes'
 const cors = require('cors')
 
 
-
 const app: Application = express()
 
 const PORT = process.env.PORT || 5003

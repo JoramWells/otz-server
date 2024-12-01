@@ -20,6 +20,12 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     return await this.repository.findByPatientId(id);
   }
 
+  async getTimeAndWorkByVisitId(
+    id: string
+  ): Promise<TimeAndWorkAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
+  }
+
   async updateMorningSchedule(
     id: string,
     data: TimeAndWorkAttributes

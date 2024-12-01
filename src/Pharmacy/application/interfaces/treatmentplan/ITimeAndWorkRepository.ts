@@ -5,6 +5,7 @@ export interface ITimeAndWorkRepository {
   find: () => Promise<TimeAndWorkAttributes[]>;
   findById: (id: string) => Promise<TimeAndWorkAttributes | null>;
   findByPatientId: (id: string) => Promise<TimeAndWorkAttributes | null>;
+  findByVisitId: (id: string) => Promise<TimeAndWorkAttributes | null | undefined>;
   updateMorningSchedule: (
     id: string,
     data: TimeAndWorkAttributes

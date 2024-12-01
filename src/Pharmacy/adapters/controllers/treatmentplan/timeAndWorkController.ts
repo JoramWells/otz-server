@@ -14,7 +14,6 @@ export class TimeAndWorkController {
     this.interactor = interactor;
   }
 
-
   async onCreateTimeAndWork(req: Request, res: Response, next: NextFunction) {
     try {
       console.log(req.body);
@@ -29,7 +28,6 @@ export class TimeAndWorkController {
 
       next(error);
     }
-
   }
 
   async onGetAllTimeAndWork(req: Request, res: Response, next: NextFunction) {
@@ -55,11 +53,11 @@ export class TimeAndWorkController {
   ) {
     try {
       const { id } = req.params;
-            if (!isUUID(id)) {
-              const errMessage = `${id} is not a valid UUID `;
-              logger.error(errMessage);
-              return res.status(404).json({ error: errMessage });
-            }
+      if (!isUUID(id)) {
+        const errMessage = `${id} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
       if (!id || id === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getTimeAndWorkByPatientId(id);
@@ -87,11 +85,13 @@ export class TimeAndWorkController {
     }
   }
 
-  async updateMorningSchedule(req: Request, res: Response, next: NextFunction) {
+  //
+  async onGetTimeAndWorkByVisitId(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      console.log(req.body)
-      const result = await this.interactor.updateMorningSchedule(id, req.body);
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+      const result = await this.interactor.getTimeAndWorkByVisitId(id);
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -101,6 +101,19 @@ export class TimeAndWorkController {
     }
   }
 
+  async updateMorningSchedule(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      console.log(req.body);
+      const result = await this.interactor.updateMorningSchedule(id, req.body);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 
   async onEditSchedule(req: Request, res: Response, next: NextFunction) {
     try {
@@ -130,7 +143,6 @@ export class TimeAndWorkController {
     }
   }
 
-  
   //
   async onDeleteSchedule(req: Request, res: Response, next: NextFunction) {
     try {

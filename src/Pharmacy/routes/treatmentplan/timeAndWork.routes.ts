@@ -16,6 +16,7 @@ router.post('/add', controllers.onCreateTimeAndWork.bind(controllers));
 router.get('/fetchAll', controllers.onGetAllTimeAndWork.bind(controllers));
 router.get('/detail/:id', controllers.onGetTimeAndWorkById.bind(controllers));
 router.get("/patient-detail/:id", controllers.onGetTimeAndWorkByPatientId.bind(controllers));
+router.get("/by-visit-id/:id", controllers.onGetTimeAndWorkByVisitId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 router.put('/update-morning-schedule/:id', controllers.updateMorningSchedule.bind(controllers));
 router.put('/update-evening-schedule/:id', controllers.updateEveningSchedule.bind(controllers));

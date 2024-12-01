@@ -9,6 +9,9 @@ export interface ITimeAndWorkInteractor {
   getTimeAndWorkByPatientId: (
     id: string
   ) => Promise<TimeAndWorkAttributes | null>;
+  getTimeAndWorkByVisitId: (
+    id: string
+  ) => Promise<TimeAndWorkAttributes | null | undefined>;
   updateMorningSchedule: (
     id: string,
     data: TimeAndWorkAttributes
