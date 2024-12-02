@@ -253,6 +253,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
           "artPrescriptionID",
           "patientVisitID",
           "expectedNoOfPills",
+          "noOfPills",
           // "Patient.id",
           // "Patient.firstName",
           // "Patient.middleName",
