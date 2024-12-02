@@ -51,7 +51,7 @@ const getVitalSignByPatientID = async (req, res, next) => {
         patientID: id,
       },
     });
-    res.status(200).json(patient);
+    res.json(patient);
     next();
   } catch (error) {
     console.log(error);
@@ -71,7 +71,7 @@ const getAllVitalSignByPatientID = async (req, res, next) => {
         patientID: id,
       },
     });
-    res.status(200).json(patient);
+    res.json(patient);
     next();
   } catch (error) {
     console.log(error);
@@ -90,7 +90,7 @@ const getVitalSignDetail = async (req, res, next) => {
         patientVisitID: id,
       },
     });
-    res.status(200).json(patient);
+    res.json(patient);
     next();
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
@@ -109,7 +109,7 @@ const getVitalSignByVisitID = async (req, res, next) => {
         patientVisitID: id,
       },
     });
-    res.status(200).json(patient);
+    res.json(patient);
     next();
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
@@ -128,7 +128,7 @@ const getAllVitalSignDetail = async (req, res, next) => {
         patientVisitID: id,
       },
     });
-    res.status(200).json(patient);
+    res.json(patient);
     next();
   } catch (error) {
     console.log(error);
@@ -289,7 +289,7 @@ const deleteVitalSign = async (req, res, next) => {
     });
 
     if (results) {
-      return res.status(200).json({ message: 'User deleted successfully' });
+      return res.json({ message: 'User deleted successfully' });
     }
     return res.status(404).json({ message: 'User not found.' });
   } catch (error) {
