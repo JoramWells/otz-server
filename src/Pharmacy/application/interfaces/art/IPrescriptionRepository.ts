@@ -11,10 +11,16 @@ export interface IPrescriptionRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ) => Promise<PrescriptionResponseInterface | null>;
+    searchQuery: string,
+    frequency: string,
+    line: string,
+    regimen: string,
+    status: string
+  ) => Promise<PrescriptionResponseInterface | null | undefined>;
   findById: (id: string) => Promise<PrescriptionInterface | null>;
-  findByVisitId: (visitID: string) => Promise<PrescriptionInterface | null | undefined>;
+  findByVisitId: (
+    visitID: string
+  ) => Promise<PrescriptionInterface | null | undefined>;
   findAllByPatientId: (id: string) => Promise<PrescriptionInterface[] | null>;
   findDetails: (id: string) => Promise<PrescriptionInterface | null>;
   findAllAdherence: () => Promise<PrescriptionInterface[]>;

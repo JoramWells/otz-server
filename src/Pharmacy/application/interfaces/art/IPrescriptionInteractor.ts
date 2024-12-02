@@ -11,10 +11,16 @@ export interface IPrescriptionInteractor {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ) => Promise<PrescriptionResponseInterface | null>;
+    searchQuery: string,
+    frequency: string,
+    line: string,
+    regimen: string,
+    status: string
+  ) => Promise<PrescriptionResponseInterface | null | undefined>;
   getPrescriptionById: (id: string) => Promise<PrescriptionInterface | null>;
-  getPrescriptionByVisitId: (visitID: string) => Promise<PrescriptionInterface | null | undefined>;
+  getPrescriptionByVisitId: (
+    visitID: string
+  ) => Promise<PrescriptionInterface | null | undefined>;
   getAllPrescriptionByPatientId: (
     id: string
   ) => Promise<PrescriptionInterface[] | null>;
