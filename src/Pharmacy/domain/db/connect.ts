@@ -17,7 +17,7 @@ const connect = new Sequelize(DB, USERNAME, PASSWORD, {
   pool: {
     max: 100,
     min: 0,
-    idle: 10000,
+    idle: 100000,
   },
   logging: false,
 });

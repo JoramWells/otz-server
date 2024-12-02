@@ -105,7 +105,6 @@ export class MMASFourRepository implements IMMASFourRepository {
     // if ((await this.redisClient.get(id)) === null) {
     try {
       const results: MMASFour | null = await MMASFour.findOne({
-        order: [["createdAt", "DESC"]],
         where: {
           patientID: id,
         },

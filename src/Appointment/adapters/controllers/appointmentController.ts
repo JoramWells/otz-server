@@ -61,7 +61,7 @@ export class AppointmentController {
         status,
         agenda
       );
-      res.status(200).json(results);
+      res.json(results);
       // res.flush();
 
       next();
@@ -87,7 +87,7 @@ export class AppointmentController {
         return res.status(404).json({ error: errMessage });
       }
       const result = await this.interactor.getAppointmentById(id);
-      res.status(200).json(result);
+      res.json(result);
 
       next();
     } catch (error) {
@@ -107,7 +107,7 @@ export class AppointmentController {
       if (!id || id === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
       const result = await this.interactor.getPriorityAppointmentDetail(id);
-      res.status(200).json(result);
+      res.json(result);
       next();
     } catch (error) {
       next(error);
@@ -135,7 +135,7 @@ export class AppointmentController {
       const result = await this.interactor.getAllPriorityAppointments(
         hospitalID
       );
-      res.status(200).json(result);
+      res.json(result);
       next();
     } catch (error) {
       next(error);
@@ -165,7 +165,7 @@ export class AppointmentController {
         logger.error(errMessage);
         return res.status(404).json({ error: errMessage });
       }
-      res.status(200).json(result);
+      res.json(result);
       next();
     } catch (error) {
       next(error);
@@ -186,7 +186,7 @@ export class AppointmentController {
         return res.status(404).json({ error: errMessage });
       }
       const patient = await this.interactor.getAppointmentDetail(id);
-      res.status(200).json(patient);
+      res.json(patient);
       next();
     } catch (error) {
       console.log(error);
@@ -213,7 +213,7 @@ export class AppointmentController {
         patientID,
         isStarred
       );
-      res.status(200).json(patient);
+      res.json(patient);
       next();
     } catch (error) {
       console.log(error);
@@ -231,7 +231,7 @@ export class AppointmentController {
         return res.status(404).json({ error: errMessage });
       }
       const results = await this.interactor.markAsRead(id);
-      res.status(200).json(results);
+      res.json(results);
     } catch (error) {
       console.log(error);
     }
@@ -253,7 +253,7 @@ export class AppointmentController {
         reason,
         rescheduledDate
       );
-      res.status(200).json(results);
+      res.json(results);
     } catch (error) {
       console.log(error);
     }
@@ -281,7 +281,7 @@ export class AppointmentController {
         hospitalID,
         date
       );
-      res.status(200).json(result);
+      res.json(result);
 
       next();
     } catch (error) {
@@ -315,7 +315,7 @@ export class AppointmentController {
     try {
 
       const patient = await this.interactor.getStarredPatientAppointments(hospitalID as string, page, pageSize, searchQuery);
-      res.status(200).json(patient);
+      res.json(patient);
       next();
     } catch (error) {
       console.log(error);
