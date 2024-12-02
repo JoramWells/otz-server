@@ -13,7 +13,6 @@ export class AppointmentAgendaController {
 
   async onCreateAppointmentAgenda(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createAppointmentAgenda(req.body);
       const io = req.app.locals.io
       io.emit('appointment-agenda-updated',JSON.stringify(newProfile))
@@ -35,7 +34,7 @@ export class AppointmentAgendaController {
       // await redisClient.connect()
 
       const results = await this.interactor.getAllAppointmentAgendas();
-      res.status(200).json(results);
+      res.json(results);
 
       next();
     } catch (error) {
@@ -49,7 +48,7 @@ export class AppointmentAgendaController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAppointmentAgendaById(id);
-      res.status(200).json(result);
+      res.json(result);
       next();
     } catch (error) {
       next(error);
@@ -63,7 +62,7 @@ export class AppointmentAgendaController {
     try {
       const { id } = req.params;
       const result = await this.interactor.deleteAppointmentAgenda(id);
-      res.status(200).json(result);
+      res.json(result);
       next();
     } catch (error) {
       next(error);

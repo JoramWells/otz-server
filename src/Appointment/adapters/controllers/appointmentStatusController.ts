@@ -35,7 +35,7 @@ export class AppointmentStatusController {
       // await redisClient.connect()
 
       const results = await this.interactor.getAllAppointmentStatus();
-      res.status(200).json(results);
+      res.json(results);
 
       next();
     } catch (error) {
@@ -49,7 +49,7 @@ export class AppointmentStatusController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAppointmentStatusById(id);
-      res.status(200).json(result);
+      res.json(result);
       next();
     } catch (error) {
       next(error);
