@@ -60,41 +60,30 @@ export class ExecuteDisclosureRepository
     return results;
   }
 
-  async findById(id: string): Promise<ExecuteDisclosureAttributes | null> {
-    // await this.redisClient.connect();
-    // if ((await this.redisClient.get(id)) === null) {
-    const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne({
-      order: [["createdAt", "DESC"]],
-      where: {
-        patientID: id,
-      },
-    });
+  async findById(
+    id: string
+  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne(
+        {
+          where: {
+             id,
+          },
+        }
+      );
 
-    // const patientResults: AppointmentEntity = {
-    //   firstName: results?.firstName,
-    //   middleName: results?.middleName,
-    //   sex: results?.sex,
-    //   phoneNo: results?.phoneNo,
-    //   idNo: results?.idNo,
-    //   occupationID: results?.occupationID,
-    // };
-    //   await this.redisClient.set(id, JSON.stringify(results));
-
-    //   return results;
-    // }
-
-    // const cachedData: string | null = await this.redisClient.get(id);
-    // if (cachedData === null) {
-    //   return null;
-    // }
-    // const results: ExecuteDisclosureAttributes = JSON.parse(cachedData);
-    // console.log("fetched from cace!");
-
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //
-  async findByVisitId(id: string): Promise<ExecuteDisclosureAttributes | null | undefined> {
+  async findByVisitId(
+    id: string
+  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
     try {
       // await this.redisClient.connect();
       // if ((await this.redisClient.get(id)) === null) {

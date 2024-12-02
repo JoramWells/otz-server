@@ -19,7 +19,9 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
   }
 
   //
-  async getPrescriptionByVisitId(id: string): Promise<PrescriptionInterface | null | undefined> {
+  async getPrescriptionByVisitId(
+    id: string
+  ): Promise<PrescriptionInterface | null | undefined> {
     return await this.repository.findByVisitId(id);
   }
 
@@ -53,14 +55,22 @@ export class PrescriptionInteractor implements IPrescriptionInteractor {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ): Promise<PrescriptionResponseInterface | null> {
+    searchQuery: string,
+    frequency: string,
+    line: string,
+    regimen: string,
+    status: string
+  ): Promise<PrescriptionResponseInterface | null | undefined> {
     return await this.repository.find(
       dateQuery,
       hospitalID,
       page,
       pageSize,
-      searchQuery
+      searchQuery,
+      frequency,
+      line,
+      regimen,
+      status
     );
   }
 

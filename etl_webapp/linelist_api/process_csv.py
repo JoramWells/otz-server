@@ -75,6 +75,10 @@ def process_csv(self, file_path, hospitalID,userID, chunk_size=1000 ):
                 state="PROGRESS",
                 meta={"current": index+1, "total": total_rows, "progress":progress}
             )
+            
+            # model, linelistID, rows, started, state, los
+            
+            # los model, uploadProessID, text
 
             dateConfirmedPositive = row['Date confirmed positive']
 

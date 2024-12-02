@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const { Sequelize } = require('sequelize');
 const PatientVisits = require('../models/patient/patientVisits.model');
 const VitalSign = require('../models/vitalSigns.model');
 const connect = require('../db/connect');

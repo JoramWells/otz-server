@@ -85,7 +85,36 @@ export class PatientVisitController {
   ) {
     try {
       const { id } = req.params;
-      const result = await this.interactor.getHistoryPatientVisitById(id);
+
+      let {
+        page,
+        pageSize,
+        searchQuery,
+      } = req.query;
+
+      //
+        if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+          page = Number(page);
+          pageSize = Number(pageSize);
+        }
+
+        //
+        if (page <= 0) {
+          page = 1;
+        }
+
+        if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+          page = Number(page);
+          pageSize = Number(pageSize);
+        }
+
+        //
+        if (page <= 0) {
+          page = 1;
+        }
+
+        // 
+      const result = await this.interactor.getHistoryPatientVisitById(id, page, pageSize, searchQuery);
       res.status(200).json(result);
       next();
     } catch (error) {

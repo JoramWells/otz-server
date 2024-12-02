@@ -20,6 +20,7 @@ import { Patient } from "../../domain/models/patients.models";
 import { ARTPrescription } from "../../domain/models/art/artPrescription.model";
 import { ImportantPatient } from "../../domain/models/importantPatients";
 import { PatientVisits } from "../../domain/models/patientVisits.model";
+import { ArtCategory } from "../../domain/models/art/artCategory.model";
 
 export class PrescriptionRepository implements IPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -55,59 +56,206 @@ export class PrescriptionRepository implements IPrescriptionRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
-  ): Promise<PrescriptionResponseInterface | null> {
-    const currentDate = new Date();
-    const maxDate = new Date(
-      currentDate.getFullYear() - 26,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
-    const where = searchQuery
-      ? {
-          [Op.or]: [
-            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
-            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
-            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+    searchQuery: string,
+    frequency: string,
+    line: string,
+    regimen: string,
+    status: string
+  ): Promise<PrescriptionResponseInterface | null | undefined> {
+    try {
+      const currentDate = new Date();
+      const maxDate = new Date(
+        currentDate.getFullYear() - 24,
+        currentDate.getMonth(),
+        currentDate.getDate()
+      );
+
+      console.log(frequency, status);
+
+      let prescriptionWhere = {};
+
+      if (frequency) {
+        prescriptionWhere.frequency =
+          frequency === "once" ? 1 : frequency === "twice" ? 2 : undefined;
+      }
+
+      if (status) {
+        prescriptionWhere.expectedNoOfPills =
+          status === "active"
+            ? { [Op.gte]: 0 }
+            : status === "not active"
+            ? { [Op.lte]: 0 }
+            : undefined;
+      }
+      // }
+
+      // let regimenLine;
+
+      // if (line) {
+      //   regimenLine = await ArtCategory.findOne({
+      //     where: {
+      //       artPhase:{
+      //         [Op.iLike]: line.toLowerCase()
+      //       }
+      //     },
+      //   });
+
+      //   if(regimenLine){
+      //     prescriptionWhere = {
+      //       ...prescriptionWhere,
+
+      //     }
+      //   }
+      // }
+
+
+      const where = searchQuery
+        ? {
+            [Op.or]: [
+              { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+              { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+              { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+            ],
+            hospitalID,
+            dob: {
+              [Op.gte]: maxDate,
+            },
+          }
+        : {
+            hospitalID,
+            dob: {
+              [Op.gte]: maxDate,
+            },
+          };
+
+      //
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+
+      //
+      if (dateQuery === "all") {
+        const { rows, count } = await Prescription.findAndCountAll({
+          order: [["createdAt", "DESC"]],
+          limit,
+          offset,
+          include: [
+            {
+              model: Patient,
+              attributes: [
+                "id",
+                "firstName",
+                "middleName",
+                "isImportant",
+                "dob",
+              ],
+              where,
+            },
+            // {
+            //   model: PatientVisits,
+            //   where: {
+            //     hospitalID,
+            //   },
+            // },
+
+            {
+              model: ARTPrescription,
+              attributes: ["regimen"],
+            },
           ],
-          hospitalID,
-          dob: {
-            [Op.gte]: maxDate,
-          },
-        }
-      : {
-          hospitalID,
-          dob: {
-            [Op.gte]: maxDate,
-          },
+        });
+
+        return {
+          data: rows,
+          total: count,
+          page: page,
+          pageSize: limit,
         };
+      }
 
-    //
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+      const latestPrescription = await Prescription.findAll({
+        include: [
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              hospitalID,
+            },
+          },
+        ],
+        attributes: [
+          //   'noOfPills',
+          [fn("MAX", col("Prescription.createdAt")), "latestCreatedAt"],
+          "patientID",
+        ],
+        group: [
+          //   // "expectedNoOfPills",
+          //   // 'computedNoOfPills',
+          //   // "frequency",
+          //   // 'refillDate',
+          //   // 'nextRefillDate',
+          "patientID",
+          //   "artPrescriptionID",
+          //   // 'Patient.id',
+          //   // "noOfPills",
+          "Patient.id",
+          //   // "Patient.firstName",
+          //   // "Patient.middleName",
+        ],
+        raw: true,
+      });
 
-    //
-    if (dateQuery === "all") {
+      const latestPrescriptionIDs = latestPrescription.map(
+        (prescription) => prescription.patientID
+      );
+
       const { rows, count } = await Prescription.findAndCountAll({
-        limit: limit ? limit : 10,
-        offset: offset ? offset : 0,
+        limit,
+        offset,
+        order: [["createdAt", "DESC"]],
+        where: {
+          [Op.and]: [
+            {
+              patientID: {
+                [Op.in]: latestPrescriptionIDs,
+              },
+            },
+            Sequelize.where(
+              col("Prescription.createdAt"),
+              Op.eq,
+              Sequelize.literal(
+                `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
+              )
+            ),
+            prescriptionWhere
+          ],
+        },
+
         include: [
           {
             model: Patient,
             attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
             where,
           },
-          // {
-          //   model: PatientVisits,
-          //   where: {
-          //     hospitalID,
-          //   },
-          // },
 
           {
             model: ARTPrescription,
             attributes: ["regimen"],
           },
+        ],
+        attributes: [
+          "id",
+          "expectedNoOfPills",
+          "computedNoOfPills",
+          "frequency",
+          "refillDate",
+          "nextRefillDate",
+          "patientID",
+          "artPrescriptionID",
+          "patientVisitID",
+          "expectedNoOfPills",
+          // "Patient.id",
+          // "Patient.firstName",
+          // "Patient.middleName",
         ],
       });
 
@@ -117,100 +265,9 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         page: page,
         pageSize: limit,
       };
+    } catch (error) {
+      console.log(error);
     }
-
-    const latestPrescription = await Prescription.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: [],
-          where: {
-            hospitalID,
-          },
-        },
-      ],
-      attributes: [
-        //   'noOfPills',
-        [fn("MAX", col("Prescription.createdAt")), "latestCreatedAt"],
-        "patientID",
-      ],
-      group: [
-        //   // "expectedNoOfPills",
-        //   // 'computedNoOfPills',
-        //   // "frequency",
-        //   // 'refillDate',
-        //   // 'nextRefillDate',
-        "patientID",
-        //   "artPrescriptionID",
-        //   // 'Patient.id',
-        //   // "noOfPills",
-        "Patient.id",
-        //   // "Patient.firstName",
-        //   // "Patient.middleName",
-      ],
-      raw: true,
-    });
-
-    const latestPrescriptionIDs = latestPrescription.map(
-      (prescription) => prescription.patientID
-    );
-
-    const { rows, count } = await Prescription.findAndCountAll({
-      limit,
-      offset,
-      order: [["updatedAt", "ASC"]],
-      where: {
-        [Op.and]: [
-          {
-            patientID: {
-              [Op.in]: latestPrescriptionIDs,
-            },
-          },
-          Sequelize.where(
-            col("Prescription.createdAt"),
-            Op.eq,
-            Sequelize.literal(
-              `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
-            )
-          ),
-        ],
-      },
-
-      include: [
-        {
-          model: Patient,
-          attributes: ["id", "firstName", "middleName", "isImportant", "dob"],
-          where,
-        },
-
-        {
-          model: ARTPrescription,
-          attributes: ["regimen"],
-        },
-      ],
-      attributes: [
-        "id",
-        "expectedNoOfPills",
-        "computedNoOfPills",
-        "frequency",
-        "refillDate",
-        "nextRefillDate",
-        "patientID",
-        "artPrescriptionID",
-        "patientVisitID",
-        "Prescription.patientID",
-        // "Patient.id",
-        // "Patient.firstName",
-        // "Patient.middleName",
-      ],
-    });
-
-    return {
-      data: rows,
-      total: count,
-      page: page,
-      pageSize: limit,
-    };
   }
 
   async findAllAdherence(): Promise<PrescriptionInterface[] | undefined> {

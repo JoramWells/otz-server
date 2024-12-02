@@ -20,7 +20,7 @@ export class ExecuteDisclosureInteractor implements IExecuteDisclosureInteractor
 
   async getExecuteDisclosureById(
     id: string
-  ): Promise<ExecuteDisclosureAttributes | null> {
+  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 

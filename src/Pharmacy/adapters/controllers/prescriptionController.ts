@@ -73,8 +73,18 @@ export class PrescriptionController {
 
   async onGetAllPrescriptions(req: Request, res: Response, next: NextFunction) {
     try {
-      let { mode, hospitalID, page, pageSize, searchQuery } = req.query;
-
+      let {
+        mode,
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery,
+        frequency,
+        line,
+        regimen,
+        status,
+      } = req.query;
+      console.log(req.query);
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
 
@@ -99,7 +109,11 @@ export class PrescriptionController {
         hospitalID as string,
         page as unknown as number,
         pageSize as unknown as number,
-        searchQuery as string
+        searchQuery as string,
+        frequency,
+        line,
+        regimen,
+        status
       );
       res.status(200).json(results);
       next();
@@ -124,7 +138,11 @@ export class PrescriptionController {
     }
   }
   //
-  async onGetPrescriptionByVisitId(req: Request, res: Response, next: NextFunction) {
+  async onGetPrescriptionByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       if (id === "undefined") return null;

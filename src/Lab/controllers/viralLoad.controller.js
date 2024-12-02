@@ -28,7 +28,6 @@ const addViralLoadTest = async (req, res, next) => {
     vlJustification,
   } = req.body;
 
-  console.log(req.body)
 
 
   try {
@@ -329,7 +328,6 @@ const getViralLoadTest = async (req, res, next) => {
   if (!id || id === "undefined")
     return res.status(400).json({ message: "Invalid ID parameter" });
 
-  console.log(id);
   try {
     const patient = await ViralLoad.findOne({
       order: [['createdAt', 'DESC']],
@@ -351,7 +349,6 @@ const getViralLoadTestByVisitID = async (req, res, next) => {
   if (!id || id === "undefined")
     return res.status(400).json({ message: "Invalid ID parameter" });
 
-  console.log(id);
   try {
     const patient = await ViralLoad.findOne({
       order: [['createdAt', 'DESC']],

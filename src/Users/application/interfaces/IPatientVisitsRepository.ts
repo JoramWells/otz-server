@@ -12,7 +12,12 @@ export interface IPatientVisitsRepository {
     searchQuery: string
   ) => Promise<PatientVisitResponseInterface | undefined | null>;
   findById: (id: string) => Promise<PatientVisitsInterface | null>;
-  findHistoryById: (id: string) => Promise<PatientVisitsInterface[] | null>;
+  findHistoryById: (
+    id: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ) => Promise<PatientVisitResponseInterface| null | undefined>;
   findPatientVisitByUserId: (
     userID: string
   ) => Promise<PatientVisitsInterface[] | null>;

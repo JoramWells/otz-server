@@ -10,7 +10,7 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     this.repository = repository;
   }
 
-  async getTimeAndWorkById(id: string): Promise<TimeAndWorkAttributes | null> {
+  async getTimeAndWorkById(id: string): Promise<TimeAndWorkAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 
@@ -18,6 +18,12 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     id: string
   ): Promise<TimeAndWorkAttributes | null> {
     return await this.repository.findByPatientId(id);
+  }
+
+  async getTimeAndWorkByVisitId(
+    id: string
+  ): Promise<TimeAndWorkAttributes | null | undefined> {
+    return await this.repository.findByVisitId(id);
   }
 
   async updateMorningSchedule(

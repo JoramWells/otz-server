@@ -12,9 +12,12 @@ export class PatientVisitInteractor implements IPatientVisitInteractor {
   }
 
   async getHistoryPatientVisitById(
-    id: string
-  ): Promise<PatientVisitsInterface[] | null> {
-    return await this.repository.findHistoryById(id);
+    id: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<PatientVisitResponseInterface | null | undefined> {
+    return await this.repository.findHistoryById(id, page, pageSize, searchQuery);
   }
 
   async getPatientVisitById(

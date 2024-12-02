@@ -94,6 +94,12 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       where: {
         patientID: id,
       },
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "middleName"],
+        },
+      ],
     });
 
     return results;
@@ -141,14 +147,39 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     return results;
   }
 
-  async findHistoryById(id: string): Promise<PatientVisitsInterface[] | null> {
-    const results = await PatientVisits.findAll({
-      where: {
-        patientID: id,
-      },
-    });
+  async findHistoryById(
+    id: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<PatientVisitResponseInterface | null | undefined> {
+    try {
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+      const { rows, count } = await PatientVisits.findAndCountAll({
+        order: [["createdAt", "DESC"]],
+        limit,
+        offset,
+        include: [
+          {
+            model: User,
+            attributes: ["firstName", "middleName"],
+          },
+        ],
+        where: {
+          patientID: id,
+        },
+      });
 
-    return results;
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //
@@ -156,6 +187,13 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     id: string
   ): Promise<PatientVisitsInterface[] | null> {
     const results = await PatientVisits.findAll({
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "middleName"],
+        },
+      ],
       where: {
         patientID: id,
       },

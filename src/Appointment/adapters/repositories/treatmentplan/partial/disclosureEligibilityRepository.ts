@@ -91,9 +91,8 @@ export class DisclosureEligibilityRepository
     try {
       const results: ChildDisclosureEligibility | null =
         await ChildDisclosureEligibility.findOne({
-          order: [["createdAt", "DESC"]],
           where: {
-            patientID: id,
+            id,
           },
         });
       return results;

@@ -3,8 +3,9 @@ import { TimeAndWorkAttributes } from "otz-types";
 export interface ITimeAndWorkRepository {
   create: (data: TimeAndWorkAttributes) => Promise<TimeAndWorkAttributes>;
   find: () => Promise<TimeAndWorkAttributes[]>;
-  findById: (id: string) => Promise<TimeAndWorkAttributes | null>;
+  findById: (id: string) => Promise<TimeAndWorkAttributes | null | undefined>;
   findByPatientId: (id: string) => Promise<TimeAndWorkAttributes | null>;
+  findByVisitId: (id: string) => Promise<TimeAndWorkAttributes | null | undefined>;
   updateMorningSchedule: (
     id: string,
     data: TimeAndWorkAttributes
