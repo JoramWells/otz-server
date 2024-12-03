@@ -6,7 +6,8 @@ export interface IUserRepository {
   find: (
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    hospitalName: string
   ) => Promise<UserResponseInterface | null | undefined>;
   edit: (data: UserInterface) => Promise<UserInterface | null>;
   editPassword: (data: UserInterface) => Promise<UserInterface | null>;

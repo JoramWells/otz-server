@@ -1,13 +1,18 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
 // import { mmasCache } from '../../../constants/appointmentCache';
-import { PartialDisclosureAttributes } from 'otz-types';
-import { IPartialDisclosureRepository } from '../../../../application/interfaces/disclosure/partial/IPartialDisclosureRepository';
-import { PartialDisclosure } from '../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model';
+import { PartialDisclosureAttributes } from "otz-types";
+import { IPartialDisclosureRepository } from "../../../../application/interfaces/disclosure/partial/IPartialDisclosureRepository";
+import { PartialDisclosure } from "../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model";
+import { ChildCaregiverReadiness } from "../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
+import { ChildDisclosureEligibility } from "../../../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
+import { Patient } from "../../../../domain/models/patients.models";
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
-export class PartialDisclosureRepository implements IPartialDisclosureRepository {
+export class PartialDisclosureRepository
+  implements IPartialDisclosureRepository
+{
   // private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
@@ -26,7 +31,28 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
 
     // check if patient
     // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await PartialDisclosure.findAll({});
+    const results = await PartialDisclosure.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName"],
+        },
+        {
+          model: ChildCaregiverReadiness,
+          attributes: ["patientID"],
+          // include: [
+          //   {
+          //     model: Patient,
+          //     attributes:[]
+          //   }
+          // ]
+        },
+        {
+          model: ChildDisclosureEligibility,
+          attributes: ["patientID"],
+        },
+      ],
+    });
     // logger.info({ message: "Fetched from db!" });
     // console.log("fetched from db!");
     // set to cace
@@ -51,13 +77,12 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
   async findById(id: string): Promise<PartialDisclosureAttributes | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: PartialDisclosure | null =
-      await PartialDisclosure.findOne({
-        order:[['createdAt', 'DESC']],
-        where: {
-           patientID: id,
-        },
-      });
+    const results: PartialDisclosure | null = await PartialDisclosure.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: id,
+      },
+    });
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,
@@ -82,17 +107,39 @@ export class PartialDisclosureRepository implements IPartialDisclosureRepository
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<PartialDisclosureAttributes[] | null> {
+  async findByPatientId(
+    id: string
+  ): Promise<PartialDisclosureAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results: PartialDisclosure | null = await PartialDisclosure.findOne(
+        {
+          order: [["createdAt", "DESC"]],
+          where: {
+            patientID: id,
+          },
+        }
+      );
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findAllByVisitId(
+    id: string
+  ): Promise<PartialDisclosureAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: PartialDisclosure[] | null =
-      await PartialDisclosure.findAll({
+    const results: PartialDisclosure[] | null = await PartialDisclosure.findAll(
+      {
         where: {
-           id,
+          id,
         },
-      });
-
- 
+      }
+    );
 
     return results;
   }

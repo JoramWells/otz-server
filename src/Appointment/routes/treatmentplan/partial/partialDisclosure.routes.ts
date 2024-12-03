@@ -15,7 +15,14 @@ const controllers = new PartialDisclosureController(interactor);
 
 router.post('/add', controllers.onCreatePartialDisclosure.bind(controllers));
 router.get('/fetchAll', controllers.onGetAllPartialDisclosure.bind(controllers));
-router.get('/detail/:id', controllers.onGetPartialDisclosureById.bind(controllers));
+router.get(
+  "/detail/:id",
+  controllers.onGetPartialDisclosureById.bind(controllers)
+);
+router.get(
+  "/by-patient-id/:id",
+  controllers.onGetPartialDisclosureByPatientId.bind(controllers)
+);
 router.get('/details/:id', controllers.onGetAllPartialDisclosureByVisitId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 

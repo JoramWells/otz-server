@@ -10,6 +10,9 @@ export interface IFullDisclosureInteractor {
   getFullDisclosureById: (
     id: string
   ) => Promise<FullDisclosureAttributes | null>;
+  getFullDisclosureByPatientId: (
+    id: string
+  ) => Promise<FullDisclosureAttributes | null | undefined>;
   getAllFullDisclosureByVisitId: (
     id: string
   ) => Promise<FullDisclosureAttributes[] | null>;

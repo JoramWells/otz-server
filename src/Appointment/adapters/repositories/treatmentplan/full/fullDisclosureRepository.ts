@@ -82,18 +82,35 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
     return results;
   }
 
-  async findAllByVisitId(id: string): Promise<FullDisclosureAttributes[] | null> {
+  async findAllByVisitId(
+    id: string
+  ): Promise<FullDisclosureAttributes[] | null> {
     // await this.redisClient.connect();
     // if ((await this.redisClient.get(id)) === null) {
-    const results: FullDisclosure[] | null =
-      await FullDisclosure.findAll({
+    const results: FullDisclosure[] | null = await FullDisclosure.findAll({
+      where: {
+        id,
+      },
+    });
+
+    return results;
+  }
+
+  async findByPatientId(
+    id: string
+  ): Promise<FullDisclosureAttributes | null | undefined> {
+    try {
+      // await this.redisClient.connect();
+      // if ((await this.redisClient.get(id)) === null) {
+      const results = await FullDisclosure.findOne({
         where: {
-           id,
+          patientID: id,
         },
       });
 
- 
-
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

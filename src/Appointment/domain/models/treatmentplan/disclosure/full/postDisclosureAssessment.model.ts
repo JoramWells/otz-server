@@ -27,7 +27,6 @@ export class PostDisclosure
 
   id: string | undefined;
   patientID!: string;
-  patientVisitID!: string;
 }
 
 PostDisclosure.init(
@@ -41,15 +40,6 @@ PostDisclosure.init(
       type: DataTypes.UUID,
       references: {
         model: "patients",
-        key: "id",
-      },
-      onDelete: "CASCADE",
-      allowNull: false,
-    },
-    patientVisitID: {
-      type: DataTypes.UUID,
-      references: {
-        model: "patientVisits",
         key: "id",
       },
       onDelete: "CASCADE",

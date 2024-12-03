@@ -3,6 +3,7 @@ import { connect } from "../../../../db/connect";
 import { ChildDisclosureEligibility } from "./childDisclosureEligibility.model";
 import { ChildCaregiverReadiness } from "./childCaregiverReadiness.model";
 import { PartialDisclosureAttributes } from "otz-types";
+import { Patient } from "../../patients.models";
 
 
 
@@ -22,6 +23,15 @@ PartialDisclosure.init(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
+    patientID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patients",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+      allowNull: false,
+    },
     childDisclosureEligibilityID: {
       type: DataTypes.UUID,
       references: {
@@ -29,7 +39,7 @@ PartialDisclosure.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false,
+      allowNull: true,
     },
     childCaregiverReadinessID: {
       type: DataTypes.UUID,
@@ -38,7 +48,11 @@ PartialDisclosure.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false,
+      allowNull: true,
+    },
+    score: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
   },
   {
@@ -51,10 +65,15 @@ PartialDisclosure.init(
   }
 );
 
-PartialDisclosure.belongsTo(ChildDisclosureEligibility, { foreignKey: "childDisclosureEligibilityID" });
+PartialDisclosure.belongsTo(ChildDisclosureEligibility, {
+  foreignKey: "childDisclosureEligibilityID",
+});
+PartialDisclosure.belongsTo(Patient, {
+  foreignKey: "patientID",
+});
 PartialDisclosure.belongsTo(ChildCaregiverReadiness, { foreignKey: "childCaregiverReadinessID" });
 
 // (async () => {
-// connect.sync()
+connect.sync()
 // console.log('Partial Disclosure Table synced successfully')
 // })()

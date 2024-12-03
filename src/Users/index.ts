@@ -26,6 +26,7 @@ import { UserSessionLog } from './domain/models/userSession'
 import { AppModule } from './domain/models/appModules/appModules'
 import { AppModuleSession } from './domain/models/appModules/appModuleSession.model'
 import { User } from './domain/models/user.model'
+import { countCalHIV } from './utils/countCalHIV'
 const cors = require('cors')
 const app: Application = express()
 
@@ -83,11 +84,17 @@ app.use(express.static('uploads'))
 // }
 // enable cors
 app.use(cors())
-app.use(limiter)
+app.use(limiter);
 
-let onlineUsers: any[] = []
+( async()=>{
+  await countCalHIV()
+console.log('runnind')
+})()
+
 
 io.on('connection', socket=>{
+let onlineUsers: any[] = []
+
   console.log('New client to Users microservice!!')
 
   const connectedAt = new Date()
@@ -108,7 +115,8 @@ console.log(socketModuleID, 'socketModuleID!!')
     io.emit('getOnlineUsers', onlineUsers)
     console.log(onlineUsers, 'userp')
 
-  })
+  });
+
 
 //  socket.on('appModuleSession', async (data)=>{
       // 

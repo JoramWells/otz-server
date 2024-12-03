@@ -10,10 +10,16 @@ export class PartialDisclosureController {
     this.interactor = interactor;
   }
 
-  async onCreatePartialDisclosure(req: Request, res: Response, next: NextFunction) {
+  async onCreatePartialDisclosure(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       console.log(req.body);
-      const newProfile = await this.interactor.createPartialDisclosure(req.body);
+      const newProfile = await this.interactor.createPartialDisclosure(
+        req.body
+      );
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -26,7 +32,11 @@ export class PartialDisclosureController {
     }
   }
 
-  async onGetAllPartialDisclosure(req: Request, res: Response, next: NextFunction) {
+  async onGetAllPartialDisclosure(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -42,7 +52,11 @@ export class PartialDisclosureController {
     }
   }
 
-  async onGetPartialDisclosureById(req: Request, res: Response, next: NextFunction) {
+  async onGetPartialDisclosureById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getPartialDisclosureById(id);
@@ -51,13 +65,35 @@ export class PartialDisclosureController {
     } catch (error) {
       next(error);
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" }); 
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  // 
+  //
+  async onGetPartialDisclosureByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getPartialDisclosureByPatientId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 
-  async onGetAllPartialDisclosureByVisitId(req: Request, res: Response, next: NextFunction) {
+  //
+
+  async onGetAllPartialDisclosureByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllPartialDisclosureByVisitId(id);

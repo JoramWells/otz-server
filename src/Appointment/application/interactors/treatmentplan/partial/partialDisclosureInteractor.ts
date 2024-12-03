@@ -26,6 +26,12 @@ export class PartialDisclosureInteractor implements IPartialDisclosureInteractor
     return await this.repository.findById(id);
   }
 
+  async getPartialDisclosureByPatientId(
+    id: string
+  ): Promise<PartialDisclosureAttributes | null | undefined> {
+    return await this.repository.findByPatientId(id);
+  }
+
   async createPartialDisclosure(
     patientData: PartialDisclosureAttributes
   ): Promise<PartialDisclosureAttributes> {

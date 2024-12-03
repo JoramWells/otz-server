@@ -13,7 +13,9 @@ export class FullDisclosureInteractor implements IFullDisclosureInteractor {
   //   return await this.repository.count()
   // };
 
-  async getAllFullDisclosure(hospitalID: string): Promise<FullDisclosureAttributes[] | null> {
+  async getAllFullDisclosure(
+    hospitalID: string
+  ): Promise<FullDisclosureAttributes[] | null> {
     return await this.repository.find(hospitalID);
   }
 
@@ -21,6 +23,12 @@ export class FullDisclosureInteractor implements IFullDisclosureInteractor {
     id: string
   ): Promise<FullDisclosureAttributes | null> {
     return await this.repository.findById(id);
+  }
+
+  async getFullDisclosureByPatientId(
+    id: string
+  ): Promise<FullDisclosureAttributes | null | undefined> {
+    return await this.repository.findByPatientId(id);
   }
 
   async createFullDisclosure(

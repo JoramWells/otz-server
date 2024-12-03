@@ -7,10 +7,6 @@ import { ChildDisclosureEligibilityAttributes } from "otz-types";
 
 
 export class ChildDisclosureEligibility extends Model<ChildDisclosureEligibilityAttributes> implements ChildDisclosureEligibilityAttributes {
-  isChildActivityAssessed!: boolean;
-  isSupportedCaregiverChildToDisclose!: boolean;
-  isSecuredPatientInfo!: boolean;
-  disclosureDate!: Date;
   isCorrectAge!: boolean;
   isWillingToDisclose!: boolean;
   isKnowledgeable!: boolean;
