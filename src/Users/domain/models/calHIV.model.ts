@@ -82,6 +82,7 @@ CALHIV.belongsTo(Hospital, { foreignKey: "hospitalID" });
 //   }
 // }
 
+
 connect.sync()
 
 // void syncDB()
