@@ -212,3 +212,10 @@ export interface InternalLabRequestInterface {
   createdAt?: Date;
   updatedAt?: Date;
 }     
+
+export interface VlJustificationsInterface {
+  id?: string;
+  reason?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

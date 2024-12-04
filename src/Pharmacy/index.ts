@@ -37,6 +37,8 @@ import { pamaRouter } from "./routes/enrollment/pama.routes";
 import { pmtctProfileRouter } from "./routes/enrollment/pmtctProfile.routes";
 import { viralLoadRouter } from "./routes/lab/viralLoad.routes";
 import { vlAdherence } from "./utils/vlAdheherence";
+import { vlJustificationRouter } from "./routes/lab/vlJustification.routes";
+import { vitalSignRouter } from "./routes/lab/vitalSigns.routes";
 const cors = require("cors");
 
 const app: Application = express();
@@ -156,6 +158,8 @@ app.use("/pmtct-enrollment", pmtctProfileRouter);
 // app.use("/vital-sign", vitalSignRoutes);
 // app.use("/internal-lab-request", internalLabRequestRoutes);
 app.use("/viral-load-tests", viralLoadRouter);
+app.use("/vl-justification", vlJustificationRouter);
+app.use("/vital-signs", vitalSignRouter);
 // app.use("/user-location", userLocationRoutes);
 // init sentry
 // initSentry((app))

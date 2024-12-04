@@ -115,7 +115,7 @@ VitalSigns.init(
 );
 
 
-VitalSigns.belongsTo(PatientVisits, { foreignKey: "patienVisittID" });
+VitalSigns.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 VitalSigns.belongsTo(Patient, { foreignKey: "patientID" });
 
 // const syncDB = async () => {

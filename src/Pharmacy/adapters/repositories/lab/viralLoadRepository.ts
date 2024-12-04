@@ -5,13 +5,12 @@ import { ViralLoadInterface } from "otz-types";
 import { IViralLoadRepository } from "../../../application/interfaces/lab/IViralLoadRepository";
 import { ViralLoad } from "../../../domain/models/lab/viralLoad.model";
 import { Patient } from "../../../domain/models/patients.models";
-import { User } from "../../../domain/models/user.model";
-import { PatientVisits } from "../../../domain/models/patientVisits.model";
-import { col, fn, literal } from "sequelize";
+import { col, fn, literal, Op } from "sequelize";
 import { KafkaAdapter } from "../../kafka/producer/kafka.producer";
 import { connect } from "../../../domain/db/connect";
 import { Appointment } from "../../../domain/models/appointment/appointment.model";
 import { markAsCompletedAppointment } from "../../../utils/markAsCompletedAppointment";
+import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
 
 export class ViralLoadRepository implements IViralLoadRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -31,33 +30,34 @@ export class ViralLoadRepository implements IViralLoadRepository {
     } = data;
 
     const results = await connect.transaction(async (t) => {
-      const results = await ViralLoad.create(
-        {
-          userID,
-          dateOfVL,
-          dateOfNextVL,
-          vlResults,
-          vlJustification,
-          patientVisitID,
-          patientID,
-        },
-        { transaction: t }
-      );
-      if (results) {
-        // await Appointment.create(
-        //   {
-        //     userID,
-        //     patientID,
-        //     patientVisitID,
-        //     appointmentAgendaID,
-        //     appointmentStatusID,
-        //     appointmentDate,
-        //   },
-        //   { transaction: t }
-        // );
-        await markAsCompletedAppointment(patientID, "viral load");
-      }
-      return results;
+
+     return await Promise.all([
+        ViralLoad.create(
+          {
+            userID,
+            dateOfVL,
+            dateOfNextVL,
+            vlResults,
+            vlJustification,
+            patientVisitID,
+            patientID,
+          },
+          { transaction: t }
+        ),
+        Appointment.create(
+          {
+            userID,
+            patientID,
+            patientVisitID,
+            appointmentAgendaID,
+            appointmentStatusID,
+            appointmentDate,
+          },
+          { transaction: t }
+        ),
+        markAsCompletedAppointment(patientID, "viral load"),
+      ]);
+      // return results;
     });
     await this.kafkaProducer.sendMessage("complete", [
       {
@@ -67,77 +67,96 @@ export class ViralLoadRepository implements IViralLoadRepository {
     return results;
   }
 
-  async find(hospitalID: string): Promise<ViralLoadInterface[]> {
-    const {rows, count} = await ViralLoad.findAndCountAll({
-      limit:10,
-      offset:5,
-      include: [
-        {
-          model: Patient,
-          attributes: ["firstName", "middleName", "dob", "sex"],
-          where: {
-            hospitalID: hospitalID,
+  async find(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<ViralLoadResponseInterface | undefined | null> {
+    try {
+      const currentDate = new Date();
+      let maxDate = new Date(
+        currentDate.getFullYear() - 24,
+        currentDate.getMonth(),
+        currentDate.getDate()
+      );
+      let where = {
+        hospitalID,
+        dob: { [Op.gte]: maxDate }, // Default filter
+      };
+
+      // Add search query filter if provided
+      if (searchQuery) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+        };
+      }
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+      const { rows, count } = await ViralLoad.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName", "dob", "sex"],
+            where,
           },
-        },
-        // {
-        //   model: PatientVisits,
-        // attributes: ["firstName", "middleName"],
-        //   include: [
-        //     {
-        //       model: User,
-        //       where: {
-        //         hospitalID: hospitalID,
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   model: ARTPrescription,
-        //   attributes: ["regimen", "line", "startDate"],
-        // },
-        // {
-        //   model: ViralLoad,
-        //   attributes:['vlResults', 'dateOfVL']
-        // }
-      ],
-    });
-    // console.log(results, 'resultx')
-    return rows;
+        ],
+      });
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async findSuppressionRate(hospitalID: string, startDate: string | Date, endDate: Date | string): Promise<ViralLoadInterface[]> {
-  try {
-    let where = {};
-    let patientWhere = {};
-    if (startDate && endDate) {
-      where = {
-        ...where,
-        createdAt: {
-          [Op.between]: { startDate, endDate },
-        },
-      };
-    }
+  async findSuppressionRate(
+    hospitalID: string,
+    startDate: string | Date,
+    endDate: Date | string
+  ): Promise<ViralLoadInterface[]> {
+    try {
+      let where = {};
+      let patientWhere = {};
+      if (startDate && endDate) {
+        where = {
+          ...where,
+          createdAt: {
+            [Op.between]: { startDate, endDate },
+          },
+        };
+      }
 
-    if (hospitalID) {
-      patientWhere = {
-        ...patientWhere,
-        hospitalID,
-      };
-    }
+      if (hospitalID) {
+        patientWhere = {
+          ...patientWhere,
+          hospitalID,
+        };
+      }
 
-    const results = await ViralLoad.findAll({
-      limit: 10,
-      // include: [
-      //   {
-      //     model: Patient,
-      //     where: patientWhere,
-      //     attributes:[]
-      //   },
-      // ],
-      attributes: [
-        [fn("DATE_TRUNC", "month", col("ViralLoad.createdAt")), "month"],
-        [
-          literal(`
+      const results = await ViralLoad.findAll({
+        limit: 10,
+        // include: [
+        //   {
+        //     model: Patient,
+        //     where: patientWhere,
+        //     attributes:[]
+        //   },
+        // ],
+        attributes: [
+          [fn("DATE_TRUNC", "month", col("ViralLoad.createdAt")), "month"],
+          [
+            literal(`
         CASE 
           WHEN COUNT(*) = 0 THEN 0 
           ELSE 
@@ -146,17 +165,17 @@ export class ViralLoadRepository implements IViralLoadRepository {
             COUNT(*)) * 100
         END
       `),
-          "suppressionRate",
+            "suppressionRate",
+          ],
         ],
-      ],
-      group:['ViralLoad.id']
-      // where,
-    });
-    console.log(results, 'resultxs')
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
+        group: ["ViralLoad.id"],
+        // where,
+      });
+      console.log(results, "resultxs");
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<ViralLoadInterface | null> {
