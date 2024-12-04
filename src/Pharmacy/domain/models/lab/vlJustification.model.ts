@@ -55,7 +55,7 @@ VLJustification.init(
 //     console.log(error)
 //   }
 // }
-// connect.sync()
+connect.sync()
 // void syncDB()
 // void connect.sync().then(async () => {
 //   console.log("Patient table created successfully!!");
