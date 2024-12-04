@@ -22,6 +22,8 @@ router.get(
   controller.onGetPatientVisitById.bind(controller)
 )
 
+router.get("/by-patient-visit-count", controller.onGetAllPatientVisitByCount.bind(controller));
+
 router.get('/patient-history/:id', controller.onGetAllPatientHistoryVisitById.bind(controller))
 router.get('/users/:id', controller.onGetAllPatientVisitByUserId.bind(controller))
 router.get('/user-patient-count/:id', controller.onGetAllUserPatientCount.bind(controller))

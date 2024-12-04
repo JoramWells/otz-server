@@ -86,35 +86,36 @@ export class PatientVisitController {
     try {
       const { id } = req.params;
 
-      let {
-        page,
-        pageSize,
-        searchQuery,
-      } = req.query;
+      let { page, pageSize, searchQuery } = req.query;
 
       //
-        if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-          page = Number(page);
-          pageSize = Number(pageSize);
-        }
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
 
-        //
-        if (page <= 0) {
-          page = 1;
-        }
+      //
+      if (page <= 0) {
+        page = 1;
+      }
 
-        if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-          page = Number(page);
-          pageSize = Number(pageSize);
-        }
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
 
-        //
-        if (page <= 0) {
-          page = 1;
-        }
+      //
+      if (page <= 0) {
+        page = 1;
+      }
 
-        // 
-      const result = await this.interactor.getHistoryPatientVisitById(id, page, pageSize, searchQuery);
+      //
+      const result = await this.interactor.getHistoryPatientVisitById(
+        id,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -152,6 +153,25 @@ export class PatientVisitController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getUserPatientCount(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  //
+  async onGetAllPatientVisitByCount(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID } = req.query;
+      const result = await this.interactor.getPatientVisitByCount(hospitalID);
       res.status(200).json(result);
       next();
     } catch (error) {

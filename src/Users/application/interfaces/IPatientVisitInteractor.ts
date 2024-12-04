@@ -22,6 +22,7 @@ export interface IPatientVisitInteractor {
     userID: string
   ) => Promise<PatientVisitsInterface[] | null>;
   getUserPatientCount: (id: string) => Promise<PatientVisitsInterface[] | null>;
+  getPatientVisitByCount: (id: string) => Promise<PatientVisitsInterface[] | null | undefined>;
   getUserActivitiesCount: (
     id: string
   ) => Promise<PatientVisitsInterface[] | null>;

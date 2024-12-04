@@ -147,6 +147,39 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     return results;
   }
 
+  //
+  async findPatientVisitByCount(
+    hospitalID: string
+  ): Promise<PatientVisitsInterface[] | null> {
+    const currentDate = new Date()
+        let maxDate = new Date(
+          currentDate.getFullYear() - 24,
+          currentDate.getMonth(),
+          currentDate.getDate()
+        );
+        let where = {
+          hospitalID,
+          dob: { [Op.gte]: maxDate }, // Default filter
+        };
+    const results = await PatientVisits.findAll({
+      limit: 3,
+      include: [
+        {
+          model: Patient,
+          where,
+          attributes:['firstName', 'middleName', 'dob', 'phoneNo']
+        },
+      ],
+
+      attributes: [[fn("COUNT", col("patientID")), "count"]],
+      group: ["patientID", 'Patient.id', 'Patient.firstName', 'Patient.middleName'],
+      // order: [[fn("DATE", col("createdAt")), "ASC"]],
+      // raw: true,
+    });
+
+    return results;
+  }
+
   async findHistoryById(
     id: string,
     page: number,
