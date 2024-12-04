@@ -27,6 +27,7 @@ import { AppModule } from './domain/models/appModules/appModules'
 import { AppModuleSession } from './domain/models/appModules/appModuleSession.model'
 import { User } from './domain/models/user.model'
 import { countCalHIV } from './utils/countCalHIV'
+import { CALHIVRouter } from './routes/calHIV.routes'
 const cors = require('cors')
 const app: Application = express()
 
@@ -209,6 +210,7 @@ app.use('/user-availability', userAvailabilityRoutes)
 app.use('/next-of-kin', nextOfKinRouter)
 app.use('/patient-session-logs', patientSessionLogRouter)
 app.use('/important-patients', importantPatientRouter)
+app.use('/cal-hiv', CALHIVRouter)
 app.use('/user-session-logs', userSessionLogRouter)
 
 connect.authenticate().then(() => {

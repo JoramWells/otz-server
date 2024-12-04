@@ -1,5 +1,6 @@
 import { QueryTypes } from "sequelize";
 import { connect } from "../domain/db/connect";
+import { CALHIV } from "../domain/models/calHIV.model";
 
 export async function countCalHIV() {
   const results = await connect.query(
@@ -17,6 +18,8 @@ export async function countCalHIV() {
       type: QueryTypes.SELECT,
     }
   );
+
+  await CALHIV.bulkCreate(results)
   console.log(results)
   return results
 }
