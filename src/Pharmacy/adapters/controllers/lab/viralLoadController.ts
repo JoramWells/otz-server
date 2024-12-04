@@ -30,7 +30,7 @@ export class ViralLoadController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const { hospitalID } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
       console.log(hospitalID, "hospitalID");
 
       if (!hospitalID || hospitalID === "undefined")
@@ -42,8 +42,20 @@ export class ViralLoadController {
         return res.status(404).json({ error: errMessage });
       }
 
+      //
+      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
+        page = Number(page);
+        pageSize = Number(pageSize);
+      }
+      if (page <= 0) {
+        page = 1;
+      }
+
       const results = await this.interactor.getAllViralLoads(
-        hospitalID as string
+        hospitalID as string,
+        page,
+        pageSize,
+        searchQuery
       );
       res.status(200).json(results);
       next();

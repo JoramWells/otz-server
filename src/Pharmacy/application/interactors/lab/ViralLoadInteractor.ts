@@ -2,6 +2,7 @@
 import { ViralLoadInterface } from "otz-types";
 import { IViralLoadInteractor } from "../../interfaces/lab/IViralLoadInteractor";
 import { IViralLoadRepository } from "../../interfaces/lab/IViralLoadRepository";
+import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
 
 
 export class ViralLoadInteractor implements IViralLoadInteractor {
@@ -10,7 +11,6 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
   constructor(repository: IViralLoadRepository) {
     this.repository = repository;
   }
-
 
   async getViralLoadById(id: string): Promise<ViralLoadInterface | null> {
     return await this.repository.findById(id);
@@ -35,9 +35,12 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
   }
 
   async getAllViralLoads(
-    hospitalID: string
-  ): Promise<ViralLoadInterface[] | null> {
-    return await this.repository.find(hospitalID);
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<ViralLoadResponseInterface | null | undefined> {
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 
   //
@@ -46,6 +49,10 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
     startDate: Date | string,
     endDate: Date | string
   ): Promise<ViralLoadInterface[] | null | undefined> {
-    return await this.repository.findSuppressionRate(hospitalID, startDate, endDate);
+    return await this.repository.findSuppressionRate(
+      hospitalID,
+      startDate,
+      endDate
+    );
   }
 }
