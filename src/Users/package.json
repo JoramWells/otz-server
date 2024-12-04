@@ -36,6 +36,6 @@
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "nodemon": "^3.1.7",
-    "otz-types": "^1.1.62"
+    "otz-types": "^1.1.75"
   }
 }

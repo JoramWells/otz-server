@@ -6,7 +6,8 @@ export interface IUserInteractor {
   getAllUsers: (
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    hospitalName: string
   ) => Promise<UserResponseInterface | null | undefined>;
   getUserById: (id: string) => Promise<UserInterface | null>;
   editUser: (data: UserInterface) => Promise<UserInterface | null>;

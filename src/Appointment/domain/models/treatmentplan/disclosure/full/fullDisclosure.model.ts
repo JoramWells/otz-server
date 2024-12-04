@@ -3,6 +3,7 @@ import { connect } from "../../../../../db/connect";
 import { ExecuteDisclosure } from "./executeDisclosure.model";
 import { PostDisclosure } from "./postDisclosureAssessment.model";
 import { FullDisclosureAttributes } from "otz-types";
+import { Patient } from "../../../patients.models";
 
 
 
@@ -22,6 +23,15 @@ FullDisclosure.init(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
+    patientID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "patients",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+      allowNull: false,
+    },
     executeDisclosureID: {
       type: DataTypes.UUID,
       references: {
@@ -29,7 +39,7 @@ FullDisclosure.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false,
+      allowNull: true,
     },
     postDisclosureID: {
       type: DataTypes.UUID,
@@ -38,7 +48,11 @@ FullDisclosure.init(
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false,
+      allowNull: true,
+    },
+    score: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   },
   {
@@ -53,8 +67,10 @@ FullDisclosure.init(
 
 FullDisclosure.belongsTo(ExecuteDisclosure, { foreignKey: "executeDisclosureID" });
 FullDisclosure.belongsTo(PostDisclosure, { foreignKey: "postDisclosureID" });
-
+FullDisclosure.belongsTo(Patient, {
+  foreignKey: "patientID",
+});
 // (async () => {
-// connect.sync()
+connect.sync()
 // console.log('Patient Table synced successfully')
 // })()

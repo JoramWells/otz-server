@@ -28,7 +28,7 @@ export class UserController {
 
   async onGetAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      let {  page, pageSize, searchQuery  } = req.query;
+      let {  page, pageSize, searchQuery, hospitalName  } = req.query;
 
       console.log(req.query);
 
@@ -53,7 +53,8 @@ export class UserController {
       const results = await this.interactor.getAllUsers(
         page as unknown as number,
         pageSize as unknown as number,
-        searchQuery as string
+        searchQuery as string,
+        hospitalName
       );
       res.status(200).json(results);
       next();

@@ -38,6 +38,9 @@ import { AppModuleSession } from "./domain/models/appModules/appModuleSession.mo
 import { AppModule } from "./domain/models/appModules/appModules";
 import { executeDisclosureRouter } from "./routes/treatmentplan/full/executeDisclosure.routes";
 import { postDisclosureRouter } from "./routes/treatmentplan/full/postDisclosure.routes";
+import { updatePartialDisclosure } from "./utils/updatePartialDisclosure";
+import { updateFullDisclosure } from "./utils/updateFullDisclosure";
+import { fullDisclosureRouter } from "./routes/treatmentplan/full/fullDiclosure.routes";
 
 require("dotenv").config();
 
@@ -81,6 +84,13 @@ app.use(compression({ threshold: 9 }));
 
 markMissedAppointments();
 rescheduleOnUnavailable();
+
+(async()=>{
+  await Promise.all([
+    updatePartialDisclosure(),
+    updateFullDisclosure()
+  ])
+})()
 
 // dailyPillUpdate();
 
@@ -300,6 +310,7 @@ app.use("/disclosure-eligibility", disclosureEligibilityRouter);
 app.use("/child-readiness", childCaregiverReadinessRouter);
 app.use("/execute-disclosure", executeDisclosureRouter);
 app.use("/post-disclosure", postDisclosureRouter);
+app.use("/full-disclosure", fullDisclosureRouter);
 app.use("/appointment-messages", appointmentMessageRouter);
 app.use("/attendee", attendeeRouter);
 app.use("/event-type", eventTypeRouter);

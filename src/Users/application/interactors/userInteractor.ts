@@ -22,12 +22,14 @@ export class UserInteractor implements IUserInteractor {
   async getAllUsers(
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    hospitalName: string
   ): Promise<UserResponseInterface | undefined | null> {
     return await this.repository.find(
       page,
       pageSize,
-      searchQuery
+      searchQuery,
+      hospitalName
     );
   }
 

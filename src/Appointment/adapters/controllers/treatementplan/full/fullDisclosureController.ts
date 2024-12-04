@@ -10,7 +10,11 @@ export class FullDisclosureController {
     this.interactor = interactor;
   }
 
-  async onCreateFullDisclosure(req: Request, res: Response, next: NextFunction) {
+  async onCreateFullDisclosure(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       console.log(req.body);
       const newProfile = await this.interactor.createFullDisclosure(req.body);
@@ -26,7 +30,11 @@ export class FullDisclosureController {
     }
   }
 
-  async onGetAllFullDisclosure(req: Request, res: Response, next: NextFunction) {
+  async onGetAllFullDisclosure(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
@@ -42,7 +50,11 @@ export class FullDisclosureController {
     }
   }
 
-  async onGetFullDisclosureById(req: Request, res: Response, next: NextFunction) {
+  async onGetFullDisclosureById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getFullDisclosureById(id);
@@ -51,13 +63,35 @@ export class FullDisclosureController {
     } catch (error) {
       next(error);
       console.log(error);
-      res.status(500).json({ message: "Internal Server Error" }); 
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  // 
+  //
+  async onGetFullDisclosureByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getFullDisclosureByPatientId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 
-  async onGetAllFullDisclosureByVisitId(req: Request, res: Response, next: NextFunction) {
+  //
+
+  async onGetAllFullDisclosureByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllFullDisclosureByVisitId(id);

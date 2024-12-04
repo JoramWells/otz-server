@@ -62,8 +62,18 @@ export class UserRepository implements IUserRepository {
     page: number,
     pageSize: number,
     searchQuery: string,
+    hospitalName: string
   ): Promise<UserResponseInterface | null | undefined> {
     let where = {};
+    let hospitalWhere = {};
+
+    if(hospitalName?.length>0){
+      hospitalWhere={
+        ...hospitalWhere,
+        hospitalName: hospitalName
+      }
+    }
+
     if (searchQuery) {
       where = {
         ...where,
@@ -93,10 +103,14 @@ export class UserRepository implements IUserRepository {
           {
             model: Hospital,
             attributes: ["hospitalName"],
+            where: hospitalWhere
           },
         ],
       });
-      nextPage = offset && limit && offset + limit < count ? parseInt(page, 10) + 1 : null;
+      nextPage =
+        offset && limit && offset + limit < count
+          ? parseInt(page, 10) + 1
+          : null;
 
       return {
         data: rows,

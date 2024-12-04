@@ -178,3 +178,13 @@ export interface CaregiverInterface {
   countyID: string;
 }
 
+export interface CALHIVInterface {
+  id?: string
+  hospitalID?: string
+  age_0_9?: string;
+  age_10_14?: string;
+  age_15_19?: string;
+  age_20_24?: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+};
