@@ -19,11 +19,11 @@ router.get(
   controller.onGetAllCALHIVs.bind(controller)
 )
 router.get(
-  '/detail/:id',
-  controller.onGetCALHIVById.bind(controller)
+  '/by-hospital-id',
+  controller.onGetCALHIVByHospitalId.bind(controller)
 )
 
-router.get("/casemanager-by-patient-id/:id", controller.onGetCALHIVByPatientId.bind(controller));
+// router.get("/casemanager-by-patient-id/:id", controller.onGetCALHIVByPatientId.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

@@ -1,9 +1,7 @@
-
 import { ViralLoadInterface } from "otz-types";
 import { IViralLoadInteractor } from "../../interfaces/lab/IViralLoadInteractor";
 import { IViralLoadRepository } from "../../interfaces/lab/IViralLoadRepository";
 import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
-
 
 export class ViralLoadInteractor implements IViralLoadInteractor {
   private readonly repository: IViralLoadRepository;
@@ -28,6 +26,14 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
     return await this.repository.findCategories(hospitalID);
   }
 
+  //
+  async getAllVlReasons(
+    hospitalID: string,
+    dateQuery: string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    return await this.repository.findAllVlReasons(hospitalID, dateQuery);
+  }
+
   async createViralLoad(
     patientData: ViralLoadInterface
   ): Promise<ViralLoadInterface> {
@@ -38,9 +44,20 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    vlResults: string,
+    vlJustification: string,
+    status: string
   ): Promise<ViralLoadResponseInterface | null | undefined> {
-    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
+    return await this.repository.find(
+      hospitalID,
+      page,
+      pageSize,
+      searchQuery,
+      vlResults,
+      vlJustification,
+      status
+    );
   }
 
   //

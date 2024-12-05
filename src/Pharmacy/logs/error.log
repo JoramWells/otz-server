@@ -28,3 +28,5 @@
 {"level":"error","message":"6030b1c0-6c4c-4ca8-9360-7a7d36f7fa34page=1 is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-12-04T06:20:29.134Z"}
 {"level":"error","message":"6030b1c0-6c4c-4ca8-9360-7a7d36f7fa34page=1 is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-12-04T06:24:57.448Z"}
 {"level":"error","message":"{hospitalID}page=1 is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-12-04T06:45:43.880Z"}
+{"level":"error","message":"false is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-12-05T03:41:55.363Z"}
+{"level":"error","message":"false is not a valid UUID ","service":"pharmacy microservice","timestamp":"2024-12-05T03:43:56.003Z"}

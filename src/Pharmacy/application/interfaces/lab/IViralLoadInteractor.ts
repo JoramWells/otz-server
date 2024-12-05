@@ -7,7 +7,10 @@ export interface IViralLoadInteractor {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    vlResults: string,
+    vlJustification: string,
+    status: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
   getViralLoadById: (id: string) => Promise<ViralLoadInterface | null>;
   getAllViralLoadByPatientID: (
@@ -17,6 +20,7 @@ export interface IViralLoadInteractor {
   getAllVlCategories: (
     hospitalID: string
   ) => Promise<ViralLoadInterface[] | null>;
+  getAllVlReasons:(hospitalID: string, dateQuery: string)=>Promise<ViralLoadInterface[] | null | undefined>
   getSuppressionRate: (
     hospitalID: string,
     startDate: Date | string,

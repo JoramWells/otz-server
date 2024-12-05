@@ -39,10 +39,10 @@ export class CALHIVController {
     }
   }
 
-  async onGetCALHIVById(req: Request, res: Response, next: NextFunction) {
+  async onGetCALHIVByHospitalId(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const result = await this.interactor.getCalHIVById(id);
+      const { hospitalID } = req.query;
+      const result = await this.interactor.getCalHIVByHospitalId(hospitalID);
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -52,17 +52,5 @@ export class CALHIVController {
     }
   }
 
-  //
-  async onGetCALHIVByPatientId(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const result = await this.interactor.getCalHIVByPatientId(id);
-      res.status(200).json(result);
-      next();
-    } catch (error) {
-      next(error);
-      console.log(error);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
-  }
 }
+

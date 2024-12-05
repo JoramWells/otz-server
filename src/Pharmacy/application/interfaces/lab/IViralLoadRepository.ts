@@ -6,11 +6,18 @@ export interface IViralLoadRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    vlResults: string,
+    vlJustification: string,
+    status: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
   findById: (id: string) => Promise<ViralLoadInterface | null>;
   findByPatientId: (id: string) => Promise<ViralLoadInterface[] | null>;
   findCategories: (id: string) => Promise<ViralLoadInterface[] | null>;
+  findAllVlReasons: (
+    hospitalID: string,
+    dateQuery: string
+  ) => Promise<ViralLoadInterface[] | null> | undefined;
   findSuppressionRate: (
     hospitalID: string,
     endDate: string | Date,

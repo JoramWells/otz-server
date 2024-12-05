@@ -30,8 +30,15 @@ export class ViralLoadController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      let { hospitalID, page, pageSize, searchQuery } = req.query;
-      console.log(hospitalID, "hospitalID");
+      let {
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery,
+        vlResults,
+        vlJustification,
+        status,
+      } = req.query;
 
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
@@ -55,7 +62,10 @@ export class ViralLoadController {
         hospitalID as string,
         page,
         pageSize,
-        searchQuery
+        searchQuery,
+        vlResults,
+        vlJustification,
+        status
       );
       res.status(200).json(results);
       next();
@@ -133,6 +143,31 @@ export class ViralLoadController {
       }
       const result = await this.interactor.getAllVlCategories(
         hospitalID as string
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetVLReasons(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { hospitalID, dateQuery } = req.query;
+      if (!hospitalID || hospitalID === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+      const result = await this.interactor.getAllVlReasons(
+        hospitalID as string,
+        dateQuery
       );
       res.status(200).json(result);
       next();

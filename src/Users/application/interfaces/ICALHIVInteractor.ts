@@ -7,8 +7,5 @@ export interface ICALHIVInteractor {
   getAllCalHIVs: (
     hospitalID: string
   ) => Promise<CALHIVInterface[] | null | undefined>;
-  getCalHIVById: (id: string) => Promise<CALHIVInterface | null>;
-  getCalHIVByPatientId: (
-    id: string
-  ) => Promise<CALHIVInterface | null | undefined>;
+  getCalHIVByHospitalId: (id: string) => Promise<CALHIVInterface | null | undefined>;
 }
