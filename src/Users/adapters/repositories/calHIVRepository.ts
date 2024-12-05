@@ -71,7 +71,7 @@ export class CALHIVRepository implements ICALHIVRepository {
   }
 
   //
-  async findByPatientId(
+  async findByHospitalId(
     id: string
   ): Promise<CALHIVInterface | null | undefined> {
     try {
@@ -79,14 +79,14 @@ export class CALHIVRepository implements ICALHIVRepository {
         order: [["createdAt", "DESC"]],
         attributes: [],
         where: {
-          patientID: id,
+          hospitalID: id,
         },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "middleName", "phoneNo"],
-          },
-        ],
+        // include: [
+        //   {
+        //     model: User,
+        //     attributes: ["firstName", "middleName", "phoneNo"],
+        //   },
+        // ],
       });
 
       return results;

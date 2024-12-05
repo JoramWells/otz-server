@@ -17,13 +17,16 @@ export interface IPatientVisitsRepository {
     page: number,
     pageSize: number,
     searchQuery: string
-  ) => Promise<PatientVisitResponseInterface| null | undefined>;
+  ) => Promise<PatientVisitResponseInterface | null | undefined>;
   findPatientVisitByUserId: (
     userID: string
   ) => Promise<PatientVisitsInterface[] | null>;
   findUserPatientCount: (
     id: string
   ) => Promise<PatientVisitsInterface[] | null>;
+  findPatientVisitByCount: (
+    id: string
+  ) => Promise<PatientVisitsInterface[] | null | undefined>;
   findUserActivitiesCount: (
     id: string
   ) => Promise<PatientVisitsInterface[] | null>;

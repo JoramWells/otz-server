@@ -12,6 +12,47 @@ import { Appointment } from "../../../domain/models/appointment/appointment.mode
 import { markAsCompletedAppointment } from "../../../utils/markAsCompletedAppointment";
 import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
 
+const getWeekRange = (query: string) => {
+  const date = new Date();
+  const startOfWeek = new Date(date);
+  startOfWeek.setDate(date.getDate() - date.getDay());
+
+  let endOfWeek = new Date(date);
+  if (query === "7D") {
+    endOfWeek.setDate(date.getDate() + (6 - date.getDay()));
+  } else if (query === "14D") {
+    endOfWeek.setDate(date.getDate() + (13 - date.getDay()));
+  } else if (query === "21D") {
+    endOfWeek.setDate(date.getDate() + (20 - date.getDay()));
+  } else if (query === "1 month") {
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    return {
+      start: startOfMonth.toISOString().split("T")[0],
+      end: endOfMonth.toISOString().split("T")[0],
+    };
+  }
+
+  return {
+    start: startOfWeek.toISOString().split("T")[0],
+    end: endOfWeek.toISOString().split("T")[0],
+  };
+};
+
+//
+const getMonthRange = (date: Date) => {
+  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  return {
+    start: startOfMonth.toISOString().split("T")[0],
+    end: endOfMonth.toISOString().split("T")[0],
+  };
+};
+
+// function getRange(date: Date, query: string){
+//   const
+// }
+
 export class ViralLoadRepository implements IViralLoadRepository {
   private readonly kafkaProducer = new KafkaAdapter();
 
@@ -30,8 +71,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
     } = data;
 
     const results = await connect.transaction(async (t) => {
-
-     return await Promise.all([
+      const [vl, appointment, isCompleted] = await Promise.all([
         ViralLoad.create(
           {
             userID,
@@ -57,7 +97,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
         ),
         markAsCompletedAppointment(patientID, "viral load"),
       ]);
-      // return results;
+      return vl;
     });
     await this.kafkaProducer.sendMessage("complete", [
       {
@@ -71,7 +111,10 @@ export class ViralLoadRepository implements IViralLoadRepository {
     hospitalID: string,
     page: number,
     pageSize: number,
-    searchQuery: string
+    searchQuery: string,
+    vlResults: string,
+    vlJustification: string,
+    status: string
   ): Promise<ViralLoadResponseInterface | undefined | null> {
     try {
       const currentDate = new Date();
@@ -80,6 +123,56 @@ export class ViralLoadRepository implements IViralLoadRepository {
         currentDate.getMonth(),
         currentDate.getDate()
       );
+      let vlWhere = {};
+      if (vlJustification) {
+        vlWhere = {
+          ...vlWhere,
+          vlJustification: vlJustification,
+        };
+      }
+
+      if (vlResults.length > 0) {
+        if (vlResults.toLowerCase() === "ldl") {
+          vlWhere = {
+            ...vlWhere,
+            vlResults: {
+              [Op.lte]: 49,
+            },
+          };
+        } else if (vlResults.toLowerCase() === "low risk llv") {
+          vlWhere = {
+            ...vlWhere,
+            vlResults: {
+              [Op.between]: [50, 199],
+            },
+          };
+        } else if (vlResults.toLowerCase() === "high risk llv") {
+          vlWhere = {
+            ...vlWhere,
+            vlResults: {
+              [Op.between]: [200, 999],
+            },
+          };
+        } else if (vlResults.toLowerCase() === "suspected treatment failure") {
+          vlWhere = {
+            ...vlWhere,
+            vlResults: {
+              [Op.gte]: 1000,
+            },
+          };
+        }
+      }
+
+      if (status.length > 0) {
+        vlWhere = {
+          ...vlWhere,
+          isVLValid:
+            status === "valid"
+              ? true
+              : false
+        };
+      }
+
       let where = {
         hospitalID,
         dob: { [Op.gte]: maxDate }, // Default filter
@@ -99,6 +192,8 @@ export class ViralLoadRepository implements IViralLoadRepository {
       const offset = (page - 1) * pageSize;
       const limit = pageSize;
       const { rows, count } = await ViralLoad.findAndCountAll({
+        order: [["createdAt", "DESC"]],
+        where: vlWhere,
         limit,
         offset,
         include: [
@@ -171,7 +266,6 @@ export class ViralLoadRepository implements IViralLoadRepository {
         group: ["ViralLoad.id"],
         // where,
       });
-      console.log(results, "resultxs");
       return results;
     } catch (error) {
       console.log(error);
@@ -265,5 +359,63 @@ export class ViralLoadRepository implements IViralLoadRepository {
     });
 
     return results;
+  }
+
+  async findAllVlReasons(hospitalID: string, dateQuery: string) {
+    const currentDate = new Date();
+    const maxDate = new Date(
+      currentDate.getFullYear() - 25,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    let where = {
+      dateOfNextVL: {
+        [Op.ne]: null,
+      },
+    };
+
+    if (dateQuery || dateQuery?.toLowerCase() !== "All".toLowerCase()) {
+      const { start, end } = getWeekRange(dateQuery);
+      where = {
+        ...where,
+        dateOfNextVL: {
+          [Op.between]: [start, end],
+        },
+      };
+    }
+
+    const results = await ViralLoad.findAll({
+      where,
+      include: [
+        {
+          model: Patient,
+          attributes: [],
+          where: {
+            hospitalID,
+            dob: {
+              [Op.gte]: maxDate,
+            },
+          },
+        },
+      ],
+      attributes: [
+        [fn("COUNT", col("vlJustification")), "count"],
+        // [fn("DATE_FORMAT", col("dateOfVL"), "%Y-%m-%d"), "formattedDateOfVl"],
+        [literal('CAST("dateOfNextVL" AS DATE)'), "formattedDateOfVl"],
+        "vlJustification",
+      ],
+      group: ["vlJustification", literal('"formattedDateOfVl"')],
+    });
+    return results.map((result) => {
+      const value = {};
+      const justification = result.dataValues.vlJustification;
+      const count = result.dataValues.count;
+      (value[justification] = count),
+        (value.dateOfVl = result.dataValues.formattedDateOfVl);
+      value.count = count;
+      value.vlJustification = justification;
+      return value;
+    });
   }
 }

@@ -641,7 +641,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     const currentDate = new Date(); // Ensure currentDate is not mutated
 
     const maxDate = new Date(
-      currentDate.getFullYear() - 25,
+      currentDate.getFullYear() - 24,
       currentDate.getMonth(),
       currentDate.getDate()
     );
@@ -666,7 +666,6 @@ export class AppointmentRepository implements IAppointmentRepository {
       (patient) => patient.patientID
     );
 
-    console.log(importantPatient, "ips");
 
     const where = searchQuery
       ? {
@@ -677,18 +676,18 @@ export class AppointmentRepository implements IAppointmentRepository {
             { lastName: { [Op.iLike]: `%${searchQuery}%` } },
           ],
           hospitalID,
-          dob: {
-            [Op.gte]: maxDate,
-          },
+          // dob: {
+          //   [Op.lte]: maxDate,
+          // },
           id: {
             [Op.in]: importantPatientIDs,
           },
         }
       : {
           hospitalID,
-          dob: {
-            [Op.gte]: maxDate,
-          },
+          // dob: {
+          //   [Op.lte]: maxDate,
+          // },
           id: {
             [Op.in]: importantPatientIDs,
           },

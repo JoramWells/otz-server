@@ -17,7 +17,12 @@ export class PatientVisitInteractor implements IPatientVisitInteractor {
     pageSize: number,
     searchQuery: string
   ): Promise<PatientVisitResponseInterface | null | undefined> {
-    return await this.repository.findHistoryById(id, page, pageSize, searchQuery);
+    return await this.repository.findHistoryById(
+      id,
+      page,
+      pageSize,
+      searchQuery
+    );
   }
 
   async getPatientVisitById(
@@ -36,6 +41,13 @@ export class PatientVisitInteractor implements IPatientVisitInteractor {
     id: string
   ): Promise<PatientVisitsInterface[] | null> {
     return await this.repository.findUserPatientCount(id);
+  }
+
+  //
+  async getPatientVisitByCount(
+    id: string
+  ): Promise<PatientVisitsInterface[] | null | undefined> {
+    return await this.repository.findPatientVisitByCount(id);
   }
 
   async getPatientVisitByUserId(

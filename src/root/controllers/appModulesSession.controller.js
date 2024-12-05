@@ -85,7 +85,6 @@ const getAppModuleSessionDetail = async (req, res, next) => {
   }
 };
 
-
 // edit patient
 // const editAppModules = async (req, res, next) => {
 //   const { id } = req.params;
