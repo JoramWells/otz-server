@@ -7,11 +7,11 @@ export interface IAppointmentRepository {
   find: (
     dateQuery: string,
     hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string,
-    status: string,
-    agenda: string
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string,
+    status?: string,
+    agenda?: string
   ) => Promise<AppointmentResponseInterface | undefined | null>;
   findById: (id: string) => Promise<AppointmentAttributes | null>;
   findAllAppointmentById: (
@@ -52,10 +52,10 @@ export interface IAppointmentRepository {
   ) => Promise<UniqueAppointmentInterface[] | null | undefined>;
 
   findStarredPatientAppointments: (
-    hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string
+    hospitalID?: string,
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string
   ) => Promise<AppointmentResponseInterface | null | undefined>;
 }
 

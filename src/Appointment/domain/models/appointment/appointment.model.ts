@@ -10,7 +10,7 @@ import { AppointmentAttributes } from "otz-types";
 export interface AppointmentResponseInterface {
   data: AppointmentAttributes[];
   total: number;
-  page: number;
+  page?: number | string;
   pageSize: number;
 }
 

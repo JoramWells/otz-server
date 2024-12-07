@@ -76,11 +76,11 @@ export class AppointmentInteractor implements IAppointmentInteractor {
   async getAllAppointments(
     dateQuery: string,
     hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string,
-    status: string,
-    agenda: string
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string,
+    status?: string,
+    agenda?: string
   ): Promise<AppointmentResponseInterface | null | undefined> {
     return await this.repository.find(
       dateQuery,
@@ -100,10 +100,10 @@ export class AppointmentInteractor implements IAppointmentInteractor {
 
   //
   async getStarredPatientAppointments(
-    hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string
+    hospitalID?: string,
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string
   ): Promise<AppointmentResponseInterface | null | undefined> {
     return await this.repository.findStarredPatientAppointments(
       hospitalID,

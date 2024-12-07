@@ -3,7 +3,6 @@ import { ImportantPatientsInterface } from "otz-types";
 import { User } from "./user.model";
 import { Patient } from "./patients.models";
 import { connect } from "../../db/connect";
-import { Appointment } from "./appointment/appointment.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 
@@ -11,7 +10,7 @@ import { Appointment } from "./appointment/appointment.model";
 export class ImportantPatient extends Model<ImportantPatientsInterface> implements ImportantPatientsInterface {
   id?: string | undefined;
   userID?: string | undefined;
-  hospitalID?: string | undefined;
+  patientID?: string | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
 }
