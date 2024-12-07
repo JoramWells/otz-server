@@ -21,7 +21,10 @@ export class VitalSignsRepository implements IVitalSignsRepository {
   }
 
   async find(
-    hospitalID: string
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
   ): Promise<VitalSignResponseInterface | null | undefined> {
     try {
       const currentDate = new Date();
@@ -34,7 +37,26 @@ export class VitalSignsRepository implements IVitalSignsRepository {
         hospitalID,
         dob: { [Op.gte]: maxDate }, // Default filter
       };
+
+      //
+      // Add search query filter if provided
+      if (searchQuery) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+        };
+      }
+
+      const offset = (page - 1) * pageSize;
+      const limit = pageSize;
+
       const { rows, count } = await VitalSigns.findAndCountAll({
+        limit,
+        offset,
         include: [
           {
             model: Patient,
@@ -74,7 +96,7 @@ export class VitalSignsRepository implements IVitalSignsRepository {
   ): Promise<VitalSignsInterface | null | undefined> {
     try {
       const results = await VitalSigns.findOne({
-        order:[['createdAt', 'DESC']],
+        order: [["createdAt", "DESC"]],
         where: {
           patientVisitID: id,
         },

@@ -14,7 +14,8 @@ const router = express.Router()
 
 router.post('/add', controller.onCreateARTPrescription.bind(controller))
 router.get('/fetchAll', controller.onGetAllARTPrescriptions.bind(controller))
-router.get('/detail/:id', controller.onGetARTPrescriptionById.bind(controller))
+router.get("/detail/:id", controller.onGetARTPrescriptionById.bind(controller));
+router.get("/by-prescription-category/", controller.onGetPrescriptionByName.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

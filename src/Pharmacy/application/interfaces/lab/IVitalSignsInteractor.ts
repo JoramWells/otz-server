@@ -6,7 +6,10 @@ export interface IVitalSignsInteractor {
     data: VitalSignsInterface
   ) => Promise<VitalSignsInterface | null | undefined>;
   getAllVitalSigns: (
-    hospitalID: string
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
   ) => Promise<VitalSignResponseInterface | undefined | null>;
   getVitalSignsById: (
     id: string

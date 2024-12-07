@@ -11,6 +11,7 @@ import { connect } from "../../../domain/db/connect";
 import { Appointment } from "../../../domain/models/appointment/appointment.model";
 import { markAsCompletedAppointment } from "../../../utils/markAsCompletedAppointment";
 import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
+import { ImportantPatient } from "../../../domain/models/importantPatients";
 
 const getWeekRange = (query: string) => {
   const date = new Date();
@@ -166,10 +167,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
       if (status.length > 0) {
         vlWhere = {
           ...vlWhere,
-          isVLValid:
-            status === "valid"
-              ? true
-              : false
+          isVLValid: status === "valid" ? true : false,
         };
       }
 
@@ -417,5 +415,92 @@ export class ViralLoadRepository implements IViralLoadRepository {
       value.vlJustification = justification;
       return value;
     });
+  }
+
+  //
+  //
+  async findStarredViralLoad(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<ViralLoadResponseInterface | null | undefined> {
+    // await this.redisClient.connect();
+    const currentDate = new Date(); // Ensure currentDate is not mutated
+
+    const maxDate = new Date(
+      currentDate.getFullYear() - 24,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
+
+    const importantPatient = await ImportantPatient.findAll({
+      include: [
+        {
+          model: Patient,
+          where: {
+            hospitalID,
+          },
+          attributes: [],
+        },
+      ],
+      attributes: ["patientID"],
+    });
+
+    const importantPatientIDs = importantPatient.map(
+      (patient) => patient.patientID
+    );
+
+    const where = searchQuery
+      ? {
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+            { lastName: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+          hospitalID,
+          // dob: {
+          //   [Op.lte]: maxDate,
+          // },
+          id: {
+            [Op.in]: importantPatientIDs,
+          },
+        }
+      : {
+          hospitalID,
+          // dob: {
+          //   [Op.lte]: maxDate,
+          // },
+          id: {
+            [Op.in]: importantPatientIDs,
+          },
+        };
+
+    try {
+      const { rows, count } = await ViralLoad.findAndCountAll({
+        order: [["createdAt", "DESC"]],
+        limit,
+        offset,
+        include:[
+          {
+            model: Patient,
+            where
+          }
+        ]
+      });
+
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

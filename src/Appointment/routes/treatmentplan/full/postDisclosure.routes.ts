@@ -32,7 +32,7 @@ router.get(
 // 
 router.get(
   "/by-visit-id/:id",
-  controllers.onGetAllPostDisclosureByVisitId.bind(controllers)
+  controllers.onGetPostDisclosureByVisitId.bind(controllers)
 );
 router.get(
   "/details/:id",

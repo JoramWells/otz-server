@@ -77,7 +77,7 @@ export class CALHIVRepository implements ICALHIVRepository {
     try {
       const results = await CALHIV.findOne({
         order: [["createdAt", "DESC"]],
-        attributes: [],
+        // attributes: [],
         where: {
           hospitalID: id,
         },
