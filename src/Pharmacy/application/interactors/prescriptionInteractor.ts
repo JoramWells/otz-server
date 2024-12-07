@@ -1,7 +1,7 @@
-import { AppointmentAttributes, PrescriptionInterface } from 'otz-types'
-import { type IPrescriptionInteractor } from '../interfaces/art/IPrescriptionInteractor'
-import { type IPrescriptionRepository } from '../interfaces/art/IPrescriptionRepository'
-import { PrescriptionResponseInterface } from '../../domain/models/art/prescription.model';
+import { AppointmentAttributes, PrescriptionInterface } from "otz-types";
+import { type IPrescriptionInteractor } from "../interfaces/art/IPrescriptionInteractor";
+import { type IPrescriptionRepository } from "../interfaces/art/IPrescriptionRepository";
+import { PrescriptionResponseInterface } from "../../domain/models/art/prescription.model";
 
 export class PrescriptionInteractor implements IPrescriptionInteractor {
   private readonly repository: IPrescriptionRepository;

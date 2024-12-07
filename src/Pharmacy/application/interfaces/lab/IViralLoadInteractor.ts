@@ -20,10 +20,22 @@ export interface IViralLoadInteractor {
   getAllVlCategories: (
     hospitalID: string
   ) => Promise<ViralLoadInterface[] | null>;
-  getAllVlReasons:(hospitalID: string, dateQuery: string)=>Promise<ViralLoadInterface[] | null | undefined>
+  getAllVlReasons: (
+    hospitalID: string,
+    dateQuery: string
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
   getSuppressionRate: (
     hospitalID: string,
     startDate: Date | string,
     endDate: Date | string
   ) => Promise<ViralLoadInterface[] | null | undefined>;
+
+  //
+  //
+  getStarredViralLoad: (
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ) => Promise<ViralLoadResponseInterface | null | undefined>;
 }

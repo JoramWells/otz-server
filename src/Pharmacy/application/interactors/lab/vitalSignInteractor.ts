@@ -24,9 +24,12 @@ export class VitalSignsInteractor implements IVitalSignsInteractor {
   }
 
   async getAllVitalSigns(
-    hospitalID: string
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
   ): Promise<VitalSignResponseInterface | undefined | null> {
-    return await this.repository.find(hospitalID);
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 
   //

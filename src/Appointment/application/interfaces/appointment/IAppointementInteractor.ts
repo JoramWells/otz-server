@@ -9,11 +9,11 @@ export interface IAppointmentInteractor {
   getAllAppointments: (
     dateString: string,
     hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string,
-    status: string,
-    agenda: string
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string,
+    status?: string,
+    agenda?: string
   ) => Promise<AppointmentResponseInterface | null | undefined>;
   getAppointmentById: (id: string) => Promise<AppointmentAttributes | null>;
   getAppointmentDetail: (id: string) => Promise<AppointmentAttributes[] | null>;
@@ -49,9 +49,9 @@ export interface IAppointmentInteractor {
 
   //
   getStarredPatientAppointments: (
-    hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string
+    hospitalID?: string,
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string
   ) => Promise<AppointmentResponseInterface | null | undefined>;
 }

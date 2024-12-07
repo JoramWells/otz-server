@@ -72,4 +72,19 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
       endDate
     );
   }
+
+  //
+  async getStarredViralLoad(
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ): Promise<ViralLoadResponseInterface | null | undefined> {
+    return await this.repository.findStarredViralLoad(
+      hospitalID,
+      page,
+      pageSize,
+      searchQuery
+    );
+  }
 }

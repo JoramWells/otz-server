@@ -23,4 +23,12 @@ export interface IViralLoadRepository {
     endDate: string | Date,
     startDate: Date | string
   ) => Promise<ViralLoadInterface[] | null | undefined>;
+
+  //
+  findStarredViralLoad: (
+    hospitalID: string,
+    page: number,
+    pageSize: number,
+    searchQuery: string
+  ) => Promise<ViralLoadResponseInterface | null | undefined>;
 }

@@ -14,10 +14,13 @@ import { User } from "../../domain/models/user.model";
 // import { logger } from '../../utils/logger'
 import { RedisAdapter } from "./redisAdapter";
 import { connect } from "../../db/connect";
-import { PatientVisits } from "../../domain/models/patientVisits.model";
 import { AppointmentAttributes } from "otz-types";
 import { UniqueAppointmentInterface } from "../../entities/UniqueAppointmentAgendaEntity";
 import { ImportantPatient } from "../../domain/models/importantPatients";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../utils/calculateLimitAndOffset";
 // import { createClient } from 'redis'
 
 const getWeekRange = (date: Date) => {
@@ -177,11 +180,7 @@ export class AppointmentRepository implements IAppointmentRepository {
     dateQuery: string
   ): Promise<UniqueAppointmentInterface[] | null | undefined> {
     const currentDate = new Date(); // Ensure currentDate is not mutated
-    const maxDate = new Date(
-      currentDate.getFullYear() - 25,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
+    const maxDate = calculateMaxAge(24);
     try {
       let where = {};
 
@@ -301,31 +300,31 @@ export class AppointmentRepository implements IAppointmentRepository {
   async find(
     dateQuery: string,
     hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string,
-    status: string,
-    agenda: string
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string,
+    status?: string,
+    agenda?: string
   ): Promise<AppointmentResponseInterface | null | undefined> {
     // await this.redisClient.connect();
     // check if patient
 
-    let statusFound = false
+    let statusFound = false;
     let appointmentStatus;
     let appointmentAgenda;
 
     if (status) {
       appointmentStatus = await AppointmentStatus.findOne({
         where: {
-          statusDescription: {[Op.iLike]: status.toLowerCase()},
+          statusDescription: { [Op.iLike]: status.toLowerCase() },
         },
       });
-      if(appointmentStatus){
-        statusFound = true
+      if (appointmentStatus) {
+        statusFound = true;
       }
     }
 
-    if(agenda){
+    if (agenda) {
       appointmentAgenda = await AppointmentAgenda.findOne({
         where: {
           agendaDescription: { [Op.iLike]: agenda.toLowerCase() },
@@ -334,12 +333,8 @@ export class AppointmentRepository implements IAppointmentRepository {
     }
 
     try {
-      const currentDate = new Date(); // Ensure currentDate is not mutated
-      const maxDate = new Date(
-        currentDate.getFullYear() - 25,
-        currentDate.getMonth(),
-        currentDate.getDate()
-      );
+      const currentDate = new Date();
+      const maxDate = calculateMaxAge(24);
 
       let where = {
         // hospitalID,
@@ -348,7 +343,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         },
       };
 
-      let appointmentWhere={}
+      let appointmentWhere = {};
 
       // searc strin
       if (searchQuery) {
@@ -363,22 +358,21 @@ export class AppointmentRepository implements IAppointmentRepository {
         };
       }
 
-      if(statusFound && appointmentStatus){
+      if (statusFound && appointmentStatus) {
         appointmentWhere = {
           ...appointmentWhere,
           appointmentStatusID: appointmentStatus.id,
         };
       }
 
-      if(appointmentAgenda){
+      if (appointmentAgenda) {
         appointmentWhere = {
           ...appointmentWhere,
-          appointmentAgendaID: appointmentAgenda.id
-        }
+          appointmentAgendaID: appointmentAgenda.id,
+        };
       }
 
-      const offset = (page - 1) * pageSize;
-      const limit = pageSize;
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
       if (dateQuery === "weekly") {
         const { start, end } = getWeekRange(currentDate);
@@ -400,10 +394,10 @@ export class AppointmentRepository implements IAppointmentRepository {
 
       // if ((await this.redisClient.get(appointmentCache)) === null) {
       const { rows, count } = await Appointment.findAndCountAll({
-        where:appointmentWhere,
+        where: appointmentWhere,
         order: [["createdAt", "DESC"]],
-        limit: limit ? limit : 10,
-        offset: offset ? offset : 1,
+        limit,
+        offset,
         include: [
           {
             model: Patient,
@@ -632,22 +626,14 @@ export class AppointmentRepository implements IAppointmentRepository {
 
   //
   async findStarredPatientAppointments(
-    hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string
+    hospitalID?: string,
+    page?: number | string,
+    pageSize?: number | string,
+    searchQuery?: string
   ): Promise<AppointmentResponseInterface | null | undefined> {
     // await this.redisClient.connect();
-    const currentDate = new Date(); // Ensure currentDate is not mutated
 
-    const maxDate = new Date(
-      currentDate.getFullYear() - 24,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
-
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
     const importantPatient = await ImportantPatient.findAll({
       include: [
@@ -665,7 +651,6 @@ export class AppointmentRepository implements IAppointmentRepository {
     const importantPatientIDs = importantPatient.map(
       (patient) => patient.patientID
     );
-
 
     const where = searchQuery
       ? {
