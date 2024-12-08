@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { PatientVisitsInterface } from "otz-types";
+import { validate as isUUID } from "uuid";
 import { type IPatientVisitsRepository } from "../../application/interfaces/IPatientVisitsRepository";
 import { PatientVisits } from "../../domain/models/patientVisits.model";
 import { Patient } from "../../domain/models/patients.models";
@@ -9,6 +10,7 @@ import { KafkaAdapter } from "../kafka/kafka.producer";
 import { col, fn, Op } from "sequelize";
 import { User } from "../../domain/models/user.model";
 import { PatientVisitResponseInterface } from "../../entities/PatientVisitResponseInterface";
+import { calculateLimitAndOffset, calculateMaxAge } from "../../utils/calculateLimitAndOffset";
 
 export class PatientVisitRepository implements IPatientVisitsRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -27,18 +29,13 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     searchQuery: string
   ): Promise<PatientVisitResponseInterface | null | undefined> {
     try {
-      const currentDate = new Date();
-      let maxDate = new Date(
-        currentDate.getFullYear() - 25,
-        currentDate.getMonth(),
-        currentDate.getDate()
-      );
+      let maxDate = calculateMaxAge(25)
       let where = {
         dob: { [Op.gte]: maxDate }, // Default filter
       };
       let userWhere = {};
 
-      if (hospitalID) {
+      if (isUUID(hospitalID)) {
         userWhere = {
           ...userWhere,
           hospitalID,
@@ -58,8 +55,7 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       }
 
       //
-      const offset = (page - 1) * pageSize;
-      const limit = pageSize;
+      const {limit, offset} = calculateLimitAndOffset(page, pageSize)
 
       const { rows, count } = await PatientVisits.findAndCountAll({
         order: [["createdAt", "DESC"]],
@@ -151,18 +147,19 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
   async findPatientVisitByCount(
     hospitalID: string
   ): Promise<PatientVisitsInterface[] | null> {
-    const currentDate = new Date();
-    let maxDate = new Date(
-      currentDate.getFullYear() - 24,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
-    let where = {
-      hospitalID,
-      dob: { [Op.gte]: maxDate }, // Default filter
-    };
+    let maxDate = calculateMaxAge(25)
+      let where = {
+        dob: { [Op.gte]: maxDate }, // Default filter
+      };
+    if (isUUID(hospitalID)){
+      where = {
+        ...where,
+        hospitalID,
+      };
+    }
+
     const results = await PatientVisits.findAll({
-      limit: 3,
+      limit: 5,
       include: [
         {
           model: Patient,

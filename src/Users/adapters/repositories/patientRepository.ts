@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { Op, where } from "sequelize";
+import { validate as isUUID } from "uuid";
 import { type IPatientRepository } from "../../application/interfaces/IPatientRepository";
 import { patientCache } from "../../constants";
 import { connect } from "../../domain/db/connect";
@@ -217,10 +218,21 @@ try {
       currentDate.getMonth(),
       currentDate.getDate()
     );
-    let where = {
-      hospitalID,
+
+        let where = {
       dob: { [Op.gte]: maxDate }, // Default filter
     };
+
+
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+
 
     // Add search query filter if provided
     if (searchQuery) {

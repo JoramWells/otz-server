@@ -29,7 +29,7 @@ router.get(
 );
 router.get(
   "/by-visit-id/:id",
-  controllers.onCreateExecuteDisclosure.bind(controllers)
+  controllers.onGetExecuteDisclosureVisitId.bind(controllers)
 );
 router.get(
   "/details/:id",

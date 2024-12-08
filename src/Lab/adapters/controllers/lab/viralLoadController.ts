@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { type NextFunction, type Request, type Response } from "express";
-import { validate as isUUID } from "uuid";
 import { logger } from "../../../utils/logger";
 import { IViralLoadInteractor } from "../../../application/interfaces/lab/IViralLoadInteractor";
+import { validate as isUUID } from "uuid";
 
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
@@ -40,14 +40,8 @@ export class ViralLoadController {
         status,
       } = req.query;
 
-      if (!hospitalID || hospitalID === "undefined")
-        return res.status(400).json({ message: "Invalid ID parameter" });
 
-      if (!isUUID(hospitalID)) {
-        const errMessage = `${hospitalID} is not a valid UUID `;
-        logger.error(errMessage);
-        return res.status(404).json({ error: errMessage });
-      }
+
 
       //
       if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {

@@ -12,6 +12,12 @@ import { Appointment } from "../../../domain/models/appointment/appointment.mode
 import { markAsCompletedAppointment } from "../../../utils/markAsCompletedAppointment";
 import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
 import { ImportantPatient } from "../../../domain/models/importantPatients";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../utils/calculateLimitAndOffset";
+import { validate as isUUID } from "uuid";
+
 
 const getWeekRange = (query: string) => {
   const date = new Date();
@@ -118,12 +124,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
     status: string
   ): Promise<ViralLoadResponseInterface | undefined | null> {
     try {
-      const currentDate = new Date();
-      let maxDate = new Date(
-        currentDate.getFullYear() - 24,
-        currentDate.getMonth(),
-        currentDate.getDate()
-      );
+      let maxDate = calculateMaxAge(24);
       let vlWhere = {};
       if (vlJustification) {
         vlWhere = {
@@ -172,9 +173,15 @@ export class ViralLoadRepository implements IViralLoadRepository {
       }
 
       let where = {
-        hospitalID,
         dob: { [Op.gte]: maxDate }, // Default filter
       };
+
+      if (isUUID(hospitalID)) {
+       where = {
+         ...where,
+         hospitalID,
+       };
+      }
 
       // Add search query filter if provided
       if (searchQuery) {
@@ -187,8 +194,9 @@ export class ViralLoadRepository implements IViralLoadRepository {
           ],
         };
       }
-      const offset = (page - 1) * pageSize;
-      const limit = pageSize;
+
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
       const { rows, count } = await ViralLoad.findAndCountAll({
         order: [["createdAt", "DESC"]],
         where: vlWhere,
@@ -485,12 +493,12 @@ export class ViralLoadRepository implements IViralLoadRepository {
         order: [["createdAt", "DESC"]],
         limit,
         offset,
-        include:[
+        include: [
           {
             model: Patient,
-            where
-          }
-        ]
+            where,
+          },
+        ],
       });
 
       return {

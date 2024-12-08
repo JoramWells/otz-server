@@ -21,6 +21,8 @@ import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../utils/calculateLimitAndOffset";
+import { validate as isUUID } from "uuid";
+
 // import { createClient } from 'redis'
 
 const getWeekRange = (date: Date) => {
@@ -394,7 +396,7 @@ export class AppointmentRepository implements IAppointmentRepository {
 
       let userWhere = {};
 
-      if (hospitalID) {
+      if (isUUID(hospitalID)) {
         userWhere = {
           ...userWhere,
           hospitalID,

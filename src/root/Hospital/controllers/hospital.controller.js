@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const Hospital = require('../models/hospital.model');
 
 // using *Patients model
@@ -20,7 +21,7 @@ const addHospital = async (req, res, next) => {
 // get all priceListItems
 const getAllHospitals = async (req, res, next) => {
   try {
-    const results = await Hospital.findAll({ });
+    const results = await Hospital.findAll({});
     res.json(results);
     next();
   } catch (error) {
@@ -123,6 +124,37 @@ const deleteHospital = async (req, res, next) => {
   }
 };
 
+// 
+const searchHospital = async (req, res, next) => {
+  const { searchQuery } = req.query;
+  try {
+    let where = {}
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { hospitalName: { [Op.iLike]: `${searchQuery}%` } },
+          // { mflCode: { [Op.iLike]: `${searchQuery}%` } },
+        ],
+      };
+
+
+    };
+    const results = await Hospital.findAll({
+      limit: 10,
+      where,
+      attributes: ['id', 'hospitalName', 'mflCode']
+    });
+    res.json(results)
+    console.log(results)
+    next()
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
-  addHospital, getAllHospitals, getHospitalDetail, editHospital, deleteHospital, updateHospitalLocation
+  addHospital, getAllHospitals, getHospitalDetail, editHospital, deleteHospital, updateHospitalLocation, searchHospital
 };
