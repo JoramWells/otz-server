@@ -107,8 +107,6 @@ export class PatientController {
         casemanager,
       } = req.query;
 
-      console.log(req.query);
-
       if (!hospitalID || hospitalID === "undefined")
         return res.status(400).json({ message: "Invalid ID parameter" });
 
@@ -118,23 +116,13 @@ export class PatientController {
         return res.status(404).json({ error: errMessage });
       }
 
-      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = Number(page);
-        pageSize = Number(pageSize);
-      }
-
-      //
-      if (page <= 0) {
-        page = 1;
-      }
-
       const results = await this.interactor.getAllPatients(
         hospitalID as string,
         page as unknown as number,
         pageSize as unknown as number,
         searchQuery as string,
         calHIVQuery as string,
-        casemanager
+        casemanager as string
       );
       res.status(200).json(results);
       logger.info({ message: "Fetched all Patients Successfully!" });
@@ -199,16 +187,6 @@ export class PatientController {
         const errMessage = `${hospitalID} is not a valid UUID `;
         logger.error(errMessage);
         return res.status(404).json({ error: errMessage });
-      }
-
-      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = Number(page);
-        pageSize = Number(pageSize);
-      }
-
-      //
-      if (page <= 0) {
-        page = 1;
       }
 
       const results = await this.interactor.findAllOTZPatients(
@@ -441,6 +419,37 @@ export class PatientController {
       next(error);
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  async onSearchPatient(req: Request, res: Response, next: NextFunction) {
+    try {
+      // const redisClient = createClient({ url: 'redis://redis:6379' })
+      // await redisClient.connect()
+
+      let { hospitalID, searchQuery } = req.query;
+
+      if (!hospitalID || hospitalID === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
+
+      if (!isUUID(hospitalID)) {
+        const errMessage = `${hospitalID} is not a valid UUID `;
+        logger.error(errMessage);
+        return res.status(404).json({ error: errMessage });
+      }
+
+      const results = await this.interactor.searchPatient(
+        hospitalID as string,
+        searchQuery as string
+      );
+      res.status(200).json(results);
+      logger.info({ message: "Fetched all Patients Successfully!" });
+
+      next();
+    } catch (error) {
+      next(error);
+      logger.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      console.log(error);
     }
   }
 }

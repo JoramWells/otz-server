@@ -392,6 +392,15 @@ export class AppointmentRepository implements IAppointmentRepository {
         };
       }
 
+      let userWhere = {};
+
+      if (hospitalID) {
+        userWhere = {
+          ...userWhere,
+          hospitalID,
+        };
+      }
+
       // if ((await this.redisClient.get(appointmentCache)) === null) {
       const { rows, count } = await Appointment.findAndCountAll({
         where: appointmentWhere,
@@ -407,9 +416,7 @@ export class AppointmentRepository implements IAppointmentRepository {
           {
             model: User,
             attributes: ["id", "firstName", "middleName"],
-            where: {
-              hospitalID,
-            },
+            where: userWhere,
           },
           {
             model: AppointmentAgenda,

@@ -29,3 +29,6 @@ src/Appointment/.env/*
 
 src/MedicalFile
 ./src/MedicalFile
+
+src/Lab2
+./src/Lab2

@@ -20,6 +20,7 @@ import { RedisAdapter } from "./redisAdapter";
 import { NextOfKinInterface, PatientAttributes } from "otz-types";
 import CaseManager from "../../domain/models/casemanager.model";
 import { User } from "../../domain/models/user.model";
+import { calculateLimitAndOffset } from "../../utils/calculateLimitAndOffset";
 
 export class PatientRepository implements IPatientRepository {
   private readonly redisClient = new RedisAdapter();
@@ -135,8 +136,7 @@ try {
         ],
       };
     }
-      const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+      const {limit, offset} = calculateLimitAndOffset(page, pageSize )
       const {rows, count} = await Patient.findAndCountAll({
       where,
       offset,
@@ -316,8 +316,7 @@ try {
 
     //
 
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+    const {limit,offset} = calculateLimitAndOffset(page, pageSize)
 
     try {
       const { rows, count } = await Patient.findAndCountAll({
@@ -356,6 +355,66 @@ try {
         page: page,
         pageSize: limit,
       };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 
+   async search(
+    hospitalID: string,
+    searchQuery: string,
+
+
+  ): Promise<PatientResponseInterface | null | undefined> {
+    const currentDate = new Date();
+
+    let maxDate = new Date(
+      currentDate.getFullYear() - 25,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+    let where = {
+      hospitalID,
+      dob: { [Op.gte]: maxDate }, // Default filter
+    };
+
+
+
+    try {
+          // Add search query filter if provided
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { firstName: { [Op.iLike]: `${searchQuery}%` } },
+          { middleName: { [Op.iLike]: `${searchQuery}%` } },
+          { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+        ],
+      };
+   
+
+  const {limit, offset} = calculateLimitAndOffset(1,10)
+      const { rows, count } = await Patient.findAndCountAll({
+        order:[['updatedAt', 'DESC']],
+        limit,
+        offset,
+        attributes:['id', 'firstName', 'middleName', 'lastName', 'sex', 'dob', 'avatar', 'username', 'phoneNo', 'cccNo'],
+        where,
+
+        // where: {
+        //   dob: {
+        //     [Op.gte]: maxDate,
+        //   },
+        // },
+      });
+      return {
+        data: rows,
+        total: count,
+        page: 1,
+        pageSize: 10,
+      };
+       }
     } catch (error) {
       console.log(error);
     }
