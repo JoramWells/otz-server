@@ -85,14 +85,14 @@ export class PrescriptionController {
         status,
       } = req.query;
       console.log(req.query);
-      if (!hospitalID || hospitalID === "undefined")
-        return res.status(400).json({ message: "Invalid ID parameter" });
+      // if (!hospitalID || hospitalID === "undefined")
+      //   return res.status(400).json({ message: "Invalid ID parameter" });
 
-      if (!isUUID(hospitalID)) {
-        const errMessage = `${hospitalID} is not a valid UUID `;
-        logger.error(errMessage);
-        return res.status(404).json({ error: errMessage });
-      }
+      // if (!isUUID(hospitalID)) {
+      //   const errMessage = `${hospitalID} is not a valid UUID `;
+      //   logger.error(errMessage);
+      //   return res.status(404).json({ error: errMessage });
+      // }
       if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
         page = Number(page);
         pageSize = Number(pageSize);

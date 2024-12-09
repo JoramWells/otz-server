@@ -4,6 +4,8 @@
 import { AppointmentAttributes, PrescriptionInterface } from "otz-types";
 import { type IPrescriptionRepository } from "../../application/interfaces/art/IPrescriptionRepository";
 import { connect } from "../../domain/db/connect";
+import { validate as isUUID } from "uuid";
+
 
 import {
   Prescription,
@@ -70,7 +72,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         currentDate.getDate()
       );
 
-      console.log(frequency, status);
 
       let prescriptionWhere = {};
 
@@ -116,17 +117,24 @@ export class PrescriptionRepository implements IPrescriptionRepository {
               { middleName: { [Op.iLike]: `%${searchQuery}%` } },
               { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
             ],
-            hospitalID,
             dob: {
               [Op.gte]: maxDate,
             },
           }
         : {
-            hospitalID,
             dob: {
               [Op.gte]: maxDate,
             },
           };
+
+
+            if (isUUID(hospitalID)) {
+              where = {
+                ...where,
+                hospitalID,
+              };
+            }
+
 
       //
       const offset = (page - 1) * pageSize;

@@ -1940,3 +1940,4 @@
 {"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-04T16:15:04.971Z"}
 {"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-08T15:44:38.218Z"}
 {"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-08T15:44:38.242Z"}
+{"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-08T16:15:00.213Z"}

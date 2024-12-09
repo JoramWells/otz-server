@@ -36,8 +36,8 @@ export class AppointmentController {
       let { mode, hospitalID, page, pageSize, searchQuery, status, agenda } =
         req.query;
 
-      if (!hospitalID || hospitalID === "undefined")
-        return res.status(400).json({ message: "Invalid ID parameter" });
+      // if (!hospitalID || hospitalID === "undefined")
+      //   return res.status(400).json({ message: "Invalid ID parameter" });
 
       // if (!isUUID(hospitalID)) {
       //   const errMessage = `${hospitalID} is not a valid UUID `;
