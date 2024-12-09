@@ -8,7 +8,6 @@ import { Patient } from "../../../domain/models/patients.models";
 import { col, fn, literal, Op } from "sequelize";
 import { KafkaAdapter } from "../../kafka/producer/kafka.producer";
 import { connect } from "../../../domain/db/connect";
-import { Appointment } from "../../../domain/models/appointment/appointment.model";
 import { markAsCompletedAppointment } from "../../../utils/markAsCompletedAppointment";
 import { ViralLoadResponseInterface } from "../../../entities/ViralLoadResponseInterface";
 import { ImportantPatient } from "../../../domain/models/importantPatients";
@@ -17,6 +16,7 @@ import {
   calculateMaxAge,
 } from "../../../utils/calculateLimitAndOffset";
 import { validate as isUUID } from "uuid";
+import { Appointment } from "../../../domain/models/appointment/appointment.model";
 
 
 const getWeekRange = (query: string) => {
