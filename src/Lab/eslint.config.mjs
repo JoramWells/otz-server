@@ -1,4 +1,5 @@
 import globals from "globals";
+import tseslint from "typescript-eslint";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -13,5 +14,6 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 export default [
   {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
   {languageOptions: { globals: globals.browser }},
-  ...compat.extends("airbnb-base"),
+  ...compat.extends("standard-with-typescript"),
+  ...tseslint.configs.recommended,
 ];

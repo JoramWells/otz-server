@@ -24,6 +24,7 @@ router.get('/user-patient-detail/:id', patientController.onGetPatientByUserId.bi
 router.get('/fetchAllPMTCT', patientController.onGetAllPMTCTPatients.bind(patientController))
 router.get('/fetchAllOTZ', patientController.onGetAllOTZPatients.bind(patientController))
 router.get('/important-patients', patientController.onGetImportantPatient.bind(patientController))
+router.get('/search-patients', patientController.onSearchPatient.bind(patientController))
 router.put('/edit/:id', patientController.onEditPatientProfile.bind(patientController))
 router.post("/login", createLoginValidator, patientController.login.bind(patientController));
 router.put("/update-avatar/:id", upload.single('file') , patientController.onUpdatePatientProfileAvatar.bind(patientController));

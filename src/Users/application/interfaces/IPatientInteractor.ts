@@ -14,6 +14,10 @@ export interface IPatientInteractor {
     calHIVQuery: string,
     casemanager: string
   ) => Promise<PatientResponseInterface | null | undefined>;
+  searchPatient: (
+    hospitalID: string,
+    searchQuery: string
+  ) => Promise<PatientResponseInterface | null | undefined>;
   getAllPatientUsers: () => Promise<PatientAttributes[]>;
   getPatientById: (id: string) => Promise<PatientAttributes | null>;
   getImportantPatient: (limit: number) => Promise<PatientAttributes[]>;

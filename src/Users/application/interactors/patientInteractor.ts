@@ -84,6 +84,14 @@ export class PatientInteractor implements IPatientInteractor {
     );
   }
 
+  //
+  async searchPatient(
+    hospitalID: string,
+    searchQuery: string
+  ): Promise<PatientResponseInterface | null | undefined> {
+    return await this.repository.search(hospitalID, searchQuery);
+  }
+
   async getAllPatientUsers(): Promise<PatientAttributes[]> {
     return await this.repository.findUsers();
   }

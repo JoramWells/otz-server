@@ -28,6 +28,7 @@ export class AppointmentController {
     }
   }
 
+  
   async onGetAllAppointments(req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })

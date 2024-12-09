@@ -3,7 +3,6 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { type IPatientVisitInteractor } from "../../application/interfaces/IPatientVisitInteractor";
 import { logger } from "../../utils/logger";
-import { validate as isUUID } from "uuid";
 
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
@@ -29,25 +28,6 @@ export class PatientVisitController {
   async onGetAllPatientVisits(req: Request, res: Response, next: NextFunction) {
     try {
       let { hospitalID, page, pageSize, searchQuery } = req.query;
-
-      if (!hospitalID || hospitalID === "undefined")
-        return res.status(400).json({ message: "Invalid ID parameter" });
-
-      if (!isUUID(hospitalID)) {
-        const errMessage = `${hospitalID} is not a valid UUID `;
-        logger.error(errMessage);
-        return res.status(404).json({ error: errMessage });
-      }
-
-      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = Number(page);
-        pageSize = Number(pageSize);
-      }
-
-      //
-      if (page <= 0) {
-        page = 1;
-      }
 
       const results = await this.interactor.getAllPatientVisits(
         hospitalID,
