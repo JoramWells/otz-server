@@ -6,6 +6,7 @@ import { Patient } from "../../domain/models/patients.models";
 import { User } from "../../domain/models/user.model";
 import { ICALHIVRepository } from "../../application/interfaces/ICALHIVRepository";
 import { CALHIV } from "../../domain/models/calHIV.model";
+import { validate as isUUID } from "uuid";
 
 export class CALHIVRepository implements ICALHIVRepository {
   async create(data: CALHIVInterface): Promise<CALHIVInterface> {
@@ -45,12 +46,14 @@ export class CALHIVRepository implements ICALHIVRepository {
     try {
       let where = {};
 
-      if (hospitalID?.length > 0) {
+            if (isUUID(hospitalID)) {
         where = {
           ...where,
           hospitalID,
         };
       }
+
+
       const results = await CALHIV.findAll({
         where
       });
