@@ -110,7 +110,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       // }
 
 
-      const where = searchQuery
+      let where = searchQuery
         ? {
             [Op.or]: [
               { firstName: { [Op.iLike]: `%${searchQuery}%` } },

@@ -46,16 +46,15 @@ export class CALHIVRepository implements ICALHIVRepository {
     try {
       let where = {};
 
-            if (isUUID(hospitalID)) {
+      if (isUUID(hospitalID)) {
         where = {
           ...where,
           hospitalID,
         };
       }
 
-
       const results = await CALHIV.findAll({
-        where
+        where,
       });
       return results;
     } catch (error) {
@@ -75,15 +74,21 @@ export class CALHIVRepository implements ICALHIVRepository {
 
   //
   async findByHospitalId(
-    id: string
+    hospitalID: string
   ): Promise<CALHIVInterface | null | undefined> {
     try {
+      let where = {};
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
       const results = await CALHIV.findOne({
         order: [["createdAt", "DESC"]],
         // attributes: [],
-        where: {
-          hospitalID: id,
-        },
+        where,
         // include: [
         //   {
         //     model: User,
