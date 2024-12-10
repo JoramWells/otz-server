@@ -12,9 +12,13 @@ import { Op } from "sequelize";
 export class VitalSignsRepository implements IVitalSignsRepository {
   async create(data: VitalSignsInterface): Promise<VitalSignsInterface> {
     try {
-      const results: VitalSignsInterface = await VitalSigns.create(data);
+      try {
+        const results: VitalSignsInterface = await VitalSigns.create(data);
 
-      return results;
+        return results;
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       console.log(error);
     }

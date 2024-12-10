@@ -20,9 +20,6 @@ import { KafkaAdapter } from "../kafka/producer/kafka.producer";
 import { col, fn, Op, Sequelize } from "sequelize";
 import { Patient } from "../../domain/models/patients.models";
 import { ARTPrescription } from "../../domain/models/art/artPrescription.model";
-import { ImportantPatient } from "../../domain/models/importantPatients";
-import { PatientVisits } from "../../domain/models/patientVisits.model";
-import { ArtCategory } from "../../domain/models/art/artCategory.model";
 
 export class PrescriptionRepository implements IPrescriptionRepository {
   private readonly kafkaProducer = new KafkaAdapter();

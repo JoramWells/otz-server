@@ -5,6 +5,14 @@
 import { FullDisclosureAttributes } from "otz-types";
 import { IFullDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IFullDisclosureRepository";
 import { FullDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
+import { FullDisclosureResponseInterface } from "../../../../entities/FullDisclosureResponseInterface";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../../utils/calculateLimitAndOffset";
+import { Op } from "sequelize";
+import { validate as isUUID } from "uuid";
+import { Patient } from "../../../../domain/models/patients.models";
 
 // import { RedisAdapter } from '../redisAdapter'
 
@@ -22,31 +30,64 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
     return results;
   }
 
-  async find(): Promise<FullDisclosureAttributes[]> {
-    // await this.redisClient.connect();
+  async find(
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string
+  ): Promise<FullDisclosureResponseInterface | undefined | null> {
+    try {
+      const maxDate = calculateMaxAge(25);
 
-    // check if patient
-    // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await FullDisclosure.findAll({});
-    // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
-    // set to cace
-    //   await this.redisClient.set(mmasCache, JSON.stringify(results));
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
-    //   return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   mmasCache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
-    // await this.redisClient.disconnect();
-    // // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+      //
+      let where = {
+        dob: {
+          [Op.gte]: maxDate,
+        },
+      };
 
-    // const results: FullDisclosureAttributes[] = JSON.parse(cachedPatients);
-    return results;
+      //
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      //
+      if (searchQuery?.length > 0) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+          ],
+        };
+      }
+
+      const { rows, count } = await FullDisclosure.findAndCountAll({
+        include: [
+          {
+            model: Patient,
+            where,
+          },
+        ],
+      });
+      // logger.info({ message: "Fetched from db!" });
+      // console.log("fetched from db!");
+      // set to cace
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<FullDisclosureAttributes | null> {

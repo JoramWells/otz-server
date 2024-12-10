@@ -1,6 +1,7 @@
 import { FullDisclosureAttributes } from "otz-types";
 import { IFullDisclosureInteractor } from "../../../interfaces/disclosure/full/IFullDisclosureInteractor";
 import { IFullDisclosureRepository } from "../../../interfaces/disclosure/full/IFullDisclosureRepository";
+import { FullDisclosureResponseInterface } from "../../../../entities/FullDisclosureResponseInterface";
 
 
 export class FullDisclosureInteractor implements IFullDisclosureInteractor {
@@ -14,9 +15,12 @@ export class FullDisclosureInteractor implements IFullDisclosureInteractor {
   // };
 
   async getAllFullDisclosure(
-    hospitalID: string
-  ): Promise<FullDisclosureAttributes[] | null> {
-    return await this.repository.find(hospitalID);
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string
+  ): Promise<FullDisclosureResponseInterface | undefined | null> {
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 
   async getFullDisclosureById(
