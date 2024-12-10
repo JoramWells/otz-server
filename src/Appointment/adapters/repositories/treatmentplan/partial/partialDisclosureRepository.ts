@@ -7,6 +7,14 @@ import { PartialDisclosure } from "../../../../domain/models/treatmentplan/discl
 import { ChildCaregiverReadiness } from "../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
 import { ChildDisclosureEligibility } from "../../../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
 import { Patient } from "../../../../domain/models/patients.models";
+import { validate as isUUID } from "uuid";
+
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../../utils/calculateLimitAndOffset";
+import { Op } from "sequelize";
+import { PartialDisclosureResponseInterface } from "../../../../entities/PartialDisclosureResponseInterface";
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
@@ -26,52 +34,96 @@ export class PartialDisclosureRepository
     return results;
   }
 
-  async find(): Promise<PartialDisclosureAttributes[]> {
+  async find(
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string
+  ): Promise<PartialDisclosureResponseInterface | null | undefined> {
     // await this.redisClient.connect();
+    try {
+      const maxDate = calculateMaxAge(25);
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
-    // check if patient
-    // if ((await this.redisClient.get(mmasCache)) === null) {
-    const results = await PartialDisclosure.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: ["firstName", "middleName"],
+      //
+      let where = {
+        dob: {
+          [Op.gte]: maxDate,
         },
-        {
-          model: ChildCaregiverReadiness,
-          attributes: ["patientID"],
-          // include: [
-          //   {
-          //     model: Patient,
-          //     attributes:[]
-          //   }
-          // ]
-        },
-        {
-          model: ChildDisclosureEligibility,
-          attributes: ["patientID"],
-        },
-      ],
-    });
-    // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
-    // set to cace
-    //   await this.redisClient.set(mmasCache, JSON.stringify(results));
+      };
+      //
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
 
-    //   return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   mmasCache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
-    // await this.redisClient.disconnect();
-    // // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+      //
+      if (searchQuery?.length > 0) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+          ],
+        };
+      }
+      // check if patient
+      // if ((await this.redisClient.get(mmasCache)) === null) {
+      const { rows, count } = await PartialDisclosure.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+            where,
+          },
+          {
+            model: ChildCaregiverReadiness,
+            attributes: ["patientID"],
+            // include: [
+            //   {
+            //     model: Patient,
+            //     attributes:[]
+            //   }
+            // ]
+          },
+          {
+            model: ChildDisclosureEligibility,
+            attributes: ["patientID"],
+          },
+        ],
+      });
+      // logger.info({ message: "Fetched from db!" });
+      // console.log("fetched from db!");
+      // set to cace
+      //   await this.redisClient.set(mmasCache, JSON.stringify(results));
 
-    // const results: PartialDisclosureAttributes[] = JSON.parse(cachedPatients);
-    return results;
+      //   return results;
+      // }
+      // const cachedPatients: string | null = await this.redisClient.get(
+      //   mmasCache
+      // );
+      // if (cachedPatients === null) {
+      //   return [];
+      // }
+      // await this.redisClient.disconnect();
+      // // logger.info({ message: "Fetched from cache!" });
+      // console.log("fetched from cache!");
+
+      // const results: PartialDisclosureAttributes[] = JSON.parse(cachedPatients);
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<PartialDisclosureAttributes | null> {

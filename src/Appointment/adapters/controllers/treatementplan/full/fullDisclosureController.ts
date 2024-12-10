@@ -36,10 +36,14 @@ export class FullDisclosureController {
     next: NextFunction
   ) {
     try {
-      // const redisClient = createClient({ url: 'redis://redis:6379' })
-      // await redisClient.connect()
+            let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllFullDisclosure();
+      const results = await this.interactor.getAllFullDisclosure(
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(results);
 
       next();

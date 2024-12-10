@@ -132,7 +132,8 @@ export interface ExecuteDisclosureAttributes {
 
 export interface FullDisclosureAttributes {
   id?: string;
-
+  score?: number;
+  patientID?: string;
   executeDisclosureID: string;
   postDisclosureID: string;
   createdAt?: Date | string;
@@ -190,9 +191,10 @@ export interface ChildDisclosureEligibilityAttributes {
 
 export interface PartialDisclosureAttributes {
   id?: string;
-
+  patientID?: string;
   childDisclosureEligibilityID?: string;
   childCaregiverReadinessID?: string;
+  score?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }

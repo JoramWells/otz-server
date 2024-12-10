@@ -18,7 +18,6 @@ import {
 import { validate as isUUID } from "uuid";
 import { Appointment } from "../../../domain/models/appointment/appointment.model";
 
-
 const getWeekRange = (query: string) => {
   const date = new Date();
   const startOfWeek = new Date(date);
@@ -64,54 +63,58 @@ export class ViralLoadRepository implements IViralLoadRepository {
   private readonly kafkaProducer = new KafkaAdapter();
 
   async create(data: ViralLoadInterface): Promise<ViralLoadInterface> {
-    const {
-      userID,
-      patientID,
-      patientVisitID,
-      appointmentAgendaID,
-      appointmentStatusID,
-      appointmentDate,
-      dateOfVL,
-      dateOfNextVL,
-      vlResults,
-      vlJustification,
-    } = data;
+    try {
+      const {
+        userID,
+        patientID,
+        patientVisitID,
+        appointmentAgendaID,
+        appointmentStatusID,
+        appointmentDate,
+        dateOfVL,
+        dateOfNextVL,
+        vlResults,
+        vlJustification,
+      } = data;
 
-    const results = await connect.transaction(async (t) => {
-      const [vl, appointment, isCompleted] = await Promise.all([
-        ViralLoad.create(
-          {
-            userID,
-            dateOfVL,
-            dateOfNextVL,
-            vlResults,
-            vlJustification,
-            patientVisitID,
-            patientID,
-          },
-          { transaction: t }
-        ),
-        Appointment.create(
-          {
-            userID,
-            patientID,
-            patientVisitID,
-            appointmentAgendaID,
-            appointmentStatusID,
-            appointmentDate,
-          },
-          { transaction: t }
-        ),
-        markAsCompletedAppointment(patientID, "viral load"),
+      const results = await connect.transaction(async (t) => {
+        const [vl, appointment, isCompleted] = await Promise.all([
+          ViralLoad.create(
+            {
+              userID,
+              dateOfVL,
+              dateOfNextVL,
+              vlResults,
+              vlJustification,
+              patientVisitID,
+              patientID,
+            },
+            { transaction: t }
+          ),
+          Appointment.create(
+            {
+              userID,
+              patientID,
+              patientVisitID,
+              appointmentAgendaID,
+              appointmentStatusID,
+              appointmentDate,
+            },
+            { transaction: t }
+          ),
+          markAsCompletedAppointment(patientID, "viral load"),
+        ]);
+        return vl;
+      });
+      await this.kafkaProducer.sendMessage("complete", [
+        {
+          value: JSON.stringify({ patientID, agenda: "viral load" }),
+        },
       ]);
-      return vl;
-    });
-    await this.kafkaProducer.sendMessage("complete", [
-      {
-        value: JSON.stringify({ patientID, agenda: "viral load" }),
-      },
-    ]);
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async find(
@@ -177,10 +180,10 @@ export class ViralLoadRepository implements IViralLoadRepository {
       };
 
       if (isUUID(hospitalID)) {
-       where = {
-         ...where,
-         hospitalID,
-       };
+        where = {
+          ...where,
+          hospitalID,
+        };
       }
 
       // Add search query filter if provided
@@ -278,151 +281,171 @@ export class ViralLoadRepository implements IViralLoadRepository {
     }
   }
 
-  async findById(id: string): Promise<ViralLoadInterface | null> {
-    const results = await ViralLoad.findOne({
-      order: [["createdAt", "DESC"]],
+  async findById(id: string): Promise<ViralLoadInterface | null | undefined> {
+    try {
+      const results = await ViralLoad.findOne({
+        order: [["createdAt", "DESC"]],
 
-      // include: [
-      //   {
-      //     model: Patient,
-      //     attributes: ["firstName", "middleName", "dob", "sex"],
-      //   },
-      //   {
-      //     model: User,
-      //     attributes: ["firstName", "middleName"],
-      //   },
-      //   {
-      //     model: ARTPrescription,
-      //     attributes: ["regimen", "line", "startDate"],
-      //   },
-      //   {
-      //     model: ViralLoad,
-      //     attributes: ["vlResults", "dateOfVL", "vlJustification"],
-      //   },
-      // ],
-      where: {
-        patientID: id,
-      },
-    });
-
-    return results;
-  }
-
-  //
-  async findByPatientId(id: string): Promise<ViralLoadInterface[] | null> {
-    const results = await ViralLoad.findAll({
-      // include: [
-      //   {
-      //     model: Patient,
-      //     attributes: ["firstName", "middleName", "dob", "sex"],
-      //   },
-      //   {
-      //     model: User,
-      //     attributes: ["firstName", "middleName"],
-      //   },
-      //   {
-      //     model: ARTPrescription,
-      //     attributes: ["regimen", "line", "startDate"],
-      //   },
-      //   {
-      //     model: ViralLoad,
-      //     attributes: ["vlResults", "dateOfVL", "vlJustification"],
-      //   },
-      // ],
-      where: {
-        patientID: id,
-      },
-    });
-
-    return results;
-  }
-
-  //
-  async findCategories(id: string): Promise<ViralLoadInterface[] | null> {
-    const results = await ViralLoad.findAll({
-      include: [
-        {
-          model: Patient,
-          attributes: [],
-          where: {
-            hospitalID: id,
-          },
+        // include: [
+        //   {
+        //     model: Patient,
+        //     attributes: ["firstName", "middleName", "dob", "sex"],
+        //   },
+        //   {
+        //     model: User,
+        //     attributes: ["firstName", "middleName"],
+        //   },
+        //   {
+        //     model: ARTPrescription,
+        //     attributes: ["regimen", "line", "startDate"],
+        //   },
+        //   {
+        //     model: ViralLoad,
+        //     attributes: ["vlResults", "dateOfVL", "vlJustification"],
+        //   },
+        // ],
+        where: {
+          patientID: id,
         },
-      ],
-      attributes: [
-        [
-          literal(`CASE
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findByPatientId(
+    id: string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    try {
+      const results = await ViralLoad.findAll({
+        // include: [
+        //   {
+        //     model: Patient,
+        //     attributes: ["firstName", "middleName", "dob", "sex"],
+        //   },
+        //   {
+        //     model: User,
+        //     attributes: ["firstName", "middleName"],
+        //   },
+        //   {
+        //     model: ARTPrescription,
+        //     attributes: ["regimen", "line", "startDate"],
+        //   },
+        //   {
+        //     model: ViralLoad,
+        //     attributes: ["vlResults", "dateOfVL", "vlJustification"],
+        //   },
+        // ],
+        where: {
+          patientID: id,
+        },
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findCategories(
+    id: string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    try {
+      const results = await ViralLoad.findAll({
+        include: [
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              hospitalID: id,
+            },
+          },
+        ],
+        attributes: [
+          [
+            literal(`CASE
       WHEN "vlResults"::numeric < 50 THEN 'LDL'
       WHEN "vlResults"::numeric BETWEEN 50 AND 199 THEN 'Low RiskLLV'
       WHEN "vlResults"::numeric BETWEEN 200 AND 999 THEN 'High Risk LLV'
       ELSE 'Suspected Treatment Failure'
       END`),
-          "category",
+            "category",
+          ],
+          [fn("COUNT", col("*")), "count"],
         ],
-        [fn("COUNT", col("*")), "count"],
-      ],
-      group: ["category"],
-    });
+        group: ["category"],
+      });
 
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findAllVlReasons(hospitalID: string, dateQuery: string) {
-    const currentDate = new Date();
-    const maxDate = new Date(
-      currentDate.getFullYear() - 25,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
+    try {
+      const currentDate = new Date();
+      const maxDate = new Date(
+        currentDate.getFullYear() - 25,
+        currentDate.getMonth(),
+        currentDate.getDate()
+      );
 
-    let where = {
-      dateOfNextVL: {
-        [Op.ne]: null,
-      },
-    };
-
-    if (dateQuery || dateQuery?.toLowerCase() !== "All".toLowerCase()) {
-      const { start, end } = getWeekRange(dateQuery);
-      where = {
-        ...where,
+      let where = {
         dateOfNextVL: {
-          [Op.between]: [start, end],
+          [Op.ne]: null,
         },
       };
-    }
 
-    const results = await ViralLoad.findAll({
-      where,
-      include: [
-        {
-          model: Patient,
-          attributes: [],
-          where: {
-            hospitalID,
-            dob: {
-              [Op.gte]: maxDate,
+      if (dateQuery || dateQuery?.toLowerCase() !== "All".toLowerCase()) {
+        const { start, end } = getWeekRange(dateQuery);
+        where = {
+          ...where,
+          dateOfNextVL: {
+            [Op.between]: [start, end],
+          },
+        };
+      }
+
+      const results = await ViralLoad.findAll({
+        where,
+        include: [
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              hospitalID,
+              dob: {
+                [Op.gte]: maxDate,
+              },
             },
           },
-        },
-      ],
-      attributes: [
-        [fn("COUNT", col("vlJustification")), "count"],
-        // [fn("DATE_FORMAT", col("dateOfVL"), "%Y-%m-%d"), "formattedDateOfVl"],
-        [literal('CAST("dateOfNextVL" AS DATE)'), "formattedDateOfVl"],
-        "vlJustification",
-      ],
-      group: ["vlJustification", literal('"formattedDateOfVl"')],
-    });
-    return results.map((result) => {
-      const value = {};
-      const justification = result.dataValues.vlJustification;
-      const count = result.dataValues.count;
-      (value[justification] = count),
-        (value.dateOfVl = result.dataValues.formattedDateOfVl);
-      value.count = count;
-      value.vlJustification = justification;
-      return value;
-    });
+        ],
+        attributes: [
+          [fn("COUNT", col("vlJustification")), "count"],
+          // [fn("DATE_FORMAT", col("dateOfVL"), "%Y-%m-%d"), "formattedDateOfVl"],
+          [literal('CAST("dateOfNextVL" AS DATE)'), "formattedDateOfVl"],
+          "vlJustification",
+        ],
+        group: ["vlJustification", literal('"formattedDateOfVl"')],
+      });
+      return results.map((result) => {
+        const value = {};
+        const justification = result.dataValues.vlJustification;
+        const count = result.dataValues.count;
+        (value[justification] = count),
+          (value.dateOfVl = result.dataValues.formattedDateOfVl);
+        value.count = count;
+        value.vlJustification = justification;
+        return value;
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //

@@ -84,7 +84,6 @@ export class PrescriptionController {
         regimen,
         status,
       } = req.query;
-      console.log(req.query);
       // if (!hospitalID || hospitalID === "undefined")
       //   return res.status(400).json({ message: "Invalid ID parameter" });
 

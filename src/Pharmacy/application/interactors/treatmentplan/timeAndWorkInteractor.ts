@@ -1,7 +1,7 @@
-import { TimeAndWorkAttributes } from 'otz-types';
-import { ITimeAndWorkRepository } from '../../interfaces/treatmentplan/ITimeAndWorkRepository';
-import { ITimeAndWorkInteractor } from '../../interfaces/treatmentplan/ITimeAndWorkInteractor';
-
+import { TimeAndWorkAttributes } from "otz-types";
+import { ITimeAndWorkRepository } from "../../interfaces/treatmentplan/ITimeAndWorkRepository";
+import { ITimeAndWorkInteractor } from "../../interfaces/treatmentplan/ITimeAndWorkInteractor";
+import { TimeAndWorkResponseInterface } from "../../../entities/TimeAndWorkResponseInterface";
 
 export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
   private readonly repository: ITimeAndWorkRepository;
@@ -10,7 +10,9 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     this.repository = repository;
   }
 
-  async getTimeAndWorkById(id: string): Promise<TimeAndWorkAttributes | null | undefined> {
+  async getTimeAndWorkById(
+    id: string
+  ): Promise<TimeAndWorkAttributes | null | undefined> {
     return await this.repository.findById(id);
   }
 
@@ -58,7 +60,12 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
     return await this.repository.delete(id);
   }
 
-  async getAllTimeAndWork(): Promise<TimeAndWorkAttributes[]> {
-    return await this.repository.find();
+  async getAllTimeAndWork(
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string
+  ): Promise<TimeAndWorkResponseInterface | undefined | null> {
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 }

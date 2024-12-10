@@ -16,7 +16,6 @@ export class PartialDisclosureController {
     next: NextFunction
   ) {
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createPartialDisclosure(
         req.body
       );
@@ -38,10 +37,21 @@ export class PartialDisclosureController {
     next: NextFunction
   ) {
     try {
+            let {
+              hospitalID,
+              page,
+              pageSize,
+              searchQuery,
+            } = req.query;
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllPartialDisclosure();
+      const results = await this.interactor.getAllPartialDisclosure(
+        hospitalID as string,
+        page as string,
+        pageSize as string,
+        searchQuery as string
+      );
       res.status(200).json(results);
 
       next();

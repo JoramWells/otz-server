@@ -9,6 +9,12 @@ import { connect } from "../../../domain/db/connect";
 import { RedisAdapter } from "../redisAdapter";
 import { ITimeAndWorkRepository } from "../../../application/interfaces/treatmentplan/ITimeAndWorkRepository";
 import { timeAndWorkCache } from "../../../constants/cache";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../utils/calculateLimitAndOffset";
+import { Patient } from "../../../domain/models/patients.models";
+import { TimeAndWorkResponseInterface } from "../../../entities/TimeAndWorkResponseInterface";
 
 export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   private readonly redisClient = new RedisAdapter();
@@ -149,30 +155,87 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     });
   }
 
-  async find(): Promise<TimeAndWorkAttributes[]> {
-    await this.redisClient.connect();
-    // check if patient
-    if ((await this.redisClient.get(timeAndWorkCache)) === null) {
-      const results = await TimeAndWork.findAll({});
-      // logger.info({ message: "Fetched from db!" });
-      // console.log("fetched from db!");
-      // set to cace
-      await this.redisClient.set(timeAndWorkCache, JSON.stringify(results));
+  async find(
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string
+  ): Promise<TimeAndWorkResponseInterface | undefined | null> {
+    // await this.redisClient.connect();
+    // // check if patient
+    // if ((await this.redisClient.get(timeAndWorkCache)) === null) {
+    //   const results = await TimeAndWork.findAll({});
+    //   // logger.info({ message: "Fetched from db!" });
+    //   // console.log("fetched from db!");
+    //   // set to cace
+    //   await this.redisClient.set(timeAndWorkCache, JSON.stringify(results));
 
-      return results;
-    }
-    const cachedPatients: string | null = await this.redisClient.get(
-      timeAndWorkCache
-    );
-    if (cachedPatients === null) {
-      return [];
-    }
-    await this.redisClient.disconnect();
-    // logger.info({ message: "Fetched from cache!" });
-    console.log("fetched from cache!");
+    //   return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   timeAndWorkCache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // await this.redisClient.disconnect();
+    // // logger.info({ message: "Fetched from cache!" });
+    // console.log("fetched from cache!");
 
-    const results: TimeAndWorkAttributes[] = JSON.parse(cachedPatients);
-    return results;
+    // const results: TimeAndWorkAttributes[] = JSON.parse(cachedPatients);
+    // return results;
+    try {
+      const maxDate = calculateMaxAge(25);
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+      //
+      let where = {
+        dob: {
+          [Op.gte]: maxDate,
+        },
+      };
+      //
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      //
+      if (searchQuery?.length > 0) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+          ],
+        };
+      }
+
+      //
+
+      const { rows, count } = await TimeAndWork.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+            where,
+          },
+        ],
+      });
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(

@@ -2,6 +2,7 @@
 import { PartialDisclosureAttributes } from 'otz-types';
 import { IPartialDisclosureInteractor } from '../../../interfaces/disclosure/partial/IPartialDisclosureInteractor';
 import { IPartialDisclosureRepository } from '../../../interfaces/disclosure/partial/IPartialDisclosureRepository';
+import { PartialDisclosureResponseInterface } from '../../../../entities/PartialDisclosureResponseInterface';
 
 
 export class PartialDisclosureInteractor implements IPartialDisclosureInteractor {
@@ -15,9 +16,18 @@ export class PartialDisclosureInteractor implements IPartialDisclosureInteractor
   // };
 
   async getAllPartialDisclosure(
-    hospitalID: string
-  ): Promise<PartialDisclosureAttributes[] | null> {
-    return await this.repository.find(hospitalID);
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string,
+  ): Promise<PartialDisclosureResponseInterface | null | undefined> {
+    return await this.repository.find(
+      hospitalID,
+      page,
+      pageSize,
+      searchQuery,
+
+    );
   }
 
   async getPartialDisclosureById(
@@ -41,6 +51,6 @@ export class PartialDisclosureInteractor implements IPartialDisclosureInteractor
   async getAllPartialDisclosureByVisitId(): Promise<
     PartialDisclosureAttributes[]
   > {
-    return await this.repository.find();
+    return await this.repository.findAllByVisitId();
   }
 }
