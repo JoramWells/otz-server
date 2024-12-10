@@ -32,10 +32,14 @@ export class TimeAndWorkController {
 
   async onGetAllTimeAndWork(req: Request, res: Response, next: NextFunction) {
     try {
-      // const redisClient = createClient({ url: 'redis://redis:6379' })
-      // await redisClient.connect()
+            let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllTimeAndWork();
+      const results = await this.interactor.getAllTimeAndWork(
+        hospitalID as string,
+        page as string,
+        pageSize as string,
+        searchQuery as string
+      );
       res.status(200).json(results);
 
       next();

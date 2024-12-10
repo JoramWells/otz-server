@@ -1,11 +1,19 @@
 import { TimeAndWorkAttributes } from "otz-types";
+import { TimeAndWorkResponseInterface } from "../../../entities/TimeAndWorkResponseInterface";
 
 export interface ITimeAndWorkInteractor {
   createTimeAndWork: (
     data: TimeAndWorkAttributes
   ) => Promise<TimeAndWorkAttributes>;
-  getAllTimeAndWork: () => Promise<TimeAndWorkAttributes[]>;
-  getTimeAndWorkById: (id: string) => Promise<TimeAndWorkAttributes | null | undefined>;
+  getAllTimeAndWork: (
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery: string
+  ) => Promise<TimeAndWorkResponseInterface | undefined | null>;
+  getTimeAndWorkById: (
+    id: string
+  ) => Promise<TimeAndWorkAttributes | null | undefined>;
   getTimeAndWorkByPatientId: (
     id: string
   ) => Promise<TimeAndWorkAttributes | null>;

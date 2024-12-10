@@ -69,6 +69,8 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
       }
 
       const { rows, count } = await FullDisclosure.findAndCountAll({
+        limit,
+        offset,
         include: [
           {
             model: Patient,
