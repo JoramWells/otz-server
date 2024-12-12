@@ -28,10 +28,10 @@ export class MMASFourController {
 
   async onGetAllMMASFour(req: Request, res: Response, next: NextFunction) {
     try {
-      // const redisClient = createClient({ url: 'redis://redis:6379' })
-      // await redisClient.connect()
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllMMASFour();
+
+      const results = await this.interactor.getAllMMASFour(hospitalID, page, pageSize, searchQuery);
       res.status(200).json(results);
 
       next();

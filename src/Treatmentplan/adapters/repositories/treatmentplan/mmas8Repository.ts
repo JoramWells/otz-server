@@ -8,7 +8,14 @@ import { MMASEight } from "../../../domain/models/treatmentplan/mmas8.model";
 import { RedisAdapter } from "../redisAdapter";
 import { mmas8Cache } from "../../../constants/appointmentCache";
 import { Patient } from "../../../domain/models/patients.models";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../utils/calculateLimitAndOffset";
 // import { createClient } from 'redis'
+import { validate as isUUID } from "uuid";
+import { Op, WhereOptions } from "sequelize";
+import { MMASEightResponseInterface } from "../../../entities/MMASResponseInterface";
 
 export class MMASEightRepository implements IMMASEightRepository {
   private readonly redisClient = new RedisAdapter();
@@ -44,39 +51,58 @@ export class MMASEightRepository implements IMMASEightRepository {
     //
   }
 
-  async find(): Promise<MMASEightAttributes[]> {
-    // await this.redisClient.connect();
-    // // check if patient
-    // if ((await this.redisClient.get(mmas8Cache)) === null) {
-    // const results = await MMASEight.findAll({});
-    // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
-    // set to cace
-    // await this.redisClient.set(mmas8Cache, JSON.stringify(results));
+  async find(
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string
+  ): Promise<MMASEightResponseInterface | undefined | null> {
+    const maxDate = calculateMaxAge(25);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
-    // return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   mmas8Cache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
-    // await this.redisClient.disconnect();
-    // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+    let where: WhereOptions = {
+      dob: {
+        [Op.gte]: maxDate,
+      },
+    };
+    //
+    if (isUUID(hospitalID)) {
+      where = {
+        ...where,
+        hospitalID,
+      };
+    }
 
-    // const results: MMASEightAttributes[] = JSON.parse(cachedPatients);
-    const results = await MMASEight.findAll({
+    //
+    if (searchQuery && searchQuery?.length > 0) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { firstName: { [Op.iLike]: `${searchQuery}%` } },
+          { middleName: { [Op.iLike]: `${searchQuery}%` } },
+          { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await MMASEight.findAndCountAll({
+      limit,
+      offset,
       include: [
         {
           model: Patient,
           attributes: ["firstName", "middleName", "avatar"],
+          where,
         },
       ],
     });
 
-    return results;
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
   }
 
   async findById(id: string): Promise<MMASEightAttributes | null | undefined> {

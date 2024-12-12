@@ -1,15 +1,12 @@
 import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
 
-export interface MMASFourResponseInterface {
-  data: MMASFourAttributes[];
-  total: number;
-  page: number;
-  pageSize: number;
+export interface PaginatedResponse<T> {
+  data: T[];
+  total?: string | number ;
+  page?: string | number ;
+  pageSize?: string | number ;
 }
+export type MMASFourResponseInterface = PaginatedResponse<MMASFourAttributes> 
 
-export interface MMASEightResponseInterface {
-  data: MMASEightAttributes[];
-  total: number;
-  page: number;
-  pageSize: number;
-}
+export type MMASEightResponseInterface = PaginatedResponse<MMASEightAttributes>
+

@@ -1,5 +1,5 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op, col, fn } from "sequelize";
+import { Op, WhereOptions, col, fn } from "sequelize";
 import { TimeAndWork } from "../../../domain/models/treatmentplan/timeAndWork.model";
 import { Uptake } from "../../../domain/models/treatmentplan/uptake.model";
 import moment from "moment";
@@ -15,6 +15,7 @@ import {
 } from "../../../utils/calculateLimitAndOffset";
 import { Patient } from "../../../domain/models/patients.models";
 import { TimeAndWorkResponseInterface } from "../../../entities/TimeAndWorkResponseInterface";
+import { validate as isUUID } from "uuid";
 
 export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   private readonly redisClient = new RedisAdapter();
@@ -156,10 +157,10 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
   }
 
   async find(
-    hospitalID: string | undefined,
-    page: string | undefined,
-    pageSize: string | undefined,
-    searchQuery: string
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string
   ): Promise<TimeAndWorkResponseInterface | undefined | null> {
     // await this.redisClient.connect();
     // // check if patient
@@ -189,7 +190,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
       //
-      let where = {
+      let where: WhereOptions = {
         dob: {
           [Op.gte]: maxDate,
         },
@@ -203,7 +204,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       }
 
       //
-      if (searchQuery?.length > 0) {
+      if ( searchQuery && searchQuery?.length > 0) {
         where = {
           ...where,
           [Op.or]: [
@@ -263,6 +264,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       // if ((await this.redisClient.get(id)) === null) {
       const results = await TimeAndWork.findOne({
         where: {
+          
           patientVisitID: id,
         },
       });

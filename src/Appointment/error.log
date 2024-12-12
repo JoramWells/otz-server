@@ -147,3 +147,4 @@
 {"level":"error","message":"undefined is not a valid UUID ","service":"appointment-service","timestamp":"2024-11-26T05:39:55.192Z"}
 {"level":"error","message":"undefined is not a valid UUID ","service":"appointment-service","timestamp":"2024-11-26T06:40:49.696Z"}
 {"level":"error","message":"undefined is not a valid UUID ","service":"appointment-service","timestamp":"2024-11-26T06:43:13.298Z"}
+{"level":"error","message":{"error":{"name":"SequelizeConnectionError","original":{"code":"53300","file":"proc.c","length":85,"line":"350","name":"error","routine":"InitProcess","severity":"FATAL"},"parent":{"code":"53300","file":"proc.c","length":85,"line":"350","name":"error","routine":"InitProcess","severity":"FATAL"}}},"service":"appointment-service","timestamp":"2024-12-12T17:07:56.392Z"}

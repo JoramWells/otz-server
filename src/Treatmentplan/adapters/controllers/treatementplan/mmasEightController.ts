@@ -63,10 +63,14 @@ export class MMASEightController {
 
   async onGetAllMMASEight(req: Request, res: Response, next: NextFunction) {
     try {
-      // const redisClient = createClient({ url: 'redis://redis:6379' })
-      // await redisClient.connect()
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllMMASEight();
+      const results = await this.interactor.getAllMMASEight(
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(results);
 
       next();
@@ -91,7 +95,11 @@ export class MMASEightController {
   }
 
   //
-  async onGetMMASEightByVisitId(req: Request, res: Response, next: NextFunction) {
+  async onGetMMASEightByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getMMASEightByVisitId(id);

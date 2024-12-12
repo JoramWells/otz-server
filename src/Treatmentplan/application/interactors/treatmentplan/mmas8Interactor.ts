@@ -1,6 +1,7 @@
 import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
 import { IMMASEightInteractor } from "../../interfaces/treatmentplan/IMMAS8Interactor";
 import { IMMASEightRepository } from "../../interfaces/treatmentplan/IMMAS8Repository";
+import { MMASEightResponseInterface } from "../../../entities/MMASResponseInterface";
 
 export class MMASEightInteractor implements IMMASEightInteractor {
   private readonly repository: IMMASEightRepository;
@@ -38,8 +39,11 @@ export class MMASEightInteractor implements IMMASEightInteractor {
   }
 
   async getAllMMASEight(
-    hospitalID: string
-  ): Promise<MMASEightAttributes[] | null> {
-    return await this.repository.find(hospitalID);
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string
+  ): Promise<MMASEightResponseInterface | null | undefined> {
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 }
