@@ -36,9 +36,11 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/compression": "^1.7.5",
     "@types/express": "^5.0.0",
+    "@types/node-schedule": "^2.1.7",
     "mocha": "^10.8.2",
     "nodemon": "^3.1.7",
-    "otz-types": "^1.1.60"
+    "otz-types": "^1.1.78"
   }
 }

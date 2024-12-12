@@ -15,13 +15,7 @@ import { Server } from "socket.io";
 import { appointmentAgendaRouter } from "./routes/appointments/appointmentAgenda.routes";
 import { appointmentStatusRouter } from "./routes/appointments/appointmentStatus.routes";
 import compression from "compression";
-import { disclosureChecklistRouter } from "./routes/treatmentplan/disclosureChecklist.routes";
-import { followUpChecklistRouter } from "./routes/treatmentplan/followUpChecklist.routes";
-import { mmasFourRouter } from "./routes/treatmentplan/mmasFour.routes";
-import { mmasEightRouter } from "./routes/treatmentplan/mmasEight.routes";
-import { partialDisclosureRouter } from "./routes/treatmentplan/partial/partialDisclosure.routes";
-import { disclosureEligibilityRouter } from "./routes/treatmentplan/partial/disclosureEligibility.routes";
-import { childCaregiverReadinessRouter } from "./routes/treatmentplan/partial/childCaregiverReadiness.routes";
+
 import {
   markMissedAppointments,
   rescheduleOnUnavailable,
@@ -36,11 +30,6 @@ import { attendeeRouter } from "./routes/events/attendee.routes";
 import { eventTypeRouter } from "./routes/events/eventType.routes";
 import { AppModuleSession } from "./domain/models/appModules/appModuleSession.model";
 import { AppModule } from "./domain/models/appModules/appModules";
-import { executeDisclosureRouter } from "./routes/treatmentplan/full/executeDisclosure.routes";
-import { postDisclosureRouter } from "./routes/treatmentplan/full/postDisclosure.routes";
-import { updatePartialDisclosure } from "./utils/updatePartialDisclosure";
-import { updateFullDisclosure } from "./utils/updateFullDisclosure";
-import { fullDisclosureRouter } from "./routes/treatmentplan/full/fullDiclosure.routes";
 
 require("dotenv").config();
 
@@ -85,12 +74,12 @@ app.use(compression({ threshold: 9 }));
 const fourHours = new Date(Date.now() + 4 * 60 * 60 * 1000);
 const twoHours = new Date(Date.now() + 2 * 60 * 60 * 1000);
 
-scheduleJob(fourHours, async function () {
-    await Promise.all([
-      updatePartialDisclosure(),
-      updateFullDisclosure(),
-    ]);
-});
+// scheduleJob(fourHours, async function () {
+//     await Promise.all([
+//       updatePartialDisclosure(),
+//       updateFullDisclosure(),
+//     ]);
+// });
 
 
 
@@ -321,18 +310,7 @@ app.get("/events", async (req, res) => {
 app.use("/appointments", appointmentRouter);
 app.use("/appointment-agenda", appointmentAgendaRouter);
 app.use("/appointment-status", appointmentStatusRouter);
-app.use("/mmas-4", mmasFourRouter);
-app.use("/mmas-8", mmasEightRouter);
 
-app.use("/disclosure-checklist", disclosureChecklistRouter);
-app.use("/follow-checklist", followUpChecklistRouter);
-
-app.use("/partial-disclosure", partialDisclosureRouter);
-app.use("/disclosure-eligibility", disclosureEligibilityRouter);
-app.use("/child-readiness", childCaregiverReadinessRouter);
-app.use("/execute-disclosure", executeDisclosureRouter);
-app.use("/post-disclosure", postDisclosureRouter);
-app.use("/full-disclosure", fullDisclosureRouter);
 app.use("/appointment-messages", appointmentMessageRouter);
 app.use("/attendee", attendeeRouter);
 app.use("/event-type", eventTypeRouter);

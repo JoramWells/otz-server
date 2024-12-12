@@ -72,9 +72,15 @@ importers:
         specifier: ^3.17.0
         version: 3.17.0
     devDependencies:
+      '@types/compression':
+        specifier: ^1.7.5
+        version: 1.7.5
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
+      '@types/node-schedule':
+        specifier: ^2.1.7
+        version: 2.1.7
       mocha:
         specifier: ^10.8.2
         version: 10.8.2
@@ -82,8 +88,8 @@ importers:
         specifier: ^3.1.7
         version: 3.1.7
       otz-types:
-        specifier: ^1.1.60
-        version: 1.1.60
+        specifier: ^1.1.78
+        version: 1.1.78
 
 packages:
 
@@ -385,6 +391,9 @@ packages:
   '@types/body-parser@1.19.5':
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
 
+  '@types/compression@1.7.5':
+    resolution: {integrity: sha512-AAQvK5pxMpaT+nDvhHrsBhLSYG5yQdtkaJE1WYieSNY2mVFKAgmU4ks65rkZD5oqnGCFLyQpUr1CqI4DmUMyDg==}
+
   '@types/connect@3.4.36':
     resolution: {integrity: sha512-P63Zd/JUGq+PdrM1lv0Wv5SBYeA2+CORvbrXbngriYY0jzLUWfQMQQxOhjONEz/wlHOAxOdY7CY65rgQdTjq2w==}
 
@@ -414,6 +423,9 @@ packages:
 
   '@types/mysql@2.15.26':
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
+
+  '@types/node-schedule@2.1.7':
+    resolution: {integrity: sha512-G7Z3R9H7r3TowoH6D2pkzUHPhcJrDF4Jz1JOQ80AX0K2DWTHoN9VC94XzFAPNMdbW9TBzMZ3LjpFi7RYdbxtXA==}
 
   '@types/node@22.9.0':
     resolution: {integrity: sha512-vuyHg81vvWA1Z1ELfvLko2c8f34gyA0zaic0+Rllc5lbCnbSyuvb2Oxpm6TAUAC/2xZN3QGqxBNggD1nNR2AfQ==}
@@ -1178,8 +1190,8 @@ packages:
   one-time@1.0.0:
     resolution: {integrity: sha512-5DXOiRKwuSEcQ/l0kGCF6Q3jcADFv5tSmRaJck/OqkVFcOzutB134KRSfF0xDrL39MNnqxbHBbUUcjZIhTgb2g==}
 
-  otz-types@1.1.60:
-    resolution: {integrity: sha512-swXju7GI5EnJiIcteGxHw6joAMztxPEaHf8lwC/0xZ2F1uzAdSM0IQIavThsr6D1RbYtH8KY8OYdKBjJQkg3vQ==}
+  otz-types@1.1.78:
+    resolution: {integrity: sha512-tc3i8Jg50b3F4aYfLpTlmlWLkwYB0NRCoFTge/WCr15YSQv+ID/7yKcGA/zceFteJApArIMgXtkT7yfSZ0+faQ==}
 
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
@@ -2019,6 +2031,10 @@ snapshots:
       '@types/connect': 3.4.36
       '@types/node': 22.9.0
 
+  '@types/compression@1.7.5':
+    dependencies:
+      '@types/express': 5.0.0
+
   '@types/connect@3.4.36':
     dependencies:
       '@types/node': 22.9.0
@@ -2054,6 +2070,10 @@ snapshots:
   '@types/ms@0.7.34': {}
 
   '@types/mysql@2.15.26':
+    dependencies:
+      '@types/node': 22.9.0
+
+  '@types/node-schedule@2.1.7':
     dependencies:
       '@types/node': 22.9.0
 
@@ -2888,7 +2908,7 @@ snapshots:
     dependencies:
       fn.name: 1.1.0
 
-  otz-types@1.1.60: {}
+  otz-types@1.1.78: {}
 
   p-limit@3.1.0:
     dependencies:

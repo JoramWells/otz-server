@@ -1,0 +1,46 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": " npx tsc-watch & node ./dist/index.js",
+    "build": "npx tsc",
+    "dev": "npx tsc-watch & nodemon ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^8.37.1",
+    "@sentry/profiling-node": "^8.37.1",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "googleapis": "^144.0.0",
+    "helmet": "^8.0.0",
+    "kafkajs": "^2.2.4",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.46",
+    "mysql2": "^3.11.4",
+    "node-schedule": "^2.1.1",
+    "pg": "^8.13.1",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.5",
+    "socket.io": "^4.8.1",
+    "twilio": "^5.3.5",
+    "uuid": "^11.0.3",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@types/express": "^5.0.0",
+    "@types/node-schedule": "^2.1.7",
+    "mocha": "^10.8.2",
+    "nodemon": "^3.1.7",
+    "otz-types": "^1.1.60"
+  }
+}
