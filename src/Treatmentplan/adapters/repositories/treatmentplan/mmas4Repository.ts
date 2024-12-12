@@ -6,6 +6,14 @@ import { MMASFour } from "../../../domain/models/treatmentplan/mmas4.model";
 import { RedisAdapter } from "../redisAdapter";
 import { mmas4Cache } from "../../../constants/appointmentCache";
 import { Patient } from "../../../domain/models/patients.models";
+import { MMASFourResponseInterface } from "../../../entities/MMASResponseInterface";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../utils/calculateLimitAndOffset";
+import { Op, WhereOptions } from "sequelize";
+import { validate as isUUID } from "uuid";
+
 // import { createClient } from 'redis'
 
 export class MMASFourRepository implements IMMASFourRepository {
@@ -28,37 +36,58 @@ export class MMASFourRepository implements IMMASFourRepository {
     return results;
   }
 
-  async find(hospitalID: string): Promise<MMASFourAttributes[]> {
-    // // check if patient
-    // if ((await this.redisClient.get(mmas4Cache)) === null) {
-    // const results = await MMASFour.findAll({});
-    // logger.info({ message: "Fetched from db!" });
-    // console.log("fetched from db!");
-    // set to cace
-    // await this.redisClient.set(mmas4Cache, JSON.stringify(results));
+  async find(
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string
+  ): Promise<MMASFourResponseInterface | undefined | null> {
+    const maxDate = calculateMaxAge(25);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
-    // return results;
-    // }
-    // const cachedPatients: string | null = await this.redisClient.get(
-    //   mmas4Cache
-    // );
-    // if (cachedPatients === null) {
-    //   return [];
-    // }
-    // logger.info({ message: "Fetched from cache!" });
-    // console.log("fetched from cache!");
+    let where: WhereOptions = {
+      dob: {
+        [Op.gte]: maxDate,
+      },
+    };
+    //
+    if (isUUID(hospitalID)) {
+      where = {
+        ...where,
+        hospitalID,
+      };
+    }
 
-    // const results: MMASFourAttributes[] = JSON.parse(cachedPatients);
-    const results = await MMASFour.findAll({
+    //
+    if (searchQuery && searchQuery?.length > 0) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { firstName: { [Op.iLike]: `${searchQuery}%` } },
+          { middleName: { [Op.iLike]: `${searchQuery}%` } },
+          { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await MMASFour.findAndCountAll({
+      limit,
+      offset,
       include: [
         {
           model: Patient,
           attributes: ["firstName", "middleName", "avatar"],
+          where,
         },
       ],
     });
 
-    return results;
+    return {
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    };
   }
 
   async findById(id: string): Promise<MMASFourAttributes | null | undefined> {

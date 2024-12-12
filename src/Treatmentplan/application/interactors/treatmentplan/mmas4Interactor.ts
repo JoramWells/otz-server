@@ -2,6 +2,7 @@
 import { MMASFourAttributes } from 'otz-types';
 import { IMMASFourInteractor } from '../../interfaces/treatmentplan/IMMAS4Interactor';
 import { IMMASFourRepository } from '../../interfaces/treatmentplan/IMMAS4Repository';
+import { MMASFourResponseInterface } from '../../../entities/MMASResponseInterface';
 
 
 
@@ -34,9 +35,12 @@ export class MMASFourInteractor implements IMMASFourInteractor {
   }
 
   async getAllMMASFour(
-    hospitalID: string
-  ): Promise<MMASFourAttributes[] | null> {
-    return await this.repository.find(hospitalID);
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string
+  ): Promise<MMASFourResponseInterface | null | undefined> {
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 
   async getMMASFourByVisitId(

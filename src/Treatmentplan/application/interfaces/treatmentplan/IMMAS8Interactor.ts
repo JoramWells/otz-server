@@ -1,4 +1,5 @@
 import { MMASEightAttributes, MMASFourAttributes } from "otz-types";
+import { MMASEightResponseInterface } from "../../../entities/MMASResponseInterface";
 
 export interface IMMASEightInteractor {
   createMMASEight: (
@@ -6,8 +7,11 @@ export interface IMMASEightInteractor {
     data: MMASEightAttributes
   ) => Promise<MMASEightAttributes>;
   getAllMMASEight: (
-    hospitalID: string
-  ) => Promise<MMASEightAttributes[] | null>;
+    hospitalID: string | undefined,
+    page: string | undefined,
+    pageSize: string | undefined,
+    searchQuery?: string
+  ) => Promise<MMASEightResponseInterface | null | undefined>;
   getMMASEightById: (
     id: string
   ) => Promise<MMASEightAttributes | null | undefined>;
