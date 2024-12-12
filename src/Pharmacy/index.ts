@@ -72,13 +72,13 @@ app.use(
 scheduleJob("*/1 * * *", function () {
   adherenceMonitor2();
 });
-adherenceMonitor2();
+// adherenceMonitor2();
 
 scheduleJob("*/15 * * *", function () {
   calculatePills2();
 });
 
-calculatePills2();
+// calculatePills2();
 
 // (async () => {
 //   console.log(await vlAdherence());

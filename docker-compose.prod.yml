@@ -549,6 +549,49 @@ services:
     networks:
       - otz
 
+  treatmentplan:
+    build:
+      context: ./src/Treatmentplan
+      dockerfile: Dockerfile
+    image: blackwell18/treatmentplan:latest
+    volumes:
+      - ./src/Treatmentplan:/usr/src/app
+      - /usr/src/app/node_modules
+    deploy:
+      # mode: replicated
+      # replicas: 2
+      # placement:
+      #   max_replicas_per_node: 1
+      # update_config:
+      #   parallelism: 2
+      #   delay: 10s
+      # restart_policy:
+      #   condition: on-failure    
+      resources:
+        limits:
+          cpus: '0.20'
+          memory: 750M
+        reservations:
+          cpus: '0.20'
+          memory: 650M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5006/treatmentplan/fetchAll"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m       
+    ports:
+      - 5006:5006
+    depends_on:
+      database:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - otz
+
   nginx:
     image: nginx:alpine
     volumes:
@@ -590,6 +633,7 @@ services:
       - notify
       - pharmacy  
       - etl
+      - treatmentplan
 
     networks:
       - otz

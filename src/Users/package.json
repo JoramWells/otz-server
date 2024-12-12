@@ -26,6 +26,7 @@
     "mysql2": "^3.11.4",
     "object-fit": "^0.4.3",
     "object-inspect": "^1.13.3",
+    "pg": "^8.13.1",
     "redis": "^4.7.0",
     "sequelize": "^6.37.5",
     "socket.io": "^4.8.1",

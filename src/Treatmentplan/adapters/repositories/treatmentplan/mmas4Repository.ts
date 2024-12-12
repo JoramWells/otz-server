@@ -1,0 +1,130 @@
+// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+// import { logger } from '../../utils/logger'
+import { MMASFourAttributes } from "otz-types";
+import { IMMASFourRepository } from "../../../application/interfaces/treatmentplan/IMMAS4Repository";
+import { MMASFour } from "../../../domain/models/treatmentplan/mmas4.model";
+import { RedisAdapter } from "../redisAdapter";
+import { mmas4Cache } from "../../../constants/appointmentCache";
+import { Patient } from "../../../domain/models/patients.models";
+// import { createClient } from 'redis'
+
+export class MMASFourRepository implements IMMASFourRepository {
+  private readonly redisClient = new RedisAdapter();
+  // constructor () {
+  //   this.redisClient = createClient({})
+  // }
+
+  async create(data: MMASFourAttributes): Promise<MMASFourAttributes> {
+    const { patientID, patientVisitID } = data;
+    const results = await MMASFour.create(data);
+    // if(await this.redisClient.get(patientID)){
+    //   await this.redisClient.del(patientID)
+    // }
+    //  if (await this.redisClient.get(patientVisitID)) {
+    //    await this.redisClient.del(patientVisitID);
+    //  }
+    // await this.redisClient.del(mmas4Cache);
+
+    return results;
+  }
+
+  async find(hospitalID: string): Promise<MMASFourAttributes[]> {
+    // // check if patient
+    // if ((await this.redisClient.get(mmas4Cache)) === null) {
+    // const results = await MMASFour.findAll({});
+    // logger.info({ message: "Fetched from db!" });
+    // console.log("fetched from db!");
+    // set to cace
+    // await this.redisClient.set(mmas4Cache, JSON.stringify(results));
+
+    // return results;
+    // }
+    // const cachedPatients: string | null = await this.redisClient.get(
+    //   mmas4Cache
+    // );
+    // if (cachedPatients === null) {
+    //   return [];
+    // }
+    // logger.info({ message: "Fetched from cache!" });
+    // console.log("fetched from cache!");
+
+    // const results: MMASFourAttributes[] = JSON.parse(cachedPatients);
+    const results = await MMASFour.findAll({
+      include: [
+        {
+          model: Patient,
+          attributes: ["firstName", "middleName", "avatar"],
+        },
+      ],
+    });
+
+    return results;
+  }
+
+  async findById(id: string): Promise<MMASFourAttributes | null | undefined> {
+    try {
+      const results: MMASFour | null = await MMASFour.findOne({
+        where: {
+          id,
+        },
+      });
+
+      await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findByVisitId(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
+    try {
+      // return results;
+      const results: MMASFour | null = await MMASFour.findOne({
+        where: {
+          patientVisitID: id,
+        },
+      });
+
+      await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findByPatientId(
+    id: string
+  ): Promise<MMASFourAttributes | null | undefined> {
+    // await this.redisClient.connect();
+    // if ((await this.redisClient.get(id)) === null) {
+    try {
+      const results: MMASFour | null = await MMASFour.findOne({
+        where: {
+          patientID: id,
+        },
+      });
+
+      await this.redisClient.set(id, JSON.stringify(results));
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+    // }
+
+    // const cachedData: string | null = await this.redisClient.get(id);
+    // if (cachedData === null) {
+    //   return null;
+    // }
+    // const results: MMASFourAttributes = JSON.parse(cachedData);
+    // console.log("fetched from cace!");
+
+    // return results;
+  }
+}
