@@ -25,7 +25,7 @@ const addAppModuleSession = async (req, res, next) => {
 // get all priceListItems
 const getAllAppModuleSession = async (req, res, next) => {
   try {
-    const results = await AppModuleSession.findAll({ });
+    const results = await AppModuleSession.findAll({});
     res.json(results);
     next();
   } catch (error) {

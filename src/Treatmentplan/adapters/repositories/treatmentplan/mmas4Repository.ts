@@ -28,7 +28,7 @@ export class MMASFourRepository implements IMMASFourRepository {
     return results;
   }
 
-  async find(): Promise<MMASFourAttributes[]> {
+  async find(hospitalID: string): Promise<MMASFourAttributes[]> {
     // // check if patient
     // if ((await this.redisClient.get(mmas4Cache)) === null) {
     // const results = await MMASFour.findAll({});

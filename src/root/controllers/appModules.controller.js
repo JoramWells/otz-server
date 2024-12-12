@@ -55,7 +55,7 @@ const getAllAppModules = async (req, res, next) => {
     const { rows, count } = await AppModules.findAndCountAll({
       where,
       offset,
-      limit
+      limit: 100
     });
     res.json({
       data: rows,

@@ -20,7 +20,6 @@ import { partialDisclosureRouter } from "./routes/treatmentplan/partial/partialD
 import { disclosureEligibilityRouter } from "./routes/treatmentplan/partial/disclosureEligibility.routes";
 import { childCaregiverReadinessRouter } from "./routes/treatmentplan/partial/childCaregiverReadiness.routes";
 
-import { google } from "googleapis";
 import { AppModuleSession } from "./domain/models/appModules/appModuleSession.model";
 import { AppModule } from "./domain/models/appModules/appModules";
 import { executeDisclosureRouter } from "./routes/treatmentplan/full/executeDisclosure.routes";
@@ -51,6 +50,7 @@ app.use(
     extended: true,
   })
 );
+
 
 app.use(express.static("uploads"));
 
@@ -104,6 +104,7 @@ const io = new Server(server, {
 });
 // set up socket.io instance
 app.locals.io = io;
+
 
 // check connection
 io.on("connection", (client) => {
