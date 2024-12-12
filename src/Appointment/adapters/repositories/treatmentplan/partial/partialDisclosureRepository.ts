@@ -13,7 +13,7 @@ import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../../../utils/calculateLimitAndOffset";
-import { Op } from "sequelize";
+import { col, fn, Op, Sequelize } from "sequelize";
 import { PartialDisclosureResponseInterface } from "../../../../entities/PartialDisclosureResponseInterface";
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -194,5 +194,42 @@ export class PartialDisclosureRepository
     );
 
     return results;
+  }
+
+  async findPartialDisclosureScoreCategory(
+    hospitalID: string | undefined
+  ): Promise<PartialDisclosureAttributes[] | undefined | null> {
+    try {
+      return await PartialDisclosure.findAll({
+        include: [
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              hospitalID,
+            },
+          },
+        ],
+        attributes: [
+          [
+            Sequelize.literal(`
+            CASE
+            WHEN score  < 4 THEN '25%'
+            WHEN score >= 4 AND score < 8 THEN '50%'
+            WHEN score >= 8 AND score < 11 THEN '75%'
+            WHEN score >= 10 THEN '100%'
+            ELSE '0%'
+            END
+            `),
+            "status",
+          ],
+          [fn("COUNT", "*"), "count"],
+          [fn("MAX", col("PartialDisclosure.createdAt")), "latestCreatedAt"],
+        ],
+        group: ["status"],
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

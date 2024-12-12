@@ -17,6 +17,9 @@ export interface IPartialDisclosureInteractor {
   getPartialDisclosureByPatientId: (
     id: string
   ) => Promise<PartialDisclosureAttributes | null | undefined>;
+  getPartialDisclosureScoreCategory: (
+    id: string
+  ) => Promise<PartialDisclosureAttributes[] | null | undefined>;
   getAllPartialDisclosureByVisitId: (
     id: string
   ) => Promise<PartialDisclosureAttributes[] | null>;

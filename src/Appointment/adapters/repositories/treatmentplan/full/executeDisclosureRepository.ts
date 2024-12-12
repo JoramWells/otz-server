@@ -5,6 +5,7 @@ import { ExecuteDisclosureAttributes } from "otz-types";
 import { IExecuteDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IExecuteDisclosureRepository";
 import { ExecuteDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
 import { Patient } from "../../../../domain/models/patients.models";
+import { completeFullDisclosure } from "../../../../utils/completeFullDisclosure";
 
 // import { mmasCache } from '../../../constants/appointmentCache';
 // import { RedisAdapter } from '../redisAdapter'
@@ -22,6 +23,12 @@ export class ExecuteDisclosureRepository
     data: ExecuteDisclosureAttributes
   ): Promise<ExecuteDisclosureAttributes> {
     const results = await ExecuteDisclosure.create(data);
+    if (results) {
+      await completeFullDisclosure({
+        executeDisclosure: results,
+        postDisclosure: undefined,
+      });
+    }
 
     return results;
   }
@@ -69,7 +76,7 @@ export class ExecuteDisclosureRepository
       const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne(
         {
           where: {
-             id,
+            id,
           },
         }
       );

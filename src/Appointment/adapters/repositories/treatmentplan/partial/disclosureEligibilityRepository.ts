@@ -11,6 +11,7 @@ import { ChildCaregiverReadiness } from "../../../../domain/models/treatmentplan
 import { ChildDisclosureEligibility } from "../../../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
 import { PartialDisclosure } from "../../../../domain/models/treatmentplan/disclosure/partialDisclosure.model";
 import { Patient } from "../../../../domain/models/patients.models";
+import { completePartialDisclosure } from "../../../../utils/completePartialDisclosure";
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
 
@@ -23,30 +24,23 @@ export class DisclosureEligibilityRepository
   // }
 
   async create(
-    data: ChildDisclosureEligibilityAttributes,
-    readiness: ChildCaregiverReadinessAttributes
-  ): Promise<ChildDisclosureEligibilityAttributes> {
-    return await connect.transaction(async (t) => {
-      const results = await ChildDisclosureEligibility.create(data, {
-        transaction: t,
-      });
+    data: ChildDisclosureEligibilityAttributes
+  ): Promise<ChildDisclosureEligibilityAttributes | undefined | null> {
+    // return await connect.transaction(async (t) => {
+    try {
+      const results = await ChildDisclosureEligibility.create(data);
       if (results) {
-        const readinessResults = await ChildCaregiverReadiness.create(
-          readiness,
-          { transaction: t }
-        );
-        // if(readinessResults){
-        await PartialDisclosure.create(
-          {
-            childCaregiverReadinessID: readinessResults.id,
-            childDisclosureEligibilityID: results.id,
-          },
-          { transaction: t }
-        );
-        // }
+        await completePartialDisclosure({
+          childCaregiverReadiness: undefined,
+          childDisclosureEligibility: results,
+        });
       }
+
       return results;
-    });
+    } catch (error) {
+      console.log(error);
+    }
+    // });
   }
 
   async find(): Promise<ChildDisclosureEligibilityAttributes[]> {

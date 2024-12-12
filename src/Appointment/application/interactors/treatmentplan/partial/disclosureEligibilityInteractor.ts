@@ -35,14 +35,13 @@ export class DisclosureEligibilityInteractor
 
   async createDisclosureEligibility(
     patientData: ChildDisclosureEligibilityAttributes,
-    readiness: ChildCaregiverReadinessAttributes
-  ): Promise<ChildDisclosureEligibilityAttributes> {
-    return await this.repository.create(patientData, readiness);
+  ): Promise<ChildDisclosureEligibilityAttributes | null | undefined> {
+    return await this.repository.create(patientData);
   }
 
   async getAllDisclosureEligibilityByVisitId(
     hospitalID: string
-  ): Promise<ChildDisclosureEligibilityAttributes[]> {
+  ): Promise<ChildDisclosureEligibilityAttributes[] | null> {
     return await this.repository.find(hospitalID);
   }
 

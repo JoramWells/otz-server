@@ -10,7 +10,7 @@ import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../../../utils/calculateLimitAndOffset";
-import { Op } from "sequelize";
+import { col, fn, Op, Sequelize } from "sequelize";
 import { validate as isUUID } from "uuid";
 import { Patient } from "../../../../domain/models/patients.models";
 
@@ -75,9 +75,11 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
           {
             model: Patient,
             where,
+            attributes: ["firstName", "middleName"],
           },
         ],
       });
+
       // logger.info({ message: "Fetched from db!" });
       // console.log("fetched from db!");
       // set to cace
@@ -152,6 +154,44 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
       });
 
       return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async findFullDisclosureScoreCategory(
+    hospitalID: string | undefined
+  ): Promise<FullDisclosureAttributes[] | undefined | null> {
+    try {
+      return await FullDisclosure.findAll({
+        include: [
+          {
+            model: Patient,
+            where: {
+              hospitalID,
+            },
+            attributes: [],
+            // required: true,
+            
+          },
+        ],
+        attributes: [
+          [
+            Sequelize.literal(`
+            CASE
+            WHEN score  < 5 THEN '25%'
+            WHEN score >= 5 AND score < 10 THEN '50%'
+            WHEN score >= 10 AND score < 15 THEN '75%'
+            WHEN score >= 15 THEN '100%'
+            ELSE '0%'
+            END
+            `),
+            "status",
+          ],
+          [fn("COUNT", "*"), "count"],
+          [fn("MAX", col("FullDisclosure.createdAt")), "latestCreatedAt"],
+        ],
+        group: ["status"],
+      });
     } catch (error) {
       console.log(error);
     }

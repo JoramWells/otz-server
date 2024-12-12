@@ -3,8 +3,7 @@ import { ChildCaregiverReadinessAttributes, ChildDisclosureEligibilityAttributes
 export interface IDisclosureEligibilityRepository {
   create: (
     data: ChildDisclosureEligibilityAttributes,
-    readiness: ChildCaregiverReadinessAttributes
-  ) => Promise<ChildDisclosureEligibilityAttributes>;
+  ) => Promise<ChildDisclosureEligibilityAttributes | undefined | null>;
   find: (
     hospitalID: string
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;

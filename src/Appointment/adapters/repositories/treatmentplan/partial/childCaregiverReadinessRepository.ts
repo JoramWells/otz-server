@@ -4,6 +4,7 @@ import { ChildCaregiverReadinessAttributes } from "otz-types";
 import { IChildCaregiverRepository } from "../../../../application/interfaces/disclosure/partial/IChildCaregiverRepository";
 import { ChildCaregiverReadiness } from "../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
 import { Patient } from "../../../../domain/models/patients.models";
+import { completePartialDisclosure } from "../../../../utils/completePartialDisclosure";
 // import { mmasCache } from '../../../constants/appointmentCache';
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -18,10 +19,21 @@ export class ChildCaregiverReadinessRepository
 
   async create(
     data: ChildCaregiverReadinessAttributes
-  ): Promise<ChildCaregiverReadinessAttributes> {
-    const results = await ChildCaregiverReadiness.create(data);
+  ): Promise<ChildCaregiverReadinessAttributes | undefined | null> {
+    try {
+      const results = await ChildCaregiverReadiness.create(data);
 
-    return results;
+      if (results) {
+        await completePartialDisclosure({
+          childCaregiverReadiness: results,
+          childDisclosureEligibility: undefined,
+        });
+      }
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async find(hospitalID: string): Promise<ChildCaregiverReadinessAttributes[]> {

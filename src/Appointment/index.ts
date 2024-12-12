@@ -82,15 +82,37 @@ app.use(compression({ threshold: 9 }));
 
 // scheduleJob('0 0 * *',)
 
-markMissedAppointments();
-rescheduleOnUnavailable();
+const fourHours = new Date(Date.now() + 4 * 60 * 60 * 1000);
+const twoHours = new Date(Date.now() + 2 * 60 * 60 * 1000);
 
-(async()=>{
-  await Promise.all([
-    updatePartialDisclosure(),
-    updateFullDisclosure()
-  ])
-})()
+scheduleJob(fourHours, async function () {
+    await Promise.all([
+      updatePartialDisclosure(),
+      updateFullDisclosure(),
+    ]);
+});
+
+
+
+scheduleJob(twoHours, async function () {
+   await Promise.all([
+     markMissedAppointments(),
+     rescheduleOnUnavailable(),
+   ]);
+});
+
+// scheduleJob("*/20 * * *", async function () {
+//   await rescheduleOnUnavailable();
+// });
+
+// (async () => {
+//   await Promise.all([
+//     updatePartialDisclosure(),
+//     updateFullDisclosure(),
+//     markMissedAppointments(),
+//     rescheduleOnUnavailable(),
+//   ]);
+// })();
 
 // dailyPillUpdate();
 

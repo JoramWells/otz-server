@@ -37,12 +37,7 @@ export class PartialDisclosureController {
     next: NextFunction
   ) {
     try {
-            let {
-              hospitalID,
-              page,
-              pageSize,
-              searchQuery,
-            } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
@@ -107,6 +102,24 @@ export class PartialDisclosureController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllPartialDisclosureByVisitId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetPartialDisclosureScoreCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID } = req.query;
+      const result = await this.interactor.getPartialDisclosureScoreCategory(hospitalID);
       res.status(200).json(result);
       next();
     } catch (error) {

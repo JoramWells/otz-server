@@ -1,11 +1,12 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { PartialDisclosureAttributes } from 'otz-types';
-import { IPartialDisclosureInteractor } from '../../../interfaces/disclosure/partial/IPartialDisclosureInteractor';
-import { IPartialDisclosureRepository } from '../../../interfaces/disclosure/partial/IPartialDisclosureRepository';
-import { PartialDisclosureResponseInterface } from '../../../../entities/PartialDisclosureResponseInterface';
+import { PartialDisclosureAttributes } from "otz-types";
+import { IPartialDisclosureInteractor } from "../../../interfaces/disclosure/partial/IPartialDisclosureInteractor";
+import { IPartialDisclosureRepository } from "../../../interfaces/disclosure/partial/IPartialDisclosureRepository";
+import { PartialDisclosureResponseInterface } from "../../../../entities/PartialDisclosureResponseInterface";
 
-
-export class PartialDisclosureInteractor implements IPartialDisclosureInteractor {
+export class PartialDisclosureInteractor
+  implements IPartialDisclosureInteractor
+{
   private readonly repository: IPartialDisclosureRepository;
 
   constructor(repository: IPartialDisclosureRepository) {
@@ -19,15 +20,9 @@ export class PartialDisclosureInteractor implements IPartialDisclosureInteractor
     hospitalID: string | undefined,
     page: string | undefined,
     pageSize: string | undefined,
-    searchQuery: string,
+    searchQuery: string
   ): Promise<PartialDisclosureResponseInterface | null | undefined> {
-    return await this.repository.find(
-      hospitalID,
-      page,
-      pageSize,
-      searchQuery,
-
-    );
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 
   async getPartialDisclosureById(
@@ -48,9 +43,16 @@ export class PartialDisclosureInteractor implements IPartialDisclosureInteractor
     return await this.repository.create(patientData);
   }
 
-  async getAllPartialDisclosureByVisitId(): Promise<
-    PartialDisclosureAttributes[]
+  async getAllPartialDisclosureByVisitId(id: string): Promise<
+    PartialDisclosureAttributes[] | null
   > {
-    return await this.repository.findAllByVisitId();
+    return await this.repository.findAllByVisitId(id);
+  }
+
+  //
+  async getPartialDisclosureScoreCategory(
+    hospitalID: string | undefined
+  ): Promise<PartialDisclosureAttributes[] | undefined | null> {
+    return await this.repository.findPartialDisclosureScoreCategory(hospitalID);
   }
 }

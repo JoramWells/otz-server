@@ -14,6 +14,9 @@ export interface IFullDisclosureInteractor {
   getFullDisclosureById: (
     id: string
   ) => Promise<FullDisclosureAttributes | null>;
+  getFullDisclosureScoreCategory: (
+    hospitalID: string | undefined
+  ) => Promise<FullDisclosureAttributes[] | null | undefined>;
   getFullDisclosureByPatientId: (
     id: string
   ) => Promise<FullDisclosureAttributes | null | undefined>;

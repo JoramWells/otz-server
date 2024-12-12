@@ -17,52 +17,8 @@ export class DisclosureEligibilityController {
     next: NextFunction
   ) {
     try {
-      const {
-        isAssessedCaregiverReadinessToDisclose,
-        isCaregiverCommunicatedToChild,
-        isChildKnowsMedicineAndIllness,
-        isChildSchoolEngagement,
-        isConsistentSocialSupport,
-        isFreeChildCaregiverFromSevereIllness,
-        isInterestInEnvironmentAndPlaying,
-        isSecuredPatientInfo,
-        patientID,
-        patientVisitID,
-        taskTwoComments,
-        isCorrectAge,
-        isKnowledgeable,
-        isWillingToDisclose,
-        taskOneComments,
-      } = req.body;
 
-      const readinessData: ChildCaregiverReadinessAttributes = {
-        isAssessedCaregiverReadinessToDisclose,
-        isCaregiverCommunicatedToChild,
-        isChildKnowsMedicineAndIllness,
-        isChildSchoolEngagement,
-        isConsistentSocialSupport,
-        isFreeChildCaregiverFromSevereIllness,
-        isInterestInEnvironmentAndPlaying,
-        isSecuredPatientInfo,
-        patientID,
-        patientVisitID,
-        taskTwoComments,
-      };
-
-      const disclosureData: ChildDisclosureEligibilityAttributes = {
-        isCorrectAge,
-        isKnowledgeable,
-        isWillingToDisclose,
-        patientID,
-        patientVisitID,
-        taskOneComments,
-      };
-
-      console.log(req.body);
-      const newProfile = await this.interactor.createDisclosureEligibility(
-        disclosureData,
-        readinessData
-      );
+      const newProfile = await this.interactor.createDisclosureEligibility(req.body);
       res.json(newProfile);
       //   logger.info({
       //     message: "Created New Patient Successfully! ~" + req.body.firstName,
@@ -84,7 +40,11 @@ export class DisclosureEligibilityController {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
 
-      const results = await this.interactor.getAllDisclosureEligibility();
+      const { hospitalID } = req.query;
+
+      const results = await this.interactor.getAllDisclosureEligibility(
+        hospitalID as string
+      );
       res.status(200).json(results);
 
       next();

@@ -3,8 +3,7 @@ import { ChildCaregiverReadinessAttributes, ChildDisclosureEligibilityAttributes
 export interface IDisclosureEligibilityInteractor {
   createDisclosureEligibility: (
     data: ChildDisclosureEligibilityAttributes,
-    readinessData: ChildCaregiverReadinessAttributes
-  ) => Promise<ChildDisclosureEligibilityAttributes>;
+  ) => Promise<ChildDisclosureEligibilityAttributes | undefined | null>;
   getAllDisclosureEligibility: (
     hospitalID: string
   ) => Promise<ChildDisclosureEligibilityAttributes[] | null>;

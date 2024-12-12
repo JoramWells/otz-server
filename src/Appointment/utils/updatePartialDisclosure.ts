@@ -2,6 +2,7 @@ import { col, fn, Op } from "sequelize";
 import { ChildCaregiverReadiness } from "../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
 import { ChildDisclosureEligibility } from "../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
 import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/partialDisclosure.model";
+import { Patient } from "../domain/models/patients.models";
 
 export async function updatePartialDisclosure() {
   try {
@@ -116,25 +117,30 @@ export async function updatePartialDisclosure() {
             childDisclosureEligibilityID: eligibility?.id || { [Op.is]: null },
           },
         });
-        
 
-        const score = readiness.score + eligibility.score
-        const percentage = (readiness.percentage + eligibility.percentage) / 2
+        const score = readiness?.score + eligibility?.score;
+        // const percentage = (readiness.percentage + eligibility.percentage) / 2;
 
         if (partialDisclosure) {
           partialDisclosure.childCaregiverReadinessID = readiness?.id;
           partialDisclosure.childDisclosureEligibilityID = eligibility?.id;
           await partialDisclosure.save();
         } else {
-          await PartialDisclosure.create({
-            score,
-            percentage,
-            patientID,
-            childCaregiverReadinessID: readiness?.id,
-            childDisclosureEligibilityID: eligibility?.id,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          });
+          if (score) {
+            const isPatient = await Patient.findByPk(patientID);
+
+            if (isPatient) {
+              await PartialDisclosure.create({
+                score,
+                // percentage,
+                patientID,
+                childCaregiverReadinessID: readiness?.id,
+                childDisclosureEligibilityID: eligibility?.id,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              });
+            }
+          }
         }
       }
     }

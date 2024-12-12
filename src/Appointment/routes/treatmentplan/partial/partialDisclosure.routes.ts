@@ -26,4 +26,11 @@ router.get(
 router.get('/details/:id', controllers.onGetAllPartialDisclosureByVisitId.bind(controllers));
 // router.put('/edit/:id', editTimeAndWork);
 
+// 
+router.get(
+  "/score",
+  controllers.onGetPartialDisclosureScoreCategory.bind(controllers)
+);
+
+
 export { router as partialDisclosureRouter };

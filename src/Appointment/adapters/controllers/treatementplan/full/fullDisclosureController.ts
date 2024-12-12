@@ -36,7 +36,7 @@ export class FullDisclosureController {
     next: NextFunction
   ) {
     try {
-            let { hospitalID, page, pageSize, searchQuery } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
       const results = await this.interactor.getAllFullDisclosure(
         hospitalID,
@@ -99,6 +99,24 @@ export class FullDisclosureController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getAllFullDisclosureByVisitId(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetFullDisclosureCategoryScore(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID } = req.query;
+      const result = await this.interactor.getFullDisclosureScoreCategory(hospitalID);
       res.status(200).json(result);
       next();
     } catch (error) {

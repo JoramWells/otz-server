@@ -6,6 +6,7 @@ import { PostDisclosureAttributes } from "otz-types";
 import { IPostDisclosureRepository } from "../../../../application/interfaces/disclosure/full/IPostDisclosureRepository";
 import { PostDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
 import { Patient } from "../../../../domain/models/patients.models";
+import { completeFullDisclosure } from "../../../../utils/completeFullDisclosure";
 
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -19,7 +20,14 @@ export class PostDisclosureRepository implements IPostDisclosureRepository {
   async create(
     data: PostDisclosureAttributes
   ): Promise<PostDisclosureAttributes> {
-    return await PostDisclosure.create(data);
+    const results = await PostDisclosure.create(data);
+    if (results) {
+      await completeFullDisclosure({
+        executeDisclosure: undefined,
+        postDisclosure: results,
+      });
+    }
+    return results;
   }
 
   async find(): Promise<PostDisclosureAttributes[]> {

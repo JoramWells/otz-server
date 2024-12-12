@@ -5,8 +5,7 @@ import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/par
 import { ExecuteDisclosure } from "../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
 import { PostDisclosure } from "../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
 import { FullDisclosure } from "../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
-
-
+import { Patient } from "../domain/models/patients.models";
 
 export async function updateFullDisclosure() {
   try {
@@ -159,25 +158,28 @@ export async function updateFullDisclosure() {
           },
         });
 
-
-
         const score = executeDisclosure?.score + postDisclosure?.score;
-        const percentage =
-          (executeDisclosure?.percentage + postDisclosure?.percentage) / 2;
+        // const percentage =
+        //   (executeDisclosure?.percentage + postDisclosure?.percentage) / 2;
 
         if (fullDIsclosure) {
           fullDIsclosure.executeDisclosureID = executeDisclosure?.id;
           fullDIsclosure.postDisclosureID = postDisclosure?.id;
           await fullDIsclosure.save();
         } else {
-          await FullDisclosure.create({
-            score: score || 0,
-            patientID,
-            executeDisclosureID: executeDisclosure?.id,
-            postDisclosureID: postDisclosure?.id,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          });
+          if (score) {
+            const isPatient = await Patient.findByPk(patientID);
+            if (isPatient) {
+              await FullDisclosure.create({
+                score: score || 0,
+                patientID,
+                executeDisclosureID: executeDisclosure?.id,
+                postDisclosureID: postDisclosure?.id,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+              });
+            }
+          }
         }
       }
     }

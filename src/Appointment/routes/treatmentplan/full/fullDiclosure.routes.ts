@@ -35,9 +35,11 @@ router.get(
   controllers.onGetAllFullDisclosureByVisitId.bind(controllers)
 );
 router.get(
-  "/details/:id",
-  controllers.onGetAllFullDisclosureByVisitId.bind(controllers)
+  "/score",
+  controllers.onGetFullDisclosureCategoryScore.bind(controllers)
 );
 // router.put('/edit/:id', editTimeAndWork);
+
+router.get("/fetchAll", controllers.onGetAllFullDisclosure.bind(controllers));
 
 export { router as fullDisclosureRouter };

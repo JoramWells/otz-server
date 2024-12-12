@@ -13,6 +13,9 @@ export interface IFullDisclosureRepository {
   findByPatientId: (
     id: string
   ) => Promise<FullDisclosureAttributes | null | undefined>;
+  findFullDisclosureScoreCategory: (
+    hospitalID: string | undefined
+  ) => Promise<FullDisclosureAttributes[] | null | undefined>;
   findAllByVisitId: (id: string) => Promise<FullDisclosureAttributes[] | null>;
   // count: () => Promise<MMASEntity | null>;
 }

@@ -22,7 +22,7 @@ export class CaregiverController {
       next(error)
     }
   }
-
+  
   async onGetAllCaregivers (req: Request, res: Response, next: NextFunction) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })

@@ -15,6 +15,9 @@ export interface IPartialDisclosureRepository {
   findByPatientId: (
     patientID: string
   ) => Promise<PartialDisclosureAttributes | null | undefined>;
+  findPartialDisclosureScoreCategory: (
+    hospitalID: string | undefined
+  ) => Promise<PartialDisclosureAttributes[] | null | undefined>;
   findAllByVisitId: (
     id: string
   ) => Promise<PartialDisclosureAttributes[] | null>;
