@@ -30,7 +30,6 @@ import { fullDisclosureRouter } from "./routes/treatmentplan/full/fullDiclosure.
 
 require("dotenv").config();
 
-
 // const swaggerUi = require("swagger-ui-express");
 // const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors");

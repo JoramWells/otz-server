@@ -57,52 +57,56 @@ export class MMASEightRepository implements IMMASEightRepository {
     pageSize?: string,
     searchQuery?: string
   ): Promise<MMASEightResponseInterface | undefined | null> {
-    const maxDate = calculateMaxAge(25);
-    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+    try {
+      const maxDate = calculateMaxAge(25);
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
-    let where: WhereOptions = {
-      dob: {
-        [Op.gte]: maxDate,
-      },
-    };
-    //
-    if (isUUID(hospitalID)) {
-      where = {
-        ...where,
-        hospitalID,
-      };
-    }
-
-    //
-    if (searchQuery && searchQuery?.length > 0) {
-      where = {
-        ...where,
-        [Op.or]: [
-          { firstName: { [Op.iLike]: `${searchQuery}%` } },
-          { middleName: { [Op.iLike]: `${searchQuery}%` } },
-          { cccNo: { [Op.iLike]: `${searchQuery}%` } },
-        ],
-      };
-    }
-
-    const { rows, count } = await MMASEight.findAndCountAll({
-      limit,
-      offset,
-      include: [
-        {
-          model: Patient,
-          attributes: ["firstName", "middleName", "avatar"],
-          where,
+      let where: WhereOptions = {
+        dob: {
+          [Op.gte]: maxDate,
         },
-      ],
-    });
+      };
+      //
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
 
-    return {
-      data: rows,
-      total: count,
-      page: page,
-      pageSize: limit,
-    };
+      //
+      if (searchQuery && searchQuery?.length > 0) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `${searchQuery}%` } },
+          ],
+        };
+      }
+
+      const { rows, count } = await MMASEight.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName", "avatar"],
+            where,
+          },
+        ],
+      });
+
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<MMASEightAttributes | null | undefined> {
