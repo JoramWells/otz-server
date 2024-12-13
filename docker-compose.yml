@@ -399,10 +399,10 @@ services:
       #   condition: on-failure    
       resources:
         limits:
-          cpus: '0.20'
-          memory: 850M
+          cpus: '0.25'
+          # memory: 950M
         reservations:
-          cpus: '0.20'
+          cpus: '0.25'
           memory: 600M
     healthcheck:
       test: ["CMD-SHELL", "curl", "-f", "http://localhost:5005/appointments/fetchAll"]
