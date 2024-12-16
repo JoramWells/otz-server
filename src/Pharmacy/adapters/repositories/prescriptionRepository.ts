@@ -6,7 +6,6 @@ import { type IPrescriptionRepository } from "../../application/interfaces/art/I
 import { connect } from "../../domain/db/connect";
 import { validate as isUUID } from "uuid";
 
-
 import {
   Prescription,
   PrescriptionResponseInterface,
@@ -17,7 +16,7 @@ import {
   calculatePills2,
 } from "../../utils/calculatePills";
 import { KafkaAdapter } from "../kafka/producer/kafka.producer";
-import { col, fn, Op, Sequelize } from "sequelize";
+import { col, fn, Op, Sequelize, WhereOptions } from "sequelize";
 import { Patient } from "../../domain/models/patients.models";
 import { ARTPrescription } from "../../domain/models/art/artPrescription.model";
 
@@ -69,7 +68,6 @@ export class PrescriptionRepository implements IPrescriptionRepository {
         currentDate.getDate()
       );
 
-
       let prescriptionWhere = {};
 
       if (frequency) {
@@ -106,8 +104,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
       //   }
       // }
 
-
-      let where = searchQuery
+      let where: WhereOptions = searchQuery
         ? {
             [Op.or]: [
               { firstName: { [Op.iLike]: `%${searchQuery}%` } },
@@ -124,14 +121,12 @@ export class PrescriptionRepository implements IPrescriptionRepository {
             },
           };
 
-
-            if (isUUID(hospitalID)) {
-              where = {
-                ...where,
-                hospitalID,
-              };
-            }
-
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
 
       //
       const offset = (page - 1) * pageSize;
@@ -231,7 +226,7 @@ export class PrescriptionRepository implements IPrescriptionRepository {
                 `(SELECT MAX("createdAt") FROM Prescriptions WHERE "patientID" = "Prescription"."patientID")`
               )
             ),
-            prescriptionWhere
+            prescriptionWhere,
           ],
         },
 

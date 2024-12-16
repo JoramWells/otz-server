@@ -27,6 +27,8 @@ import { postDisclosureRouter } from "./routes/treatmentplan/full/postDisclosure
 import { updatePartialDisclosure } from "./utils/updatePartialDisclosure";
 import { updateFullDisclosure } from "./utils/updateFullDisclosure";
 import { fullDisclosureRouter } from "./routes/treatmentplan/full/fullDiclosure.routes";
+import { updatePartialIndexTracker } from "./utils/partialTracker";
+import { disclosureTrackerRouter } from "./routes/treatmentplan/disclosureTracker.routes";
 
 require("dotenv").config();
 
@@ -50,7 +52,6 @@ app.use(
   })
 );
 
-
 app.use(express.static("uploads"));
 
 // const shouldCompress = (req: Request,res:Response) =>{
@@ -73,12 +74,8 @@ const fourHours = new Date(Date.now() + 4 * 60 * 60 * 1000);
 const twoHours = new Date(Date.now() + 2 * 60 * 60 * 1000);
 
 scheduleJob(fourHours, async function () {
-    await Promise.all([
-      updatePartialDisclosure(),
-      updateFullDisclosure(),
-    ]);
+  await Promise.all([updatePartialDisclosure(), updateFullDisclosure()]);
 });
-
 
 const monitorConfig = {
   schedule: {
@@ -103,7 +100,6 @@ const io = new Server(server, {
 });
 // set up socket.io instance
 app.locals.io = io;
-
 
 // check connection
 io.on("connection", (client) => {
@@ -141,6 +137,10 @@ io.on("connection", (client) => {
   });
 });
 
+(async () => {
+  await updatePartialIndexTracker();
+  console.log('Updatin..')
+})();
 // io.on('error', () => { console.log('err'); });
 
 // notification realtime
@@ -150,6 +150,7 @@ io.on("connection", (client) => {
 // });
 
 const PORT = process.env.PORT || 5006;
+
 
 app.use("/mmas-4", mmasFourRouter);
 app.use("/mmas-8", mmasEightRouter);
@@ -163,7 +164,7 @@ app.use("/child-readiness", childCaregiverReadinessRouter);
 app.use("/execute-disclosure", executeDisclosureRouter);
 app.use("/post-disclosure", postDisclosureRouter);
 app.use("/full-disclosure", fullDisclosureRouter);
-
+app.use("/disclosure-tracker", disclosureTrackerRouter);
 
 connect
   .authenticate()
@@ -173,8 +174,6 @@ connect
   .catch((error) => {
     console.error("Unable to connect to database: ", error);
   });
-
-
 
 server.listen(PORT, async () => {
   console.log(`App running on http://localhost:${PORT}`);
