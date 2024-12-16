@@ -22,6 +22,10 @@ router.put('/update-morning-schedule/:id', controllers.updateMorningSchedule.bin
 router.put('/update-evening-schedule/:id', controllers.updateEveningSchedule.bind(controllers));
 router.put('/update-schedule/:id', controllers.onEditSchedule.bind(controllers));
 router.delete('/delete/:id', controllers.onDeleteSchedule.bind(controllers))
+router.get(
+  "/find-recent",
+  controllers.onGetTimeAndWorkRecent.bind(controllers)
+);
 
 
 export {router as timeAndWorkRouter}

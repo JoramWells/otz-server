@@ -33,4 +33,7 @@ export interface ITimeAndWorkInteractor {
     data: TimeAndWorkAttributes
   ) => Promise<TimeAndWorkAttributes | null>;
   deleteTimeAndWork: (id: string) => Promise<number | null>;
+  getRecentTimeAndWork: (
+    hospitalID: string | undefined,
+  ) => Promise<TimeAndWorkAttributes[] | undefined | null>;
 }

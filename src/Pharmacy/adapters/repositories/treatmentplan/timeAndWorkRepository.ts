@@ -204,7 +204,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       }
 
       //
-      if ( searchQuery && searchQuery?.length > 0) {
+      if (searchQuery && searchQuery?.length > 0) {
         where = {
           ...where,
           [Op.or]: [
@@ -264,7 +264,6 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       // if ((await this.redisClient.get(id)) === null) {
       const results = await TimeAndWork.findOne({
         where: {
-          
           patientVisitID: id,
         },
       });
@@ -283,8 +282,6 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
         patientID: id,
       },
     });
-
-    console.log(results, "resultX");
 
     // const patientResults: AppointmentEntity = {
     //   firstName: results?.firstName,
@@ -319,5 +316,44 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
     console.log("deleted cache!!");
 
     return results;
+  }
+
+  //
+  async findRecent(
+    hospitalID?: string
+  ): Promise<TimeAndWorkAttributes[] | null | undefined> {
+    try {
+      let where = {};
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      const results = await TimeAndWork.findAll({
+        order: [["createdAt", "DESC"]],
+        attributes: [
+          "morningMedicineTime",
+          "eveningMedicineTime",
+          "toolsAndCues",
+          "createdAt",
+        ],
+        limit: 5,
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+            where: {
+              hospitalID,
+            },
+          },
+        ],
+      });
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

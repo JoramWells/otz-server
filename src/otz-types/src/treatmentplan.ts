@@ -223,8 +223,10 @@ export interface EnhancedAdherenceAttributes {
 export interface DisclosureTrackerInterface {
   id?: string;
   patientID?: string;
-  hasFullDisclosure?: boolean;
-  hasPartialDisclosure?: boolean;
+  partialDisclosureID?: string;
+  fullDisclosureID?: boolean;
+  PartialDisclosureAttributes?: PartialDisclosureAttributes;
+  FullDisclosureAttributes?: FullDisclosureAttributes;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }

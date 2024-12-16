@@ -82,4 +82,40 @@ export class DisclosureTrackerController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  //
+  async onGroupByPartialStatus(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID } = req.query;
+      const result = await this.interactor.groupUsersByPartialStatus(hospitalID);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGroupByFullStatus(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID } = req.query;
+      const result = await this.interactor.groupUsersByFullStatus(hospitalID);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }
