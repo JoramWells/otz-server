@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const School = require('../models/school.model');
 
 // using *Patients model
@@ -96,10 +97,29 @@ const deleteSchool = async (req, res, next) => {
   }
 };
 
+const search = async (req, res, next) => {
+  const { searchQuery } = req.query
+  const results = await School.findAll({
+    where: {
+      [Op.or]: [
+        {
+          schoolName: {
+            [Op.iLike]: `${searchQuery}%`
+          }
+        }
+      ]
+    }
+  })
+  console.log(results)
+  return results
+}
+
+
 module.exports = {
   addSchool,
   getAllSchools,
   getSchool,
   editSchool,
   deleteSchool,
+  search
 };

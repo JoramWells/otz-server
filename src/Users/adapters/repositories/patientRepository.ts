@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { Op, where } from "sequelize";
+import { Op, where, WhereOptions } from "sequelize";
 import { validate as isUUID } from "uuid";
 import { type IPatientRepository } from "../../application/interfaces/IPatientRepository";
 import { patientCache } from "../../constants";
@@ -219,7 +219,7 @@ try {
       currentDate.getDate()
     );
 
-        let where = {
+        let where: WhereOptions = {
       dob: { [Op.gte]: maxDate }, // Default filter
     };
 

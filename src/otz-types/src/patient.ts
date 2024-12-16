@@ -1,9 +1,8 @@
 import { WeekDays } from "./weekdays";
 
-
 export enum PatientVisitType {
-  SelfCare = 'self care',
-  ClinicalEncounter = 'clinical encounter'
+  SelfCare = "self care",
+  ClinicalEncounter = "clinical encounter",
 }
 export interface PatientVisitsInterface {
   id?: string;
@@ -19,13 +18,13 @@ export interface InputProps {
   label: string;
 }
 
-export enum UserRoles{
-  Admin = 'admin',
-  Clinician= 'clinician',
-  MentorMother = 'mentor mother',
-  Advocate = 'advocate',
-  Nurse = 'nurse',
-  patient='patient'
+export enum UserRoles {
+  Admin = "admin",
+  Clinician = "clinician",
+  MentorMother = "mentor mother",
+  Advocate = "advocate",
+  Nurse = "nurse",
+  patient = "patient",
 }
 
 export enum PatientRoles {
@@ -118,16 +117,14 @@ export interface UserInterface {
   dob: string;
   idNo: string;
   hospitalID?: string;
-  role?: UserRoles
+  role?: UserRoles;
 }
-
-
 
 export interface UserAvailabilityAttributes {
   id?: string;
   userID: string;
   availability?: {
-    available: boolean
+    available: boolean;
     day: string;
     startTime: Date;
     endTime: Date;
@@ -179,12 +176,19 @@ export interface CaregiverInterface {
 }
 
 export interface CALHIVInterface {
-  id?: string
-  hospitalID?: string
+  id?: string;
+  hospitalID?: string;
   age_0_9?: string;
   age_10_14?: string;
   age_15_19?: string;
   age_20_24?: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
-};
+}
+
+export interface PaginatedResponseInterface<T> {
+  data: T[];
+  total?: string | number;
+  page?: string | number;
+  pageSize?: string | number;
+}
