@@ -98,6 +98,6 @@ DisclosureTracker.belongsTo(FullDisclosure, {
 
 
 // (async () => {
-// connect.sync()
+connect.sync()
 // console.log('Partial Disclosure Table synced successfully')
 // })()
