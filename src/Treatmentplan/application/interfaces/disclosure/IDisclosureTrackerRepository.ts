@@ -15,5 +15,11 @@ export interface IDisclosureTrackerRepository {
     PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
   >;
   findById: (id: string) => Promise<DisclosureTrackerInterface | null>;
+  findUsersByPartialStatus: (
+    hospitalID?: string
+  ) => Promise<DisclosureTrackerInterface[] | undefined | null>;
+  findUsersByFullStatus: (
+    hospitalID?: string
+  ) => Promise<DisclosureTrackerInterface[] | undefined | null>;
   // count: () => Promise<MMASEntity | null>;
 }

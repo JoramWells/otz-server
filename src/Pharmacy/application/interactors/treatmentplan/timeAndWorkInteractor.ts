@@ -68,4 +68,11 @@ export class TimeAndWorkInteractor implements ITimeAndWorkInteractor {
   ): Promise<TimeAndWorkResponseInterface | undefined | null> {
     return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
+
+  //
+  async getRecentTimeAndWork(
+    id?: string
+  ): Promise<TimeAndWorkAttributes[] | null | undefined> {
+    return await this.repository.findRecent(id);
+  }
 }

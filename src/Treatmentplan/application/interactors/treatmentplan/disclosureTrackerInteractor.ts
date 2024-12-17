@@ -42,4 +42,18 @@ export class DisclosureTrackerInteractor implements IDisclosureTrackerInteractor
       hasPartialDisclosure
     );
   }
+
+  //
+  async groupUsersByFullStatus(
+    hospitalID?: string
+  ): Promise<DisclosureTrackerInterface[] | null | undefined> {
+    return await this.repository.findUsersByFullStatus(hospitalID);
+  }
+
+  //
+  async groupUsersByPartialStatus(
+    hospitalID?: string
+  ): Promise<DisclosureTrackerInterface[] | null | undefined> {
+    return await this.repository.findUsersByPartialStatus(hospitalID);
+  }
 }

@@ -32,7 +32,7 @@ export class TimeAndWorkController {
 
   async onGetAllTimeAndWork(req: Request, res: Response, next: NextFunction) {
     try {
-            let { hospitalID, page, pageSize, searchQuery } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
       const results = await this.interactor.getAllTimeAndWork(
         hospitalID as string,
@@ -90,7 +90,11 @@ export class TimeAndWorkController {
   }
 
   //
-  async onGetTimeAndWorkByVisitId(req: Request, res: Response, next: NextFunction) {
+  async onGetTimeAndWorkByVisitId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       if (!id || id === "undefined")
@@ -152,6 +156,25 @@ export class TimeAndWorkController {
     try {
       const { id } = req.params;
       const result = await this.interactor.deleteTimeAndWork(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetTimeAndWorkRecent(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { hospitalID } = req.query;
+
+      const result = await this.interactor.getRecentTimeAndWork(hospitalID as string);
       res.status(200).json(result);
       next();
     } catch (error) {

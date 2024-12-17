@@ -12,8 +12,8 @@ export interface IViralLoadRepository {
     status: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
   findById: (id: string) => Promise<ViralLoadInterface | null>;
-  findByPatientId: (id: string) => Promise<ViralLoadInterface[] | null>;
-  findCategories: (id: string) => Promise<ViralLoadInterface[] | null>;
+  findByPatientId: (id: string) => Promise<ViralLoadInterface[] | null | undefined>;
+  findCategories: (id: string) => Promise<ViralLoadInterface[] | null | undefined>;
   findAllVlReasons: (
     hospitalID: string,
     dateQuery: string
@@ -31,4 +31,7 @@ export interface IViralLoadRepository {
     pageSize: number,
     searchQuery: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
+  findRecent: (
+    hospitalID: string | undefined
+  ) => Promise<ViralLoadInterface[] | undefined | null>;
 }

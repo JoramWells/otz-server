@@ -15,11 +15,11 @@ export interface IViralLoadInteractor {
   getViralLoadById: (id: string) => Promise<ViralLoadInterface | null>;
   getAllViralLoadByPatientID: (
     id: string
-  ) => Promise<ViralLoadInterface[] | null>;
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
   // getViralLoadTest: (id: string) => Promise<ViralLoadInterface | null>;
   getAllVlCategories: (
     hospitalID: string
-  ) => Promise<ViralLoadInterface[] | null>;
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
   getAllVlReasons: (
     hospitalID: string,
     dateQuery: string
@@ -38,4 +38,9 @@ export interface IViralLoadInteractor {
     pageSize: number,
     searchQuery: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
+
+  //
+  getRecentViralLoad: (
+    hospitalID: string | undefined
+  ) => Promise<ViralLoadInterface[] | undefined | null>;
 }

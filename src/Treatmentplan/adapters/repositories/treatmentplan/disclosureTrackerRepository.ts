@@ -7,16 +7,14 @@ import { RedisAdapter } from "../redisAdapter";
 import { DisclosureTracker } from "../../../domain/models/treatmentplan/disclosure/disclosureTracker.model";
 import { calculateLimitAndOffset } from "../../../utils/calculateLimitAndOffset";
 import { Patient } from "../../../domain/models/patients.models";
-import { Op, WhereOptions } from "sequelize";
+import { col, fn, literal, Op, WhereOptions } from "sequelize";
 import { validate as isUUID } from "uuid";
 import { PartialDisclosure } from "../../../domain/models/treatmentplan/disclosure/partialDisclosure.model";
 import { FullDisclosure } from "../../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
 
 // import { createClient } from 'redis'
 
-export class DisclosureTrackerRepository
-  implements IDisclosureTrackerRepository
-{
+export class DisclosureTrackerRepository implements IDisclosureTrackerRepository {
   private readonly redisClient = new RedisAdapter();
   // constructor () {
   //   this.redisClient = createClient({})
@@ -149,16 +147,16 @@ export class DisclosureTrackerRepository
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName"],
+            attributes: ["id", "firstName", "middleName"],
             where,
           },
           {
             model: PartialDisclosure,
-            attributes: ["score"],
+            attributes: ["score", "createdAt"],
           },
           {
             model: FullDisclosure,
-            attributes: ["score"],
+            attributes: ["score", "createdAt"],
           },
         ],
       });
@@ -166,6 +164,8 @@ export class DisclosureTrackerRepository
       return {
         data: rows,
         total: count,
+        page: page,
+        pageSize: limit,
       };
     } catch (error) {
       console.log(error);
@@ -183,4 +183,113 @@ export class DisclosureTrackerRepository
 
     return results;
   }
+
+  //
+  async findUsersByFullStatus(
+    hospitalID?: string
+  ): Promise<DisclosureTrackerInterface[] | null | undefined> {
+    try {
+      let where = {};
+
+      //
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      //
+      const results = await DisclosureTracker.findAll({
+        attributes: [
+          [fn("COALESCE", col("FullDisclosure.score"), null), "score"],
+          [
+            literal(`
+              CASE
+              WHEN "fullDisclosureID" IS NULL THEN 'Not Began'
+              WHEN "FullDisclosure"."score" < 22 THEN 'In Progress'
+              WHEN "FullDisclosure"."score" = 22 THEN 'Completed'
+              ELSE 'Completed'
+              END
+              `),
+            "status",
+          ],
+          [fn("COUNT", "*"), "count"],
+        ],
+        include: [
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              hospitalID,
+            },
+          },
+          {
+            model: FullDisclosure,
+            attributes: [],
+          },
+        ],
+        group: ["status", "DisclosureTracker.fullDisclosureID", "score"],
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findUsersByPartialStatus(
+    hospitalID?: string
+  ): Promise<DisclosureTrackerInterface[] | null | undefined> {
+    try {
+      let where = {};
+
+      //
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      //
+      const results = await DisclosureTracker.findAll({
+        attributes: [
+          [fn("COALESCE", col("PartialDisclosure.score"), null), "score"],
+          [
+            literal(`
+              CASE
+              WHEN "partialDisclosureID" IS NULL THEN 'Not Began'
+              WHEN "PartialDisclosure"."score" < 13 THEN 'In Progress'
+              WHEN "PartialDisclosure"."score" = 13 THEN 'Completed'
+              ELSE 'Unknown'
+              END
+              `),
+            "status",
+          ],
+          [fn("COUNT", "*"), "count"],
+        ],
+        include: [
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              hospitalID,
+            },
+          },
+          {
+            model: PartialDisclosure,
+            attributes: [],
+          },
+        ],
+        group: ["status", "DisclosureTracker.partialDisclosureID", "score"],
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
 }

@@ -27,4 +27,7 @@ export interface ITimeAndWorkRepository {
     data: TimeAndWorkAttributes
   ) => Promise<TimeAndWorkAttributes | null>;
   delete: (id: string) => Promise<number | null>;
+  findRecent: (
+    hospitalID: string | undefined,
+  ) => Promise<TimeAndWorkAttributes[] | undefined | null>;
 }

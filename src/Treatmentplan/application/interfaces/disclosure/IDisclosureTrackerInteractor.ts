@@ -17,4 +17,10 @@ export interface IDisclosureTrackerInteractor {
   getDisclosureTrackerById: (
     id: string
   ) => Promise<DisclosureTrackerInterface | null>;
+  groupUsersByFullStatus: (
+    hospitalID?: string
+  ) => Promise<DisclosureTrackerInterface[] | undefined | null>;
+  groupUsersByPartialStatus: (
+    hospitalID?: string
+  ) => Promise<DisclosureTrackerInterface[] | undefined | null>;
 }

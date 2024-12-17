@@ -15,6 +15,15 @@ const controllers = new DisclosureTrackerController(interactor);
 router.post('/add', controllers.onCreateDisclosureTracker.bind(controllers));
 router.get('/fetchAll', controllers.onGetAllDisclosureTracker.bind(controllers));
 router.get('/detail/:id', controllers.onGetDisclosureTrackerById.bind(controllers));
+router.get(
+  "/fetch-by-full-status",
+  controllers.onGroupByFullStatus.bind(controllers)
+);
+router.get(
+  "/fetch-by-partial-status",
+  controllers.onGroupByPartialStatus.bind(controllers)
+);
+
 // router.put('/edit/:id', editTimeAndWork);
 
 export { router as disclosureTrackerRouter };

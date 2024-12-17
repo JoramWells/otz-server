@@ -70,4 +70,11 @@ export class PatientVisitInteractor implements IPatientVisitInteractor {
   ): Promise<PatientVisitResponseInterface | null | undefined> {
     return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
+  //
+  //
+  async getPatientVisitCount(
+    patientID: string
+  ): Promise<number | null | undefined> {
+    return await this.repository.findPatientVisitCount(patientID);
+  }
 }

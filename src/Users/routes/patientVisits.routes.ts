@@ -28,6 +28,7 @@ router.get('/patient-history/:id', controller.onGetAllPatientHistoryVisitById.bi
 router.get('/users/:id', controller.onGetAllPatientVisitByUserId.bind(controller))
 router.get('/user-patient-count/:id', controller.onGetAllUserPatientCount.bind(controller))
 router.get('/user-activities-count/:id', controller.onGetAllUserActivitiesCount.bind(controller))
+router.get('/patient-visit-count/:id', controller.onGetPatientVisitCount.bind(controller))
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

@@ -7,10 +7,13 @@ import { type IPatientVisitsRepository } from "../../application/interfaces/IPat
 import { PatientVisits } from "../../domain/models/patientVisits.model";
 import { Patient } from "../../domain/models/patients.models";
 import { KafkaAdapter } from "../kafka/kafka.producer";
-import { col, fn, Op } from "sequelize";
+import { col, fn, Op, WhereOptions } from "sequelize";
 import { User } from "../../domain/models/user.model";
 import { PatientVisitResponseInterface } from "../../entities/PatientVisitResponseInterface";
-import { calculateLimitAndOffset, calculateMaxAge } from "../../utils/calculateLimitAndOffset";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../utils/calculateLimitAndOffset";
 
 export class PatientVisitRepository implements IPatientVisitsRepository {
   private readonly kafkaProducer = new KafkaAdapter();
@@ -29,11 +32,11 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     searchQuery: string
   ): Promise<PatientVisitResponseInterface | null | undefined> {
     try {
-      let maxDate = calculateMaxAge(25)
-      let where = {
+      let maxDate = calculateMaxAge(25);
+      let where: WhereOptions = {
         dob: { [Op.gte]: maxDate }, // Default filter
       };
-      let userWhere = {};
+      let userWhere: WhereOptions = {};
 
       if (isUUID(hospitalID)) {
         userWhere = {
@@ -55,7 +58,7 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       }
 
       //
-      const {limit, offset} = calculateLimitAndOffset(page, pageSize)
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
       const { rows, count } = await PatientVisits.findAndCountAll({
         order: [["createdAt", "DESC"]],
@@ -147,11 +150,11 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
   async findPatientVisitByCount(
     hospitalID: string
   ): Promise<PatientVisitsInterface[] | null> {
-    let maxDate = calculateMaxAge(25)
-      let where = {
-        dob: { [Op.gte]: maxDate }, // Default filter
-      };
-    if (isUUID(hospitalID)){
+    let maxDate = calculateMaxAge(25);
+    let where: WhereOptions = {
+      dob: { [Op.gte]: maxDate }, // Default filter
+    };
+    if (isUUID(hospitalID)) {
       where = {
         ...where,
         hospitalID,
@@ -192,8 +195,8 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     searchQuery: string
   ): Promise<PatientVisitResponseInterface | null | undefined> {
     try {
-      const offset = (page - 1) * pageSize;
-      const limit = pageSize;
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
       const { rows, count } = await PatientVisits.findAndCountAll({
         order: [["createdAt", "DESC"]],
         limit,
@@ -238,5 +241,20 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     });
 
     return results;
+  }
+
+  //
+  async findPatientVisitCount(id: string): Promise<number | null | undefined> {
+    try {
+      const results = await PatientVisits.count({
+        where: {
+          patientID: id,
+        },
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

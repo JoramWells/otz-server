@@ -69,27 +69,6 @@ export class PatientVisitController {
       let { page, pageSize, searchQuery } = req.query;
 
       //
-      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = Number(page);
-        pageSize = Number(pageSize);
-      }
-
-      //
-      if (page <= 0) {
-        page = 1;
-      }
-
-      if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
-        page = Number(page);
-        pageSize = Number(pageSize);
-      }
-
-      //
-      if (page <= 0) {
-        page = 1;
-      }
-
-      //
       const result = await this.interactor.getHistoryPatientVisitById(
         id,
         page,
@@ -170,6 +149,24 @@ export class PatientVisitController {
     try {
       const { id } = req.params;
       const result = await this.interactor.getUserActivitiesCount(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetPatientVisitCount(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getPatientVisitCount(id);
       res.status(200).json(result);
       next();
     } catch (error) {
