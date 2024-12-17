@@ -30,4 +30,9 @@ export interface IPatientVisitsRepository {
   findUserActivitiesCount: (
     id: string
   ) => Promise<PatientVisitsInterface[] | null>;
+
+  // 
+    findPatientVisitCount: (
+    patientID: string
+  ) => Promise<number | null | undefined>;
 }

@@ -74,14 +74,18 @@ export async function updatePartialIndexTracker() {
     // console.log("Killin.");
 
     const disclosedPatientMap = new Map(
-      disclosedPatients.map((disclosure) => [
-        disclosure.ChildDisclosureEligibility.patientID,
-        disclosure.id,
-      ])
+      disclosedPatients
+        .filter((disclosure) => disclosure.ChildDisclosureEligibility.patientID !== null)
+        .map((disclosure) => [
+          disclosure.ChildDisclosureEligibility.patientID,
+          disclosure.id,
+        ])
     );
 
     const fullDisclosureMap = new Map(
-      fullDisclosed.map((full) => [full.ExecuteDisclosure.patientID, full.id])
+      fullDisclosed
+        .filter((full) => full.executeDisclosureID.patientID !== null)
+        .map((full) => [full.ExecuteDisclosure.patientID, full.id])
     );
 
     const indexData = patients.map((patient) => ({
