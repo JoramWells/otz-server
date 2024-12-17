@@ -5,7 +5,7 @@ import { ViralLoadInterface } from "otz-types";
 import { IViralLoadRepository } from "../../../application/interfaces/lab/IViralLoadRepository";
 import { ViralLoad } from "../../../domain/models/lab/viralLoad.model";
 import { Patient } from "../../../domain/models/patients.models";
-import { col, fn, literal, Op } from "sequelize";
+import { col, fn, literal, Op, WhereOptions } from "sequelize";
 import { KafkaAdapter } from "../../kafka/producer/kafka.producer";
 import { connect } from "../../../domain/db/connect";
 import { markAsCompletedAppointment } from "../../../utils/markAsCompletedAppointment";
@@ -228,7 +228,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
     hospitalID: string,
     startDate: string | Date,
     endDate: Date | string
-  ): Promise<ViralLoadInterface[]> {
+  ): Promise<ViralLoadInterface[] | undefined> {
     try {
       let where = {};
       let patientWhere = {};
@@ -395,7 +395,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
         currentDate.getDate()
       );
 
-      let where = {
+      let where: WhereOptions = {
         dateOfNextVL: {
           [Op.ne]: null,
         },
@@ -456,17 +456,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
     pageSize: number,
     searchQuery: string
   ): Promise<ViralLoadResponseInterface | null | undefined> {
-    // await this.redisClient.connect();
-    const currentDate = new Date(); // Ensure currentDate is not mutated
-
-    const maxDate = new Date(
-      currentDate.getFullYear() - 24,
-      currentDate.getMonth(),
-      currentDate.getDate()
-    );
-
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
     const importantPatient = await ImportantPatient.findAll({
       include: [
@@ -530,6 +520,45 @@ export class ViralLoadRepository implements IViralLoadRepository {
         page: page,
         pageSize: limit,
       };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findRecent(
+    hospitalID?: string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    try {
+      let where = {};
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      const results = await ViralLoad.findAll({
+        order: [["createdAt", "DESC"]],
+        attributes: [
+          "dateOfVL",
+          "dateOfNextVL",
+          "vlResults",
+          "isVLValid",
+        ],
+        limit: 5,
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+            where: {
+              hospitalID,
+            },
+          },
+        ],
+      });
+      return results;
     } catch (error) {
       console.log(error);
     }

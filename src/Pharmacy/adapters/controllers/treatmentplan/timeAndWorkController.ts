@@ -174,7 +174,7 @@ export class TimeAndWorkController {
     try {
       const { hospitalID } = req.query;
 
-      const result = await this.interactor.getRecentTimeAndWork(hospitalID);
+      const result = await this.interactor.getRecentTimeAndWork(hospitalID as string);
       res.status(200).json(result);
       next();
     } catch (error) {

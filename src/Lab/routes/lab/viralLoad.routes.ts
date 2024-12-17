@@ -25,7 +25,14 @@ router.get("/fetchAllVLCategory", controller.onGetCategories.bind(controller));
 router.get("/group-by-vl-reasons", controller.onGetVLReasons.bind(controller));
 router.get("/suppression-rate", controller.onGetSuppressionRate.bind(controller));
 router.get("/details/:id", controller.onGetByPatientId.bind(controller));
-router.get("/starred-viral-load", controller.onGetStarredViralLoad.bind(controller));
+router.get(
+  "/starred-viral-load",
+  controller.onGetStarredViralLoad.bind(controller)
+);
+router.get(
+  "/recent-viral-load",
+  controller.onGetRecentVL.bind(controller)
+);
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

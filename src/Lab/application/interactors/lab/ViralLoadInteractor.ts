@@ -87,4 +87,11 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
       searchQuery
     );
   }
+
+  //
+  async getRecentViralLoad(
+    id?: string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    return await this.repository.findRecent(id);
+  }
 }
