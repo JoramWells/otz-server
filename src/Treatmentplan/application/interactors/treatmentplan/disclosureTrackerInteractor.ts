@@ -23,22 +23,38 @@ export class DisclosureTrackerInteractor implements IDisclosureTrackerInteractor
     return await this.repository.create(patientData);
   }
 
-  async getAllDisclosureTracker(
+  async getAllFullDisclosureTracker(
     hospitalID?: string,
     page?: string,
     pageSize?: string,
     searchQuery?: string,
     hasFullDisclosure?: string,
-    hasPartialDisclosure?: string
   ): Promise<
     PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
   > {
-    return await this.repository.find(
+    return await this.repository.findFullDisclosure(
       hospitalID,
       page,
       pageSize,
       searchQuery,
       hasFullDisclosure,
+    );
+  }
+  //
+  async getAllPartialDisclosureTracker(
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string,
+    hasPartialDisclosure?: string
+  ): Promise<
+    PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
+  > {
+    return await this.repository.findPartialDisclosure(
+      hospitalID,
+      page,
+      pageSize,
+      searchQuery,
       hasPartialDisclosure
     );
   }

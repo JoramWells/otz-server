@@ -345,9 +345,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
           {
             model: Patient,
             attributes: ["firstName", "middleName"],
-            where: {
-              hospitalID,
-            },
+            where,
           },
         ],
       });

@@ -31,7 +31,7 @@ export class DisclosureTrackerController {
     }
   }
 
-  async onGetAllDisclosureTracker(
+  async onGetAllFullDisclosureTracker(
     req: Request,
     res: Response,
     next: NextFunction
@@ -45,15 +45,47 @@ export class DisclosureTrackerController {
         pageSize,
         searchQuery,
         hasFullDisclosure,
-        hasPartialDisclosure,
       } = req.query;
 
-      const results = await this.interactor.getAllDisclosureTracker(
+      const results = await this.interactor.getAllFullDisclosureTracker(
         hospitalID as string,
         page as string,
         pageSize,
         searchQuery,
         hasFullDisclosure,
+      );
+      res.status(200).json(results);
+
+      next();
+    } catch (error) {
+      next(error);
+      res.status(500).json({ message: "Internal Server Error" });
+      // console.log(error)
+    }
+  }
+
+  //
+  async onGetAllPartialDisclosureTracker(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      // const redisClient = createClient({ url: 'redis://redis:6379' })
+      // await redisClient.connect()
+      const {
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery,
+        hasPartialDisclosure,
+      } = req.query;
+
+      const results = await this.interactor.getAllPartialDisclosureTracker(
+        hospitalID as string,
+        page as string,
+        pageSize,
+        searchQuery,
         hasPartialDisclosure
       );
       res.status(200).json(results);
@@ -91,7 +123,9 @@ export class DisclosureTrackerController {
   ) {
     try {
       const { hospitalID } = req.query;
-      const result = await this.interactor.groupUsersByPartialStatus(hospitalID);
+      const result = await this.interactor.groupUsersByPartialStatus(
+        hospitalID
+      );
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -102,11 +136,7 @@ export class DisclosureTrackerController {
   }
 
   //
-  async onGroupByFullStatus(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  async onGroupByFullStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { hospitalID } = req.query;
       const result = await this.interactor.groupUsersByFullStatus(hospitalID);

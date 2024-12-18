@@ -13,7 +13,7 @@ import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../../../utils/calculateLimitAndOffset";
-import { col, fn, Op, Sequelize } from "sequelize";
+import { col, fn, Op, Sequelize, WhereOptions } from "sequelize";
 import { PartialDisclosureResponseInterface } from "../../../../entities/PartialDisclosureResponseInterface";
 // import { RedisAdapter } from '../redisAdapter'
 // import { createClient } from 'redis'
@@ -200,14 +200,27 @@ export class PartialDisclosureRepository
     hospitalID: string | undefined
   ): Promise<PartialDisclosureAttributes[] | undefined | null> {
     try {
+      let where: WhereOptions = {
+        dob: {
+          [Op.between]: [
+            new Date().setFullYear(new Date().getFullYear() - 9),
+            new Date().setFullYear(new Date().getFullYear() - 5),
+          ],
+        },
+      };
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
       return await PartialDisclosure.findAll({
         include: [
           {
             model: Patient,
             attributes: [],
-            where: {
-              hospitalID,
-            },
+            where,
           },
         ],
         attributes: [

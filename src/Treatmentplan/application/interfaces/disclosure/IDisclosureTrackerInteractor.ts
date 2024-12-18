@@ -4,12 +4,20 @@ export interface IDisclosureTrackerInteractor {
   createDisclosureTracker: (
     data: DisclosureTrackerInterface
   ) => Promise<DisclosureTrackerInterface>;
-  getAllDisclosureTracker: (
+  getAllFullDisclosureTracker: (
     hospitalID?: string,
     page?: string,
     pageSize?: string,
     searchQuery?: string,
     hasFullDisclosure?: string,
+  ) => Promise<
+    PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
+  >;
+  getAllPartialDisclosureTracker: (
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string,
     hasPartialDisclosure?: string
   ) => Promise<
     PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
