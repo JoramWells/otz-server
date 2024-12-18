@@ -18,7 +18,7 @@ export async function addPhoneNumber() {
       } as any,
     });
 
-    console.log("findin");
+    console.log(nullPhones,"findin");
 
     //   find notificationcateory
     const communication = await NotificationSubCategory.findOne({
