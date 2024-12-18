@@ -10,7 +10,7 @@ import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../../../utils/calculateLimitAndOffset";
-import { col, fn, Op, Sequelize } from "sequelize";
+import { col, fn, Op, Sequelize, WhereOptions } from "sequelize";
 import { validate as isUUID } from "uuid";
 import { Patient } from "../../../../domain/models/patients.models";
 
@@ -162,16 +162,28 @@ export class FullDisclosureRepository implements IFullDisclosureRepository {
     hospitalID: string | undefined
   ): Promise<FullDisclosureAttributes[] | undefined | null> {
     try {
+      let where: WhereOptions = {
+        dob: {
+          [Op.between]: [
+            new Date().setFullYear(new Date().getFullYear() - 14),
+            new Date().setFullYear(new Date().getFullYear() - 10),
+          ],
+        },
+      };
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
       return await FullDisclosure.findAll({
         include: [
           {
             model: Patient,
-            where: {
-              hospitalID,
-            },
+            where,
             attributes: [],
             // required: true,
-            
           },
         ],
         attributes: [

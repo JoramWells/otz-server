@@ -28,20 +28,25 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
     return results;
   }
 
-  async find(
+  async findFullDisclosure(
     hospitalID?: string,
     page?: string,
     pageSize?: string,
     searchQuery?: string,
     hasFullDisclosure?: string,
-    hasPartialDisclosure?: string
   ): Promise<
     PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
   > {
-    let where: WhereOptions = {};
+    let where: WhereOptions = {
+      dob: {
+        [Op.between]: [
+          new Date().setFullYear(new Date().getFullYear() - 14),
+          new Date().setFullYear(new Date().getFullYear() - 10),
+        ],
+      },
+    };
 
     let fullDisclosureWhere: WhereOptions = {};
-    let partialDisclosureWhere: WhereOptions = {};
 
     if (hasFullDisclosure === "true") {
       fullDisclosureWhere = {
@@ -50,15 +55,7 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
           [Op.ne]: null,
         },
       };
-      where = {
-        ...where,
-        dob: {
-          [Op.between]: [
-            new Date().setFullYear(new Date().getFullYear() - 14),
-            new Date().setFullYear(new Date().getFullYear() - 10),
-          ],
-        },
-      };
+
     } else if (hasFullDisclosure === "false") {
       fullDisclosureWhere = {
         ...fullDisclosureWhere,
@@ -67,18 +64,84 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
         },
       };
       //
-      where = {
-        ...where,
-        dob: {
-          [Op.between]: [
-            new Date().setFullYear(new Date().getFullYear() - 14),
-            new Date().setFullYear(new Date().getFullYear() - 10),
-          ],
-        },
-      };
     } else {
       fullDisclosureWhere = {};
     }
+
+
+    try {
+      if (searchQuery) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `%${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `%${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `%${searchQuery}%` } },
+          ],
+        };
+      }
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+      const { rows, count } = await DisclosureTracker.findAndCountAll({
+        limit,
+        offset,
+        // where: fullDisclosureWhere,
+        where: { ...fullDisclosureWhere },
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName"],
+            where,
+          },
+          {
+            model: PartialDisclosure,
+            attributes: ["score", "createdAt"],
+          },
+          {
+            model: FullDisclosure,
+            attributes: ["score", "createdAt"],
+          },
+        ],
+      });
+
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findPartialDisclosure(
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string,
+    hasPartialDisclosure?: string
+  ): Promise<
+    PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
+  > {
+    let where: WhereOptions = {
+      dob: {
+        [Op.between]: [
+          new Date().setFullYear(new Date().getFullYear() - 9),
+          new Date().setFullYear(new Date().getFullYear() - 5),
+        ],
+      },
+    };
+
+    let partialDisclosureWhere: WhereOptions = {};
 
     //
     if (hasPartialDisclosure === "true") {
@@ -89,30 +152,12 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
         },
       };
 
-      //
-      where = {
-        ...where,
-        dob: {
-          [Op.between]: [
-            new Date().setFullYear(new Date().getFullYear() - 9),
-            new Date().setFullYear(new Date().getFullYear() - 5),
-          ],
-        },
-      };
+
     } else if (hasPartialDisclosure === "false") {
       partialDisclosureWhere = {
         ...partialDisclosureWhere,
         partialDisclosureID: {
           [Op.is]: null,
-        },
-      };
-      where = {
-        ...where,
-        dob: {
-          [Op.between]: [
-            new Date().setFullYear(new Date().getFullYear() - 9),
-            new Date().setFullYear(new Date().getFullYear() - 5),
-          ],
         },
       };
     } else {
@@ -143,7 +188,7 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
         limit,
         offset,
         // where: fullDisclosureWhere,
-        where: { ...fullDisclosureWhere, ...partialDisclosureWhere },
+        where: { ...partialDisclosureWhere },
         include: [
           {
             model: Patient,
@@ -189,7 +234,14 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
     hospitalID?: string
   ): Promise<DisclosureTrackerInterface[] | null | undefined> {
     try {
-      let where = {};
+      let where: WhereOptions = {
+        dob: {
+          [Op.between]: [
+            new Date().setFullYear(new Date().getFullYear() - 14),
+            new Date().setFullYear(new Date().getFullYear() - 9),
+          ],
+        },
+      };
 
       //
       if (isUUID(hospitalID)) {
@@ -220,9 +272,7 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
           {
             model: Patient,
             attributes: [],
-            where: {
-              hospitalID,
-            },
+            where,
           },
           {
             model: FullDisclosure,
@@ -243,7 +293,14 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
     hospitalID?: string
   ): Promise<DisclosureTrackerInterface[] | null | undefined> {
     try {
-      let where = {};
+      let where: WhereOptions = {
+        dob: {
+          [Op.between]: [
+            new Date().setFullYear(new Date().getFullYear() - 9),
+            new Date().setFullYear(new Date().getFullYear() - 5),
+          ],
+        },
+      };
 
       //
       if (isUUID(hospitalID)) {
@@ -274,9 +331,7 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
           {
             model: Patient,
             attributes: [],
-            where: {
-              hospitalID,
-            },
+            where,
           },
           {
             model: PartialDisclosure,
@@ -291,5 +346,4 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
       console.log(error);
     }
   }
-  
 }

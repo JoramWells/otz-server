@@ -4,12 +4,20 @@ export interface IDisclosureTrackerRepository {
   create: (
     data: DisclosureTrackerInterface
   ) => Promise<DisclosureTrackerInterface>;
-  find: (
+  findFullDisclosure: (
     hospitalID?: string,
     page?: string,
     pageSize?: string,
     searchQuery?: string,
-    hasFullDisclosure?: string,
+    hasFullDisclosure?: string
+  ) => Promise<
+    PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
+  >;
+  findPartialDisclosure: (
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string,
     hasPartialDisclosure?: string
   ) => Promise<
     PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
