@@ -167,7 +167,7 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
         {
           model: Patient,
           where,
-          attributes: ["firstName", "middleName", "dob", "phoneNo"],
+          attributes: ["id", "firstName", "middleName", "dob", "phoneNo"],
         },
       ],
 
