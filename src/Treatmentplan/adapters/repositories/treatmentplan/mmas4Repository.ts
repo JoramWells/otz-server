@@ -72,12 +72,13 @@ export class MMASFourRepository implements IMMASFourRepository {
       }
 
       const { rows, count } = await MMASFour.findAndCountAll({
+        order:[['createdAt', 'DESC']]
         limit,
         offset,
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName", "avatar"],
+            attributes: ['id',"firstName", "middleName", "avatar", 'dob', 'sex'],
             where,
           },
         ],
