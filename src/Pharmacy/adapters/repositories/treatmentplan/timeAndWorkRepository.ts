@@ -218,12 +218,13 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
       //
 
       const { rows, count } = await TimeAndWork.findAndCountAll({
+        order:[['createdAt', 'DESC']],
         limit,
         offset,
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName"],
+            attributes: ['id',"firstName", "middleName", 'dob', 'sex'],
             where,
           },
         ],
@@ -344,7 +345,7 @@ export class TimeAndWorkRepository implements ITimeAndWorkRepository {
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName"],
+            attributes: ["id","firstName", "middleName"],
             where,
           },
         ],

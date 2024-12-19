@@ -97,7 +97,7 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
         include: [
           {
             model: Patient,
-            attributes: ["id", "firstName", "middleName"],
+            attributes: ["id", "firstName", "middleName", "sex", "dob"],
             where,
           },
           {
@@ -192,7 +192,7 @@ export class DisclosureTrackerRepository implements IDisclosureTrackerRepository
         include: [
           {
             model: Patient,
-            attributes: ["id", "firstName", "middleName"],
+            attributes: ["id", "firstName", "middleName", "sex", "dob"],
             where,
           },
           {

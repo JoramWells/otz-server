@@ -87,12 +87,13 @@ export class MMASEightRepository implements IMMASEightRepository {
       }
 
       const { rows, count } = await MMASEight.findAndCountAll({
+        order:[['createdAt', 'DESC']]
         limit,
         offset,
         include: [
           {
             model: Patient,
-            attributes: ["firstName", "middleName", "avatar"],
+            attributes: ['id',"firstName", "middleName", "avatar", 'dob', 'sex'],
             where,
           },
         ],
