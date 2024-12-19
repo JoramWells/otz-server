@@ -87,7 +87,7 @@ export class MMASEightRepository implements IMMASEightRepository {
       }
 
       const { rows, count } = await MMASEight.findAndCountAll({
-        order:[['createdAt', 'DESC']]
+        order:[['createdAt', 'DESC']],
         limit,
         offset,
         include: [

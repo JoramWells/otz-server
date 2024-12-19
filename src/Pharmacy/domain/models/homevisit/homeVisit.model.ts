@@ -1,11 +1,6 @@
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { HomeVisitAttributes  } from 'otz-types'
 import { connect } from '../../db/connect';
-import { ART } from '../art/art.model';
-import { Patient } from '../patients.models';
-import { User } from '../user.model';
-import { HomeVisitReason } from './homeVisitReason.model';
-import { HomeVisitFrequency } from './homeVisitFrequency.model';
 import { HomeVisitConfig } from './homeVisitConfig.model';
 
 
@@ -20,10 +15,13 @@ export class HomeVisit
 {
   id?: string | undefined;
   homeVisitConfigID?: string | undefined;
-  artPrescription?: string | undefined;
+  artPrescription?: {
+    currentRegimen: string;
+    currentRegimenBegan: Date | string;
+  };
   tbPrescription?: string | undefined;
   noOfPills?: number | undefined;
-  medicineStatus?: string | undefined;
+  medicineStatus?: MedicineStatusAttributes;
   actionTaken?: string | undefined;
   returnToClinic?: string | undefined;
   isPillsCounted?: boolean | undefined;
