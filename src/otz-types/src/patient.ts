@@ -1,4 +1,4 @@
-import { WeekDays } from "./weekdays";
+import { HospitalAttributes } from "./hospital";
 
 export enum PatientVisitType {
   SelfCare = "self care",
@@ -7,6 +7,7 @@ export enum PatientVisitType {
 export interface PatientVisitsInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes
   userID?: string;
   type?: PatientVisitType;
   createdAt?: Date | string;
@@ -64,6 +65,7 @@ export interface PatientAttributes {
   populationType?: string;
   schoolID?: string;
   hospitalID?: string;
+  Hospital?: HospitalAttributes
   entryPoint?: string;
   subCountyName?: string;
   maritalStatus: string;
@@ -88,6 +90,7 @@ export interface PatientSessionLogInterface {
 export interface UserSessionLogInterface {
   id?: string;
   userID?: string;
+  User?: UserInterface
   connectedAt?: Date;
   disconnectedAt?: Date;
   duration?: number;
@@ -117,12 +120,14 @@ export interface UserInterface {
   dob: string;
   idNo: string;
   hospitalID?: string;
+  Hospital?: HospitalAttributes
   role?: UserRoles;
 }
 
 export interface UserAvailabilityAttributes {
   id?: string;
   userID: string;
+  User?: UserInterface
   availability?: {
     available: boolean;
     day: string;
@@ -137,6 +142,7 @@ export interface UserAvailabilityAttributes {
 export interface NextOfKinInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes
   firstName: string;
   middleName: string;
   lastName?: string;
@@ -153,6 +159,7 @@ export interface NextOfKinInterface {
 export interface CaseManagerInterface {
   id?: string;
   patientID: string;
+  Patient?: PatientAttributes
   userID: string;
   isNotification: boolean;
 }
@@ -160,6 +167,7 @@ export interface CaseManagerInterface {
 export interface CaregiverInterface {
   id?: string;
   patientID: string;
+  Patient?: PatientAttributes
   firstName: string;
   middleName: string;
   lastName?: string;

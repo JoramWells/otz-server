@@ -11,9 +11,8 @@ export class HomeVisitController {
     this.interactor = interactor;
   }
 
-
   async onCreateAHomeVisit(req: Request, res: Response, next: NextFunction) {
-   console.log(req.body)
+    console.log(req.body);
     try {
       const {
         userID,
@@ -39,37 +38,40 @@ export class HomeVisitController {
         appointmentDate,
       } = req.body;
 
-          const appointmentInput: AppointmentAttributes = {
-            userID,
-            patientID,
-            patientVisitID,
-            appointmentAgendaID,
-            appointmentStatusID,
-            frequency,
-            appointmentDate,
-          };
+      const appointmentInput: AppointmentAttributes = {
+        userID,
+        patientID,
+        patientVisitID,
+        appointmentAgendaID,
+        appointmentStatusID,
+        frequency,
+        appointmentDate,
+      };
 
-          const homeVisitInput: HomeVisitAttributes = {
-            homeVisitConfigID,
+      const homeVisitInput: HomeVisitAttributes = {
+        homeVisitConfigID,
 
-            artPrescription,
-            tbPrescription,
-            ol_drugs,
-            noOfPills,
-            medicineStatus,
-            actionTaken,
-            returnToClinic,
-            isPillsCounted,
-            isClinicVisits,
-            isDisclosure,
-            isGuardianSupport,
-            isSupportGroupAttendance,
-            isHouseholdTested,
-          };
+        artPrescription,
+        tbPrescription,
+        ol_drugs,
+        noOfPills,
+        medicineStatus,
+        actionTaken,
+        returnToClinic,
+        isPillsCounted,
+        isClinicVisits,
+        isDisclosure,
+        isGuardianSupport,
+        isSupportGroupAttendance,
+        isHouseholdTested,
+      };
 
-          console.log(req.body)
+      console.log(req.body);
 
-      const newProfile = await this.interactor.createHomeVisit(homeVisitInput, appointmentInput);
+      const newProfile = await this.interactor.createHomeVisit(
+        homeVisitInput,
+        appointmentInput
+      );
       res.json(newProfile);
       next();
     } catch (error) {
@@ -82,8 +84,14 @@ export class HomeVisitController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllHomeVisits();
+      const results = await this.interactor.getAllHomeVisits(
+        hospitalID as string,
+        page as string,
+        pageSize as string,
+        searchQuery as string
+      );
       res.status(200).json(results);
       next();
     } catch (error) {
