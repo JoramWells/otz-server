@@ -66,7 +66,6 @@ export class HomeVisitController {
         isHouseholdTested,
       };
 
-      console.log(req.body);
 
       const newProfile = await this.interactor.createHomeVisit(
         homeVisitInput,

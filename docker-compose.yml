@@ -167,15 +167,15 @@ services:
       - ./src/Users/:/usr/src/app
       - /usr/src/app/node_modules
     deploy:
-      # mode: replicated
-      # replicas: 2
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      # restart_policy:
-      #   condition: on-failure    
+      mode: replicated
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure    
       resources:
         limits:
           cpus: '0.15'
@@ -184,7 +184,7 @@ services:
           cpus: '0.15'
           memory: 450M
     ports:
-      - 5001:5001
+      - "5010-5011:5001"
     depends_on:
       kafka:
         condition: service_healthy
