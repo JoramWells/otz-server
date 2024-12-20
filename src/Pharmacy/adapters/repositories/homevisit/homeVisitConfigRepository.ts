@@ -1,4 +1,8 @@
-import { AppointmentAttributes, HomeVisitConfigAttributes } from "otz-types";
+import {
+  AppointmentAttributes,
+  HomeVisitConfigAttributes,
+  PaginatedResponseInterface,
+} from "otz-types";
 import { IHomeVisitRepository } from "../../../application/interfaces/homevisit/IHomeVisitRepository";
 import { KafkaAdapter } from "../../kafka/producer/kafka.producer";
 import { connect } from "../../../domain/db/connect";
@@ -9,11 +13,19 @@ import { HomeVisitFrequency } from "../../../domain/models/homevisit/homeVisitFr
 import { ART } from "../../../domain/models/art/art.model";
 import { HomeVisitConfig } from "../../../domain/models/homevisit/homeVisitConfig.model";
 import { PatientVisits } from "../../../domain/models/patientVisits.model";
+import { Op, WhereOptions } from "sequelize";
+import { validate as isUUID } from "uuid";
+import {
+  calculateLimitAndOffset,
+  calculateMaxAge,
+} from "../../../utils/calculateLimitAndOffset";
 
 export class HomeVisitConfigRepository implements IHomeVisitRepository {
   private readonly kafkaProducer = new KafkaAdapter();
 
-  async create(data: HomeVisitConfigAttributes): Promise<HomeVisitConfigAttributes> {
+  async create(
+    data: HomeVisitConfigAttributes
+  ): Promise<HomeVisitConfigAttributes> {
     //
 
     return await connect.transaction(async (t) => {
@@ -48,44 +60,93 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
     // ]);
   }
 
-  async find(): Promise<HomeVisitConfigAttributes[]> {
-    const results = await HomeVisitConfig.findAll({
-      include: [
-        {
-          model: PatientVisits,
-          attributes:['id'],
-          include: [
-            {
-              model: Patient,
-              attributes: [
-                'id',
-                "firstName",
-                "middleName",
-                "lastName",
-                "isImportant",
-              ],
-            },
-            {
-              model: User,
-              attributes: ["firstName", "middleName", "lastName"],
-            },
+  async find(
+    hospitalID?: string,
+    page?: string,
+    pageSize?: string,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<HomeVisitConfigAttributes> | undefined | null
+  > {
+    try {
+      const maxDate = calculateMaxAge(25);
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+      let where: WhereOptions = {
+        dob: {
+          [Op.gte]: maxDate,
+        },
+      };
+
+      if (isUUID(hospitalID)) {
+        where = {
+          ...where,
+          hospitalID,
+        };
+      }
+
+      //
+      if (searchQuery && searchQuery?.length > 0) {
+        where = {
+          ...where,
+          [Op.or]: [
+            { firstName: { [Op.iLike]: `${searchQuery}%` } },
+            { middleName: { [Op.iLike]: `${searchQuery}%` } },
+            { cccNo: { [Op.iLike]: `${searchQuery}%` } },
           ],
-        },
-        {
-          model: HomeVisitReason,
-          attributes: ["homeVisitReasonDescription"],
-        },
-      ],
-    });
+        };
+      }
+      const { rows, count } = await HomeVisitConfig.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: PatientVisits,
+            attributes: ["id"],
+            include: [
+              {
+                model: Patient,
+                attributes: [
+                  "id",
+                  "firstName",
+                  "middleName",
+                  "lastName",
+                  "isImportant",
+                  "dob",
+                  "sex"
+                ],
+                where,
+                required: true
+              },
+              {
+                model: User,
+                attributes: ["firstName", "middleName", "lastName"],
+              },
+            ],
+          },
+          {
+            model: HomeVisitReason,
+            attributes: ["homeVisitReasonDescription"],
+          },
+        ],
+      });
 
-    // await Promise.all(
-    //   results.map(async(config)=>{
-    //     const user = await config.getUser()
-    //     console.log(user)
-    //   })
-    // )
+      // await Promise.all(
+      //   results.map(async(config)=>{
+      //     const user = await config.getUser()
+      //     console.log(user)
+      //   })
+      // )
 
-    return results;
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findById(id: string): Promise<HomeVisitConfigAttributes | null> {

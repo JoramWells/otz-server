@@ -11,16 +11,13 @@ export class HomeVisitConfigController {
     this.interactor = interactor;
   }
 
-  async onCreateAHomeVisitConfig(req: Request, res: Response, next: NextFunction) {
+  async onCreateAHomeVisitConfig(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-
-
-
-
-
-      const newProfile = await this.interactor.createHomeVisitConfig(
-        req.body
-      );
+      const newProfile = await this.interactor.createHomeVisitConfig(req.body);
       res.json(newProfile);
       next();
     } catch (error) {
@@ -29,12 +26,22 @@ export class HomeVisitConfigController {
     }
   }
 
-  async onGetAllHomeVisitConfig(req: Request, res: Response, next: NextFunction) {
+  async onGetAllHomeVisitConfig(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllHomeVisitConfig();
+      const results = await this.interactor.getAllHomeVisitConfig(
+        hospitalID as string,
+        page as string,
+        pageSize as string,
+        searchQuery as string
+      );
       res.status(200).json(results);
       next();
     } catch (error) {
@@ -44,7 +51,11 @@ export class HomeVisitConfigController {
     }
   }
 
-  async onGetAHomeVisitConfigById(req: Request, res: Response, next: NextFunction) {
+  async onGetAHomeVisitConfigById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const result = await this.interactor.getHomeVisitConfigById(id);
@@ -56,6 +67,4 @@ export class HomeVisitConfigController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-
-
 }

@@ -183,24 +183,24 @@ services:
       - ./src/Users/:/usr/src/app
       - /usr/src/app/node_modules
     deploy:
-      # mode: replicated
-      # replicas: 2
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      # restart_policy:
-      #   condition: on-failure    
+      mode: replicated
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure    
       resources:
         limits:
-          cpus: '0.30'
-          memory: 750M
+          cpus: '0.25'
+          memory: 650M
         reservations:
-          cpus: '0.30'
-          memory: 700M
+          cpus: '0.25'
+          memory: 500M
     ports:
-      - 5001:5001
+      - "5010-5011:5001"
     depends_on:
       database:
         condition: service_healthy
