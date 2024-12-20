@@ -160,6 +160,28 @@ export class HomeVisitConfigRepository implements IHomeVisitRepository {
           model: HomeVisitReason,
           attributes: ["id", "homeVisitReasonDescription"],
         },
+        {
+          model: PatientVisits,
+          attributes: ["id"],
+          include: [
+            {
+              model: Patient,
+              attributes: [
+                "id",
+                "firstName",
+                "middleName",
+                "lastName",
+                "isImportant",
+                "dob",
+                "sex",
+              ],
+            },
+            {
+              model: User,
+              attributes: ["firstName", "middleName", "lastName"],
+            },
+          ],
+        },
       ],
     });
 
