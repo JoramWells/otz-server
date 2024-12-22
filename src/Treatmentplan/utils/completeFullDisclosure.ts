@@ -4,7 +4,7 @@ import {
 } from "otz-types";
 import { FullDisclosure } from "../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
 
-function calculateExecuteDisclosureScore(data: ExecuteDisclosureAttributes) {
+export function calculateExecuteDisclosureScore(data: ExecuteDisclosureAttributes) {
   const {
     isAssessedChildCaregiverComfort,
     isAssessedDepthOfChildKnowledge,
@@ -35,7 +35,7 @@ function calculateExecuteDisclosureScore(data: ExecuteDisclosureAttributes) {
 }
 
 // postdisclosure score
-function calculatePostDisclosureScore(data: PostDisclosureAttributes) {
+export function calculatePostDisclosureScore(data: PostDisclosureAttributes) {
   const {
     isAddressedNegativeSelfImage,
     isAssessedChildEngagement,

@@ -88,8 +88,8 @@ importers:
         specifier: ^3.1.7
         version: 3.1.7
       otz-types:
-        specifier: ^1.1.80
-        version: 1.1.80
+        specifier: ^1.1.87
+        version: 1.1.87
 
 packages:
 
@@ -1190,8 +1190,8 @@ packages:
   one-time@1.0.0:
     resolution: {integrity: sha512-5DXOiRKwuSEcQ/l0kGCF6Q3jcADFv5tSmRaJck/OqkVFcOzutB134KRSfF0xDrL39MNnqxbHBbUUcjZIhTgb2g==}
 
-  otz-types@1.1.80:
-    resolution: {integrity: sha512-KwmimuVMOrscmOw5v3ZGveM0D3NTTE6SUnlu/rGpawSij11c772H9Hf6iAnejnMyjfNB9Nma6N+meJnjyfmqMQ==}
+  otz-types@1.1.87:
+    resolution: {integrity: sha512-sMu1QJ3IQBeFOO+UTR5S8313JEqJ6wiYrmQMix29Yr61+Q2C7Xe2nVgHPmeROCbDEX8gMRQ9qKOgkAKFvOZYkg==}
 
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
@@ -2908,7 +2908,7 @@ snapshots:
     dependencies:
       fn.name: 1.1.0
 
-  otz-types@1.1.80: {}
+  otz-types@1.1.87: {}
 
   p-limit@3.1.0:
     dependencies:

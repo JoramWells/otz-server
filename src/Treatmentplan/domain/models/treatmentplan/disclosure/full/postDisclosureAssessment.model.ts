@@ -1,11 +1,11 @@
-import { DataTypes, Model,  UUIDV4 } from "sequelize";
+import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { connect } from "../../../../../db/connect";
 import { Patient } from "../../../patients.models";
 import { PatientVisits } from "../../../patientVisits.model";
 import { PostDisclosureAttributes } from "otz-types";
+import { FullDisclosure } from "./fullDisclosure.model";
+import { calculatePostDisclosureScore } from "../../../../../utils/completeFullDisclosure";
 // import { type PatientEntity } from '../entities/PatientEntity'
-
-
 
 export class PostDisclosure
   extends Model<PostDisclosureAttributes>
@@ -92,6 +92,25 @@ PostDisclosure.init(
 PostDisclosure.belongsTo(Patient, { foreignKey: "patientID" });
 PostDisclosure.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
+PostDisclosure.afterCreate(async (instance) => {
+  const latest = await FullDisclosure.findOne({
+    order: [["createdAt", "DESC"]],
+    where: {
+      patientID: instance.patientID,
+    },
+  });
+  const score = calculatePostDisclosureScore(instance)
+  if (!latest) {
+    await FullDisclosure.create({
+      patientID: instance.patientID,
+      postDisclosureID: instance.id,
+      score,
+    });
+  } else {
+    latest.postDisclosureID = instance.id;
+    latest.score += score;
+  }
+});
 // (async () => {
 // connect.sync()
 // console.log('Patient Table synced successfully')

@@ -22,6 +22,15 @@ router.get(
   controller.onGetTransferOutByHospitalId.bind(controller)
 )
 
+router.get(
+  "/by-patient-id/:id",
+  controller.onGetTransferOutByPatientId.bind(controller)
+);
+
+router.get(
+  "/all-by-patient-id",
+  controller.onGetAllTransferOutByPatientId.bind(controller)
+);
 // router.get("/casemanager-by-patient-id/:id", controller.onGetTransferOutByPatientId.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

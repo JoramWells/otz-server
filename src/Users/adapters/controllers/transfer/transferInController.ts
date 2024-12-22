@@ -52,7 +52,7 @@ export class TransferInController {
     try {
       const { hospitalID } = req.query;
       const result = await this.interactor.getTransferInByHospitalId(
-        hospitalID
+        hospitalID as string
       );
       res.status(200).json(result);
       next();
@@ -72,6 +72,49 @@ export class TransferInController {
         transferInID,
         userID,
         hospitalID
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetTransferInByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getTransferInByPatientId(
+        id as string
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetAllTransferInByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { patientID, page, pageSize, searchQuery } = req.query;
+      const result = await this.interactor.getAllTransferInByPatientId(
+        patientID as string,
+        page,
+        pageSize,
+        searchQuery
       );
       res.status(200).json(result);
       next();

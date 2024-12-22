@@ -36,7 +36,7 @@ export class TransferInInteractor implements ITransferInInteractor {
   ): Promise<
     PaginatedResponseInterface<TransferInInterface> | undefined | null
   > {
-    return await this.repository.find(hospitalID, page, pageSize);
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
   }
 
   //
@@ -46,5 +46,23 @@ export class TransferInInteractor implements ITransferInInteractor {
     hospitalID: string
   ): Promise<TransferInInterface | null | undefined> {
     return await this.repository.verify(transferInID, userID, hospitalID);
+  }
+
+  //
+  async getTransferInByPatientId(
+    id: string
+  ): Promise<TransferInInterface | null | undefined> {
+    return await this.repository.findByPatientId(id);
+  }
+
+  async getAllTransferInByPatientId(
+    id: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferInInterface> | null | undefined
+  > {
+    return await this.repository.findAllByPatientId(id, page, pageSize, searchQuery);
   }
 }
