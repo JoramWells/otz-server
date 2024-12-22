@@ -61,4 +61,48 @@ export class TransferOutController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  //
+  //
+  async onGetTransferOutByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const result = await this.interactor.getTransferOutByPatientId(
+        id as string
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetAllTransferOutByPatientId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { patientID, page, pageSize, searchQuery } = req.query;
+      const result = await this.interactor.getAllTransferOutByPatientId(
+        patientID as string,
+        page,
+        pageSize,
+        searchQuery
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }

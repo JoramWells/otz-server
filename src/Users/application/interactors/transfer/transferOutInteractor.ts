@@ -33,7 +33,26 @@ export class TransferOutInteractor implements ITransferOutInteractor {
     page?: number,
     pageSize?: number,
     searchQuery?: string
-  ): Promise<PaginatedResponseInterface<TransferOutInterface> | undefined | null> {
-    return await this.repository.find(hospitalID, page, pageSize);
+  ): Promise<
+    PaginatedResponseInterface<TransferOutInterface> | undefined | null
+  > {
+    return await this.repository.find(hospitalID, page, pageSize, searchQuery);
+  }
+
+  //
+  async getTransferOutByPatientId(
+    id: string
+  ): Promise<TransferOutInterface | null | undefined> {
+    return await this.repository.findByHospitalId(id);
+  }
+  async getAllTransferOutByPatientId(
+    id: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferOutInterface> | null | undefined
+  > {
+    return await this.repository.findAllByPatientId(id, page, pageSize, searchQuery);
   }
 }

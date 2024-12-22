@@ -1,7 +1,9 @@
 import { PaginatedResponseInterface, TransferOutInterface } from "otz-types";
 
 export interface ITransferOutRepository {
-  create: (data: TransferOutInterface) => Promise<TransferOutInterface | undefined | null>;
+  create: (
+    data: TransferOutInterface
+  ) => Promise<TransferOutInterface | undefined | null>;
   find: (
     hospitalID?: string,
     page?: number,
@@ -13,4 +15,18 @@ export interface ITransferOutRepository {
   findByHospitalId: (
     hospitalID: string
   ) => Promise<TransferOutInterface | null | undefined>;
+
+  //
+  //
+  findByPatientId: (
+    patientID: string
+  ) => Promise<TransferOutInterface | null | undefined>;
+  findAllByPatientId: (
+    patientID: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ) => Promise<
+    PaginatedResponseInterface<TransferOutInterface> | null | undefined
+  >;
 }

@@ -131,4 +131,86 @@ export class TransferOutRepository implements ITransferOutRepository {
       console.log(error);
     }
   }
+
+  //
+  //
+  async findByPatientId(
+    patientID: string
+  ): Promise<TransferOutInterface | null | undefined> {
+    try {
+      const results = await TransferOut.findOne({
+        order: [["createdAt", "DESC"]],
+        // attributes: [],
+        include: [
+          {
+            model: User,
+            attributes: ["firstName", "middleName", "phoneNo"],
+          },
+          {
+            model: Patient,
+            attributes: [],
+            where: {
+              id: patientID,
+            },
+          },
+        ],
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findAllByPatientId(
+    patientID: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferOutInterface> | null | undefined
+  > {
+    try {
+      let where = {};
+
+      if (isUUID(patientID)) {
+        where = {
+          ...where,
+          id: patientID,
+        };
+      }
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+      const { rows, count } = await TransferOut.findAndCountAll({
+        limit,
+        offset,
+        order: [["createdAt", "DESC"]],
+        // attributes: [],
+        include: [
+          {
+            model: TransferOut,
+            include: [
+              {
+                model: User,
+                attributes: ["firstName", "middleName", "phoneNo"],
+              },
+              {
+                model: Patient,
+                attributes: [],
+                where,
+              },
+            ],
+          },
+        ],
+      });
+
+      return {
+        data: rows,
+        page: page,
+        pageSize: limit,
+        total: count,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

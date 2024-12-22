@@ -18,4 +18,16 @@ export interface ITransferInRepository {
     userID: string,
     hospitalID: string
   ) => Promise<TransferInInterface | null | undefined>;
+  //
+  findByPatientId: (
+    patientID: string
+  ) => Promise<TransferInInterface | null | undefined>;
+  findAllByPatientId: (
+    patientID: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ) => Promise<
+    PaginatedResponseInterface<TransferInInterface> | null | undefined
+  >;
 }

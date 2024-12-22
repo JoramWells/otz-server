@@ -23,6 +23,16 @@ router.get(
 )
 
 router.put("/verify-transfer-in/:id", controller.onVerifyTransferIn.bind(controller));
+
+router.get(
+  "/by-patient-id/:id",
+  controller.onGetTransferInByPatientId.bind(controller)
+);
+
+router.get(
+  "/all-by-patient-id",
+  controller.onGetAllTransferInByPatientId.bind(controller)
+);
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

@@ -186,4 +186,97 @@ export class TransferInRepository implements ITransferInRepository {
       console.log(error);
     }
   }
+
+  //
+  async findByPatientId(
+    patientID: string
+  ): Promise<TransferInInterface | null | undefined> {
+    try {
+      const results = await TransferIn.findOne({
+        order: [["createdAt", "DESC"]],
+        // attributes: [],
+        include: [
+          {
+            model: TransferOut,
+            include: [
+              {
+                model: User,
+                attributes: ["firstName", "middleName", "phoneNo"],
+              },
+              {
+                model: Patient,
+                attributes: [],
+                where: {
+                  id: patientID,
+                },
+              },
+            ],
+          },
+        ],
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findAllByPatientId(
+    patientID: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferInInterface> | null | undefined
+  > {
+    try {
+      let where = {};
+
+      if (isUUID(patientID)) {
+        where = {
+          ...where,
+          id: patientID,
+        };
+      }
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+      const { rows, count } = await TransferIn.findAndCountAll({
+        limit,
+        offset,
+        order: [["createdAt", "DESC"]],
+        // attributes: [],
+        include: [
+          {
+            model: TransferOut,
+            // attributes: [],
+            include: [
+              {
+                model: User,
+                attributes: ["firstName", "middleName", "phoneNo"],
+                include: [
+                  {
+                    model: Hospital,
+                    attributes: ["hospitalName"],
+                  },
+                ],
+              },
+              {
+                model: Patient,
+                attributes: [],
+                where,
+              },
+            ],
+          },
+        ],
+      });
+
+      return {
+        data: rows,
+        page: page,
+        pageSize: limit,
+        total: count,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
