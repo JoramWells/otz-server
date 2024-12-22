@@ -46,5 +46,9 @@ router.put("/rescheduleAppointment/:id", controllers.onReschedule.bind(controlle
 router.put("/recent-appointment/:id", controllers.onFindRecentAppointmentByPatientID.bind(controllers));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
+router.get(
+  "/by-patient-id/:id",
+  controllers.onGetPatientAppointmentById.bind(controllers)
+);
 
 export {router as appointmentRouter }

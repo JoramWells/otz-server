@@ -1,3 +1,5 @@
+import { PatientAttributes, PatientVisitsInterface } from "./patient";
+
 export enum AppointmentFrequency {
   Bimonthly = "Bimonthly",
   Daily = "Daily",
@@ -9,9 +11,13 @@ export interface AppointmentAttributes {
   id?: string;
   userID?: string;
   patientID: string;
+  Patient?: PatientAttributes;
   patientVisitID: string;
+  PatientVisits?: PatientVisitsInterface;
   appointmentAgendaID?: string;
+  AppointmentAgenda: AppointmentAgendaAttributes;
   appointmentStatusID?: string;
+  AppointmentStatus?: AppointmentStatusAttributes
   appointmentDate?: string;
   appointmentTime?: string;
   rescheduledDate?: string;

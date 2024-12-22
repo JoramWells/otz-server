@@ -112,4 +112,11 @@ export class AppointmentInteractor implements IAppointmentInteractor {
       searchQuery
     );
   }
+
+  //
+  async getAppointmentByPatientID(
+    id: string
+  ): Promise<AppointmentAttributes | null | undefined> {
+    return await this.repository.findAppointmentByPatientID(id)
+  }
 }

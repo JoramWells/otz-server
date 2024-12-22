@@ -5,7 +5,7 @@ import { CaseManagerInterface } from "otz-types";
 import { type ICaseManagerRepository } from "../../application/interfaces/ICaseManagerRepository";
 import CaseManager from "../../domain/models/casemanager.model";
 import { Patient } from "../../domain/models/patients.models";
-import { User } from "../../domain/models/user.model";
+import { User } from "../../domain/models/user/user.model";
 
 export class CaseManagerRepository implements ICaseManagerRepository {
   async create(data: CaseManagerInterface): Promise<CaseManagerInterface> {

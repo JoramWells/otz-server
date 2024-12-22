@@ -1,6 +1,6 @@
 {
   "name": "otz-types",
-  "version": "1.1.80",
+  "version": "1.1.84",
   "main": "index.js",
   "types": "dist/index.d.ts",
   "scripts": {

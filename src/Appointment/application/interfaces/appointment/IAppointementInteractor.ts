@@ -54,4 +54,9 @@ export interface IAppointmentInteractor {
     pageSize?: number | string,
     searchQuery?: string
   ) => Promise<AppointmentResponseInterface | null | undefined>;
+
+  //
+  getAppointmentByPatientID: (
+    hospitalID: string
+  ) => Promise<AppointmentAttributes | null | undefined>;
 }

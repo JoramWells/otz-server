@@ -3,7 +3,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { CALHIVInterface } from "otz-types";
 import { Patient } from "../../domain/models/patients.models";
-import { User } from "../../domain/models/user.model";
+import { User } from "../../domain/models/user/user.model";
 import { ICALHIVRepository } from "../../application/interfaces/ICALHIVRepository";
 import { CALHIV } from "../../domain/models/calHIV.model";
 import { validate as isUUID } from "uuid";

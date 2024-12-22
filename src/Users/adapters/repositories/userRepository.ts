@@ -2,7 +2,7 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { UserInterface } from "otz-types";
 import { type IUserRepository } from "../../application/interfaces/IUserRepository";
-import { User } from "../../domain/models/user.model";
+import { User } from "../../domain/models/user/user.model";
 import bcrypt from "bcrypt";
 import { Patient } from "../../domain/models/patients.models";
 import { generateDefaultHashedPassword } from "../../utils/generateDefaultHashedPassword";
