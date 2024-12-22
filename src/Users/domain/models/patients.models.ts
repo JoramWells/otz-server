@@ -5,7 +5,7 @@ import { connect } from "../db/connect";
 import { createClient } from "redis";
 import { LocationProps, PatientAttributes } from "otz-types";
 import bcrypt from "bcrypt";
-import { User } from "./user.model";
+import { User } from "./user/user.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
 export enum PatientRoles {

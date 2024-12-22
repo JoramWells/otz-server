@@ -8,7 +8,7 @@ import { PatientVisits } from "../../domain/models/patientVisits.model";
 import { Patient } from "../../domain/models/patients.models";
 import { KafkaAdapter } from "../kafka/kafka.producer";
 import { col, fn, Op, WhereOptions } from "sequelize";
-import { User } from "../../domain/models/user.model";
+import { User } from "../../domain/models/user/user.model";
 import { PatientVisitResponseInterface } from "../../entities/PatientVisitResponseInterface";
 import {
   calculateLimitAndOffset,
@@ -88,20 +88,25 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
     }
   }
 
-  async findById(id: string): Promise<PatientVisitsInterface | null> {
-    const results = await PatientVisits.findOne({
-      where: {
-        patientID: id,
-      },
-      include: [
-        {
-          model: User,
-          attributes: ["firstName", "middleName"],
+  async findById(id: string): Promise<PatientVisitsInterface | null | undefined> {
+    try {
+      const results = await PatientVisits.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
         },
-      ],
-    });
+        include: [
+          {
+            model: User,
+            attributes: ["firstName", "middleName"],
+          },
+        ],
+      });
 
-    return results;
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //

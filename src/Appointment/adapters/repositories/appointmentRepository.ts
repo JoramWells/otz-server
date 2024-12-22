@@ -22,6 +22,7 @@ import {
   calculateMaxAge,
 } from "../../utils/calculateLimitAndOffset";
 import { validate as isUUID } from "uuid";
+import { PatientVisits } from "../../domain/models/patientVisits.model";
 
 // import { createClient } from 'redis'
 
@@ -720,6 +721,47 @@ export class AppointmentRepository implements IAppointmentRepository {
         page: page,
         pageSize: limit,
       };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findAppointmentByPatientID(
+    id: string
+  ): Promise<AppointmentAttributes | null | undefined> {
+    try {
+      // if ((await this.redisClient.get(id)) === null) {
+      const results = await Appointment.findOne({
+        order: [["createdAt", "DESC"]],
+        where: {
+          patientID: id,
+        },
+        include: [
+          {
+            model: AppointmentAgenda,
+            attributes: ["agendaDescription"],
+          },
+          {
+            model: AppointmentStatus,
+            attributes: ["statusDescription"],
+          },
+          {
+            model: User,
+            attributes: ["firstName", "middleName"],
+          },
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+          },
+          {
+            model: PatientVisits,
+            attributes: ["createdAt"],
+          },
+        ],
+      });
+
+      return results;
     } catch (error) {
       console.log(error);
     }

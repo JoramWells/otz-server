@@ -5,6 +5,7 @@ import { Patient } from "../patients.models";
 import { User } from "../user.model";
 import { connect } from "../../../db/connect";
 import { AppointmentAttributes } from "otz-types";
+import { PatientVisits } from "../patientVisits.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export interface AppointmentResponseInterface {
@@ -151,6 +152,7 @@ Appointment.belongsTo(
   { foreignKey: 'appointmentStatusID', targetKey: 'id' },
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
+Appointment.belongsTo(PatientVisits, { foreignKey: "patientVisitID", targetKey: "id" });
 
 // Appointment.afterCreate(async (appointments, options) => {
 //   const redisClient = createClient({ url: 'redis://redis:6379' });

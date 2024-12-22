@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
 import { connect } from "../db/connect";
 import { ImportantPatientsInterface } from "otz-types";
-import { User } from "./user.model";
+import { User } from "./user/user.model";
 import { Patient } from "./patients.models";
 
 // import { type PatientEntity } from '../entities/PatientEntity'

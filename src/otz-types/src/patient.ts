@@ -7,8 +7,9 @@ export enum PatientVisitType {
 export interface PatientVisitsInterface {
   id?: string;
   patientID?: string;
-  Patient?: PatientAttributes
+  Patient?: PatientAttributes;
   userID?: string;
+  User?: UserInterface;
   type?: PatientVisitType;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -65,7 +66,7 @@ export interface PatientAttributes {
   populationType?: string;
   schoolID?: string;
   hospitalID?: string;
-  Hospital?: HospitalAttributes
+  Hospital?: HospitalAttributes;
   entryPoint?: string;
   subCountyName?: string;
   maritalStatus: string;
@@ -80,6 +81,7 @@ export interface PatientAttributes {
 export interface PatientSessionLogInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   connectedAt?: Date;
   disconnectedAt?: Date;
   duration?: number;
@@ -90,7 +92,7 @@ export interface PatientSessionLogInterface {
 export interface UserSessionLogInterface {
   id?: string;
   userID?: string;
-  User?: UserInterface
+  User?: UserInterface;
   connectedAt?: Date;
   disconnectedAt?: Date;
   duration?: number;
@@ -101,7 +103,9 @@ export interface UserSessionLogInterface {
 export interface ImportantPatientsInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   userID?: string;
+  User?: UserInterface;
   isImportant?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -120,14 +124,14 @@ export interface UserInterface {
   dob: string;
   idNo: string;
   hospitalID?: string;
-  Hospital?: HospitalAttributes
+  Hospital?: HospitalAttributes;
   role?: UserRoles;
 }
 
 export interface UserAvailabilityAttributes {
   id?: string;
   userID: string;
-  User?: UserInterface
+  User?: UserInterface;
   availability?: {
     available: boolean;
     day: string;
@@ -142,7 +146,7 @@ export interface UserAvailabilityAttributes {
 export interface NextOfKinInterface {
   id?: string;
   patientID?: string;
-  Patient?: PatientAttributes
+  Patient?: PatientAttributes;
   firstName: string;
   middleName: string;
   lastName?: string;
@@ -159,7 +163,7 @@ export interface NextOfKinInterface {
 export interface CaseManagerInterface {
   id?: string;
   patientID: string;
-  Patient?: PatientAttributes
+  Patient?: PatientAttributes;
   userID: string;
   isNotification: boolean;
 }
@@ -167,7 +171,7 @@ export interface CaseManagerInterface {
 export interface CaregiverInterface {
   id?: string;
   patientID: string;
-  Patient?: PatientAttributes
+  Patient?: PatientAttributes;
   firstName: string;
   middleName: string;
   lastName?: string;
@@ -186,6 +190,7 @@ export interface CaregiverInterface {
 export interface CALHIVInterface {
   id?: string;
   hospitalID?: string;
+  Hospital?: HospitalAttributes
   age_0_9?: string;
   age_10_14?: string;
   age_15_19?: string;
@@ -199,4 +204,36 @@ export interface PaginatedResponseInterface<T> {
   total?: string | number;
   page?: string | number;
   pageSize?: string | number;
+}
+
+export interface TransferOutInterface {
+  id?: string;
+  patientID?: string;
+  Patient?: PatientAttributes;
+  userID?: string;
+  User?: UserInterface;
+  transferOutDate?: string | Date;
+  transferOutEffectiveDate?: string | Date;
+  transferOutVerified?: boolean;
+  transferOutVerificationDate?: string | Date;
+  transferredTo?: string;
+  Hospital?: HospitalAttributes;
+  lastAppointmentDate?: string | Date;
+  lastVisitDate?: string | Date;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+}
+
+export interface TransferInInterface {
+  id?: string;
+  confirmedBy?: string;
+  User?: UserInterface;
+  transferInDate?: string | Date;
+  transferInEffectiveDate?: string | Date;
+  transferInVerified?: boolean;
+  transferInVerificationDate?: string | Date;
+  transferOutID?: string;
+  TransferOut?: TransferOutInterface;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }

@@ -4,7 +4,7 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { Patient } from './patients.models'
-import { User } from './user.model'
+import { User } from './user/user.model'
 import { connect } from '../db/connect'
 import { CaseManagerInterface } from 'otz-types'
 

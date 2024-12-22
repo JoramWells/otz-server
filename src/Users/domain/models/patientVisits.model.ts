@@ -6,7 +6,7 @@ import { DataTypes, Model, UUIDV4 } from 'sequelize'
 import { connect } from '../db/connect'
 import { Patient } from './patients.models'
 import { PatientVisitsInterface } from 'otz-types'
-import { User } from './user.model'
+import { User } from './user/user.model'
 
 export enum PatientVisitType {
   SelfCare = "self care",

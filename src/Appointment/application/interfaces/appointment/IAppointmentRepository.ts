@@ -57,6 +57,11 @@ export interface IAppointmentRepository {
     pageSize?: number | string,
     searchQuery?: string
   ) => Promise<AppointmentResponseInterface | null | undefined>;
+
+    //
+  findAppointmentByPatientID: (
+    patientID: string,
+  ) => Promise<AppointmentAttributes | null | undefined>;
 }
 
 

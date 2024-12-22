@@ -25,13 +25,16 @@ import { userSessionLogRouter } from './routes/userSession.routes'
 import { UserSessionLog } from './domain/models/userSession'
 import { AppModule } from './domain/models/appModules/appModules'
 import { AppModuleSession } from './domain/models/appModules/appModuleSession.model'
-import { User } from './domain/models/user.model'
+import { User } from './domain/models/user/user.model'
 import { countCalHIV } from './utils/countCalHIV'
 import { CALHIVRouter } from './routes/calHIV.routes'
+import { transferOutRouter } from './routes/transfer/transferOut.routes'
+import { transferInRouter } from './routes/transfer/transferIn.routes'
 const cors = require('cors')
 const app: Application = express()
 
 const server = createServer(app)
+
 
 // create server
 const io = new Server(server,{
@@ -211,6 +214,8 @@ app.use('/next-of-kin', nextOfKinRouter)
 app.use('/patient-session-logs', patientSessionLogRouter)
 app.use('/important-patients', importantPatientRouter)
 app.use('/cal-hiv', CALHIVRouter)
+app.use('/transfer-out', transferOutRouter)
+app.use('/transfer-in', transferInRouter)
 app.use('/user-session-logs', userSessionLogRouter)
 
 connect.authenticate().then(() => {

@@ -81,13 +81,8 @@ const twoHours = new Date(Date.now() + 2 * 60 * 60 * 1000);
 //     ]);
 // });
 
-
-
 scheduleJob(twoHours, async function () {
-   await Promise.all([
-     markMissedAppointments(),
-     rescheduleOnUnavailable(),
-   ]);
+  await Promise.all([markMissedAppointments(), rescheduleOnUnavailable()]);
 });
 
 // scheduleJob("*/20 * * *", async function () {
@@ -218,14 +213,18 @@ io.on("connection", (client) => {
       socketModuleID !== null
     ) {
       const isModulePresent = await AppModule.findByPk(socketModuleID);
-      if (isModulePresent) {
-        await AppModuleSession.create({
-          userID: socketUserID,
-          appModuleID: isModulePresent.id,
-          disconnectedAt: disconnectedAt,
-          connectedAt: connectedAt,
-          duration: duration,
-        });
+      try {
+        if (isModulePresent) {
+          await AppModuleSession.create({
+            userID: socketUserID,
+            appModuleID: isModulePresent.id,
+            disconnectedAt: disconnectedAt,
+            connectedAt: connectedAt,
+            duration: duration,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   });

@@ -4,7 +4,7 @@
 /* eslint-disable camelcase */
 import { DataTypes, Model, UUIDV4, Sequelize } from 'sequelize'
 import { connect } from '../db/connect'
-import { User } from './user.model';
+import { User } from './user/user.model';
 import { UserSessionLogInterface } from 'otz-types';
 
 export class UserSessionLog extends Model<UserSessionLogInterface> {

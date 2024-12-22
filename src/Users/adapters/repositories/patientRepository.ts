@@ -20,7 +20,7 @@ import bcrypt from "bcrypt";
 import { RedisAdapter } from "./redisAdapter";
 import { NextOfKinInterface, PatientAttributes } from "otz-types";
 import CaseManager from "../../domain/models/casemanager.model";
-import { User } from "../../domain/models/user.model";
+import { User } from "../../domain/models/user/user.model";
 import { calculateLimitAndOffset } from "../../utils/calculateLimitAndOffset";
 
 export class PatientRepository implements IPatientRepository {
