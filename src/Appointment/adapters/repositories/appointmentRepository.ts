@@ -754,10 +754,10 @@ export class AppointmentRepository implements IAppointmentRepository {
             model: Patient,
             attributes: ["firstName", "middleName"],
           },
-          // {
-          //   model: PatientVisits,
-          //   attributes: ["createdAt"],
-          // },
+          {
+            model: PatientVisits,
+            attributes: ["createdAt"],
+          },
         ],
       });
 

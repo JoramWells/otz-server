@@ -43,12 +43,15 @@ TransferOut.init(
     },
     transferOutEffectiveDate: {
       type: DataTypes.DATE,
+      allowNull: true
     },
     transferOutVerified: {
       type: DataTypes.BOOLEAN,
     },
     transferOutVerificationDate: {
       type: DataTypes.DATE,
+      allowNull: true
+
     },
     transferredTo: {
       type: DataTypes.UUID,

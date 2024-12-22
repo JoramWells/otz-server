@@ -40,15 +40,18 @@ TransferIn.init(
     },
     transferInDate: {
       type: DataTypes.DATE,
+      allowNull: true,
     },
     transferInEffectiveDate: {
       type: DataTypes.DATE,
+      allowNull: true,
     },
     transferInVerified: {
       type: DataTypes.BOOLEAN,
     },
     transferInVerificationDate: {
       type: DataTypes.DATE,
+      allowNull: true,
     },
     transferredFrom: {
       type: DataTypes.UUID,
