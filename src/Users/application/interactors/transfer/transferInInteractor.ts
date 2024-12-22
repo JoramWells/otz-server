@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { TransferInInterface } from "otz-types";
+import { PaginatedResponseInterface, TransferInInterface } from "otz-types";
 import { ITransferInInteractor } from "../../interfaces/transfer/ITransferInInteractor";
 import { ITransferInRepository } from "../../interfaces/transfer/ITransferInRepository";
 
@@ -16,17 +16,35 @@ export class TransferInInteractor implements ITransferInInteractor {
     return await this.repository.findByHospitalId(id);
   }
 
-  async getTransferInById(id: string): Promise<TransferInInterface | null | undefined> {
+  async getTransferInById(
+    id: string
+  ): Promise<TransferInInterface | null | undefined> {
     return await this.repository.findByHospitalId(id);
   }
 
-  async createTransferIn(patientData: TransferInInterface): Promise<TransferInInterface> {
+  async createTransferIn(
+    patientData: TransferInInterface
+  ): Promise<TransferInInterface> {
     return await this.repository.create(patientData);
   }
 
   async getAllTransferIns(
+    hospitalID?: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferInInterface> | undefined | null
+  > {
+    return await this.repository.find(hospitalID, page, pageSize);
+  }
+
+  //
+  async verifyTransferID(
+    transferInID: string,
+    userID: string,
     hospitalID: string
-  ): Promise<TransferInInterface[] | undefined | null> {
-    return await this.repository.find(hospitalID);
+  ): Promise<TransferInInterface | null | undefined> {
+    return await this.repository.verify(transferInID, userID, hospitalID);
   }
 }

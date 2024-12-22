@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
-import { ITransferInInteractor } from '../../../application/interfaces/transfer/ITransferInInteractor';
+import { type NextFunction, type Request, type Response } from "express";
+import { ITransferInInteractor } from "../../../application/interfaces/transfer/ITransferInInteractor";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class TransferInController {
@@ -27,9 +27,14 @@ export class TransferInController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const { hospitalID } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllTransferIns(hospitalID);
+      const results = await this.interactor.getAllTransferIns(
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(results);
       next();
     } catch (error) {
@@ -46,7 +51,28 @@ export class TransferInController {
   ) {
     try {
       const { hospitalID } = req.query;
-      const result = await this.interactor.getTransferInByHospitalId(hospitalID);
+      const result = await this.interactor.getTransferInByHospitalId(
+        hospitalID
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onVerifyTransferIn(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id: transferInID } = req.params;
+      const { userID, hospitalID } = req.query;
+      const result = await this.interactor.verifyTransferID(
+        transferInID,
+        userID,
+        hospitalID
+      );
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -56,4 +82,3 @@ export class TransferInController {
     }
   }
 }
-

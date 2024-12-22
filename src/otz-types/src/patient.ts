@@ -9,6 +9,7 @@ export interface PatientVisitsInterface {
   patientID?: string;
   Patient?: PatientAttributes;
   userID?: string;
+  User?: UserInterface;
   type?: PatientVisitType;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -80,6 +81,7 @@ export interface PatientAttributes {
 export interface PatientSessionLogInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   connectedAt?: Date;
   disconnectedAt?: Date;
   duration?: number;
@@ -101,7 +103,9 @@ export interface UserSessionLogInterface {
 export interface ImportantPatientsInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   userID?: string;
+  User?: UserInterface;
   isImportant?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -206,6 +210,8 @@ export interface TransferOutInterface {
   id?: string;
   patientID?: string;
   Patient?: PatientAttributes;
+  userID?: string;
+  User?: UserInterface;
   transferOutDate?: string | Date;
   transferOutEffectiveDate?: string | Date;
   transferOutVerified?: boolean;
@@ -220,16 +226,14 @@ export interface TransferOutInterface {
 
 export interface TransferInInterface {
   id?: string;
-  patientID?: string;
-  Patient?: PatientAttributes;
+  confirmedBy?: string;
+  User?: UserInterface;
   transferInDate?: string | Date;
   transferInEffectiveDate?: string | Date;
   transferInVerified?: boolean;
   transferInVerificationDate?: string | Date;
-  transferredFrom?: string;
-  Hospital?: HospitalAttributes;
-  lastAppointmentDate?: string | Date;
-  lastVisitDate?: string | Date;
+  transferOutID?: string;
+  TransferOut?: TransferOutInterface;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }

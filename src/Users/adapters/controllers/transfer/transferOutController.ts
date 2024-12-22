@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { type NextFunction, type Request, type Response } from 'express'
-import { ITransferOutInteractor } from '../../../application/interfaces/transfer/ITransferOutInteractor';
+import { type NextFunction, type Request, type Response } from "express";
+import { ITransferOutInteractor } from "../../../application/interfaces/transfer/ITransferOutInteractor";
 // import { createClient } from 'redis'
 // import { Patient } from '../../domain/entities/Patient'
 export class TransferOutController {
@@ -13,7 +13,6 @@ export class TransferOutController {
 
   async onCreateTransferOut(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
       const newProfile = await this.interactor.createTransferOut(req.body);
       res.json(newProfile);
       next();
@@ -27,9 +26,14 @@ export class TransferOutController {
     try {
       // const redisClient = createClient({ url: 'redis://redis:6379' })
       // await redisClient.connect()
-      const { hospitalID } = req.query;
+      let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-      const results = await this.interactor.getAllTransferOuts(hospitalID);
+      const results = await this.interactor.getAllTransferOuts(
+        hospitalID,
+        page,
+        pageSize,
+        searchQuery
+      );
       res.status(200).json(results);
       next();
     } catch (error) {
@@ -46,7 +50,9 @@ export class TransferOutController {
   ) {
     try {
       const { hospitalID } = req.query;
-      const result = await this.interactor.getTransferOutByHospitalId(hospitalID);
+      const result = await this.interactor.getTransferOutByHospitalId(
+        hospitalID
+      );
       res.status(200).json(result);
       next();
     } catch (error) {
@@ -56,4 +62,3 @@ export class TransferOutController {
     }
   }
 }
-

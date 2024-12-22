@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { TransferInInterface } from "otz-types";
+import { PaginatedResponseInterface, TransferInInterface } from "otz-types";
 
 import { validate as isUUID } from "uuid";
 import { ITransferInRepository } from "../../../application/interfaces/transfer/ITransferInRepository";
 import { TransferIn } from "../../../domain/models/transfer/transferIn.model";
+import { calculateLimitAndOffset } from "../../../utils/calculateLimitAndOffset";
+import { TransferOut } from "../../../domain/models/transfer/transferOut.model";
+import { User } from "../../../domain/models/user/user.model";
+import { Hospital } from "../../../domain/models/hospital/hospital.model";
+import { Patient } from "../../../domain/models/patients.models";
 
 export class TransferInRepository implements ITransferInRepository {
   async create(data: TransferInInterface): Promise<TransferInInterface> {
@@ -40,22 +45,58 @@ export class TransferInRepository implements ITransferInRepository {
   }
 
   async find(
-    hospitalID: string
-  ): Promise<TransferInInterface[] | undefined | null> {
+    hospitalID?: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferInInterface> | undefined | null
+  > {
     try {
       let where = {};
+
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
       if (isUUID(hospitalID)) {
         where = {
           ...where,
-          hospitalID,
+          transferredTo: hospitalID,
         };
       }
 
-      const results = await TransferIn.findAll({
-        where,
+      const { rows, count } = await TransferIn.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: TransferOut,
+            attributes: ["transferOutVerified"],
+            where,
+            include: [
+              {
+                model: User,
+                attributes: ["id", "firstName", "middleName", "phoneNo"],
+                include: [
+                  {
+                    model: Hospital,
+                    attributes: ["hospitalName"],
+                  },
+                ],
+              },
+              {
+                model: Patient,
+                attributes: ["id", "firstName", "middleName", "sex", "dob"],
+              },
+            ],
+          },
+        ],
       });
-      return results;
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +138,50 @@ export class TransferInRepository implements ITransferInRepository {
       });
 
       return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async verify(
+    transferInID: string,
+    userID: string,
+    hospitalID: string
+  ): Promise<TransferInInterface | null | undefined> {
+    try {
+      const currentDate = new Date();
+
+      const transferInResults = await TransferIn.findByPk(transferInID);
+
+      if (transferInResults) {
+        // VERIFY IN TransferOut and save
+        const transferOutResults = await TransferOut.findByPk(
+          transferInResults.transferOutID
+        );
+        if (transferOutResults) {
+          transferOutResults.transferOutVerified = true;
+          transferOutResults.transferOutVerificationDate = currentDate;
+          await transferOutResults.save();
+
+          // transferIN
+          transferInResults.transferInVerified = true;
+          transferInResults.transferInVerificationDate = currentDate;
+          transferInResults.confirmedBy = userID;
+          await transferInResults.save();
+
+          // Transfer patient by editing hospitalID
+          const patientResults = await Patient.findByPk(
+            transferOutResults.patientID
+          );
+          if (patientResults) {
+            patientResults.hospitalID = hospitalID;
+            await patientResults.save();
+          }
+        }
+      }
+
+      return transferInResults;
     } catch (error) {
       console.log(error);
     }

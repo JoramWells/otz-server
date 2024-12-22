@@ -3,6 +3,8 @@ import { TransferInInterface } from "otz-types";
 import { Patient } from "../patients.models";
 import { Hospital } from "../hospital/hospital.model";
 import { connect } from "../../db/connect";
+import { User } from "../user/user.model";
+import { TransferOut } from "./transferOut.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export class TransferIn
@@ -10,14 +12,13 @@ export class TransferIn
   implements TransferInInterface
 {
   id: string | undefined;
-  patientID?: string | undefined;
   transferInDate?: string | Date | undefined;
   transferInEffectiveDate?: string | Date | undefined;
   transferInVerificationDate?: string | Date | undefined;
   transferInVerified?: boolean | undefined;
-  transferredFrom?: string | undefined;
-  lastAppointmentDate?: string | Date | undefined;
-  lastVisitDate?: string | Date | undefined;
+  hospitalID?: string | undefined;
+  transferOutID?: string | undefined;
+  confirmedBy?: string | undefined;
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
 }
@@ -29,14 +30,14 @@ TransferIn.init(
       primaryKey: true,
       defaultValue: UUIDV4,
     },
-    patientID: {
+    confirmedBy: {
       type: DataTypes.UUID,
       references: {
-        model: "patients",
+        model: "users",
         key: "id",
       },
       onDelete: "CASCADE",
-      allowNull: false,
+      allowNull: true,
     },
     transferInDate: {
       type: DataTypes.DATE,
@@ -53,20 +54,14 @@ TransferIn.init(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    transferredFrom: {
+    transferOutID: {
       type: DataTypes.UUID,
       references: {
-        model: "hospitals",
+        model: "transferOuts",
         key: "id",
       },
       onDelete: "CASCADE",
       allowNull: false,
-    },
-    lastAppointmentDate: {
-      type: DataTypes.DATE,
-    },
-    lastVisitDate: {
-      type: DataTypes.DATE,
     },
     updatedAt: {
       type: DataTypes.DATE,
@@ -87,8 +82,9 @@ TransferIn.init(
   }
 );
 
-TransferIn.belongsTo(Patient, { foreignKey: "patientID" });
-TransferIn.belongsTo(Hospital, { foreignKey: "transferredFrom" });
+TransferIn.belongsTo(TransferOut, { foreignKey: "transferOutID" });
+TransferIn.belongsTo(User, { foreignKey: "confirmedBy" });
+// TransferIn.belongsTo(Hospital, { foreignKey: "hospitalID" });
 
 // (async () => {
 void connect.sync()

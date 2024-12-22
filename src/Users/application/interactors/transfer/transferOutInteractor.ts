@@ -1,5 +1,5 @@
 // import { type Patient } from '../../domain/entities/PatientEntity'
-import { TransferOutInterface } from "otz-types";
+import { PaginatedResponseInterface, TransferOutInterface } from "otz-types";
 import { ITransferOutInteractor } from "../../interfaces/transfer/ITransferOutInteractor";
 import { ITransferOutRepository } from "../../interfaces/transfer/ITransferOutRepository";
 
@@ -16,17 +16,24 @@ export class TransferOutInteractor implements ITransferOutInteractor {
     return await this.repository.findByHospitalId(id);
   }
 
-  async getTransferOutById(id: string): Promise<TransferOutInterface | null | undefined> {
+  async getTransferOutById(
+    id: string
+  ): Promise<TransferOutInterface | null | undefined> {
     return await this.repository.findByHospitalId(id);
   }
 
-  async createTransferOut(patientData: TransferOutInterface): Promise<TransferOutInterface> {
+  async createTransferOut(
+    patientData: TransferOutInterface
+  ): Promise<TransferOutInterface | undefined | null> {
     return await this.repository.create(patientData);
   }
 
   async getAllTransferOuts(
-    hospitalID: string
-  ): Promise<TransferOutInterface[] | undefined | null> {
-    return await this.repository.find(hospitalID);
+    hospitalID?: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<PaginatedResponseInterface<TransferOutInterface> | undefined | null> {
+    return await this.repository.find(hospitalID, page, pageSize);
   }
 }

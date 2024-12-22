@@ -1,48 +1,57 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-import { TransferOutInterface } from "otz-types";
+import { PaginatedResponseInterface, TransferOutInterface } from "otz-types";
 
 import { validate as isUUID } from "uuid";
 import { ITransferOutRepository } from "../../../application/interfaces/transfer/ITransferOutRepository";
 import { TransferOut } from "../../../domain/models/transfer/transferOut.model";
+import { TransferIn } from "../../../domain/models/transfer/transferIn.model";
+import { Patient } from "../../../domain/models/patients.models";
+import { connect } from "../../../domain/db/connect";
+import { calculateLimitAndOffset } from "../../../utils/calculateLimitAndOffset";
+import { User } from "../../../domain/models/user/user.model";
+import { Hospital } from "../../../domain/models/hospital/hospital.model";
 
 export class TransferOutRepository implements ITransferOutRepository {
-  async create(data: TransferOutInterface): Promise<TransferOutInterface> {
-    // const {
-    //   firstName,
-    //   middleName,
-    //   lastName,
-    //   dob,
-    //   phoneNo,
-    //   sex,
-    //   idNo,
-    //   email,
-    //   countyID,
-    //   password
-    // } = data
+  async create(
+    data: TransferOutInterface
+  ): Promise<TransferOutInterface | undefined | null> {
+    try {
+      // find patientID
+      const { patientID } = data;
+      const patient = await Patient.findByPk(patientID);
+      if (patient) {
+        return await connect.transaction(async (t) => {
+          // patient.hospitalID = transferredTo;
+          const transferOutResults = await TransferOut.create(data, {
+            transaction: t,
+          });
 
-    const results: TransferOutInterface = await TransferOut.create(data);
-    // const caregiverEntity: CaregiverEntity = {
-    //   id: results.id,
-    //   firstName: results.firstName,
-    //   middleName,
-    //   sex,
-    //   countyID,
-    //   phoneNo,
-    //   idNo,
-    //   lastName: '',
-    //   dob: '',
-    //   email: '',
-    //   password: ''
-    // }
-    return results;
+          const transferInResults = await TransferIn.create(
+            { transferOutID: transferOutResults.id },
+            {
+              transaction: t,
+            }
+          );
+          return transferOutResults;
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async find(
-    hospitalID: string
-  ): Promise<TransferOutInterface[] | undefined | null> {
+    hospitalID?: string,
+    page?: number,
+    pageSize?: number,
+    searchQuery?: string
+  ): Promise<
+    PaginatedResponseInterface<TransferOutInterface> | undefined | null
+  > {
     try {
+      const { limit, offset } = calculateLimitAndOffset(page, pageSize);
       let where = {};
 
       if (isUUID(hospitalID)) {
@@ -52,10 +61,31 @@ export class TransferOutRepository implements ITransferOutRepository {
         };
       }
 
-      const results = await TransferOut.findAll({
-        where,
+      const { rows, count } = await TransferOut.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: Patient,
+            attributes: ["id", "firstName", "middleName", "sex", "dob"],
+          },
+          {
+            model: User,
+            attributes: ["id", "firstName", "middleName"],
+            where,
+          },
+          {
+            model: Hospital,
+            attributes: ["hospitalName"],
+          },
+        ],
       });
-      return results;
+      return {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      };
     } catch (error) {
       console.log(error);
     }

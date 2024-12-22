@@ -3,6 +3,7 @@ import { TransferOutInterface } from "otz-types";
 import { Patient } from "../patients.models";
 import { Hospital } from "../hospital/hospital.model";
 import { connect } from "../../db/connect";
+import { User } from "../user/user.model";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export class TransferOut
@@ -38,20 +39,28 @@ TransferOut.init(
       onDelete: "CASCADE",
       allowNull: false,
     },
+    userID: {
+      type: DataTypes.UUID,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+      allowNull: false,
+    },
     transferOutDate: {
       type: DataTypes.DATE,
     },
     transferOutEffectiveDate: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
     },
     transferOutVerified: {
       type: DataTypes.BOOLEAN,
     },
     transferOutVerificationDate: {
       type: DataTypes.DATE,
-      allowNull: true
-
+      allowNull: true,
     },
     transferredTo: {
       type: DataTypes.UUID,
@@ -64,9 +73,11 @@ TransferOut.init(
     },
     lastAppointmentDate: {
       type: DataTypes.DATE,
+      allowNull: true
     },
     lastVisitDate: {
       type: DataTypes.DATE,
+      allowNull: true
     },
     updatedAt: {
       type: DataTypes.DATE,
@@ -88,6 +99,7 @@ TransferOut.init(
 );
 
 TransferOut.belongsTo(Patient, { foreignKey: "patientID" });
+TransferOut.belongsTo(User, { foreignKey: "userID" });
 TransferOut.belongsTo(Hospital, { foreignKey: "transferredTo" });
 
 // (async () => {
