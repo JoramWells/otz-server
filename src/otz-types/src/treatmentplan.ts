@@ -1,7 +1,12 @@
+import { PatientAttributes, PatientVisitsInterface } from "./patient";
+import { PrescriptionInterface, TimeAndWorkAttributes } from "./pharmacy";
+
 export interface MMASAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
+  PatientVisit?: PatientVisitsInterface;
   isForget?: boolean;
   isCareless?: boolean;
   isQuitFeelWorse?: boolean;
@@ -17,7 +22,9 @@ export interface MMASAttributes {
 export interface DisclosureChecklistAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes
   patientVisitID?: string;
+  PatientVisit?: PatientVisitsInterface;
   disclosureDate?: Date;
   isCorrectAge?: boolean;
   isWillingToDisclose?: boolean;
@@ -57,7 +64,9 @@ export interface DisclosureChecklistAttributes {
 export interface FollowUpChecklistAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
+  PatientVisit?: PatientVisitsInterface;
   followUpDate?: Date;
   bmi?: number;
   tannerStaging?: string;
@@ -75,7 +84,9 @@ export interface FollowUpChecklistAttributes {
 export interface UptakeAttributes {
   id?: string;
   timeAndWorkID: string;
+  TimeAndWork?: TimeAndWorkAttributes;
   prescriptionID?: string;
+  Prescription?: PrescriptionInterface;
   currentDate: Date | string;
   morningStatus: boolean;
   eveningStatus: boolean;
@@ -86,7 +97,9 @@ export interface UptakeAttributes {
 export interface MMASFourAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
+  PatientVisit?: PatientVisitsInterface;
   isForget?: boolean;
   isCareless?: boolean;
   isQuitFeelWorse?: boolean;
@@ -99,8 +112,11 @@ export interface MMASFourAttributes {
 export interface MMASEightAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
+  PatientVisit?: PatientVisitsInterface;
   mmasFourID?: string;
+  MMASFour?: MMASFourAttributes;
   isTookMedYesterday?: boolean;
   isQuitOutControl?: boolean;
   isUnderPressure?: boolean;
@@ -113,8 +129,9 @@ export interface MMASEightAttributes {
 export interface ExecuteDisclosureAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
-
+  PatientVisit?: PatientVisitsInterface;
   isReassuredCaregiver: boolean;
   isAssessedChildCaregiverComfort: boolean;
   isAssessedEnvironmentAndTiming: boolean;
@@ -134,8 +151,11 @@ export interface FullDisclosureAttributes {
   id?: string;
   score?: number;
   patientID?: string;
+  Patient?: PatientAttributes;
   executeDisclosureID: string;
+  ExecuteDisclosure?: ExecuteDisclosureAttributes;
   postDisclosureID: string;
+  PostDisclosure?: PostDisclosureAttributes;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }
@@ -143,8 +163,9 @@ export interface FullDisclosureAttributes {
 export interface PostDisclosureAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
-
+  PatientVisit?: PatientVisitsInterface;
   isAssessedFunctionalSchoolEngagement?: boolean;
   isPeerRelationshipAssessed?: boolean;
   isAssessedChildEngagement?: boolean;
@@ -162,8 +183,9 @@ export interface PostDisclosureAttributes {
 export interface ChildCaregiverReadinessAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
-
+  PatientVisit?: PatientVisitsInterface;
   isFreeChildCaregiverFromSevereIllness?: boolean;
   isConsistentSocialSupport?: boolean;
   isInterestInEnvironmentAndPlaying?: boolean;
@@ -180,7 +202,9 @@ export interface ChildCaregiverReadinessAttributes {
 export interface ChildDisclosureEligibilityAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   patientVisitID?: string;
+  PatientVisit?: PatientVisitsInterface;
   isCorrectAge?: boolean;
   isKnowledgeable?: boolean;
   isWillingToDisclose?: boolean;
@@ -192,8 +216,11 @@ export interface ChildDisclosureEligibilityAttributes {
 export interface PartialDisclosureAttributes {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   childDisclosureEligibilityID?: string;
+  ChildDisclosureEligibility?: ChildDisclosureEligibilityAttributes;
   childCaregiverReadinessID?: string;
+  ChildCaregiverReadiness?: ChildCaregiverReadinessAttributes;
   score?: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -208,6 +235,7 @@ export enum AdherenceImpression {
 export interface EnhancedAdherenceAttributes {
   id?: string;
   prescriptionID?: string;
+  Prescription?: PrescriptionInterface;
   treatmentMotivation?: string;
   date?: Date | string;
   adherencePercentage?: number;
@@ -223,6 +251,7 @@ export interface EnhancedAdherenceAttributes {
 export interface DisclosureTrackerInterface {
   id?: string;
   patientID?: string;
+  Patient?: PatientAttributes;
   partialDisclosureID?: string;
   fullDisclosureID?: boolean;
   PartialDisclosureAttributes?: PartialDisclosureAttributes;
@@ -230,5 +259,3 @@ export interface DisclosureTrackerInterface {
   createdAt?: Date | string;
   updatedAt?: Date | string;
 }
-
-

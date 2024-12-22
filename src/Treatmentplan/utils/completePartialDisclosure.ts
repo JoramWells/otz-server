@@ -5,7 +5,7 @@ import {
 import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/partialDisclosure.model";
 
 // calc score
-function calculateReadinessScore(data: ChildCaregiverReadinessAttributes) {
+export function calculateReadinessScore(data: ChildCaregiverReadinessAttributes) {
   const {
     isCaregiverCommunicatedToChild,
     isChildSchoolEngagement,
@@ -31,7 +31,7 @@ function calculateReadinessScore(data: ChildCaregiverReadinessAttributes) {
   return score;
 }
 
-function calculateEligibilityScore(data: ChildDisclosureEligibilityAttributes) {
+export function calculateEligibilityScore(data: ChildDisclosureEligibilityAttributes) {
   const {
     isCorrectAge,
     isKnowledgeable,
@@ -80,7 +80,7 @@ export async function completePartialDisclosure({
       // });
       findUsersLatest.childCaregiverReadinessID = childCaregiverReadiness.id
       findUsersLatest.score += score
-      findUsersLatest.save()
+      await findUsersLatest.save()
     }
   }
 

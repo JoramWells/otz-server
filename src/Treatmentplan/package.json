@@ -41,6 +41,6 @@
     "@types/node-schedule": "^2.1.7",
     "mocha": "^10.8.2",
     "nodemon": "^3.1.7",
-    "otz-types": "^1.1.80"
+    "otz-types": "^1.1.87"
   }
 }

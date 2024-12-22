@@ -84,7 +84,7 @@ export async function updatePartialIndexTracker() {
 
     const fullDisclosureMap = new Map(
       fullDisclosed
-        .filter((full) => full.executeDisclosureID.patientID !== null)
+        .filter((full) => full.ExecuteDisclosure.patientID !== null)
         .map((full) => [full.ExecuteDisclosure.patientID, full.id])
     );
 

@@ -1,10 +1,15 @@
-import { DataTypes, Model,  UUIDV4 } from "sequelize";
+import { DataTypes, Model, UUIDV4 } from "sequelize";
 import { connect } from "../../../../db/connect";
 import { Patient } from "../../patients.models";
 import { PatientVisits } from "../../patientVisits.model";
 import { ChildCaregiverReadinessAttributes } from "otz-types";
+import { PartialDisclosure } from "./partialDisclosure.model";
+import { calculateReadinessScore } from "../../../../utils/completePartialDisclosure";
 
-export class ChildCaregiverReadiness extends Model<ChildCaregiverReadinessAttributes> implements ChildCaregiverReadinessAttributes {
+export class ChildCaregiverReadiness
+  extends Model<ChildCaregiverReadinessAttributes>
+  implements ChildCaregiverReadinessAttributes
+{
   isFreeChildCaregiverFromSevereIllness!: boolean;
   isConsistentSocialSupport!: boolean;
   isInterestInEnvironmentAndPlaying!: boolean;
@@ -18,7 +23,6 @@ export class ChildCaregiverReadiness extends Model<ChildCaregiverReadinessAttrib
   id: string | undefined;
   patientID!: string;
   patientVisitID!: string;
-
 }
 
 ChildCaregiverReadiness.init(
@@ -85,7 +89,31 @@ ChildCaregiverReadiness.init(
 );
 
 ChildCaregiverReadiness.belongsTo(Patient, { foreignKey: "patientID" });
-ChildCaregiverReadiness.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
+ChildCaregiverReadiness.belongsTo(PatientVisits, {
+  foreignKey: "patientVisitID",
+});
+
+ChildCaregiverReadiness.afterCreate(async (instance) => {
+  const latest = await PartialDisclosure.findOne({
+    order: ["createdAt", "DESC"],
+    where: {
+      patientID: instance.patientID,
+    },
+  });
+
+  const score = calculateReadinessScore(instance);
+  if (!latest) {
+    await PartialDisclosure.create({
+      patientID: instance.patientID,
+      childCaregiverReadinessID: instance.id,
+      score,
+    });
+  } else {
+    latest.childCaregiverReadinessID = instance.id;
+    latest.score += score;
+    await latest.save();
+  }
+});
 
 // (async () => {
 // await connect.sync()

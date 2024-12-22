@@ -71,6 +71,6 @@ FullDisclosure.belongsTo(Patient, {
   foreignKey: "patientID",
 });
 // (async () => {
-connect.sync()
+// connect.sync()
 // console.log('Patient Table synced successfully')
 // })()
