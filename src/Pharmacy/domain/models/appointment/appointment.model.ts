@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
+import { DataTypes, Model, Op, Sequelize, UUIDV4 } from "sequelize";
 import {AppointmentAgenda} from "./appointmentAgenda.model";
 import {AppointmentStatus} from "./appointmentStatus.model";
 import { Patient } from "../patients.models";
@@ -145,12 +145,36 @@ Appointment.belongsTo(
 );
 Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
 
-// Appointment.afterCreate(async (appointments, options) => {
-//   const redisClient = createClient({ url: 'redis://redis:6379' });
-//   await redisClient.connect();
-//   await redisClient.del('appointmentData');
-//   console.log(appointments, 'io')
-// });
+Appointment.beforeCreate(async (appointments, options) => {
+  const appointmentStatus = await AppointmentStatus.findOne({
+    where: {
+      statusDescription: {
+        [Op.iLike]: "Completed",
+      },
+    },
+  });
+
+  if (appointmentStatus) {
+    const results = await Appointment.findOne({
+      order: [["createdAt", "DESC"]],
+      where: {
+        patientID: appointments.patientID,
+        appointmentAgendaID: appointments.appointmentAgendaID,
+        // createdAt:{
+        //   [Op.not]: currentDate
+        // }
+      },
+    });
+
+
+    console.log(results, 'resultx')
+
+    if (results) {
+      results.appointmentStatusID = appointmentStatus.id;
+      await results.save();
+    }
+  }
+});
 
 // Appointment.afterUpdate(async () => {
 //   const redisClient = createClient({ url: 'redis://redis:6379' });

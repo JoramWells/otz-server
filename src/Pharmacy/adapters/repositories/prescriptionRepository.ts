@@ -40,10 +40,17 @@ export class PrescriptionRepository implements IPrescriptionRepository {
 
       // find last prescription
 
-      await this.kafkaProducer.sendMessage("create", [
-        { value: JSON.stringify({ ...appointmentInput, agenda: "Refill" }) },
-      ]);
+      // await this.kafkaProducer.sendMessage("create", [
+      //   { value: JSON.stringify({ ...appointmentInput, agenda: "Refill" }) },
+      // ]);
       // await this.kafkaProducer.sendMessage('complete',[{value:JSON.stringify(completeInputs)}])
+
+
+      await this.kafkaProducer.sendMessage("complete", [
+        {
+          value: JSON.stringify({ patientID, agenda: "Refill" }),
+        },
+      ]);
 
       return results;
     });
