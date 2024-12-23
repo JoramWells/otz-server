@@ -101,27 +101,27 @@ ExecuteDisclosure.init(
 ExecuteDisclosure.belongsTo(Patient, { foreignKey: "patientID" });
 ExecuteDisclosure.belongsTo(PatientVisits, { foreignKey: "patientVisitID" });
 
-ExecuteDisclosure.afterCreate(async (instance) => {
-  const latest = await FullDisclosure.findOne({
-    order: ["createdAt", "DESC"],
-    where: {
-      patientID: instance.patientID,
-    },
-  });
+// ExecuteDisclosure.afterCreate(async (instance) => {
+//   const latest = await FullDisclosure.findOne({
+//     order: ["createdAt", "DESC"],
+//     where: {
+//       patientID: instance.patientID,
+//     },
+//   });
 
-  //
-  const score = calculateEligibilityScore(instance);
-  if (!latest) {
-    await FullDisclosure.create({
-      patientID: instance.patientID,
-      executeDisclosureID: instance.id,
-      score,
-    });
-  } else {
-    latest.executeDisclosureID = instance.id;
-    latest.score += score;
-  }
-});
+//   //
+//   const score = calculateEligibilityScore(instance);
+//   if (!latest) {
+//     await FullDisclosure.create({
+//       patientID: instance.patientID,
+//       executeDisclosureID: instance.id,
+//       score,
+//     });
+//   } else {
+//     latest.executeDisclosureID = instance.id;
+//     latest.score += score;
+//   }
+// });
 
 // (async () => {
 // connect.sync()

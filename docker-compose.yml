@@ -162,6 +162,7 @@ services:
     build:
       context: ./src/Users
       dockerfile: Dockerfile
+      
     image: blackwell18/users:latest
     volumes:
       - ./src/Users/:/usr/src/app
@@ -255,8 +256,8 @@ services:
         reservations:
           cpus: '0.15'
           memory: 750M
-    environment:
-      KAFKA_BROKER: kafka:29092
+    # environment:
+    #   KAFKA_BROKER: kafka:29092
     ports:
       - 5003:5003
     depends_on:

@@ -132,14 +132,16 @@ Prescription.belongsTo(ARTPrescription, {
   foreignKey: "artPrescriptionID",
   constraints: false,
 });
+
+
 // Prescription.afterCreate(async () => {
 //   await adherenceMonitor2();
 // });
 
-void connect
-  .sync()
-  .then(async () => {
-    console.log('Prescription table created successfully!!')
-  })
+// void connect
+//   .sync()
+//   .then(async () => {
+//     console.log('Prescription table created successfully!!')
+//   })
 
 // export { Caregiver }

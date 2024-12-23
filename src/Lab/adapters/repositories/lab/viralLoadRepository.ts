@@ -78,7 +78,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
       } = data;
 
       const results = await connect.transaction(async (t) => {
-        const [vl, appointment, isCompleted] = await Promise.all([
+        const [vl, appointment] = await Promise.all([
           ViralLoad.create(
             {
               userID,
@@ -102,7 +102,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
             },
             { transaction: t }
           ),
-          markAsCompletedAppointment(patientID, "viral load"),
+          // markAsCompletedAppointment(patientID, "viral load"),
         ]);
         return vl;
       });

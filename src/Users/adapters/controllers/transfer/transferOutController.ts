@@ -82,7 +82,7 @@ export class TransferOutController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-
+  
   //
   async onGetAllTransferOutByPatientId(
     req: Request,

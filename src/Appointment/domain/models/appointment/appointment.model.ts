@@ -1,6 +1,6 @@
-import { DataTypes, Model, Sequelize, UUIDV4 } from "sequelize";
-import {AppointmentAgenda} from "./appointmentAgenda.model";
-import {AppointmentStatus} from "./appointmentStatus.model";
+import { DataTypes, Model, Op, Sequelize, UUIDV4 } from "sequelize";
+import { AppointmentAgenda } from "./appointmentAgenda.model";
+import { AppointmentStatus } from "./appointmentStatus.model";
 import { Patient } from "../patients.models";
 import { User } from "../user.model";
 import { connect } from "../../../db/connect";
@@ -20,7 +20,7 @@ export enum AppointmentFrequency {
   Daily = "Daily",
   Weekly = "Weekly",
   Monthly = "Monthly",
-  Once = 'Once'
+  Once = "Once",
 }
 
 export class Appointment
@@ -96,7 +96,7 @@ Appointment.init(
     },
     appointmentDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
     },
     frequency: {
       type: DataTypes.ENUM(...Object.values(AppointmentFrequency)),
@@ -145,29 +145,54 @@ Appointment.init(
   }
 );
 
-Appointment.belongsTo(User, { foreignKey: 'userID', targetKey: 'id' });
-Appointment.belongsTo(AppointmentAgenda, { foreignKey: 'appointmentAgendaID', targetKey: 'id' });
-Appointment.belongsTo(
-  AppointmentStatus,
-  { foreignKey: 'appointmentStatusID', targetKey: 'id' },
-);
-Appointment.belongsTo(Patient, { foreignKey: 'patientID', targetKey: 'id' });
-Appointment.belongsTo(PatientVisits, { foreignKey: "patientVisitID", targetKey: "id" });
+Appointment.belongsTo(User, { foreignKey: "userID", targetKey: "id" });
+Appointment.belongsTo(AppointmentAgenda, {
+  foreignKey: "appointmentAgendaID",
+  targetKey: "id",
+});
+Appointment.belongsTo(AppointmentStatus, {
+  foreignKey: "appointmentStatusID",
+  targetKey: "id",
+});
+Appointment.belongsTo(Patient, { foreignKey: "patientID", targetKey: "id" });
+Appointment.belongsTo(PatientVisits, {
+  foreignKey: "patientVisitID",
+  targetKey: "id",
+});
 
-// Appointment.afterCreate(async (appointments, options) => {
-//   const redisClient = createClient({ url: 'redis://redis:6379' });
-//   await redisClient.connect();
-//   await redisClient.del('appointmentData');
-//   console.log(appointments, 'io')
-// });
+Appointment.beforeCreate(async (appointments, options) => {
+  const appointmentStatus = await AppointmentStatus.findOne({
+    where: {
+      statusDescription: {
+        [Op.iLike]: "Completed",
+      },
+    },
+  });
+
+  if(appointmentStatus){
+    const results = await Appointment.findOne({
+      order:[['createdAt', 'DESC']],
+      where:{
+        patientID: appointments.patientID,
+        appointmentAgendaID: appointments.appointmentAgendaID
+        // createdAt:{
+        //   [Op.not]: currentDate
+        // }
+      }
+    })
+
+    if(results){
+      results.appointmentStatusID = appointmentStatus.id
+      await results.save()
+    }
+  }
+});
 
 // Appointment.afterUpdate(async () => {
 //   const redisClient = createClient({ url: 'redis://redis:6379' });
 //   await redisClient.connect();
 //   await redisClient.del('appointmentData');
 // });
-
-
 
 // (async () => {
 
