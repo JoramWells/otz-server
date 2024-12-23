@@ -72,7 +72,7 @@ services:
       # - postgres_data:/var/lib/postgresql/data
       # - ./otz_query.sql:/docker-entrypoint-initdb.db/otz_query.sql
 
-      - ./otz_prod.sql:/docker-entrypoint-initdb.d/otz_prod.sql
+      - ./otz_prod.sql:/docker-entrypoint-initdb.d/otz7.sql
 
     # entrypoint: ["sh", "-c", "sleep 10 && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f /docker-entrypoint-initdb.d/otz_query.sql"]
 
