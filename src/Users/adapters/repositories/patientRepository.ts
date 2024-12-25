@@ -333,7 +333,7 @@ try {
     try {
       const { rows, count } = await Patient.findAndCountAll({
         order:[['updatedAt', 'DESC']],
-        attributes:['id', 'firstName', 'middleName', 'lastName', 'sex', 'dob', 'avatar', 'username', 'phoneNo', 'cccNo'],
+        attributes:['id', 'firstName', 'middleName', 'lastName', 'sex', 'dob', 'avatar', 'username', 'phoneNo', 'cccNo', 'updatedAt', 'createdAt'],
         where,
         limit,
         offset,
