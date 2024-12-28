@@ -11,13 +11,20 @@ export interface IViralLoadRepository {
     vlJustification: string,
     status: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
-  findById: (id: string) => Promise<ViralLoadInterface | null>;
-  findByPatientId: (id: string) => Promise<ViralLoadInterface[] | null | undefined>;
-  findCategories: (id: string) => Promise<ViralLoadInterface[] | null | undefined>;
+  findById: (id: string) => Promise<ViralLoadInterface | null | undefined>;
+  findAllByPatientId: (
+    id: string
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
+  findByPatientId: (
+    patientID: string
+  ) => Promise<ViralLoadInterface | null | undefined>;
+  findCategories: (
+    id: string
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
   findAllVlReasons: (
     hospitalID: string,
     dateQuery: string
-  ) => Promise<ViralLoadInterface[] | null> | undefined;
+  ) => Promise<ViralLoadInterface[] | null | undefined>;
   findSuppressionRate: (
     hospitalID: string,
     endDate: string | Date,

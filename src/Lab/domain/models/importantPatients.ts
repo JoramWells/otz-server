@@ -11,6 +11,7 @@ export class ImportantPatient extends Model<ImportantPatientsInterface> implemen
   id?: string | undefined;
   userID?: string | undefined;
   hospitalID?: string | undefined;
+  patientID?: string | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
 }

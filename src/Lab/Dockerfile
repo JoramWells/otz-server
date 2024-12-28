@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 5002
 
-CMD [ "yarn","run" ,"dev"]
+CMD [ "pnpm","run" ,"dev"]

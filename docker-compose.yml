@@ -60,7 +60,23 @@ services:
       retries: 5
 
   database:
-    image: postgres:alpine
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      [
+        "postgres",
+        "-c",
+        "log_statement=all",
+        "-c",
+        "log_destination=stderr",
+        "-c",
+        "shared_preload_libraries=pg_cron",
+        "-c",
+        "cron.database_name=${POSTGRES_DB-postgres}",
+      ]  
+    image: postgres:alpine-cron
     # environment:
     #   POSTGRES_DB: "otz"
     #   POSTGRES_USER: "postgres"

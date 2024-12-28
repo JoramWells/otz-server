@@ -128,7 +128,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
   ): Promise<ViralLoadResponseInterface | undefined | null> {
     try {
       let maxDate = calculateMaxAge(24);
-      let vlWhere = {};
+      let vlWhere: WhereOptions = {};
       if (vlJustification) {
         vlWhere = {
           ...vlWhere,
@@ -175,7 +175,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
         };
       }
 
-      let where = {
+      let where: WhereOptions = {
         dob: { [Op.gte]: maxDate }, // Default filter
       };
 
@@ -305,7 +305,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
         //   },
         // ],
         where: {
-          patientID: id,
+          id,
         },
       });
 
@@ -317,6 +317,42 @@ export class ViralLoadRepository implements IViralLoadRepository {
 
   //
   async findByPatientId(
+    id: string
+  ): Promise<ViralLoadInterface | null | undefined> {
+    try {
+      const results = await ViralLoad.findOne({
+        // include: [
+        //   {
+        //     model: Patient,
+        //     attributes: ["firstName", "middleName", "dob", "sex"],
+        //   },
+        //   {
+        //     model: User,
+        //     attributes: ["firstName", "middleName"],
+        //   },
+        //   {
+        //     model: ARTPrescription,
+        //     attributes: ["regimen", "line", "startDate"],
+        //   },
+        //   {
+        //     model: ViralLoad,
+        //     attributes: ["vlResults", "dateOfVL", "vlJustification"],
+        //   },
+        // ],
+        where: {
+          patientID: id,
+        },
+      });
+
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  //
+  async findAllByPatientId(
     id: string
   ): Promise<ViralLoadInterface[] | null | undefined> {
     try {
@@ -386,7 +422,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
     }
   }
 
-  async findAllVlReasons(hospitalID: string, dateQuery: string) {
+  async findAllVlReasons(hospitalID: string, dateQuery: string):Promise<ViralLoadInterface[] | null | undefined> {
     try {
       const currentDate = new Date();
       const maxDate = new Date(
@@ -475,7 +511,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
       (patient) => patient.patientID
     );
 
-    const where = searchQuery
+    const where: WhereOptions = searchQuery
       ? {
           [Op.or]: [
             { firstName: { [Op.iLike]: `%${searchQuery}%` } },
@@ -541,12 +577,7 @@ export class ViralLoadRepository implements IViralLoadRepository {
 
       const results = await ViralLoad.findAll({
         order: [["createdAt", "DESC"]],
-        attributes: [
-          "dateOfVL",
-          "dateOfNextVL",
-          "vlResults",
-          "isVLValid",
-        ],
+        attributes: ["dateOfVL", "dateOfNextVL", "vlResults", "isVLValid"],
         limit: 5,
         include: [
           {

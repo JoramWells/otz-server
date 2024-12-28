@@ -110,6 +110,20 @@ export class ViralLoadController {
   async onGetByPatientId(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+      const result = await this.interactor.getViralLoadByPatientID(id);
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  //
+  async onGetAllByPatientId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
       const result = await this.interactor.getAllViralLoadByPatientID(id);
       res.status(200).json(result);
       next();
@@ -173,7 +187,6 @@ export class ViralLoadController {
   async onGetStarredViralLoad(req: Request, res: Response, next: NextFunction) {
     let { hospitalID, page, pageSize, searchQuery } = req.query;
 
-
     try {
       const patient = await this.interactor.getStarredViralLoad(
         hospitalID as string,
@@ -191,11 +204,7 @@ export class ViralLoadController {
   }
 
   //
-  async onGetRecentVL(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
+  async onGetRecentVL(req: Request, res: Response, next: NextFunction) {
     try {
       const { hospitalID } = req.query;
 

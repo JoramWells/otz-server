@@ -10,19 +10,27 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
     this.repository = repository;
   }
 
-  async getViralLoadById(id: string): Promise<ViralLoadInterface | null> {
+  async getViralLoadById(
+    id: string
+  ): Promise<ViralLoadInterface | null | undefined> {
     return await this.repository.findById(id);
   }
 
   async getAllViralLoadByPatientID(
     id: string
-  ): Promise<ViralLoadInterface[] | null> {
-    return await this.repository.findByPatientId(id);
+  ): Promise<ViralLoadInterface[] | null | undefined> {
+    return await this.repository.findAllByPatientId(id);
+  }
+
+  async getViralLoadByPatientID(
+    patientID: string
+  ): Promise<ViralLoadInterface | null | undefined> {
+    return await this.repository.findByPatientId(patientID);
   }
 
   async getAllVlCategories(
     hospitalID: string
-  ): Promise<ViralLoadInterface[] | null> {
+  ): Promise<ViralLoadInterface[] | null | undefined> {
     return await this.repository.findCategories(hospitalID);
   }
 

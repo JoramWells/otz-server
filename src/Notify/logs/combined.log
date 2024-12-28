@@ -2060,3 +2060,6 @@
 {"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-11T14:15:16.355Z"}
 {"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-11T14:15:16.459Z"}
 {"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-11T14:15:16.459Z"}
+{"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-26T14:15:04.961Z"}
+{"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-26T14:15:05.659Z"}
+{"level":"info","message":"Morning Notification created for patient:, 1d00b0ea-9f8f-4de5-bd8f-eeacd0f975e8","service":"pharmacy-service","timestamp":"2024-12-26T16:15:00.407Z"}

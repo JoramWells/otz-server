@@ -12,10 +12,16 @@ export interface IViralLoadInteractor {
     vlJustification: string,
     status: string
   ) => Promise<ViralLoadResponseInterface | null | undefined>;
-  getViralLoadById: (id: string) => Promise<ViralLoadInterface | null>;
+  getViralLoadById: (
+    id: string
+  ) => Promise<ViralLoadInterface | null | undefined>;
   getAllViralLoadByPatientID: (
     id: string
   ) => Promise<ViralLoadInterface[] | null | undefined>;
+
+  getViralLoadByPatientID: (
+    patientID: string
+  ) => Promise<ViralLoadInterface | null | undefined>;
   // getViralLoadTest: (id: string) => Promise<ViralLoadInterface | null>;
   getAllVlCategories: (
     hospitalID: string

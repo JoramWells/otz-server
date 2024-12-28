@@ -32,12 +32,48 @@ EXECUTE format(
 --
 -- Wrapper function to create, copy, index and attach a given day.
 --
-CREATE OR REPLACE PROCEDURE public.load_appointment_partition(i date)
+
+-- Partition by day
+CREATE OR REPLACE PROCEDURE public.create_appointment_partition(partition_day date)
+	LANGUAGE plpgsql AS
+$$
+BEGIN
+	EXECUTE format(
+		$i$
+		CREATE TABLE IF NOT EXISTS public."appointments2_%1$s"
+		(LIKE public.appointments INCLUDING DEFAULTS INCLUDING CONSTRAINTS);
+		$i$, partition_day);
+END;
+$$;			
+
+CREATE OR REPLACE PROCEDURE public.copy_appointments_partition(partition_day date)
+LANGUAGE plpgsql as
+$$
+DECLARE
+	num_copied bigint = 0;
+
+BEGIN
+	EXECUTE format(
+	$i$
+		INSERT INTO "appointments2_%1$s" (id, "createdAt")
+		SELECT id, "createdAt" FROM appointments
+		WHERE "createdAt"::date >= %1$L::date AND "createdAt"::date < (%1$L::date + interval '1 day')
+		ORDER BY "createdAt"
+		$i$, partition_day
+	);
+	GET DIAGNOSTICS num_copied = ROW_COUNT;
+	RAISE NOTICE 'Copied % rows to %', num_copied, format('public."appointments2_%1$s"', partition_day);
+	END;
+$$;
+
+
+
+CREATE OR REPLACE PROCEDURE load_appointment_partition(i date)
     LANGUAGE plpgsql AS
 $$
 BEGIN
-    CALL public.create_appointments_partition(i);
-    -- CALL public.copy_chats_partition(i);
+    CALL public.create_appointment_partition(i);
+    CALL public.copy_appointments_partition(i);
     CALL public.index_add_attach_appointments_partition(i);
 END;
 $$;
@@ -45,7 +81,7 @@ $$;
 -- This procedure loops over all days in the old table, copying each day
 -- and then committing the transaction.
 --
-CREATE OR REPLACE PROCEDURE public.load_appointment_partitions()
+CREATE OR REPLACE PROCEDURE load_appointment_partitions()
     LANGUAGE plpgsql AS
 $$
 DECLARE
@@ -56,7 +92,7 @@ BEGIN
     SELECT min("createdAt")::date INTO start_date FROM appointments;
     SELECT max("createdAt")::date INTO end_date FROM appointments;
     FOR i IN SELECT * FROM generate_series(end_date, start_date, interval '-1 day') LOOP
-        CALL public.load_appointment_partition(i);
+        CALL load_appointment_partition(i);
         COMMIT;
     END LOOP;
 END;
@@ -67,14 +103,17 @@ $$;
 -- This procedure will be used by pg_cron to create both new
 -- partitions for "today".
 --
-CREATE OR REPLACE PROCEDURE public.create_daily_partition(today date)
-    LANGUAGE plpgsql AS
-$$
-BEGIN
-    CALL public.create_appointment_partition(today);
-    -- CALL app.create_chat_messages_partition(today);
-END;
-$$;
+-- CREATE OR REPLACE PROCEDURE public.create_daily_partition(today date)
+--     LANGUAGE plpgsql AS
+-- $$
+-- BEGIN
+--     CALL public.create_appointment_partition(today);
+--     -- CALL app.create_chat_messages_partition(today);
+-- END;
+-- $$;
 
-SELECT cron.schedule('new-appointment-partition', '0 23 * * *', 'CALL public.create_daily_partition(now()::date + "interval 1 day")');
-COMMIT;
+-- SELECT cron.schedule('new-appointment-partition', '0 23 * * *', 'CALL public.create_daily_partition(now()::date + "interval 1 day")');
+-- COMMIT;
+
+CALL load_appointment_partitions();
+-- CALL public.create_appointment_partition('2024-12-24'::date);

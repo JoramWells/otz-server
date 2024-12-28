@@ -8,6 +8,9 @@
 import express, { type Application } from 'express'
 import {Server} from 'socket.io'
 import {createServer} 'http'
+import helmet from 'helmet' 
+import compression from 'compression'
+import client from 'prom-client'
 import { rateLimit } from 'express-rate-limit'
 import { connect } from './domain/db/connect'
 import { userRoutes } from './routes/user.routes'
@@ -50,8 +53,18 @@ const PORT = process.env.PORT || 5001
 //   origin: ['*']
 // }
 
+// add security layer
+app.use(helmet({
+  contentSecurityPolicy: false
+}))
 
 app.set('trust proxy', true)
+
+// prevents exposing te frameworks details
+app.disable('x-powered-by')
+
+// use production ready express server
+process.env.NODE_ENV = 'production'
 
 const whitelist = ['http://localhost:3000', 'https://otzplus.xyz']
 
@@ -90,11 +103,47 @@ app.use(express.static('uploads'))
 app.use(cors())
 app.use(limiter);
 
-( async()=>{
-  await countCalHIV()
-console.log('runnind')
-})()
+// compress req
+app.use(compression());
 
+// ( async()=>{
+//   await countCalHIV()
+// console.log('runnind')
+// })()
+
+
+const register = new client.Registry()
+
+
+// 
+client.collectDefaultMetrics({register})
+
+const httpRequestCounter = new client.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames:['method', 'route', 'status']
+})
+
+register.registerMetric(httpRequestCounter)
+
+const responseTimeHistogram = new client.Histogram({
+  name: 'http_response_time_seconds',
+  help: 'Histogram of HTTP response',
+  labelNames:['method', 'route', 'status'],
+  buckets:[0.1, 0.5, 1,2,5]
+})
+
+register.registerMetric(responseTimeHistogram)
+
+app.use((req, res, next)=>{
+  const end = responseTimeHistogram.startTimer()
+
+  res.on('finish',()=>{
+    httpRequestCounter.labels(req.method, req.route?.path || req.url, res.statusCode).inc()
+    end({method: req.method, route: req.route?.path || req.url, status: res.statusCode})
+  })
+  next();
+})
 
 io.on('connection', socket=>{
 let onlineUsers: any[] = []
