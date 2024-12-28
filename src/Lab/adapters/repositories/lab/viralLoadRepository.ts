@@ -422,7 +422,10 @@ export class ViralLoadRepository implements IViralLoadRepository {
     }
   }
 
-  async findAllVlReasons(hospitalID: string, dateQuery: string):Promise<ViralLoadInterface[] | null | undefined> {
+  async findAllVlReasons(
+    hospitalID: string,
+    dateQuery: string
+  ): Promise<ViralLoadInterface[] | null | undefined> {
     try {
       const currentDate = new Date();
       const maxDate = new Date(
@@ -588,6 +591,31 @@ export class ViralLoadRepository implements IViralLoadRepository {
             },
           },
         ],
+      });
+      return results;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
+  async findForAppointment(
+    patientID: string,
+    dateOfNextVL: string | Date
+  ): Promise<ViralLoadInterface | null | undefined> {
+    try {
+      const results = await ViralLoad.findOne({
+        attributes: ['id',"dateOfVL", "dateOfNextVL", "vlResults", "isVLValid"],
+        include: [
+          {
+            model: Patient,
+            attributes: ["firstName", "middleName"],
+          },
+        ],
+        where: {
+          patientID,
+          dateOfNextVL,
+        },
       });
       return results;
     } catch (error) {

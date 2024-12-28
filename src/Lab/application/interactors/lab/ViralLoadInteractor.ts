@@ -102,4 +102,12 @@ export class ViralLoadInteractor implements IViralLoadInteractor {
   ): Promise<ViralLoadInterface[] | null | undefined> {
     return await this.repository.findRecent(id);
   }
+
+  //
+  async getViralLoadForAppointment(
+    patientID: string,
+    dateOfNextVL: string | Date
+  ): Promise<ViralLoadInterface | null | undefined> {
+    return await this.repository.findForAppointment(patientID, dateOfNextVL);
+  }
 }

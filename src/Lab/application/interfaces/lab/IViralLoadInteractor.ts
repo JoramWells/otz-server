@@ -49,4 +49,10 @@ export interface IViralLoadInteractor {
   getRecentViralLoad: (
     hospitalID: string | undefined
   ) => Promise<ViralLoadInterface[] | undefined | null>;
+
+  //
+  getViralLoadForAppointment: (
+    patientID: string,
+    dateOfNextVL: string | Date
+  ) => Promise<ViralLoadInterface | undefined | null>;
 }

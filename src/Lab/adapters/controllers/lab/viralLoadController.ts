@@ -219,4 +219,22 @@ export class ViralLoadController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  //
+  async onGetVLForAppointment(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { patientID, dateOfNextVL } = req.query;
+
+      const result = await this.interactor.getViralLoadForAppointment(
+        patientID as string,
+        dateOfNextVL as string
+      );
+      res.status(200).json(result);
+      next();
+    } catch (error) {
+      next(error);
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 }

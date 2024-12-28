@@ -41,4 +41,10 @@ export interface IViralLoadRepository {
   findRecent: (
     hospitalID: string | undefined
   ) => Promise<ViralLoadInterface[] | undefined | null>;
+
+  //
+  findForAppointment: (
+    patientID: string,
+    dateOfNextVL: string | Date
+  ) => Promise<ViralLoadInterface | undefined | null>;
 }

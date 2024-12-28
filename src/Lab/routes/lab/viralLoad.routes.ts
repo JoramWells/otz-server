@@ -34,6 +34,7 @@ router.get(
   "/recent-viral-load",
   controller.onGetRecentVL.bind(controller)
 );
+router.get("/vl-for-appointment", controller.onGetVLForAppointment.bind(controller));
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 
