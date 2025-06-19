@@ -104,7 +104,7 @@ export class PatientController {
         next()
     }
 
-    async findOTZ( req: Request, res: Response, next:NextFunction ): Promise<PatientResponseInterface | undefined | null> {
+    async findOTZ( req: Request, res: Response, next:NextFunction ) {
         const {page,pageSize,searchQuery,hospitalID} = req.body
         try {
             let where = {
@@ -142,7 +142,7 @@ export class PatientController {
                 page: page,
                 pageSize: limit,
             });
-            next()
+            // next()
         } catch (error) {
             console.log(error)
         }
@@ -595,7 +595,7 @@ export class PatientController {
         }
     }
 
-    
+
     //
     async delete(
         req: Request, res: Response

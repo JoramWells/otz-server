@@ -1,34 +1,31 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { PatientVisitRepository } from '../adapters/repositories/patientVisitRepository'
 
 import express from 'express'
-import { PatientVisitInteractor } from '../application/interactors/patientVisitInteractor'
-import { PatientVisitController } from '../adapters/controllers/patientVisitController'
+import { PatientVisitController } from '../adapters/controllers/patientVisit.controller'
 
-const repository = new PatientVisitRepository()
-const interactor = new PatientVisitInteractor(repository)
 
-const controller = new PatientVisitController(interactor)
+
+const controller = new PatientVisitController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreatePatientVisit.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllPatientVisits.bind(controller)
+  controller.find
 )
 router.get(
   '/detail/:id',
-  controller.onGetPatientVisitById.bind(controller)
+  controller.findById
 )
 
-router.get("/by-patient-visit-count", controller.onGetAllPatientVisitByCount.bind(controller));
+router.get("/by-patient-visit-count", controller.findPatientVisitByCount);
 
-router.get('/patient-history/:id', controller.onGetAllPatientHistoryVisitById.bind(controller))
-router.get('/users/:id', controller.onGetAllPatientVisitByUserId.bind(controller))
-router.get('/user-patient-count/:id', controller.onGetAllUserPatientCount.bind(controller))
-router.get('/user-activities-count/:id', controller.onGetAllUserActivitiesCount.bind(controller))
-router.get('/patient-visit-count/:id', controller.onGetPatientVisitCount.bind(controller))
+router.get('/patient-history/:id', controller.findHistoryById)
+router.get('/users/:id', controller.findPatientVisitByUserId)
+router.get('/user-patient-count/:id', controller.findUserPatientCount)
+router.get('/user-activities-count/:id', controller.findUserActivitiesCount)
+router.get('/patient-visit-count/:id', controller.findPatientVisitCount)
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

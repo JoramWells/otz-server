@@ -1,36 +1,34 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-var-requires */
-// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
+
 import { PatientVisitsInterface } from "otz-types";
 import { validate as isUUID } from "uuid";
-import { type IPatientVisitsRepository } from "../../application/interfaces/IPatientVisitsRepository";
 import { PatientVisits } from "../../domain/models/patientVisits.model";
 import { Patient } from "../../domain/models/patients.models";
 import { KafkaAdapter } from "../kafka/kafka.producer";
 import { col, fn, Op, WhereOptions } from "sequelize";
 import { User } from "../../domain/models/user/user.model";
-import { PatientVisitResponseInterface } from "../../entities/PatientVisitResponseInterface";
 import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../utils/calculateLimitAndOffset";
 
-export class PatientVisitRepository implements IPatientVisitsRepository {
+import { Request, Response, NextFunction } from "express";
+
+
+export class PatientVisitController  {
   private readonly kafkaProducer = new KafkaAdapter();
-  async create(data: PatientVisitsInterface): Promise<PatientVisitsInterface> {
+  async create(req: Request, res: Response,next:NextFunction): Promise<PatientVisitsInterface> {
     const results: PatientVisitsInterface = await PatientVisits.create(data);
     await this.kafkaProducer.sendMessage("lab", [
       { value: JSON.stringify(data) },
     ]);
-    return results;
+    res.json (results);
   }
 
   async find(
-    hospitalID: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string
-  ): Promise<PatientVisitResponseInterface | null | undefined> {
+    req: Request, res: Response,next:NextFunction,
+
+  ) {
+    const {hospitalID,page, pageSize, searchQuery} = req.body;
     try {
       let maxDate = calculateMaxAge(25);
       let where: WhereOptions = {
@@ -77,18 +75,20 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
           },
         ],
       });
-      return {
+      res.json ({
         data: rows,
         total: count,
         page: page,
         pageSize: limit,
-      };
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-  async findById(id: string): Promise<PatientVisitsInterface | null | undefined> {
+  async findById(    req: Request, res: Response,next:NextFunction,
+): Promise<PatientVisitsInterface | null | undefined> {
+    const {id} = req.params
     try {
       const results = await PatientVisits.findOne({
         order: [["createdAt", "DESC"]],
@@ -111,8 +111,9 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
 
   //
   async findUserActivitiesCount(
-    id: string
-  ): Promise<PatientVisitsInterface[] | null> {
+     req: Request, res: Response,next:NextFunction,
+
+  ) {
     const results = await PatientVisits.findAll({
       // where: {
       //   patientID: id,
@@ -128,13 +129,14 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       raw: true,
     });
 
-    return results;
+    res.json(results);
   }
 
   //
   async findUserPatientCount(
-    id: string
-  ): Promise<PatientVisitsInterface[] | null> {
+         req: Request, res: Response,next:NextFunction,
+
+  ){
     const results = await PatientVisits.findAll({
       // where: {
       //   patientID: id,
@@ -148,13 +150,15 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       raw: true,
     });
 
-    return results;
+    res.json(results);
   }
 
   //
   async findPatientVisitByCount(
-    hospitalID: string
-  ): Promise<PatientVisitsInterface[] | null> {
+         req: Request, res: Response,next:NextFunction,
+
+  ) {
+    const {hospitalID} = req.body
     let maxDate = calculateMaxAge(25);
     let where: WhereOptions = {
       dob: { [Op.gte]: maxDate }, // Default filter
@@ -190,15 +194,17 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       // raw: true,
     });
 
-    return results;
+    res.json (results);
   }
 
   async findHistoryById(
-    id: string,
-    page: number,
-    pageSize: number,
-    searchQuery: string
-  ): Promise<PatientVisitResponseInterface | null | undefined> {
+
+     req: Request, res: Response,next:NextFunction,
+
+  ) {
+    const {id} = req.params
+        const {page,pageSize,searchQuery,hospitalID} = req.body
+
     try {
       const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
@@ -217,12 +223,12 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
         },
       });
 
-      return {
+      res.json ({
         data: rows,
         total: count,
         page: page,
         pageSize: limit,
-      };
+      });
     } catch (error) {
       console.log(error);
     }
@@ -230,8 +236,10 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
 
   //
   async findPatientVisitByUserId(
-    id: string
-  ): Promise<PatientVisitsInterface[] | null> {
+         req: Request, res: Response,next:NextFunction,
+
+  ){
+    const {id} = req.params
     const results = await PatientVisits.findAll({
       order: [["createdAt", "DESC"]],
       include: [
@@ -245,11 +253,15 @@ export class PatientVisitRepository implements IPatientVisitsRepository {
       },
     });
 
-    return results;
+    res.json (results);
   }
 
   //
-  async findPatientVisitCount(id: string): Promise<number | null | undefined> {
+  async findPatientVisitCount(
+         req: Request, res: Response,next:NextFunction,
+
+  ): Promise<number | null | undefined> {
+    const {id} = req.params
     try {
       const results = await PatientVisits.count({
         where: {
