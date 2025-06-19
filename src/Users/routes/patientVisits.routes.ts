@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import express from 'express'
-import { PatientVisitController } from '../adapters/controllers/patientVisit.controller'
-
+import { PatientVisitController } from '../controllers/patientVisit.controller'
 
 
 const controller = new PatientVisitController()

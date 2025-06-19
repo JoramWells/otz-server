@@ -1,28 +1,23 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import { CaseManagerRepository } from '../adapters/repositories/caseManagerRepository'
 
 import express from 'express'
-import { CaseManagerInteractor } from '../application/interactors/caseManagerInteractor'
-import { CaseManagerController } from '../adapters/controllers/caseManagerController'
+import { CaseManagerController } from '../controllers/casemanager.controller'
 
-const repository = new CaseManagerRepository()
-const interactor = new CaseManagerInteractor(repository)
 
-const controller = new CaseManagerController(interactor)
+const controller = new CaseManagerController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateCaseManager.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllCaseManagers.bind(controller)
+  controller.find
 )
 router.get(
   '/detail/:id',
-  controller.onGetCaseManagerById.bind(controller)
+  controller.findById
 )
 
-router.get("/casemanager-by-patient-id/:id", controller.onGetCaseManagerByPatientId.bind(controller));
+router.get("/casemanager-by-patient-id/:id", controller.findByPatientId);
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

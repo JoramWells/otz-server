@@ -2,24 +2,18 @@
 
 
 import express from 'express'
-import { ImportantPatientRepository } from '../adapters/repositories/importantPatientRepository'
-import { ImportantPatientInteractor } from '../application/interactors/importantPatientInteractor'
-import { ImportantPatientController } from '../adapters/controllers/importantPatientController'
+import { ImportantPatientController } from '../controllers/importantPatient.controller'
 
-
-const repository = new ImportantPatientRepository()
-const interactor = new ImportantPatientInteractor(repository)
-
-const controller = new ImportantPatientController(interactor)
+const controller = new ImportantPatientController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateImportantPatient.bind(controller))
-router.get('/fetchAll', controller.onGetAllImportantPatients.bind(controller))
-router.get('/detail/:id', controller.onGetImportantPatientByUserId.bind(controller))
-router.get('/important-by-patient-id/:id', controller.onGetImportantPatientById.bind(controller))
-router.put('/edit/:id', controller.onEditImportantPatient.bind(controller))
+router.post('/add', controller.createImportantPatient)
+router.get('/fetchAll', controller.getAllImportantPatients)
+router.get('/detail/:id', controller.getImportantPatientsByUserId)
+router.get('/important-by-patient-id/:id', controller.getImportantPatientById)
+router.put('/edit/:id', controller.updateImportantPatient)
 
-router.delete('/delete/:id', controller.onDeleteImportantPatient.bind(controller));
+router.delete('/delete/:id', controller.deleteImportantPatient);
 
 export {router as importantPatientRouter}

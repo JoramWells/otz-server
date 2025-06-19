@@ -2,23 +2,19 @@
 
 
 import express from 'express'
-import { UserSessionLogRepository } from '../adapters/repositories/userSessionRepository'
-import { UserSessionLogController } from '../adapters/controllers/userSessionLogController'
-import { UserSessionInteractor } from '../application/interactors/userSessionInteractor'
+import { UserSessionLogController } from '../controllers/userSession.controller'
 
 
-const repository = new UserSessionLogRepository()
-const interactor = new UserSessionInteractor(repository)
 
-const controller = new UserSessionLogController(interactor)
+const controller = new UserSessionLogController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateUserSessionLog.bind(controller))
-router.get('/fetchAll', controller.onGetAllUserSessionLogs.bind(controller))
-router.get('/detail/:id', controller.onGetUserSessionLogById.bind(controller))
-router.put('/edit/:id', controller.onEditUserSessionLog.bind(controller))
+router.post('/add', controller.create)
+router.get('/fetchAll', controller.find)
+router.get('/detail/:id', controller.findById)
+router.put('/edit/:id', controller.edit)
 
-router.delete('/delete/:id', controller.onDeleteUserSessionLog.bind(controller));
+router.delete('/delete/:id', controller.delete);
 
 export {router as userSessionLogRouter}

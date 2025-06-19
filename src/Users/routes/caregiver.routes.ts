@@ -1,25 +1,21 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import { CaregiverController } from '../adapters/controllers/caregiverController'
-import { CaregiverRepository } from '../adapters/repositories/caregiverRepository'
-import { CaregiverInteractor } from '../application/interactors/caregiverInterator'
+
 
 import express from 'express'
+import { CaregiverController } from '../controllers/caregiver.controller'
 
-const repository = new CaregiverRepository()
-const interactor = new CaregiverInteractor(repository)
 
-const controller = new CaregiverController(interactor)
+const controller = new CaregiverController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateCaregiver.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllCaregivers.bind(controller)
+  controller.find
 )
 router.get(
   '/detail/:id',
-  controller.onGetCaregiverById.bind(controller)
+  controller.findById
 )
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

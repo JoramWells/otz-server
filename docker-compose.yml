@@ -1,47 +1,5 @@
 services:
 
-  # zookeeper:
-  #   image:  confluentinc/cp-zookeeper:latest
-  #   healthcheck:
-  #     test: nc -z localhost 2181 || exit -1
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 10s
-  #   # restart: on-failure
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-  #   volumes:
-  #     - ./log4j.properties:/conf/log4j.properties
-  #   networks:
-  #     - otz
-
-  # kafka:
-  #   image: confluentinc/cp-kafka:latest
-  #   ports:
-  #     - 9092:9092
-  #   environment:
-  #     KAFKA_BROKER_ID: 1
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #     # KAFKA_LOG_DIRS: /kafka/logs
-
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "bash", "-c", "kafka-topics --bootstrap-server broker:9092 --list"]
-  #     interval: 1s
-  #     timeout: 10s
-  #     retries: 3
-  #   depends_on:
-  #     zookeeper:
-  #       condition: service_healthy
-  #   networks:
-  #     - otz
-
   redis:
     image: redis:alpine
     ports:
@@ -196,40 +154,6 @@ services:
     networks:
       - otz
 
-  lab:
-    build:
-      context: ./src/Lab
-      dockerfile: Dockerfile
-    image: blackwell18/lab:latest
-    volumes:
-      - ./src/Lab/:/usr/src/app
-      - /usr/src/app/node_modules
-    deploy:
-      # mode: replicated
-      # replicas: 2
-      # placement:
-      #   max_replicas_per_node: 1
-      # update_config:
-      #   parallelism: 2
-      #   delay: 10s
-      # restart_policy:
-      #   condition: on-failure    
-      resources:
-        limits:
-          cpus: '0.15'
-          memory: 450M
-        reservations:
-          cpus: '0.15'
-          memory: 450M
-    ports:
-      - 5002:5002
-    depends_on:
-      database:
-        condition: service_healthy
-      # kafka:
-      #   condition: service_healthy
-    networks:
-      - otz
 
   pharmacy:
     build:
@@ -345,40 +269,7 @@ services:
     networks:
       - otz
 
-  # school:
-  #   build:
-  #     context: ./src/School
-  #     dockerfile: Dockerfile
-  #   image: school-image
-  #   volumes:
-  #     - ./src/School:/usr/src/app
-  #     - /usr/src/app/node_modules
 
-  #   deploy:
-  #     # mode: replicated
-  #     # replicas: 2
-  #     # placement:
-  #     #   max_replicas_per_node: 1
-  #     # update_config:
-  #     #   parallelism: 2
-  #     #   delay: 10s
-  #     # restart_policy:
-  #     #   condition: on-failure    
-  #     resources:
-  #       limits:
-  #         cpus: '0.20'
-  #         memory: 450M
-  #       reservations:
-  #         cpus: '0.20'
-  #         memory: 450M   
-  #   ports:
-  #     - 5004:5004
-  #   depends_on:
-  #     database:
-  #       condition: service_healthy
-  #     # - kafka-2
-  #   networks:
-  #     - otz
 
   appointment:
     build:
@@ -512,43 +403,6 @@ services:
     networks:
       - otz
 
-  # client:
-  #   build:
-  #     context: ../client
-  #     dockerfile: Dockerfile
-  #   image: otz-client
-  #   # container_name: huruma-frontendv2
-  #   volumes:
-  #     - ../client:/usr/src/app
-  #     - /usr/src/app/node_modules
-
-  #   deploy:
-  #     # mode: replicated
-  #     # replicas: 5
-  #     # placement:
-  #     #   max_replicas_per_node: 1
-  #     # update_config:
-  #     #   parallelism: 2
-  #     #   delay: 10s
-  #     # restart_policy:
-  #     #   condition: on-failure    
-  #     resources:
-  #       limits:
-  #         cpus: '0.20'
-  #         # memory: 1000M
-
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - users
-  #     - school
-  #     - lab
-  #     - root
-  #     - appointment  
-  #     - pharmacy  
-  #   networks:
-  #     - otz
-
   articles:
     build:
       context: ./src/Articles
@@ -621,10 +475,7 @@ services:
       - articles
       - users
       - root
-      # - school
-      - lab
       - appointment 
-      # - medicalfile   
       - notify
       - pharmacy  
       - etl

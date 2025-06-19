@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
-import { UserAvailabilityRepository } from '../adapters/repositories/userAvailabilityRepository'
-import { UserAvailabilityInteractor } from '../application/interactors/userAvailabilityInteractor'
-import { UserAvailabilityController } from '../adapters/controllers/userAvailabilityController'
+import { UserAvailabilityController } from '../controllers/userAvailability.controller'
+
 
 const router = express.Router()
 
-const repository = new UserAvailabilityRepository()
-const interactor = new UserAvailabilityInteractor(repository)
-const controller = new UserAvailabilityController(interactor)
+const controller = new UserAvailabilityController()
 
-router.post('/add', controller.onCreateUserAvailability.bind(controller))
-router.get('/fetchAll', controller.onGetAllUserAvailabilities.bind(controller))
-router.get('/detail/:id', controller.onGetUserAvailabilityById.bind(controller))
-router.put('/edit/:id', controller.onEditUserAvailability.bind(controller))
+router.post('/add', controller.create)
+router.get('/fetchAll', controller.find)
+router.get('/detail/:id', controller.findById)
+router.put('/edit/:id', controller.edit)
 // router.delete('/delete/:id', deleteUser)
 
 export { router as userAvailabilityRoutes }

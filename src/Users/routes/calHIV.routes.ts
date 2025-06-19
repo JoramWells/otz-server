@@ -1,29 +1,23 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import express from 'express'
-import { CALHIVRepository } from '../adapters/repositories/calHIVRepository'
-import { CALHIVInteractor } from '../application/interactors/calHIVInteractor'
-import { CALHIVController } from '../adapters/controllers/calHIVController'
+import { CALHIVController } from '../controllers/calhiv.controller'
 
-
-const repository = new CALHIVRepository()
-const interactor = new CALHIVInteractor(repository)
-
-const controller = new CALHIVController(interactor)
+const controller = new CALHIVController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateCALHIV.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllCALHIVs.bind(controller)
+  controller.find
 )
 router.get(
   '/by-hospital-id',
-  controller.onGetCALHIVByHospitalId.bind(controller)
+  controller.findByHospitalId
 )
 
-// router.get("/casemanager-by-patient-id/:id", controller.onGetCALHIVByPatientId.bind(controller));
+// router.get("/casemanager-by-patient-id/:id", controller.onGetCALHIVByPatientId);
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

@@ -3,7 +3,7 @@
 import express from 'express'
 import { TransferOutRepository } from '../../adapters/repositories/transfer/transferOutRepository'
 import { TransferOutInteractor } from '../../application/interactors/transfer/transferOutInteractor'
-import { TransferOutController } from '../../adapters/controllers/transfer/transferOutController'
+import { TransferOutController } from '../../controllers/transfer/transferOutController'
 
 const repository = new TransferOutRepository()
 const interactor = new TransferOutInteractor(repository)
