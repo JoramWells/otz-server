@@ -324,14 +324,14 @@ connect
   });
 
 //
-(async () => {
-  try {
-    await startAppointmentConsumer();
-    //  await startCompleteAppointmentConsumer();
-  } catch (error) {
-    console.log("Error connecting to kafka!!", error);
-  }
-})();
+// (async () => {
+//   try {
+//     await startAppointmentConsumer();
+//     //  await startCompleteAppointmentConsumer();
+//   } catch (error) {
+//     console.log("Error connecting to kafka!!", error);
+//   }
+// })();
 
 server.listen(PORT, async () => {
   console.log(`App running on http://localhost:${PORT}`);

@@ -4,7 +4,7 @@
 
 import { Model } from 'sequelize'
 import { connect } from '../../db/connect'
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize')
@@ -97,8 +97,8 @@ User.init(
 async function generateDefaultHashedPassword() {
   const password = "12345678";
   const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
-  return passwordHash;
+  // const passwordHash = await bcrypt.hash(password, saltRounds);
+  return password;
 }
 
 User.beforeCreate(async (patient) => {

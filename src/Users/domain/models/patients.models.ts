@@ -4,7 +4,7 @@ import { Hospital } from "./hospital/hospital.model";
 import { connect } from "../db/connect";
 import { createClient } from "redis";
 import { LocationProps, PatientAttributes } from "otz-types";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 import { User } from "./user/user.model";
 
 // import { type PatientEntity } from '../entities/PatientEntity'
@@ -197,8 +197,8 @@ Patient.init(
 export async function generateDefaultHashedPassword(password: string) {
   // const password = "12345678";
   const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
-  return passwordHash;
+  // const passwordHash = await bcrypt.hash(password, saltRounds);
+  return password;
 }
 
 Patient.beforeCreate(async (patient) => {

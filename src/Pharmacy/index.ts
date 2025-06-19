@@ -9,7 +9,6 @@ import express, { type Application } from "express";
 
 import { connect } from "./domain/db/connect";
 import { Server } from "socket.io";
-
 import { artRouter } from "./routes/art.routes";
 import { measuringUnitRouter } from "./routes/measuringUnit.routes";
 import { artCategoryRouter } from "./routes/artCategory.routes";

@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 import { UserInterface } from "otz-types";
-import { type IUserRepository } from "../../application/interfaces/IUserRepository";
 import { User } from "../../domain/models/user/user.model";
 import bcrypt from "bcrypt";
-import { Patient } from "../../domain/models/patients.models";
 import { generateDefaultHashedPassword } from "../../utils/generateDefaultHashedPassword";
 import { Op } from "sequelize";
 import { Hospital } from "../../domain/models/hospital/hospital.model";
 import { UserResponseInterface } from "../../entities/UserResponseInterface";
+import { Request, Response } from "express";
 
-export class UserRepository implements IUserRepository {
-  async create(data: UserInterface): Promise<UserInterface> {
+export class UserController {
+  async create(req: Request,res:Response): Promise<UserInterface> {
     const {
       firstName,
       middleName,
@@ -25,7 +22,7 @@ export class UserRepository implements IUserRepository {
       password,
       hospitalID,
       role,
-    } = data;
+    } = req.body;
 
     const results = await User.create({
       firstName,
@@ -59,11 +56,12 @@ export class UserRepository implements IUserRepository {
   }
 
   async find(
-    page: number,
-    pageSize: number,
-    searchQuery: string,
-    hospitalName: string
+    req: Request,
+    res: Response
   ): Promise<UserResponseInterface | null | undefined> {
+
+    const {page, pageSize, searchQuery, hospitalName} = req.body
+
     let where = {};
     let hospitalWhere = {};
 
@@ -112,31 +110,34 @@ export class UserRepository implements IUserRepository {
           ? parseInt(page, 10) + 1
           : null;
 
-      return {
+      return res.json ({
         data: rows,
         total: count,
         page: page,
         nextPage,
         pageSize: limit,
-      };
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-  async findById(id: string): Promise<UserInterface | null> {
+  async findById(req:Request,res: Response): Promise<UserInterface | null> {
+      const { id } = req.params;
+
     const results = await User.findOne({
       where: {
         id,
       },
     });
 
-    return results;
+    return res.json(results);
   }
 
-  async edit(data: UserInterface): Promise<UserInterface | null> {
+  async edit(req:Request,res: Response): Promise<UserInterface | null> {
+    const { id } = req.params;
+
     const {
-      id,
       firstName,
       middleName,
       lastName,
@@ -144,7 +145,7 @@ export class UserRepository implements IUserRepository {
       role,
       dob,
       hospitalID,
-    } = data;
+    } = req.body;
 
     // delete cache
     // await this.redisClient.del(patientCache);
@@ -170,12 +171,12 @@ export class UserRepository implements IUserRepository {
     return results;
   }
 
-  async editPassword(data: UserInterface): Promise<UserInterface | null> {
-    const { id, password } = data;
+  async editPassword(req:Request,res: Response): Promise<UserInterface | null> {
+      const { id } = req.params;
+      if (!id || id === "undefined")
+        return res.status(400).json({ message: "Invalid ID parameter" });
 
-    // delete cache
-    // await this.redisClient.del(patientCache);
-    // await this.redisClient.del(id as string);
+      const { password }: UserInterface = req.body;
 
     const results = await User.findOne({
       where: {
@@ -192,10 +193,10 @@ export class UserRepository implements IUserRepository {
   }
 
   async login(
-    firstName: string,
-    password: string,
-    hospitalID: string
+    req:Request,res: Response
+
   ): Promise<UserInterface | null> {
+    const {firstName,password,hospitalID}=req.body
     try {
       const user: User | null = await User.findOne({
         where: { firstName: firstName, hospitalID: hospitalID },
@@ -218,9 +219,9 @@ export class UserRepository implements IUserRepository {
   }
 
   //
-  async delete(id: string): Promise<number | null> {
-    // await this.redisClient.del(patientCache);
-    // await this.redisClient.del(id as string);
+  async delete(req:Request,res: Response): Promise<number | null> {
+      const { id } = req.params;
+
     const results: number | null = await User.destroy({
       where: {
         id,
@@ -231,3 +232,5 @@ export class UserRepository implements IUserRepository {
     return results;
   }
 }
+
+module.exports = {UserController};
