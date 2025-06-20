@@ -1,10 +1,10 @@
 import { DataTypes, Model, UUIDV4 } from "sequelize";
-import { connect } from "../../../../db/connect";
 import { Patient } from "../../patients.models";
 import { PatientVisits } from "../../patientVisits.model";
 import { ChildCaregiverReadinessAttributes } from "otz-types";
 import { PartialDisclosure } from "./partialDisclosure.model";
-import { calculateReadinessScore } from "../../../../utils/completePartialDisclosure";
+import { connect } from "../../../db/connect";
+import { calculateReadinessScore } from "../../../../utils/treatmentPlan/completePartialDisclosure";
 
 export class ChildCaregiverReadiness
   extends Model<ChildCaregiverReadinessAttributes>

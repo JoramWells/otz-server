@@ -1,8 +1,8 @@
 import { DataTypes, Model, UUIDV4 } from "sequelize";
-import { connect } from "../../../db/connect";
 import { Patient } from "../patients.models";
 import { PatientVisits } from "../patientVisits.model";
 import { FollowUpChecklistAttributes } from "otz-types";
+import { connect } from "../../db/connect";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 enum DifficultyRemembering {

@@ -1,9 +1,9 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
-import { connect } from "../../../../db/connect";
 import { ChildDisclosureEligibility } from "./childDisclosureEligibility.model";
 import { ChildCaregiverReadiness } from "./childCaregiverReadiness.model";
 import { PartialDisclosureAttributes } from "otz-types";
 import { Patient } from "../../patients.models";
+import { connect } from "../../../db/connect";
 
 
 
@@ -74,6 +74,6 @@ PartialDisclosure.belongsTo(Patient, {
 PartialDisclosure.belongsTo(ChildCaregiverReadiness, { foreignKey: "childCaregiverReadinessID" });
 
 // (async () => {
-connect.sync()
+// connect.sync()
 // console.log('Partial Disclosure Table synced successfully')
 // })()

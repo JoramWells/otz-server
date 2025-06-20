@@ -1,9 +1,9 @@
 import { DataTypes, Model,  UUIDV4 } from "sequelize";
-import { connect } from "../../../../../db/connect";
 import { ExecuteDisclosure } from "./executeDisclosure.model";
 import { PostDisclosure } from "./postDisclosureAssessment.model";
 import { FullDisclosureAttributes } from "otz-types";
 import { Patient } from "../../../patients.models";
+import { connect } from "../../../../db/connect";
 
 
 
