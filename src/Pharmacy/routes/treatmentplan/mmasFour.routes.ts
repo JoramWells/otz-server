@@ -1,4 +1,4 @@
-import { MMASFourController } from "../../adapters/controllers/controllers/treatementplan/mmas4.controller";
+import { MMASFourController } from "../../adapters/controllers/treatementplan/mmas4.controller";
 
 
 const express = require('express');

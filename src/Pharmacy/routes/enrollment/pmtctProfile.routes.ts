@@ -1,25 +1,21 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import express from 'express'
-import { PMTCTProfileRepository } from '../../adapters/repositories/enrollment/pmtctProfileRepository'
-import { PMTCTInteractor } from '../../application/interactors/enrollment/PMTCTProfileInteractor'
-import { PMTCTProfileController } from '../../adapters/controllers/enrollment/pmtctProfileController'
+import { PMTCTProfileController } from '../../adapters/controllers/enrollment/pmtctProfile.controller'
 
-const repository = new PMTCTProfileRepository()
-const interactor = new PMTCTInteractor(repository)
 
-const controller = new PMTCTProfileController(interactor)
+const controller = new PMTCTProfileController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreatePMTCTProfile.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllPMTCTProfiles.bind(controller)
+  controller.find
 )
 router.get(
   '/detail/:id',
-  controller.onGetPMTCTProfileById.bind(controller)
+  controller.findById
 )
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

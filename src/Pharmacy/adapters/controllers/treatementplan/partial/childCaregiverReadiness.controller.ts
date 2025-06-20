@@ -3,8 +3,8 @@
 import { ChildCaregiverReadinessAttributes } from "otz-types";
 import { ChildCaregiverReadiness } from "../../../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
 import { Patient } from "../../../../domain/models/patients.models";
-import { completePartialDisclosure } from "../../../../utils/completePartialDisclosure";
 import { Request, Response, NextFunction } from 'express';
+import { completePartialDisclosure } from "../../../../utils/treatmentPlan/completePartialDisclosure";
 
 export class ChildCaregiverReadinessController
 {

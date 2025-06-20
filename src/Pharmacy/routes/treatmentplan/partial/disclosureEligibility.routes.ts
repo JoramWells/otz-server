@@ -1,4 +1,4 @@
-import { DisclosureEligibilityController } from "../../../adapters/controllers/controllers/treatementplan/partial/disclosureEligibility.controller";
+import { DisclosureEligibilityController } from "../../../adapters/controllers/treatementplan/partial/disclosureEligibility.controller";
 
 
 const express = require('express');

@@ -1,8 +1,6 @@
 import { col, fn, Op } from "sequelize";
-import { ChildCaregiverReadiness } from "../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
-import { ChildDisclosureEligibility } from "../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
-import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/partialDisclosure.model";
-import { Patient } from "../domain/models/patients.models";
+import { ChildCaregiverReadiness } from "../../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
+import { ChildDisclosureEligibility } from "../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
 
 export async function updatePartialDisclosure() {
   try {

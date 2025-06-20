@@ -1,4 +1,4 @@
-import { ChildCaregiverReadinessController } from "../../../adapters/controllers/controllers/treatementplan/partial/childCaregiverReadiness.controller";
+import { ChildCaregiverReadinessController } from "../../../adapters/controllers/treatementplan/partial/childCaregiverReadiness.controller";
 
 const express = require('express');
 

@@ -1,11 +1,7 @@
 import { col, fn, Op } from "sequelize";
-import { ChildCaregiverReadiness } from "../domain/models/treatmentplan/disclosure/childCaregiverReadiness.model";
-import { ChildDisclosureEligibility } from "../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
-import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/partialDisclosure.model";
-import { ExecuteDisclosure } from "../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
-import { PostDisclosure } from "../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
-import { FullDisclosure } from "../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
-import { Patient } from "../domain/models/patients.models";
+import { ExecuteDisclosure } from "../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
+import { FullDisclosure } from "../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
+import { Patient } from "../../domain/models/patients.models";
 
 export async function updateFullDisclosure() {
   try {

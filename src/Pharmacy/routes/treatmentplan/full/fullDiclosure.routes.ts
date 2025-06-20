@@ -1,4 +1,4 @@
-import { FullDisclosureController } from "../../../adapters/controllers/controllers/treatementplan/full/fullDisclosure.controller";
+import { FullDisclosureController } from "../../../adapters/controllers/treatementplan/full/fullDisclosure.controller";
 
 const express = require("express");
 

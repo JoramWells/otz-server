@@ -4,8 +4,8 @@
 import { ExecuteDisclosureAttributes } from "otz-types";
 import { ExecuteDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
 import { Patient } from "../../../../domain/models/patients.models";
-import { completeFullDisclosure } from "../../../../utils/completeFullDisclosure";
 import { Request, Response, NextFunction } from 'express';
+import { completeFullDisclosure } from "../../../../utils/treatmentPlan/completeFullDisclosure";
 
 
 export class ExecuteDisclosureController{
@@ -18,7 +18,7 @@ export class ExecuteDisclosureController{
        req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<ExecuteDisclosureAttributes> {
+  ) {
     const results = await ExecuteDisclosure.create(req.body);
     if (results) {
       await completeFullDisclosure({
@@ -53,7 +53,7 @@ export class ExecuteDisclosureController{
        req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
+  ){
     try {
       const { id } = req.params;
       const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne(
@@ -75,7 +75,7 @@ export class ExecuteDisclosureController{
     req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
+  ) {
     const { id } = req.params;
     try {
       // await this.redisClient.connect();
@@ -100,7 +100,7 @@ export class ExecuteDisclosureController{
        req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<ExecuteDisclosureAttributes | null | undefined> {
+  ) {
     const { id } = req.params;
     try {
       const results: ExecuteDisclosure | null = await ExecuteDisclosure.findOne(

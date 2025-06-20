@@ -2,7 +2,6 @@ import {
   DisclosureTrackerInterface,
   PaginatedResponseInterface,
 } from "otz-types";
-import { RedisAdapter } from "../redisAdapter";
 import { DisclosureTracker } from "../../../domain/models/treatmentplan/disclosure/disclosureTracker.model";
 import { calculateLimitAndOffset } from "../../../utils/calculateLimitAndOffset";
 import { Patient } from "../../../domain/models/patients.models";
@@ -15,17 +14,14 @@ import { Request, Response, NextFunction } from 'express';
 // import { createClient } from 'redis'
 
 export class DisclosureTrackerController {
-  private readonly redisClient = new RedisAdapter();
-  // constructor () {
-  //   this.redisClient = createClient({})
-  // }
+
 
   async create(
        req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<DisclosureTrackerInterface> {
-    const results = await DisclosureTracker.create(data);
+  ){
+    const results = await DisclosureTracker.create(req.body);
 
     res.json (results);
   }
@@ -35,9 +31,7 @@ export class DisclosureTrackerController {
         req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<
-    PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
-  > {
+  ){
     const {hospitalID,page,pageSize,searchQuery,hasFullDisclosure} = req.body;
     let where: WhereOptions = {
       dob: {
@@ -130,9 +124,7 @@ export class DisclosureTrackerController {
         req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<
-    PaginatedResponseInterface<DisclosureTrackerInterface> | null | undefined
-  > {
+  ) {
     const {hospitalID,page,pageSize,searchQuery,hasPartialDisclosure} = req.body;
     let where: WhereOptions = {
       dob: {
@@ -221,7 +213,7 @@ export class DisclosureTrackerController {
 
   async findById(    req: Request,
         res: Response,
-        next: NextFunction): Promise<DisclosureTrackerInterface | null> {
+        next: NextFunction){
     const { id } = req.params;
     const results = await DisclosureTracker.findOne({
       where: {

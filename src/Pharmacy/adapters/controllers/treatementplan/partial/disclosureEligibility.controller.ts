@@ -6,8 +6,8 @@ import {
 } from "otz-types";
 import { ChildDisclosureEligibility } from "../../../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
 import { Patient } from "../../../../domain/models/patients.models";
-import { completePartialDisclosure } from "../../../../utils/completePartialDisclosure";
 import { Request, Response, NextFunction } from 'express';
+import { completePartialDisclosure } from "../../../../utils/treatmentPlan/completePartialDisclosure";
 
 export class DisclosureEligibilityController {
 
@@ -19,7 +19,7 @@ export class DisclosureEligibilityController {
   ): Promise<ChildDisclosureEligibilityAttributes | undefined | null> {
     // return await connect.transaction(async (t) => {
     try {
-      const results = await ChildDisclosureEligibility.create(data);
+      const results = await ChildDisclosureEligibility.create(req.body);
       if (results) {
         await completePartialDisclosure({
           childCaregiverReadiness: undefined,

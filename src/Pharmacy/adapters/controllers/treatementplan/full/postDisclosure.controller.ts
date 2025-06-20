@@ -5,8 +5,8 @@
 import { PostDisclosureAttributes } from "otz-types";
 import { PostDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/postDisclosureAssessment.model";
 import { Patient } from "../../../../domain/models/patients.models";
-import { completeFullDisclosure } from "../../../../utils/completeFullDisclosure";
 import { Request, Response, NextFunction } from 'express';
+import { completeFullDisclosure } from "../../../../utils/treatmentPlan/completeFullDisclosure";
 
 export class PostDisclosureController {
 
@@ -67,11 +67,10 @@ export class PostDisclosureController {
      req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<PostDisclosureAttributes | null | undefined> {
+  ) {
     const { id } = req.params;
     try {
-      // await this.redisClient.connect();
-      // if ((await this.redisClient.get(id)) === null) {
+    
       const results = await PostDisclosure.findOne({
         order: [["createdAt", "DESC"]],
         where: {
@@ -90,7 +89,7 @@ export class PostDisclosureController {
       req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<PostDisclosureAttributes | null | undefined> {
+  ){
 const { id } = req.params;
     try {
       const results = await PostDisclosure.findOne({

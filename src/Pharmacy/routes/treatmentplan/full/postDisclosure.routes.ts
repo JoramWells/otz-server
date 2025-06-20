@@ -1,4 +1,4 @@
-import { PostDisclosureController } from "../../../adapters/controllers/controllers/treatementplan/full/postDisclosure.controller";
+import { PostDisclosureController } from "../../../adapters/controllers/treatementplan/full/postDisclosure.controller";
 
 const express = require("express");
 

@@ -1,28 +1,24 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import express from 'express'
-import { OTZRepository } from '../../adapters/repositories/enrollment/otzRepository'
-import { OTZInteractor } from '../../application/interactors/enrollment/OTZInteractor'
-import { OTZController } from '../../adapters/controllers/enrollment/otzController'
+import { OTZController } from '../../adapters/controllers/enrollment/otz.controller'
 
-const repository = new OTZRepository()
-const interactor = new OTZInteractor(repository)
 
-const controller = new OTZController(interactor)
+const controller = new OTZController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateOTZ.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllOTZs.bind(controller)
+  controller.find
 )
 router.get(
   '/detail/:id',
-  controller.onGetOTZById.bind(controller)
+  controller.findById
 )
 // router.put('/edit/:id', editPatient);
-router.delete('/delete/:id', controller.onDeleteOTZ.bind(controller));
+router.delete('/delete/:id', controller.delete);
 
 
 export { router as otzRouter }

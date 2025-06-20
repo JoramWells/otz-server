@@ -22,7 +22,7 @@ export class PartialDisclosureController{
         res: Response,
         next: NextFunction
   ): Promise<PartialDisclosureAttributes> {
-    const results = await PartialDisclosure.create(data);
+    const results = await PartialDisclosure.create(req.body);
 
     return results;
   }

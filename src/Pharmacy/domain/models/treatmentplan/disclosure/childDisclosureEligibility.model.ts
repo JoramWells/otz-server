@@ -1,10 +1,10 @@
 import { DataTypes, Model, UUIDV4 } from "sequelize";
-import { connect } from "../../../../db/connect";
 import { Patient } from "../../patients.models";
 import { PatientVisits } from "../../patientVisits.model";
 import { ChildDisclosureEligibilityAttributes } from "otz-types";
 import { PartialDisclosure } from "./partialDisclosure.model";
-import { calculateEligibilityScore } from "../../../../utils/completePartialDisclosure";
+import { connect } from "../../../db/connect";
+import { calculateEligibilityScore } from "../../../../utils/treatmentPlan/completePartialDisclosure";
 // import { type PatientEntity } from '../entities/PatientEntity'
 
 export class ChildDisclosureEligibility

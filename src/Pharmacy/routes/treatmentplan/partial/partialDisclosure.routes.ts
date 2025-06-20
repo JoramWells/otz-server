@@ -1,4 +1,4 @@
-import { PartialDisclosureController } from "../../../adapters/controllers/controllers/treatementplan/partial/partialDisclosure.controller";
+import { PartialDisclosureController } from "../../../adapters/controllers/treatementplan/partial/partialDisclosure.controller";
 
 const express = require('express');
 

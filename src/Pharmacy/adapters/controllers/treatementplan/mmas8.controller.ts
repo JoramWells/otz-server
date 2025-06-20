@@ -1,34 +1,49 @@
 // import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
 // import { logger } from '../../utils/logger'
-import { MMASFourAttributes } from "otz-types";
+import { MMASEightAttributes } from "otz-types";
 import { MMASFour } from "../../../domain/models/treatmentplan/mmas4.model";
+import { MMASEight } from "../../../domain/models/treatmentplan/mmas8.model";
 import { Patient } from "../../../domain/models/patients.models";
-
 import {
   calculateLimitAndOffset,
   calculateMaxAge,
 } from "../../../utils/calculateLimitAndOffset";
-import { Op, WhereOptions } from "sequelize";
-import { validate as isUUID } from "uuid";
-import { Request, Response, NextFunction } from 'express';
-
 // import { createClient } from 'redis'
+import { validate as isUUID } from "uuid";
+import { Op, WhereOptions } from "sequelize";
+import { Request, Response, NextFunction } from 'express';
+import { connect } from "../../../domain/db/connect";
 
-export class MMASFourController {
+export class MMASEightController {
 
 
-  async create(req: Request,
+  async create(
+    req: Request,
     res: Response,
-    next: NextFunction): Promise<MMASFourAttributes> {
+    next: NextFunction
+  ): Promise<MMASEightAttributes> {
+    const {data,data4} = req.body;
+    const { patientID, patientVisitID } = data;
 
-    const results = await MMASFour.create(req.body);
+    return await connect.transaction(async (t) => {
+      const mmas4Results = await MMASFour.create(data4, { transaction: t });
+      const mmasFourID = mmas4Results.id;
+      const results = await MMASEight.create(
+        {
+          mmasFourID,
+          ...data,
+        },
+        { transaction: t }
+      );
 
-
-    res.json(results);
+      return results;
+    });
+    //
   }
 
   async find(
-    req: Request,
+  
+        req: Request,
     res: Response,
     next: NextFunction
   ){
@@ -62,20 +77,20 @@ export class MMASFourController {
         };
       }
 
-      const { rows, count } = await MMASFour.findAndCountAll({
-        order: [['createdAt', 'DESC']]
+      const { rows, count } = await MMASEight.findAndCountAll({
+        order:[['createdAt', 'DESC']],
         limit,
         offset,
         include: [
           {
             model: Patient,
-            attributes: ['id', "firstName", "middleName", "avatar", 'dob', 'sex'],
+            attributes: ['id',"firstName", "middleName", "avatar", 'dob', 'sex'],
             where,
           },
         ],
       });
 
-      res.json({
+      res.json ({
         data: rows,
         total: count,
         page: page,
@@ -86,43 +101,45 @@ export class MMASFourController {
     }
   }
 
-  async findById(req: Request,
+  async findById(    req: Request,
     res: Response,
-    next: NextFunction): Promise<MMASFourAttributes | null | undefined> {
-    const { id } = req.params;
+    next: NextFunction){
+      const { id } = req.params;
     try {
-      const results: MMASFour | null = await MMASFour.findOne({
+      const results: MMASEight | null = await MMASEight.findOne({
+        order: [["createdAt", "DESC"]],
         where: {
           id,
         },
       });
 
-      
+      //  await this.redisClient.set(id, JSON.stringify(results));
 
-      res.json(results);
+      res.json (results);
     } catch (error) {
       console.log(error);
     }
   }
 
   //
+
   async findByVisitId(
-    req: Request,
+        req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<MMASFourAttributes | null | undefined> {
+  ){
     const { id } = req.params;
     try {
-      // return results;
-      const results: MMASFour | null = await MMASFour.findOne({
+      const results: MMASEight | null = await MMASEight.findOne({
+        order: [["createdAt", "DESC"]],
         where: {
           patientVisitID: id,
         },
       });
 
-      
+      //  await this.redisClient.set(id, JSON.stringify(results));
 
-      res.json(results);
+      res.json (results);
     } catch (error) {
       console.log(error);
     }
@@ -130,24 +147,23 @@ export class MMASFourController {
 
   //
   async findByPatientId(
-    req: Request,
+        req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<MMASFourAttributes | null | undefined> {
+  ){
     const { id } = req.params;
     try {
-      const results: MMASFour | null = await MMASFour.findOne({
+      const results: MMASEight | null = await MMASEight.findOne({
+        order: [["createdAt", "DESC"]],
         where: {
           patientID: id,
         },
       });
 
-      
 
-      res.json(results);
+      res.json (results);
     } catch (error) {
       console.log(error);
     }
-
   }
 }

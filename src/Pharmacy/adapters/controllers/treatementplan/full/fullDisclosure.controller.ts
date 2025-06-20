@@ -1,8 +1,3 @@
-// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-// import { logger } from '../../utils/logger'
-// import { mmasCache } from '../../../constants/appointmentCache';
-
-import { FullDisclosureAttributes } from "otz-types";
 import { FullDisclosure } from "../../../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
 import {
   calculateLimitAndOffset,
@@ -12,19 +7,15 @@ import { col, fn, Op, Sequelize, WhereOptions } from "sequelize";
 import { validate as isUUID } from "uuid";
 import { Patient } from "../../../../domain/models/patients.models";
 import { Request, Response, NextFunction } from 'express';
-// import { RedisAdapter } from '../redisAdapter'
 
 export class FullDisclosureController {
-  // private readonly redisClient = new RedisAdapter();
-  // constructor () {
-  //   this.redisClient = createClient({})
-  // }
+
 
   async create(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<FullDisclosureAttributes> {
+  ) {
     const results = await FullDisclosure.create(req.body);
 
     res.json(results);
@@ -95,7 +86,7 @@ export class FullDisclosureController {
 
   async findById(req: Request,
     res: Response,
-    next: NextFunction): Promise<FullDisclosureAttributes | null> {
+    next: NextFunction){
     const { id } = req.params;
 
     const results: FullDisclosure | null = await FullDisclosure.findOne({
@@ -129,7 +120,7 @@ export class FullDisclosureController {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<FullDisclosureAttributes | null | undefined> {
+  ){
     try {
       const { id } = req.params;
       const results = await FullDisclosure.findOne({

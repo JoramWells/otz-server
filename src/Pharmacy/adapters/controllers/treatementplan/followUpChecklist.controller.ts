@@ -1,8 +1,4 @@
-// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-// import { logger } from '../../utils/logger'
-import { FollowUpChecklistAttributes } from 'otz-types';
 import { FollowUpChecklist } from '../../../domain/models/treatmentplan/followupChecklist.model';
-// import { mmasCache } from '../../../constants/appointmentCache';
 import { Request, Response, NextFunction } from 'express';
 
 export class FollowUpChecklistController {
@@ -12,8 +8,8 @@ export class FollowUpChecklistController {
          req: Request,
         res: Response,
         next: NextFunction
-  ): Promise<FollowUpChecklistAttributes> {
-    const results = await FollowUpChecklist.create(data);
+  ) {
+    const results = await FollowUpChecklist.create(req.body);
 
     res.json (results);
   }
@@ -21,9 +17,7 @@ export class FollowUpChecklistController {
   async find(       req: Request,
         res: Response,
         next: NextFunction) {
-    // await this.redisClient.connect();
-    // check if patient
-    // if ((await this.redisClient.get(mmasCache)) === null) {
+ 
       const results = await FollowUpChecklist.findAll({});
 
     res.json (results);
@@ -31,7 +25,7 @@ export class FollowUpChecklistController {
 
   async findById(       req: Request,
         res: Response,
-        next: NextFunction): Promise<FollowUpChecklistAttributes | null> {
+        next: NextFunction) {
     const { id } = req.params;
       const results: FollowUpChecklist | null = await FollowUpChecklist.findOne({
         where: {

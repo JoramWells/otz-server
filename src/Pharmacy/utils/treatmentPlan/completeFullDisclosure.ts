@@ -2,7 +2,7 @@ import {
   ExecuteDisclosureAttributes,
   PostDisclosureAttributes,
 } from "otz-types";
-import { FullDisclosure } from "../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
+import { FullDisclosure } from "../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
 
 export function calculateExecuteDisclosureScore(data: ExecuteDisclosureAttributes) {
   const {

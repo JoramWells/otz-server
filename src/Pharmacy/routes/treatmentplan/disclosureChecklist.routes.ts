@@ -1,4 +1,4 @@
-import { DisclosureChecklistController } from "../../adapters/controllers/controllers/treatementplan/disclosureChecklist.controller";
+import { DisclosureChecklistController } from "../../adapters/controllers/treatementplan/disclosureChecklist.controller";
 
 const express = require('express');
 

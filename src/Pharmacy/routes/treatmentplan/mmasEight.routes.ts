@@ -1,4 +1,4 @@
-import { MMASEightController } from "../../adapters/controllers/controllers/treatementplan/mmas8.controller";
+import { MMASEightController } from "../../adapters/controllers/treatementplan/mmas8.controller";
 
 
 const express = require('express');

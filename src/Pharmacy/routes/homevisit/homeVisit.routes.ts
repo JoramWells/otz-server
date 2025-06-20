@@ -1,20 +1,15 @@
 
 import express from 'express'
-import { HomeVisitRepository } from '../../adapters/repositories/homevisit/homeVisitRepository'
-import { HomeVisitInteractor } from '../../application/interactors/homevisit/homeVisitInteractor'
-import { HomeVisitController } from '../../adapters/controllers/homevisit/homeVisitController'
+import { HomeVisitController } from '../../adapters/controllers/homevisit/homeVisit.controller'
 
-const repository = new HomeVisitRepository()
-const interactor = new HomeVisitInteractor(repository)
-
-const controller = new HomeVisitController(interactor)
+const controller = new HomeVisitController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreateAHomeVisit.bind(controller))
-router.get('/fetchAll', controller.onGetAllHomeVisits.bind(controller))
-router.get('/detail/:id', controller.onGetAHomeVisitById.bind(controller))
-router.get("/details/:id", controller.onGetAllHomeVisitById.bind(controller));
+router.post('/add', controller.create)
+router.get('/fetchAll', controller.find)
+router.get('/detail/:id', controller.findById)
+router.get("/details/:id", controller.findAllById);
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);
 

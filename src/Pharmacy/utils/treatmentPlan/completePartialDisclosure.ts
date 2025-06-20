@@ -2,7 +2,7 @@ import {
   ChildCaregiverReadinessAttributes,
   ChildDisclosureEligibilityAttributes,
 } from "otz-types";
-import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/partialDisclosure.model";
+import { PartialDisclosure } from "../../domain/models/treatmentplan/disclosure/partialDisclosure.model";
 
 // calc score
 export function calculateReadinessScore(data: ChildCaregiverReadinessAttributes) {

@@ -1,4 +1,4 @@
-import { FollowUpChecklistController } from "../../adapters/controllers/controllers/treatementplan/followUpChecklist.controller";
+import { FollowUpChecklistController } from "../../adapters/controllers/treatementplan/followUpChecklist.controller";
 
 const express = require('express');
 

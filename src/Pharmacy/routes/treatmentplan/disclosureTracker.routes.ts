@@ -1,4 +1,4 @@
-import { DisclosureTrackerController } from "../../adapters/controllers/controllers/treatementplan/disclosureTracker.controller";
+import { DisclosureTrackerController } from "../../adapters/controllers/treatementplan/disclosureTracker.controller";
 
 const express = require('express');
 

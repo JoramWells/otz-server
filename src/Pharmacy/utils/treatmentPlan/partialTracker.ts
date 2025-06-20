@@ -1,10 +1,10 @@
 import { col, fn, Op, Sequelize } from "sequelize";
-import { Patient } from "../domain/models/patients.models";
-import { PartialDisclosure } from "../domain/models/treatmentplan/disclosure/partialDisclosure.model";
-import { DisclosureTracker } from "../domain/models/treatmentplan/disclosure/disclosureTracker.model";
-import { ChildDisclosureEligibility } from "../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
-import { FullDisclosure } from "../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
-import { ExecuteDisclosure } from "../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
+import { Patient } from "../../domain/models/patients.models";
+import { PartialDisclosure } from "../../domain/models/treatmentplan/disclosure/partialDisclosure.model";
+import { ChildDisclosureEligibility } from "../../domain/models/treatmentplan/disclosure/childDisclosureEligibility.model";
+import { FullDisclosure } from "../../domain/models/treatmentplan/disclosure/full/fullDisclosure.model";
+import { ExecuteDisclosure } from "../../domain/models/treatmentplan/disclosure/full/executeDisclosure.model";
+import { DisclosureTracker } from "../../domain/models/treatmentplan/disclosure/disclosureTracker.model";
 
 export async function updatePartialIndexTracker() {
   try {

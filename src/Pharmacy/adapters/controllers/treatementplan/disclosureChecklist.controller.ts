@@ -1,8 +1,4 @@
-// import { IPatientInteractor } from '../../application/interfaces/IPatientInteractor'
-// import { logger } from '../../utils/logger'
 import { DisclosureChecklistAttributes } from 'otz-types';
-import { IDisclosureChecklistRepository } from '../../../application/interfaces/treatmentplan/IDisclosureChecklistRepository';
-// import { mmasCache } from '../../../constants/appointmentCache';
 import { DisclosureChecklist } from '../../../domain/models/treatmentplan/disclosureChecklist.model';
 
 import { Request, Response, NextFunction } from 'express';
@@ -33,7 +29,7 @@ export class DisclosureChecklistController {
 
     async findById(req: Request,
         res: Response,
-        next: NextFunction): Promise<DisclosureChecklistAttributes | null> {
+        next: NextFunction){
         const { id } = req.params;
         const results: DisclosureChecklist | null =
             await DisclosureChecklist.findOne({

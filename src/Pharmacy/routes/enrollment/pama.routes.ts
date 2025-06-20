@@ -1,25 +1,20 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
 import express from 'express'
-import { PAMARepository } from '../../adapters/repositories/enrollment/pamaRepository'
-import { PAMAController } from '../../adapters/controllers/enrollment/pamaController'
-import { PAMAInteractor } from '../../application/interactors/enrollment/PAMAInteractor'
+import { PAMAController } from '../../adapters/controllers/enrollment/pama.controller'
 
-const repository = new PAMARepository()
-const interactor = new PAMAInteractor(repository)
-
-const controller = new PAMAController(interactor)
+const controller = new PAMAController()
 
 const router = express.Router()
 
-router.post('/add', controller.onCreatePAMA.bind(controller))
+router.post('/add', controller.create)
 router.get(
   '/fetchAll',
-  controller.onGetAllPAMAs.bind(controller)
+  controller.find
 )
 router.get(
   '/detail/:id',
-  controller.onGetPAMAById.bind(controller)
+  controller.findById
 )
 // router.put('/edit/:id', editPatient);
 // router.delete('/delete/:id', deletePatient);

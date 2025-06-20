@@ -1,4 +1,4 @@
-import { ExecuteDisclosureController } from "../../../adapters/controllers/controllers/treatementplan/full/executeDisclosure.controller";
+import { ExecuteDisclosureController } from "../../../adapters/controllers/treatementplan/full/executeDisclosure.controller";
 
 const express = require("express");
 
