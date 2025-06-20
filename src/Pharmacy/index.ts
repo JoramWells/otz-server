@@ -37,6 +37,17 @@ import { pmtctProfileRouter } from "./routes/enrollment/pmtctProfile.routes";
 import { viralLoadRouter } from "./routes/lab/viralLoad.routes";
 import { vlJustificationRouter } from "./routes/lab/vlJustification.routes";
 import { vitalSignRouter } from "./routes/lab/vitalSigns.routes";
+import { mmasFourRouter } from "./routes/treatmentplan/mmasFour.routes";
+import { mmasEightRouter } from "./routes/treatmentplan/mmasEight.routes";
+import { disclosureChecklistRouter } from "./routes/treatmentplan/disclosureChecklist.routes";
+import { followUpChecklistRouter } from "./routes/treatmentplan/followUpChecklist.routes";
+import { partialDisclosureRouter } from "./routes/treatmentplan/partial/partialDisclosure.routes";
+import { disclosureEligibilityRouter } from "./routes/treatmentplan/partial/disclosureEligibility.routes";
+import { childCaregiverReadinessRouter } from "./routes/treatmentplan/partial/childCaregiverReadiness.routes";
+import { executeDisclosureRouter } from "./routes/treatmentplan/full/executeDisclosure.routes";
+import { postDisclosureRouter } from "./routes/treatmentplan/full/postDisclosure.routes";
+import { fullDisclosureRouter } from "./routes/treatmentplan/full/fullDiclosure.routes";
+import { disclosureTrackerRouter } from "./routes/treatmentplan/disclosureTracker.routes";
 
 const cors = require("cors");
 
@@ -165,6 +176,22 @@ app.use("/pmtct-enrollment", pmtctProfileRouter);
 app.use("/viral-load-tests", viralLoadRouter);
 app.use("/vl-justification", vlJustificationRouter);
 app.use("/vital-signs", vitalSignRouter);
+
+// tt
+app.use("/mmas-4", mmasFourRouter);
+app.use("/mmas-8", mmasEightRouter);
+
+app.use("/disclosure-checklist", disclosureChecklistRouter);
+app.use("/follow-checklist", followUpChecklistRouter);
+
+app.use("/partial-disclosure", partialDisclosureRouter);
+app.use("/disclosure-eligibility", disclosureEligibilityRouter);
+app.use("/child-readiness", childCaregiverReadinessRouter);
+app.use("/execute-disclosure", executeDisclosureRouter);
+app.use("/post-disclosure", postDisclosureRouter);
+app.use("/full-disclosure", fullDisclosureRouter);
+app.use("/disclosure-tracker", disclosureTrackerRouter);
+
 
 connect
   .authenticate()

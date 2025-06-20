@@ -11,7 +11,7 @@ import { Request, Response, NextFunction } from 'express';
 export class VitalSignsController {
     async create(req: Request,
         res: Response,
-        next: NextFunction): Promise<VitalSignsInterface> {
+        next: NextFunction){
         try {
             try {
                 const results: VitalSignsInterface = await VitalSigns.create(req.body);

@@ -48,7 +48,7 @@ export class ViralLoadController {
 
     async create(req: Request,
         res: Response,
-        next: NextFunction): Promise<ViralLoadInterface> {
+        next: NextFunction){
         try {
             const {
                 userID,
@@ -272,7 +272,7 @@ export class ViralLoadController {
         res: Response,
         next: NextFunction
 
-    ): Promise<ViralLoadInterface | null | undefined> {
+    ){
         const { id } = req.params
         try {
             const results = await ViralLoad.findOne({
